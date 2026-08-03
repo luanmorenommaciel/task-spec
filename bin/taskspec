@@ -1,0 +1,189 @@
+#!/usr/bin/env bash
+# taskspec — the canonical agent-facing CLI for the task-spec engine.
+#
+# MACHINE CONTRACT (stable; coding agents rely on this):
+#   - Subcommand names are STABLE: new batch migrate validate gate run accept
+#     ready lint transition rebuild-state archive backup metrics conformance
+#     executor version doctor help
+#   - Exit codes: 0 = success; 1 = the underlying script failed (propagated
+#     verbatim); 2 = usage error (unknown command — usage printed to stderr).
+#   - `taskspec run --ci <spec>` emits one JSON object per eval on stdout
+#     ({"eval","status","duration_sec","stdout","stderr"}), suitable for
+#     machine parsing; human prose goes to stderr in --ci mode.
+#   - `taskspec gate <spec>` emits a machine-readable `TIER=N` line for a
+#     signed spec; `taskspec accept <spec>` emits `ACCEPTED=0|1`.
+#   - Machine-readable output goes to stdout; diagnostics go to stderr.
+# This is the surface Claude Code, Codex, Kimi, and other coding agents
+# consume. Do not rename subcommands or change exit-code semantics without a
+# MAJOR version bump.
+#
+# Usage: taskspec <command> [args...]   (see `taskspec help`)
+
+set -euo pipefail
+
+# --- Resolve the real path of this script, even when symlinked -------------
+# Portable: no `readlink -f` (absent on stock macOS). Walk the symlink chain.
+_ts_source="$0"
+while [[ -h "$_ts_source" ]]; do
+  _ts_dir="$(cd -P "$(dirname "$_ts_source")" >/dev/null 2>&1 && pwd)"
+  _ts_source="$(readlink "$_ts_source")"
+  # A relative symlink target resolves against the symlink's directory.
+  [[ "$_ts_source" != /* ]] && _ts_source="$_ts_dir/$_ts_source"
+done
+TASKSPEC_HOME="$(cd -P "$(dirname "$_ts_source")/.." >/dev/null 2>&1 && pwd)"
+unset _ts_source _ts_dir
+export TASKSPEC_HOME
+
+_ts_usage() {
+  cat <<'EOF'
+taskspec — the open, atomic, self-verifying unit of work for agentic systems
+
+Usage: taskspec <command> [args...]
+
+Authoring:
+  new <slug> <effort> [agent] [source]   Create a T-*.md spec from the template
+  batch --intent-file <f> --effort S|M   Bulk-create N stub specs
+  migrate <spec>                         Convert a legacy checklist task to evals
+
+Gates (the closed loop):
+  validate [opts] <spec>                 Structural linter (pre-gate; no stamping)
+  gate [--stamp] [--require-tier1] <sp>  PRE-gate: go/no-go to delegate safely
+  run [--ci] <spec>                      Execute the evals; --ci = JSON-per-eval
+  accept [--stamp] [--gold-sanity] <sp>  POST-gate: verify the work is REAL
+
+Backlog:
+  ready [--effort=S] [--agent=any]       List tasks ready for pickup
+  transition <id> <status> [reason]      Atomic status change
+  lint                                   Cross-task linter (overlaps, cycles)
+  rebuild-state                          Regenerate tasks/_state.yaml
+  archive                                Move done/parked tasks to subdirs
+  backup [dir]                           Snapshot the tasks/ folder
+  metrics [--since D] [--author N]       Query tasks/_metrics.jsonl
+
+Conformance:
+  conformance --level L0|L1|L2 --executor "<cmd>"   Certify an executor
+  conformance --self-test                           Against the bundled ref executor
+  executor <spec>                        The L2-conformant reference executor
+
+Meta:
+  version                                Print the engine version
+  doctor                                 Check the local toolchain + signing key
+  help                                   This text
+
+Examples:
+  taskspec new verify-otel-pipeline S any notes/audit.md
+  taskspec gate --stamp tasks/T-20260721-verify-otel-pipeline.md
+  taskspec run --ci tasks/T-20260721-verify-otel-pipeline.md
+
+Exit-code contract:
+  0  success (or the underlying script succeeded)
+  1  the underlying script failed (exit code propagated)
+  2  usage error (unknown command)
+EOF
+}
+
+_ts_doctor() {
+  local fails=0
+  # bash >= 3.2 (required)
+  if [[ "${BASH_VERSINFO[0]:-0}" -gt 3 || ( "${BASH_VERSINFO[0]:-0}" -eq 3 && "${BASH_VERSINFO[1]:-0}" -ge 2 ) ]]; then
+    echo "PASS  bash >= 3.2 (${BASH_VERSION})"
+  else
+    echo "FAIL  bash >= 3.2 required (found ${BASH_VERSION})"
+    fails=$((fails + 1))
+  fi
+  # git (required — the gates diff and resolve repo roots with it)
+  if command -v git >/dev/null 2>&1; then
+    echo "PASS  git ($(git --version 2>/dev/null | awk '{print $3}'))"
+  else
+    echo "FAIL  git not found on PATH (required by gate/accept)"
+    fails=$((fails + 1))
+  fi
+  # sha256 provider (optional — Tier-1 crypto degrades to Tier 2 without it)
+  if command -v openssl >/dev/null 2>&1; then
+    echo "PASS  crypto provider: openssl (HMAC Tier 1 available)"
+  elif command -v shasum >/dev/null 2>&1; then
+    echo "PASS  crypto provider: shasum (HMAC Tier 1 available)"
+  elif command -v sha256sum >/dev/null 2>&1; then
+    echo "PASS  crypto provider: sha256sum (HMAC Tier 1 available)"
+  else
+    echo "WARN  no sha256 provider (openssl/shasum/sha256sum) — sign-off degrades to Tier 2 (structural-only)"
+  fi
+  # jq (optional — metrics queries fall back to grep)
+  if command -v jq >/dev/null 2>&1; then
+    echo "PASS  jq ($(jq --version 2>/dev/null))"
+  else
+    echo "WARN  jq not found — taskspec metrics falls back to coarse grep filtering"
+  fi
+  # shellcheck (optional — gate's --shellcheck-evals is opt-in)
+  if command -v shellcheck >/dev/null 2>&1; then
+    echo "PASS  shellcheck ($(shellcheck --version 2>/dev/null | awk '/^version:/{print $2}'))"
+  else
+    echo "WARN  shellcheck not found — gate skips the shellcheck-evals lint"
+  fi
+  # signing key (optional — resolves per configs/setup-taskspec-signing-key.sh:
+  # TASKSPEC_SIGNING_KEY env (file path or raw material), else
+  # <git-dir>/info/taskspec-signing-key for the repo at PWD).
+  if [[ -n "${TASKSPEC_SIGNING_KEY:-}" ]]; then
+    if [[ -f "$TASKSPEC_SIGNING_KEY" && -r "$TASKSPEC_SIGNING_KEY" ]]; then
+      echo "PASS  signing key: TASKSPEC_SIGNING_KEY file ($TASKSPEC_SIGNING_KEY)"
+    else
+      echo "PASS  signing key: TASKSPEC_SIGNING_KEY env (raw material)"
+    fi
+  else
+    local gd=""
+    gd="$(git rev-parse --git-dir 2>/dev/null || true)"
+    if [[ -n "$gd" && -f "$gd/info/taskspec-signing-key" ]]; then
+      echo "PASS  signing key: $gd/info/taskspec-signing-key"
+    else
+      echo "WARN  no signing key for this repo — gate stamps Tier 2; run configs/setup-taskspec-signing-key.sh for Tier 1"
+    fi
+  fi
+  # engine repo sanity
+  if [[ -f "$TASKSPEC_HOME/src/lib/_lib.sh" ]]; then
+    echo "PASS  TASKSPEC_HOME engine tree ($TASKSPEC_HOME)"
+  else
+    echo "FAIL  TASKSPEC_HOME looks wrong ($TASKSPEC_HOME) — src/lib/_lib.sh missing"
+    fails=$((fails + 1))
+  fi
+  return "$fails"
+}
+
+# --- Dispatch ---------------------------------------------------------------
+cmd="${1:-}"
+case "$cmd" in
+  "")            _ts_usage; exit 2 ;;
+  help|--help|-h) _ts_usage; exit 0 ;;
+  version|--version)
+    cat "$TASKSPEC_HOME/VERSION"
+    exit 0
+    ;;
+  doctor)
+    shift
+    _ts_doctor
+    exit $?
+    ;;
+  new)           script="src/author/generate-task-spec.sh" ;;
+  batch)         script="src/author/batch-generate.sh" ;;
+  migrate)       script="src/author/migrate-legacy-task.sh" ;;
+  validate)      script="src/gate/validate-task-spec.sh" ;;
+  gate)          script="src/gate/safe-to-delegate.sh" ;;
+  run)           script="src/gate/run-task-spec.sh" ;;
+  accept)        script="src/accept/accept-task.sh" ;;
+  ready)         script="src/backlog/list-ready.sh" ;;
+  lint)          script="src/backlog/lint-backlog.sh" ;;
+  transition)    script="src/backlog/transition-status.sh" ;;
+  rebuild-state) script="src/backlog/rebuild-state.sh" ;;
+  archive)       script="src/backlog/archive.sh" ;;
+  backup)        script="src/backlog/backup-backlog.sh" ;;
+  metrics)       script="src/backlog/query-metrics.sh" ;;
+  conformance)   script="src/dispatch/conformance-check.sh" ;;
+  executor)      script="src/dispatch/ref-executor.sh" ;;
+  *)
+    echo "taskspec: unknown command '$cmd'" >&2
+    _ts_usage >&2
+    exit 2
+    ;;
+esac
+
+shift
+exec bash "$TASKSPEC_HOME/$script" "$@"

@@ -1,0 +1,69 @@
+name: task-spec eval gate
+description: >-
+  The CI eval-gate (referee of record). Validates every task-spec with
+  `taskspec validate` and, in mode=run, executes the evals with
+  `taskspec run --ci`. Fails the build on any non-zero exit — the merge gate
+  stops trusting agent-pasted GREEN.
+author: Luan Moreno
+branding:
+  icon: check-circle
+  color: green
+
+inputs:
+  tasks-glob:
+    description: Glob (relative to the workspace) of task-spec files to check.
+    required: false
+    default: "tasks/T-*.md"
+  mode:
+    description: >-
+      validate = structural lint only (PRE-gate shape).
+      run      = validate + execute the evals (taskspec run --ci).
+    required: false
+    default: "validate"
+  engine-ref:
+    description: git ref (branch/tag/SHA) of the task-spec engine repo to install.
+    required: false
+    default: "main"
+
+runs:
+  using: composite
+  steps:
+    - name: Install the taskspec CLI
+      shell: bash
+      run: |
+        set -euo pipefail
+        git clone --depth 1 --branch "${{ inputs.engine-ref }}" \
+          https://github.com/luanmorenommaciel/task-spec.git "$RUNNER_TEMP/task-spec"
+        echo "$RUNNER_TEMP/task-spec/bin" >> "$GITHUB_PATH"
+        taskspec doctor
+
+    - name: Validate task-specs
+      shell: bash
+      run: |
+        set -euo pipefail
+        shopt -s nullglob globstar
+        files=( ${{ inputs.tasks-glob }} )
+        if [[ ${#files[@]} -eq 0 ]]; then
+          echo "no task-specs matched '${{ inputs.tasks-glob }}' — nothing to gate"
+          exit 0
+        fi
+        rc=0
+        for f in "${files[@]}"; do
+          echo "── taskspec validate $f"
+          taskspec validate --skip-touches-paths "$f" || rc=1
+        done
+        exit "$rc"
+
+    - name: Run evals (mode=run)
+      if: inputs.mode == 'run'
+      shell: bash
+      run: |
+        set -euo pipefail
+        shopt -s nullglob globstar
+        files=( ${{ inputs.tasks-glob }} )
+        rc=0
+        for f in "${files[@]}"; do
+          echo "── taskspec run --ci $f"
+          taskspec run --ci "$f" || rc=1
+        done
+        exit "$rc"
