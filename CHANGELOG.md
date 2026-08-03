@@ -12,7 +12,57 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ---
 
-## [Unreleased]
+## [3.4.0] — 2026-08-03
+
+The **presentation & verification-surface** release (MINOR — repo polish only;
+no format change, `format_version: 3` unchanged, no engine behavior change,
+every v3.3.0 spec validates identically). Brings the public surface to the
+standard of a shipped open-source product: brand identity, a README that reads
+like a spec, a single `make check` release gate, linted docs, and
+credential-free CI.
+
+### Added
+
+- **Brand identity (`assets/`).** A strict shared palette (near-black `#0a0f14`,
+  eval-green `#3ddc97`, seal-amber `#ffb454`, fail-red `#ff5d73`, contract-cyan
+  `#5cc8ff`, muted slate `#8ba3b5`) across: `taskspec-banner.png` (README hero,
+  2:1 social-preview size, generated from the hand-authored
+  `taskspec-banner.svg` source), `taskspec-mark.svg` (256×256 page-and-seal app
+  mark), `taskspec-logo.svg` (wordmark lockup), and `taskspec-hero.svg` (the
+  closed-loop diagram with fail-closed routes). All SVGs carry `role="img"` +
+  `<title>`/`<desc>` accessibility tags.
+- **README overhaul.** Centered hero (banner + caption + tagline "**Write it.
+  Seal it. Prove it.**"), brand-colored shields linking in-repo plus a CI badge,
+  anchor nav, the closed-loop hero SVG with a `<details>` Mermaid fallback
+  (palette-matched `classDef`), a CLI map, a `## Verified surface` section
+  documenting `make check` + CI, and the honest boundary converted to a
+  claim/truth table with explicit non-claims (no Homebrew/curl installer, real-
+  engine CI still landing).
+- **`Makefile` — the single release gate.** `make check` = `taskspec doctor` +
+  both lints + every `tests/test-*.sh` + the conformance suite + the CLI
+  self-test; prints `CHECK=READY`. Mirrors the AGENTS.md verification list.
+- **`tests/lint-docs.sh` — markdown hygiene lint.** Local relative links/images
+  resolve to existing files (anchors stripped, `%20` decoded, `node_modules`
+  excluded) and code fences are balanced, across README/AGENTS/TODO + `docs/`,
+  `adapters/`, `agents/`, `integrations/`, `spec/`. Wired into `make check`.
+- **Credential-free CI (`.github/workflows/ci.yml`).** One job, matrix
+  `ubuntu-latest` + `macos-latest`, runs exactly `make check` — CI runs the same
+  boundary a contributor runs locally. Hardened: `permissions: contents: read`,
+  `persist-credentials: false`, actions pinned by SHA, concurrency
+  cancel-in-progress, 20-minute timeout. `.github/dependabot.yml` tracks the
+  actions ecosystem weekly.
+
+### Changed
+
+- **`TODO.md` P0-1 annotated** — the credential-free CI foundation and README
+  badge now exist; the real-engine matrix (Claude/Codex executors in CI) remains
+  the open work.
+- **`AGENTS.md`** — `make check` documented as the one-command gate; the docs
+  lint added to the test list.
+
+---
+
+## [Unreleased: extraction note]
 
 ### Changed
 

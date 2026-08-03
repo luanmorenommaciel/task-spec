@@ -4,7 +4,7 @@ Prioritized. P0 proves the claims, P1 deepens verification, P2 builds the ecosys
 
 ## P0 — prove the claims
 
-- **P0-1 Multi-engine CI proof.** Run `fixtures/diamond-6` green via `ref-executor` AND ≥2 real engines (claude, codex) in GitHub Actions on every push; publish a results badge in the README. Turns "vendor-neutral" from a design property into evidence.
+- **P0-1 Multi-engine CI proof.** Run `fixtures/diamond-6` green via `ref-executor` AND ≥2 real engines (claude, codex) in GitHub Actions on every push; publish a results badge in the README. Turns "vendor-neutral" from a design property into evidence. *(Foundation landed in v3.4.0: credential-free CI runs `make check` on ubuntu+macOS and the README carries the badge. Remaining: the real-engine matrix on top of it.)*
 - **P0-2 Doc-drift sweep.** Hunt remaining 4-vs-6-zone prose, stale version claims, and any leftover references to the origin repo's old name/paths across `docs/` and `adapters/` (`spec/` and the schemas were fixed at extraction).
 - **P0-3 Standalone-checkout verification.** Verify `taskspec doctor` + the full test suite run clean on a fresh machine with no converge repo present — this repo must stand alone.
 

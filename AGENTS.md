@@ -7,11 +7,19 @@ extracted from `converge/skills/task-spec` at v3.3.0 and now stands alone.
 
 ## Build / test
 
-There is no build step — the engine is bash + markdown. Verify changes with:
+There is no build step — the engine is bash + markdown. The single release gate
+(CI runs exactly this on ubuntu + macOS):
+
+```bash
+make check            # doctor + lints + all self-tests + conformance
+```
+
+Or run the pieces individually:
 
 ```bash
 bash bin/taskspec doctor                       # toolchain sanity (bash, git, crypto, key)
 bash tests/lint-skill-docs.sh                  # VERSION == CHANGELOG == _lib.sh
+bash tests/lint-docs.sh                        # markdown links resolve, fences balanced
 for t in tests/test-*.sh; do bash "$t"; done   # full self-test suite
 bash spec/conformance/run_conformance.sh       # conformance suite (default self-adapter)
 bash bin/taskspec conformance --self-test      # L0–L2 against the bundled ref executor
