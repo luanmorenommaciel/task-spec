@@ -12,6 +12,38 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ---
 
+## [3.4.1] — 2026-08-03
+
+The **first-CI-run hardening patch** (PATCH — no format change;
+`format_version: 3` unchanged). The brand-new CI did exactly what it was built
+for and caught a real bash-3.2 engine bug plus two environment gaps on its
+first two runs.
+
+### Fixed
+
+- **bash-3.2 crash in `safe-to-delegate.sh` (pre-existing; caught by the new
+  macOS CI leg).** Line 99 expanded `"${PASS_THROUGH[@]}"` — an empty array in
+  the common no-passthrough case — under `set -u`, which is a hard
+  "unbound variable" error on macOS system bash 3.2 but silently fine on
+  bash 4+. The gate died before validating or stamping, breaking
+  `taskspec gate` on the documented bash-3.2 floor. Fixed with the portable
+  `${PASS_THROUGH[@]+"${PASS_THROUGH[@]}"}` idiom; every other array expansion
+  in `src/` was audited and is already guarded by a `${#arr[@]} -gt 0` check.
+  Local runs had masked this because Homebrew bash 5 shadows `/bin/bash` in a
+  dev PATH; the macOS CI leg exercises the real 3.2 floor (verified locally
+  with a bash→/bin/bash PATH shim: full suite green).
+- **`taskspec doctor` shellcheck guidance corrected.** It claimed the gate
+  "skips the shellcheck-evals lint" when shellcheck is missing; in fact
+  `safe-to-delegate.sh` always passes `--shellcheck-evals` and the validator
+  hard-errors without the binary. The WARN now says the gate will FAIL.
+  README Install requirements list `shellcheck` accordingly.
+- **CI environment gaps.** The macOS leg installs shellcheck v0.10.0 from the
+  upstream release (SHA-256-verified per arch — ubuntu images ship it), and
+  both legs install pinned `pyyaml==6.0.2` for the schema-fidelity step of
+  `test-portability-e2e.sh`.
+
+---
+
 ## [3.4.0] — 2026-08-03
 
 The **presentation & verification-surface** release (MINOR — repo polish only;
@@ -50,18 +82,7 @@ credential-free CI.
   boundary a contributor runs locally. Hardened: `permissions: contents: read`,
   `persist-credentials: false`, actions pinned by SHA, concurrency
   cancel-in-progress, 20-minute timeout. `.github/dependabot.yml` tracks the
-  actions ecosystem weekly. The macOS leg installs shellcheck v0.10.0 from the
-  upstream release, SHA-256-verified per arch (ubuntu images ship it) — the
-  first CI run caught that `taskspec gate` hard-requires shellcheck via the
-  validator's `--shellcheck-evals` lint, which macOS runners lack.
-
-### Fixed
-
-- **`taskspec doctor` shellcheck guidance corrected.** It claimed the gate
-  "skips the shellcheck-evals lint" when shellcheck is missing; in fact
-  `safe-to-delegate.sh` always passes `--shellcheck-evals` and the validator
-  hard-errors without the binary. The WARN now says the gate will FAIL.
-  README Install requirements list `shellcheck` accordingly.
+  actions ecosystem weekly.
 
 ### Changed
 

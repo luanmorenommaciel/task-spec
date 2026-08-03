@@ -11,7 +11,7 @@
 *The open, atomic, self-verifying unit of work for autonomous agentic systems.*
 
 [![format: v3](https://img.shields.io/badge/format-v3-5CC8FF)](spec/task-spec-v3.md)
-[![version: 3.4.0](https://img.shields.io/badge/version-3.4.0-3DDC97)](VERSION)
+[![version: 3.4.1](https://img.shields.io/badge/version-3.4.1-3DDC97)](VERSION)
 [![conformance: L0–L2](https://img.shields.io/badge/conformance-L0--L2-FFB454)](spec/conformance/)
 [![license: MIT](https://img.shields.io/badge/license-MIT-8BA3B5)](LICENSE)
 [![CI: check](https://github.com/luanmorenommaciel/task-spec/actions/workflows/ci.yml/badge.svg)](https://github.com/luanmorenommaciel/task-spec/actions/workflows/ci.yml)

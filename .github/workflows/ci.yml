@@ -50,5 +50,10 @@ jobs:
           sudo install -m 0755 "/tmp/shellcheck-${ver}/shellcheck" /usr/local/bin/shellcheck
           shellcheck --version
 
+      - name: Install pyyaml (schema-fidelity consumer test)
+        # tests/test-portability-e2e.sh Step 6 runs docs/examples/consume-task-spec.py,
+        # which requires PyYAML. Pinned for determinism.
+        run: python3 -m pip install --disable-pip-version-check --quiet pyyaml==6.0.2
+
       - name: make check
         run: make check

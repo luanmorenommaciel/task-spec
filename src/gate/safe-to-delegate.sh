@@ -96,7 +96,10 @@ echo "────────────────────────�
 # --- Gate 1: structural + shellcheck validation ---
 echo "1. Structural validation + shellcheck-evals ..."
 set +e
-v_out=$(bash "$VALIDATE" --shellcheck-evals "${PASS_THROUGH[@]}" "$FILE" 2>&1)
+# bash-3.2 floor: "${PASS_THROUGH[@]}" on an EMPTY array trips `set -u`
+# ("unbound variable") on macOS system bash — the `${arr[@]+...}` form is the
+# portable empty-safe expansion.
+v_out=$(bash "$VALIDATE" --shellcheck-evals ${PASS_THROUGH[@]+"${PASS_THROUGH[@]}"} "$FILE" 2>&1)
 v_rc=$?
 set -e
 if [[ $v_rc -ne 0 ]]; then

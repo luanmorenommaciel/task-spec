@@ -24,7 +24,7 @@
 #   3) add a CHANGELOG.md entry (the [x.y.z] heading must match)
 #   4) bump version field in integrations/claude-code/plugin.json + marketplace.json
 # The doc-consistency lint (tests/lint-skill-docs.sh) asserts (1) == (2) == (3).
-TASKSPEC_VERSION="3.4.0"
+TASKSPEC_VERSION="3.4.1"
 
 # ----- Resolve the engine repo root from this file's location -----
 # _lib.sh lives at src/lib/_lib.sh, so the repo root is two levels up.
