@@ -114,11 +114,12 @@ _ts_doctor() {
   else
     echo "WARN  jq not found — taskspec metrics falls back to coarse grep filtering"
   fi
-  # shellcheck (optional — gate's --shellcheck-evals is opt-in)
+  # shellcheck (required by `taskspec gate` — the pre-gate always runs the
+  # validator's --shellcheck-evals lint, which errors without it)
   if command -v shellcheck >/dev/null 2>&1; then
     echo "PASS  shellcheck ($(shellcheck --version 2>/dev/null | awk '/^version:/{print $2}'))"
   else
-    echo "WARN  shellcheck not found — gate skips the shellcheck-evals lint"
+    echo "WARN  shellcheck not found — taskspec gate will FAIL (the pre-gate requires it)"
   fi
   # signing key (optional — resolves per configs/setup-taskspec-signing-key.sh:
   # TASKSPEC_SIGNING_KEY env (file path or raw material), else

@@ -50,7 +50,18 @@ credential-free CI.
   boundary a contributor runs locally. Hardened: `permissions: contents: read`,
   `persist-credentials: false`, actions pinned by SHA, concurrency
   cancel-in-progress, 20-minute timeout. `.github/dependabot.yml` tracks the
-  actions ecosystem weekly.
+  actions ecosystem weekly. The macOS leg installs shellcheck v0.10.0 from the
+  upstream release, SHA-256-verified per arch (ubuntu images ship it) — the
+  first CI run caught that `taskspec gate` hard-requires shellcheck via the
+  validator's `--shellcheck-evals` lint, which macOS runners lack.
+
+### Fixed
+
+- **`taskspec doctor` shellcheck guidance corrected.** It claimed the gate
+  "skips the shellcheck-evals lint" when shellcheck is missing; in fact
+  `safe-to-delegate.sh` always passes `--shellcheck-evals` and the validator
+  hard-errors without the binary. The WARN now says the gate will FAIL.
+  README Install requirements list `shellcheck` accordingly.
 
 ### Changed
 

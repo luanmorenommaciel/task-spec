@@ -43,8 +43,9 @@ construction, not by promise.
 ## Install
 
 Requirements: macOS, Linux, or Linux under WSL; Bash (3.2 floor — macOS system
-bash works); Git. Optional but recommended: `openssl` or `shasum` for the Tier-1
-HMAC seal.
+bash works); Git; and `shellcheck` (the PRE-gate lints every eval body with it —
+ubuntu CI images ship it, on macOS `brew install shellcheck`). Optional but
+recommended: `openssl` or `shasum` for the Tier-1 HMAC seal.
 
 ```bash
 git clone https://github.com/luanmorenommaciel/task-spec.git
