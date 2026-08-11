@@ -32,10 +32,10 @@ signed_off_at: 2026-06-02T00:00:00Z
 
 > **Why:** Exercises agent-contract clause C6: "An engine MUST NOT modify
 > the `signed_off`, `signed_off_at`, or `signed_off_by` envelope fields.
-> These are produced exclusively by `safe-to-delegate.sh --stamp`."
+> These are produced exclusively by `taskspec gate --stamp`."
 > Hand-stamping or rewriting these fields defeats the autonomy gate.
-> (A cryptographic `signed_off_hmac` field is planned for v2.2; until then
-> the envelope is structural attestation, not cryptographic proof.)
+> The current `signed_off_sig` HMAC v2 also detects body and authorization
+> mutation; this fixture preserves the executor-side no-edit rule.
 
 ## Goal
 

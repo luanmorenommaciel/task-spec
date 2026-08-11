@@ -172,7 +172,7 @@ chk "pre-gate sealed HMAC (Tier 1)" "echo \"\$g_out\" | grep -q 'TIER=1'"
 echo "${BOLD}=== Phase 4: DISPATCH (reference executor drives the work) ===${RESET}"
 # The ref-executor's work block keys on the Goal phrasing; this spec uses a
 # different file, so we use a tiny inline executor that honors the same contract
-# (acquire lock → do work → run evals → done/park) to keep the test self-contained.
+# (acquire lock → do work → run evals → await acceptance/park) to keep the test self-contained.
 INLINE_EXEC="$(mktemp -t inline-exec-XXXXXX.sh)"
 trap 'rm -rf "$WORK" "$INLINE_EXEC"' EXIT
 cat > "$INLINE_EXEC" <<EXEC
@@ -184,7 +184,7 @@ GIT_ROOT="\$(cd "\$(dirname "\$SPEC")" && git rev-parse --show-toplevel)"; expor
 ts_set_frontmatter_field "\$SPEC" "status" "in-progress"
 printf 'done\n' > "\$GIT_ROOT/src/feature.txt"
 if bash "$GATE_DIR/run-task-spec.sh" "\$SPEC" >/dev/null 2>&1; then
-  ts_set_frontmatter_field "\$SPEC" "status" "done"
+  ts_set_frontmatter_field "\$SPEC" "status" "in-progress"
 else
   ts_set_frontmatter_field "\$SPEC" "status" "parked"
 fi
@@ -192,7 +192,7 @@ EXEC
 chmod +x "$INLINE_EXEC"
 bash "$INLINE_EXEC" "$SPEC"
 chk "executor created src/feature.txt == 'done'" "grep -qx done '$WORK/src/feature.txt'"
-chk "executor transitioned status → done (A2A completed)" "grep -q '^status: done' '$SPEC'"
+chk "executor leaves passing work in-progress pending acceptance" "grep -q '^status: in-progress' '$SPEC'"
 
 echo "${BOLD}=== Phase 5: ACCEPT (post-execution gate) ===${RESET}"
 # accept-task re-runs evals from the worktree, checks blast radius vs baseline,
@@ -205,6 +205,8 @@ chk "accept verdict ACCEPT (rc=0)" "[[ $a_rc -eq 0 ]]"
 chk "accept stamped accepted: true" "grep -q '^accepted: true' '$SPEC'"
 chk "accept emitted ACCEPTED=1" "echo \"\$a_out\" | grep -q 'ACCEPTED=1'"
 chk "accept GATE A (evals pass) reported" "echo \"\$a_out\" | grep -q 'A. Evals pass'"
+bash -c "source '$LIB_DIR/_lib.sh'; ts_set_frontmatter_field '$SPEC' 'status' 'done'"
+chk "accepted work transitions status → done" "grep -q '^status: done' '$SPEC'"
 
 echo "${BOLD}=== Phase 6: LOOP CLOSED — final spec validates with full envelope ===${RESET}"
 f_out=$(TASKSPEC_SIGNING_KEY="$WORK/.git/info/taskspec-signing-key" bash "$GATE_DIR/validate-task-spec.sh" "$SPEC" 2>&1); f_rc=$?

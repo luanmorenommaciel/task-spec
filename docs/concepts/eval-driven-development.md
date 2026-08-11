@@ -44,11 +44,12 @@ loop until pass-or-budget-exhausted:
    1. read intent + last failure context
    2. execute (write code / docs / config)
    3. run all evals
-   4. if all pass: terminate as done
+   4. if all pass: report passing work for independent acceptance
    5. if any fail: append failure context, retry
 ```
 
-The human enters at intent-setting and PR-review. Not in the middle.
+The human enters at intent-setting, authorization, and review. The independent
+POST-gate must accept passing work before status can become `done`.
 
 ### 3. Vendor-portable contract
 
@@ -63,7 +64,7 @@ This eliminates vendor lock-in at the unit-of-work layer.
 
 | Misconception | Reality |
 |---------------|---------|
-| EDD replaces SDD | No — EDD handles S/M tasks; SDD handles L/XL and subjective work |
+| EDD replaces design work | No — Task-Spec handles declared executable leaves/nodes; unresolved design and subjective judgment still need an appropriate design/review process |
 | EDD eliminates human review | No — humans review the PR, just not the loop |
 | EDD eliminates failure | No — but failure becomes VISIBLE (parked with context) |
 | EDD requires special tooling | No — bash + markdown + YAML, that's it |
@@ -73,7 +74,7 @@ This eliminates vendor lock-in at the unit-of-work layer.
 
 See `edd-vs-sdd-honest-comparison.md` for the full breakdown. Short version:
 
-- ✅ S/M effort tasks
+- ✅ Atomic XS/S/M/L leaves with one coherent, machine-checkable result
 - ✅ Output has bash-checkable success criteria
 - ✅ Cross-vendor portability matters
 - ✅ Autonomous/overnight execution
@@ -82,7 +83,7 @@ See `edd-vs-sdd-honest-comparison.md` for the full breakdown. Short version:
 ## When EDD loses
 
 - ❌ Subjective outputs (UI feel, copy quality, design)
-- ❌ L/XL multi-day work
+- ❌ Direct execution of XL/XXL composition nodes
 - ❌ Pure exploration ("what would this look like?")
 - ❌ Tasks where evals can be gamed cheaply (Goodhart's Law)
 
@@ -94,7 +95,7 @@ The biggest failure mode of EDD: agents game the evals.
 
 Mitigations:
 
-1. **Multiple evals per task** — minimum 3, ordered from cheap to expensive
+1. **Discriminating evals** — use the smallest sufficient set, ordered from cheap to expensive
 2. **Behavioral evals, not just presence evals** — check actual output, not just "thing exists"
 3. **PR review still required** — humans still see the diff
 4. **Anti-patterns in Zone 3** — explicitly forbid known gaming patterns

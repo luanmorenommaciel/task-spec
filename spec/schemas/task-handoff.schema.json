@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/v1/task-handoff.schema.json",
+  "title": "TaskHandoff v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "task_id", "spec", "spec_digest", "signoff_tier", "backend", "workspace", "write_scope", "budgets", "agent_contract", "eval_command", "acceptance_command"],
+  "properties": {
+    "contract": {"const": "TaskHandoff/v1"},
+    "task_id": {"type": "string"},
+    "spec": {"type": "string"},
+    "spec_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "signoff_tier": {"type": "integer", "minimum": 1, "maximum": 3},
+    "backend": {"type": "string"},
+    "workspace": {"type": "string"},
+    "write_scope": {
+      "type": "object",
+      "required": ["touches_paths", "creates_paths", "do_not_touch"],
+      "properties": {
+        "touches_paths": {"type": "array", "items": {"type": "string"}},
+        "creates_paths": {"type": "array", "items": {"type": "string"}},
+        "do_not_touch": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "budgets": {"type": "object"},
+    "agent_contract": {"type": "object"},
+    "eval_command": {"type": "array", "items": {"type": "string"}},
+    "acceptance_command": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -18,7 +18,7 @@
 | [concepts/profiles.md](concepts/profiles.md) | **v3** effort-scaled profiles (lite/standard/full) + the behavior↔eval traceability rule |
 | [concepts/conformance-levels.md](concepts/conformance-levels.md) | **v3** executor conformance L0/L1/L2 + the A2A lifecycle mapping |
 | [concepts/decomposition.md](concepts/decomposition.md) | **v3** intent/PRD → N atoms: the flat index+detail shape, holes-as-blockers, profile-per-atom, `depends_on`/`parent` edges |
-| [concepts/effort-gate.md](concepts/effort-gate.md) | S/M/L/XL routing rules |
+| [concepts/effort-gate.md](concepts/effort-gate.md) | XS/S/M/L leaves and XL/XXL composition rules |
 | [concepts/agent-contract.md](concepts/agent-contract.md) | Cross-vendor contract |
 | [concepts/signed-off.md](concepts/signed-off.md) | **The autonomy contract** — who produces `signed_off: true`, what it asserts, why hand-stamping is forbidden |
 | [concepts/backlog-architecture.md](concepts/backlog-architecture.md) | 5-layer state management |

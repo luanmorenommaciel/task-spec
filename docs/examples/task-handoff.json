@@ -1,0 +1,23 @@
+{
+  "contract": "TaskHandoff/v1",
+  "task_id": "T-20260811-example-s",
+  "spec": "/workspace/tasks/T-20260811-example-s.md",
+  "spec_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/workspace",
+  "write_scope": {
+    "touches_paths": [],
+    "creates_paths": ["examples/search.sh", "examples/search-test.sh"],
+    "do_not_touch": [".git/info/taskspec-signing-key"]
+  },
+  "budgets": {"iterations": 15, "tokens": null, "effort": "S"},
+  "agent_contract": {
+    "version": 2,
+    "read": ["intent", "contract", "guardrails"],
+    "produce": ["code", "tests"],
+    "emit": ["pass", "fail", "parked_with_context"]
+  },
+  "eval_command": ["taskspec", "run", "--ci", "/workspace/tasks/T-20260811-example-s.md"],
+  "acceptance_command": ["taskspec", "accept", "--stamp", "/workspace/tasks/T-20260811-example-s.md"]
+}

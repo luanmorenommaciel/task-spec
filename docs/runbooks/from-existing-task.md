@@ -27,7 +27,7 @@ Existing patterns that map directly:
 1. **YAML frontmatter** — many legacy tasks lack structured frontmatter
 2. **Runnable bash evals** — prose success criteria need conversion
 3. **Validation card YAML** — usually absent
-4. **Effort gate validation** — confirm it's S or M
+4. **Effort gate validation** — classify a runnable leaf or create an XL/XXL node with children
 
 ## Conversion workflow
 

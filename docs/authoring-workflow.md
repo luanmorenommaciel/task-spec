@@ -1,7 +1,7 @@
 # Authoring workflow — the task-spec doctrine
 
-> This is the **authoring doctrine** for task-spec (extracted from the original
-> SKILL.md at v3.3.0). It is invoked via the thin skill in
+> This is the **authoring doctrine** for Task-Spec 3.6. It is invoked via the canonical
+> root `SKILL.md`, the compatibility skill in
 > [`integrations/claude-code/`](../integrations/claude-code/SKILL.md) or by
 > calling the `taskspec` CLI directly. Script references below map to
 > `bin/taskspec` subcommands (`new`, `batch`, `validate`, `gate`, `run`,
@@ -30,10 +30,10 @@ Trigger conditions (Claude auto-invokes when context matches):
 - User mentions Task-Spec, EDD, eval-driven, or "make this executable"
 - User asks for a task that any conformant engine (e.g. Claude/Codex/Cursor) can pick up
 
-Skip if:
-- Task is XL effort (route to SDD — AgentSpec / OpenSpec / SpecKit)
-- Task is L effort AND not a single coherent goal on GLM (decompose, or route to SDD)
-- Output is subjective (UX, copy, design — use SDD)
+Pause authoring if:
+- The outcome is still too fuzzy to declare behaviors and discriminating evals
+- An L leaf has multiple independent done-conditions (decompose it)
+- Subjective output has no reviewable machine or human oracle yet
 - User just wants a one-off prompt, not a reusable spec
 
 ---
@@ -45,10 +45,10 @@ Skip if:
 │  TASK-SPEC WORKFLOW                                               │
 ├──────────────────────────────────────────────────────────────────┤
 │  Phase 1: UNDERSTAND    parse intent, classify effort             │
-│  Phase 2: RESEARCH      Context7 + Exa + Ref MCPs                 │
+│  Phase 2: RESEARCH      optional AuthoringEvidence v1             │
 │  Phase 3: SCAN          read host repo for touches_paths          │
 │  Phase 4: ARCHITECT     spawn task-architect agent for judgment   │
-│  Phase 5: COMPOSE       fill 4 zones, write T-*.md from template  │
+│  Phase 5: COMPOSE       TaskPlan preview, then declared specs     │
 │  Phase 6: VALIDATE      structural linter — validate-task-spec.sh │
 │  Phase 7: GATE          PRE-gate — safe-to-delegate.sh --stamp    │
 │  Phase 8: DISPATCH      hand off to executor per execution_backend│
@@ -73,21 +73,20 @@ Skip if:
 Parse the user's intent. Critical questions answered before scaffolding:
 
 1. **What's the verbal description?** (1 paragraph from user)
-2. **Effort class?** XS/S/M → Kimi. L → GLM (requires `execution_backend: glm`, one coherent goal). XL → refuse, route to SDD (AgentSpec/OpenSpec/SpecKit). See `concepts/effort-gate.md`.
+2. **Effort class?** XS/S/M/L are leaves; L needs one coherent done-condition and a configured long-horizon backend. XL/XXL are child-composing nodes, not executor work. See `concepts/effort-gate.md`.
 3. **Agent hint?** `any` (vendor-portable) OR specific (`python-developer`, etc.)
 4. **Source provenance?** Meeting note, audit, ticket — must have one
 5. **Touches what paths?** Best guess; refined in Phase 3
 
 If unclear, ASK ONCE for clarification. Don't proceed with vague intent.
 
-### Phase 2 — Research (MCP validation)
+### Phase 2 — Research (optional evidence)
 
-For the domain in the user's intent, query MCPs:
+When current external evidence is necessary, explicitly select a provider and
+normalize its output to `AuthoringEvidence/v1`:
 
 ```text
-Context7 → official docs for any tool/library mentioned
-Exa      → production examples of similar tasks
-Ref      → canonical references
+Firecrawl / Tavily / Exa / another explicit provider → bounded, cited evidence
 ```
 
 The research output feeds the `anti-patterns` and `do-not-touch` zones —
@@ -147,7 +146,7 @@ then fill in:
   touched files, and the working diff — inside a single fresh executor
   session. If holding the task means the executor must page out what it read,
   the atom is too big: split it and wire `depends_on`. This is the practical
-  ceiling under the XS/S/M effort classes, not a new class.
+  ceiling within each runnable XS/S/M/L leaf, not a new class.
 
 **Layered policy (legacy tolerance):** `format_version` is `3` for new specs (the template's default; see `templates/task-spec.md.tpl`). Tasks created before 2026-05-27 (or explicitly marked `format_version: 0`, `1`, or `2`) are treated as legacy. The validator accepts legacy v0/v1/v2 tasks with warnings rather than hard failures, and the `migrate-legacy-task.sh` script converts legacy markdown checklists into runnable eval stubs.
 
@@ -420,7 +419,7 @@ PROCEEDS with a disclaimer.
 | Reading the user's intent | ADVISORY |
 | MCP research | STANDARD |
 | Drafting evals | IMPORTANT (severity-scaled) |
-| Refusing XL effort (and L without glm) | CRITICAL (always refuses, never overrides) |
+| Refusing direct dispatch of XL/XXL nodes, or L on an ineligible backend | CRITICAL |
 | Detecting subjective output | CRITICAL (refuses EDD, routes to SDD) |
 
 ---
@@ -478,17 +477,17 @@ The empty string `""` matches the frontmatter key name exactly, so the body H1 i
 
 ## References
 
-- `../spec/task-spec-v3.md` — THE published format spec (living doc, currently v2.1; filename retained for link stability; includes v0→v1→v2→v2.1 version history)
+- `../spec/task-spec-v3.md` — the published format-v3 specification and compatibility history
 - `concepts/eval-driven-development.md` — EDD methodology
 - `concepts/edd-vs-sdd-honest-comparison.md` — when to use which
 - `concepts/six-zones.md` — zone-by-zone deep dive
 - `concepts/profiles.md` — **v3** effort-scaled profiles (lite/standard/full) + the behavior↔eval traceability rule
 - `concepts/conformance-levels.md` — **v3** executor conformance L0/L1/L2 + the A2A lifecycle mapping
-- `concepts/effort-gate.md` — XS/S/M/L/XL routing + size→engine recommendation (Kimi/GLM/SDD)
+- `concepts/effort-gate.md` — XS/S/M/L leaves, XL/XXL nodes, and capability-based L routing
 - `concepts/agent-contract.md` — cross-vendor contract (includes the generic `backend_metadata` field; the backend names itself)
 - `concepts/decomposition.md` — **v3** intent/PRD → N atomic specs (flat index + detail atoms, holes-as-blockers)
 - `concepts/backlog-architecture.md` — 5-layer state management
-- `../spec/schemas/` — the **published** JSON Schemas (Draft 2020-12) for the frontmatter and validation card; emit via `validate-task-spec.sh --emit-schema`
+- `../spec/schemas/` — published Task-Spec, TaskPlan, TaskHandoff, AuthoringEvidence, and agent-contract schemas
 - `patterns/runnable-bash-evals.md` — eval writing patterns
 - `patterns/validation-card-yaml.md` — YAML contract patterns
 - `patterns/atomic-status-transitions.md` — transition protocol

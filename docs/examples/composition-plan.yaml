@@ -1,0 +1,110 @@
+api_version: taskspec.dev/v1
+kind: TaskPlan
+approved: true
+metadata:
+  name: six-tier-composition-example
+  source: docs/examples/README.md
+units:
+  - id: T-20260811-example-xs
+    title: Add one feature flag
+    effort: XS
+    profile: lite
+    agent: any
+    execution_backend: any
+    depends_on: []
+    touches_paths: []
+    creates_paths: [examples/search.flag]
+    source_note: docs/examples/composition-plan.yaml
+    why: Establish the smallest independently testable prerequisite.
+    goal: Create the enabled feature flag.
+    evals:
+      - id: eval_1
+        description: feature flag is enabled
+        command: grep -qx enabled examples/search.flag
+
+  - id: T-20260811-example-s
+    title: Add the search entry point
+    effort: S
+    profile: lite
+    agent: any
+    execution_backend: any
+    depends_on: [T-20260811-example-xs]
+    touches_paths: []
+    creates_paths: [examples/search.sh, examples/search-test.sh]
+    source_note: docs/examples/composition-plan.yaml
+    why: Deliver a narrow executable slice after the flag exists.
+    goal: Add a search entry point and its contract test.
+    evals:
+      - id: eval_1
+        description: search contract passes
+        command: bash examples/search-test.sh
+
+  - id: T-20260811-example-m
+    title: Add normalized result rendering
+    effort: M
+    profile: lite
+    agent: any
+    execution_backend: any
+    depends_on: [T-20260811-example-s]
+    touches_paths: [examples/search.sh, examples/search-test.sh]
+    creates_paths: [examples/result-format.json]
+    source_note: docs/examples/composition-plan.yaml
+    why: Extend the vertical slice with a stable machine-readable result.
+    goal: Emit and test normalized result JSON.
+    evals:
+      - id: eval_1
+        description: normalized result contract passes
+        command: bash examples/search-test.sh --json
+
+  - id: T-20260811-example-l
+    title: Add long-horizon provider selection
+    effort: L
+    profile: lite
+    agent: any
+    execution_backend: codex
+    depends_on: [T-20260811-example-m]
+    touches_paths: [examples/search.sh, examples/search-test.sh, examples/result-format.json]
+    creates_paths: [examples/provider-policy.json]
+    source_note: docs/examples/composition-plan.yaml
+    why: Keep the largest runnable leaf coherent and bounded to one done-condition.
+    goal: Select a provider deterministically from an explicit policy.
+    evals:
+      - id: eval_1
+        description: provider selection contract passes
+        command: bash examples/search-test.sh --provider-policy
+
+  - id: T-20260811-example-xl
+    title: Compose flag and entry-point leaves
+    effort: XL
+    profile: lite
+    agent: any
+    execution_backend: none
+    depends_on: []
+    children: [T-20260811-example-xs, T-20260811-example-s]
+    touches_paths: []
+    creates_paths: []
+    source_note: docs/examples/composition-plan.yaml
+    why: Show that an XL unit owns children rather than writes.
+    goal: Track completion of the flag and entry-point leaves.
+    evals:
+      - id: eval_1
+        description: both XL children exist
+        command: test -f tasks/T-20260811-example-xs.md && test -f tasks/T-20260811-example-s.md
+
+  - id: T-20260811-example-xxl
+    title: Compose the complete search capability
+    effort: XXL
+    profile: lite
+    agent: any
+    execution_backend: none
+    depends_on: []
+    children: [T-20260811-example-xl, T-20260811-example-m, T-20260811-example-l]
+    touches_paths: []
+    creates_paths: []
+    source_note: docs/examples/composition-plan.yaml
+    why: Show a three-child program node that is never delegated.
+    goal: Track completion of all bounded search work.
+    evals:
+      - id: eval_1
+        description: all XXL children exist
+        command: test -f tasks/T-20260811-example-xl.md && test -f tasks/T-20260811-example-m.md && test -f tasks/T-20260811-example-l.md

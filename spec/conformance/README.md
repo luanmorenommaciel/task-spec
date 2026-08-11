@@ -37,6 +37,7 @@ of the contract, not a dependency you ship.
 | `T-conformance-004-execution-backend.md` | C8 | `execution_backend` honored OR override is justified in the ledger |
 | `T-conformance-005-budget-stop.md` | C13, C16 | Iteration stops at `budget_iterations` |
 | `T-conformance-006-do-not-touch.md` | C5 | Engine refuses to write to Do-Not-Touch paths |
+| `T-conformance-007-node-refusal.md` | C17 | Executor refuses direct XL/XXL node dispatch |
 
 Alongside the fixtures, this directory ships the reference harness:
 

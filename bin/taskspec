@@ -1,190 +1,222 @@
 #!/usr/bin/env bash
-# taskspec — the canonical agent-facing CLI for the task-spec engine.
-#
-# MACHINE CONTRACT (stable; coding agents rely on this):
-#   - Subcommand names are STABLE: new batch migrate validate gate run accept
-#     ready lint transition rebuild-state archive backup metrics conformance
-#     executor version doctor help
-#   - Exit codes: 0 = success; 1 = the underlying script failed (propagated
-#     verbatim); 2 = usage error (unknown command — usage printed to stderr).
-#   - `taskspec run --ci <spec>` emits one JSON object per eval on stdout
-#     ({"eval","status","duration_sec","stdout","stderr"}), suitable for
-#     machine parsing; human prose goes to stderr in --ci mode.
-#   - `taskspec gate <spec>` emits a machine-readable `TIER=N` line for a
-#     signed spec; `taskspec accept <spec>` emits `ACCEPTED=0|1`.
-#   - Machine-readable output goes to stdout; diagnostics go to stderr.
-# This is the surface Claude Code, Codex, Kimi, and other coding agents
-# consume. Do not rename subcommands or change exit-code semantics without a
-# MAJOR version bump.
-#
-# Usage: taskspec <command> [args...]   (see `taskspec help`)
-
+# Canonical Task-Spec CLI. Stable commands; additive changes preserve exit codes.
 set -euo pipefail
 
-# --- Resolve the real path of this script, even when symlinked -------------
-# Portable: no `readlink -f` (absent on stock macOS). Walk the symlink chain.
 _ts_source="$0"
 while [[ -h "$_ts_source" ]]; do
   _ts_dir="$(cd -P "$(dirname "$_ts_source")" >/dev/null 2>&1 && pwd)"
   _ts_source="$(readlink "$_ts_source")"
-  # A relative symlink target resolves against the symlink's directory.
   [[ "$_ts_source" != /* ]] && _ts_source="$_ts_dir/$_ts_source"
 done
 TASKSPEC_HOME="$(cd -P "$(dirname "$_ts_source")/.." >/dev/null 2>&1 && pwd)"
-unset _ts_source _ts_dir
 export TASKSPEC_HOME
+unset _ts_source _ts_dir
 
 _ts_usage() {
   cat <<'EOF'
-taskspec — the open, atomic, self-verifying unit of work for agentic systems
+taskspec — write it, seal it, prove it
 
-Usage: taskspec <command> [args...]
+Usage: taskspec [--json] [--dry-run] <command> [args...]
 
-Authoring:
-  new <slug> <effort> [agent] [source]   Create a T-*.md spec from the template
-  batch --intent-file <f> --effort S|M   Bulk-create N stub specs
-  migrate <spec>                         Convert a legacy checklist task to evals
+Start:
+  init                                      Create tasks/ and .taskspec/config
+  setup                                     Readiness board + one next action
+  setup signing [--force]                   Provision the repository HMAC key
 
-Gates (the closed loop):
-  validate [opts] <spec>                 Structural linter (pre-gate; no stamping)
-  gate [--stamp] [--require-tier1] <sp>  PRE-gate: go/no-go to delegate safely
-  run [--ci] <spec>                      Execute the evals; --ci = JSON-per-eval
-  accept [--stamp] [--gold-sanity] <sp>  POST-gate: verify the work is REAL
+Author:
+  new <slug> <XS|S|M|L|XL|XXL> [agent]      Create one non-clobbering scaffold
+  plan --manifest <TaskPlan.yaml>            Validate + preview; writes nothing
+  batch --plan <TaskPlan.yaml>               Generate an approved declared plan
+  batch --intent-file <f> --effort <size>    Legacy bulk scaffold surface
+  migrate <spec>                             Convert a legacy checklist task
+
+Prove:
+  validate [--no-state] <spec>               Structural and authorization lint
+  dod <spec>                                 Behavior → eval → Exit Check matrix
+  gate [--stamp] [--require-tier1] <spec>    PRE-gate authorization seal
+  handoff <spec> --backend <token>           Emit read-only TaskHandoff v1 JSON
+  run [--ci] <spec>                          Execute evals in the task workspace
+  accept [--stamp] [--gold-sanity] <spec>    POST-gate independent acceptance
 
 Backlog:
-  ready [--effort=S] [--agent=any]       List tasks ready for pickup
-  transition <id> <status> [reason]      Atomic status change
-  lint                                   Cross-task linter (overlaps, cycles)
-  rebuild-state                          Regenerate tasks/_state.yaml
-  archive                                Move done/parked tasks to subdirs
-  backup [dir]                           Snapshot the tasks/ folder
-  metrics [--since D] [--author N]       Query tasks/_metrics.jsonl
+  ready [--all] [filters]                    Dependency-aware pickup frontier
+  lint                                      DAG, collision, conflict, concurrency
+  transition <id> <status> [reason]          Atomic lifecycle transition
+  rebuild-state | archive | backup | metrics
 
-Conformance:
-  conformance --level L0|L1|L2 --executor "<cmd>"   Certify an executor
-  conformance --self-test                           Against the bundled ref executor
-  executor <spec>                        The L2-conformant reference executor
+Integrate:
+  agent-context                             Complete machine-readable CLI contract
+  completion bash|zsh|fish                  Generate shell completion
+  conformance --self-test                   Test the bundled reference executor
+  executor <spec>                           Reference L2 executor
 
-Meta:
-  version                                Print the engine version
-  doctor                                 Check the local toolchain + signing key
-  help                                   This text
+Meta: doctor | version | help
 
-Examples:
-  taskspec new verify-otel-pipeline S any notes/audit.md
-  taskspec gate --stamp tasks/T-20260721-verify-otel-pipeline.md
-  taskspec run --ci tasks/T-20260721-verify-otel-pipeline.md
+Global controls:
+  --json       One JSON envelope with command, success, exit_code, stdout/stderr
+  --dry-run    Prevent mutations and state the intended action
+  NO_COLOR or TASKSPEC_COLOR=0 disables ANSI; TASKSPEC_COLOR=1 forces it
 
-Exit-code contract:
-  0  success (or the underlying script succeeded)
-  1  the underlying script failed (exit code propagated)
-  2  usage error (unknown command)
+Exit codes: 0 success · 1 contract/gate/eval failure · 2 usage · 3 runtime floor
 EOF
 }
 
 _ts_doctor() {
-  local fails=0
-  # bash >= 3.2 (required)
+  local fails=0 common="" key=""
   if [[ "${BASH_VERSINFO[0]:-0}" -gt 3 || ( "${BASH_VERSINFO[0]:-0}" -eq 3 && "${BASH_VERSINFO[1]:-0}" -ge 2 ) ]]; then
     echo "PASS  bash >= 3.2 (${BASH_VERSION})"
-  else
-    echo "FAIL  bash >= 3.2 required (found ${BASH_VERSION})"
-    fails=$((fails + 1))
+  else echo "FAIL  bash >= 3.2 required"; fails=$((fails + 1)); fi
+  if command -v git >/dev/null 2>&1; then echo "PASS  git ($(git --version | awk '{print $3}'))"; else echo "FAIL  git missing"; fails=$((fails + 1)); fi
+  if command -v python3 >/dev/null 2>&1; then echo "PASS  python3 ($(python3 --version 2>&1 | awk '{print $2}'))"; else echo "FAIL  python3 missing"; fails=$((fails + 1)); fi
+  if command -v openssl >/dev/null 2>&1 || command -v shasum >/dev/null 2>&1 || command -v sha256sum >/dev/null 2>&1; then echo "PASS  SHA-256/HMAC provider"; else echo "WARN  no SHA-256 provider; sign-off degrades to Tier 2"; fi
+  if command -v shellcheck >/dev/null 2>&1; then echo "PASS  shellcheck"; else echo "WARN  shellcheck missing; PRE-gate will fail"; fi
+  if [[ -n "${TASKSPEC_SIGNING_KEY:-}" ]]; then key="environment"; else
+    common="$(git rev-parse --git-common-dir 2>/dev/null || true)"
+    if [[ -n "$common" && "$common" != /* ]]; then common="$(cd "$common" 2>/dev/null && pwd || true)"; fi
+    [[ -n "$common" && -r "$common/info/taskspec-signing-key" ]] && key="$common/info/taskspec-signing-key"
   fi
-  # git (required — the gates diff and resolve repo roots with it)
-  if command -v git >/dev/null 2>&1; then
-    echo "PASS  git ($(git --version 2>/dev/null | awk '{print $3}'))"
-  else
-    echo "FAIL  git not found on PATH (required by gate/accept)"
-    fails=$((fails + 1))
-  fi
-  # sha256 provider (optional — Tier-1 crypto degrades to Tier 2 without it)
-  if command -v openssl >/dev/null 2>&1; then
-    echo "PASS  crypto provider: openssl (HMAC Tier 1 available)"
-  elif command -v shasum >/dev/null 2>&1; then
-    echo "PASS  crypto provider: shasum (HMAC Tier 1 available)"
-  elif command -v sha256sum >/dev/null 2>&1; then
-    echo "PASS  crypto provider: sha256sum (HMAC Tier 1 available)"
-  else
-    echo "WARN  no sha256 provider (openssl/shasum/sha256sum) — sign-off degrades to Tier 2 (structural-only)"
-  fi
-  # jq (optional — metrics queries fall back to grep)
-  if command -v jq >/dev/null 2>&1; then
-    echo "PASS  jq ($(jq --version 2>/dev/null))"
-  else
-    echo "WARN  jq not found — taskspec metrics falls back to coarse grep filtering"
-  fi
-  # shellcheck (required by `taskspec gate` — the pre-gate always runs the
-  # validator's --shellcheck-evals lint, which errors without it)
-  if command -v shellcheck >/dev/null 2>&1; then
-    echo "PASS  shellcheck ($(shellcheck --version 2>/dev/null | awk '/^version:/{print $2}'))"
-  else
-    echo "WARN  shellcheck not found — taskspec gate will FAIL (the pre-gate requires it)"
-  fi
-  # signing key (optional — resolves per configs/setup-taskspec-signing-key.sh:
-  # TASKSPEC_SIGNING_KEY env (file path or raw material), else
-  # <git-dir>/info/taskspec-signing-key for the repo at PWD).
-  if [[ -n "${TASKSPEC_SIGNING_KEY:-}" ]]; then
-    if [[ -f "$TASKSPEC_SIGNING_KEY" && -r "$TASKSPEC_SIGNING_KEY" ]]; then
-      echo "PASS  signing key: TASKSPEC_SIGNING_KEY file ($TASKSPEC_SIGNING_KEY)"
-    else
-      echo "PASS  signing key: TASKSPEC_SIGNING_KEY env (raw material)"
-    fi
-  else
-    local gd=""
-    gd="$(git rev-parse --git-dir 2>/dev/null || true)"
-    if [[ -n "$gd" && -f "$gd/info/taskspec-signing-key" ]]; then
-      echo "PASS  signing key: $gd/info/taskspec-signing-key"
-    else
-      echo "WARN  no signing key for this repo — gate stamps Tier 2; run configs/setup-taskspec-signing-key.sh for Tier 1"
-    fi
-  fi
-  # engine repo sanity
-  if [[ -f "$TASKSPEC_HOME/src/lib/_lib.sh" ]]; then
-    echo "PASS  TASKSPEC_HOME engine tree ($TASKSPEC_HOME)"
-  else
-    echo "FAIL  TASKSPEC_HOME looks wrong ($TASKSPEC_HOME) — src/lib/_lib.sh missing"
-    fails=$((fails + 1))
-  fi
+  if [[ -n "$key" ]]; then echo "PASS  signing key ($key)"; else echo "WARN  no signing key; run: taskspec setup signing"; fi
+  [[ -f "$TASKSPEC_HOME/src/lib/_lib.sh" ]] || { echo "FAIL  invalid TASKSPEC_HOME=$TASKSPEC_HOME"; fails=$((fails + 1)); }
   return "$fails"
 }
 
-# --- Dispatch ---------------------------------------------------------------
-cmd="${1:-}"
-case "$cmd" in
-  "")            _ts_usage; exit 2 ;;
-  help|--help|-h) _ts_usage; exit 0 ;;
-  version|--version)
-    cat "$TASKSPEC_HOME/VERSION"
-    exit 0
-    ;;
-  doctor)
-    shift
-    _ts_doctor
-    exit $?
-    ;;
-  new)           script="src/author/generate-task-spec.sh" ;;
-  batch)         script="src/author/batch-generate.sh" ;;
-  migrate)       script="src/author/migrate-legacy-task.sh" ;;
-  validate)      script="src/gate/validate-task-spec.sh" ;;
-  gate)          script="src/gate/safe-to-delegate.sh" ;;
-  run)           script="src/gate/run-task-spec.sh" ;;
-  accept)        script="src/accept/accept-task.sh" ;;
-  ready)         script="src/backlog/list-ready.sh" ;;
-  lint)          script="src/backlog/lint-backlog.sh" ;;
-  transition)    script="src/backlog/transition-status.sh" ;;
-  rebuild-state) script="src/backlog/rebuild-state.sh" ;;
-  archive)       script="src/backlog/archive.sh" ;;
-  backup)        script="src/backlog/backup-backlog.sh" ;;
-  metrics)       script="src/backlog/query-metrics.sh" ;;
-  conformance)   script="src/dispatch/conformance-check.sh" ;;
-  executor)      script="src/dispatch/ref-executor.sh" ;;
-  *)
-    echo "taskspec: unknown command '$cmd'" >&2
-    _ts_usage >&2
-    exit 2
-    ;;
-esac
+_ts_completion() {
+  local shell_name="${1:-}"
+  local words="init setup new plan batch migrate validate dod gate handoff run accept ready lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help"
+  case "$shell_name" in
+    bash)
+      printf '_taskspec_complete() { COMPREPLY=( $(compgen -W %q -- "${COMP_WORDS[1]}") ); }\ncomplete -F _taskspec_complete taskspec\n' "$words"
+      ;;
+    zsh)
+      printf '#compdef taskspec\n_arguments "1:command:(%s)"\n' "$words"
+      ;;
+    fish)
+      for word in $words; do printf 'complete -c taskspec -f -a %s\n' "$word"; done
+      ;;
+    *) echo "Usage: taskspec completion bash|zsh|fish" >&2; return 2 ;;
+  esac
+}
 
-shift
-exec bash "$TASKSPEC_HOME/$script" "$@"
+_ts_has_arg() {
+  local wanted="$1"; shift
+  local arg
+  for arg in "$@"; do [[ "$arg" == "$wanted" ]] && return 0; done
+  return 1
+}
+
+_ts_dispatch() {
+  local cmd="${1:-}" script=""
+  [[ -n "$cmd" ]] || { _ts_usage; return 2; }
+  shift || true
+  case "$cmd" in
+    help|--help|-h) _ts_usage; return 0 ;;
+    version|--version) cat "$TASKSPEC_HOME/VERSION"; return 0 ;;
+    doctor) _ts_doctor; return $? ;;
+    completion) _ts_completion "$@"; return $? ;;
+    agent-context) python3 "$TASKSPEC_HOME/src/dispatch/agent-context.py"; return $? ;;
+    init) script="src/setup/init.sh" ;;
+    setup)
+      if [[ "${1:-}" == "signing" ]]; then
+        shift
+        if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" ]]; then echo "DRY_RUN: provision repository signing key"; return 0; fi
+        bash "$TASKSPEC_HOME/configs/setup-taskspec-signing-key.sh" "$@"; return $?
+      fi
+      script="src/setup/readiness.sh"
+      ;;
+    plan) python3 "$TASKSPEC_HOME/src/author/taskplan.py" preview "$@"; return $? ;;
+    batch)
+      if [[ "${1:-}" == "--plan" ]]; then
+        local manifest="${2:-}"; shift 2 || true
+        [[ -n "$manifest" ]] || { echo "taskspec batch --plan requires a manifest" >&2; return 2; }
+        if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" ]]; then set -- --dry-run "$@"; fi
+        python3 "$TASKSPEC_HOME/src/author/taskplan.py" generate --manifest "$manifest" "$@"; return $?
+      fi
+      script="src/author/batch-generate.sh"
+      [[ "${TASKSPEC_DRY_RUN:-0}" == "1" ]] && set -- --dry-run "$@"
+      ;;
+    handoff) python3 "$TASKSPEC_HOME/src/dispatch/handoff.py" "$@"; return $? ;;
+    dod) script="src/gate/definition-of-done.sh" ;;
+    new) script="src/author/generate-task-spec.sh" ;;
+    migrate) script="src/author/migrate-legacy-task.sh" ;;
+    validate)
+      script="src/gate/validate-task-spec.sh"
+      [[ "${TASKSPEC_DRY_RUN:-0}" == "1" ]] && set -- --no-state "$@"
+      ;;
+    gate) script="src/gate/safe-to-delegate.sh" ;;
+    run) script="src/gate/run-task-spec.sh" ;;
+    accept) script="src/accept/accept-task.sh" ;;
+    ready) script="src/backlog/list-ready.sh" ;;
+    lint) script="src/backlog/lint-backlog.sh" ;;
+    transition) script="src/backlog/transition-status.sh" ;;
+    rebuild-state) script="src/backlog/rebuild-state.sh" ;;
+    archive) script="src/backlog/archive.sh" ;;
+    backup) script="src/backlog/backup-backlog.sh" ;;
+    metrics) script="src/backlog/query-metrics.sh" ;;
+    conformance) script="src/dispatch/conformance-check.sh" ;;
+    executor) script="src/dispatch/ref-executor.sh" ;;
+    *) echo "taskspec: unknown command '$cmd'" >&2; _ts_usage >&2; return 2 ;;
+  esac
+
+  if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" ]]; then
+    case "$cmd" in
+      new|migrate|transition|rebuild-state|archive|backup|run)
+        echo "DRY_RUN: would run taskspec $cmd $*"; return 0 ;;
+      gate|accept)
+        if _ts_has_arg --stamp "$@"; then echo "DRY_RUN: would run taskspec $cmd $*"; return 0; fi
+        ;;
+    esac
+  fi
+  bash "$TASKSPEC_HOME/$script" "$@"
+  return $?
+}
+
+JSON_MODE=0
+DRY_RUN=0
+ARGS=()
+for arg in "$@"; do
+  case "$arg" in
+    --json) JSON_MODE=1 ;;
+    --dry-run) DRY_RUN=1 ;;
+    *) ARGS+=("$arg") ;;
+  esac
+done
+export TASKSPEC_DRY_RUN="$DRY_RUN"
+
+if [[ "$JSON_MODE" == "0" ]]; then
+  _ts_dispatch ${ARGS[@]+"${ARGS[@]}"}
+  exit $?
+fi
+
+tmp_dir="$(mktemp -d -t taskspec-json-XXXXXX)"
+trap 'rm -rf "$tmp_dir"' EXIT
+set +e
+_ts_dispatch ${ARGS[@]+"${ARGS[@]}"} >"$tmp_dir/stdout" 2>"$tmp_dir/stderr"
+rc=$?
+set -e
+python3 - "$TASKSPEC_HOME/VERSION" "${ARGS[0]:-help}" "$rc" "$tmp_dir/stdout" "$tmp_dir/stderr" <<'PY'
+import json
+import pathlib
+import sys
+
+version = pathlib.Path(sys.argv[1]).read_text(encoding="utf-8").strip()
+command, code = sys.argv[2], int(sys.argv[3])
+stdout = pathlib.Path(sys.argv[4]).read_text(encoding="utf-8")
+stderr = pathlib.Path(sys.argv[5]).read_text(encoding="utf-8")
+data = None
+try:
+    data = json.loads(stdout)
+except (json.JSONDecodeError, ValueError):
+    pass
+envelope = {
+    "contract": "TaskSpecCLIResult/v1",
+    "engine_version": version,
+    "command": command,
+    "ok": code == 0,
+    "exit_code": code,
+    "data": data,
+    "stdout": "" if data is not None else stdout,
+    "stderr": stderr,
+}
+print(json.dumps(envelope, indent=2, ensure_ascii=False))
+PY
+exit "$rc"

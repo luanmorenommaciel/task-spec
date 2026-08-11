@@ -1,215 +1,232 @@
 <div align="center">
-
-[![task-spec — the open, atomic, self-verifying unit of work for autonomous agentic systems: a spec flows through the HMAC seal gate and emerges as verified work.](assets/taskspec-banner.png)](https://github.com/luanmorenommaciel/task-spec)
-
-<sub>A spec flows through the seal gate; green evals from a clean checkout are the only proof.</sub>
-
-# task-spec
-
-**Write it. Seal it. Prove it.**
-
-*The open, atomic, self-verifying unit of work for autonomous agentic systems.*
-
-[![format: v3](https://img.shields.io/badge/format-v3-5CC8FF)](spec/task-spec-v3.md)
-[![version: 3.4.1](https://img.shields.io/badge/version-3.4.1-3DDC97)](VERSION)
-[![conformance: L0–L2](https://img.shields.io/badge/conformance-L0--L2-FFB454)](spec/conformance/)
-[![license: MIT](https://img.shields.io/badge/license-MIT-8BA3B5)](LICENSE)
-[![CI: check](https://github.com/luanmorenommaciel/task-spec/actions/workflows/ci.yml/badge.svg)](https://github.com/luanmorenommaciel/task-spec/actions/workflows/ci.yml)
-
-[Install](#install) · [Quickstart](#quickstart) · [The loop](#the-closed-loop) · [Gates](#the-dual-gates) · [CLI](#cli-map) · [Conformance](#conformance) · [Honesty](#honest-boundary)
-
+  <img src="assets/taskspec-banner.svg" alt="Task-Spec — write it, seal it, prove it" width="920" />
+  <h1>Task-Spec</h1>
+  <p><strong>The canonical atomic unit of work for coding agents.</strong></p>
+  <p>One human-reviewable contract. Any conformant harness. Independent proof of done.</p>
 </div>
 
----
+Task-Spec is an open, vendor-neutral format and offline-first engine for turning
+intent into atomic work. Each `T-*.md` file combines a bounded write scope,
+dependencies, executable bash evals, behavior-to-eval traceability, an
+authorization seal, and a post-execution acceptance envelope.
 
-## What is task-spec?
+It is deliberately smaller than an orchestration platform. Task-Spec does not
+schedule a fleet, host models, store credentials, or make an agent's own claim
+of success trustworthy. It makes one unit of work portable and independently
+checkable.
 
-Your agents can claim the work is done. **task-spec makes them prove it.**
-
-A task-spec is a single markdown file: YAML frontmatter + six zones + **runnable
-bash evals**. An eval that runs green *is* the definition of done — not a
-checklist an agent claims to have finished.
-
-> One spec in. Verified, blast-radius-checked, accepted work out.
-
-Two gates close the loop without trusting the executor: a PRE-gate seals the
-eval bodies in an HMAC envelope and flips `signed_off: true` (delegate-safe), a
-POST-gate re-runs the evals from a clean checkout, checks the blast radius, and
-re-verifies the seal before stamping `accepted: true` (work-is-real). Any
-executor that passes the L0/L1/L2 conformance suite can pick a spec up —
-Claude, Codex, Kimi, GLM, Gemini, or a 60-line bash loop. Vendor-neutral by
-construction, not by promise.
+[Getting started](docs/getting-started/index.md) ·
+[Guides](docs/guides/index.md) ·
+[Reference](docs/reference/index.md) ·
+[Trust](docs/trust/index.md) ·
+[Examples](docs/examples/)
 
 ## Install
 
-Requirements: macOS, Linux, or Linux under WSL; Bash (3.2 floor — macOS system
-bash works); Git; and `shellcheck` (the PRE-gate lints every eval body with it —
-ubuntu CI images ship it, on macOS `brew install shellcheck`). Optional but
-recommended: `openssl` or `shasum` for the Tier-1 HMAC seal.
+Choose one door; all install the same v3.6 skill contract and CLI.
+
+| Door | Command | Best for |
+|---|---|---|
+| Pinned copy | `curl -fsSL https://raw.githubusercontent.com/luanmorenommaciel/task-spec/main/install.sh \| bash` | Codex, Kimi, Claude Code, and Grok Build in a repository |
+| npm/GitHub | `npm install -g github:luanmorenommaciel/task-spec#v3.6.0` then `taskspec-install` | A globally discoverable CLI plus project skills |
+| Claude marketplace | `/plugin marketplace add luanmorenommaciel/task-spec` then `/plugin install task-spec@taskspec` | Claude Code plugin workflow |
+| Checkout development | `bash install.sh --target /path/to/repo --symlink` | Editing Task-Spec itself without copy drift |
+
+The copy installer is non-clobbering, installs equivalent skills at
+`.agents/skills/task-spec`, `.claude/skills/task-spec`, and
+`.grok/skills/task-spec`, puts a pinned CLI launcher on PATH, never touches
+provider/model credentials, and ends with `INSTALL=OK`.
 
 ```bash
-git clone https://github.com/luanmorenommaciel/task-spec.git
-cd task-spec
-ln -s "$PWD/bin/taskspec" /usr/local/bin/taskspec   # or anywhere on PATH
-taskspec doctor                                      # sanity-check the toolchain
-
-# optional: install the task-architect agent + thin skill into a repo
-bash src/lib/install.sh --target /path/to/your/repo
+taskspec doctor
+taskspec setup
 ```
 
-## Quickstart
+Requirements: Bash 3.2+, Git, Python 3, and `shellcheck` for the PRE-gate.
+OpenSSL, `shasum`, or `sha256sum` enables Tier-1 HMAC verification.
 
-```bash
-taskspec new verify-otel-pipeline S any notes/audit.md   # scaffold tasks/T-*.md
-# ...fill the {{TODO}} stubs: title, why, goal, evals, anti-patterns...
-taskspec validate tasks/T-*-verify-otel-pipeline.md      # structural linter
-taskspec gate --stamp tasks/T-*-verify-otel-pipeline.md  # PRE-gate: seal + sign off
-# hand the spec to any conformant executor, then:
-taskspec accept --stamp tasks/T-*-verify-otel-pipeline.md  # POST-gate: prove it's real
-```
+## The mental model
 
-## The closed loop
-
-![The task-spec closed loop: author, validate, HMAC gate, execute on any conformant executor, accept — with fail-closed routes back to the author.](assets/taskspec-hero.svg)
-
-Read left to right: the human sets intent and writes runnable evals; the
-validator enforces structure and behavior↔eval traceability; the PRE-gate seals
-the eval bodies so they cannot be silently weakened after delegation; any
-conformant executor does the work; the POST-gate re-proves it from a clean
-checkout. Red dashed routes fail closed — a broken seal or red evals loop back
-to the author, never forward. Humans anchor intent and acceptance review; the
-loop in between runs without them.
-
-<details>
-<summary><strong>Portable Mermaid view</strong></summary>
+An ordinary checklist tells an agent what somebody hopes will happen. An atomic
+Task-Spec also defines what may change, how success is executed, who authorized
+that exact contract, and how a separate acceptance step decides whether the
+result is real.
 
 ```mermaid
-flowchart LR
-    A["Author<br/>intent + runnable evals"] --> V["Validate<br/>structure + behavior↔eval"]
-    V --> G{"PRE-gate<br/>HMAC-seals eval bodies"}
-    G -- sealed --> X["Execute<br/>any conformant executor L0–L2"]
-    G -- broken bash --> R1["Fail closed<br/>not delegate-safe"]
-    X --> P{"POST-gate<br/>clean re-run + blast radius"}
-    P -- green + in-scope --> D["accepted: true"]
-    P -- red / out-of-scope --> R2["Fail closed<br/>budget −1, loop back"]
-
-    classDef human fill:#101b26,stroke:#5cc8ff,color:#f2f6f4,stroke-width:2px;
-    classDef gate fill:#1a1610,stroke:#ffb454,color:#f2f6f4,stroke-width:2px;
-    classDef done fill:#0e1a15,stroke:#3ddc97,color:#f2f6f4,stroke-width:2px;
-    classDef stop fill:#1f1114,stroke:#ff5d73,color:#f2f6f4,stroke-width:2px;
-    class A,V,X human;
-    class G,P gate;
-    class D done;
-    class R1,R2 stop;
+flowchart TB
+    Intent["User intent"] --> Skill["Installed Task-Spec skill"]
+    Repo["Repository evidence"] --> Skill
+    Research["Optional AuthoringEvidence v1"] --> Skill
+    Skill --> Plan["TaskPlan v1"]
+    Plan --> Preview["taskspec plan<br/>read-only preview"]
+    Preview --> Specs["Atomic leaves + composition nodes"]
+    Specs --> Pre{"PRE-gate<br/>validate + HMAC v2"}
+    Pre --> Handoff["TaskHandoff v1"]
+    Handoff --> Harness["Codex / Claude / Kimi / Grok / custom"]
+    Harness --> Change["Repository change"]
+    Change --> Post{"POST-gate<br/>evals + scope + seal"}
+    Post --> Accepted["accepted: true"]
+    Post -->|fail closed| Repair["repair or park with context"]
 ```
 
-</details>
+| Artifact | Answers |
+|---|---|
+| `TaskPlan/v1` | Which units are being proposed, why, and with what explicit edges? |
+| Task-Spec v3 | What may this one unit do, and what executable result proves it? |
+| HMAC v2 seal | Has the body or execution authority changed since sign-off? |
+| `TaskHandoff/v1` | What exact leaf, workspace, backend, scope, budgets, and commands reach a harness? |
+| Acceptance envelope | Did independent eval, blast-radius, and seal checks pass after execution? |
 
-The format in 60 seconds: six zones — **(1) Intent** (why / goal / context) ·
-**(2) Contract** (Success Criteria as runnable `eval_N()` bash, a YAML
-validation_card, an Exit Check that calls every eval) · **(3) Rollback** ·
-**(4) Observability** · **(5) Guardrails** (anti-patterns, do-not-touch) ·
-**(6) Operations** (open questions). A `## Behavior` section (Given/When/Then
-with stable `B-N` ids) sits between intent and evals, and the validator enforces
-**behavior↔eval traceability**: every behavior is verified by ≥1 eval
-(`verifies: [B-N]`), every eval maps to a declared behavior. The **effort gate**
-keeps atoms atomic: `XS/S/M` accepted, `L` accepted only with
-`execution_backend: glm` and one coherent done-condition, `XL` refused → route
-to SDD (AgentSpec / OpenSpec / SpecKit). Full spec:
-[spec/task-spec-v3.md](spec/task-spec-v3.md).
+## Your first atomic task
 
-## The dual gates
+```bash
+# 1. Prepare the repository.
+taskspec init
+taskspec setup signing
+taskspec doctor
 
-| | PRE-gate — `taskspec gate --stamp` | POST-gate — `taskspec accept --stamp` |
+# 2. Ask the installed skill:
+# “Turn this outcome into a complete TaskPlan. Research only if needed.”
+
+# 3. Review exactly what is declared. Preview never invents missing units.
+taskspec plan --manifest tasks/.plans/add-search.yaml
+
+# 4. Generate the approved files, then inspect both structure and proof.
+taskspec batch --plan tasks/.plans/add-search.yaml
+taskspec validate tasks/T-*.md
+taskspec dod tasks/T-*.md
+
+# 5. Authorize one runnable leaf.
+taskspec gate --stamp tasks/T-…-first-leaf.md
+
+# 6. Emit a credential-free handoff for the selected harness.
+taskspec handoff tasks/T-…-first-leaf.md --backend codex --json
+
+# 7. After execution, independently accept it.
+taskspec accept --stamp --gold-sanity tasks/T-…-first-leaf.md
+```
+
+See the complete [first-task walkthrough](docs/getting-started/first-task.md) and
+the checked-in [TaskPlan example](docs/examples/task-plan.yaml).
+
+## Leaves and nodes
+
+Everything remains a Task-Spec, but not everything is directly executable.
+
+```mermaid
+flowchart TD
+    XXL["XXL node<br/>3+ children"] --> XL1["XL node<br/>2+ children"]
+    XXL --> L1["L leaf<br/>long-horizon backend"]
+    XXL --> M1["M leaf"]
+    XL1 --> S1["S leaf"]
+    XL1 --> XS1["XS leaf"]
+    classDef node fill:#1b2630,stroke:#ffb454,color:#ffffff,stroke-width:2px;
+    classDef leaf fill:#10251e,stroke:#3ddc97,color:#ffffff,stroke-width:2px;
+    class XXL,XL1 node;
+    class L1,M1,S1,XS1 leaf;
+```
+
+| Size | Kind | Write-surface guidance | Dispatch rule |
+|---|---|---:|---|
+| XS | Leaf | ≤1 path | Runnable |
+| S | Leaf | ≤2 paths | Runnable |
+| M | Leaf | ≤3 paths | Runnable |
+| L | Leaf | ≤5 paths | Runnable only on `TASKSPEC_LONG_HORIZON_BACKENDS`; one coherent done-condition |
+| XL | Node | No writes | At least 2 children; never delegated |
+| XXL | Node | No writes | At least 3 children; never delegated |
+
+The write surface is the unique union of `touches_paths` and `creates_paths`.
+Budgets expose coarse decomposition; cross-task lint also reports dual creation,
+write conflicts, cycles, dangling edges, and write-disjoint concurrency groups.
+
+## CLI at a glance
+
+| Stage | Commands | Mutation boundary |
 |---|---|---|
-| Question | "Are these evals well-formed enough to delegate blind?" | "The executor claims done — is the work REAL?" |
-| Runs evals | Yes — assertion failure is *expected* (work unbuilt); blocks only on broken bash | Yes — must PASS from a clean checkout |
-| Blast radius | — | Changed files ⊆ `touches_paths`, ∩ `do-not-touch` = ∅ |
-| Seal | Writes `signed_off*` + HMAC `signed_off_sig` over the eval bodies | Re-verifies the HMAC (evals not weakened post-gate) |
-| Machine output | `TIER=1\|2` line (crypto trust / structural-only) | `ACCEPTED=1\|0`, stamps `accepted: true` |
-| Opt-ins | `--require-tier1` (CI: no Tier-2 unsupervised) | `--gold-sanity` (evals must FAIL on the unpatched baseline) |
+| Prepare | `init`, `setup`, `setup signing`, `doctor` | Non-clobbering workspace/key setup |
+| Compose | `plan`, `batch --plan`, `new`, `migrate` | Preview is read-only; generation is explicit |
+| Prove before work | `validate`, `dod`, `gate --stamp` | Only the gate writes `signed_off*` |
+| Transfer | `handoff --backend …`, `agent-context` | Read-only JSON contracts; never credentials |
+| Execute | `run`, any conformant harness | Evals run relative to the task workspace |
+| Prove after work | `accept --stamp`, `transition … done` | Only acceptance writes `accepted*`; done requires it |
+| Operate | `ready`, `lint`, `rebuild-state`, `metrics`, `conformance` | Deterministic derived state and analysis |
 
-## For coding agents
+Global `--json` wraps any command in `TaskSpecCLIResult/v1`; global `--dry-run`
+prevents supported mutations and reports intent. `NO_COLOR` or
+`TASKSPEC_COLOR=0` disables ANSI; `TASKSPEC_COLOR=1` forces it. Run
+`taskspec agent-context` for the complete machine contract and exit codes.
 
-`bin/taskspec` is a stable machine contract: fixed subcommand names, exit codes
-(`0` success · `1` underlying check failed · `2` usage), `taskspec run --ci`
-emitting one JSON object per eval on stdout, `taskspec doctor` for environment
-self-checks. Integrations: [Claude Code skill](integrations/claude-code/),
-[GitHub Action](integrations/github-action/) (the CI eval-gate — the merge gate
-stops trusting agent-pasted GREEN), [Codex AGENTS.md](integrations/codex/AGENTS.md).
+## Optional research, bounded on purpose
 
-## CLI map
+Firecrawl, Tavily, and Exa are optional provider packs under
+[`integrations/research/`](integrations/research/). Core does not install or call
+them. A harness explicitly selects a provider and normalizes results into
+`AuthoringEvidence/v1`: source URL/title/time/digest, bounded claims/excerpts,
+usage when available, and named unavailable/rate-limit/auth/timeout/schema-drift
+states.
 
-```text
-taskspec new <slug> <effort> [agent] [source]   Scaffold a T-*.md spec
-taskspec batch --intent-file <f> --effort S|M   Bulk-create N stub specs
-taskspec migrate <spec>                         Legacy checklist → evals
-taskspec validate [opts] <spec>                 Structural linter (no stamping)
-taskspec gate [--stamp] [--require-tier1] <sp>  PRE-gate: go/no-go to delegate
-taskspec run [--ci] <spec>                      Execute evals; --ci = JSON/eval
-taskspec accept [--stamp] [--gold-sanity] <sp>  POST-gate: prove work is REAL
-taskspec ready | transition | lint | archive    Backlog operations
-taskspec conformance --level L0|L1|L2 --executor "<cmd>"
-taskspec conformance --self-test                Against the bundled ref executor
-taskspec doctor                                 Toolchain + signing-key check
-taskspec version                                Print the engine version
+Provider evidence may inform context, anti-patterns, or guardrails. It never
+silently becomes an acceptance criterion. Current repository support is limited
+to credential-free fake adapters; live provider support requires a retained
+smoke gate before it can be advertised.
+
+## Trust boundaries
+
+```mermaid
+flowchart TB
+    Human["Human review"] -->|authorizes exact contract| Seal["HMAC v2 seal"]
+    Seal -->|detects later changes| Gate["PRE / POST gates"]
+    Spec["Runnable evals"] --> Gate
+    Scope["Declared write scope"] --> Gate
+    Gate --> Evidence["Tamper + execution evidence"]
+
+    Seal -. does not prove .-> Identity["Per-author identity"]
+    Spec -. can still be gamed .-> Semantics["Semantic correctness"]
+    Gate -. does not enforce .-> Sandbox["Network / process isolation"]
+    Evidence -. is not .-> Fleet["Fleet autonomy or production operation"]
 ```
 
-Exit-code contract: `0` success · `1` the underlying check failed · `2` usage.
+| Claim | Honest boundary |
+|---|---|
+| HMAC v2 | Tamper-evident shared-key authorization; not non-repudiation or a security sandbox |
+| Runnable evals | Deterministic evidence when well designed; stub/Goodhart resistance helps but cannot make a weak oracle wise |
+| `TaskHandoff/v1` | Portable transfer contract; it does not execute a model or schedule workers |
+| `accepted: true` | The configured post-gate passed locally; not proof of deployment, production health, or external receipts |
+| Conformance L0-L2 | An adapter honors format/lifecycle behavior in the suite; not fleet reliability evidence |
 
-## Conformance
+Read [Trust and security](docs/trust/index.md) before using unsupervised Tier 1.
 
-"Any conformant executor can pick it up" is testable, not aspirational:
-**L0** reads the format and runs the evals · **L1** honors the status lifecycle
-(ready → in-progress → done) · **L2** honors the retry budget (parks instead of
-looping forever). The suite, fixtures, and vendoring protocol live in
-[spec/conformance/](spec/conformance/); `taskspec conformance --self-test` runs
-the bundled reference executor.
+## Current verified status
 
-## Verified surface
+<!-- release-status:start -->
+| Surface | Repository evidence | Status |
+|---|---|---|
+| Engine | Bash 3.2 portability, schemas, compatibility, HMAC v1/v2, sizing, backlog, DoD, conformance | Pass — `make check` → `CHECK=READY` |
+| Experience | Copy/symlink installs plus init → sign → plan → generate → gate → handoff → execute → accept | Pass; experience suite 26/26 |
+| Package | `npm pack --dry-run` and local global npm install | Pass; GitHub install pending release tag |
+| Research | Offline fake Firecrawl/Tavily/Exa adapters and named failure states | Pass; live providers not advertised |
+| Converge consumption | Deterministic generated mirror plus per-file SHA-256 lock | Pass |
+| Publication | Canonical source commit, v3.6.0 tag, and remote curl/npm doors | Unpublished worktree; publish actions not performed |
+<!-- release-status:end -->
 
-The single release gate is:
+The canonical release evidence lives in [release/evidence.json](release/evidence.json).
+`make check` is the single local/CI gate and ends with `CHECK=READY` only when
+doctor, docs, every self-test, and conformance are green.
+
+## Architecture boundary
+
+Standalone Task-Spec owns the format, schemas, engine, CLI, skill, installer,
+contracts, examples, and conformance suite. Converge remains the higher-level
+methodology/runtime: intent shaping, tracker projection, execution loops,
+receipts, Cockpit, and future management. Converge consumes a pinned generated
+mirror; it does not evolve a second editable Task-Spec engine.
+
+## Contributing
 
 ```bash
 make check
 ```
 
-It runs `taskspec doctor`, the doc-consistency lint, the docs/link lint, every
-`tests/test-*.sh` self-test (bash portability, extractor fuzz, HMAC envelope,
-portability E2E, closed-loop E2E), and the L0–L2 conformance suite against the
-bundled reference executor. The checked-in CI workflow runs that same
-credential-free boundary on Ubuntu and macOS — CI runs the same gate you run
-locally, nothing more. The multi-engine matrix of [TODO.md](TODO.md) P0-1
-(real Claude/Codex executors in CI) builds on this foundation and remains open.
-
-## Honest boundary
-
-| Claim | The truth |
-| --- | --- |
-| Green evals | Prove what they assert, nothing more. `--gold-sanity` exists because always-true evals pass on the unpatched baseline too. |
-| HMAC envelope | Tamper-**evident** (proves eval bodies weren't edited after the gate), not tamper-**proof** (a repo-key holder can reseal). |
-| Vendor neutrality | A testable property — L0/L1/L2 conformance — not a promise. Real-engine CI evidence (P0-1) is still landing. |
-| Humans in the loop | Yes, by design: at intent-setting and acceptance review. The loop in between runs without them. |
-| Package managers / Homebrew / curl installer | Not claimed yet — git clone + symlink is the install (see TODO P2-5). |
-
-Roadmap: [TODO.md](TODO.md) and [docs/roadmap.md](docs/roadmap.md).
-
-## Repository guide
-
-- [`spec/task-spec-v3.md`](spec/task-spec-v3.md) — the normative format spec
-- [`spec/schemas/`](spec/schemas/) — JSON Schemas (the machine contract)
-- [`spec/conformance/`](spec/conformance/) — L0/L1/L2 suite, fixtures, vendoring protocol
-- [`bin/taskspec`](bin/taskspec) — canonical CLI (stable subcommands + exit codes)
-- [`src/`](src/) — engine scripts by verb: author / gate / accept / backlog / dispatch / lib
-- [`docs/`](docs/) — authoring doctrine, concepts, patterns, runbooks, examples
-- [`agents/task-architect.md`](agents/task-architect.md) — the authoring agent; [`templates/`](templates/) spec template
-- [`adapters/`](adapters/) — per-engine dispatch recipes + trackers (**non-normative**)
-- [`integrations/`](integrations/) — Claude Code skill · GitHub Action · Codex
-- [`fixtures/diamond-6/`](fixtures/diamond-6/) — 6-task dependency-diamond backlog used by CI
-- [`tests/`](tests/) — the self-test suite; [`evals/`](evals/) benchmark cases
-- [`assets/taskspec-mark.svg`](assets/taskspec-mark.svg) — reusable page-and-seal mark
-- [`assets/taskspec-logo.svg`](assets/taskspec-logo.svg) — horizontal wordmark lockup
-
-## License
-
-MIT — © 2026 Luan Moreno. See [LICENSE](LICENSE).
+Format changes are triple-locked: schema, conformance fixture, and changelog.
+The core gate path stays compatible with macOS Bash 3.2. See
+[AGENTS.md](AGENTS.md) and [CHANGELOG.md](CHANGELOG.md).

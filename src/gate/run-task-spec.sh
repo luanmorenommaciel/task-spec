@@ -13,8 +13,9 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/_lib.sh
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../lib" && pwd)/_lib.sh"
+source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
 
 CI_MODE=false
@@ -73,6 +74,29 @@ fi
 
 # Resolve git root
 GIT_ROOT=$(cd "$(dirname "$FILE")" && git rev-parse --show-toplevel 2>/dev/null || echo "")
+
+# WHERE THE EVALS ACTUALLY RUN
+#
+# A spec's relative paths ("src/orders.py") are written against its own
+# WORKSPACE, not against whatever repository happens to contain it. For a
+# workspace nested inside a larger repo — or any run inside a git worktree —
+# the git root is the wrong directory, and every `test -f` fails in 0s without
+# ever reaching the work. That RED is indistinguishable from a real failure
+# except by the suspiciously round duration.
+#
+# TASKSPEC_WORKSPACE_ROOT lets the caller state the workspace explicitly.
+# Otherwise infer it from the backlog that owns the spec.
+EVAL_CWD=""
+if [ -n "${TASKSPEC_WORKSPACE_ROOT:-}" ] && [ -d "${TASKSPEC_WORKSPACE_ROOT}" ]; then
+  EVAL_CWD="$(cd "$TASKSPEC_WORKSPACE_ROOT" && pwd)"
+else
+  # Shared resolver (ts_workspace_root in _lib.sh) — see the note there. The
+  # previous inference required the spec's directory to be named exactly `tasks`,
+  # so a spec in tasks/done/ skipped it entirely and fell through to GIT_ROOT.
+  _cand="$(ts_workspace_root "$(dirname "$FILE")" 2>/dev/null || true)"
+  [ -n "$_cand" ] && [ -d "$_cand" ] && EVAL_CWD="$_cand"
+fi
+[ -n "$EVAL_CWD" ] || EVAL_CWD="$GIT_ROOT"
 if [[ -z "$GIT_ROOT" ]]; then
   if [[ "$CI_MODE" == true ]]; then
     echo '{"eval":"_runner","status":"fail","message":"not inside a git repository"}'
@@ -201,8 +225,9 @@ eval_script="$tmp_dir/evals.sh"
   echo '#!/usr/bin/env bash'
   echo 'set -euo pipefail'
   printf 'GIT_ROOT="%s"\n' "$GIT_ROOT"
-  echo 'export GIT_ROOT'
-  printf 'cd "%s" || exit 1\n' "$GIT_ROOT"
+  printf 'WORKSPACE_ROOT="%s"\n' "$EVAL_CWD"
+  echo 'export GIT_ROOT WORKSPACE_ROOT'
+  printf 'cd "%s" || exit 1\n' "$EVAL_CWD"
   echo "$sc_bash"
 } > "$eval_script"
 
@@ -217,7 +242,8 @@ json_escape() {
     str="${str//\"/\\\"}"
     str="${str//
 /\\n}"
-    str="${str///}"
+    str="${str//
+/}"
     str="${str//	/\\t}"
     printf '"%s"' "$str"
   fi
@@ -270,8 +296,9 @@ ec_script="$tmp_dir/exit_check.sh"
   echo '#!/usr/bin/env bash'
   echo 'set -euo pipefail'
   printf 'GIT_ROOT="%s"\n' "$GIT_ROOT"
-  echo 'export GIT_ROOT'
-  printf 'cd "%s" || exit 1\n' "$GIT_ROOT"
+  printf 'WORKSPACE_ROOT="%s"\n' "$EVAL_CWD"
+  echo 'export GIT_ROOT WORKSPACE_ROOT'
+  printf 'cd "%s" || exit 1\n' "$EVAL_CWD"
   echo "$sc_bash"
   echo "$ec_bash"
 } > "$ec_script"

@@ -16,6 +16,7 @@
 #   --skip-exit-coverage     Skip Exit Check coverage check
 #   --shellcheck-evals       Run shellcheck on eval_N() bodies (opt-in, requires shellcheck)
 #   --dry-run-eval           Source evals in a disposable subshell and run Exit Check (opt-in)
+#   --no-state               Validate read-only; do not refresh tasks/_state.yaml
 #
 # Exit codes:
 #   0 — valid Task-Spec (current v3, or v2/v1) OR accepted legacy v0/v1/v2 with warnings
@@ -65,6 +66,8 @@ CHECK_EXIT_COVERAGE=true
 STRICT_DEPENDS=false
 SHELLCHECK_EVALS=false
 DRY_RUN_EVAL=false
+WRITE_STATE=true
+VALIDATOR_VERSION="2"
 
 # Parse flags
 ARGS=()
@@ -77,6 +80,7 @@ while [[ $# -gt 0 ]]; do
     --skip-exit-coverage) CHECK_EXIT_COVERAGE=false; shift ;;
     --shellcheck-evals) SHELLCHECK_EVALS=true; shift ;;
     --dry-run-eval) DRY_RUN_EVAL=true; shift ;;
+    --no-state) WRITE_STATE=false; shift ;;
     --) shift; ARGS+=("$@"); break ;;
     -*)
       echo "Unknown option: $1" >&2
@@ -195,7 +199,7 @@ done
 # the format is vendor-neutral — any harness may be named. The validator only
 # requires a non-empty, single-token value (a recognized name routes a bundled
 # dispatch recipe; an unrecognized one is a custom adapter, see
-# adapters/engines/custom.md). Known names are listed for authoring
+# runbooks/dispatch-recipes/custom.md). Known names are listed for authoring
 # convenience, NOT enforced.
 if grep -q "^execution_backend:" "$FILE"; then
   EXEC_BACKEND=$(grep "^execution_backend:" "$FILE" | head -1 | awk '{print $2}' || true)
@@ -219,38 +223,88 @@ if grep -q "^signed_off:" "$FILE"; then
   fi
 fi
 
-# Check 3: effort gate (v3.2 — size-tiered, engine-aware)
-#   XS/S/M → always accepted (Kimi-class atomic cranks)
-#   L      → accepted ONLY when execution_backend is glm (long-horizon builder),
-#            and warned that it must still carry ONE coherent done-condition
-#   XL     → rejected → route to SDD (AgentSpec / OpenSpec / SpecKit)
+# Check 2d: tracker_ref receipt (Register ① backlink). OPTIONAL and vendor-neutral.
+# tracker_ref is the convenience backlink written BACK into the spec by the
+# task-specs-to-issues REGISTER pass after a successful upsert — never by the
+# author. The idempotency KEY is the marker carried ON the issue, not this field,
+# so tooling must tolerate tracker_ref being (none) (e.g. a CI run that cannot
+# write back to the repo). We therefore READ LIBERAL: if present and not (none)
+# it SHOULD be '<tracker>:<issue-ref>' (open-string tracker, mirroring
+# execution_backend), but a malformed value WARNS rather than blocks — the field
+# never gates delegation.
+if grep -q '^tracker_ref:' "$FILE"; then
+  TRACKER_REF=$(grep -m1 '^tracker_ref:' "$FILE" | sed -E 's/^tracker_ref:[[:space:]]*//' | sed -E 's/[[:space:]]*(#.*)?$//' || true)
+  if [[ -n "$TRACKER_REF" && "$TRACKER_REF" != "(none)" ]]; then
+    if ! printf '%s' "$TRACKER_REF" | grep -qE '^[A-Za-z0-9_.-]+:.+$'; then
+      WARNINGS+=("tracker_ref should be '<tracker>:<issue-ref>' (e.g. linear:ENG-42, github:#42) or (none) (got: '$TRACKER_REF'). It is a convenience backlink written by Register ①; the issue marker is the real idempotency key.")
+    fi
+  fi
+fi
+
+# linear_ref is the DEPRECATED Linear-specific alias of tracker_ref. Still
+# accepted (legacy fixtures carry `linear_ref: (none)`), but a non-empty value
+# should migrate to the vendor-neutral tracker_ref.
+if grep -q '^linear_ref:' "$FILE"; then
+  LINEAR_REF=$(grep -m1 '^linear_ref:' "$FILE" | sed -E 's/^linear_ref:[[:space:]]*//' | sed -E 's/[[:space:]]*(#.*)?$//' || true)
+  if [[ -n "$LINEAR_REF" && "$LINEAR_REF" != "(none)" ]]; then
+    WARNINGS+=("linear_ref is the deprecated Linear-specific field; migrate to the vendor-neutral tracker_ref (e.g. tracker_ref: linear:$LINEAR_REF)")
+  fi
+fi
+
+# Check 3: effort gate (v3.4 — six-tier, tasks-all-the-way-down)
+#   XS/S/M/L → runnable LEAF atoms; the write-surface must fit the tier budget.
+#              L is the ceiling: accepted only on a LONG-HORIZON builder
+#              (TS_LONG_HORIZON_BACKENDS) + ONE coherent done-condition.
+#   XL/XXL   → decomposition NODES: NOT runnable leaves. MUST declare children:
+#              (>=2 for XL, >=3 for XXL). No SDD escape — tasks decompose into tasks.
 # Legacy v0 keeps the old lenient behavior (warns, never hard-fails).
 EFFORT=$(grep '^effort:' "$FILE" | head -1 | awk '{print $2}' || true)
 EXEC_BACKEND=$(grep '^execution_backend:' "$FILE" | head -1 | awk '{print $2}' || true)
-case "$EFFORT" in
-  XS|S|M)
-    : # accepted
-    ;;
-  L)
+CHILDREN=$(parse_yaml_list "children" "$FRONTMATTER")
+N_CHILDREN=$(echo "$CHILDREN" | grep -c . || true); N_CHILDREN="${N_CHILDREN//[^0-9]/}"; N_CHILDREN="${N_CHILDREN:-0}"
+# write-surface = |touches_paths ∪ creates_paths| (unique, ignoring the (none) sentinel)
+WS_ALL=$(printf '%s\n%s\n' "$(parse_yaml_list "touches_paths" "$FRONTMATTER")" "$(parse_yaml_list "creates_paths" "$FRONTMATTER")" \
+         | grep -v '^$' | grep -vxF '(none)' | sort -u || true)  # || true: a node with no write surface must not abort set -e
+N_WRITES=$(echo "$WS_ALL" | grep -c . || true); N_WRITES="${N_WRITES//[^0-9]/}"; N_WRITES="${N_WRITES:-0}"
+
+if ! ts_size_is_valid "$EFFORT"; then
+  ERRORS+=("effort must be one of $TS_SIZES (got: '$EFFORT'). See docs/concepts/effort-gate.md")
+elif ts_size_is_leaf "$EFFORT"; then
+  # LEAF — blast-radius budget on the write surface (a breach = coarse decomposition)
+  MAXW=$(ts_size_writes_max "$EFFORT")
+  if [[ "$N_WRITES" -gt "$MAXW" ]]; then
+    WARNINGS+=("effort '$EFFORT' is a LEAF declaring $N_WRITES write path(s) (tier budget: <= $MAXW). Mis-sized — split into smaller atoms or reclassify UP; budgets expose coarse decomposition. See docs/concepts/effort-gate.md")
+  fi
+  if [[ "$N_CHILDREN" -gt 0 ]]; then
+    ERRORS+=("effort '$EFFORT' is a runnable LEAF but declares children: — only XL/XXL nodes may compose children")
+  fi
+  if [[ "$EFFORT" == "L" ]]; then
     if [[ "$FORMAT_VERSION" == "0" ]]; then
-      WARNINGS+=("effort is 'L' (legacy v0 tolerated); for v3.2, an L spec is accepted only with execution_backend: glm and must still carry ONE machine-checkable done-condition.")
-    elif [[ "$EXEC_BACKEND" == "glm" ]]; then
-      WARNINGS+=("effort is 'L' — accepted for the glm backend (long-horizon builder). An L spec MUST still have a single coherent done-condition; if it needs multiple independent evals, decompose into S/M atoms instead. See docs/concepts/effort-gate.md")
+      WARNINGS+=("effort is 'L' (legacy v0 tolerated); an L leaf is accepted only on a long-horizon builder ($TS_LONG_HORIZON_BACKENDS) and with ONE coherent done-condition.")
+    elif ts_backend_is_long_horizon "$EXEC_BACKEND"; then
+      WARNINGS+=("effort 'L' — accepted for the '$EXEC_BACKEND' backend (a long-horizon builder). An L leaf MUST carry ONE coherent done-condition; multiple independent evals => decompose into XS/S/M atoms. See docs/concepts/effort-gate.md")
     else
-      ERRORS+=("effort 'L' is accepted only with execution_backend: glm (got backend: '${EXEC_BACKEND:-<none>}'). Either set execution_backend: glm, decompose into S/M atoms, or route to SDD. See docs/concepts/effort-gate.md")
+      ERRORS+=("effort 'L' requires a LONG-HORIZON builder (one of: $TS_LONG_HORIZON_BACKENDS; got '${EXEC_BACKEND:-<none>}'). Name one, extend the set with TASKSPEC_LONG_HORIZON_BACKENDS, or decompose into XS/S/M atoms. See docs/concepts/effort-gate.md")
     fi
-    ;;
-  XL)
-    if [[ "$FORMAT_VERSION" == "0" ]]; then
-      WARNINGS+=("effort is 'XL' (legacy v0 tolerated); for v3.2, XL is too big for a single Task-Spec — route to SDD (AgentSpec / OpenSpec / SpecKit).")
-    else
-      ERRORS+=("effort 'XL' is too big for a single Task-Spec. Route to SDD: AgentSpec (/agentspec:brainstorm), OpenSpec, or SpecKit. See docs/concepts/effort-gate.md")
-    fi
-    ;;
-  *)
-    ERRORS+=("effort must be one of XS|S|M|L|XL (got: '$EFFORT'). See docs/concepts/effort-gate.md")
-    ;;
-esac
+  fi
+else
+  # NODE (XL/XXL) — a decomposition directive, never a runnable leaf. No route out.
+  MINC=$(ts_size_min_children "$EFFORT")
+  if [[ "$N_WRITES" -gt 0 ]]; then
+    ERRORS+=("effort '$EFFORT' is a decomposition NODE and must own no write surface; move touches_paths/creates_paths into its child leaves")
+  fi
+  if [[ "$N_CHILDREN" -lt "$MINC" ]]; then
+    ERRORS+=("effort '$EFFORT' is a decomposition NODE, not a runnable Task-Spec: it MUST declare children: with >= $MINC child task-spec id(s) (the vertical slices it expands into). Tasks decompose into tasks — there is no route out to SDD. See docs/concepts/effort-gate.md")
+  else
+    WARNINGS+=("effort '$EFFORT' is a NODE with $N_CHILDREN child task-spec(s) — a composition unit, not directly delegated. A worker dispatches its children (leaves) and composes their results back up.")
+  fi
+fi
+
+for child in $CHILDREN; do
+  if ! echo "$child" | grep -qE '^T-[0-9]{8}-[a-z0-9]+(-[a-z0-9]+)*$'; then
+    ERRORS+=("children contains invalid Task-Spec id: '$child'")
+  fi
+done
 
 # Check 4: status is valid enum
 STATUS=$(grep '^status:' "$FILE" | head -1 | awk '{print $2}' || true)
@@ -565,7 +619,11 @@ if [[ "$CHECK_DEPENDS_ON" == true && -n "$FRONTMATTER" ]]; then
   for dep in $DEPS; do
     found=false
     dep_status=""
-    for dir in "$FILE_DIR" "$GIT_ROOT/tasks" "$GIT_ROOT/tasks/queue" "$GIT_ROOT/tasks/archive" "$GIT_ROOT/tasks/feature" "$GIT_ROOT/tasks/done" "$GIT_ROOT/tasks/parked"; do
+    # Resolve lifecycle buckets from the backlog that owns this spec. This works
+    # from root, queue/, done/, parked/, and explicit adapter-selected backlogs.
+    BACKLOG_ROOT="$(ts_backlog_root "$FILE")"
+    for dir in "$BACKLOG_ROOT" \
+               "$BACKLOG_ROOT/queue" "$BACKLOG_ROOT/archive" "$BACKLOG_ROOT/feature" "$BACKLOG_ROOT/done" "$BACKLOG_ROOT/parked"; do
       if [[ -f "$dir/${dep}.md" ]]; then
         found=true
         dep_status=$(grep '^status:' "$dir/${dep}.md" 2>/dev/null | head -1 | awk '{print $2}' || true)
@@ -797,6 +855,34 @@ if [[ ${#INVERTED_GREP_HITS[@]} -gt 0 ]]; then
   done
 fi
 
+# Check 16b: existence-only evals (the stub loophole)
+#
+# An eval that only asserts a file EXISTS — plus greps for a keyword in it —
+# cannot tell a real implementation from a three-line stub. `test -f x.py &&
+# grep -q assert x.py` is satisfied by `echo "# assert" > x.py`. The loop then
+# goes green, the receipt says pass, and nothing was built.
+#
+# This is the reward-hacking failure mode that matters most, because unlike an
+# inverted grep it is not a mistake — it is what an eval degrades INTO when the
+# author cannot run the real thing yet.
+#
+# Detection: the eval block contains a file-existence test, and contains NO
+# command that executes anything the task produced. Emitted as a WARNING here
+# (a supervised task may legitimately be file-shaped — an ADR, a doc, a config)
+# and escalated to a BLOCK by safe-to-delegate.sh, which is the gate that
+# actually claims a task is safe to run unsupervised.
+#
+# Opt out per spec with: # task-spec:allow-existence-only
+re_existence_test='test[[:space:]]+-[fde][[:space:]]|\[[[:space:]]+-[fde][[:space:]]'
+re_executes='python3?[[:space:]]|pytest|psql|sqlite3|docker[[:space:]]|curl[[:space:]]|node[[:space:]]|npm[[:space:]]|go[[:space:]]+(test|run)|cargo[[:space:]]|make[[:space:]]|bash[[:space:]]+[^-]|sh[[:space:]]+[^-]|dbt[[:space:]]|\./'
+EXISTENCE_ONLY=false
+if [[ -n "${SC_BASH:-}" ]] && ! grep -q 'task-spec:allow-existence-only' "$FILE" 2>/dev/null; then
+  if [[ "$SC_BASH" =~ $re_existence_test ]] && [[ ! "$SC_BASH" =~ $re_executes ]]; then
+    EXISTENCE_ONLY=true
+    WARNINGS+=("existence-only evals: every check asserts a file EXISTS but nothing RUNS what the task produced — a stub file satisfies this spec. Make at least one eval execute the artifact, or annotate the spec with '# task-spec:allow-existence-only' if the deliverable really is a document.")
+  fi
+fi
+
 # Check 17: sign-off envelope on signed_off (structural floor + B2 HMAC, v2.2)
 #
 # STRUCTURAL FLOOR (unchanged from v2.1.1): signed_off: true REQUIRES both
@@ -858,9 +944,9 @@ if [[ "$SIGNED_OFF_RAW" == "true" ]]; then
     elif [[ -z "$SIGNED_SIG" ]]; then
       # TIER 2: key present but no sig field (legacy v2.1.1 spec). Structural-only.
       echo "WARN(Tier 2): $FILE — signed_off_sig absent (legacy/structural-only sign-off). Re-stamp with safe-to-delegate.sh --stamp under a key for Tier 1 crypto trust. Supervised dispatch only."
-    elif ! [[ "$SIGNED_SIG" =~ ^hmac-sha256-v1:[0-9a-zA-Z]+:[0-9a-f]+$ ]]; then
+    elif ! [[ "$SIGNED_SIG" =~ ^hmac-sha256-v[12]:[0-9a-zA-Z]+:[0-9a-f]+$ ]]; then
       # TIER 3: sig field malformed.
-      ERRORS+=("DO NOT DELEGATE: signed_off_sig is malformed (got: '$SIGNED_SIG'); expected hmac-sha256-v1:<keyid>:<hex>. Spec body or envelope modified after stamping. Re-run safe-to-delegate.sh --stamp.")
+      ERRORS+=("DO NOT DELEGATE: signed_off_sig is malformed (got: '$SIGNED_SIG'); expected hmac-sha256-v2:<keyid>:<hex>. Spec body or envelope modified after stamping. Re-run safe-to-delegate.sh --stamp.")
     else
       set +e
       EXPECTED_SIG="$(ts_compute_signoff_sig "$FILE" "$SIGN_KEY")"
@@ -872,9 +958,21 @@ if [[ "$SIGNED_OFF_RAW" == "true" ]]; then
       elif [[ "$EXPECTED_SIG" == "$SIGNED_SIG" ]]; then
         # TIER 1: full crypto trust.
         echo "OK(Tier 1): $FILE — signed_off_sig HMAC verified (full crypto trust)."
+      elif [[ "$SIGNED_SIG" == hmac-sha256-v1:* ]]; then
+        # A v1 envelope predates authorization sealing: it never covered write
+        # scope, dependencies, budgets, or routing. Verify it on its own terms —
+        # authentic means Tier 2 (supervised), NOT a forgery.
+        set +e
+        LEGACY_SIG="$(ts_compute_signoff_sig "$FILE" "$SIGN_KEY" v1)"
+        set -e
+        if [[ -n "$LEGACY_SIG" && "$LEGACY_SIG" == "$SIGNED_SIG" ]]; then
+          echo "WARN(Tier 2): $FILE — legacy envelope v1: authentic, but write scope, dependencies, budgets and routing were NOT sealed. Re-stamp with safe-to-delegate.sh --stamp for Tier 1."
+        else
+          ERRORS+=("DO NOT DELEGATE: spec body or envelope modified after stamping — signed_off_sig HMAC mismatch. Re-run safe-to-delegate.sh --stamp to re-seal.")
+        fi
       else
-        # TIER 3: MAC mismatch.
-        ERRORS+=("DO NOT DELEGATE: spec body or envelope modified after stamping — signed_off_sig HMAC mismatch. The body digest or a signed_off* value changed since the stamp. Re-run safe-to-delegate.sh --stamp to re-seal.")
+        # TIER 3: MAC mismatch — body OR an authorization field changed.
+        ERRORS+=("DO NOT DELEGATE: spec body, authorization fields (touches_paths/creates_paths/depends_on/effort/backend/agent/budgets/requires), or envelope modified after stamping — signed_off_sig HMAC mismatch. Re-run safe-to-delegate.sh --stamp to re-seal.")
       fi
     fi
   fi
@@ -885,6 +983,9 @@ fi
 # and acceptance presupposes sign-off. Hand-setting `accepted: true` is rejected
 # the same way hand-stamping signed_off is.
 ACCEPTED_RAW=$(grep -m1 '^accepted:' "$FILE" 2>/dev/null | awk -F: '{print $2}' | xargs || true)
+if [[ "$STATUS" == "done" && "${ACCEPTED_RAW:-}" != "true" ]]; then
+  ERRORS+=("status: done requires accepted: true — accept and settle the task before moving it into done/")
+fi
 if [[ "${ACCEPTED_RAW:-}" == "true" ]]; then
   ACC_BY=$(grep -m1 '^accepted_by:' "$FILE" 2>/dev/null | sed -E 's/^accepted_by:[[:space:]]*//' || true)
   ACC_AT=$(grep -m1 '^accepted_at:' "$FILE" 2>/dev/null | sed -E 's/^accepted_at:[[:space:]]*//' || true)
@@ -900,7 +1001,6 @@ if [[ "${ACCEPTED_RAW:-}" == "true" ]]; then
     ERRORS+=("accepted: true but signed_off is not true — a task cannot be accepted before it is signed off (gate → dispatch → accept ordering)")
   fi
 fi
-
 # Report
 if [[ ${#ERRORS[@]} -gt 0 ]]; then
   echo "FAIL: $FILE has ${#ERRORS[@]} validation error(s):"
@@ -916,54 +1016,14 @@ if [[ ${#ERRORS[@]} -gt 0 ]]; then
   exit 1
 fi
 
-# --- State writer (only on successful validation) ---
-STATE_DIR="$GIT_ROOT/tasks"
-STATE_FILE="$STATE_DIR/_state.yaml"
-VALIDATOR_VERSION="2"
-TS="$(date -u +%FT%TZ)"
-
-mkdir -p "$STATE_DIR"
-TMP_STATE="${STATE_FILE}.tmp.$$"
-
-# Compute relative path from git root
-abs_file="$FILE"
-if [[ "$abs_file" != /* ]]; then
-  abs_file="$(cd "$(dirname "$FILE")" 2>/dev/null && pwd)/$(basename "$FILE")"
+# --- State writer (only on successful validation, unless --no-state) ---
+if [[ "$WRITE_STATE" == true ]]; then
+  STATE_DIR="$(ts_backlog_root "$FILE")"
+  TASKSPEC_BACKLOG_DIR="$STATE_DIR" \
+    TASKSPEC_STATE_GENERATOR="validate-task-spec.sh" \
+    TASKSPEC_STATE_VALIDATOR_VERSION="$VALIDATOR_VERSION" \
+    bash "$TASKSPEC_SKILL_DIR/src/backlog/rebuild-state.sh" >/dev/null
 fi
-REL_PATH="${abs_file#$GIT_ROOT/}"
-
-ts_prepare_tmp "$TMP_STATE"
-
-{
-  echo "# Auto-generated by validate-task-spec.sh — DO NOT EDIT DIRECTLY"
-  echo "# Source of truth: frontmatter in each tasks/T-*.md"
-  echo "schema_version: 1"
-  echo "tasks:"
-
-  # Preserve existing entries except current ID
-  if [[ -f "$STATE_FILE" ]]; then
-    awk -v target="$ID" '
-      /^- id: / {
-        if (in_block && !skip_block) print block
-        in_block=1; skip_block=0; block=$0
-        if ($3 == target) skip_block=1
-        next
-      }
-      in_block { block = block "\n" $0; next }
-      END { if (in_block && !skip_block) print block }
-    ' "$STATE_FILE"
-  fi
-
-  # Write new/updated entry
-  echo "- id: ${ID}"
-  echo "  path: ${REL_PATH}"
-  echo "  status: ${STATUS}"
-  echo "  effort: ${EFFORT}"
-  echo "  last_validated: ${TS}"
-  echo "  validator_version: ${VALIDATOR_VERSION}"
-} > "$TMP_STATE"
-
-mv "$TMP_STATE" "$STATE_FILE"
 
 if [[ ${#WARNINGS[@]} -gt 0 ]]; then
   if [[ "$FORMAT_VERSION" == "0" ]]; then

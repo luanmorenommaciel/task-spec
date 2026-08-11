@@ -14,7 +14,7 @@ lint:
 	bash tests/lint-docs.sh
 
 test:
-	for t in tests/test-*.sh; do bash "$$t"; done
+	set -e; for t in tests/test-*.sh; do bash "$$t"; done
 
 conformance:
 	bash spec/conformance/run_conformance.sh

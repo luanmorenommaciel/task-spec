@@ -1,6 +1,6 @@
 # Runbook: Validating a Task-Spec
 
-> **Use when:** Confirming a T-*.md is v3.1-compliant before commit or dispatch.
+> **Use when:** Confirming a T-*.md is format-v3 compliant before commit or dispatch.
 
 ## The validator
 
@@ -27,7 +27,7 @@ The validator's success path exits 0 and its failure path exits 1 — there is n
 **Mechanical field checks:**
 
 1. YAML frontmatter exists and has all required fields
-2. `effort` is `S` or `M` (rejects L/XL)
+2. Effort is a valid leaf/node; L has an eligible backend; XL/XXL have enough children and no writes
 3. `status` is one of: ready/in-progress/blocked/done/parked
 4. `id` matches `T-YYYYMMDD-<kebab-slug>` format and equals the filename basename
 5. Validation Card YAML has `success_criteria` + `retry_policy` + `agent_contract` (v2/v3 agent_contract: `version: 2`)
@@ -42,7 +42,8 @@ Profiles are the source of truth for which zones are required — see [../concep
 | Failure | Fix |
 |---------|-----|
 | Missing frontmatter field | Add to YAML at top of file |
-| Effort is L/XL | Decompose into multiple S/M tasks OR route to AgentSpec |
+| Leaf is over budget | Split it or reclassify; inspect the write-surface warning |
+| XL/XXL has writes or too few children | Move work into child leaves and declare the child ids |
 | Missing zone | Add the section header + content |
 | No eval_N() functions | Write at least 3 runnable bash evals |
 | Validation Card YAML missing | Add the YAML block under `## Validation Card` |

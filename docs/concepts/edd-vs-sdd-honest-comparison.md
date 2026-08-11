@@ -1,5 +1,11 @@
 # EDD vs SDD — An Honest Comparison
 
+> **Current routing note (3.6):** This comparison preserves the useful
+> distinction between executable evidence and unresolved design. The old
+> size-only rule is retired: XS/S/M/L are runnable leaves and XL/XXL are
+> Task-Spec composition nodes. Use a design process when the design or oracle is
+> unresolved; once approved, express build work as leaves/nodes.
+
 > When Eval-Driven Development (Task-Spec) beats Spec-Driven Development (AgentSpec).
 > When SDD beats EDD. When you should use both.
 
@@ -11,9 +17,9 @@ to the right method.
 
 ## TL;DR
 
-- **EDD wins** on small/medium tasks where success has a bash-checkable definition.
-- **SDD wins** on large/multi-day tasks where human alignment matters more than machine velocity.
-- **Use both.** Effort-gate small work to EDD (Task-Spec); large work to SDD (AgentSpec 5-phase).
+- **EDD wins** on bounded leaves where success has a runnable definition.
+- **SDD wins** while design, subjective judgment, or multi-party alignment is unresolved.
+- **Use both.** Resolve design at the appropriate altitude, then express approved implementation as Task-Spec leaves and composition nodes.
 
 ---
 
@@ -54,7 +60,7 @@ all evals returning 0.
 | **Authoring time** | Faster (free-form prose) | Slower (writing evals is harder) | SDD (cheaper) |
 | **Audit trail** | Narrative markdown | Machine ledger (`_metrics.jsonl`) | EDD (queryable) |
 | **Subjective output (UX, copy)** | Works fine | Doesn't work — can't eval | SDD (handles fuzzy) |
-| **Large multi-day work** | Designed for it (5 phases) | Refuses it (effort gate) | SDD (right tool) |
+| **Large multi-outcome work** | Align and design it before execution | Represents it as XL/XXL composition plus bounded children | Hybrid |
 | **Catches ambiguity early** | Maybe (depends on reviewer) | Yes — eval fails fast | EDD (verifiable) |
 
 **EDD wins 5/8. SDD wins 3/8.** Honest split.
@@ -68,7 +74,7 @@ You should use EDD (Task-Spec) when:
 | Condition | Why EDD wins |
 |-----------|--------------|
 | **The output has machine-checkable success criteria** | Bash evals define "done" unambiguously |
-| **The task is S or M effort (PR-sized)** | EDD's loop overhead is amortized over small tasks |
+| **The task is a runnable leaf with a checkable oracle** | EDD's loop overhead is amortized over atomic work |
 | **You need cross-vendor portability** | Claude, Codex, Kimi, manual — all read the same evals |
 | **You want autonomous overnight execution** | Loop until pass or budget; no human in the middle |
 | **You want a forensic audit trail** | `_metrics.jsonl` answers "what happened?" mechanically |
@@ -83,7 +89,7 @@ You should use SDD (AgentSpec 5-phase) when:
 
 | Condition | Why SDD wins |
 |-----------|--------------|
-| **The task is L or XL effort (multi-day)** | EDD refuses these via effort gate; SDD is designed for them |
+| **The work has several unresolved outcomes or teams** | Align it first; Task-Spec can later represent it as XL/XXL nodes plus child leaves |
 | **Success is genuinely subjective** | "Does this UI look right?" can't be a bash eval |
 | **Human alignment is the bottleneck** | Politics, design reviews, multi-team buy-in — SDD's checkpoints help |
 | **You're designing, not implementing** | Architecture decisions need narrative, not evals |
@@ -107,8 +113,9 @@ outputs**. Example failures:
 For these tasks, USE SDD. Task-Spec's effort gate doesn't catch this — it catches
 size, not subjectivity. You must catch subjectivity at authoring time.
 
-**Rule of thumb**: if you can't write 3+ bash evals that would catch real
-failure modes, the task isn't EDD-ready. Use SDD.
+**Rule of thumb**: if you cannot write at least one discriminating runnable eval
+that would catch the important failure modes, the task is not EDD-ready. Use a
+design or review process until the oracle is clear.
 
 ---
 
@@ -181,21 +188,20 @@ opinion.
 ## The two-axis decision tree
 
 ```text
-Is the output machine-checkable? (Can you write 3+ bash evals?)
+Is the output machine-checkable? (Can you write discriminating runnable evals?)
 │
 ├─ NO → Use SDD (AgentSpec)
 │       Example: design review, UX copy, strategy doc
 │
-└─ YES → Is the work S or M effort? (One PR's worth)
+└─ YES → Is this a runnable leaf with one coherent oracle?
          │
-         ├─ NO (L/XL) → Use SDD (AgentSpec 5-phase)
-         │              Example: new service, multi-week migration
+         ├─ NO → Resolve the design, then create XL/XXL nodes + child leaves
          │
-         └─ YES → Use EDD (Task-Spec)
+         └─ YES → Use EDD (Task-Spec leaf)
                   Example: bug fix, parser update, docs polish, infra verify
 ```
 
-That's the routing rule. Burn it into your project conventions.
+The current rule routes by oracle and composition shape, not by vendor name.
 
 ---
 
@@ -235,5 +241,5 @@ methodology stack.
 
 - [task-spec-v1.md](../../spec/task-spec-v3.md) — the format that embodies EDD
 - [eval-driven-development.md](eval-driven-development.md) — EDD as methodology
-- [effort-gate.md](effort-gate.md) — S/M/L/XL routing rules
+- [effort-gate.md](effort-gate.md) — current leaf/node composition rules
 - [../runbooks/empirical-experiment-protocol.md](../runbooks/empirical-experiment-protocol.md) — the falsification protocol

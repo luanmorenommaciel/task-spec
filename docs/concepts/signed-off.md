@@ -14,7 +14,7 @@
 
 ## Who can produce it
 
-**Only one script:** `scripts/safe-to-delegate.sh --stamp <spec>`.
+**Only one gate:** `taskspec gate --stamp <spec>`.
 
 The script flips `signed_off:` from `false` to `true` in the YAML frontmatter, stamps `signed_off_by:` with the author's identity (default `$USER`, override with `--stamp-by`), and records `signed_off_at:` with an ISO-8601 timestamp.
 
@@ -34,15 +34,16 @@ If either check fails, the gate refuses to stamp. The spec remains `signed_off: 
 The `validate-task-spec.sh` linter enforces this with the **sign-off envelope** check (Check 17). There are two layers:
 
 1. **Structural floor (always on):** a `signed_off: true` field without both a non-empty `signed_off_by` and an ISO-8601 `signed_off_at` is a structural error. The spec fails validate. This catches *accidental* hand-stamping.
-2. **HMAC envelope (key-optional, v2.2):** when a signing key is present, `safe-to-delegate.sh --stamp` also seals a `signed_off_sig: hmac-sha256-v1:<keyid>:<hex>` line, and the verifier recomputes the MAC. This catches *adversarial* post-stamp modification of the body or the envelope values.
+2. **HMAC envelope v2 (key-optional):** when a signing key is present, the gate writes `signed_off_sig: hmac-sha256-v2:<keyid>:<hex>` and the verifier recomputes it. It covers the body plus authorization fields: paths, dependencies, effort, backend, agent, budgets, and requirements.
 
 This is the autonomy boundary. Hand-stamping defeats the entire purpose: the whole point of `signed_off` is that downstream supervisors can trust the bit without re-running the gate themselves.
 
-### What the HMAC envelope IS and IS NOT (v2.2 — crypto is HERE)
+### What the HMAC envelope IS and IS NOT
 
-As of v2.2 the sign-off envelope carries a real cryptographic MAC. Be precise about what that buys and what it does not:
+The current gate writes authorization envelope v2. Be precise about what that buys and what it does not:
 
-- **What it IS:** a keyed HMAC-SHA256 over a canonical payload — the spec's `id`, the `body_digest` (sha256 of everything after the closing frontmatter `---`), and the three `signed_off*` values. Sealed by `safe-to-delegate.sh --stamp`, re-verified by `validate-task-spec.sh`. Any edit to the spec body, or to `signed_off`/`signed_off_by`/`signed_off_at`, after stamping changes the payload and the MAC no longer matches — the verifier hard-fails. This defeats the forgery the v2.1.1 structural check could not: a co-author who reads this skill, learns the envelope shape, and hand-edits `signed_off_by: luan` cannot produce a matching MAC without the key.
+- **What it IS:** a keyed HMAC-SHA256 over the id, body digest, authorization digest, and sign-off fields. Any later body edit, authority widening, dependency/budget change, or backend reroute breaks the seal. Lifecycle fields (`status`, `accepted*`, `tracker_ref`) stay outside so legitimate progress does not look like tampering.
+- **Legacy v1:** a valid v1 MAC still verifies over its historical body/sign-off payload, but it never covered execution authority. It is therefore authentic-but-narrow Tier 2 until re-stamped with v2.
 - **What it IS NOT — symmetric, not non-repudiation:** HMAC is a *symmetric* primitive. The key is shared across the repo. Anyone who can read the key (every developer with the clone, every CI signer) can forge a valid stamp. So the envelope binds **"a repo-key holder stamped this"**, NOT **"Luan specifically stamped this."** Per-author non-repudiation — proving *which* individual signed — requires asymmetric signatures (e.g. Ed25519 / DSSE with per-author keys). That is a deliberate, named future hardening, not part of this contract.
 - **The threat model:** the adversary is an **adversarial co-author who read the skill** and tries to hand-forge an autonomy stamp, or an accidental post-stamp edit that silently invalidates the work. It is NOT a remote supply-chain attacker who has already compromised the machine and read the key — against that adversary a shared symmetric key offers nothing, and we do not claim otherwise.
 - **Key-optional by design:** a fresh clone, a CI image with no key, or a container with no `openssl`/`shasum`/`sha256sum` must still be usable. With no key (or no crypto binary) the envelope degrades to **structural-only (Tier 2)** — it never hard-fails *shut* merely because the key is absent. See "The three tiers" below.

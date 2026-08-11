@@ -1,0 +1,30 @@
+{
+  "contract": "TaskSpecReleaseEvidence/v1",
+  "version": "3.6.0",
+  "format_version": 3,
+  "donor": {
+    "repository": "converge",
+    "commit": "f78f077"
+  },
+  "source_commit": null,
+  "release_status": "unpublished_worktree",
+  "gates": {
+    "make_check": "pass",
+    "clean_room": "pass",
+    "experience_suite": "26/26",
+    "checkout_copy_install": "pass",
+    "checkout_symlink_install": "pass",
+    "npm_pack_dry_run": "pass",
+    "npm_local_install": "pass",
+    "curl_pinned_install": "pending_release_tag",
+    "npm_github_install": "pending_release_tag",
+    "research_fake_adapters": "pass",
+    "converge_mirror": "pass"
+  },
+  "boundaries": {
+    "live_research_providers": "not_advertised",
+    "hosted_service": "not_provided",
+    "fleet_scheduler": "not_provided",
+    "production_evidence": "not_claimed"
+  }
+}

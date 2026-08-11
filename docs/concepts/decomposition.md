@@ -6,36 +6,39 @@
 
 ## Why atomic decomposition
 
-A Task-Spec is the *atomic* unit of work: S/M effort, one blast radius, evals that
-prove exactly one thing. A PRD, a design doc, or "a set of calls" is none of
+A Task-Spec is the *atomic* unit of work: an XS/S/M/L leaf has one bounded
+write surface and evals that prove one coherent result; XL/XXL nodes compose
+those leaves without owning writes. A PRD, a design doc, or "a set of calls" is none of
 those — it is FEATURE altitude, with many outcomes and many edges. You cannot gate
 a PRD; the Exit Check would have to assert a dozen unrelated facts at once, and a
 failure would not tell you *which* unit is unbuilt.
 
-Decomposition is the operation that turns one FEATURE-altitude artifact into N
-atoms, each of which can be authored, gated by `safe-to-delegate.sh`, and
-dispatched independently. The big thing stays referenced (never embedded); the
-atoms carry only the distillation each one needs.
+Decomposition turns one FEATURE-altitude artifact into a reviewed `TaskPlan/v1`:
+runnable leaves, explicit dependency edges, and optional XL/XXL composition
+nodes. Each leaf can be gated and dispatched independently. The big thing stays
+referenced; each unit carries only the distillation it needs.
 
-## The shape: flat index + per-task detail
+## The shape: manifest + shallow composition + per-task detail
 
-The converged 2026 pattern is **two layers, not a tree**:
+The canonical shape keeps the dependency DAG visible and limits composition to
+reviewable nodes rather than an arbitrary nested work breakdown:
 
 ```
-parent PRD/design  ──referenced by──▶  index (flat list of stubs)
-                                          │
-                                          ├─▶ T-…-atom-a   (detail spec, gateable)
-                                          ├─▶ T-…-atom-b   (detail spec, gateable)
-                                          └─▶ T-…-atom-c   (detail spec, gateable)
+parent PRD/design ──referenced by──▶ TaskPlan v1
+                                       ├─▶ XL/XXL node (reviewable, no writes)
+                                       │      └─▶ child leaf (gateable)
+                                       └─▶ leaf ──depends_on──▶ leaf
 ```
 
-- The **index** is a human-skimmable map: one row per atom (slug, title,
-  `depends_on`, hole status). It is not a spec and is never gated.
-- Each **detail spec** is a full Task-Spec — Goal + runnable Success Criteria +
-  Exit Check — that passes the gate on its own.
+- The **TaskPlan** is the deterministic, human-skimmable proposal. Previewing
+  it never creates or invents units.
+- An **XL/XXL node** is a Task-Spec used for composition and review. It owns no
+  write surface and is never handed to an executor.
+- Each **leaf spec** has Goal, runnable Success Criteria, and an Exit Check that
+  can pass the gate independently.
 
-A flat index keeps the `depends_on` graph visible. A deep tree of sub-tasks hides
-it, which is why decomposition stops at one level.
+`taskspec plan` keeps children and `depends_on` visible together. Avoid deeper
+nesting that obscures ordering or makes a node carry executable work.
 
 ## Holes as first-class blockers
 

@@ -1,0 +1,18 @@
+{
+  "name": "@luanmorenommaciel/task-spec",
+  "version": "3.6.0",
+  "description": "Canonical atomic, vendor-neutral, self-verifying task format, CLI, and agent skill",
+  "license": "MIT",
+  "repository": {"type": "git", "url": "git+https://github.com/luanmorenommaciel/task-spec.git"},
+  "bin": {
+    "taskspec": "bin/taskspec",
+    "taskspec-install": "install.sh"
+  },
+  "files": [
+    "VERSION", "LICENSE", "README.md", "SKILL.md", "CHANGELOG.md", "install.sh",
+    "agents", "bin", "configs", "src", "spec", "templates", "docs", "integrations",
+    ".claude-plugin"
+  ],
+  "engines": {"node": ">=18"},
+  "keywords": ["agents", "codex", "claude-code", "evals", "task-spec"]
+}

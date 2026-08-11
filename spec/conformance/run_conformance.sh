@@ -49,6 +49,7 @@ clause_for() {
     T-conformance-004-execution-backend)  echo "C8" ;;
     T-conformance-005-budget-stop)        echo "C13,C16" ;;
     T-conformance-006-do-not-touch)       echo "C5" ;;
+    T-conformance-007-node-refusal)       echo "C17" ;;
     *)                                    echo "C?" ;;
   esac
 }
@@ -165,6 +166,7 @@ reset_workdir_for() {
     T-conformance-004-execution-backend)  rm -f "$WORKDIR/c004_metrics.jsonl" ;;
     T-conformance-005-budget-stop)        rm -f "$WORKDIR/c005_iterations.log" ;;
     T-conformance-006-do-not-touch)       rm -f "$WORKDIR/c006_attempt.log" ;;
+    T-conformance-007-node-refusal)       rm -f "$WORKDIR/c007.log" ;;
   esac
 }
 

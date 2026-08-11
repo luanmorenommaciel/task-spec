@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-hmac-envelope.sh — keyed B2 HMAC sign-off envelope suite (v2.2).
+# test-hmac-envelope.sh — keyed HMAC authorization envelope suite (v2).
 #
 # The default oracle (tests/test-task-spec-skill.sh --suite fixtures) runs with
 # NO key, so it can only exercise Tier 2. This suite owns the KEYED paths:
@@ -84,7 +84,7 @@ echo "── Scenario 1: Tier 1 stamp-then-verify ──"
     else
       echo "FAIL stamp did not seal: $stamp_out"
     fi
-    if grep -qE '^signed_off_sig: hmac-sha256-v1:[0-9a-zA-Z]+:[0-9a-f]+$' "tasks/$ID.md"; then
+    if grep -qE '^signed_off_sig: hmac-sha256-v2:[0-9a-zA-Z]+:[0-9a-f]+$' "tasks/$ID.md"; then
       echo "PASS sig-format"
     else
       echo "FAIL sig field malformed or absent"
@@ -133,7 +133,7 @@ echo "── Scenario 2: Tier 3 tampered body ──"
     set +e
     post_out=$(bash "$VALIDATE" "tasks/$ID.md" 2>&1); post_rc=$?
     set -e
-    if [[ $post_rc -ne 0 ]] && echo "$post_out" | grep -q "DO NOT DELEGATE: spec body or envelope modified after stamping"; then
+    if [[ $post_rc -ne 0 ]] && echo "$post_out" | grep -q "DO NOT DELEGATE: spec body"; then
       echo "PASS tamper-caught-tier3"
     else
       echo "FAIL tamper not caught (rc=$post_rc): $(echo "$post_out" | tail -2)"
@@ -494,7 +494,122 @@ echo "── Scenario 9: ts_set_frontmatter_field newline + malformed + backslas
       FAIL\ *) fail "S9 ${line#FAIL }" ;;
     esac
   done < "$WORK/out.txt"
-  rm -rf "$WORK"
+rm -rf "$WORK"
+}
+
+# ---------------------------------------------------------------------------
+# Scenario 10 — envelope v2 seals authorization, not lifecycle bookkeeping.
+# ---------------------------------------------------------------------------
+echo "── Scenario 10: envelope v2 authorization boundary ──"
+{
+  ID="T-20260603-stamp-then-verify"
+  probe() {
+    local expr="$1" expect="$2" label="$3" repo keyfile out rc
+    repo=$(make_repo "$ID.md" "$ID")
+    keyfile=$(mktemp); head -c 32 /dev/urandom | xxd -p | tr -d '\n' > "$keyfile"
+    (
+      cd "$repo"
+      export TASKSPEC_SIGNING_KEY="$keyfile"
+      bash "$SAFE" --stamp --stamp-by hmac-test "tasks/$ID.md" >/dev/null 2>&1 || true
+      perl -0pi -e "$expr" "tasks/$ID.md"
+      set +e; out=$(bash "$VALIDATE" "tasks/$ID.md" 2>&1); rc=$?; set -e
+      if [[ "$expect" == "caught" && $rc -ne 0 ]] && echo "$out" | grep -q "DO NOT DELEGATE"; then
+        echo "PASS $label"
+      elif [[ "$expect" == "allowed" && $rc -eq 0 ]]; then
+        echo "PASS $label"
+      else
+        echo "FAIL $label (rc=$rc)"
+      fi
+    ) > "$repo/out.txt" 2>&1
+    while IFS= read -r line; do
+      case "$line" in
+        PASS\ *) pass "S10 ${line#PASS }" ;;
+        FAIL\ *) fail "S10 ${line#FAIL }" ;;
+      esac
+    done < "$repo/out.txt"
+    rm -rf "$repo" "$keyfile"
+  }
+
+  probe 's/^  - README\.md$/  - README.md\n  - secrets.txt/m' caught "scope-widening-caught"
+  probe 's/^depends_on: \[\]$/depends_on: [T-20260603-upstream]/m' caught "dependency-change-caught"
+  probe 's/^budget_iterations: 15$/budget_iterations: 99/m' caught "budget-raise-caught"
+  probe 's/^agent: any$/agent: attacker/m' caught "agent-change-caught"
+  probe 's/^execution_backend: any$/execution_backend: attacker/m' caught "backend-reroute-caught"
+  probe 's/^status: ready$/status: in-progress/m' allowed "status-change-allowed"
+  probe 's/^linear_ref: \(none\)$/tracker_ref: github:#42/m' allowed "tracker-writeback-allowed"
+}
+
+# ---------------------------------------------------------------------------
+# Scenario 11 — valid v1 is authentic-but-narrow Tier 2 and can be re-stamped.
+# ---------------------------------------------------------------------------
+echo "── Scenario 11: legacy v1 verification and re-stamp ──"
+{
+  ID="T-20260603-stamp-then-verify"
+  REPO=$(make_repo "$ID.md" "$ID")
+  KEYFILE=$(mktemp); head -c 32 /dev/urandom | xxd -p | tr -d '\n' > "$KEYFILE"
+  (
+    cd "$REPO"
+    export TASKSPEC_SIGNING_KEY="$KEYFILE"
+    bash "$SAFE" --stamp --stamp-by hmac-test "tasks/$ID.md" >/dev/null 2>&1 || true
+    legacy_sig=$(ts_compute_signoff_sig "tasks/$ID.md" "$(cat "$KEYFILE")" v1)
+    ts_set_frontmatter_field "tasks/$ID.md" signed_off_sig "$legacy_sig"
+    set +e; old_out=$(bash "$VALIDATE" "tasks/$ID.md" 2>&1); old_rc=$?; set -e
+    if [[ $old_rc -eq 0 ]] && echo "$old_out" | grep -q "legacy envelope v1"; then
+      echo "PASS legacy-v1-tier2"
+    else
+      echo "FAIL legacy v1 was not accepted as Tier 2 (rc=$old_rc)"
+    fi
+    set +e; restamp=$(bash "$SAFE" --stamp --stamp-by hmac-test "tasks/$ID.md" 2>&1); restamp_rc=$?; set -e
+    if [[ $restamp_rc -eq 0 ]] && grep -q '^signed_off_sig: hmac-sha256-v2:' "tasks/$ID.md"; then
+      echo "PASS legacy-restamped-v2"
+    else
+      echo "FAIL legacy v1 could not be re-stamped (rc=$restamp_rc)"
+    fi
+  ) > "$REPO/out.txt" 2>&1
+  while IFS= read -r line; do
+    case "$line" in
+      PASS\ *) pass "S11 ${line#PASS }" ;;
+      FAIL\ *) fail "S11 ${line#FAIL }" ;;
+    esac
+  done < "$REPO/out.txt"
+  rm -rf "$REPO" "$KEYFILE"
+}
+
+# ---------------------------------------------------------------------------
+# Scenario 12 — an amended body can be intentionally re-sealed.
+# ---------------------------------------------------------------------------
+echo "── Scenario 12: re-stamp an amended spec ──"
+{
+  ID="T-20260603-stamp-then-verify"
+  REPO=$(make_repo "$ID.md" "$ID")
+  KEYFILE=$(mktemp); head -c 32 /dev/urandom | xxd -p | tr -d '\n' > "$KEYFILE"
+  (
+    cd "$REPO"
+    export TASKSPEC_SIGNING_KEY="$KEYFILE"
+    bash "$SAFE" --stamp --stamp-by hmac-test "tasks/$ID.md" >/dev/null 2>&1 || true
+    before=$(grep -m1 '^signed_off_sig:' "tasks/$ID.md")
+    printf '\n<!-- reviewed amendment -->\n' >> "tasks/$ID.md"
+    set +e; broken=$(bash "$VALIDATE" "tasks/$ID.md" 2>&1); broken_rc=$?; set -e
+    if [[ $broken_rc -ne 0 ]] && echo "$broken" | grep -q "modified after stamping"; then
+      echo "PASS edit-breaks-seal"
+    else
+      echo "FAIL edit did not break seal"
+    fi
+    set +e; restamp=$(bash "$SAFE" --stamp --stamp-by hmac-test "tasks/$ID.md" 2>&1); restamp_rc=$?; set -e
+    after=$(grep -m1 '^signed_off_sig:' "tasks/$ID.md")
+    if [[ $restamp_rc -eq 0 && "$before" != "$after" ]] && echo "$restamp" | grep -q 'TIER=1'; then
+      echo "PASS amendment-resealed"
+    else
+      echo "FAIL amendment was not re-sealed"
+    fi
+  ) > "$REPO/out.txt" 2>&1
+  while IFS= read -r line; do
+    case "$line" in
+      PASS\ *) pass "S12 ${line#PASS }" ;;
+      FAIL\ *) fail "S12 ${line#FAIL }" ;;
+    esac
+  done < "$REPO/out.txt"
+  rm -rf "$REPO" "$KEYFILE"
 }
 
 echo ""

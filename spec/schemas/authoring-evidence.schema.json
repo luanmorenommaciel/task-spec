@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/v1/authoring-evidence.schema.json",
+  "title": "AuthoringEvidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "provider", "request_id", "query", "observed_at", "state", "sources", "claims"],
+  "properties": {
+    "contract": {"const": "AuthoringEvidence/v1"},
+    "provider": {"type": "string", "minLength": 1},
+    "request_id": {"type": "string", "minLength": 1},
+    "query": {"type": "string"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "state": {"enum": ["ok", "unavailable", "rate_limited", "authentication_failed", "timeout", "schema_drift"]},
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["url", "title", "retrieved_at", "content_digest"],
+        "properties": {
+          "url": {"type": "string"},
+          "title": {"type": "string"},
+          "retrieved_at": {"type": "string", "format": "date-time"},
+          "content_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "source_refs"],
+        "properties": {
+          "text": {"type": "string"},
+          "excerpt": {"type": "string"},
+          "source_refs": {"type": "array", "items": {"type": "integer", "minimum": 0}}
+        }
+      }
+    },
+    "usage": {"type": "object"},
+    "error": {"type": "string"}
+  }
+}

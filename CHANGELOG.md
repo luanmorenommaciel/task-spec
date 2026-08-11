@@ -12,6 +12,49 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ---
 
+## [3.6.0] — 2026-08-11
+
+The **canonical atomic-task experience** release. Format v3 remains current and
+the CLI, skill, and installation surfaces become portable across coding harnesses.
+
+### Added
+
+- `taskspec init`, idempotent `taskspec setup signing`, and a readiness board
+  with one exact next action.
+- `TaskPlan/v1` preview and approved generation, `taskspec dod`, read-only
+  `TaskHandoff/v1`, `taskspec agent-context`, completion, global `--json` and
+  `--dry-run`, plus `NO_COLOR` / `TASKSPEC_COLOR` behavior.
+- Equivalent Codex/Kimi, Claude Code, and Grok Build skill installation; pinned
+  copy and checkout-symlink modes; npm/GitHub and Claude marketplace metadata.
+- Non-normative Firecrawl, Tavily, and Exa packs sharing
+  `AuthoringEvidence/v1`. Only offline fake adapters are supported in CI; no
+  live-provider claim is made.
+- TaskPlan, TaskHandoff, and AuthoringEvidence schemas and an end-to-end docs
+  structure.
+
+## [3.5.0] — 2026-08-11
+
+The **engine parity** release, ported from the immutable
+`converge@f78f077` donor baseline into the standalone canonical layout.
+
+### Added and changed
+
+- Six-tier sizing: XS/S/M/L leaves and XL/XXL nodes, configurable L backends,
+  write-surface budgets over `touches_paths ∪ creates_paths`, and node rules.
+- HMAC envelope v2 seals authorization fields. Valid v1 seals remain readable
+  as supervised Tier 2 and can be intentionally re-stamped.
+- Worktree-common keys, task-workspace evals, stub resistance,
+  `validate --no-state`, deterministic state refresh, dependency-aware
+  readiness, collision/concurrency analysis, safe rendering/metrics,
+  `tracker_ref`, Definition of Done, and TaskPlan preview foundations.
+- Portable settlement: `status: done` requires `accepted: true`; Converge-only
+  receipt enforcement is not part of core.
+
+### Compatibility
+
+- `format_version` remains `3`; v0/v1/v2/v3 remain on the documented read path.
+  `linear_ref` remains a deprecated compatibility alias of `tracker_ref`.
+
 ## [3.4.1] — 2026-08-03
 
 The **first-CI-run hardening patch** (PATCH — no format change;

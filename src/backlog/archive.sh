@@ -8,8 +8,9 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/_lib.sh
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../lib" && pwd)/_lib.sh"
+source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
 
 if [[ ! -d "$TASKSPEC_BACKLOG_DIR" ]]; then
@@ -39,10 +40,10 @@ for FILE in "$TASKSPEC_BACKLOG_DIR"/T-*.md; do
   esac
 done
 
-# Rebuild state after moves (rebuild-state.sh sits beside this script in src/backlog/)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [[ -x "$SCRIPT_DIR/rebuild-state.sh" ]]; then
-  bash "$SCRIPT_DIR/rebuild-state.sh" >/dev/null 2>&1 || true
+# Rebuild state after moves
+SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+if [[ -x "$SKILL_DIR/src/backlog/rebuild-state.sh" ]]; then
+  bash "$SKILL_DIR/src/backlog/rebuild-state.sh" >/dev/null 2>&1 || true
 fi
 
 echo ">>> Archived: $MOVED_DONE done, $MOVED_PARKED parked"

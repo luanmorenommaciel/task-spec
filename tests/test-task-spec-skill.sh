@@ -24,6 +24,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC_AUTHOR="$REPO_ROOT/src/author"
 SRC_GATE="$REPO_ROOT/src/gate"
 SRC_BACKLOG="$REPO_ROOT/src/backlog"
+SRC_ACCEPT="$REPO_ROOT/src/accept"
 FIXTURES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/fixtures" && pwd)"
 PASS=0
 FAIL=0
@@ -314,9 +315,9 @@ Minimal context for testing.
 ## Success Criteria
 
 ```bash
-# eval-1: dummy passes
+# eval-1: work product reaches the authorized value
 eval_1() {
-  echo "PASS: dummy eval 1"
+  grep -qx 'complete' tasks/dummy.txt
 }
 
 # eval-2: dummy passes
@@ -337,7 +338,7 @@ eval_3() {
 ```yaml
 success_criteria:
   - id: eval_1
-    description: dummy passes
+    description: dummy work product is complete
     runnable: bash
     terminal: true
     expected_duration_sec: 10
@@ -441,6 +442,14 @@ fi
 # Restore valid file (portable sed — no -i flag)
 sed '/{{TODO: this should fail}}/d' "$TARGET" > "${TARGET}.tmp" && mv "${TARGET}.tmp" "$TARGET"
 
+# Authorize while the assertion still fails on the pre-work baseline.
+gate_out=$(bash "$SRC_GATE/safe-to-delegate.sh" --stamp "$TARGET" 2>&1) && gate_rc=0 || gate_rc=$?
+if [[ $gate_rc -eq 0 ]] && echo "$gate_out" | grep -q 'DELEGATE'; then
+  pass "pre-gate authorizes the unbuilt task"
+else
+  fail "pre-gate did not authorize the task (rc=$gate_rc)"
+fi
+
 # ---------------------------------------------------------------------------
 # 5. transition-status.sh — ready → in-progress
 # ---------------------------------------------------------------------------
@@ -462,6 +471,23 @@ if [[ -f "tasks/${ID}.md" ]]; then
   pass "file remains in tasks/ for active status"
 else
   fail "file missing from tasks/ after transition to in-progress"
+fi
+
+# A task cannot settle merely because an executor claims success.
+bash "$SRC_BACKLOG/transition-status.sh" "$ID" done "premature" >/dev/null 2>&1 && premature_rc=0 || premature_rc=$?
+if [[ $premature_rc -ne 0 ]]; then
+  pass "transition to done is blocked before acceptance"
+else
+  fail "transition to done bypassed acceptance"
+fi
+
+# Produce the declared work, then independently accept it.
+printf 'complete\n' > tasks/dummy.txt
+accept_out=$(bash "$SRC_ACCEPT/accept-task.sh" --stamp --no-blast-radius --accepted-by self-test "$TARGET" 2>&1) && accept_rc=0 || accept_rc=$?
+if [[ $accept_rc -eq 0 ]] && echo "$accept_out" | grep -q 'ACCEPTED=1'; then
+  pass "post-gate accepts and stamps the completed task"
+else
+  fail "post-gate did not accept completed work (rc=$accept_rc)"
 fi
 
 # ---------------------------------------------------------------------------
@@ -563,6 +589,13 @@ echo "=== 11. safe-to-delegate.sh (pre-delegation gate) ==="
 gate_ok="tasks/T-20990910-gate-ok.md"
 sed 's/^id:.*/id: T-20990910-gate-ok/' "tasks/done/${ID}.md" > "$gate_ok" 2>/dev/null \
   || sed 's/^id:.*/id: T-20990910-gate-ok/' "$TARGET" > "$gate_ok" 2>/dev/null
+bash -c "source '$REPO_ROOT/src/lib/_lib.sh'; \
+  ts_set_frontmatter_field '$gate_ok' status ready; \
+  ts_set_frontmatter_field '$gate_ok' signed_off false; \
+  ts_set_frontmatter_field '$gate_ok' accepted false; \
+  ts_set_frontmatter_field '$gate_ok' accepted_by '(none)'; \
+  ts_set_frontmatter_field '$gate_ok' accepted_at '(none)'"
+printf 'incomplete\n' > tasks/dummy.txt
 
 sd_out=$(bash "$SRC_GATE/safe-to-delegate.sh" "$gate_ok" 2>&1) && sd_rc=0 || sd_rc=$?
 if [[ $sd_rc -eq 0 ]] && echo "$sd_out" | grep -q "DELEGATE"; then
@@ -572,7 +605,8 @@ else
 fi
 
 gate_broken="tasks/T-20990911-gate-broken.md"
-sed 's/eval_1() { true; }/eval_1() { if [ -z $x ; then return 1 fi }/' "$gate_ok" > "$gate_broken" 2>/dev/null
+awk '/grep -qx.*complete/ { print "  if [ -z \"$x\" ; then return 1 fi"; next } { print }' \
+  "$gate_ok" > "$gate_broken"
 bash "$SRC_GATE/safe-to-delegate.sh" "$gate_broken" >/dev/null 2>&1 && sdb_rc=0 || sdb_rc=$?
 if [[ $sdb_rc -ne 0 ]]; then
   pass "safe-to-delegate blocks a broken-eval spec"

@@ -19,7 +19,7 @@
 #
 # The executor under test is any command that takes a spec path as its last arg
 # and drives it to completion (mutating the repo + the spec's status). A trivial
-# conformant reference executor ships at src/dispatch/ref-executor.sh for self-test.
+# conformant reference executor ships at scripts/ref-executor.sh for self-test.
 #
 # Usage:
 #   bash conformance-check.sh --level L0|L1|L2 --executor "<cmd>" [--keep]

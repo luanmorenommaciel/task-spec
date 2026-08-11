@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/v1/task-plan.schema.json",
+  "title": "TaskPlan v1",
+  "description": "A reviewed, deterministic manifest of complete Task-Spec units. The CLI validates and renders declared units; it never invents omitted work.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "approved", "units"],
+  "properties": {
+    "api_version": {"const": "taskspec.dev/v1"},
+    "kind": {"const": "TaskPlan"},
+    "approved": {"type": "boolean"},
+    "metadata": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "source": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "units": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/unit"}
+    }
+  },
+  "$defs": {
+    "behavior": {
+      "type": "object",
+      "required": ["id", "given", "when", "then"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^B-[0-9]+$"},
+        "given": {"type": "string"},
+        "when": {"type": "string"},
+        "then": {"type": "string"}
+      }
+    },
+    "eval": {
+      "type": "object",
+      "required": ["id", "description", "command"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^eval_[0-9]+$"},
+        "description": {"type": "string", "minLength": 1},
+        "command": {"type": "string", "minLength": 1},
+        "verifies": {"type": "array", "items": {"type": "string", "pattern": "^B-[0-9]+$"}},
+        "terminal": {"type": "boolean"},
+        "expected_duration_sec": {"type": "integer", "minimum": 1}
+      }
+    },
+    "unit": {
+      "type": "object",
+      "required": ["id", "title", "effort", "profile", "agent", "execution_backend", "depends_on", "touches_paths", "creates_paths", "source_note", "why", "goal", "evals"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^T-[0-9]{8}-[a-z0-9][a-z0-9-]*$"},
+        "title": {"type": "string", "minLength": 1},
+        "effort": {"enum": ["XS", "S", "M", "L", "XL", "XXL"]},
+        "profile": {"enum": ["lite", "standard", "full"]},
+        "agent": {"type": "string"},
+        "execution_backend": {"type": "string"},
+        "depends_on": {"type": "array", "items": {"type": "string"}},
+        "children": {"type": "array", "items": {"type": "string"}},
+        "touches_paths": {"type": "array", "items": {"type": "string"}},
+        "creates_paths": {"type": "array", "items": {"type": "string"}},
+        "source_note": {"type": "string"},
+        "why": {"type": "string", "minLength": 1},
+        "goal": {"type": "string", "minLength": 1},
+        "behaviors": {"type": "array", "items": {"$ref": "#/$defs/behavior"}},
+        "evals": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/eval"}}
+      },
+      "additionalProperties": true
+    }
+  }
+}

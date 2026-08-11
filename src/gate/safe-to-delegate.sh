@@ -9,6 +9,8 @@
 #   - structurally valid (validate-task-spec.sh)
 #   - eval bodies are shellcheck-clean (no syntax / unquoted-var bugs)
 #   - eval bodies EXECUTE without bash errors (broken-logic guard)
+#   - the evals can tell real work from a STUB (existence-only evals block
+#     blind delegation; --supervised downgrades that to a note)
 #
 # For a not-yet-built task the evals are EXPECTED to fail (the work isn't done).
 # That is fine — a delegate-safe spec fails for the RIGHT reason (assertion not
@@ -18,6 +20,7 @@
 #   bash safe-to-delegate.sh <path/to/T-*.md>
 #   bash safe-to-delegate.sh --skip-touches-paths <path>   # greenfield create tasks
 #   bash safe-to-delegate.sh --require-tier1 <path>         # demand crypto trust
+#   bash safe-to-delegate.sh --supervised <path>            # a human reads the diff
 #
 # Machine-readable contract (for automated dispatchers):
 #   On a clean DELEGATE verdict for a signed-off spec, the gate emits exactly
@@ -54,6 +57,9 @@ FILE=""
 STAMP=false
 STAMP_BY="${USER:-operator}"
 REQUIRE_TIER1=false
+# A human will read the diff. Relaxes only the checks whose whole purpose is to
+# substitute for a reviewer — never the structural or crypto gates.
+SUPERVISED=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --skip-touches-paths|--skip-id-filename|--skip-depends-on|--skip-exit-coverage)
@@ -64,6 +70,8 @@ while [[ $# -gt 0 ]]; do
       STAMP=true; STAMP_BY="${2:-operator}"; shift 2 ;;
     --require-tier1)
       REQUIRE_TIER1=true; shift ;;
+    --supervised)
+      SUPERVISED=true; shift ;;
     --help|-h)
       grep '^#' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
     -*)
@@ -84,8 +92,7 @@ if [[ ! -f "$FILE" ]]; then
 fi
 
 BOLD=$'\033[1m'; GREEN=$'\033[32m'; RED=$'\033[31m'; YELLOW=$'\033[33m'; RESET=$'\033[0m'
-# Disable color when not a TTY
-if [[ ! -t 1 ]]; then BOLD=""; GREEN=""; RED=""; YELLOW=""; RESET=""; fi
+if ! ts_color_enabled; then BOLD=""; GREEN=""; RED=""; YELLOW=""; RESET=""; fi
 
 blockers=0
 notes=()
@@ -93,13 +100,60 @@ notes=()
 echo "${BOLD}safe-to-delegate: $FILE${RESET}"
 echo "────────────────────────────────────────────────────────"
 
+# --- Re-sealing: retire the superseded signature BEFORE validation ---
+# A signed spec must be amendable. Every doc says the remedy for an edited spec
+# is "re-run safe-to-delegate.sh --stamp to re-seal", and that remedy was
+# UNREACHABLE: the validator raises the HMAC mismatch as a blocker in Gate 1,
+# and the --stamp branch only runs when blockers == 0. So the one legitimate way
+# to amend a sealed spec dead-ended in the error telling you to use it, and the
+# only way through was to hand-strip the sig — exactly what the docs forbid.
+#
+# `--stamp` IS the act of signing off: it declares that the body as it stands
+# now is the thing being signed. So the previous signature is superseded by
+# definition and is retired here, before anything reads it. This grants no
+# authority — the fresh MAC still requires the signing key, and without one the
+# spec lands at Tier 2 (supervised only) just as it would on a first stamp.
+if [[ "$STAMP" == true ]] && grep -q '^signed_off_sig:' "$FILE"; then
+  _ss_tmp="$(mktemp -t taskspec-reseal.XXXXXX)"
+  if grep -v '^signed_off_sig:' "$FILE" > "$_ss_tmp" && mv "$_ss_tmp" "$FILE"; then
+    echo "   ${YELLOW}re-sealing${RESET} — the previous signature is superseded by this stamp"
+  else
+    rm -f "$_ss_tmp"
+    echo "   ${RED}BLOCK${RESET} — could not retire the previous signature; spec NOT stamped." >&2
+    exit 1
+  fi
+fi
+
+# --- Gate 0: leaf-only — a NODE (XL/XXL) is NEVER delegated ---
+# The dark-factory invariant: a worker runs LEAVES. An XL/XXL node is a
+# decomposition directive; delegating it would run the node instead of its
+# children. Block early and point at the slices. (effort-gate.md)
+STD_EFFORT=$(grep -m1 '^effort:' "$FILE" | awk '{print $2}' || true)
+if ts_size_is_valid "$STD_EFFORT" && ! ts_size_is_leaf "$STD_EFFORT"; then
+  echo "0. Delegatability (leaf-only) ..."
+  echo "   ${RED}BLOCK${RESET} — '$STD_EFFORT' is a decomposition NODE, not a runnable unit."
+  echo "     A worker must dispatch its child task-specs (the leaves in 'children:'), never the node itself."
+  echo "     See docs/concepts/effort-gate.md."
+  echo "${BOLD}${RED}VERDICT: DO NOT DELEGATE${RESET} — node, not a leaf; dispatch its children."
+  exit 1
+fi
+
 # --- Gate 1: structural + shellcheck validation ---
 echo "1. Structural validation + shellcheck-evals ..."
 set +e
-# bash-3.2 floor: "${PASS_THROUGH[@]}" on an EMPTY array trips `set -u`
-# ("unbound variable") on macOS system bash — the `${arr[@]+...}` form is the
-# portable empty-safe expansion.
-v_out=$(bash "$VALIDATE" --shellcheck-evals ${PASS_THROUGH[@]+"${PASS_THROUGH[@]}"} "$FILE" 2>&1)
+# "${ARR[@]+"${ARR[@]}"}" — not the bare "${ARR[@]}".
+#
+# Under `set -u`, bash 3.2 treats expanding an EMPTY array as an unbound variable
+# and dies. bash 4.4+ fixed it, so with no pass-through flags this gate ran fine
+# on Linux and aborted on stock macOS — reporting "blocked a valid spec", which
+# reads like a spec defect and is really the gate failing to start. This repo
+# declares bash 3.2 as its floor, and the same idiom is already used in the Pass 8
+# engine adapters for exactly this reason.
+# A gate is a read-only verdict unless --stamp was explicitly requested.
+# Validation's derived-index refresh is useful when invoked directly, but would
+# make a plain sign-off check mutate _state.yaml and contradict the gate/JSON
+# contract. The task's status is unchanged here, so suppress that side effect.
+v_out=$(bash "$VALIDATE" --no-state --shellcheck-evals ${PASS_THROUGH[@]+"${PASS_THROUGH[@]}"} "$FILE" 2>&1)
 v_rc=$?
 set -e
 if [[ $v_rc -ne 0 ]]; then
@@ -112,6 +166,24 @@ else
     notes+=("validator warnings present — review but not blocking")
   else
     echo "   ${GREEN}PASS${RESET} — structurally valid, shellcheck clean"
+  fi
+fi
+
+# --- Gate 1b: existence-only evals are disqualifying for BLIND delegation ---
+# The validator warns; this gate blocks. That split is the whole architecture:
+# `validate` lints a spec, `safe-to-delegate` decides whether a machine may run
+# it with nobody watching. A spec whose every check is "the file exists" cannot
+# distinguish real work from a stub, so an unsupervised loop would settle green
+# on three empty files. Supervised work may proceed — a human sees the diff.
+if echo "$v_out" | grep -q 'existence-only evals'; then
+  if [[ "$SUPERVISED" == true ]]; then
+    echo "   ${YELLOW}NOTE${RESET} — existence-only evals, allowed because --supervised (a human reads the diff)"
+    notes+=("existence-only evals — a stub would satisfy this spec; supervision is doing the real verification")
+  else
+    echo "   ${RED}BLOCK${RESET} — existence-only evals: a stub file satisfies every check."
+    echo "     Make at least one eval EXECUTE what the task produces, or pass --supervised,"
+    echo "     or annotate the spec with '# task-spec:allow-existence-only' if it really is a document."
+    blockers=$((blockers + 1))
   fi
 fi
 
@@ -206,8 +278,13 @@ if [[ $blockers -eq 0 ]]; then
           echo "   ${RED}BLOCK${RESET} — could not write signed_off_sig into frontmatter; spec stamped but UNSEALED." >&2
           exit 1
         fi
-        keyid_disp="${sig#hmac-sha256-v1:}"; keyid_disp="${keyid_disp%%:*}"
-        echo "   ${GREEN}sealed${RESET}  signed_off_sig: hmac-sha256-v1 (keyid ${keyid_disp}) — Tier 1 crypto trust"
+        # Report the envelope version that was ACTUALLY written. Hardcoding v1
+        # here outlived the v2 envelope and told every operator their spec was
+        # sealed v1 while the file said v2 — the one line whose whole job is to
+        # state what just happened.
+        sig_ver="${sig%%:*}"                      # hmac-sha256-v2
+        keyid_disp="${sig#"$sig_ver":}"; keyid_disp="${keyid_disp%%:*}"
+        echo "   ${GREEN}sealed${RESET}  signed_off_sig: ${sig_ver} (keyid ${keyid_disp}) — Tier 1 crypto trust"
       else
         echo "   ${YELLOW}note:${RESET} key present but no sha256 provider (openssl/shasum/sha256sum) — structural-only (Tier 2), supervised dispatch only"
       fi
@@ -232,9 +309,26 @@ if [[ $blockers -eq 0 ]]; then
       if [[ -n "$expected_sig" && "$expected_sig" == "$sig_now" ]]; then
         TIER=1
         echo "   ${GREEN}sign-off: Tier 1${RESET} — HMAC verified, full crypto trust (unsupervised dispatch OK)"
+      elif [[ "$sig_now" == hmac-sha256-v1:* ]]; then
+        # A v1 seal is AUTHENTIC-BUT-NARROW: it proves the prose is untouched, but
+        # it never covered write scope, dependencies, budgets, or routing. Those
+        # could have changed since stamping, so it cannot authorize unsupervised
+        # work. Verify it on its own terms and downgrade rather than cry forgery.
+        set +e
+        legacy_sig="$(ts_compute_signoff_sig "$FILE" "$key_now" v1)"
+        set -e
+        if [[ -n "$legacy_sig" && "$legacy_sig" == "$sig_now" ]]; then
+          TIER=2
+          echo "   ${YELLOW}sign-off: legacy envelope v1 (Tier 2)${RESET} — authentic, but the seal predates authorization sealing"
+          echo "   ${YELLOW}         ${RESET}  write scope, dependencies, budgets and routing were NOT covered."
+          echo "   ${YELLOW}         ${RESET}  Re-stamp to regain Tier 1: safe-to-delegate.sh --stamp ${FILE}"
+        else
+          TIER=3
+          echo "   ${RED}sign-off: Tier 3${RESET} — HMAC MISMATCH; spec body or envelope modified after stamping (DO NOT DELEGATE unsupervised)"
+        fi
       else
         TIER=3
-        echo "   ${RED}sign-off: Tier 3${RESET} — HMAC MISMATCH; spec body or envelope modified after stamping (DO NOT DELEGATE unsupervised)"
+        echo "   ${RED}sign-off: Tier 3${RESET} — HMAC MISMATCH; spec body, authorization fields, or envelope modified after stamping (DO NOT DELEGATE unsupervised)"
       fi
     else
       TIER=2

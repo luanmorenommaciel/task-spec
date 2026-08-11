@@ -7,10 +7,10 @@ description: |
   task", or mentions Task-Spec, EDD, or eval-driven development. Produces
   T-*.md specs with runnable bash evals + a behavior-to-eval traceability chain
   + a post-execution acceptance gate that any conformant engine can crank.
-  Best for XS/S/M-effort work with a machine-checkable done-condition;
-  L runs on GLM (one coherent goal), routes XL or subjective work to SDD.
+  Best for atomic leaves with machine-checkable done-conditions; L uses a
+  configured long-horizon backend and XL/XXL are composition nodes.
 metadata:
-  version: "3.3.0"
+  version: "3.6.0"
 ---
 
 # task-spec (thin skill)
@@ -42,9 +42,9 @@ README.
    | Run evals (JSON) | `taskspec run --ci <spec>` |
    | POST-gate accept | `taskspec accept --stamp [--gold-sanity] <spec>` |
 
-3. **Respect the effort gate**: XS/S/M proceed; L only with
-   `execution_backend: glm` and one coherent done-condition; XL or subjective
-   output → route to SDD, do not author a task-spec.
+3. **Respect the effort gate**: XS/S/M/L are runnable leaves; L needs a backend
+   from `TASKSPEC_LONG_HORIZON_BACKENDS`. XL/XXL are non-runnable nodes with at
+   least two/three child Task-Specs.
 
 ## Hard rules
 

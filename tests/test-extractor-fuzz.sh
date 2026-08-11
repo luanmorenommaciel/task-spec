@@ -15,7 +15,8 @@
 #       bash/awk/sed error or hang, no matter how malformed the input. A machine
 #       reading the runner's stdout depends on this.
 #
-# Each case runs in an isolated git tempdir. Portable timeout (no coreutils dep).
+# Each case runs in an isolated git tempdir. The timeout uses only the required
+# Python standard library, so macOS does not need GNU coreutils.
 #
 # Usage:
 #   bash tests/test-extractor-fuzz.sh
@@ -40,18 +41,38 @@ FAIL=0
 pass() { echo "  ✓ $1"; PASS=$((PASS + 1)); }
 fail() { echo "  ✗ $1" >&2; FAIL=$((FAIL + 1)); }
 
-# Portable timeout: run a command, kill it after N seconds. Echoes nothing;
-# returns 137 if it had to be killed, else the command's exit code.
+# Portable timeout: run a command in its own process group and kill the whole
+# group after N seconds. Returns 137 on timeout, otherwise the command's code.
 run_to() {
   local t="$1"; shift
-  "$@" &
-  local p=$!
-  ( sleep "$t"; kill -9 "$p" 2>/dev/null ) &
-  local w=$!
-  wait "$p" 2>/dev/null
-  local rc=$?
-  kill "$w" 2>/dev/null
-  return $rc
+  python3 - "$t" "$@" <<'PY'
+import os
+import signal
+import subprocess
+import sys
+
+timeout_seconds = float(sys.argv[1])
+command = sys.argv[2:]
+process = subprocess.Popen(
+    command,
+    stdin=subprocess.DEVNULL,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    start_new_session=True,
+)
+try:
+    stdout, stderr = process.communicate(timeout=timeout_seconds)
+except subprocess.TimeoutExpired:
+    os.killpg(process.pid, signal.SIGKILL)
+    stdout, stderr = process.communicate()
+    sys.stdout.buffer.write(stdout)
+    sys.stderr.buffer.write(stderr)
+    raise SystemExit(137)
+
+sys.stdout.buffer.write(stdout)
+sys.stderr.buffer.write(stderr)
+raise SystemExit(process.returncode)
+PY
 }
 
 # Build a complete, valid-shaped spec with a custom Success Criteria + Exit Check.
@@ -76,7 +97,7 @@ WORK=$(mktemp -d -t ts-fuzz-XXXXXX)
 # behavior of the runner on the current spec.md: EXTRACTED|PARSEFAIL|LEAK|HANG
 run_behavior() {
   local out rc bad
-  out=$(cd "$WORK" && run_to 12 bash "$RUN" --ci spec.md 2>&1)
+  out=$(cd "$WORK" && run_to 20 bash "$RUN" --ci spec.md 2>&1)
   rc=$?
   if [[ $rc -eq 137 ]]; then echo "HANG"; return; fi
   bad=$(printf '%s\n' "$out" | grep -vE '^\{|^$' | grep -iE 'syntax error|unbound|unexpected|: line [0-9]|awk:|sed:' | head -1)

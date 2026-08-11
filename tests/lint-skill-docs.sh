@@ -72,6 +72,36 @@ fi
 # ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
+for metadata_file in \
+  "$REPO_ROOT/package.json" \
+  "$REPO_ROOT/.claude-plugin/plugin.json" \
+  "$REPO_ROOT/.claude-plugin/marketplace.json" \
+  "$REPO_ROOT/integrations/claude-code/plugin.json" \
+  "$REPO_ROOT/integrations/claude-code/marketplace.json"; do
+  CHECKS=$((CHECKS + 1))
+  META_VER=$(python3 - "$metadata_file" <<'PY'
+import json, sys
+with open(sys.argv[1], encoding="utf-8") as handle:
+    data = json.load(handle)
+version = data.get("version", "")
+if not version and data.get("plugins"):
+    version = data["plugins"][0].get("version", "")
+print(version)
+PY
+  )
+  if [[ "$META_VER" != "$VERSION" ]]; then
+    err "version mismatch: $(basename "$metadata_file") says '$META_VER' but VERSION says '$VERSION'"
+  fi
+done
+
+for skill_file in "$REPO_ROOT/SKILL.md" "$REPO_ROOT/integrations/claude-code/SKILL.md"; do
+  CHECKS=$((CHECKS + 1))
+  SKILL_VER=$(awk '/^metadata:/{m=1; next} m && /^[[:space:]]+version:/{gsub(/["[:space:]]/, "", $2); print $2; exit}' "$skill_file")
+  if [[ "$SKILL_VER" != "$VERSION" ]]; then
+    err "version mismatch: $skill_file says '$SKILL_VER' but VERSION says '$VERSION'"
+  fi
+done
+
 echo "lint-skill-docs.sh ($CHECKS checks)"
 echo "════════════════════════════════════════"
 if [[ ${#ERRORS[@]} -gt 0 ]]; then

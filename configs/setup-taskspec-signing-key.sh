@@ -2,7 +2,7 @@
 # setup-taskspec-signing-key.sh — provision the repo's Task-Spec signing key (B2).
 #
 # The signing key is the shared secret behind the HMAC sign-off envelope
-# (signed_off_sig: hmac-sha256-v1:<keyid>:<hex>). With a key present, the gate
+# (signed_off_sig: hmac-sha256-v2:<keyid>:<hex>). With a key present, the gate
 # (safe-to-delegate.sh --stamp) SEALS each sign-off and the verifier
 # (validate-task-spec.sh Check 17) recomputes the MAC to reach Tier 1 (full
 # crypto trust). Without a key, sign-off degrades to Tier 2 (structural-only,
@@ -10,10 +10,9 @@
 #
 # This script:
 #   1. Generates a 256-bit key (openssl rand -hex 32, or /dev/urandom + xxd).
-#   2. Writes it to a path you choose (default: <git-dir>/info/taskspec-signing-key,
-#      where <git-dir> is whatever `git rev-parse --git-dir` resolves to — `.git`
-#      in a normal clone, or the per-worktree gitdir in a linked worktree, both
-#      of which work). Only when NO real git dir is resolvable (non-git tree,
+#   2. Writes it to a path you choose (default:
+#      <git-common-dir>/info/taskspec-signing-key, shared by linked worktrees).
+#      Only when NO real git dir is resolvable (non-git tree,
 #      some bare CI checkouts) does it print instructions to export
 #      TASKSPEC_SIGNING_KEY instead.
 #   3. chmod 600 the key file so it is owner-readable only.
@@ -88,16 +87,14 @@ fi
 KEYID="$(ts_keyid "$KEY")"
 
 # ----- Resolve default key path when not given -----
-# Default to <git-dir>/info/taskspec-signing-key. <git-dir> is whatever
-# `git rev-parse --git-dir` resolves to: `.git` in a normal clone, or the
-# per-worktree gitdir (…/.git/worktrees/<name>) in a linked worktree — so a
-# worktree IS supported, the key just lives in its own gitdir. A relative
-# gitdir is canonicalized to absolute. Only when no real git dir is resolvable
+# Default to <git-common-dir>/info/taskspec-signing-key so every linked
+# worktree resolves the same repository-private key. A relative path is
+# canonicalized to absolute. Only when no real git dir is resolvable
 # (non-git tree, some bare CI checkouts) do we fall back to printing
 # TASKSPEC_SIGNING_KEY instructions.
 GIT_DIR=""
 if command -v git >/dev/null 2>&1; then
-  GIT_DIR="$(git rev-parse --git-dir 2>/dev/null || true)"
+  GIT_DIR="$(git rev-parse --git-common-dir 2>/dev/null || git rev-parse --git-dir 2>/dev/null || true)"
   if [[ -n "$GIT_DIR" && "$GIT_DIR" != /* ]]; then
     GIT_DIR="$(cd "$GIT_DIR" 2>/dev/null && pwd || true)"
   fi
@@ -135,14 +132,12 @@ if [[ -z "$KEY_PATH" ]]; then
   exit 0
 fi
 
-# ----- Refuse to clobber an existing key unless --force -----
+# ----- Idempotent by default; rotate only with explicit --force -----
 if [[ -e "$KEY_PATH" && "$FORCE" != true ]]; then
   EXISTING_KEYID="$(ts_keyid "$(cat "$KEY_PATH")" 2>/dev/null || echo unknown)"
-  echo "Refusing to overwrite existing key at: $KEY_PATH (keyid: $EXISTING_KEYID)" >&2
-  echo "Re-run with --force to rotate the key. WARNING: rotating invalidates every" >&2
-  echo "existing signed_off_sig — those specs will drop from Tier 1 to Tier 3 on" >&2
-  echo "verify and must be re-stamped." >&2
-  exit 1
+  echo "Signing key already configured: $KEY_PATH (keyid: $EXISTING_KEYID)"
+  echo "No change. Use --force only when intentionally rotating the repository key."
+  exit 0
 fi
 
 # ----- Write the key (atomic, chmod 600) -----

@@ -30,25 +30,24 @@ mkdir -p "$HOOK_DIR"
 cat > "$PRE_COMMIT" << 'HOOK'
 #!/usr/bin/env bash
 # pre-commit hook — task-spec state enforcement
-# Auto-installed by src/backlog/install-hooks.sh (task-spec engine repo)
+# Auto-installed by taskspec.
 
 set -euo pipefail
 
 # Only run if task files are being committed
-if git diff --cached --name-only | grep -qE '^tasks/T-.*\.md$|^tasks/queue/T-.*\.md$|^tasks/done/T-.*\.md$|^tasks/parked/T-.*\.md$'; then
+# Match Task-Spec files at any repository depth.
+if git diff --cached --name-only | grep -qE '(^|/)tasks/(queue/|done/|parked/)?T-.*\.md$'; then
+  REPO_ROOT="$(git rev-parse --show-toplevel)"
   if command -v taskspec >/dev/null 2>&1; then
-    # Preferred path: the taskspec CLI is on PATH.
+    TASKSPEC_BACKLOG_DIR="$REPO_ROOT/tasks"
+    export TASKSPEC_BACKLOG_DIR
     taskspec rebuild-state
-  else
-    # Fallback: a vendored copy of the engine inside this repo.
-    REPO_ROOT="$(git rev-parse --show-toplevel)"
-    REBUILD="$REPO_ROOT/.claude/skills/task-spec/src/backlog/rebuild-state.sh"
-    if [[ -f "$REBUILD" ]]; then
-      bash "$REBUILD"
+    if [[ -f "$TASKSPEC_BACKLOG_DIR/_state.yaml" ]]; then
+      git add "$TASKSPEC_BACKLOG_DIR/_state.yaml"
     fi
-  fi
-  if [[ -f tasks/_state.yaml ]]; then
-    git add tasks/_state.yaml
+  else
+    echo "task-spec: taskspec is not on PATH; derived state was not refreshed" >&2
+    exit 1
   fi
 fi
 HOOK

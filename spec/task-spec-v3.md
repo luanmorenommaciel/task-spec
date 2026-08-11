@@ -6,7 +6,7 @@
 > **retired**; the v1 filename had been retained there for link stability only.
 > The Version History section at the end is preserved.
 
-> **Current version:** v3.1 (stable)
+> **Current format:** v3 (stable; canonical engine 3.6.0)
 > **First published:** 2026-05-19 (v1)
 > **Format Owner:** task-spec CAW
 > **Adopters:** anthive, taskship, AgentSpec, overnight-builder, Claude /goal, Codex, Kimi
@@ -37,7 +37,8 @@ succeeded.
 
 The format has **five non-negotiable properties**:
 
-1. **Atomic** — one Task-Spec = one PR's worth of work (S/M effort only)
+1. **Atomic** — a runnable XS/S/M/L leaf has one coherent done-condition and
+   bounded write surface; XL/XXL nodes only compose child Task-Specs
 2. **Vendor-portable** — works in any conformant engine (e.g. Claude, Codex, Cursor — adapters in ../adapters/engines/) or manual execution
 3. **Self-verifying** — runnable bash evals declare "done" mechanically
 4. **Pickupable** — fully specified at authoring time; no further input needed
@@ -126,11 +127,13 @@ tags: ["observability", "verification", "langfuse"]
 | `id` | string | yes | Format: `T-YYYYMMDD-<kebab-slug>`. Deterministic, unique within `tasks/`. |
 | `title` | string | yes | Single line, ≤120 chars. Imperative voice preferred ("Verify X" not "Verifying X"). |
 | `status` | enum | yes | One of: `ready`, `in-progress`, `blocked`, `done`, `parked`. |
-| `effort` | enum | yes | One of: `S`, `M`. `L` and `XL` are REJECTED by the format (route to AgentSpec SDD instead). |
+| `effort` | enum | yes | `XS`, `S`, `M`, and `L` are runnable leaves; `XL` and `XXL` are non-runnable composition nodes. |
 | `budget_iterations` | int | yes | Max retry cycles in the eval loop. Default 15. Hard cap 30. |
 | `agent` | string | yes | `any` (vendor-portable) OR specific agent name (`python-developer`, `tsys-adf-parser`, etc.). |
 | `depends_on` | list[string] | yes | List of Task-Spec IDs that must complete before this one. Empty `[]` if none. |
-| `touches_paths` | list[string] | yes | Glob patterns of files this task WILL modify. Used for parallel-safety classification. |
+| `touches_paths` | list[string] | yes | Existing workspace-relative paths this task may modify. Nodes use `[]`. |
+| `creates_paths` | list[string] | no | New workspace-relative paths this task may create. Combined with `touches_paths` for sizing and conflicts. |
+| `children` | list[string] | XL/XXL | At least 2 ids for XL and 3 for XXL. Nodes are composed, never delegated. |
 | `source_note` | string | yes | Path to originating doc (meeting note, audit report). Provenance is non-optional. |
 | `created` | ISO8601 | yes | Timestamp of authoring. Sortable, auditable. |
 | `tags` | list[string] | no | Free-form labels for backlog navigation. |
@@ -143,6 +146,7 @@ Optional frontmatter fields:
 | `source_action_item` | string | Specific item from `source_note` (e.g., "AI #6") |
 | `precondition` | string | External event needed (not a task — e.g., "spec must be checked in") |
 | `owner` | string | Human accountable for review |
+| `tracker_ref` | string | Optional vendor-neutral backlink, `<tracker>:<reference>`; `linear_ref` is a deprecated alias |
 
 ---
 
@@ -462,11 +466,11 @@ reports the matched version on output.
 
 ## Compliance — When is a file a Task-Spec?
 
-A markdown file is a valid Task-Spec v3.1 if and only if (zone requirements scale
+A markdown file is a valid Task-Spec v3 if and only if (zone requirements scale
 with `profile` — see [profiles.md](../docs/concepts/profiles.md)):
 
 - [ ] YAML frontmatter present with all REQUIRED fields
-- [ ] `effort` is `S` or `M` (not `L`/`XL`)
+- [ ] effort is a valid leaf or node; L has a configured long-horizon backend; XL/XXL have children and no write surface
 - [ ] Intent has Goal (every profile) + Context (`standard`/`full`)
 - [ ] Contract has ≥1 runnable bash success criterion
 - [ ] Contract has validation_card YAML
@@ -476,7 +480,7 @@ with `profile` — see [profiles.md](../docs/concepts/profiles.md)):
 - [ ] Operations has Open Questions (or explicit `(none)`) on `standard`/`full`
 - [ ] Rollback Plan + Observability Hooks present on `full`
 - [ ] No leftover `{{PLACEHOLDER}}` strings
-- [ ] `touches_paths` references real or planned files
+- [ ] `touches_paths` references existing files and `creates_paths` names planned files
 - [ ] `source_note` references an existing file
 
 `validate-task-spec.sh` enforces these rules; the structural sign-off envelope
@@ -495,7 +499,7 @@ To prevent scope creep, here's what Task-Spec **deliberately excludes**:
 | PR creation | Executor concern | taskship/anthive both emit draft PRs |
 | OTEL trace IDs | Executor concern | Whatever observability the executor uses |
 | Cost ceilings (`budget_usd`) | Executor concern | Whatever metering the executor applies |
-| Cross-task dependencies as a DAG | Executor concern | `depends_on` declares the edges; `validate-task-spec.sh` does cycle detection (v3.1) |
+| Fleet scheduling across the DAG | Orchestrator concern | Core declares and validates `depends_on`, exposes the ready frontier, and reports concurrency; it does not schedule workers |
 | Multi-step plans within one task | Anti-pattern | Decompose into multiple Task-Specs |
 
 Task-Spec is the FORMAT. Execution is someone else's job.
@@ -642,9 +646,9 @@ that lineage.
 | **v0** (legacy) | Pre-format tasks: markdown checklists, no runnable evals, effort L/XL allowed. Tolerated by the validator under the layered policy (warns, never hard-fails). Migrate via `migrate-legacy-task.sh`. |
 | **v1** (2026-05-19) | Four zones (Intent / Contract / Guardrails / Operations), runnable bash evals, validation_card YAML, pipe-delimited `agent_contract`, frontmatter id/status/effort/budget/agent/touches_paths. |
 | **v2** | Six zones (adds **Rollback Plan** + **Observability Hooks**); cross-vendor `agent_contract` schema (`produce` as list, `emit` enum, `required_tools`, `timeout_minutes`, `sandbox_type`, `backend_metadata`); accountability frontmatter (`owner`, `priority`, `severity`, `due_date`, `precondition`); severity-scaled quality thresholds; `creates_paths` for greenfield tasks. |
-| **v2.2** | Key-optional HMAC sign-off envelope `signed_off_sig` (`hmac-sha256-v1:<keyid>:<hex>`), sealed by `safe-to-delegate.sh --stamp` and re-verified by `validate-task-spec.sh` across three tiers (Tier 1 keyed/verified, Tier 2 structural-only/supervised, Tier 3 mismatch/hard-fail). See [signed-off.md](../docs/concepts/signed-off.md). |
+| **v2.2** | Historical key-optional HMAC v1 sign-off envelope. Valid v1 remains readable on its original narrow payload as supervised Tier 2. |
 | **v3** | Effort-scaled **profiles** (`lite | standard | full`); the **Behavior** zone with bidirectional behavior↔eval traceability (`B-N` ⇄ eval `verifies:`); the POST-execution **accept-task gate** (`accept-task.sh` → `accepted: true`, with `accepted_by`/`accepted_at`); executor **conformance levels** (L0/L1/L2) mapped to A2A `TaskState`; one-level **decomposition** (`parent:` + flat index) with open questions as first-class `blocked` holes; `execution_backend` as an open string. |
-| **v3.1** (current) | Acceptance-gate options `--gold-sanity` (Goodhart guard via `baseline_ref`/`reference_solution`) and `requires:` (sandbox isolation declaration); canonical A2A v1.0 `TaskState` mapping; `depends_on` DAG cycle detection; published JSON Schema (Draft 2020-12). |
+| **v3, engine 3.5/3.6 (current)** | Six-tier leaves/nodes, HMAC v2 authorization sealing, dependency-aware readiness, DoD, TaskPlan/TaskHandoff/AuthoringEvidence contracts, and multi-harness installation. Format version remains 3. |
 
 The validator accepts every version via `format_version` (default 1 if absent,
 0 = legacy). v3 specs declare `format_version: 3`; the `profile` axis is
@@ -661,7 +665,7 @@ orthogonal and defaults to `standard` when absent.
 - [conformance-levels.md](../docs/concepts/conformance-levels.md) — L0/L1/L2 executor certification + A2A mapping
 - [decomposition.md](../docs/concepts/decomposition.md) — turning FEATURE-altitude intent into gateable atoms
 - [signed-off.md](../docs/concepts/signed-off.md) — the pre-dispatch gate and the `signed_off_sig` HMAC envelope
-- [effort-gate.md](../docs/concepts/effort-gate.md) — S/M/L/XL rules
+- [effort-gate.md](../docs/concepts/effort-gate.md) — XS/S/M/L leaves and XL/XXL node rules
 - [agent-contract.md](../docs/concepts/agent-contract.md) — cross-vendor contract details
 - [backlog-architecture.md](../docs/concepts/backlog-architecture.md) — 5-layer state management
 - [../patterns/runnable-bash-evals.md](../docs/patterns/runnable-bash-evals.md) — eval writing patterns

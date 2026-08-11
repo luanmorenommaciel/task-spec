@@ -19,18 +19,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
 ts_require_bash4 "$@"
-# The metrics ledger lives in the backlog of the repo the user runs this FROM
-# (PWD), not in the task-spec engine repo. Anchor at the caller's git root.
-GIT_ROOT=""
-if command -v git >/dev/null 2>&1; then
-  GIT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
-fi
-if [[ -z "$GIT_ROOT" ]]; then
-  GIT_ROOT="$(pwd)"
-fi
-
-METRICS="$GIT_ROOT/tasks/_metrics.jsonl"
-STATE="$GIT_ROOT/tasks/_state.yaml"
+METRICS="$TASKSPEC_BACKLOG_DIR/_metrics.jsonl"
+STATE="$TASKSPEC_BACKLOG_DIR/_state.yaml"
 
 SINCE=""
 AUTHOR=""
@@ -94,17 +84,14 @@ if [[ -n "$STATUS" ]]; then
   fi
 
   # Fallback: scan task files for any IDs missing from state
-  for dir in "$GIT_ROOT"/tasks "$GIT_ROOT"/tasks/queue "$GIT_ROOT"/tasks/feature "$GIT_ROOT"/tasks/archive "$GIT_ROOT"/tasks/done "$GIT_ROOT"/tasks/parked; do
-    [[ -d "$dir" ]] || continue
-    for f in "$dir"/T-*.md; do
-      [[ -f "$f" ]] || continue
-      bn=$(basename "$f" .md)
-      if [[ -z "${STATUS_MAP[$bn]:-}" ]]; then
-        st=$(grep '^status:' "$f" | head -1 | awk '{print $2}' || true)
-        [[ -n "$st" ]] && STATUS_MAP["$bn"]="$st"
-      fi
-    done
-  done
+  while IFS= read -r f; do
+    [[ -f "$f" ]] || continue
+    bn=$(basename "$f" .md)
+    if [[ -z "${STATUS_MAP[$bn]:-}" ]]; then
+      st=$(grep '^status:' "$f" | head -1 | awk '{print $2}' || true)
+      [[ -n "$st" ]] && STATUS_MAP["$bn"]="$st"
+    fi
+  done < <(find "$TASKSPEC_BACKLOG_DIR" -type f -name 'T-*.md' | sort)
 fi
 
 MATCH_COUNT=0

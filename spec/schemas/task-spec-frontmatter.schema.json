@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://taskspec.dev/schema/v2.2/task-spec-frontmatter.schema.json",
-  "title": "Task-Spec Frontmatter v2.2",
-  "description": "Schema for the YAML frontmatter block at the top of a Task-Spec v2.2 file. Mirrors the field reference in docs/concepts/agent-contract.md. v2.2 makes the sign-off envelope (signed_off_sig) a real, key-optional HMAC-SHA256 contract.",
+  "$id": "https://taskspec.dev/schema/v3/task-spec-frontmatter.schema.json",
+  "title": "Task-Spec Frontmatter v3",
+  "description": "Schema for Task-Spec format v3 frontmatter. The 3.5 engine adds six-tier composition, vendor-neutral tracker backlinks, and HMAC authorization envelope v2 while preserving the documented v0-v3 compatibility path.",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -60,8 +60,8 @@
     },
     "effort": {
       "type": "string",
-      "enum": ["XS", "S", "M", "L", "XL"],
-      "description": "T-shirt sized effort estimate. Gate (v3.2): XS/S/M accepted (recommend Kimi); L accepted ONLY with execution_backend:glm and one coherent done-condition (recommend GLM); XL rejected → route to SDD (AgentSpec/OpenSpec/SpecKit). See docs/concepts/effort-gate.md."
+      "enum": ["XS", "S", "M", "L", "XL", "XXL"],
+      "description": "XS/S/M/L are runnable leaves. XL/XXL are composition nodes that must declare at least two/three children and are never delegated directly. Leaf write-surface budgets apply to the union of touches_paths and creates_paths."
     },
     "budget_iterations": {
       "type": "integer",
@@ -78,11 +78,21 @@
       "items": {"type": "string", "pattern": "^T-[0-9]{8}-[a-z0-9][a-z0-9-]*$"},
       "description": "List of T-IDs that must be done before this task is ready."
     },
+    "children": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^T-[0-9]{8}-[a-z0-9][a-z0-9-]*$"},
+      "description": "Child Task-Spec ids composed by an XL/XXL node."
+    },
     "touches_paths": {
       "type": "array",
       "items": {"type": "string", "minLength": 1},
-      "minItems": 1,
-      "description": "Authoritative list of paths this task is allowed to modify."
+      "minItems": 0,
+      "description": "Existing paths this task may modify. Nodes declare an empty write surface."
+    },
+    "creates_paths": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "description": "New paths this task may create. Combined with touches_paths for sizing, conflicts, and blast-radius checks."
     },
     "source_note": {
       "type": "string",
@@ -119,7 +129,15 @@
     "blocked_reason": {"type": "string"},
     "security_class": {"type": "string"},
     "source_action_item": {"type": "string"},
-    "linear_ref": {"type": "string"},
+    "linear_ref": {
+      "type": "string",
+      "deprecated": true,
+      "description": "Deprecated Linear-specific alias of tracker_ref."
+    },
+    "tracker_ref": {
+      "type": "string",
+      "description": "Optional vendor-neutral backlink in <tracker>:<reference> form, or (none)."
+    },
     "execution_backend": {
       "type": "string",
       "examples": [
@@ -130,7 +148,7 @@
         "glm",
         "gemini"
       ],
-      "description": "Target executor type. OPEN STRING — the backend names itself; the values above are non-normative examples, not an allow-list. Used by dispatch tooling to route the task. Note: an effort:L spec is accepted only when this is 'glm' (see docs/concepts/effort-gate.md)."
+      "description": "Target executor type. OPEN STRING: examples are non-normative, not an allow-list. An L leaf must name a backend in TASKSPEC_LONG_HORIZON_BACKENDS."
     },
     "signed_off": {
       "type": "boolean",
@@ -162,8 +180,8 @@
     },
     "signed_off_sig": {
       "type": "string",
-      "pattern": "^hmac-sha256-v1:[0-9a-zA-Z]+:[0-9a-f]+$",
-      "description": "B2 HMAC sign-off envelope (v2.2). Format: hmac-sha256-v1:<keyid>:<hex>. The HMAC-SHA256 is computed by safe-to-delegate.sh --stamp over a CANONICAL fixed-field payload: newline-joined id, body_digest (sha256 of the spec body after the closing frontmatter '---'), signed_off, signed_off_by, signed_off_at — EXCLUDING this signed_off_sig line itself and independent of frontmatter line order. keyid is the first 8 hex of sha256(key). KEY-OPTIONAL: this field is present only when a signing key was resolved at stamp time (TASKSPEC_SIGNING_KEY or .git/info/taskspec-signing-key) AND a sha256 provider (openssl|shasum|sha256sum) was available. When absent, the sign-off is structural-only (Tier 2). validate-task-spec.sh Check 17 recomputes and compares: match = Tier 1 (full crypto trust); absent/no-key = Tier 2 (structural-only, supervised dispatch only); mismatch/malformed = Tier 3 (hard fail). HMAC is symmetric: it binds 'a repo-key holder stamped this', not per-author non-repudiation."
+      "pattern": "^hmac-sha256-v[12]:[0-9a-zA-Z]+:[0-9a-f]+$",
+      "description": "HMAC sign-off envelope. v2 seals the body plus authorization-relevant paths, dependencies, effort, backend, agent, budgets, and requirements. A valid v1 envelope remains readable but is supervised Tier 2 until re-stamped. HMAC is tamper evidence with a shared repository key, not identity or sandbox enforcement."
     },
     "requires": {
       "type": "object",
@@ -185,10 +203,10 @@
     },
     "signed_off_envelope": {
       "type": "object",
-      "description": "DEPRECATED structured form of the sign-off envelope, retained for forward-compatibility. The realized v2.2 envelope is the flat string field signed_off_sig (hmac-sha256-v1:<keyid>:<hex>) written by safe-to-delegate.sh --stamp; that string is the source of truth. This object form is reserved for a future per-author detached-signature upgrade (e.g. Ed25519/DSSE) and is not written by the current gate.",
+      "description": "DEPRECATED structured form retained for forward compatibility. The current source of truth is signed_off_sig: hmac-sha256-v2:<keyid>:<hex>; valid historical v1 strings remain readable as Tier 2.",
       "additionalProperties": true,
       "properties": {
-        "algorithm": {"type": "string", "description": "e.g. hmac-sha256-v1"},
+        "algorithm": {"type": "string", "description": "e.g. hmac-sha256-v2"},
         "keyid": {"type": "string", "description": "First 8 hex of sha256(key)."},
         "signature": {"type": "string", "description": "Hex MAC over the canonical payload."}
       }
@@ -196,12 +214,41 @@
   },
   "allOf": [
     {
+      "if": {"properties": {"effort": {"enum": ["XL", "XXL"]}}, "required": ["effort"]},
+      "then": {
+        "required": ["children"],
+        "properties": {
+          "touches_paths": {"maxItems": 0},
+          "creates_paths": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"effort": {"const": "XL"}}, "required": ["effort"]},
+      "then": {"properties": {"children": {"minItems": 2}}}
+    },
+    {
+      "if": {"properties": {"effort": {"const": "XXL"}}, "required": ["effort"]},
+      "then": {"properties": {"children": {"minItems": 3}}}
+    },
+    {
       "if": {"properties": {"signed_off": {"const": true}}, "required": ["signed_off"]},
       "then": {
         "required": ["signed_off_by", "signed_off_at"],
         "properties": {
           "signed_off_by": {"not": {"const": "(none)"}},
           "signed_off_at": {"not": {"const": "(none)"}}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "done"}}, "required": ["status"]},
+      "then": {
+        "required": ["accepted", "accepted_by", "accepted_at"],
+        "properties": {
+          "accepted": {"const": true},
+          "accepted_by": {"not": {"const": "(none)"}},
+          "accepted_at": {"not": {"const": "(none)"}}
         }
       }
     }

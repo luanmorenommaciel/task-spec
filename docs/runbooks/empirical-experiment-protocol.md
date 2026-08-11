@@ -33,7 +33,7 @@ Sources:
 - Audit findings
 - Backlog from `/meeting`
 
-Criteria: S or M effort, machine-checkable success, no subjective requirements.
+Criteria: runnable leaf effort, machine-checkable success, no unresolved subjective oracle.
 
 ### Phase 2 — Author each twice
 

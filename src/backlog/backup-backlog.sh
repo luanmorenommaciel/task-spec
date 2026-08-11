@@ -7,15 +7,16 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/_lib.sh
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../lib" && pwd)/_lib.sh"
+source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
 
 DEFAULT_DIR="${HOME}/Backups"
 DEST_DIR="${1:-$DEFAULT_DIR}"
 
-if [[ ! -d tasks ]]; then
-  echo "(no tasks/ directory in $(pwd); nothing to back up)"
+if [[ ! -d "$TASKSPEC_BACKLOG_DIR" ]]; then
+  echo "(no $TASKSPEC_BACKLOG_DIR/ directory in $(pwd); nothing to back up)"
   exit 0
 fi
 
@@ -25,7 +26,9 @@ DATE="$(date +%Y%m%d-%H%M%S)"
 REPO_NAME="$(basename "$(pwd)")"
 ARCHIVE="${DEST_DIR}/backlog-${REPO_NAME}-${DATE}.tar.gz"
 
-tar czf "$ARCHIVE" tasks/
+BACKLOG_PARENT="$(cd "$(dirname "$TASKSPEC_BACKLOG_DIR")" && pwd)"
+BACKLOG_NAME="$(basename "$TASKSPEC_BACKLOG_DIR")"
+tar -C "$BACKLOG_PARENT" -czf "$ARCHIVE" "$BACKLOG_NAME"
 
 # Cleanup: keep last 30 days
 find "$DEST_DIR" -name "backlog-${REPO_NAME}-*.tar.gz" -mtime +30 -delete 2>/dev/null || true

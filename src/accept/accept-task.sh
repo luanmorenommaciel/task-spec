@@ -114,7 +114,7 @@ if [[ ! -f "$FILE" ]]; then
 fi
 
 BOLD=$'\033[1m'; GREEN=$'\033[32m'; RED=$'\033[31m'; YELLOW=$'\033[33m'; RESET=$'\033[0m'
-if [[ ! -t 1 ]]; then BOLD=""; GREEN=""; RED=""; YELLOW=""; RESET=""; fi
+if ! ts_color_enabled; then BOLD=""; GREEN=""; RED=""; YELLOW=""; RESET=""; fi
 
 GIT_ROOT=$(cd "$(dirname "$FILE")" && git rev-parse --show-toplevel 2>/dev/null || echo "")
 blockers=0
@@ -154,9 +154,8 @@ if [[ "$CHECK_BLAST" == true ]]; then
   else
     FRONTMATTER=$(ts_frontmatter "$FILE")
     # Allowed = touches_paths ∪ creates_paths. Forbidden = do-not-touch entries.
-    allowed=$( { echo "$FRONTMATTER" | sed -n '/^touches_paths:/,/^[^ -]/p' | grep -E '^[[:space:]]*-' ; \
-                 echo "$FRONTMATTER" | sed -n '/^creates_paths:/,/^[^ -]/p' | grep -E '^[[:space:]]*-' ; } \
-               | sed -E 's/^[[:space:]]*-[[:space:]]*//' | sed -E 's/[[:space:]]*$//' | grep -v '^$' | sort -u || true)
+    allowed=$( { ts_frontmatter_list "$FILE" touches_paths; ts_frontmatter_list "$FILE" creates_paths; } \
+               | grep -v '^$' | sort -u || true)
     forbidden=$(awk '/^## Do-Not-Touch/{f=1; next} /^## /{f=0} f' "$FILE" 2>/dev/null \
                 | grep -oE '`[^`]+`' | tr -d '`' | sort -u || true)
     # The change set: tracked modifications + staged + untracked, vs BASE_REF.
@@ -188,8 +187,11 @@ if [[ "$CHECK_BLAST" == true ]]; then
       # file is unambiguous and is expected to change as the executor stamps it).
       [[ "$f" == "$self_rel" ]] && continue
       [[ "$(basename "$f")" == "$spec_base" ]] && continue
+      # Engine-maintained derived state is bookkeeping, not the task's work.
       case "$f" in
-        tasks/_state.yaml|tasks/_metrics.jsonl) continue ;;
+        */tasks/_state.yaml|tasks/_state.yaml) continue ;;
+        */tasks/_metrics.jsonl|tasks/_metrics.jsonl) continue ;;
+        .taskspec/*|*/.taskspec/*) continue ;;
         .gitignore) continue ;;
       esac
       # Skip tooling exhaust + gitignored paths: a build artifact (e.g. a Python
@@ -204,7 +206,8 @@ if [[ "$CHECK_BLAST" == true ]]; then
       fi
       # The spec's own backlog dir entries (tasks/) are author-side bookkeeping.
       case "$f" in
-        tasks/T-*.md) continue ;;
+        "$TASKSPEC_BACKLOG_DIR"/T-*.md) continue ;;
+        tasks/T-*.md|*/tasks/T-*.md) continue ;;
       esac
       # Forbidden check (prefix match against do-not-touch entries).
       while IFS= read -r df; do
@@ -368,6 +371,10 @@ if [[ "$STAMP" == true ]]; then
     exit 1
   fi
   echo "   ${GREEN}stamped${RESET} accepted: true by ${ACCEPTED_BY} at ${ts}"
+  mkdir -p "$TASKSPEC_BACKLOG_DIR"
+  ts_append_metric "$TASKSPEC_BACKLOG_DIR/_metrics.jsonl" \
+    schema_version 1 ts "$ts" task "$(basename "$FILE" .md)" \
+    event accepted author "$ACCEPTED_BY"
 fi
 
 echo "ACCEPTED=1"

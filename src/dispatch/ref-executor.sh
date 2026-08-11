@@ -10,7 +10,7 @@
 # blocks in README's "agent contract"):
 #   on pickup        : status ready → in-progress  (acquire the lock)
 #   per iteration    : attempt the work, then run the Exit Check
-#   on success       : status → done
+#   on success       : independent acceptance → status done
 #   on budget exhaust: status → parked  (with a blocked_reason)
 #
 # Its "work" is deliberately dumb: it reads the Goal and, if the Goal asks it to
@@ -56,7 +56,14 @@ while [[ $i -lt $budget ]]; do
   i=$((i + 1))
   attempt_work
   if bash "$SCRIPT_DIR/../gate/run-task-spec.sh" "$SPEC" >/dev/null 2>&1; then
-    # --- on success: release as done ---
+    # --- on success: independently accept, then release as done ---
+    if ! bash "$SCRIPT_DIR/../accept/accept-task.sh" --stamp --no-blast-radius \
+      --accepted-by ref-executor "$SPEC" >/dev/null 2>&1; then
+      ts_set_frontmatter_field "$SPEC" "blocked_reason" "reference acceptance gate rejected the work"
+      set_status "parked"
+      echo "ref-executor: evals passed but acceptance rejected → status: parked"
+      exit 0
+    fi
     set_status "done"
     echo "ref-executor: PASS after $i iteration(s) → status: done"
     exit 0

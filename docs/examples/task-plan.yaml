@@ -1,0 +1,39 @@
+api_version: taskspec.dev/v1
+kind: TaskPlan
+approved: true
+metadata:
+  name: add-search-command
+  source: docs/runbooks/from-fuzzy-intent.md
+units:
+  - id: T-20260811-add-search-command
+    title: Add a deterministic search command
+    effort: S
+    profile: standard
+    agent: any
+    execution_backend: codex
+    depends_on: []
+    touches_paths:
+      - bin/taskspec
+    creates_paths:
+      - tests/test-search-command.sh
+    source_note: docs/examples/task-plan.yaml
+    why: Users need a bounded example that demonstrates TaskPlan generation.
+    goal: Add a search command with a deterministic contract test.
+    context: Keep the command offline and do not add provider credentials.
+    behaviors:
+      - id: B-1
+        given: a repository with Task-Spec installed
+        when: the user invokes the search command with a query
+        then: the CLI returns a deterministic local result or a named unavailable state
+    evals:
+      - id: eval_1
+        description: the search command contract test passes
+        command: bash tests/test-search-command.sh
+        verifies:
+          - B-1
+        terminal: true
+        expected_duration_sec: 10
+    anti_patterns:
+      - Do not call an external provider unless the user explicitly selects one.
+    do_not_touch:
+      - configs/setup-taskspec-signing-key.sh

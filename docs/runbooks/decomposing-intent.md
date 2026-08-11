@@ -2,14 +2,14 @@
 
 > **Use when:** you have a fuzzy intent, a PRD/design, or "a set of calls" that is
 > too big for one atomic spec, and you need N linked Task-Specs that each pass the
-> safe-to-delegate gate on their own. This is the *fan-out* runbook; once the atoms
-> exist, [batch-sprint-compose.md](./batch-sprint-compose.md) is how you generate
-> their stub files fast.
+> safe-to-delegate gate on their own. This is the canonical TaskPlan fan-out
+> runbook; the legacy intent-file batch mode remains documented separately.
 
 ## Why decompose
 
-One spec must be atomic — S/M effort, one blast radius, evals that prove *one*
-unit of work. A PRD or a multi-step intent is none of those. Decomposition turns
+One runnable leaf must be atomic — XS/S/M/L effort, one bounded write surface,
+and evals that prove one coherent unit of work. XL/XXL nodes compose children
+without owning writes. A PRD or a multi-step intent is none of those. Decomposition turns
 the big thing into a flat set of atoms plus the edges between them, so each atom
 can be authored, gated, and dispatched independently. See
 [concepts/decomposition.md](../concepts/decomposition.md)
@@ -20,20 +20,19 @@ for the concept and the index+detail shape.
 - A parent artifact: a PRD, a design doc, a meeting note, or a paragraph of intent
 - (optional) a known target codebase, if the atoms touch in-repo paths
 
-## The method (two-layer: index + detail)
+## The method (TaskPlan preview + generated detail)
 
-The converged shape is **a flat parent index of stubs + per-task detail specs** —
-not a deep tree. The index is human-skimmable; each detail spec is a real,
-gateable Task-Spec.
+The TaskPlan is the human-reviewable map. It declares leaves, XL/XXL nodes,
+children, dependency edges, write surfaces, and holes before any spec is written.
 
-### Step 1 — Spawn `task-architect` to find the atoms
+### Step 1 — Use the installed skill to find the units
 
-Hand the parent artifact to the **`task-architect`** agent (Phase 4 of the main
-workflow). Ask it for the *decomposition*, not the specs: a list of atoms, each
-with a slug, one-line description, the `depends_on` edges, and — critically — any
-**open questions / holes** it could not resolve from the artifact alone.
+Give the parent artifact to the installed Task-Spec skill. Ask for a complete
+`TaskPlan/v1`, not generated specs: every unit needs an id, one coherent goal,
+size/profile/backend, write surface, evals, dependencies/children, and any open
+question it could not resolve from repository evidence.
 
-The agent applies the Agreement Matrix and returns one row per atom:
+The preview should make the graph obvious:
 
 ```text
 slug                  depends_on        hole?
@@ -42,36 +41,29 @@ wire-collector        [extract-otel-config]   which exporter endpoint? (BLOCKER)
 verify-trace-lands    [wire-collector]  (none)
 ```
 
-### Step 2 — Write the parent index
+### Step 2 — Review the TaskPlan
 
-Create one flat index listing every atom as a stub. The index is a map, not a
-spec — it carries slug, title, `depends_on`, and hole status only:
-
-```markdown
-# Decomposition: <parent title>
-parent: docs/prd/observability.md
-
-| atom | depends_on | hole | status |
-|------|-----------|------|--------|
-| T-YYYYMMDD-extract-otel-config | — | — | ready |
-| T-YYYYMMDD-wire-collector | extract-otel-config | endpoint unknown | **blocked** |
-| T-YYYYMMDD-verify-trace-lands | wire-collector | — | ready |
-```
-
-### Step 3 — Generate the detail stubs
-
-Feed the atom slugs to `batch-generate.sh` (do NOT re-implement it). One line per
-atom in `slug: description` form, then:
+Store the proposal under `tasks/.plans/` and preview it without mutation:
 
 ```bash
-taskspec batch \
-    --intent-file atoms.txt \
-    --effort S \
-    --source-note docs/prd/observability.md \
-    --queue
+taskspec plan --manifest tasks/.plans/observability.yaml
 ```
 
-### Step 4 — Wire the edges and the parent
+Resolve dangling edges, cycles, dual creation, unordered shared writes, missing
+behaviors/evals, and unresolved holes. Set `approved: true` only after that
+review.
+
+### Step 3 — Generate the declared specs
+
+Generation materializes exactly the manifest; it never invents missing work:
+
+```bash
+taskspec batch --plan tasks/.plans/observability.yaml
+taskspec validate tasks/T-*.md
+taskspec dod tasks/T-*.md
+```
+
+### Step 4 — Inspect the generated edges and parent
 
 In each generated detail spec, fill two frontmatter fields that turn the flat
 list into a graph:
@@ -110,7 +102,7 @@ Each detail spec runs the normal pre-gate. A `ready` atom with no holes:
 
 ```bash
 taskspec gate --stamp \
-    tasks/queue/T-YYYYMMDD-extract-otel-config.md
+    tasks/T-YYYYMMDD-extract-otel-config.md
 ```
 
 A `blocked` atom is intentionally NOT gated — its hole is unresolved. Leaving it
@@ -135,7 +127,7 @@ A2A line it prints:
 ```bash
 # A holed atom must report A2A: input-required (NOT submitted/ready):
 taskspec validate \
-    tasks/queue/T-YYYYMMDD-wire-collector.md | grep 'A2A: input-required'
+    tasks/T-YYYYMMDD-wire-collector.md | grep 'A2A: input-required'
 
 # And it must NOT appear in the ready list:
 taskspec ready | grep -q wire-collector \
@@ -144,15 +136,15 @@ taskspec ready | grep -q wire-collector \
 
 ## Anti-patterns
 
-- **Don't build a deep tree.** The shape is flat index + detail atoms, not
-  sub-tasks of sub-tasks. Deep nesting hides the `depends_on` graph.
+- **Don't hide work in a deep tree.** Use explicit XL/XXL nodes and a visible
+  dependency DAG; nodes never own writes or reach the executor.
 - **Don't bury a blocker in prose only.** An `## Open Questions` note with
   `status: ready` is a lie to the gate — the atom looks delegate-safe but isn't.
   Always pair the prose with `status: blocked`.
 - **Don't copy the PRD into each atom.** Reference it via `parent:`; Zone 1
   carries only the one-paragraph distillation needed to execute the atom.
-- **Don't re-implement batch generation.** `batch-generate.sh` already makes the
-  stubs; this runbook only adds the index, the edges, and the holes.
+- **Don't re-implement batch generation.** `taskspec batch --plan` materializes
+  the reviewed manifest exactly; repair the manifest when a generated unit is wrong.
 
 ## Remember
 

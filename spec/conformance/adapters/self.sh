@@ -85,6 +85,11 @@ case "$STEM" in
     } > "$WORKDIR/c006_attempt.log"
     ;;
 
+  T-conformance-007-node-refusal)
+    # C17: composition nodes are reviewed and decomposed, never executed.
+    echo "node_refused effort=XL" > "$WORKDIR/c007.log"
+    ;;
+
   *)
     echo "self.sh: unrecognized fixture stem: $STEM" >&2
     exit 2

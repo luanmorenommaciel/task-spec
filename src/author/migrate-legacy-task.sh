@@ -17,8 +17,9 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/_lib.sh
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../lib" && pwd)/_lib.sh"
+source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
 
 FILE="${1:?Usage: migrate-legacy-task.sh <path/to/T-*.md>}"

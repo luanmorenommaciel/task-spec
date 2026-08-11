@@ -16,14 +16,14 @@ The spec's `execution_backend:` frontmatter field names the canonical executor. 
 |---------------------|--------|----------|
 | `claude` | [../adapters/engines/claude-code.md](../../adapters/engines/claude-code.md) | Interactive sessions, subagent delegation via `Task()`; the orchestrator |
 | `codex` | [../adapters/engines/codex.md](../../adapters/engines/codex.md) | OpenAI Codex CLI; review + adversarial passes (different model family) |
-| `kimi` | [../adapters/engines/kimi.md](../../adapters/engines/kimi.md) | Sprinter builder — fast atomic cranks of XS/S/M specs |
-| `glm` | [../adapters/engines/gemini.md](../../adapters/engines/gemini.md) | Marathoner builder — long-horizon; the required backend for `effort: L` |
+| `kimi` | [../adapters/engines/kimi.md](../../adapters/engines/kimi.md) | One supported harness for atomic XS/S/M/L leaves when configured |
+| `glm` | [../adapters/engines/gemini.md](../../adapters/engines/gemini.md) | Example long-horizon backend for L leaves |
 | `gemini` | [../adapters/engines/gemini.md](../../adapters/engines/gemini.md) | Generic completion-API CLIs (Gemini, llm, ollama, aichat) |
 | `any` / `custom` / unknown | [../adapters/engines/custom.md](../../adapters/engines/custom.md) | DIY escape hatch; references v2.2's deferred `dispatch_recipe:` field |
 
-If `execution_backend: any` (the default), the author left the choice to the dispatcher — apply the size→engine recommendation below, or pick whichever recipe matches the engine you have configured.
+If `execution_backend: any`, choose an installed harness explicitly when creating the handoff.
 
-### Size → engine recommendation (advisory)
+### Size and capability
 
 When the backend is `any`, use the spec's `effort` to pick a builder. This is a *dispatcher
 heuristic*, not a spec requirement — it never overrides an explicit `execution_backend`, and
@@ -31,13 +31,13 @@ the agent contract treats the model inside a backend as a black box (clause C9).
 
 | `effort` | Recommended engine | Rationale |
 |----------|--------------------|-----------|
-| `XS` / `S` / `M` | **Kimi** | Sprinter: reflex-grade, fast tool loops; ideal for atomic single-eval cranks |
-| `L` | **GLM** (required) | Marathoner: 1M-context, long-horizon; the gate accepts L only with `execution_backend: glm` |
-| `XL` | **route to SDD** | Too big for one Task-Spec → AgentSpec / OpenSpec / SpecKit; decompose the build phase into S/M atoms |
+| `XS` / `S` / `M` | Any conformant selected harness | Runnable atomic leaves |
+| `L` | A backend listed in `TASKSPEC_LONG_HORIZON_BACKENDS` | One coherent long-horizon leaf |
+| `XL` / `XXL` | None | Composition nodes; hand off their child leaves instead |
 
-> `glm` and `gemini` currently share the generic completion-API recipe
-> ([../adapters/engines/gemini.md](../../adapters/engines/gemini.md)) until a dedicated `glm` recipe
-> lands. Point it at GLM's Anthropic-compatible endpoint via `backend_metadata`.
+> Backend names are non-normative. Configure eligible L-leaf tokens through
+> `TASKSPEC_LONG_HORIZON_BACKENDS`; executor-specific settings stay under
+> `backend_metadata` or outside the portable handoff.
 
 ---
 

@@ -24,13 +24,13 @@ in the sense of [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
   claiming.
 - **C4.** An engine SHOULD verify the sign-off envelope (`signed_off: true`
   plus non-empty `signed_off_by` and ISO-8601 `signed_off_at`) before claiming,
-  and MUST refuse to execute tasks where the envelope is incomplete. As of v2.2
+  and MUST refuse to execute tasks where the envelope is incomplete. The current
   the envelope also carries a key-optional cryptographic MAC, `signed_off_sig`
-  (`hmac-sha256-v1:<keyid>:<hex>`), sealed by `safe-to-delegate.sh --stamp` and
+  (`hmac-sha256-v2:<keyid>:<hex>`), sealed by `taskspec gate --stamp` and
   re-verified by `validate-task-spec.sh`. An engine SHOULD honor its three
-  tiers: **Tier 1** (key present + sig verifies) is full crypto trust
+  tiers: **Tier 1** (key present + v2 sig verifies) is authorization-integrity trust
   (unsupervised crank OK); **Tier 2** (no key / no sig / legacy spec) is
-  structural-only and **supervised dispatch only**; **Tier 3** (key present but
+  structural-only (including valid narrow v1) and **supervised dispatch only**; **Tier 3** (key present but
   MAC mismatch or malformed sig) is a hard refusal — the body or envelope was
   modified after stamping. See [signed-off.md](signed-off.md).
 
@@ -266,7 +266,7 @@ All six are true for Task-Spec v2. That's the portability proof.
 | Don't | Why |
 |-------|-----|
 | Modify T-*.md frontmatter directly | Bypasses lock + ledger; desyncs state |
-| **Hand-stamp `signed_off: true`** | **The autonomy contract is produced ONLY by `safe-to-delegate.sh --stamp`. Hand-stamping defeats the gate. `validate-task-spec.sh` rejects accidentally hand-stamped specs via the structural envelope floor, and — when a key is present — the `signed_off_sig` HMAC (v2.2) catches adversarial post-stamp edits as a Tier-3 hard fail (see signed-off.md). Do not hand-stamp yourself; do not write code that hand-stamps; do not bypass the gate.** |
+| **Hand-stamp `signed_off: true`** | **The autonomy contract is produced ONLY by `taskspec gate --stamp`. HMAC v2 catches body or authorization edits as a Tier-3 hard fail. Do not hand-stamp or bypass the gate.** |
 | Skip the metrics ledger entry | Forensic record becomes lying |
 | Treat "evals passed" as "task is correct" | Evals catch what they check; PR review catches the rest |
 | Modify Do-Not-Touch paths | Hard guardrail; violation = task failed |

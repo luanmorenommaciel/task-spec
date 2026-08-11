@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
-# _lib.sh — shared helpers for the task-spec engine.
+# _lib.sh — shared helpers for the task-spec skill.
 #
-# Lives at src/lib/_lib.sh. Source this from every top-level script (scripts
-# sit one dir below src/, so the lib is at ../lib relative to each):
-#   _LIB="$(cd "$(dirname "${BASH_SOURCE[0]}")/../lib" && pwd)/_lib.sh"
+# Source this from every top-level script:
+#   _LIB="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_lib.sh"
 #   source "$_LIB"
 #
 # Exports:
-#   TASKSPEC_VERSION       — canonical version string (mirrors ./VERSION)
-#   TASKSPEC_SKILL_DIR     — absolute path of the task-spec engine repo root
+#   TASKSPEC_VERSION       — canonical version string (single source of truth)
+#   TASKSPEC_SKILL_DIR     — absolute path of the task-spec skill root
 #   TASKSPEC_BACKLOG_DIR   — configurable backlog directory (default: tasks)
 #
 # Helpers:
@@ -17,25 +16,24 @@
 #                            and exits 0. Otherwise returns 0 silently.
 #   ts_die <msg>           — print to stderr and exit 1.
 
-# ----- Canonical version (runtime source of truth) -----
+# ----- Canonical version (single source of truth) -----
 # Format change protocol:
 #   1) bump TASKSPEC_VERSION here
-#   2) bump ./VERSION at the repo root (must match; bin/taskspec version reads it)
-#   3) add a CHANGELOG.md entry (the [x.y.z] heading must match)
-#   4) bump version field in integrations/claude-code/plugin.json + marketplace.json
-# The doc-consistency lint (tests/lint-skill-docs.sh) asserts (1) == (2) == (3).
-TASKSPEC_VERSION="3.4.1"
+#   2) bump version field in SKILL.md frontmatter (must match)
+#   3) add a CHANGELOG.md entry
+#   4) bump version field in plugin.json + marketplace.json (if present)
+# The doc-consistency lint asserts (1) == (2) == (4).
+TASKSPEC_VERSION="3.6.0"
 
-# ----- Resolve the engine repo root from this file's location -----
-# _lib.sh lives at src/lib/_lib.sh, so the repo root is two levels up.
-# Works whether sourced from src/<verb>/ scripts or via an indirect symlink.
+# ----- Resolve skill root from this file's location -----
+# Works whether sourced from scripts/ or via an indirect symlink.
 __lib_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TASKSPEC_SKILL_DIR="$(cd "$__lib_dir/../.." && pwd)"
 export TASKSPEC_VERSION TASKSPEC_SKILL_DIR
 
 # ----- Configurable backlog dir (allow downstream users to override) -----
-# Defaults to "tasks" relative to PWD (preserves existing behavior).
-# Override per-call: TASKSPEC_BACKLOG_DIR=path/to/backlog command...
+# The standalone default is always tasks/. Integrations with a different
+# workspace layout select it explicitly through TASKSPEC_BACKLOG_DIR.
 : "${TASKSPEC_BACKLOG_DIR:=tasks}"
 export TASKSPEC_BACKLOG_DIR
 
@@ -56,6 +54,69 @@ ts_version_flag() {
 ts_die() {
   echo "ERROR: $*" >&2
   exit 1
+}
+
+# Color is presentation only. NO_COLOR always disables; TASKSPEC_COLOR=0|1
+# provides an explicit override; otherwise use ANSI only on a TTY.
+ts_color_enabled() {
+  [[ -n "${NO_COLOR:-}" ]] && return 1
+  case "${TASKSPEC_COLOR:-}" in
+    0) return 1 ;;
+    1) return 0 ;;
+  esac
+  [[ -t 1 ]]
+}
+
+# Append one valid JSON object to the lifecycle ledger. Arguments after the
+# path are key/value pairs; schema_version is serialized as an integer.
+ts_append_metric() {
+  _tsam_path="$1"
+  shift
+  python3 - "$_tsam_path" "$@" <<'PY'
+import json
+import os
+import sys
+
+path = sys.argv[1]
+items = sys.argv[2:]
+if len(items) % 2:
+    raise SystemExit("ts_append_metric requires key/value pairs")
+record = {}
+for index in range(0, len(items), 2):
+    key, value = items[index], items[index + 1]
+    record[key] = int(value) if key == "schema_version" else value
+os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+with open(path, "a", encoding="utf-8") as handle:
+    handle.write(json.dumps(record, ensure_ascii=False, separators=(",", ":")) + "\n")
+PY
+}
+
+# Render a Task-Spec template without passing user-controlled values through a
+# sed program. TITLE and SOURCE_NOTE are JSON-quoted YAML scalars; every other
+# value is replaced literally. Remaining arguments are key/value pairs for
+# {{KEY}} placeholders.
+ts_render_template() {
+  _tsrt_template="$1"
+  _tsrt_output="$2"
+  shift 2
+  python3 - "$_tsrt_template" "$_tsrt_output" "$@" <<'PY'
+import json
+import pathlib
+import sys
+
+template_path = pathlib.Path(sys.argv[1])
+output_path = pathlib.Path(sys.argv[2])
+items = sys.argv[3:]
+if len(items) % 2:
+    raise SystemExit("ts_render_template requires key/value pairs")
+text = template_path.read_text(encoding="utf-8")
+for index in range(0, len(items), 2):
+    key, value = items[index], items[index + 1]
+    if key in {"TITLE", "SOURCE_NOTE"}:
+        value = json.dumps(value, ensure_ascii=False)
+    text = text.replace("{{" + key + "}}", value)
+output_path.write_text(text, encoding="utf-8")
+PY
 }
 
 # ===========================================================================
@@ -79,6 +140,48 @@ ts_die() {
 #              L-adjacent M task).
 TS_PROFILES="lite standard full"
 export TS_PROFILES
+
+# ----- Effort sizing (v3.4 — six-tier, tasks-all-the-way-down) -----
+# The "dark factory" unit model: every piece of work is a Task-Spec, at every scale.
+# Two KINDS of size:
+#   LEAVES  (XS S M L) — directly-runnable atoms. Each fits one fresh context window
+#                        and verifies as ONE PR / one test-suite. L is the ceiling
+#                        (long-horizon, one coherent goal, glm backend).
+#   NODES   (XL XXL)   — decomposition directives, NOT runnable. They MUST expand
+#                        into child Task-Specs (>=2 for XL, >=3 for XXL). There is NO
+#                        route out to a spec-driven paradigm — tasks decompose into
+#                        tasks, and the node composes its children's results back up.
+# Budgets are the WRITE-surface ceiling per leaf tier (research-grounded: 1-3 tightly
+# coupled files keep together, 5+ loosely related split; files-to-read is the real
+# limiter — Young/Anthropic/Vaughan/Vest, 2026). A breach means the decomposition
+# was too coarse: split or reclassify UP. This replaces the old "XL -> route to SDD"
+# fork with recursion — the single tasking path.
+TS_SIZES="XS S M L XL XXL"
+
+# Backends eligible to run an L-tier leaf. The RULE is "an L leaf needs a
+# LONG-HORIZON BUILDER" — not "an L leaf needs one vendor". execution_backend is
+# an OPEN STRING (C9), so hard-coding a single name contradicted the format's own
+# vendor-neutrality and locked the tier to whichever engine happened to be in
+# fashion. Override for your own fleet:
+#   export TASKSPEC_LONG_HORIZON_BACKENDS="claude codex kimi glm my-harness"
+TS_LONG_HORIZON_BACKENDS="${TASKSPEC_LONG_HORIZON_BACKENDS:-glm claude codex kimi}"
+export TS_LONG_HORIZON_BACKENDS
+ts_backend_is_long_horizon() {
+  case " $TS_LONG_HORIZON_BACKENDS " in
+    *" ${1:-} "*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+export TS_SIZES
+# 0 if $1 is a recognized size, else non-zero.
+ts_size_is_valid() { case " $TS_SIZES " in *" ${1:-} "*) return 0 ;; *) return 1 ;; esac; }
+# 0 if $1 is a runnable LEAF tier (XS S M L).
+ts_size_is_leaf()  { case "${1:-}" in XS|S|M|L) return 0 ;; *) return 1 ;; esac; }
+# Echo the max write-surface (|touches_paths ∪ creates_paths|) a leaf tier may declare;
+# NODES echo 0 (they own no write surface — their children do).
+ts_size_writes_max() { case "${1:-}" in XS) echo 1 ;; S) echo 2 ;; M) echo 3 ;; L) echo 5 ;; *) echo 0 ;; esac; }
+# Echo the minimum child count a NODE tier must decompose into (0 for leaves).
+ts_size_min_children() { case "${1:-}" in XL) echo 2 ;; XXL) echo 3 ;; *) echo 0 ;; esac; }
 
 # Resolve the declared profile for a spec file. Echoes lite|standard|full.
 # Absent field → standard (backward-compatible default). $1 = spec path.
@@ -168,6 +271,22 @@ ts_a2a_state_v1() {
 # lint-backlog.sh all call it instead of re-implementing the awk. $1 = spec path.
 ts_frontmatter() {
   awk 'NR==1 && /^---[[:space:]]*$/{s=1; next} s && /^---[[:space:]]*$/{exit} s{print}' "$1" 2>/dev/null || true
+}
+
+# Echo a top-level frontmatter list one item per line. Supports both the inline
+# `[a, b]` and indented `- a` forms used by the format.
+ts_frontmatter_list() {
+  local file="$1" key="$2" block line
+  block="$(ts_frontmatter "$file")"
+  line="$(printf '%s\n' "$block" | grep -m1 "^${key}:" || true)"
+  [[ -n "$line" ]] || return 0
+  if printf '%s\n' "$line" | grep -q '\['; then
+    printf '%s\n' "$line" | sed -n 's/^[^[]*\[\(.*\)\].*/\1/p' | tr ',' '\n' \
+      | sed -E 's/^[[:space:]]*["'"'']?//; s/["'"'']?[[:space:]]*$//' | grep -v '^$' || true
+  else
+    printf '%s\n' "$block" | sed -n "/^${key}:/,/^[^ #]/p" | tail -n +2 \
+      | sed '/^[^ ]/d' | sed -E 's/^[[:space:]]*-[[:space:]]*["'"'']?//; s/["'"'']?[[:space:]]*$//' | grep -v '^$' || true
+  fi
 }
 
 # ----- Behavior / eval extraction for traceability (C3/C4) -----
@@ -313,7 +432,9 @@ ts_lock_acquire() {
   fi
   # No live holder, or no pid recorded: reclaim if older than the stale window.
   now="$(date +%s 2>/dev/null || echo 0)"
-  mtime="$(stat -f %m "$d" 2>/dev/null || stat -c %Y "$d" 2>/dev/null || echo 0)"
+  # GNU first: on Linux, BSD-style `stat -f %m` is the MOUNT POINT (filesystem
+  # status), exit 0 — so BSD must be the fallback, never the first try.
+  mtime="$(stat -c %Y "$d" 2>/dev/null || stat -f %m "$d" 2>/dev/null || echo 0)"
   age=$(( now - mtime ))
   if [[ "$now" -gt 0 && "$mtime" -gt 0 && "$age" -ge "$TS_LOCK_STALE_SEC" ]]; then
     rm -rf "$d" 2>/dev/null
@@ -350,7 +471,7 @@ ts_prepare_tmp() {
 # They are intentionally key-optional and crypto-binary-optional: a fresh
 # clone with no key, or a minimal CI image with no openssl, MUST degrade to
 # structural-only (Tier 2) rather than hard-fail. See the three-tier contract
-# in references/concepts/signed-off.md.
+# in docs/concepts/signed-off.md.
 #
 # Portability floor (REQUIREMENT 3):
 #   ts_sha256        — sha256 over stdin; detects openssl > shasum -a 256 > sha256sum.
@@ -502,15 +623,25 @@ ts_resolve_signing_key() {
   else
     local anchor_dir git_dir
     if [[ -d "$anchor" ]]; then anchor_dir="$anchor"; else anchor_dir="$(dirname "$anchor")"; fi
-    git_dir="$(cd "$anchor_dir" 2>/dev/null && git rev-parse --git-dir 2>/dev/null || true)"
-    if [[ -n "$git_dir" ]]; then
+    # --git-common-dir FIRST, then --git-dir.
+    #
+    # Inside a linked worktree `--git-dir` resolves to <main>/.git/worktrees/<n>,
+    # which has no info/ of its own — so the signing key was invisible and the
+    # spec silently degraded from Tier 1 to Tier 2 ("no key"), which then read as
+    # trust-tier DRIFT against a profile bound at Tier 1 and failed the contract.
+    # `--git-common-dir` is the shared .git where the key actually lives, and it
+    # returns the same path in a normal clone, so this is strictly more correct.
+    for _gd_flag in --git-common-dir --git-dir; do
+      git_dir="$(cd "$anchor_dir" 2>/dev/null && git rev-parse "$_gd_flag" 2>/dev/null || true)"
+      [[ -n "$git_dir" ]] || continue
       if [[ "$git_dir" != /* ]]; then
         git_dir="$(cd "$anchor_dir" 2>/dev/null && cd "$git_dir" 2>/dev/null && pwd || true)"
       fi
       if [[ -n "$git_dir" && -d "$git_dir" && -f "$git_dir/info/taskspec-signing-key" ]]; then
         key="$(cat "$git_dir/info/taskspec-signing-key")"
+        break
       fi
-    fi
+    done
   fi
   key="${key#"${key%%[![:space:]]*}"}"
   key="${key%"${key##*[![:space:]]}"}"
@@ -638,7 +769,57 @@ ts_body_digest() {
 # depend on frontmatter line ordering — each field is grepped by name. This is
 # what makes the MAC verify on the very next read after stamping.
 # $1=file. Echoes the payload (no trailing newline) on stdout.
-ts_signoff_payload() {
+# ---------------------------------------------------------------------------
+# The AUTHORIZATION boundary (envelope v2).
+# ---------------------------------------------------------------------------
+# v1 sealed `id + body_digest + signed_off*`. That left every execution-critical
+# frontmatter field OUTSIDE the seal — so a signed spec could have its write
+# scope widened, its dependencies rewritten, its budget raised, or its engine
+# re-routed, and the signature would still verify. The seal proved the PROSE was
+# untouched while the AUTHORITY silently changed underneath it.
+#
+# v2 closes that: the fields that decide what a worker may do are hashed into the
+# payload. Fields that are *meant* to change during a task's life stay out on
+# purpose — `status` (moves ready→done), `accepted` (flips post-execution),
+# `tracker_ref` (a receipt written back after registration), `signed_off_sig`
+# (the seal itself), and any `projection:` block (tracker cosmetics). Sealing
+# those would make ordinary progress look like tampering.
+TS_AUTHZ_FIELDS="touches_paths creates_paths depends_on effort execution_backend agent budget_iterations budget_tokens requires"
+
+# ts_field_block FILE NAME — one frontmatter field plus its indented block,
+# verbatim (trailing whitespace trimmed). Handles both `k: []` and the block
+# form. Empty output when the field is absent, so adding a field later changes
+# the digest — which is the point.
+ts_field_block() {
+  local file="$1" name="$2"
+  awk -v k="$name" '
+    NR==1 && $0=="---" { infm=1; next }
+    infm && $0=="---" { exit }
+    !infm { next }
+    {
+      if (index($0, k ":") == 1) { grab=1; print; next }
+      if (grab && $0 ~ /^[ \t]/) { print; next }
+      if (grab) { grab=0 }
+    }
+  ' "$file" | sed -E 's/[[:space:]]+$//'
+}
+
+# ts_authz_digest FILE — sha256 over the canonical serialization of every
+# authorization-relevant field, in a FIXED order (so field reordering in the file
+# cannot change the digest, but a value change always does).
+ts_authz_digest() {
+  local file="$1" field
+  {
+    for field in $TS_AUTHZ_FIELDS; do
+      printf '[%s]\n' "$field"
+      ts_field_block "$file" "$field"
+    done
+  } | ts_sha256
+}
+
+# The legacy (v1) payload, preserved verbatim so an old seal can still be
+# verified as AUTHENTIC-BUT-NARROW rather than mistaken for a forgery.
+ts_signoff_payload_v1() {
   local file="$1"
   local id body_digest so so_by so_at
   id=$(grep -m1 '^id:' "$file" | sed -E 's/^id:[[:space:]]*//' | sed -E 's/[[:space:]]*$//')
@@ -650,12 +831,30 @@ ts_signoff_payload() {
     "$id" "$body_digest" "$so" "$so_by" "$so_at"
 }
 
+ts_signoff_payload() {
+  local file="$1"
+  local id body_digest authz_digest so so_by so_at
+  id=$(grep -m1 '^id:' "$file" | sed -E 's/^id:[[:space:]]*//' | sed -E 's/[[:space:]]*$//')
+  body_digest=$(ts_body_digest "$file")
+  authz_digest=$(ts_authz_digest "$file")
+  so=$(grep -m1 '^signed_off:' "$file" | sed -E 's/^signed_off:[[:space:]]*//' | sed -E 's/[[:space:]]*$//')
+  so_by=$(grep -m1 '^signed_off_by:' "$file" | sed -E 's/^signed_off_by:[[:space:]]*//' | sed -E 's/[[:space:]]*$//')
+  so_at=$(grep -m1 '^signed_off_at:' "$file" | sed -E 's/^signed_off_at:[[:space:]]*//' | sed -E 's/[[:space:]]*$//')
+  printf 'id=%s\nbody_digest=%s\nauthz_digest=%s\nsigned_off=%s\nsigned_off_by=%s\nsigned_off_at=%s' \
+    "$id" "$body_digest" "$authz_digest" "$so" "$so_by" "$so_at"
+}
+
 # Compute the full signed_off_sig field value for a spec, given a key.
-# Format: hmac-sha256-v1:<keyid>:<hex>
+# Format: hmac-sha256-v2:<keyid>:<hex> (v1 remains a verification-only legacy path)
 # Echoes the value; returns 1 (and echoes nothing) if crypto is unavailable.
+# $3 = envelope version ("v2" default, "v1" only to re-verify a legacy seal).
 ts_compute_signoff_sig() {
-  local file="$1" key="$2" payload keyid mac
-  payload="$(ts_signoff_payload "$file")"
+  local file="$1" key="$2" version="${3:-v2}" payload keyid mac
+  if [[ "$version" == "v1" ]]; then
+    payload="$(ts_signoff_payload_v1 "$file")"
+  else
+    payload="$(ts_signoff_payload "$file")"
+  fi
   if [[ "$payload" == *"$TS_CRYPTO_UNAVAILABLE"* ]]; then
     return 1
   fi
@@ -664,7 +863,7 @@ ts_compute_signoff_sig() {
     return 1
   fi
   keyid="$(ts_keyid "$key")"
-  printf 'hmac-sha256-v1:%s:%s' "$keyid" "$mac"
+  printf 'hmac-sha256-%s:%s:%s' "$version" "$keyid" "$mac"
   return 0
 }
 
@@ -681,6 +880,12 @@ ts_compute_signoff_sig() {
 #   - Otherwise, look for a bash 4+ on PATH and re-exec the calling script
 #     under it (preserving "$@"). $TS_BASH4_REEXEC guards against re-exec loops.
 #   - If no bash 4+ is found, print a one-line remediation and exit 3.
+#
+# TS_BASH4_TOKEN (optional, set by the caller before invoking): a machine token to
+# print on stdout when the guard bails. Task-Spec command surfaces end with a
+# token as their last stdout line, and a caller that dies inside a shared helper was
+# the one place that contract broke — a Manager saw a bare non-zero exit with
+# nothing to branch on. The variable is opt-in, so existing callers are unchanged.
 ts_require_bash4() {
   if [[ "${BASH_VERSINFO[0]:-0}" -ge 4 ]]; then
     return 0
@@ -688,6 +893,7 @@ ts_require_bash4() {
 
   if [[ -n "${TS_BASH4_REEXEC:-}" ]]; then
     echo "task-spec: requires bash 4+; on macOS run: brew install bash, then re-run this script with that bash" >&2
+    [[ -n "${TS_BASH4_TOKEN:-}" ]] && echo "$TS_BASH4_TOKEN"
     exit 3
   fi
 
@@ -702,5 +908,71 @@ ts_require_bash4() {
   fi
 
   echo "task-spec: requires bash 4+; on macOS run: brew install bash, then re-run this script with that bash" >&2
+  [[ -n "${TS_BASH4_TOKEN:-}" ]] && echo "$TS_BASH4_TOKEN"
   exit 3
+}
+
+# ts_workspace_root <path-inside-the-workspace>
+#
+# THE ONE definition of "where does this workspace begin". A spec's relative
+# paths resolve against its own workspace, never against whichever repository
+# happens to contain the engine. The owning backlog is either the explicit
+# TASKSPEC_BACKLOG_DIR or the nearest ancestor named `tasks`; its parent is the
+# workspace. This remains correct for tasks/, tasks/done/, tasks/archive/, and
+# custom backlog paths selected by an integration adapter.
+ts_workspace_root() {
+  _tswr_d="$1"
+  [ -d "$_tswr_d" ] || _tswr_d="$(dirname "$_tswr_d")"
+  _tswr_d="$(cd "$_tswr_d" 2>/dev/null && pwd)" || return 1
+  _tswr_backlog="$(ts_backlog_root "$_tswr_d" 2>/dev/null || true)"
+  _tswr_is_backlog=false
+  [ -n "$_tswr_backlog" ] && [ "$(basename "$_tswr_backlog")" = "tasks" ] && _tswr_is_backlog=true
+  if [ -n "${TASKSPEC_BACKLOG_DIR:-}" ] && [ -d "$TASKSPEC_BACKLOG_DIR" ]; then
+    _tswr_explicit="$(cd "$TASKSPEC_BACKLOG_DIR" 2>/dev/null && pwd || true)"
+    [ -n "$_tswr_explicit" ] && [ "$_tswr_backlog" = "$_tswr_explicit" ] && _tswr_is_backlog=true
+  fi
+  if [ "$_tswr_is_backlog" = true ]; then
+    case "$_tswr_d" in
+      "$_tswr_backlog"|"$_tswr_backlog"/*)
+        dirname "$_tswr_backlog"
+        return 0
+        ;;
+    esac
+  fi
+  printf '%s' "$_tswr_d"
+}
+
+# ts_backlog_root <task-spec-path>
+#
+# Resolve the one backlog that owns a Task-Spec. An explicit
+# TASKSPEC_BACKLOG_DIR wins when it contains the file; otherwise the nearest
+# ancestor named `tasks` is canonical. This makes root, done/, parked/, and
+# future nested buckets converge on one _state.yaml.
+ts_backlog_root() {
+  _tsbr_path="$1"
+  [ -d "$_tsbr_path" ] || _tsbr_path="$(dirname "$_tsbr_path")"
+  _tsbr_path="$(cd "$_tsbr_path" 2>/dev/null && pwd)" || return 1
+
+  if [ -n "${TASKSPEC_BACKLOG_DIR:-}" ] && [ -d "$TASKSPEC_BACKLOG_DIR" ]; then
+    _tsbr_explicit="$(cd "$TASKSPEC_BACKLOG_DIR" 2>/dev/null && pwd)" || _tsbr_explicit=""
+    case "$_tsbr_path" in
+      "$_tsbr_explicit"|"$_tsbr_explicit"/*)
+        printf '%s' "$_tsbr_explicit"
+        return 0
+        ;;
+    esac
+  fi
+
+  _tsbr_cursor="$_tsbr_path"
+  while [ -n "$_tsbr_cursor" ] && [ "$_tsbr_cursor" != "/" ]; do
+    if [ "$(basename "$_tsbr_cursor")" = "tasks" ]; then
+      printf '%s' "$_tsbr_cursor"
+      return 0
+    fi
+    _tsbr_next="$(dirname "$_tsbr_cursor")"
+    [ "$_tsbr_next" = "$_tsbr_cursor" ] && break
+    _tsbr_cursor="$_tsbr_next"
+  done
+
+  printf '%s' "$_tsbr_path"
 }

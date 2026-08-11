@@ -1,0 +1,24 @@
+{
+  "contract": "AuthoringEvidence/v1",
+  "provider": "exa",
+  "request_id": "e476ede702398c09",
+  "query": "atomic task example",
+  "observed_at": "2026-08-11T00:00:00Z",
+  "state": "ok",
+  "sources": [
+    {
+      "url": "https://example.invalid/exa/fixture",
+      "title": "Exa offline contract fixture",
+      "retrieved_at": "2026-08-11T00:00:00Z",
+      "content_digest": "c1c2b1c4c05d04d4a1ac07c5d06c45d3c42ef889b936165f9331f99c5c192b33"
+    }
+  ],
+  "claims": [
+    {
+      "text": "Deterministic fake evidence can exercise the provider contract without network access.",
+      "excerpt": "Deterministic fake evidence for an atomic task example.",
+      "source_refs": [0]
+    }
+  ],
+  "usage": {"requests": 0, "cost": 0, "mode": "offline_fake"}
+}
