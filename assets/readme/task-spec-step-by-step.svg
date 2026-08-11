@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1500" viewBox="0 0 1800 1500" role="img" aria-labelledby="title desc">
   <title id="title">Task-Spec step by step from an empty repository to an accepted task</title>
-  <desc id="desc">Eight steps: initialize the task workspace, provision the signing key, preview a TaskPlan, generate approved specs, validate structure and definition of done, authorize one leaf, hand it to an executor, and independently accept the resulting work.</desc>
+  <desc id="desc">Eight spacious cards show initialization, signing, plan review, generation, validation, authorization, handoff, and independent acceptance. Each card separates its icon from the command and result text to prevent overlap.</desc>
   <defs>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M40 0H0V40" fill="none" stroke="#8ba3b5" stroke-opacity="0.07" stroke-width="1"/>
@@ -9,164 +9,174 @@
       <stop offset="0" stop-color="#14212c"/>
       <stop offset="1" stop-color="#0d151d"/>
     </linearGradient>
-    <filter id="amberGlow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="7" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="greenGlow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="7" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
     <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0 0L10 5L0 10z" fill="#68c7ff"/>
     </marker>
     <style>
-      .sans { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
-      .mono { font-family: Menlo, "SFMono-Regular", Consolas, monospace; }
-      .card { fill: url(#card); stroke: #314959; stroke-width: 2; }
-      .number { font: 700 15px Menlo, "SFMono-Regular", Consolas, monospace; letter-spacing: 2px; fill: #68c7ff; }
-      .name { font: 700 24px "Avenir Next", "Helvetica Neue", Arial, sans-serif; letter-spacing: 2.8px; fill: #f2f6f4; }
-      .command { font: 14px Menlo, "SFMono-Regular", Consolas, monospace; fill: #b8c8d4; }
-      .result { font: 13px Menlo, "SFMono-Regular", Consolas, monospace; letter-spacing: 1px; fill: #8ba3b5; }
-      .role { font: 700 11px Menlo, "SFMono-Regular", Consolas, monospace; letter-spacing: 1.5px; }
+      .sans { font-family: Arial, Helvetica, sans-serif; }
+      .mono { font-family: Menlo, Consolas, "Liberation Mono", monospace; }
+      .step-card { fill: url(#card); stroke: #365166; stroke-width: 2; }
+      .number { font: 700 18px Menlo, Consolas, "Liberation Mono", monospace; letter-spacing: 1.7px; fill: #68c7ff; }
+      .role { font: 700 13px Menlo, Consolas, "Liberation Mono", monospace; letter-spacing: 1.4px; fill: #68c7ff; }
+      .name { font: 700 28px Arial, Helvetica, sans-serif; letter-spacing: 1.9px; fill: #f2f6f4; }
+      .command { font: 18px Menlo, Consolas, "Liberation Mono", monospace; fill: #c2d0da; }
+      .result { font: 16px Menlo, Consolas, "Liberation Mono", monospace; fill: #9bb0bf; }
       .edge { fill: none; stroke: #68c7ff; stroke-width: 3; marker-end: url(#arrowBlue); }
     </style>
   </defs>
 
-  <rect width="1600" height="900" fill="#080d12"/>
-  <rect width="1600" height="900" fill="url(#grid)"/>
-  <rect x="24" y="24" width="1552" height="852" rx="8" fill="none" stroke="#263844" stroke-width="1.5"/>
+  <rect width="1800" height="1500" fill="#080d12"/>
+  <rect width="1800" height="1500" fill="url(#grid)"/>
+  <rect x="24" y="24" width="1752" height="1452" rx="10" fill="none" stroke="#263844" stroke-width="1.5"/>
 
-  <text x="800" y="80" text-anchor="middle" class="sans" font-size="34" font-weight="700" letter-spacing="8" fill="#f2f6f4">FROM EMPTY REPO TO ACCEPTED TASK</text>
-  <text x="800" y="116" text-anchor="middle" class="mono" font-size="15" letter-spacing="2" fill="#8ba3b5">eight explicit steps · two human review points · one independent final verdict</text>
+  <text x="900" y="74" text-anchor="middle" class="sans" font-size="36" font-weight="700" letter-spacing="7" fill="#f2f6f4">FROM EMPTY REPO TO ACCEPTED TASK</text>
+  <text x="900" y="112" text-anchor="middle" class="mono" font-size="16" letter-spacing="1.8" fill="#8ba3b5">eight explicit steps · two human review points · one independent final verdict</text>
 
-  <!-- row-one edges -->
-  <path class="edge" d="M400 286H430"/>
-  <path class="edge" d="M760 286H790"/>
-  <path class="edge" d="M1120 286H1150"/>
-
-  <!-- return edge from 04 to 05 -->
-  <path d="M1320 400V454H55V568H70" fill="none" stroke="#68c7ff" stroke-width="3" stroke-dasharray="8 8" marker-end="url(#arrowBlue)"/>
-  <text x="688" y="444" text-anchor="middle" class="mono" font-size="12" letter-spacing="1.5" fill="#68c7ff">APPROVED FILES ENTER THE PROOF PATH</text>
-
-  <!-- row-two edges -->
-  <path class="edge" d="M400 652H430"/>
-  <path class="edge" d="M760 652H790"/>
-  <path class="edge" d="M1120 652H1150"/>
+  <!-- sequence connectors -->
+  <path class="edge" d="M880 285H906"/>
+  <path d="M1720 285H1750V430H50V580H66" fill="none" stroke="#68c7ff" stroke-width="3" stroke-dasharray="9 9" marker-end="url(#arrowBlue)"/>
+  <path class="edge" d="M880 580H906"/>
+  <path d="M1720 580H1750V725H50V875H66" fill="none" stroke="#68c7ff" stroke-width="3" stroke-dasharray="9 9" marker-end="url(#arrowBlue)"/>
+  <path class="edge" d="M880 875H906"/>
+  <path d="M1720 875H1750V1020H50V1170H66" fill="none" stroke="#68c7ff" stroke-width="3" stroke-dasharray="9 9" marker-end="url(#arrowBlue)"/>
+  <path class="edge" d="M880 1170H906"/>
 
   <!-- 01 -->
-  <g transform="translate(80 170)">
-    <rect class="card" width="320" height="230" rx="17"/>
-    <text class="number" x="24" y="34">01 · PREPARE</text>
-    <text class="role" x="296" y="34" text-anchor="end" fill="#68c7ff">CLI</text>
-    <path d="M67 84H253V128H67z" fill="#0a1118" stroke="#68c7ff" stroke-width="2"/>
-    <path d="M86 100H198M86 115H226" stroke="#8ba3b5" stroke-width="5" stroke-linecap="round"/>
-    <text class="name" x="160" y="164" text-anchor="middle">INITIALIZE</text>
-    <text class="command" x="160" y="192" text-anchor="middle">taskspec init</text>
-    <text class="result" x="160" y="216" text-anchor="middle">non-clobbering tasks/ workspace</text>
+  <g class="step" data-step="01" transform="translate(80 160)">
+    <rect class="step-card" data-card-bg="true" width="800" height="250" rx="18"/>
+    <text class="number" x="28" y="39">01 · PREPARE</text>
+    <text class="role" x="770" y="39" text-anchor="end">CLI</text>
+    <path d="M250 67V215" stroke="#2f4656" stroke-width="1.5"/>
+    <g transform="translate(54 88)">
+      <rect width="142" height="88" rx="8" fill="#0a1118" stroke="#68c7ff" stroke-width="3"/>
+      <path d="M24 27H107M24 47H120M24 67H89" stroke="#8ba3b5" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <text class="name" x="292" y="103">INITIALIZE WORKSPACE</text>
+    <text class="command" x="292" y="146">taskspec init</text>
+    <text class="result" x="292" y="184">Creates tasks/ without clobbering files</text>
+    <text class="result" x="292" y="214">Repository is ready for authoring</text>
   </g>
 
   <!-- 02 -->
-  <g transform="translate(440 170)">
-    <rect class="card" width="320" height="230" rx="17"/>
-    <text class="number" x="24" y="34">02 · PREPARE</text>
-    <text class="role" x="296" y="34" text-anchor="end" fill="#ffb454">REPOSITORY</text>
-    <g transform="translate(160 104)" filter="url(#amberGlow)">
-      <circle r="47" fill="#111820" stroke="#ffb454" stroke-width="3"/>
-      <circle r="34" fill="none" stroke="#ffb454" stroke-width="2" stroke-dasharray="5 6"/>
-      <circle r="7" fill="#ffb454"/>
+  <g class="step" data-step="02" transform="translate(920 160)">
+    <rect class="step-card" data-card-bg="true" width="800" height="250" rx="18" stroke="#8c672f"/>
+    <text class="number" x="28" y="39">02 · PREPARE</text>
+    <text class="role" x="770" y="39" text-anchor="end" fill="#ffb454">REPOSITORY</text>
+    <path d="M250 67V215" stroke="#2f4656" stroke-width="1.5"/>
+    <g transform="translate(138 137)">
+      <circle r="61" fill="#111820" stroke="#ffb454" stroke-width="3"/>
+      <circle r="45" fill="none" stroke="#ffb454" stroke-width="2" stroke-dasharray="6 7"/>
+      <circle r="9" fill="#ffb454"/>
     </g>
-    <text class="name" x="160" y="164" text-anchor="middle">PROVISION KEY</text>
-    <text class="command" x="160" y="192" text-anchor="middle">taskspec setup signing</text>
-    <text class="result" x="160" y="216" text-anchor="middle">private · idempotent · never committed</text>
+    <text class="name" x="292" y="103">PROVISION SIGNING KEY</text>
+    <text class="command" x="292" y="146">taskspec setup signing</text>
+    <text class="result" x="292" y="184">Private · idempotent · never committed</text>
+    <text class="result" x="292" y="214">Enables Tier-1 HMAC authorization</text>
   </g>
 
   <!-- 03 -->
-  <g transform="translate(800 170)">
-    <rect class="card" width="320" height="230" rx="17" stroke="#7b5a2b"/>
-    <text class="number" x="24" y="34" fill="#ffb454">03 · REVIEW</text>
-    <text class="role" x="296" y="34" text-anchor="end" fill="#ffb454">HUMAN</text>
-    <g fill="none" stroke="#68c7ff" stroke-width="2.5">
-      <circle cx="160" cy="79" r="11"/>
-      <circle cx="119" cy="124" r="9"/>
-      <circle cx="160" cy="124" r="9"/>
-      <circle cx="201" cy="124" r="9"/>
-      <path d="M153 88L124 116M160 90V115M167 88L196 116"/>
+  <g class="step" data-step="03" transform="translate(80 455)">
+    <rect class="step-card" data-card-bg="true" width="800" height="250" rx="18" stroke="#8c672f"/>
+    <text class="number" x="28" y="39" fill="#ffb454">03 · REVIEW</text>
+    <text class="role" x="770" y="39" text-anchor="end" fill="#ffb454">HUMAN REVIEW</text>
+    <path d="M250 67V215" stroke="#2f4656" stroke-width="1.5"/>
+    <g transform="translate(138 137)" fill="none" stroke="#68c7ff" stroke-width="3">
+      <circle cy="-49" r="15"/>
+      <circle cx="-55" cy="39" r="13"/>
+      <circle cy="39" r="13"/>
+      <circle cx="55" cy="39" r="13"/>
+      <path d="M-9 -36L-47 27M0 -34V26M9 -36L47 27"/>
     </g>
-    <text class="name" x="160" y="164" text-anchor="middle">PREVIEW PLAN</text>
-    <text class="command" x="160" y="192" text-anchor="middle">taskspec plan --manifest …</text>
-    <text class="result" x="160" y="216" text-anchor="middle">declared units · DAG · write conflicts</text>
+    <text class="name" x="292" y="103">PREVIEW THE PLAN</text>
+    <text class="command" x="292" y="146">taskspec plan --manifest …</text>
+    <text class="result" x="292" y="184">Review units, dependency DAG and scope</text>
+    <text class="result" x="292" y="214">No files generated until approval</text>
   </g>
 
   <!-- 04 -->
-  <g transform="translate(1160 170)">
-    <rect class="card" width="320" height="230" rx="17"/>
-    <text class="number" x="24" y="34">04 · COMPOSE</text>
-    <text class="role" x="296" y="34" text-anchor="end" fill="#68c7ff">CLI</text>
-    <g transform="translate(116 65)">
-      <rect x="0" y="20" width="76" height="62" rx="7" fill="#0a1118" stroke="#68c7ff" stroke-width="2"/>
-      <rect x="18" y="8" width="76" height="62" rx="7" fill="#101b26" stroke="#68c7ff" stroke-width="2"/>
-      <path d="M34 29H78M34 42H69M34 55H82" stroke="#8ba3b5" stroke-width="4" stroke-linecap="round"/>
+  <g class="step" data-step="04" transform="translate(920 455)">
+    <rect class="step-card" data-card-bg="true" width="800" height="250" rx="18"/>
+    <text class="number" x="28" y="39">04 · COMPOSE</text>
+    <text class="role" x="770" y="39" text-anchor="end">CLI</text>
+    <path d="M250 67V215" stroke="#2f4656" stroke-width="1.5"/>
+    <g transform="translate(76 91)">
+      <rect x="0" y="24" width="118" height="88" rx="9" fill="#0a1118" stroke="#68c7ff" stroke-width="3"/>
+      <rect x="28" width="118" height="88" rx="9" fill="#101b26" stroke="#68c7ff" stroke-width="3"/>
+      <path d="M54 27H118M54 48H107M54 69H123" stroke="#8ba3b5" stroke-width="6" stroke-linecap="round"/>
     </g>
-    <text class="name" x="160" y="164" text-anchor="middle">GENERATE SPECS</text>
-    <text class="command" x="160" y="192" text-anchor="middle">taskspec batch --plan …</text>
-    <text class="result" x="160" y="216" text-anchor="middle">approved leaves + composition nodes</text>
+    <text class="name" x="292" y="103">GENERATE APPROVED SPECS</text>
+    <text class="command" x="292" y="146">taskspec batch --plan …</text>
+    <text class="result" x="292" y="184">Creates leaves and composition nodes</text>
+    <text class="result" x="292" y="214">The approved plan becomes files</text>
   </g>
 
   <!-- 05 -->
-  <g transform="translate(80 536)">
-    <rect class="card" width="320" height="230" rx="17"/>
-    <text class="number" x="24" y="34">05 · PROVE</text>
-    <text class="role" x="296" y="34" text-anchor="end" fill="#68c7ff">CLI</text>
-    <path d="M93 82H227M93 105H206M93 128H218" stroke="#68c7ff" stroke-width="5" stroke-linecap="round"/>
-    <circle cx="74" cy="82" r="6" fill="#3ddc97"/>
-    <circle cx="74" cy="105" r="6" fill="#3ddc97"/>
-    <circle cx="74" cy="128" r="6" fill="#3ddc97"/>
-    <text class="name" x="160" y="164" text-anchor="middle">VALIDATE + DOD</text>
-    <text class="command" x="160" y="191" text-anchor="middle">taskspec validate · taskspec dod</text>
-    <text class="result" x="160" y="216" text-anchor="middle" fill="#3ddc97">traceability · DOD=COMPLETE</text>
+  <g class="step" data-step="05" transform="translate(80 750)">
+    <rect class="step-card" data-card-bg="true" width="800" height="250" rx="18"/>
+    <text class="number" x="28" y="39">05 · PROVE</text>
+    <text class="role" x="770" y="39" text-anchor="end">CLI</text>
+    <path d="M250 67V215" stroke="#2f4656" stroke-width="1.5"/>
+    <path d="M108 102H196M108 137H183M108 172H191" stroke="#68c7ff" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="82" cy="102" r="8" fill="#3ddc97"/>
+    <circle cx="82" cy="137" r="8" fill="#3ddc97"/>
+    <circle cx="82" cy="172" r="8" fill="#3ddc97"/>
+    <text class="name" x="292" y="103">VALIDATE + TRACE DOD</text>
+    <text class="command" x="292" y="146">taskspec validate …  ·  taskspec dod …</text>
+    <text class="result" x="292" y="184">Structure + behavior-to-eval traceability</text>
+    <text class="result" x="292" y="214" fill="#3ddc97">DOD=COMPLETE before delegation</text>
   </g>
 
   <!-- 06 -->
-  <g transform="translate(440 536)">
-    <rect class="card" width="320" height="230" rx="17" stroke="#7b5a2b"/>
-    <text class="number" x="24" y="34" fill="#ffb454">06 · AUTHORIZE</text>
-    <text class="role" x="296" y="34" text-anchor="end" fill="#ffb454">HUMAN</text>
-    <g transform="translate(160 103)" filter="url(#amberGlow)">
-      <circle r="47" fill="#111820" stroke="#ffb454" stroke-width="3"/>
-      <circle r="34" fill="none" stroke="#ffb454" stroke-width="2" stroke-dasharray="5 6"/>
-      <path d="M-13 0L-3 10L17 -14" fill="none" stroke="#ffb454" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g class="step" data-step="06" transform="translate(920 750)">
+    <rect class="step-card" data-card-bg="true" width="800" height="250" rx="18" stroke="#8c672f"/>
+    <text class="number" x="28" y="39" fill="#ffb454">06 · AUTHORIZE</text>
+    <text class="role" x="770" y="39" text-anchor="end" fill="#ffb454">HUMAN GATE</text>
+    <path d="M250 67V215" stroke="#2f4656" stroke-width="1.5"/>
+    <g transform="translate(138 137)">
+      <circle r="61" fill="#111820" stroke="#ffb454" stroke-width="3"/>
+      <circle r="45" fill="none" stroke="#ffb454" stroke-width="2" stroke-dasharray="6 7"/>
+      <path d="M-18 0L-5 14L23 -20" fill="none" stroke="#ffb454" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
-    <text class="name" x="160" y="164" text-anchor="middle">SEAL ONE LEAF</text>
-    <text class="command" x="160" y="192" text-anchor="middle">taskspec gate --stamp …</text>
-    <text class="result" x="160" y="216" text-anchor="middle" fill="#ffb454">VERDICT: DELEGATE · TIER=1</text>
+    <text class="name" x="292" y="103">SEAL ONE LEAF</text>
+    <text class="command" x="292" y="146">taskspec gate --stamp …</text>
+    <text class="result" x="292" y="184">Human authorizes the exact contract</text>
+    <text class="result" x="292" y="214" fill="#ffb454">VERDICT: DELEGATE · TIER=1</text>
   </g>
 
   <!-- 07 -->
-  <g transform="translate(800 536)">
-    <rect class="card" width="320" height="230" rx="17"/>
-    <text class="number" x="24" y="34">07 · EXECUTE</text>
-    <text class="role" x="296" y="34" text-anchor="end" fill="#68c7ff">HARNESS</text>
-    <path d="M72 102H112M112 102L150 78M112 102L150 102M112 102L150 126M150 78H246M150 102H246M150 126H246" fill="none" stroke="#68c7ff" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="72" cy="102" r="7" fill="#ffb454"/>
-    <text class="name" x="160" y="164" text-anchor="middle">HAND OFF + BUILD</text>
-    <text class="command" x="160" y="192" text-anchor="middle">taskspec handoff --backend …</text>
-    <text class="result" x="160" y="216" text-anchor="middle">same digest · selected executor</text>
+  <g class="step" data-step="07" transform="translate(80 1045)">
+    <rect class="step-card" data-card-bg="true" width="800" height="250" rx="18"/>
+    <text class="number" x="28" y="39">07 · EXECUTE</text>
+    <text class="role" x="770" y="39" text-anchor="end">HARNESS</text>
+    <path d="M250 67V215" stroke="#2f4656" stroke-width="1.5"/>
+    <g transform="translate(64 86)" fill="none" stroke="#68c7ff" stroke-width="4" stroke-linecap="round">
+      <path d="M0 51H47M47 51L91 13M47 51H91M47 51L91 89M91 13H143M91 51H143M91 89H143"/>
+      <circle cy="51" r="9" fill="#ffb454" stroke="none"/>
+      <circle cx="143" cy="13" r="7" fill="#68c7ff" stroke="none"/>
+      <circle cx="143" cy="51" r="7" fill="#68c7ff" stroke="none"/>
+      <circle cx="143" cy="89" r="7" fill="#68c7ff" stroke="none"/>
+    </g>
+    <text class="name" x="292" y="103">HAND OFF + BUILD</text>
+    <text class="command" x="292" y="146">taskspec handoff --backend …</text>
+    <text class="result" x="292" y="184">Executor receives digest, scope and budgets</text>
+    <text class="result" x="292" y="214">Selected harness changes the repository</text>
   </g>
 
   <!-- 08 -->
-  <g transform="translate(1160 536)">
-    <rect class="card" width="320" height="230" rx="17" stroke="#28684f"/>
-    <text class="number" x="24" y="34" fill="#3ddc97">08 · ACCEPT</text>
-    <text class="role" x="296" y="34" text-anchor="end" fill="#3ddc97">POST-GATE</text>
-    <g transform="translate(160 103)" filter="url(#greenGlow)">
-      <circle r="47" fill="#101a1a" stroke="#3ddc97" stroke-width="3"/>
-      <path d="M-20 0L-6 15L24 -20" fill="none" stroke="#3ddc97" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <g class="step" data-step="08" transform="translate(920 1045)">
+    <rect class="step-card" data-card-bg="true" width="800" height="250" rx="18" stroke="#28775a"/>
+    <text class="number" x="28" y="39" fill="#3ddc97">08 · ACCEPT</text>
+    <text class="role" x="770" y="39" text-anchor="end" fill="#3ddc97">POST-GATE</text>
+    <path d="M250 67V215" stroke="#2f4656" stroke-width="1.5"/>
+    <g transform="translate(138 137)">
+      <circle r="61" fill="#101a1a" stroke="#3ddc97" stroke-width="3"/>
+      <path d="M-25 0L-8 19L30 -27" fill="none" stroke="#3ddc97" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
-    <text class="name" x="160" y="164" text-anchor="middle" fill="#3ddc97">VERIFY THE WORK</text>
-    <text class="command" x="160" y="192" text-anchor="middle">taskspec accept --stamp …</text>
-    <text class="result" x="160" y="216" text-anchor="middle" fill="#3ddc97">scope + seal · ACCEPTED=1</text>
+    <text class="name" x="292" y="103" fill="#3ddc97">VERIFY + ACCEPT</text>
+    <text class="command" x="292" y="146">taskspec accept --stamp …</text>
+    <text class="result" x="292" y="184">POST-gate checks evals, scope and seal</text>
+    <text class="result" x="292" y="214" fill="#3ddc97">ACCEPTED=1 unlocks the next leaf</text>
   </g>
 
-  <text x="800" y="835" text-anchor="middle" class="mono" font-size="14" letter-spacing="2" fill="#8ba3b5">THE SKILL DRIVES PROCEDURE · THE HUMAN AUTHORIZES · THE POST-GATE DECIDES DONE</text>
+  <text x="900" y="1440" text-anchor="middle" class="mono" font-size="15" letter-spacing="1.8" fill="#8ba3b5">THE SKILL DRIVES PROCEDURE · THE HUMAN AUTHORIZES · THE POST-GATE DECIDES DONE</text>
 </svg>

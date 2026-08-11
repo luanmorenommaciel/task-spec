@@ -1,175 +1,193 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1220" viewBox="0 0 1800 1220" role="img" aria-labelledby="title desc">
   <title id="title">The Task-Spec atomic contract flow and feature envelope</title>
-  <desc id="desc">Intent, repository evidence, and optional research become a deterministic plan, an atomic Task-Spec, an HMAC-authorized handoff, execution by any harness, and independent acceptance. The contract carries bounded scope, dependency edges, budgets, runnable evals, portable handoff fields, and fail-closed acceptance.</desc>
+  <desc id="desc">Six spacious stages show evidence composition, deterministic planning, atomic specification, explicit authorization, portable handoff, and independent acceptance. A separate feature envelope lists the contract properties that travel with every task.</desc>
   <defs>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M40 0H0V40" fill="none" stroke="#8ba3b5" stroke-opacity="0.075" stroke-width="1"/>
+      <path d="M40 0H0V40" fill="none" stroke="#8ba3b5" stroke-opacity="0.07" stroke-width="1"/>
     </pattern>
-    <linearGradient id="rail" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#68c7ff" stop-opacity="0.35"/>
-      <stop offset="0.58" stop-color="#ffb454" stop-opacity="0.95"/>
-      <stop offset="1" stop-color="#3ddc97" stop-opacity="0.95"/>
-    </linearGradient>
-    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#14202b"/>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#14212c"/>
       <stop offset="1" stop-color="#0d151d"/>
     </linearGradient>
-    <filter id="blueGlow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="7" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="amberGlow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="9" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="greenGlow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="9" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+    <linearGradient id="rail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#68c7ff"/>
+      <stop offset="0.66" stop-color="#ffb454"/>
+      <stop offset="1" stop-color="#3ddc97"/>
+    </linearGradient>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0 0L10 5L0 10z" fill="#68c7ff"/>
     </marker>
     <style>
-      .sans { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
-      .mono { font-family: Menlo, "SFMono-Regular", Consolas, monospace; }
-      .stage { fill: url(#panel); stroke: #365166; stroke-width: 2; }
-      .stage-name { font: 700 22px "Avenir Next", "Helvetica Neue", Arial, sans-serif; letter-spacing: 2.4px; fill: #f2f6f4; }
-      .stage-sub { font: 15px Menlo, "SFMono-Regular", Consolas, monospace; fill: #9bb0bf; }
-      .index { font: 700 13px Menlo, "SFMono-Regular", Consolas, monospace; letter-spacing: 2px; fill: #68c7ff; }
-      .feature { fill: #0d151d; stroke: #2b4050; stroke-width: 1.5; }
-      .feature-name { font: 700 17px "Avenir Next", "Helvetica Neue", Arial, sans-serif; letter-spacing: 1.7px; fill: #f2f6f4; }
-      .feature-sub { font: 14px Menlo, "SFMono-Regular", Consolas, monospace; fill: #8ba3b5; }
+      .sans { font-family: Arial, Helvetica, sans-serif; }
+      .mono { font-family: Menlo, Consolas, "Liberation Mono", monospace; }
+      .stage-card { fill: url(#card); stroke: #365166; stroke-width: 2; }
+      .stage-index { font: 700 17px Menlo, Consolas, "Liberation Mono", monospace; letter-spacing: 1.8px; fill: #68c7ff; }
+      .stage-name { font: 700 22px Arial, Helvetica, sans-serif; letter-spacing: 1.6px; fill: #f2f6f4; }
+      .stage-sub { font: 14px Menlo, Consolas, "Liberation Mono", monospace; fill: #a9bac6; }
+      .stage-proof { font: 700 13px Menlo, Consolas, "Liberation Mono", monospace; letter-spacing: 1.1px; fill: #68c7ff; }
+      .feature-card { fill: #0d151d; stroke: #2f4656; stroke-width: 1.5; }
+      .feature-name { font: 700 18px Arial, Helvetica, sans-serif; letter-spacing: 1.5px; fill: #f2f6f4; }
+      .feature-sub { font: 15px Menlo, Consolas, "Liberation Mono", monospace; fill: #9bb0bf; }
+      .edge { fill: none; stroke: url(#rail); stroke-width: 3; marker-end: url(#arrowBlue); }
     </style>
   </defs>
 
-  <rect width="1600" height="900" fill="#080d12"/>
-  <rect width="1600" height="900" fill="url(#grid)"/>
-  <rect x="24" y="24" width="1552" height="852" rx="8" fill="none" stroke="#263844" stroke-width="1.5"/>
+  <rect width="1800" height="1220" fill="#080d12"/>
+  <rect width="1800" height="1220" fill="url(#grid)"/>
+  <rect x="24" y="24" width="1752" height="1172" rx="10" fill="none" stroke="#263844" stroke-width="1.5"/>
 
-  <text x="800" y="82" text-anchor="middle" class="sans" font-size="34" font-weight="700" letter-spacing="8" fill="#f2f6f4">THE ATOMIC CONTRACT FLOW</text>
-  <text x="800" y="118" text-anchor="middle" class="mono" font-size="15" letter-spacing="2.1" fill="#8ba3b5">one declared unit · one authorization envelope · one independent acceptance rule</text>
+  <text x="900" y="74" text-anchor="middle" class="sans" font-size="36" font-weight="700" letter-spacing="7" fill="#f2f6f4">THE ATOMIC CONTRACT FLOW</text>
+  <text x="900" y="112" text-anchor="middle" class="mono" font-size="16" letter-spacing="1.8" fill="#8ba3b5">one declared unit · one authorization envelope · one independent acceptance rule</text>
 
-  <path d="M105 330H1495" stroke="url(#rail)" stroke-width="4" fill="none"/>
+  <path class="edge" d="M600 295H626"/>
+  <path class="edge" d="M1160 295H1186"/>
+  <path d="M1720 295H1750V462H50V625H66" fill="none" stroke="#68c7ff" stroke-width="3" stroke-dasharray="9 9" marker-end="url(#arrowBlue)"/>
+  <text x="900" y="456" text-anchor="middle" class="mono" font-size="13" letter-spacing="1.7" fill="#68c7ff">THE APPROVED LEAF CROSSES THE AUTHORIZATION BOUNDARY</text>
+  <path class="edge" d="M600 625H626"/>
+  <path class="edge" d="M1160 625H1186"/>
 
-  <!-- stage 01 -->
-  <g transform="translate(65 212)">
-    <rect class="stage" width="215" height="236" rx="16"/>
-    <text class="index" x="22" y="32">01 · COMPOSE</text>
-    <path d="M40 86C74 62 92 110 126 86S178 62 190 86" fill="none" stroke="#68c7ff" stroke-width="2" stroke-opacity="0.7"/>
-    <path d="M40 105C74 81 92 129 126 105S178 81 190 105" fill="none" stroke="#ffb454" stroke-width="2" stroke-opacity="0.7"/>
-    <circle cx="108" cy="123" r="5" fill="#f2f6f4" filter="url(#blueGlow)"/>
-    <text class="stage-name" x="108" y="168" text-anchor="middle">EVIDENCE</text>
-    <text class="stage-sub" x="108" y="195" text-anchor="middle">intent · repo · research</text>
-  </g>
-
-  <!-- stage 02 -->
-  <g transform="translate(315 212)">
-    <rect class="stage" width="215" height="236" rx="16"/>
-    <text class="index" x="22" y="32">02 · PLAN</text>
-    <g fill="none" stroke="#68c7ff" stroke-width="2">
-      <circle cx="108" cy="76" r="12"/>
-      <circle cx="69" cy="124" r="10"/>
-      <circle cx="108" cy="124" r="10"/>
-      <circle cx="147" cy="124" r="10"/>
-      <path d="M102 87L75 115M108 88V114M114 87L141 115"/>
+  <!-- 01: compose -->
+  <g class="stage" data-stage="01" transform="translate(80 170)">
+    <rect class="stage-card" data-card-bg="true" width="520" height="250" rx="18"/>
+    <text class="stage-index" x="28" y="38">01 · COMPOSE</text>
+    <g transform="translate(105 126)" fill="none" stroke-linecap="round">
+      <path d="M-52 -30C-20 -54 10 -6 44 -30" stroke="#68c7ff" stroke-width="3"/>
+      <path d="M-52 0C-20 -24 10 24 44 0" stroke="#ffb454" stroke-width="3"/>
+      <path d="M-52 30C-20 6 10 54 44 30" stroke="#3ddc97" stroke-width="3"/>
+      <circle cx="58" cy="0" r="7" fill="#f2f6f4" stroke="none"/>
     </g>
-    <text class="stage-name" x="108" y="168" text-anchor="middle">TASKPLAN</text>
-    <text class="stage-sub" x="108" y="195" text-anchor="middle">preview · DAG · collisions</text>
+    <path d="M190 66V214" stroke="#2f4656" stroke-width="1.5"/>
+    <text class="stage-name" x="218" y="104">COMPOSE EVIDENCE</text>
+    <text class="stage-sub" x="218" y="145">intent · repository context</text>
+    <text class="stage-sub" x="218" y="176">optional cited research</text>
+    <text class="stage-proof" x="218" y="215">BOUNDED AUTHORING INPUT</text>
   </g>
 
-  <!-- stage 03 -->
-  <g transform="translate(565 192)">
-    <rect width="215" height="276" rx="18" fill="#111c26" stroke="#68c7ff" stroke-width="3" filter="url(#blueGlow)"/>
-    <text class="index" x="22" y="34">03 · ATOMIC SPEC</text>
-    <rect x="62" y="58" width="92" height="94" rx="9" fill="#0a1118" stroke="#68c7ff" stroke-width="2"/>
-    <path d="M78 80H137M78 98H126M78 116H142" stroke="#8ba3b5" stroke-width="5" stroke-linecap="round"/>
-    <rect x="77" y="127" width="63" height="12" rx="4" fill="#3ddc97" fill-opacity="0.75"/>
-    <path d="M52 47H165V164H52z" fill="none" stroke="#ffb454" stroke-width="1.5" stroke-dasharray="6 7"/>
-    <text class="stage-name" x="108" y="201" text-anchor="middle" fill="#68c7ff">XS · S · M · L</text>
-    <text class="stage-sub" x="108" y="228" text-anchor="middle">one bounded done-condition</text>
-    <text class="stage-sub" x="108" y="251" text-anchor="middle">XL / XXL decompose only</text>
-  </g>
-
-  <!-- stage 04 -->
-  <g transform="translate(815 212)">
-    <rect class="stage" width="215" height="236" rx="16" stroke="#7b5a2b"/>
-    <text class="index" x="22" y="32" fill="#ffb454">04 · AUTHORIZE</text>
-    <g transform="translate(108 105)" filter="url(#amberGlow)">
-      <circle r="48" fill="#111820" stroke="#ffb454" stroke-width="3"/>
-      <circle r="35" fill="none" stroke="#ffb454" stroke-width="2" stroke-dasharray="5 6"/>
-      <path d="M-11 2L-2 11L16 -12" fill="none" stroke="#ffb454" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 02: plan -->
+  <g class="stage" data-stage="02" transform="translate(640 170)">
+    <rect class="stage-card" data-card-bg="true" width="520" height="250" rx="18"/>
+    <text class="stage-index" x="28" y="38">02 · PLAN</text>
+    <g transform="translate(105 126)" fill="none" stroke="#68c7ff" stroke-width="3">
+      <circle cy="-42" r="14"/>
+      <circle cx="-47" cy="35" r="12"/>
+      <circle cy="35" r="12"/>
+      <circle cx="47" cy="35" r="12"/>
+      <path d="M-8 -30L-40 24M0 -28V23M8 -30L40 24"/>
     </g>
-    <text class="stage-name" x="108" y="181" text-anchor="middle" fill="#ffb454">PRE-GATE</text>
-    <text class="stage-sub" x="108" y="207" text-anchor="middle">validate · HMAC v2 · tier</text>
+    <path d="M190 66V214" stroke="#2f4656" stroke-width="1.5"/>
+    <text class="stage-name" x="218" y="104">PREVIEW TASKPLAN</text>
+    <text class="stage-sub" x="218" y="145">declared units · dependency DAG</text>
+    <text class="stage-sub" x="218" y="176">write-conflict analysis</text>
+    <text class="stage-proof" x="218" y="215">DETERMINISTIC PREVIEW</text>
   </g>
 
-  <!-- stage 05 -->
-  <g transform="translate(1065 212)">
-    <rect class="stage" width="215" height="236" rx="16"/>
-    <text class="index" x="22" y="32">05 · EXECUTE</text>
-    <path d="M46 88H82M82 88L109 64M82 88L109 88M82 88L109 112M109 64H169M109 88H169M109 112H169" fill="none" stroke="#68c7ff" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="46" cy="88" r="7" fill="#ffb454"/>
-    <circle cx="169" cy="64" r="6" fill="#68c7ff"/>
-    <circle cx="169" cy="88" r="6" fill="#68c7ff"/>
-    <circle cx="169" cy="112" r="6" fill="#68c7ff"/>
-    <text class="stage-name" x="108" y="168" text-anchor="middle">HANDOFF</text>
-    <text class="stage-sub" x="108" y="195" text-anchor="middle">any harness · same digest</text>
-  </g>
-
-  <!-- stage 06 -->
-  <g transform="translate(1315 212)">
-    <rect class="stage" width="215" height="236" rx="16" stroke="#28684f"/>
-    <text class="index" x="22" y="32" fill="#3ddc97">06 · ACCEPT</text>
-    <g transform="translate(108 104)" filter="url(#greenGlow)">
-      <circle r="48" fill="#101a1a" stroke="#3ddc97" stroke-width="3"/>
-      <path d="M-20 1L-6 16L24 -20" fill="none" stroke="#3ddc97" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 03: atomic spec -->
+  <g class="stage" data-stage="03" transform="translate(1200 170)">
+    <rect class="stage-card" data-card-bg="true" width="520" height="250" rx="18" stroke="#68c7ff" stroke-width="3"/>
+    <text class="stage-index" x="28" y="38">03 · ATOMIC SPEC</text>
+    <g transform="translate(59 72)">
+      <rect width="94" height="112" rx="9" fill="#0a1118" stroke="#68c7ff" stroke-width="2"/>
+      <path d="M18 26H75M18 47H67M18 68H78" stroke="#8ba3b5" stroke-width="5" stroke-linecap="round"/>
+      <rect x="18" y="86" width="58" height="12" rx="4" fill="#3ddc97"/>
+      <rect x="-13" y="-13" width="120" height="138" fill="none" stroke="#ffb454" stroke-width="1.5" stroke-dasharray="6 7"/>
     </g>
-    <text class="stage-name" x="108" y="181" text-anchor="middle" fill="#3ddc97">POST-GATE</text>
-    <text class="stage-sub" x="108" y="207" text-anchor="middle">evals · scope · seal</text>
+    <path d="M190 66V214" stroke="#2f4656" stroke-width="1.5"/>
+    <text class="stage-name" x="218" y="104">FORM ATOMIC SPEC</text>
+    <text class="stage-sub" x="218" y="145">runnable leaf · XS / S / M / L</text>
+    <text class="stage-sub" x="218" y="176">XL / XXL decompose only</text>
+    <text class="stage-proof" x="218" y="215">ONE BOUNDED DONE-CONDITION</text>
+  </g>
+
+  <!-- 04: authorize -->
+  <g class="stage" data-stage="04" transform="translate(80 500)">
+    <rect class="stage-card" data-card-bg="true" width="520" height="250" rx="18" stroke="#8c672f"/>
+    <text class="stage-index" x="28" y="38" fill="#ffb454">04 · AUTHORIZE</text>
+    <g transform="translate(105 128)">
+      <circle r="58" fill="#111820" stroke="#ffb454" stroke-width="3"/>
+      <circle r="43" fill="none" stroke="#ffb454" stroke-width="2" stroke-dasharray="6 7"/>
+      <path d="M-17 1L-5 14L22 -19" fill="none" stroke="#ffb454" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <path d="M190 66V214" stroke="#2f4656" stroke-width="1.5"/>
+    <text class="stage-name" x="218" y="104">AUTHORIZE LEAF</text>
+    <text class="stage-sub" x="218" y="145">validate · DoD · HMAC v2</text>
+    <text class="stage-sub" x="218" y="176">explicit delegation tier</text>
+    <text class="stage-proof" x="218" y="215" fill="#ffb454">PRE-GATE · HUMAN DECISION</text>
+  </g>
+
+  <!-- 05: handoff -->
+  <g class="stage" data-stage="05" transform="translate(640 500)">
+    <rect class="stage-card" data-card-bg="true" width="520" height="250" rx="18"/>
+    <text class="stage-index" x="28" y="38">05 · EXECUTE</text>
+    <g transform="translate(48 82)" fill="none" stroke="#68c7ff" stroke-width="3" stroke-linecap="round">
+      <path d="M0 46H42M42 46L79 10M42 46H79M42 46L79 82M79 10H127M79 46H127M79 82H127"/>
+      <circle cy="46" r="8" fill="#ffb454" stroke="none"/>
+      <circle cx="127" cy="10" r="6" fill="#68c7ff" stroke="none"/>
+      <circle cx="127" cy="46" r="6" fill="#68c7ff" stroke="none"/>
+      <circle cx="127" cy="82" r="6" fill="#68c7ff" stroke="none"/>
+    </g>
+    <path d="M190 66V214" stroke="#2f4656" stroke-width="1.5"/>
+    <text class="stage-name" x="218" y="104">PORTABLE HANDOFF</text>
+    <text class="stage-sub" x="218" y="145">same digest · bounded scope</text>
+    <text class="stage-sub" x="218" y="176">Codex · Claude · Kimi · custom</text>
+    <text class="stage-proof" x="218" y="215">CREDENTIAL-FREE CONTRACT</text>
+  </g>
+
+  <!-- 06: accept -->
+  <g class="stage" data-stage="06" transform="translate(1200 500)">
+    <rect class="stage-card" data-card-bg="true" width="520" height="250" rx="18" stroke="#28775a"/>
+    <text class="stage-index" x="28" y="38" fill="#3ddc97">06 · ACCEPT</text>
+    <g transform="translate(105 128)">
+      <circle r="58" fill="#101a1a" stroke="#3ddc97" stroke-width="3"/>
+      <path d="M-24 0L-8 18L29 -26" fill="none" stroke="#3ddc97" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <path d="M190 66V214" stroke="#2f4656" stroke-width="1.5"/>
+    <text class="stage-name" x="218" y="104" fill="#3ddc97">INDEPENDENT ACCEPT</text>
+    <text class="stage-sub" x="218" y="145">evals · blast radius · seal</text>
+    <text class="stage-sub" x="218" y="176">accepted: true or fail closed</text>
+    <text class="stage-proof" x="218" y="215" fill="#3ddc97">POST-GATE · FINAL VERDICT</text>
   </g>
 
   <!-- feature envelope -->
-  <rect x="65" y="518" width="1465" height="277" rx="18" fill="#0a1118" stroke="#2d4352" stroke-width="2"/>
-  <text x="98" y="558" class="mono" font-size="14" letter-spacing="2.4" fill="#ffb454">FEATURE ENVELOPE · WHAT TRAVELS WITH THE UNIT</text>
+  <rect x="55" y="810" width="1690" height="300" rx="20" fill="#0a1118" stroke="#2d4352" stroke-width="2"/>
+  <text x="86" y="852" class="mono" font-size="15" letter-spacing="2.2" fill="#ffb454">FEATURE ENVELOPE · WHAT TRAVELS WITH EVERY TASK</text>
 
-  <g transform="translate(95 588)">
-    <rect class="feature" width="440" height="78" rx="12"/>
-    <circle cx="32" cy="39" r="11" fill="none" stroke="#68c7ff" stroke-width="3"/>
-    <path d="M26 39H38M32 33V45" stroke="#68c7ff" stroke-width="2"/>
-    <text class="feature-name" x="58" y="32">BOUNDED WRITE SCOPE</text>
-    <text class="feature-sub" x="58" y="56">touches + creates + do-not-touch</text>
+  <g class="feature" transform="translate(80 880)">
+    <rect class="feature-card" width="510" height="82" rx="12"/>
+    <circle cx="34" cy="41" r="12" fill="none" stroke="#68c7ff" stroke-width="3"/>
+    <path d="M28 41H40M34 35V47" stroke="#68c7ff" stroke-width="2"/>
+    <text class="feature-name" x="62" y="34">BOUNDED WRITE SCOPE</text>
+    <text class="feature-sub" x="62" y="60">touches · creates · do-not-touch</text>
   </g>
-  <g transform="translate(580 588)">
-    <rect class="feature" width="440" height="78" rx="12"/>
-    <path d="M23 27H41M23 39H41M23 51H41" stroke="#68c7ff" stroke-width="3" stroke-linecap="round"/>
-    <text class="feature-name" x="58" y="32">DEPENDENCIES + BUDGETS</text>
-    <text class="feature-sub" x="58" y="56">frontier · effort · time · tokens</text>
+  <g class="feature" transform="translate(645 880)">
+    <rect class="feature-card" width="510" height="82" rx="12"/>
+    <path d="M25 29H45M25 41H45M25 53H45" stroke="#68c7ff" stroke-width="3" stroke-linecap="round"/>
+    <text class="feature-name" x="62" y="34">DEPENDENCIES + BUDGETS</text>
+    <text class="feature-sub" x="62" y="60">frontier · effort · time · tokens</text>
   </g>
-  <g transform="translate(1065 588)">
-    <rect class="feature" width="440" height="78" rx="12"/>
-    <path d="M22 42L30 34L38 46L46 26" fill="none" stroke="#3ddc97" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <text class="feature-name" x="58" y="32">RUNNABLE PROOF</text>
-    <text class="feature-sub" x="58" y="56">behavior → eval → Exit Check</text>
+  <g class="feature" transform="translate(1210 880)">
+    <rect class="feature-card" width="510" height="82" rx="12"/>
+    <path d="M24 44L31 36L39 48L48 27" fill="none" stroke="#3ddc97" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="feature-name" x="62" y="34">RUNNABLE PROOF</text>
+    <text class="feature-sub" x="62" y="60">behavior → eval → exit check</text>
+  </g>
+  <g class="feature" transform="translate(80 985)">
+    <rect class="feature-card" width="510" height="82" rx="12"/>
+    <circle cx="34" cy="41" r="15" fill="none" stroke="#ffb454" stroke-width="2.5" stroke-dasharray="4 4"/>
+    <text class="feature-name" x="62" y="34">TAMPER-EVIDENT AUTHORITY</text>
+    <text class="feature-sub" x="62" y="60">body · paths · agent · backend sealed</text>
+  </g>
+  <g class="feature" transform="translate(645 985)">
+    <rect class="feature-card" width="510" height="82" rx="12"/>
+    <path d="M23 41H48M41 33L50 41L41 49" fill="none" stroke="#68c7ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="feature-name" x="62" y="34">PORTABLE HANDOFF</text>
+    <text class="feature-sub" x="62" y="60">workspace · digest · commands · no secrets</text>
+  </g>
+  <g class="feature" transform="translate(1210 985)">
+    <rect class="feature-card" width="510" height="82" rx="12"/>
+    <path d="M24 28H47V54H24zM29 41L34 46L42 36" fill="none" stroke="#3ddc97" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="feature-name" x="62" y="34">FAIL-CLOSED ACCEPTANCE</text>
+    <text class="feature-sub" x="62" y="60">done requires accepted: true</text>
   </g>
 
-  <g transform="translate(95 688)">
-    <rect class="feature" width="440" height="78" rx="12"/>
-    <circle cx="32" cy="39" r="14" fill="none" stroke="#ffb454" stroke-width="2.5" stroke-dasharray="4 4"/>
-    <text class="feature-name" x="58" y="32">TAMPER-EVIDENT AUTHORITY</text>
-    <text class="feature-sub" x="58" y="56">body + paths + agent + backend sealed</text>
-  </g>
-  <g transform="translate(580 688)">
-    <rect class="feature" width="440" height="78" rx="12"/>
-    <path d="M21 39H45M39 31L47 39L39 47" fill="none" stroke="#68c7ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <text class="feature-name" x="58" y="32">PORTABLE HANDOFF</text>
-    <text class="feature-sub" x="58" y="56">workspace · digest · commands · no secrets</text>
-  </g>
-  <g transform="translate(1065 688)">
-    <rect class="feature" width="440" height="78" rx="12"/>
-    <path d="M22 27H44V51H22zM27 39L31 43L39 34" fill="none" stroke="#3ddc97" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <text class="feature-name" x="58" y="32">FAIL-CLOSED ACCEPTANCE</text>
-    <text class="feature-sub" x="58" y="56">done requires accepted: true</text>
-  </g>
-
-  <text x="800" y="842" text-anchor="middle" class="mono" font-size="14" letter-spacing="2" fill="#8ba3b5">AUTHORING MAY BE ASSISTED · AUTHORIZATION IS EXPLICIT · ACCEPTANCE IS INDEPENDENT</text>
+  <text x="900" y="1162" text-anchor="middle" class="mono" font-size="14" letter-spacing="1.8" fill="#8ba3b5">AUTHORING MAY BE ASSISTED · AUTHORIZATION IS EXPLICIT · ACCEPTANCE IS INDEPENDENT</text>
 </svg>
