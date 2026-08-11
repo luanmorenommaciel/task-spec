@@ -6,8 +6,8 @@
     "repository": "converge",
     "commit": "f78f077"
   },
-  "source_commit": null,
-  "release_status": "unpublished_worktree",
+  "source_commit": "95c4fce3267800086c602ef891bf5b5738e42270",
+  "release_status": "published_main",
   "gates": {
     "make_check": "pass",
     "clean_room": "pass",

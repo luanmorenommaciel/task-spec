@@ -18,6 +18,7 @@ def label(value: str) -> str:
     return {
         "pass": "Pass",
         "pending_release_tag": "Pending release tag",
+        "published_main": "Published on main",
         "unpublished_worktree": "Unpublished worktree",
     }.get(value, value.replace("_", " ").capitalize())
 
@@ -30,7 +31,11 @@ def render(evidence: dict) -> str:
         ("Package", "`npm pack --dry-run` and local global npm install", f"{label(gates['npm_pack_dry_run'])}; GitHub install {label(gates['npm_github_install']).lower()}"),
         ("Research", "Offline fake Firecrawl/Tavily/Exa adapters and named failure states", f"{label(gates['research_fake_adapters'])}; live providers not advertised"),
         ("Converge consumption", "Deterministic generated mirror plus per-file SHA-256 lock", f"{label(gates['converge_mirror'])}"),
-        ("Publication", "Canonical source commit, v3.6.0 tag, and remote curl/npm doors", f"{label(evidence['release_status'])}; publish actions not performed"),
+        (
+            "Publication",
+            "Canonical source commit, main branch, v3.6.0 tag, and remote curl/npm doors",
+            f"{label(evidence['release_status'])}; tag-dependent installs {label(gates['curl_pinned_install']).lower()}",
+        ),
     ]
     lines = [START, "| Surface | Repository evidence | Status |", "|---|---|---|"]
     lines.extend(f"| {surface} | {proof} | {status} |" for surface, proof, status in rows)

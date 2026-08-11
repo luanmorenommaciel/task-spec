@@ -206,7 +206,7 @@ Read [Trust and security](docs/trust/index.md) before using unsupervised Tier 1.
 | Package | `npm pack --dry-run` and local global npm install | Pass; GitHub install pending release tag |
 | Research | Offline fake Firecrawl/Tavily/Exa adapters and named failure states | Pass; live providers not advertised |
 | Converge consumption | Deterministic generated mirror plus per-file SHA-256 lock | Pass |
-| Publication | Canonical source commit, v3.6.0 tag, and remote curl/npm doors | Unpublished worktree; publish actions not performed |
+| Publication | Canonical source commit, main branch, v3.6.0 tag, and remote curl/npm doors | Published on main; tag-dependent installs pending release tag |
 <!-- release-status:end -->
 
 The canonical release evidence lives in [release/evidence.json](release/evidence.json).
