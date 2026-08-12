@@ -5,6 +5,7 @@
 - [Decomposing intent](../runbooks/decomposing-intent.md)
 - [Research providers](research-providers.md)
 - [Multi-harness execution](multi-harness.md)
+- [Multi-engine evidence](multi-engine-evidence.md)
 - [Recovering from failure](../runbooks/recovering-from-crash.md)
 - [Dark-factory boundary](../runbooks/dark-factory-as-task-spec.md)
 

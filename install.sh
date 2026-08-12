@@ -2,7 +2,7 @@
 # Install a pinned Task-Spec engine, CLI launcher, and equivalent harness skills.
 set -euo pipefail
 
-PINNED_VERSION="3.6.0"
+PINNED_VERSION="3.7.0"
 REPOSITORY="luanmorenommaciel/task-spec"
 TARGET="$PWD"
 MODE="copy"
@@ -177,6 +177,13 @@ if [[ "$NO_BIN" != true ]]; then
   if [[ -e "$launcher" || -L "$launcher" ]]; then
     if grep -q "task-spec launcher v$PINNED_VERSION" "$launcher" 2>/dev/null && [[ "$FORCE" != true ]]; then
       echo "kept: CLI launcher $launcher"
+    elif grep -qE '^# task-spec launcher v[0-9]+\.[0-9]+\.[0-9]+$' "$launcher" 2>/dev/null && [[ "$FORCE" != true ]]; then
+      # This is a launcher previously managed by Task-Spec, not an arbitrary
+      # user executable. A version upgrade may safely repoint it to the new
+      # side-by-side pinned engine without requiring destructive --force.
+      printf '%s\n' '#!/usr/bin/env sh' "# task-spec launcher v$PINNED_VERSION" "exec \"$ENGINE_DEST/bin/taskspec\" \"\$@\"" > "$launcher"
+      chmod +x "$launcher"
+      echo "updated: CLI launcher $launcher"
     else
       backup_existing "$launcher"
     fi

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://taskspec.dev/schema/v4/environment-contract.schema.json",
+  "title": "EnvironmentContract v1", "type": "object", "additionalProperties": false,
+  "required": ["contract", "runtime", "network", "filesystem"],
+  "properties": {"contract": {"const": "EnvironmentContract/v1"}, "runtime": {"type": "object"}, "network": {"type": "object", "required": ["mode"], "properties": {"mode": {"enum": ["deny", "allow-list", "open"]}, "allow": {"type": "array", "items": {"type": "string"}}}}, "filesystem": {"type": "object", "required": ["workspace", "writes"], "properties": {"workspace": {"type": "string"}, "writes": {"type": "array", "items": {"type": "string"}}}}, "limits": {"type": "object"}}
+}

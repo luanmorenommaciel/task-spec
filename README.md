@@ -7,8 +7,8 @@
 <p><strong>Define one atomic task. Seal its authority. Prove the work.</strong></p>
 <p><em>The canonical, vendor-neutral unit of work for coding agents.</em></p>
 
-[![version](https://img.shields.io/badge/version-3.6.0-68c7ff)](CHANGELOG.md)
-[![format](https://img.shields.io/badge/format-v3-ffb454)](spec/task-spec-v3.md)
+[![version](https://img.shields.io/badge/version-3.7.0-68c7ff)](CHANGELOG.md)
+[![format](https://img.shields.io/badge/format-v3%20stable%20%7C%20v4%20opt--in-ffb454)](spec/task-spec-v4.md)
 [![bash](https://img.shields.io/badge/bash-3.2%2B-4EAA25?logo=gnubash&logoColor=white)](#requirements)
 [![release gate](https://img.shields.io/badge/release%20gate-CHECK%3DREADY-3ddc97)](#current-verified-status)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -53,6 +53,9 @@ unit of work portable, tamper-evident, and independently checkable.
   budgets, and requirements.
 - **The executor does not grade itself.** PRE-gate authorization, execution, and
   POST-gate acceptance are separate moments with separate responsibilities.
+- **Evidence can remain independent.** Opt-in format v4 binds hidden holdouts,
+  graded rubrics, accountable humans, environments, and signer identity to the
+  exact authorized task through typed receipts.
 - **The contract survives the harness.** The same sealed leaf can be handed to
   Codex, Claude Code, Kimi, Grok Build, or another conformant executor.
 - **Failure has a name.** Invalid structure, weak evals, broken seals,
@@ -62,8 +65,8 @@ unit of work portable, tamper-evident, and independently checkable.
 
 ## Install
 
-All installation doors produce the same Task-Spec 3.6 engine, CLI, and harness
-skill. Until the `v3.6.0` tag is published, use the checkout door from `main`.
+All installation doors produce the same Task-Spec 3.7 engine, CLI, and harness
+skill. Until the `v3.7.0` tag is published, use the checkout door from `main`.
 
 **1 · Checkout copy — available now**
 
@@ -73,16 +76,16 @@ cd /path/to/your/repository
 bash ~/.local/share/task-spec-src/install.sh --target "$PWD" --copy
 ```
 
-**2 · One-line pinned installation — activates with the `v3.6.0` tag**
+**2 · One-line pinned installation — activates with the `v3.7.0` tag**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/luanmorenommaciel/task-spec/main/install.sh | bash
 ```
 
-**3 · npm / GitHub — activates with the `v3.6.0` tag**
+**3 · npm / GitHub — activates with the `v3.7.0` tag**
 
 ```bash
-npm install -g github:luanmorenommaciel/task-spec#v3.6.0
+npm install -g github:luanmorenommaciel/task-spec#v3.7.0
 taskspec-install
 ```
 
@@ -163,6 +166,14 @@ the seal, and stamps acceptance.
 taskspec accept --stamp --gold-sanity tasks/T-…-first-leaf.md
 ```
 
+The authoring default remains format v3. Choose v4 only when the task needs an
+explicit evidence policy:
+
+```bash
+taskspec new --format 4 add-search S codex
+taskspec author-doctor tasks/T-…-add-search.md
+```
+
 See the complete [first-task walkthrough](docs/getting-started/first-task.md) and
 the checked-in [TaskPlan example](docs/examples/task-plan.yaml).
 
@@ -190,7 +201,7 @@ agent › Three specs generated. Structure, sizing, dependency DAG, and
 you   › Seal the first ready leaf and hand it to Codex.
 
 agent › VERDICT: DELEGATE · TIER=1
-        TaskHandoff/v1 emitted for Codex; credentials excluded.
+        TaskHandoff/v1 emitted for v3 (v2 for v4); credentials excluded.
 
 you   › The change is back. Accept it.
 
@@ -230,10 +241,10 @@ flowchart TB
     Plan --> Preview["taskspec plan<br/>read-only preview"]
     Preview --> Specs["Atomic leaves + composition nodes"]
     Specs --> Pre{"PRE-gate<br/>validate + HMAC v2"}
-    Pre --> Handoff["TaskHandoff v1"]
+    Pre --> Handoff["TaskHandoff v1 / v2"]
     Handoff --> Harness["Codex / Claude / Kimi / Grok / custom"]
     Harness --> Change["Repository change"]
-    Change --> Post{"POST-gate<br/>evals + scope + seal"}
+    Change --> Post{"POST-gate<br/>evals + scope + seal + policy"}
     Post --> Accepted["accepted: true"]
     Post -->|fail closed| Repair["repair or park with context"]
 ```
@@ -242,7 +253,7 @@ flowchart TB
 |---|---|---|---|
 | **Compose** | intent, repository evidence, optional research | `TaskPlan/v1` and Task-Spec leaves/nodes | only the declared units exist; dependencies and write surfaces are explicit |
 | **PRE-gate** | one complete runnable leaf | HMAC v2 seal and delegation tier | the exact contract is structurally ready and its authority is tamper-evident |
-| **Handoff** | sealed leaf plus selected backend | credential-free `TaskHandoff/v1` | every harness receives the same digest, workspace, scope, budgets, and commands |
+| **Handoff** | sealed leaf plus selected backend | credential-free `TaskHandoff/v1` or v4 `v2` | every harness receives the same digest, workspace, scope, budgets, and commands; v2 also carries public evidence requirements |
 | **Execution** | handoff plus repository | repository change | an executor attempted the authorized unit; no success is implied yet |
 | **POST-gate** | changed repository plus sealed spec | acceptance verdict | evals, declared blast radius, and seal integrity passed or failed independently |
 
@@ -279,7 +290,8 @@ dangling dependencies, and write-disjoint concurrency groups.
 ## One contract, any harness
 
 
-`TaskHandoff/v1` freezes the portable transfer boundary:
+`TaskHandoff/v1` freezes the stable v3 transfer boundary. Format v4 emits
+`TaskHandoff/v2`, adding public evidence and environment commitments:
 
 - task ID, spec path, and content digest;
 - sign-off tier and selected backend;
@@ -288,11 +300,15 @@ dangling dependencies, and write-disjoint concurrency groups.
 - normalized `agent_contract`;
 - exact eval and acceptance commands.
 
-The handoff never includes credentials and never invokes a model. Codex,
+The handoff never includes credentials, private holdout commands, or signing
+keys, and never invokes a model. Codex,
 Claude, Kimi, Grok, or another executor can perform the work; the acceptance
 contract does not change with the player.
 
-This is **multi-harness portability**, not fleet scheduling. Task-Spec executes
+This is **multi-harness portability**, not fleet scheduling. The 3.7 engine also
+ships a nine-family evidence harness that records unavailable engines honestly;
+the repository does not claim real-engine results until those runs are retained.
+Task-Spec executes
 or verifies one authorized leaf at a time. Converge remains the higher-level
 methodology and runtime for intent shaping, tracker projection, loops, receipts,
 Cockpit, and future management.
@@ -325,7 +341,8 @@ flowchart TB
     Scope["Declared write scope"] --> Gate
     Gate --> Evidence["Tamper + execution evidence"]
 
-    Seal -. does not prove .-> Identity["Per-author identity"]
+    Identity["Optional Ed25519 identity"] --> Gate
+    Seal -. shared key is not .-> Identity
     Spec -. can still be gamed .-> Semantics["Semantic correctness"]
     Gate -. does not enforce .-> Sandbox["Network / process isolation"]
     Evidence -. is not .-> Fleet["Fleet autonomy or production operation"]
@@ -335,8 +352,10 @@ flowchart TB
 |---|---|
 | HMAC v2 | Tamper-evident shared-key authorization; not non-repudiation, identity, or a sandbox |
 | Runnable evals | Deterministic evidence when well designed; stub resistance helps but cannot make a weak oracle wise |
-| `TaskHandoff/v1` | Portable transfer contract; it does not execute a model or schedule workers |
-| `accepted: true` | The configured local POST-gate passed; not proof of deployment, production health, or an external receipt |
+| `TaskHandoff/v1/v2` | Portable transfer contract; it does not execute a model or schedule workers |
+| v4 receipts | Evidence that named evaluators/environments/humans reported the bound result; not universal correctness or sandbox creation |
+| Ed25519 receipt | Optional signer attribution and revocation above HMAC; not authorization policy by itself |
+| `accepted: true` | The configured POST-gate and required v4 receipts passed; not proof of deployment or production health |
 | Conformance L0–L2 | An adapter honors format and lifecycle behavior in the suite; not fleet reliability evidence |
 
 Legacy HMAC v1 seals remain authentic on their original terms but are narrowed
@@ -356,6 +375,8 @@ exposes the same contracts to agents and automation.
 | Transfer | `handoff --backend …`, `agent-context` | Read-only JSON contracts; never credentials |
 | Execute | `run`, any conformant harness | Evals run relative to the task workspace |
 | Prove after work | `accept --stamp`, `transition … done` | Only acceptance writes `accepted*`; done requires it |
+| Strengthen evidence | `author-doctor`, `holdout`, `receipt`, `eval-audit`, `identity` | Explicit output paths; v4 acceptance fails closed on required evidence |
+| Interoperate | `bridge`, `mcp`, `evidence` | Read-only translation/server by default; matrix runs write retained receipts |
 | Operate | `ready`, `lint`, `rebuild-state`, `metrics`, `conformance` | Deterministic derived state and backlog analysis |
 
 ```console
@@ -382,11 +403,13 @@ machine-readable command, token, mutation, and exit-code contract.
 | Surface | Repository evidence | Status |
 |---|---|---|
 | Engine | Bash 3.2 portability, schemas, compatibility, HMAC v1/v2, sizing, backlog, DoD, conformance | Pass — `make check` → `CHECK=READY` |
+| v4 evidence | Policy validation, hidden holdout, receipt binding, mutation audit, identity/revocation, A2A/MCP round trip | Evidence suite 28/28_local |
 | Experience | Copy/symlink installs plus init → sign → plan → generate → gate → handoff → execute → accept | Pass; experience suite 26/26 |
 | Package | `npm pack --dry-run` and local global npm install | Pass; GitHub install pending release tag |
 | Research | Offline fake Firecrawl/Tavily/Exa adapters and named failure states | Pass; live providers not advertised |
-| Converge consumption | Deterministic generated mirror plus per-file SHA-256 lock | Pass |
-| Publication | Canonical source commit, main branch, v3.6.0 tag, and remote curl/npm doors | Published on main; tag-dependent installs pending release tag |
+| Converge consumption | Deterministic generated mirror plus per-file SHA-256 lock | Not updated |
+| External engines | Nine-family matrix contract and honest unavailable state | Not run; no real-engine result claimed |
+| Publication | Canonical source commit, main branch, v3.7.0 tag, and remote curl/npm doors | Implemented locally; unpublished; tag-dependent installs pending v3.7.0 release tag |
 <!-- release-status:end -->
 
 The canonical status source is [release/evidence.json](release/evidence.json).
@@ -403,6 +426,7 @@ only when doctor, documentation lint, every self-test, and conformance are green
 | [Trust](docs/trust/index.md) | HMAC limits, eval gaming, supervision tiers, blast radius, and conformance |
 | [Examples](docs/examples/) | leaf plans, composition nodes, evidence bundles, and portable handoffs |
 | [Format v3](spec/task-spec-v3.md) | the normative standalone Task-Spec contract |
+| [Format v4](spec/task-spec-v4.md) | the opt-in evidence, identity, and environment policy |
 | [Conformance](spec/conformance/README.md) | what an adapter must prove at L0, L1, and L2 |
 | [Changelog](CHANGELOG.md) | compatibility and engine history |
 
@@ -430,7 +454,8 @@ dependency, budget, agent, or backend is changed afterward, the seal breaks.
 
 No. It is tamper-evident shared-key authorization. It does not establish
 per-author identity, isolate a process, restrict the network, or make malicious
-code safe. Those controls belong to the execution environment.
+code safe. Format v4 can require a separate Ed25519 identity receipt and
+environment receipt, but actual isolation still belongs to the execution environment.
 </details>
 
 <details>

@@ -10,7 +10,7 @@ description: |
   Best for atomic leaves with machine-checkable done-conditions; L uses a
   configured long-horizon backend and XL/XXL are composition nodes.
 metadata:
-  version: "3.6.0"
+  version: "3.7.0"
 ---
 
 # task-spec (thin skill)
@@ -41,6 +41,7 @@ README.
    | PRE-gate + sign off | `taskspec gate --stamp <spec>` |
    | Run evals (JSON) | `taskspec run --ci <spec>` |
    | POST-gate accept | `taskspec accept --stamp [--gold-sanity] <spec>` |
+   | Opt-in evidence task | `taskspec new --format 4 <slug> <effort>` then `taskspec author-doctor <spec>` |
 
 3. **Respect the effort gate**: XS/S/M/L are runnable leaves; L needs a backend
    from `TASKSPEC_LONG_HORIZON_BACKENDS`. XL/XXL are non-runnable nodes with at
@@ -52,4 +53,6 @@ README.
   the envelope; hand-stamping is rejected by the sign-off envelope check.
 - A task is DONE only when `taskspec accept` emits `ACCEPTED=1` — an agent's
   own claim of GREEN is not evidence.
+- Format v4 acceptance must receive every policy-required external receipt;
+  never expose a private holdout bundle to the executor.
 - Exit codes: `0` pass/accept · `1` failed/rejected · `2` usage error.

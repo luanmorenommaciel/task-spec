@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://taskspec.dev/schema/v1/task-handoff.schema.json",
-  "title": "TaskHandoff v1",
+  "title": "TaskHandoff v1 and v2",
   "type": "object",
   "additionalProperties": false,
   "required": ["contract", "task_id", "spec", "spec_digest", "signoff_tier", "backend", "workspace", "write_scope", "budgets", "agent_contract", "eval_command", "acceptance_command"],
   "properties": {
-    "contract": {"const": "TaskHandoff/v1"},
+    "contract": {"enum": ["TaskHandoff/v1", "TaskHandoff/v2"]},
     "task_id": {"type": "string"},
     "spec": {"type": "string"},
     "spec_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
@@ -25,6 +25,15 @@
     "budgets": {"type": "object"},
     "agent_contract": {"type": "object"},
     "eval_command": {"type": "array", "items": {"type": "string"}},
-    "acceptance_command": {"type": "array", "items": {"type": "string"}}
-  }
+    "acceptance_command": {"type": "array", "items": {"type": "string"}},
+    "format_version": {"type": "integer", "const": 4},
+    "evaluation_policy": {"type": "object"},
+    "environment_contract": {"type": "object"},
+    "identity_policy": {"type": "object"},
+    "receipt_requirements": {"type": "array", "items": {"type": "string"}}
+  },
+  "allOf": [{
+    "if": {"properties": {"contract": {"const": "TaskHandoff/v2"}}, "required": ["contract"]},
+    "then": {"required": ["format_version", "evaluation_policy", "environment_contract", "identity_policy", "receipt_requirements"]}
+  }]
 }

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://taskspec.dev/schema/v4/authorization-receipt.schema.json",
+  "title": "AuthorizationReceipt v1", "type": "object", "additionalProperties": false,
+  "required": ["contract", "task_id", "authorization_ref", "signer", "key_id", "public_key_fingerprint", "payload_digest", "algorithm", "signed_at", "signature", "status"],
+  "properties": {"contract": {"const": "AuthorizationReceipt/v1"}, "task_id": {"type": "string"}, "authorization_ref": {"type": "string"}, "signer": {"type": "string"}, "key_id": {"type": "string"}, "public_key_fingerprint": {"type": "string"}, "payload_digest": {"type": "string"}, "algorithm": {"const": "Ed25519"}, "signed_at": {"type": "string"}, "signature": {"type": "string"}, "status": {"const": "verified"}}
+}

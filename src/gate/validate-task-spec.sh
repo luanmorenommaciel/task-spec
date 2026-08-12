@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# validate-task-spec.sh — Lint a Task-Spec file against the current (v3) format; legacy v0/v1/v2 accepted with warnings.
+# validate-task-spec.sh — Lint Task-Spec v4; v3 and earlier retain compatible rules.
 #
 # Position: pre-gate STRUCTURAL linter. Does NOT execute evals. Does NOT stamp signed_off.
 # The autonomy contract is produced by safe-to-delegate.sh --stamp (the gate).
@@ -19,7 +19,7 @@
 #   --no-state               Validate read-only; do not refresh tasks/_state.yaml
 #
 # Exit codes:
-#   0 — valid Task-Spec (current v3, or v2/v1) OR accepted legacy v0/v1/v2 with warnings
+#   0 — valid Task-Spec v4/v3/v2/v1 OR accepted legacy v0 with warnings
 #   1 — missing required fields or zones
 #   2 — invalid field values
 #   3 — leftover placeholders or stubs
@@ -348,8 +348,8 @@ fi
 #   - Rollback + Observability: required for FULL (unattended dispatch needs a
 #     reversal path and runtime expectations); recommended-not-required otherwise.
 if [[ "$FORMAT_VERSION" != "0" ]]; then
-  if [[ "$FORMAT_VERSION" == "3" && "$PROFILE" != "lite" ]]; then
-    grep -q '^## Behavior' "$FILE" || ERRORS+=("Behavior section missing: ## Behavior with Given/When/Then B-N scenarios (required for v3 profile: $PROFILE; use profile: lite to omit)")
+  if [[ ( "$FORMAT_VERSION" == "3" || "$FORMAT_VERSION" == "4" ) && "$PROFILE" != "lite" ]]; then
+    grep -q '^## Behavior' "$FILE" || ERRORS+=("Behavior section missing: ## Behavior with Given/When/Then B-N scenarios (required for v3/v4 profile: $PROFILE; use profile: lite to omit)")
   fi
   if [[ "$PROFILE" == "full" ]]; then
     grep -qi '^## Rollback' "$FILE" || ERRORS+=("## Rollback Plan section required for profile: full (use '(none — additive)' as the body if truly not applicable)")
@@ -392,9 +392,16 @@ fi
 # value; llm_judge criteria require a judge_prompt; a spec that is majority
 # llm_judge is likely misfiled SDD work and earns a warning.
 if grep -qE '^[[:space:]]*check_type:' "$FILE"; then
-  BAD_CT=$(grep -E '^[[:space:]]*check_type:' "$FILE" | awk '{print $2}' | grep -vE '^(deterministic|llm_judge)$' || true)
+  if [[ "$FORMAT_VERSION" == "4" ]]; then
+    CT_ALLOWED='^(deterministic|graded|human)$'
+    CT_LABEL="deterministic, graded, or human"
+  else
+    CT_ALLOWED='^(deterministic|llm_judge)$'
+    CT_LABEL="deterministic or llm_judge"
+  fi
+  BAD_CT=$(grep -E '^[[:space:]]*check_type:' "$FILE" | awk '{print $2}' | grep -vE "$CT_ALLOWED" || true)
   if [[ -n "$BAD_CT" ]]; then
-    ERRORS+=("check_type must be 'deterministic' or 'llm_judge' (got: '$(echo "$BAD_CT" | head -1)')")
+    ERRORS+=("check_type must be $CT_LABEL for format_version $FORMAT_VERSION (got: '$(echo "$BAD_CT" | head -1)')")
   fi
   LLM_COUNT=$(grep -cE '^[[:space:]]*check_type:[[:space:]]*llm_judge' "$FILE" || true)
   LLM_COUNT=${LLM_COUNT//[^0-9]/}
@@ -419,8 +426,8 @@ if grep -q 'agent_contract:' "$FILE"; then
 
   # v2 and v3 share the agent_contract v2 schema (v3 is additive at the spec level,
   # not the contract level). Both demand the strict machine schema below.
-  if [[ "$FORMAT_VERSION" == "2" || "$FORMAT_VERSION" == "3" ]]; then
-    # v2/v3: version required
+  if [[ "$FORMAT_VERSION" == "2" || "$FORMAT_VERSION" == "3" || "$FORMAT_VERSION" == "4" ]]; then
+    # v2/v3/v4: version required
     if ! echo "$AC_BLOCK" | grep -qE '^  version:[[:space:]]*2'; then
       ERRORS+=("agent_contract version: 2 is required for format_version: $FORMAT_VERSION")
     fi
@@ -538,7 +545,7 @@ fi
 #   - every eval's `verifies:` must reference a DEFINED behavior (no orphan ref).
 # A v3 concept: enforced for v3 standard/full (where ## Behavior is required).
 # Skipped for lite (behavior implied by evals) and for v2/v1/v0 (predate behaviors).
-if [[ "$FORMAT_VERSION" == "3" && "$PROFILE" != "lite" ]]; then
+if [[ ( "$FORMAT_VERSION" == "3" || "$FORMAT_VERSION" == "4" ) && "$PROFILE" != "lite" ]]; then
   DECLARED_B=$(ts_behavior_ids "$FILE")
   VERIFIED_B=$(ts_verified_behavior_ids "$FILE")
 
@@ -574,6 +581,20 @@ if [[ "$FORMAT_VERSION" == "3" && "$PROFILE" != "lite" ]]; then
     if [[ "$N_EVALS" -gt 0 && "$CARD_VERIFIES_PRESENT" -lt "$N_EVALS" ]]; then
       WARNINGS+=("$((N_EVALS - CARD_VERIFIES_PRESENT)) eval(s) have no 'verifies:' mapping in the Validation Card — map them to a behavior or use profile: lite")
     fi
+  fi
+fi
+
+# Check 8e: v4 evidence-policy semantics. Kept in stdlib Python so nested YAML
+# has one parser shared with handoff/receipts rather than fragile grep rules.
+if [[ "$FORMAT_VERSION" == "4" ]]; then
+  set +e
+  V4_OUTPUT=$(python3 "$TASKSPEC_SKILL_DIR/src/gate/validate-v4.py" "$FILE" 2>&1)
+  V4_RC=$?
+  set -e
+  if [[ $V4_RC -ne 0 ]]; then
+    while IFS= read -r v4_error; do
+      [[ -n "$v4_error" ]] && ERRORS+=("v4 policy: $v4_error")
+    done <<< "$V4_OUTPUT"
   fi
 fi
 

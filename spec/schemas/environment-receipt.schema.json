@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://taskspec.dev/schema/v4/environment-receipt.schema.json",
+  "title": "EnvironmentReceipt v1", "type": "object", "additionalProperties": false,
+  "required": ["contract", "task_id", "contract_digest", "provider", "environment_digest", "enforced", "observed_at"],
+  "properties": {"contract": {"const": "EnvironmentReceipt/v1"}, "task_id": {"type": "string"}, "contract_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "provider": {"type": "string"}, "environment_digest": {"type": "string"}, "enforced": {"const": true}, "observed_at": {"type": "string", "format": "date-time"}}
+}

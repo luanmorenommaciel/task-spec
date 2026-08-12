@@ -11,7 +11,8 @@
 
 | File | Purpose |
 |------|---------|
-| [../spec/task-spec-v3.md](../spec/task-spec-v3.md) | **THE format spec** (citable, portable, complete) |
+| [../spec/task-spec-v3.md](../spec/task-spec-v3.md) | Stable format-v3 compatibility contract |
+| [../spec/task-spec-v4.md](../spec/task-spec-v4.md) | Opt-in evidence, identity, environment, and portability policy |
 | [concepts/eval-driven-development.md](concepts/eval-driven-development.md) | EDD methodology |
 | [concepts/edd-vs-sdd-honest-comparison.md](concepts/edd-vs-sdd-honest-comparison.md) | When to use which |
 | [concepts/six-zones.md](concepts/six-zones.md) | File anatomy |
@@ -22,6 +23,9 @@
 | [concepts/agent-contract.md](concepts/agent-contract.md) | Cross-vendor contract |
 | [concepts/signed-off.md](concepts/signed-off.md) | **The autonomy contract** — who produces `signed_off: true`, what it asserts, why hand-stamping is forbidden |
 | [concepts/backlog-architecture.md](concepts/backlog-architecture.md) | 5-layer state management |
+| [concepts/evaluation-policy.md](concepts/evaluation-policy.md) | Deterministic, holdout, graded, and human acceptance policy |
+| [concepts/evidence-receipts.md](concepts/evidence-receipts.md) | Typed evidence and provenance contracts |
+| [concepts/environment-contract.md](concepts/environment-contract.md) | Portable runtime commitment and enforcement receipt |
 
 ## Patterns (≤200 lines each)
 
@@ -73,7 +77,7 @@ Per-engine recipes routed from `dispatching-a-task-spec.md`. Each follows the sa
 
 The `task-architect` agent reads from this folder:
 
-1. **Start with** `../spec/task-spec-v3.md` for the format reference
+1. **Start with** `../spec/task-spec-v3.md` for stable tasks or `../spec/task-spec-v4.md` when evidence policy is required
 2. **Concepts** for definitional questions ("what IS an effort gate?")
 3. **Patterns** for implementation questions ("how do I write an idempotent eval?")
 4. **Runbooks** for workflow questions ("how do I convert a meeting note?")

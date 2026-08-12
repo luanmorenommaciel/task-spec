@@ -29,7 +29,7 @@ checkout. `--force` backs up a managed destination before replacement.
 For npm/GitHub:
 
 ```bash
-npm install -g github:luanmorenommaciel/task-spec#v3.6.0
+npm install -g github:luanmorenommaciel/task-spec#v3.7.0
 taskspec-install
 ```
 

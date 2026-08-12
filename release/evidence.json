@@ -1,30 +1,36 @@
 {
   "contract": "TaskSpecReleaseEvidence/v1",
-  "version": "3.6.0",
-  "format_version": 3,
+  "version": "3.7.0",
+  "format_version": 4,
+  "compatible_format_versions": [1, 2, 3, 4],
   "donor": {
     "repository": "converge",
     "commit": "f78f077"
   },
-  "source_commit": "95c4fce3267800086c602ef891bf5b5738e42270",
-  "release_status": "published_main",
+  "source_commit": "pending_commit",
+  "release_status": "implemented_local_unpublished",
   "gates": {
     "make_check": "pass",
+    "v37_evidence_suite": "28/28_local",
+    "conformance": "8/8_local_and_reference_L2",
     "clean_room": "pass",
     "experience_suite": "26/26",
     "checkout_copy_install": "pass",
     "checkout_symlink_install": "pass",
     "npm_pack_dry_run": "pass",
     "npm_local_install": "pass",
-    "curl_pinned_install": "pending_release_tag",
+    "curl_pinned_install": "pending_v3.7.0_release_tag",
     "npm_github_install": "pending_release_tag",
     "research_fake_adapters": "pass",
-    "converge_mirror": "pass"
+    "converge_mirror": "not_updated",
+    "real_engine_matrix": "not_run"
   },
   "boundaries": {
     "live_research_providers": "not_advertised",
     "hosted_service": "not_provided",
     "fleet_scheduler": "not_provided",
-    "production_evidence": "not_claimed"
+    "production_evidence": "not_claimed",
+    "environment_enforcement": "contract_only_requires_external_enforcer",
+    "a2a_mcp_certification": "not_claimed"
   }
 }

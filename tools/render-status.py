@@ -20,6 +20,11 @@ def label(value: str) -> str:
         "pending_release_tag": "Pending release tag",
         "published_main": "Published on main",
         "unpublished_worktree": "Unpublished worktree",
+        "implemented_local_unpublished": "Implemented locally; unpublished",
+        "pending_final_run": "Pending final run",
+        "not_run": "Not run",
+        "not_updated": "Not updated",
+        "pending_v3.7.0_release_tag": "Pending v3.7.0 release tag",
     }.get(value, value.replace("_", " ").capitalize())
 
 
@@ -27,13 +32,15 @@ def render(evidence: dict) -> str:
     gates = evidence["gates"]
     rows = [
         ("Engine", "Bash 3.2 portability, schemas, compatibility, HMAC v1/v2, sizing, backlog, DoD, conformance", f"{label(gates['make_check'])} — `make check` → `CHECK=READY`"),
+        ("v4 evidence", "Policy validation, hidden holdout, receipt binding, mutation audit, identity/revocation, A2A/MCP round trip", f"Evidence suite {gates['v37_evidence_suite']}"),
         ("Experience", "Copy/symlink installs plus init → sign → plan → generate → gate → handoff → execute → accept", f"{label(gates['clean_room'])}; experience suite {gates['experience_suite']}"),
         ("Package", "`npm pack --dry-run` and local global npm install", f"{label(gates['npm_pack_dry_run'])}; GitHub install {label(gates['npm_github_install']).lower()}"),
         ("Research", "Offline fake Firecrawl/Tavily/Exa adapters and named failure states", f"{label(gates['research_fake_adapters'])}; live providers not advertised"),
         ("Converge consumption", "Deterministic generated mirror plus per-file SHA-256 lock", f"{label(gates['converge_mirror'])}"),
+        ("External engines", "Nine-family matrix contract and honest unavailable state", f"{label(gates['real_engine_matrix'])}; no real-engine result claimed"),
         (
             "Publication",
-            "Canonical source commit, main branch, v3.6.0 tag, and remote curl/npm doors",
+            "Canonical source commit, main branch, v3.7.0 tag, and remote curl/npm doors",
             f"{label(evidence['release_status'])}; tag-dependent installs {label(gates['curl_pinned_install']).lower()}",
         ),
     ]

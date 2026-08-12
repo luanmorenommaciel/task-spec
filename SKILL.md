@@ -3,7 +3,7 @@ name: task-spec
 description: Turn intent, repository evidence, and optional cited research into atomic, signed, self-verifying Task-Specs; preview complete TaskPlan manifests; hand one authorized leaf to any coding harness; and independently accept the result.
 license: MIT
 metadata:
-  version: "3.6.0"
+  version: "3.7.0"
 ---
 
 # Task-Spec
@@ -29,6 +29,9 @@ replaceable executor.
    contract to Codex, Claude Code, Kimi, Grok Build, or another executor.
 8. After work, independently run `taskspec accept --stamp <spec>`. Only then may
    the task transition to `done`.
+9. Use format v4 only when the approved contract requires independent evidence.
+   Run `taskspec author-doctor`, keep holdouts outside the handoff, validate each
+   receipt, and supply every required receipt to `taskspec accept`.
 
 ## Atomicity rules
 
@@ -41,6 +44,8 @@ replaceable executor.
   explicit supervision or annotation.
 - HMAC is tamper evidence from a shared repository key, not author identity,
   sandboxing, or proof that an eval is semantically wise.
+- Format v4 receipts bind named evidence to the authorization. They do not turn
+  a self-declared environment into a sandbox or an evaluator into a universal oracle.
 
 ## Commands
 
@@ -57,6 +62,10 @@ taskspec gate --stamp tasks/T-…-leaf.md
 taskspec handoff tasks/T-…-leaf.md --backend codex
 taskspec accept --stamp tasks/T-…-leaf.md
 ```
+
+For an opt-in evidence-bearing task, start with
+`taskspec new --format 4 …`; read `spec/task-spec-v4.md` before setting the
+policy. Existing tasks stay on format v3.
 
 Default output is human-readable. `--json` adds a uniform CLI result envelope;
 `--dry-run` prevents supported mutations. Never place provider/model credentials

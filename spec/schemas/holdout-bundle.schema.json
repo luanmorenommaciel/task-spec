@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/v4/holdout-bundle.schema.json",
+  "title": "HoldoutBundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "task_id", "checks"],
+  "properties": {
+    "contract": {"const": "HoldoutBundle/v1"},
+    "task_id": {"type": "string"},
+    "checks": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["id", "argv", "verifies"], "properties": {"id": {"type": "string", "pattern": "^holdout_"}, "argv": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "verifies": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^B-"}}, "timeout_sec": {"type": "integer", "minimum": 1, "maximum": 3600}, "expected_exit": {"type": "integer"}}}}
+  }
+}

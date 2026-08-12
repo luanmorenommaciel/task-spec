@@ -18,7 +18,7 @@ taskspec gate --stamp tasks/T-20260811-add-search-command.md
 taskspec handoff tasks/T-20260811-add-search-command.md --backend codex
 ```
 
-The harness receives `TaskHandoff/v1`, performs only the declared write, and
+The default format-v3 task produces `TaskHandoff/v1`, performs only the declared write, and
 runs the provided eval command. A separate operator or CI step then runs:
 
 ```bash
@@ -28,3 +28,7 @@ taskspec transition T-20260811-add-search-command done
 
 If an eval, scope check, or seal check fails, acceptance returns
 `ACCEPTED=0`; record the named failure, repair it, or park the task.
+
+Choose `taskspec new --format 4 ...` only when acceptance needs independent
+holdout, graded, human, environment, or identity evidence. Format v4 emits
+`TaskHandoff/v2`; see [the v4 specification](../../spec/task-spec-v4.md).

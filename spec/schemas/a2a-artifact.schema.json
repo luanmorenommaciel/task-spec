@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/v4/a2a-artifact.schema.json",
+  "title": "TaskSpecA2AArtifact v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "artifactId", "name", "parts", "metadata"],
+  "properties": {
+    "contract": {"const": "TaskSpecA2AArtifact/v1"},
+    "artifactId": {"type": "string"},
+    "name": {"const": "task-spec-handoff"},
+    "parts": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "object", "required": ["kind", "data"], "properties": {"kind": {"const": "data"}, "data": {"type": "object"}}}},
+    "metadata": {"type": "object", "required": ["task_id", "spec_digest", "task_state"], "properties": {"task_id": {"type": "string"}, "spec_digest": {"type": "string"}, "task_state": {"type": "string"}}}
+  }
+}

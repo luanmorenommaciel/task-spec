@@ -1,3 +1,6 @@
-# The format spec moved
+# Format specifications
 
-The canonical format specification now lives at [`../../spec/task-spec-v3.md`](../../spec/task-spec-v3.md) (it was `references/concepts/task-spec-v1.md` in the old skill layout — that filename is retired).
+The stable format-v3 specification lives at
+[`../../spec/task-spec-v3.md`](../../spec/task-spec-v3.md). The opt-in evidence
+policy is format v4 at [`../../spec/task-spec-v4.md`](../../spec/task-spec-v4.md).
+Engine 3.7 reads both; it never upgrades an existing v3 task implicitly.

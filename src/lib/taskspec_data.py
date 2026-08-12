@@ -40,6 +40,8 @@ def _scalar(raw: str) -> Any:
         return None
     if re.fullmatch(r"-?[0-9]+", value):
         return int(value)
+    if re.fullmatch(r"-?(?:[0-9]+\.[0-9]+|[0-9]+[eE][+-]?[0-9]+)", value):
+        return float(value)
     if value.startswith(("[", "{", '"')):
         try:
             return json.loads(value)

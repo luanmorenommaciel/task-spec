@@ -12,6 +12,40 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ---
 
+## [3.7.0] — 2026-08-12
+
+The **evidence, integrity, and portability** release. Existing format-v3 tasks
+keep their behavior; authors opt into format v4 explicitly.
+
+### Added
+
+- Format-v4 `evaluation_policy` covering deterministic, private holdout,
+  independently graded, and accountable human evidence. Required receipts are
+  bound to the task authorization and block POST acceptance when missing,
+  failed, or mismatched.
+- `HoldoutBundle/v1` and executor-safe `HoldoutDescriptor/v1`, with digest/HMAC
+  verification and `EvaluationReceipt/v1`. Private commands never enter
+  `TaskHandoff/v2`.
+- `EnvironmentContract/v1`, environment/graded/human/engine receipts, optional
+  Ed25519 `AuthorizationReceipt/v1`, and explicit key revocation.
+- `taskspec eval-audit` for current-pass plus baseline/mutation-fail evidence;
+  `author-doctor` for authoring weaknesses; typed receipt validation that
+  rejects credential-bearing keys.
+- `TaskHandoff/v2` for v4, plus identity-preserving A2A/MCP envelopes, a
+  read-only stdio MCP server, and a nine-family engine evidence matrix.
+- Conformance C18 and a 28-check end-to-end v4 suite covering explicit authoring, isolated engine runs, fail-closed acceptance,
+  receipt binding, holdout tampering, identity revocation, interoperability,
+  and honest `unavailable` external-engine states.
+
+### Compatibility and boundaries
+
+- `taskspec new` still authors format v3 by default; `--format 4` is opt-in.
+- Format v3 requires no v4 receipt and its existing gates remain unchanged.
+- The release does not claim real-model runs, production sandbox enforcement,
+  fleet scheduling, deployment proof, or A2A/MCP certification. The checked-in
+  nine-family matrix is a reproducible template whose entries remain disabled
+  until actual runs are retained.
+
 ## [3.6.0] — 2026-08-11
 
 The **canonical atomic-task experience** release. Format v3 remains current and

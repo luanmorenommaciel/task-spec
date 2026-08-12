@@ -90,6 +90,11 @@ case "$STEM" in
     echo "node_refused effort=XL" > "$WORKDIR/c007.log"
     ;;
 
+  T-conformance-008-v4-policy)
+    # C18: format-v4 acceptance policy reaches the executor unchanged.
+    echo "format=4 deterministic=required policy=preserved" > "$WORKDIR/c008.log"
+    ;;
+
   *)
     echo "self.sh: unrecognized fixture stem: $STEM" >&2
     exit 2

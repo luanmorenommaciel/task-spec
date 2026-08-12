@@ -29,7 +29,8 @@
           },
           "check_type": {
             "type": "string",
-            "enum": ["deterministic", "probabilistic", "manual-review"]
+            "enum": ["deterministic", "llm_judge", "graded", "human", "holdout", "probabilistic", "manual-review"],
+            "description": "v4 names deterministic, graded, human, and holdout policy classes. Legacy aliases remain readable."
           },
           "terminal": {
             "type": "boolean",

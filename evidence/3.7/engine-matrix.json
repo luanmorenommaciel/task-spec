@@ -1,0 +1,15 @@
+{
+  "contract": "EngineMatrix/v1",
+  "purpose": "Release experiment template. Disabled entries are unavailability, not passing evidence.",
+  "engines": [
+    {"family":"openai","provider":"OpenAI","model_id":"TO_RECORD","adapter_version":"taskspec-3.7","enabled":false},
+    {"family":"anthropic","provider":"Anthropic","model_id":"TO_RECORD","adapter_version":"taskspec-3.7","enabled":false},
+    {"family":"google","provider":"Google","model_id":"TO_RECORD","adapter_version":"taskspec-3.7","enabled":false},
+    {"family":"xai","provider":"xAI","model_id":"TO_RECORD","adapter_version":"taskspec-3.7","enabled":false},
+    {"family":"deepseek","provider":"DeepSeek","model_id":"TO_RECORD","adapter_version":"taskspec-3.7","enabled":false},
+    {"family":"kimi","provider":"Moonshot AI","model_id":"TO_RECORD","adapter_version":"taskspec-3.7","enabled":false},
+    {"family":"minimax","provider":"MiniMax","model_id":"TO_RECORD","adapter_version":"taskspec-3.7","enabled":false},
+    {"family":"qwen","provider":"Alibaba Cloud","model_id":"TO_RECORD","adapter_version":"taskspec-3.7","enabled":false},
+    {"family":"glm","provider":"Zhipu AI","model_id":"TO_RECORD","adapter_version":"taskspec-3.7","enabled":false}
+  ]
+}

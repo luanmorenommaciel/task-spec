@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/v4/mcp-task.schema.json",
+  "title": "TaskSpecMCPTask v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "task", "metadata"],
+  "properties": {
+    "contract": {"const": "TaskSpecMCPTask/v1"},
+    "task": {"type": "object", "required": ["id", "status", "input"], "properties": {"id": {"type": "string"}, "status": {"type": "string"}, "input": {"type": "object"}}},
+    "metadata": {"type": "object", "required": ["task_id", "spec_digest"], "properties": {"task_id": {"type": "string"}, "spec_digest": {"type": "string"}}}
+  }
+}

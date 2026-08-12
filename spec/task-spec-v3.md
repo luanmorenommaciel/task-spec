@@ -6,7 +6,7 @@
 > **retired**; the v1 filename had been retained there for link stability only.
 > The Version History section at the end is preserved.
 
-> **Current format:** v3 (stable; canonical engine 3.6.0)
+> **Stable compatibility format:** v3 (supported unchanged by engine 3.7.0). Format v4 is opt-in for evidence policies.
 > **First published:** 2026-05-19 (v1)
 > **Format Owner:** task-spec CAW
 > **Adopters:** anthive, taskship, AgentSpec, overnight-builder, Claude /goal, Codex, Kimi

@@ -24,7 +24,7 @@ Start:
   setup signing [--force]                   Provision the repository HMAC key
 
 Author:
-  new <slug> <XS|S|M|L|XL|XXL> [agent]      Create one non-clobbering scaffold
+  new [--format 3|4] <slug> <size> [agent]   Create one non-clobbering scaffold
   plan --manifest <TaskPlan.yaml>            Validate + preview; writes nothing
   batch --plan <TaskPlan.yaml>               Generate an approved declared plan
   batch --intent-file <f> --effort <size>    Legacy bulk scaffold surface
@@ -37,6 +37,14 @@ Prove:
   handoff <spec> --backend <token>           Emit read-only TaskHandoff v1 JSON
   run [--ci] <spec>                          Execute evals in the task workspace
   accept [--stamp] [--gold-sanity] <spec>    POST-gate independent acceptance
+  author-doctor <spec>                       Explain weak or unsafe authoring
+  holdout seal|verify|run ...                Hidden evaluator bundles + receipts
+  receipt validate|engine|environment|...    Create and validate evidence receipts
+  eval-audit <spec> --baseline <ref>          Baseline + mutation discrimination
+  identity init|sign|verify|revoke ...        Optional Ed25519 signer identity
+  evidence validate|plan|run <matrix>         Multi-engine evidence matrix
+  bridge export|validate ...                  A2A/MCP task translation
+  mcp                                       Run read-only MCP stdio server
 
 Backlog:
   ready [--all] [filters]                    Dependency-aware pickup frontier
@@ -82,7 +90,7 @@ _ts_doctor() {
 
 _ts_completion() {
   local shell_name="${1:-}"
-  local words="init setup new plan batch migrate validate dod gate handoff run accept ready lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help"
+  local words="init setup new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge mcp ready lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help"
   case "$shell_name" in
     bash)
       printf '_taskspec_complete() { COMPREPLY=( $(compgen -W %q -- "${COMP_WORDS[1]}") ); }\ncomplete -F _taskspec_complete taskspec\n' "$words"
@@ -114,6 +122,26 @@ _ts_dispatch() {
     doctor) _ts_doctor; return $? ;;
     completion) _ts_completion "$@"; return $? ;;
     agent-context) python3 "$TASKSPEC_HOME/src/dispatch/agent-context.py"; return $? ;;
+    author-doctor) python3 "$TASKSPEC_HOME/src/author/doctor.py" "$@"; return $? ;;
+    holdout)
+      if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" && "${1:-}" != "verify" ]]; then echo "DRY_RUN: would run taskspec holdout $*"; return 0; fi
+      python3 "$TASKSPEC_HOME/src/evidence/holdout.py" "$@"; return $? ;;
+    receipt)
+      if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" && "${1:-}" != "validate" ]]; then echo "DRY_RUN: would run taskspec receipt $*"; return 0; fi
+      python3 "$TASKSPEC_HOME/src/evidence/receipts.py" "$@"; return $? ;;
+    eval-audit)
+      if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" ]]; then echo "DRY_RUN: would run taskspec eval-audit $*"; return 0; fi
+      python3 "$TASKSPEC_HOME/src/evidence/eval_audit.py" "$@"; return $? ;;
+    identity)
+      if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" && "${1:-}" != "verify" ]]; then echo "DRY_RUN: would run taskspec identity $*"; return 0; fi
+      python3 "$TASKSPEC_HOME/src/security/identity.py" "$@"; return $? ;;
+    evidence)
+      if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" && "${1:-}" == "run" ]]; then echo "DRY_RUN: would run taskspec evidence $*"; return 0; fi
+      python3 "$TASKSPEC_HOME/src/evidence/engine_matrix.py" "$@"; return $? ;;
+    bridge)
+      if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" && "${1:-}" == "export" ]] && _ts_has_arg --out "$@"; then echo "DRY_RUN: would run taskspec bridge $*"; return 0; fi
+      python3 "$TASKSPEC_HOME/src/interop/bridge.py" "$@"; return $? ;;
+    mcp) python3 "$TASKSPEC_HOME/src/interop/mcp_server.py" "$@"; return $? ;;
     init) script="src/setup/init.sh" ;;
     setup)
       if [[ "${1:-}" == "signing" ]]; then

@@ -6,7 +6,7 @@
       "name": "task-spec",
       "source": "./",
       "description": "Canonical Task-Spec 3.6 skill and CLI contract",
-      "version": "3.6.0"
+      "version": "3.7.0"
     }
   ]
 }

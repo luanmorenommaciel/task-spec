@@ -2,7 +2,7 @@
 # generate-task-spec.sh — Create a new Task-Spec file (current format) from the template.
 #
 # Usage:
-#   bash generate-task-spec.sh [--status=ready|blocked] [--queue] <slug> <effort> [agent] [source_note]
+#   bash generate-task-spec.sh [--format=3|4] [--status=ready|blocked] [--queue] <slug> <effort> [agent] [source_note]
 #
 # Example:
 #   bash generate-task-spec.sh verify-langfuse-otel S any notes/2026-05-04-observability.md
@@ -25,6 +25,7 @@ ts_version_flag "$@"
 STATUS="ready"
 QUEUE=false
 PROFILE="standard"
+FORMAT_VERSION="3"
 
 # Parse flags
 ARGS=()
@@ -44,6 +45,14 @@ while [[ $# -gt 0 ]]; do
       ;;
     --profile)
       PROFILE="${2:-standard}"
+      shift 2
+      ;;
+    --format=*)
+      FORMAT_VERSION="${1#*=}"
+      shift
+      ;;
+    --format)
+      FORMAT_VERSION="${2:-3}"
       shift 2
       ;;
     --queue)
@@ -111,6 +120,10 @@ case "$PROFILE" in
     exit 1
     ;;
 esac
+case "$FORMAT_VERSION" in
+  3|4) ;;
+  *) echo "ERROR: --format must be 3 or 4 (got: '$FORMAT_VERSION')" >&2; exit 1 ;;
+esac
 
 if ! [[ "$SLUG" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
   echo "ERROR: slug must be lowercase kebab-case (e.g., 'verify-langfuse-otel')" >&2
@@ -144,9 +157,25 @@ if [[ ! -f "$TEMPLATE" ]]; then
   exit 1
 fi
 
+EVIDENCE_POLICY_BLOCK=""
+if [[ "$FORMAT_VERSION" == "4" ]]; then
+  EVIDENCE_POLICY_BLOCK="evaluation_policy:
+  acceptance_scope: local
+  deterministic:
+    required: true
+  holdout:
+    required: false
+  graded:
+    required: false
+  human:
+    required: false
+identity_policy:
+  required: false"
+fi
+
 ts_render_template "$TEMPLATE" "$TARGET" \
   ID "$ID" TITLE "{{TODO: one-line title in imperative voice}}" \
-  STATUS "$STATUS" PROFILE "$PROFILE" EFFORT "$EFFORT" \
+  STATUS "$STATUS" FORMAT_VERSION "$FORMAT_VERSION" PROFILE "$PROFILE" EFFORT "$EFFORT" \
   BUDGET_ITERATIONS 15 AGENT "$AGENT" DEPENDS_ON "[]" \
   CHILDREN_FIELD "$CHILDREN_FIELD" TOUCHES_PATHS_FIELD "$TOUCHES_PATHS_FIELD" \
   SOURCE_NOTE "$SOURCE_NOTE" \
@@ -158,7 +187,8 @@ ts_render_template "$TEMPLATE" "$TARGET" \
   B1_THEN "{{TODO: observable outcome}}" B2_GIVEN "{{TODO: precondition}}" \
   B2_WHEN "{{TODO: action}}" B2_THEN "{{TODO: observable outcome}}" \
   AGENT_PRODUCES "code | docs | config | tests" \
-  DO_NOT_TOUCH_LIST "- {{TODO: exact path or (none)}}"
+  DO_NOT_TOUCH_LIST "- {{TODO: exact path or (none)}}" \
+  EVIDENCE_POLICY_BLOCK "$EVIDENCE_POLICY_BLOCK"
 
 # Append _metrics.jsonl entry
 mkdir -p "$TASKSPEC_BACKLOG_DIR"
@@ -173,7 +203,7 @@ if [[ -x "$SKILL_DIR/src/backlog/rebuild-state.sh" ]]; then
 fi
 
 echo "Spec written: $TARGET"
-echo "  status: $STATUS  outdir: $OUTDIR  task_spec_version: $TASKSPEC_VERSION"
+echo "  status: $STATUS  format: $FORMAT_VERSION  outdir: $OUTDIR  task_spec_version: $TASKSPEC_VERSION"
 echo ""
 echo "Next steps:"
 echo ""

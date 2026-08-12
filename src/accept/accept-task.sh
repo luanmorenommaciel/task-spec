@@ -45,10 +45,12 @@
 #            baseline_ref:/reference_solution:), runs the CURRENT spec's evals there
 #            (must FAIL), and runs them on the current state (must PASS). Degrades to
 #            a WARN (never a hard-fail) when git or the baseline ref is unavailable.
+#   GATE F — format-v4 evidence policy. Required holdout, graded, human,
+#            environment, and identity receipts must match the sealed task.
 #
 # Usage:
 #   bash accept-task.sh [--stamp] [--no-blast-radius] [--gold-sanity] \
-#                       [--accepted-by NAME] [--base REF] <path/to/T-*.md>
+#                       [--accepted-by NAME] [--base REF] [receipt flags] <path/to/T-*.md>
 #
 # Flags:
 #   --stamp            write the accepted envelope on success (default: dry-run report only)
@@ -62,6 +64,13 @@
 #                      baseline ref for GATE E gold-sanity (default: HEAD).
 #                      A frontmatter baseline_ref:/reference_solution: overrides the
 #                      default for GATE E only.
+#   --holdout-receipt FILE     EvaluationReceipt/v1 for a required hidden holdout
+#   --graded-receipt FILE      GradedEvaluationReceipt/v1
+#   --human-receipt FILE       HumanAcceptanceReceipt/v1
+#   --environment-receipt FILE EnvironmentReceipt/v1
+#   --identity-receipt FILE    AuthorizationReceipt/v1
+#   --identity-public-key FILE Trusted Ed25519 public key used to verify it
+#   --identity-revocations FILE Optional revoked-key registry
 #
 # Machine-readable contract:
 #   On ACCEPT, emits exactly one line `ACCEPTED=1` to stdout (dispatchers parse it).
@@ -89,6 +98,13 @@ GOLD_SANITY=false
 ACCEPTED_BY="${USER:-operator}"
 BASE_REF="HEAD"
 BASE_EXPLICIT=false
+HOLDOUT_RECEIPT=""
+GRADED_RECEIPT=""
+HUMAN_RECEIPT=""
+ENVIRONMENT_RECEIPT=""
+IDENTITY_RECEIPT=""
+IDENTITY_PUBLIC_KEY=""
+IDENTITY_REVOCATIONS=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --stamp)            STAMP=true; shift ;;
@@ -96,6 +112,13 @@ while [[ $# -gt 0 ]]; do
     --gold-sanity)      GOLD_SANITY=true; shift ;;
     --accepted-by)      ACCEPTED_BY="${2:-operator}"; shift 2 ;;
     --base)             BASE_REF="${2:-HEAD}"; BASE_EXPLICIT=true; shift 2 ;;
+    --holdout-receipt)  HOLDOUT_RECEIPT="${2:-}"; shift 2 ;;
+    --graded-receipt)   GRADED_RECEIPT="${2:-}"; shift 2 ;;
+    --human-receipt)    HUMAN_RECEIPT="${2:-}"; shift 2 ;;
+    --environment-receipt) ENVIRONMENT_RECEIPT="${2:-}"; shift 2 ;;
+    --identity-receipt) IDENTITY_RECEIPT="${2:-}"; shift 2 ;;
+    --identity-public-key) IDENTITY_PUBLIC_KEY="${2:-}"; shift 2 ;;
+    --identity-revocations) IDENTITY_REVOCATIONS="${2:-}"; shift 2 ;;
     --help|-h)          grep '^#' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
     -*)                 echo "Unknown option: $1" >&2; exit 2 ;;
     *)
@@ -348,6 +371,28 @@ if [[ "$GOLD_SANITY" == true ]]; then
       fi
     fi
   fi
+fi
+
+# --- GATE F: format-v4 receipt policy ---
+echo "F. Evidence policy (format v4 receipts; v3 remains unchanged) ..."
+POLICY_ARGS=()
+[[ -n "$HOLDOUT_RECEIPT" ]] && POLICY_ARGS+=(--holdout-receipt "$HOLDOUT_RECEIPT")
+[[ -n "$GRADED_RECEIPT" ]] && POLICY_ARGS+=(--graded-receipt "$GRADED_RECEIPT")
+[[ -n "$HUMAN_RECEIPT" ]] && POLICY_ARGS+=(--human-receipt "$HUMAN_RECEIPT")
+[[ -n "$ENVIRONMENT_RECEIPT" ]] && POLICY_ARGS+=(--environment-receipt "$ENVIRONMENT_RECEIPT")
+[[ -n "$IDENTITY_RECEIPT" ]] && POLICY_ARGS+=(--identity-receipt "$IDENTITY_RECEIPT")
+[[ -n "$IDENTITY_PUBLIC_KEY" ]] && POLICY_ARGS+=(--identity-public-key "$IDENTITY_PUBLIC_KEY")
+[[ -n "$IDENTITY_REVOCATIONS" ]] && POLICY_ARGS+=(--identity-revocations "$IDENTITY_REVOCATIONS")
+set +e
+policy_out=$(python3 "$TASKSPEC_SKILL_DIR/src/evidence/post_policy.py" "$FILE" ${POLICY_ARGS[@]+"${POLICY_ARGS[@]}"} 2>&1)
+policy_rc=$?
+set -e
+if [[ $policy_rc -eq 0 ]]; then
+  echo "   ${GREEN}${policy_out}${RESET}"
+else
+  echo "   ${RED}BLOCK${RESET} — format-v4 acceptance evidence is missing, failed, or does not match:"
+  printf '%s\n' "$policy_out" | sed 's/^/     /'
+  blockers=$((blockers + 1))
 fi
 
 # --- Verdict ---

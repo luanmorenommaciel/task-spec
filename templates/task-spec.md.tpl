@@ -2,7 +2,7 @@
 id: {{ID}}
 title: {{TITLE}}
 status: {{STATUS}}
-format_version: 3
+format_version: {{FORMAT_VERSION}}
 profile: {{PROFILE}}  # lite | standard | full — scales required zones to effort/blast-radius (see docs/concepts/profiles.md)
 effort: {{EFFORT}}  # LEAF: XS|S|M|L. NODE: XL|XXL (must declare children; never delegated directly).
 budget_iterations: {{BUDGET_ITERATIONS}}
@@ -31,6 +31,7 @@ signed_off_at: (none)  # ISO-8601 timestamp of sign-off
 accepted: false  # flipped true by accept-task.sh AFTER execution — closes the loop (evals re-run from clean checkout + blast-radius + envelope)
 accepted_by: (none)
 accepted_at: (none)
+{{EVIDENCE_POLICY_BLOCK}}
 ---
 
 # {{TITLE}}

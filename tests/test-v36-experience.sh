@@ -32,7 +32,7 @@ if TASKSPEC_INSTALL_ROOT="$SYMLINK_ROOT" bash "$ROOT/install.sh" --target "$SYML
   && [[ -L "$SYMLINK_TARGET/.claude/skills/task-spec" ]] \
   && [[ -L "$SYMLINK_TARGET/.grok/skills/task-spec" ]] \
   && [[ -L "$SYMLINK_TARGET/.claude/agents/task-architect.md" ]] \
-  && [[ "$($SYMLINK_BIN/taskspec version)" == "3.6.0" ]]; then
+  && [[ "$($SYMLINK_BIN/taskspec version)" == "3.7.0" ]]; then
   pass "checkout symlink install"
 else
   fail "checkout symlink install"
@@ -46,7 +46,7 @@ if TASKSPEC_INSTALL_ROOT="$NO_BIN_ROOT" bash "$ROOT/install.sh" --target "$NO_BI
   && [[ ! -e "$NO_BIN_DIR/taskspec" ]]; then pass "skills-only install"; else fail "skills-only install"; fi
 
 TS="$BIN_DIR/taskspec"
-check "installed version" bash -c "[[ \"\$('$TS' version)\" == 3.6.0 ]]"
+check "installed version" bash -c "[[ \"\$('$TS' version)\" == 3.7.0 ]]"
 check "agent context JSON" bash -c "'$TS' agent-context | python3 -m json.tool"
 check "global JSON envelope" bash -c "'$TS' --json help | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d[\"ok\"] and d[\"command\"] == \"help\"'"
 for shell_name in bash zsh fish; do check "completion $shell_name" bash -c "test -n \"\$('$TS' completion '$shell_name')\""; done
@@ -200,7 +200,7 @@ NPM_INSTALL_ROOT="$WORK/npm-install-root"
 mkdir -p "$NPM_TARGET" "$NPM_INSTALL_ROOT"
 if command -v npm >/dev/null 2>&1 \
   && npm install --global --prefix "$WORK/npm-prefix" "$ROOT" >/dev/null 2>&1 \
-  && [[ "$("$WORK/npm-prefix/bin/taskspec" version)" == "3.6.0" ]] \
+  && [[ "$("$WORK/npm-prefix/bin/taskspec" version)" == "3.7.0" ]] \
   && [[ -x "$WORK/npm-prefix/bin/taskspec-install" ]] \
   && TASKSPEC_INSTALL_ROOT="$NPM_INSTALL_ROOT" "$WORK/npm-prefix/bin/taskspec-install" --target "$NPM_TARGET" --no-bin >"$WORK/npm-install.out" 2>&1 \
   && grep -q '^INSTALL=OK$' "$WORK/npm-install.out" \

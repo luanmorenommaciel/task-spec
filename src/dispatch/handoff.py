@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Emit a credential-free, read-only TaskHandoff v1 contract."""
+"""Emit credential-free TaskHandoff v1/v2 contracts (v2 for format v4)."""
 
 from __future__ import annotations
 
@@ -66,7 +66,7 @@ def main() -> int:
     if fm.get("signed_off") is not True:
         print("HANDOFF=REFUSED\nerror: spec is not authorized; run taskspec gate --stamp first", file=sys.stderr)
         return 1
-    credential_paths = sensitive_key_paths(card.get("agent_contract", {}), "$.agent_contract")
+    credential_paths = sensitive_key_paths({"frontmatter": fm, "agent_contract": card.get("agent_contract", {})})
     if credential_paths:
         print(
             f"HANDOFF=REFUSED\nerror: credential-bearing keys are forbidden in TaskHandoff: {credential_paths}",
@@ -91,8 +91,9 @@ def main() -> int:
     tier = 1 if "OK(Tier 1)" in validation_output else 2
     do_not_touch = re.findall(r"`([^`]+)`", section(text, "Do-Not-Touch"))
     absolute = str(spec)
+    format_version = int(str(fm.get("format_version", 0)).split(".")[0])
     handoff = {
-        "contract": "TaskHandoff/v1",
+        "contract": "TaskHandoff/v2" if format_version >= 4 else "TaskHandoff/v1",
         "task_id": fm.get("id"),
         "spec": absolute,
         "spec_digest": sha256_file(spec),
@@ -113,6 +114,26 @@ def main() -> int:
         "eval_command": ["taskspec", "run", "--ci", absolute],
         "acceptance_command": ["taskspec", "accept", "--stamp", absolute],
     }
+    if format_version >= 4:
+        policy = fm.get("evaluation_policy", {})
+        requirements = ["deterministic"]
+        for name, contract in (
+            ("holdout", "EvaluationReceipt/v1"), ("graded", "GradedEvaluationReceipt/v1"),
+            ("human", "HumanAcceptanceReceipt/v1"),
+        ):
+            if isinstance(policy.get(name), dict) and policy[name].get("required") is True:
+                requirements.append(contract)
+        if isinstance(fm.get("environment_contract"), dict) and fm["environment_contract"].get("required") is True:
+            requirements.append("EnvironmentReceipt/v1")
+        if isinstance(fm.get("identity_policy"), dict) and fm["identity_policy"].get("required") is True:
+            requirements.append("AuthorizationReceipt/v1")
+        handoff.update({
+            "format_version": 4,
+            "evaluation_policy": policy,
+            "environment_contract": fm.get("environment_contract", {}),
+            "identity_policy": fm.get("identity_policy", {}),
+            "receipt_requirements": requirements,
+        })
     print(json.dumps(handoff, indent=2, ensure_ascii=False))
     return 0
 

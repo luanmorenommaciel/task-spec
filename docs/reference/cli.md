@@ -22,3 +22,16 @@ taskspec completion fish
 Stable machine tokens include `INIT=OK`, `TASK_PLAN=OK`, `TASK_BATCH=OK`,
 `DOD=COMPLETE`, `TIER=1|2`, `ACCEPTED=0|1`, and `INSTALL=OK`. A token is not a
 substitute for the associated report or JSON contract.
+
+## Evidence and interoperability
+
+| Command | Purpose |
+|---|---|
+| `author-doctor <spec>` | Explain vague goals, weak evals, broad scope, and unresolved decisions |
+| `holdout seal|verify|run` | Commit to private evaluator checks and emit a result receipt |
+| `receipt validate|engine|environment|graded|human` | Create or validate typed evidence |
+| `eval-audit <spec> --baseline <ref>` | Require pass now and failure on baseline/mutations |
+| `identity init|sign|verify|revoke` | Optional Ed25519 identity above HMAC v2 |
+| `evidence validate|plan|run` | Reproducible nine-family engine experiment |
+| `bridge export|validate` | Translate a handoff into A2A/MCP envelopes |
+| `mcp` | Start the read-only Task-Spec stdio tool server |

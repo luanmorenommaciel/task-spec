@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://taskspec.dev/schema/v3/task-spec-frontmatter.schema.json",
-  "title": "Task-Spec Frontmatter v3",
-  "description": "Schema for Task-Spec format v3 frontmatter. The 3.5 engine adds six-tier composition, vendor-neutral tracker backlinks, and HMAC authorization envelope v2 while preserving the documented v0-v3 compatibility path.",
+  "$id": "https://taskspec.dev/schema/v4/task-spec-frontmatter.schema.json",
+  "title": "Task-Spec Frontmatter v4",
+  "description": "Schema for the opt-in Task-Spec format v4 evidence policy. Formats v1-v3 remain readable and preserve their existing behavior.",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -44,10 +44,10 @@
     },
     "format_version": {
       "oneOf": [
-        {"type": "integer", "enum": [1, 2, 3]},
-        {"type": "string", "enum": ["1", "2", "2.1", "2.1.0", "2.1.1", "2.2", "3"]}
+        {"type": "integer", "enum": [1, 2, 3, 4]},
+        {"type": "string", "enum": ["1", "2", "2.1", "2.1.0", "2.1.1", "2.2", "3", "4"]}
       ],
-      "description": "Task-Spec format version. v3 is current (adds profile/parent/accepted*); v1/v2 retained for legacy."
+      "description": "Task-Spec format version. v4 is opt-in; v1-v3 are retained for compatibility."
     },
     "profile": {
       "type": "string",
@@ -201,6 +201,37 @@
       "type": "string",
       "description": "B3 OPTIONAL alias/fallback for baseline_ref (used by accept-task.sh --gold-sanity when baseline_ref is absent). A pointer (git ref) to a known-good reference state."
     },
+    "evaluation_policy": {
+      "type": "object",
+      "description": "Format v4 acceptance policy. External evaluators return receipts; their implementation is never embedded in the executor handoff.",
+      "required": ["acceptance_scope"],
+      "properties": {
+        "acceptance_scope": {"type": "string", "enum": ["local", "portable", "human-authorized"]},
+        "deterministic": {"$ref": "#/$defs/requiredPolicy"},
+        "holdout": {"$ref": "#/$defs/holdoutPolicy"},
+        "graded": {"$ref": "#/$defs/gradedPolicy"},
+        "human": {"$ref": "#/$defs/humanPolicy"}
+      }
+    },
+    "environment_contract": {
+      "type": "object",
+      "required": ["required"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "ref": {"type": "string"},
+        "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      },
+      "allOf": [{"if": {"properties": {"required": {"const": true}}}, "then": {"required": ["ref", "digest"]}}]
+    },
+    "identity_policy": {
+      "type": "object",
+      "required": ["required"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "key_id": {"type": "string"},
+        "signer": {"type": "string"}
+      }
+    },
     "signed_off_envelope": {
       "type": "object",
       "description": "DEPRECATED structured form retained for forward compatibility. The current source of truth is signed_off_sig: hmac-sha256-v2:<keyid>:<hex>; valid historical v1 strings remain readable as Tier 2.",
@@ -212,7 +243,17 @@
       }
     }
   },
+  "$defs": {
+    "requiredPolicy": {"type": "object", "required": ["required"], "properties": {"required": {"type": "boolean"}}},
+    "holdoutPolicy": {"type": "object", "required": ["required"], "properties": {"required": {"type": "boolean"}, "descriptor_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "authorization_ref": {"type": "string"}}},
+    "gradedPolicy": {"type": "object", "required": ["required"], "properties": {"required": {"type": "boolean"}, "rubric_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "threshold": {"type": "number", "minimum": 0, "maximum": 1}}},
+    "humanPolicy": {"type": "object", "required": ["required"], "properties": {"required": {"type": "boolean"}, "owner": {"type": "string", "minLength": 1}}}
+  },
   "allOf": [
+    {
+      "if": {"properties": {"format_version": {"enum": [4, "4"]}}, "required": ["format_version"]},
+      "then": {"required": ["evaluation_policy"]}
+    },
     {
       "if": {"properties": {"effort": {"enum": ["XL", "XXL"]}}, "required": ["effort"]},
       "then": {
