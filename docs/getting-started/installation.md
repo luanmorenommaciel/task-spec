@@ -3,8 +3,24 @@
 The canonical installer writes equivalent skill content to all supported local
 harness destinations. It never stores model/provider credentials.
 
+Until the `v3.7.0` release tag is published, install from a checkout:
+
 ```bash
-curl -fsSL https://raw.githubusercontent.com/luanmorenommaciel/task-spec/main/install.sh | bash
+git clone --depth 1 https://github.com/luanmorenomaciel/task-spec.git \
+  "$HOME/.local/share/task-spec-src"
+bash "$HOME/.local/share/task-spec-src/install.sh" --target /path/to/repo --copy
+export PATH="$HOME/.local/bin:$PATH"
+taskspec doctor
+taskspec demo
+```
+
+After the tag exists and its remote-install smoke workflow passes, the pinned
+curl door is:
+
+```bash
+curl -fsSL \
+  https://raw.githubusercontent.com/luanmorenomaciel/task-spec/v3.7.0/install.sh \
+  | bash -s -- --target /path/to/repo
 ```
 
 | Harness | Installed skill |
@@ -24,7 +40,9 @@ bash install.sh --force
 ```
 
 Copy mode is pinned and non-clobbering. Symlink mode is only for a local
-checkout. `--force` backs up a managed destination before replacement.
+checkout. `--force` backs up a managed destination before replacement. The
+installer prints `INSTALL=OK` only after engine, skill parity, and launcher
+version checks pass.
 
 For npm/GitHub:
 
@@ -32,6 +50,10 @@ For npm/GitHub:
 npm install -g github:luanmorenommaciel/task-spec#v3.7.0
 taskspec-install
 ```
+
+This GitHub tag door is also pending until the release tag and remote smoke
+workflow exist. Local package construction and installation are covered by
+`make check`.
 
 For Claude marketplace:
 

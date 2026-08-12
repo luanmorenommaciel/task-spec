@@ -1,6 +1,6 @@
 # CI runs the same boundary a contributor runs locally: `make check`.
-# Credential-free by design — no secrets, no real-engine executors (that matrix
-# is TODO P0-1 and builds on this foundation).
+# Credential-free by design — no secrets or real-engine executors. The
+# separately dispatched engine-evidence workflow owns retained provider runs.
 name: check
 
 on:
@@ -55,5 +55,5 @@ jobs:
         # which requires PyYAML. Pinned for determinism.
         run: python3 -m pip install --disable-pip-version-check --quiet --break-system-packages pyyaml==6.0.2
 
-      - name: make check
+      - name: make check (includes isolated install-to-accept demo)
         run: make check

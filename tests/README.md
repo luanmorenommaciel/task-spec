@@ -13,16 +13,19 @@ for t in tests/test-*.sh; do bash "$t"; done  # everything
 The suite is fully self-contained and runs in a temporary directory. It does **not**
 read or write a real `tasks/` backlog.
 
-## Test scripts (7)
+## Test scripts
 
 | Script | Covers |
 |--------|--------|
+| `test-demo.sh` | Isolated public `taskspec demo` lifecycle plus dry-run and JSON contracts |
 | `test-task-spec-skill.sh` | End-to-end author flow (generate → validate → transition → rebuild → archive); `--suite fixtures` / `--suite hmac` / `--suite conformance` selectors |
 | `test-hmac-envelope.sh` | Key-optional HMAC sign-off envelope: Tier-1/2/3 degrade, injection-safe field writes, `.git/info` key fallback |
 | `test-extractor-fuzz.sh` | Adversarial fuzz of the extract-and-run path (heredoc-heavy bodies; never-hang / never-leak-raw-error invariants) |
 | `test-bash-portability.sh` | bash-3.2 floor: core gate path under `src/` + conformance runner carry no bash-4-only constructs |
 | `test-portability-e2e.sh` | Fresh-install smoke test (`src/lib/install.sh`) + cross-engine equivalence (Python vs TypeScript reference consumers) + schema fidelity |
 | `test-v3-closed-loop-e2e.sh` | v3 closed loop: author → gate → dispatch → execute → `accept-task.sh` |
+| `test-v36-experience.sh` | Installer modes, harness parity, clean-room acceptance, research contracts, and local npm package |
+| `test-v37-evidence-integrity.sh` | v4 policies, holdouts, receipts, identity, engine isolation, and A2A/MCP bridges |
 | `lint-skill-docs.sh` | Version consistency: `VERSION` == latest `CHANGELOG.md` heading == `src/lib/_lib.sh:TASKSPEC_VERSION` |
 
 ## Conformance suite

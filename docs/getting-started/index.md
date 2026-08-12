@@ -14,8 +14,11 @@ The shortest safe setup is:
 taskspec init
 taskspec setup signing
 taskspec doctor
+taskspec demo
 taskspec setup
 ```
 
+`taskspec demo` proves the full plan → gate → handoff → execute → accept loop in
+an isolated disposable repository before you use the engine on real work.
 `taskspec setup` always ends with one `NEXT:` line. A missing signing key is not
 hidden: operation remains supervised Tier 2 until the key exists.

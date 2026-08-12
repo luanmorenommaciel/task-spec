@@ -201,6 +201,15 @@ for destination in "$TARGET/.agents/skills/task-spec" "$TARGET/.claude/skills/ta
   grep -q '^name: task-spec$' "$destination/SKILL.md" || { echo "install.sh: invalid skill at $destination" >&2; exit 1; }
 done
 [[ -x "$ENGINE_DEST/bin/taskspec" ]] || { echo "install.sh: installed engine CLI is not executable" >&2; exit 1; }
+[[ "$("$ENGINE_DEST/bin/taskspec" version)" == "$PINNED_VERSION" ]] || { echo "install.sh: installed engine failed its version check" >&2; exit 1; }
+for destination in "$TARGET/.agents/skills/task-spec" "$TARGET/.claude/skills/task-spec" "$TARGET/.grok/skills/task-spec"; do
+  cmp -s "$SOURCE_ROOT/SKILL.md" "$destination/SKILL.md" || { echo "install.sh: installed skill differs at $destination" >&2; exit 1; }
+done
+if [[ "$NO_BIN" != true ]]; then
+  [[ "$("$launcher" version)" == "$PINNED_VERSION" ]] || { echo "install.sh: CLI launcher failed its version check" >&2; exit 1; }
+fi
 
 echo "Credentials: unchanged (Task-Spec never installs provider or model secrets)."
+echo "Verify: taskspec doctor"
+echo "Prove:  taskspec demo"
 echo "INSTALL=OK"

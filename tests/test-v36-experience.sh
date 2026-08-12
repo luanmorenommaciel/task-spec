@@ -17,7 +17,9 @@ mkdir -p "$TARGET" "$INSTALL_ROOT" "$BIN_DIR"
 
 echo "== install =="
 if TASKSPEC_INSTALL_ROOT="$INSTALL_ROOT" bash "$ROOT/install.sh" --target "$TARGET" --copy --bin-dir "$BIN_DIR" >"$WORK/install.out" 2>&1 \
-  && grep -q '^INSTALL=OK$' "$WORK/install.out"; then pass "copy install"; else fail "copy install"; fi
+  && grep -q '^INSTALL=OK$' "$WORK/install.out" \
+  && grep -q '^Verify: taskspec doctor$' "$WORK/install.out" \
+  && grep -q '^Prove:  taskspec demo$' "$WORK/install.out"; then pass "copy install"; else fail "copy install"; fi
 if TASKSPEC_INSTALL_ROOT="$INSTALL_ROOT" bash "$ROOT/install.sh" --target "$TARGET" --copy --bin-dir "$BIN_DIR" >"$WORK/reinstall.out" 2>&1 \
   && grep -q '^INSTALL=OK$' "$WORK/reinstall.out"; then pass "idempotent install"; else fail "idempotent install"; fi
 if [[ "$(shasum -a 256 "$TARGET/.agents/skills/task-spec/SKILL.md" | awk '{print $1}')" == "$(shasum -a 256 "$TARGET/.claude/skills/task-spec/SKILL.md" | awk '{print $1}')" \
@@ -45,8 +47,44 @@ mkdir -p "$NO_BIN_TARGET" "$NO_BIN_ROOT" "$NO_BIN_DIR"
 if TASKSPEC_INSTALL_ROOT="$NO_BIN_ROOT" bash "$ROOT/install.sh" --target "$NO_BIN_TARGET" --copy --no-bin --bin-dir "$NO_BIN_DIR" >"$WORK/no-bin.out" 2>&1 \
   && [[ ! -e "$NO_BIN_DIR/taskspec" ]]; then pass "skills-only install"; else fail "skills-only install"; fi
 
+UNMANAGED_TARGET="$WORK/unmanaged-project"
+UNMANAGED_ROOT="$WORK/unmanaged-root"
+UNMANAGED_BIN="$WORK/unmanaged-bin"
+mkdir -p "$UNMANAGED_TARGET/.agents/skills/task-spec" "$UNMANAGED_ROOT" "$UNMANAGED_BIN"
+printf 'user-owned\n' > "$UNMANAGED_TARGET/.agents/skills/task-spec/SKILL.md"
+set +e
+TASKSPEC_INSTALL_ROOT="$UNMANAGED_ROOT" bash "$ROOT/install.sh" --target "$UNMANAGED_TARGET" --copy --bin-dir "$UNMANAGED_BIN" >"$WORK/unmanaged.out" 2>&1
+unmanaged_rc=$?
+set -e
+if [[ "$unmanaged_rc" -ne 0 ]] \
+  && grep -q 'refusing to clobber' "$WORK/unmanaged.out" \
+  && grep -qx 'user-owned' "$UNMANAGED_TARGET/.agents/skills/task-spec/SKILL.md"; then
+  pass "unmanaged destination is preserved"
+else
+  fail "unmanaged destination protection"
+fi
+
+if TASKSPEC_INSTALL_ROOT="$UNMANAGED_ROOT" bash "$ROOT/install.sh" --target "$UNMANAGED_TARGET" --copy --bin-dir "$UNMANAGED_BIN" --force >"$WORK/forced.out" 2>&1 \
+  && find "$UNMANAGED_TARGET/.agents/skills" -maxdepth 1 -name 'task-spec.backup.*' -type d | grep -q . \
+  && grep -q '^name: task-spec$' "$UNMANAGED_TARGET/.agents/skills/task-spec/SKILL.md"; then
+  pass "forced replacement leaves a backup"
+else
+  fail "forced replacement backup"
+fi
+
+printf '%s\n' '#!/usr/bin/env sh' '# task-spec launcher v3.6.0' 'exit 91' > "$BIN_DIR/taskspec"
+chmod +x "$BIN_DIR/taskspec"
+if TASKSPEC_INSTALL_ROOT="$INSTALL_ROOT" bash "$ROOT/install.sh" --target "$TARGET" --copy --bin-dir "$BIN_DIR" >"$WORK/launcher-upgrade.out" 2>&1 \
+  && grep -q '^updated: CLI launcher ' "$WORK/launcher-upgrade.out" \
+  && [[ "$("$BIN_DIR/taskspec" version)" == "3.7.0" ]]; then
+  pass "managed launcher upgrades safely"
+else
+  fail "managed launcher upgrade"
+fi
+
 TS="$BIN_DIR/taskspec"
 check "installed version" bash -c "[[ \"\$('$TS' version)\" == 3.7.0 ]]"
+check "installed isolated demo" bash -c "'$TS' demo | grep -q '^DEMO=READY$'"
 check "agent context JSON" bash -c "'$TS' agent-context | python3 -m json.tool"
 check "global JSON envelope" bash -c "'$TS' --json help | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d[\"ok\"] and d[\"command\"] == \"help\"'"
 for shell_name in bash zsh fish; do check "completion $shell_name" bash -c "test -n \"\$('$TS' completion '$shell_name')\""; done

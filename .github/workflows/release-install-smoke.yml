@@ -1,0 +1,98 @@
+# Real distribution-door proof. This runs only for a published release or an
+# explicitly selected tag, so it never turns an unpublished ref into evidence.
+name: release-install-smoke
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_ref:
+        description: Existing release tag to verify (for example v3.7.0)
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    name: remote install (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    env:
+      RELEASE_REF: ${{ github.event.release.tag_name || inputs.release_ref }}
+    steps:
+      - name: Checkout the exact release
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ env.RELEASE_REF }}
+          persist-credentials: false
+
+      - name: Install shellcheck (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          set -euo pipefail
+          ver="v0.10.0"
+          arch="$(uname -m)"
+          case "$arch" in
+            arm64)  asset="darwin.aarch64"; sha="bbd2f14826328eee7679da7221f2bc3afb011f6a928b848c80c321f6046ddf81" ;;
+            x86_64) asset="darwin.x86_64";  sha="ef27684f23279d112d8ad84e0823642e43f838993bbb8c0963db9b58a90464c2" ;;
+            *) echo "unsupported arch: $arch" >&2; exit 1 ;;
+          esac
+          curl -fsSL -o /tmp/shellcheck.tar.xz \
+            "https://github.com/koalaman/shellcheck/releases/download/${ver}/shellcheck-${ver}.${asset}.tar.xz"
+          echo "${sha}  /tmp/shellcheck.tar.xz" | shasum -a 256 -c -
+          tar -xJf /tmp/shellcheck.tar.xz -C /tmp
+          sudo install -m 0755 "/tmp/shellcheck-${ver}/shellcheck" /usr/local/bin/shellcheck
+
+      - name: Verify release identity
+        run: |
+          set -euo pipefail
+          test "$RELEASE_REF" = "v$(tr -d '[:space:]' < VERSION)"
+
+      - name: Prove curl installer and isolated lifecycle
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+          mkdir -p "$work/home" "$work/project" "$work/bin" "$work/install-root" "$work/logs"
+          curl -fsSL \
+            "https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${RELEASE_REF}/install.sh" \
+            -o "$work/install.sh"
+          HOME="$work/home" TASKSPEC_INSTALL_ROOT="$work/install-root" \
+            bash "$work/install.sh" --target "$work/project" --bin-dir "$work/bin" \
+            | tee "$work/logs/curl-install.log"
+          test "$("$work/bin/taskspec" version)" = "${RELEASE_REF#v}"
+          "$work/bin/taskspec" demo | tee "$work/logs/curl-demo.log"
+          grep -q '^INSTALL=OK$' "$work/logs/curl-install.log"
+          grep -q '^DEMO=READY$' "$work/logs/curl-demo.log"
+          cp -R "$work/logs" release-install-logs
+
+      - name: Prove npm GitHub installer and isolated lifecycle
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+          mkdir -p "$work/project" "$work/install-root" "$work/logs"
+          npm install --global --prefix "$work/npm" \
+            "github:${GITHUB_REPOSITORY}#${RELEASE_REF}" \
+            | tee "$work/logs/npm-install.log"
+          test "$("$work/npm/bin/taskspec" version)" = "${RELEASE_REF#v}"
+          TASKSPEC_INSTALL_ROOT="$work/install-root" \
+            "$work/npm/bin/taskspec-install" --target "$work/project" --no-bin \
+            | tee "$work/logs/npm-harness-install.log"
+          "$work/npm/bin/taskspec" demo | tee "$work/logs/npm-demo.log"
+          grep -q '^INSTALL=OK$' "$work/logs/npm-harness-install.log"
+          grep -q '^DEMO=READY$' "$work/logs/npm-demo.log"
+          cp -R "$work/logs/." release-install-logs/
+
+      - name: Retain installation evidence
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        with:
+          name: release-install-${{ env.RELEASE_REF }}-${{ matrix.os }}
+          path: release-install-logs/
+          if-no-files-found: error
+          retention-days: 90

@@ -33,7 +33,7 @@ def render(evidence: dict) -> str:
     rows = [
         ("Engine", "Bash 3.2 portability, schemas, compatibility, HMAC v1/v2, sizing, backlog, DoD, conformance", f"{label(gates['make_check'])} — `make check` → `CHECK=READY`"),
         ("v4 evidence", "Policy validation, hidden holdout, receipt binding, mutation audit, identity/revocation, A2A/MCP round trip", f"Evidence suite {gates['v37_evidence_suite']}"),
-        ("Experience", "Copy/symlink installs plus init → sign → plan → generate → gate → handoff → execute → accept", f"{label(gates['clean_room'])}; experience suite {gates['experience_suite']}"),
+        ("Experience", "Copy/symlink installs, isolated demo, and init → sign → plan → generate → gate → handoff → execute → accept", f"{label(gates['clean_room'])}; experience suite {gates['experience_suite']}"),
         ("Package", "`npm pack --dry-run` and local global npm install", f"{label(gates['npm_pack_dry_run'])}; GitHub install {label(gates['npm_github_install']).lower()}"),
         ("Research", "Offline fake Firecrawl/Tavily/Exa adapters and named failure states", f"{label(gates['research_fake_adapters'])}; live providers not advertised"),
         ("Converge consumption", "Deterministic generated mirror plus per-file SHA-256 lock", f"{label(gates['converge_mirror'])}"),

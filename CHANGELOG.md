@@ -19,6 +19,10 @@ keep their behavior; authors opt into format v4 explicitly.
 
 ### Added
 
+- `taskspec demo`, a disposable install-to-accept proof that exercises planning,
+  generation, DoD, Tier-1 authorization, handoff, eval execution, and
+  independent acceptance without touching the caller's repository; plus a
+  tagged-release workflow for the real curl and npm/GitHub distribution doors.
 - Format-v4 `evaluation_policy` covering deterministic, private holdout,
   independently graded, and accountable human evidence. Required receipts are
   bound to the task authorization and block POST acceptance when missing,
@@ -45,6 +49,8 @@ keep their behavior; authors opt into format v4 explicitly.
   fleet scheduling, deployment proof, or A2A/MCP certification. The checked-in
   nine-family matrix is a reproducible template whose entries remain disabled
   until actual runs are retained.
+- Pinned curl and npm/GitHub installation remain pending until the `v3.7.0` tag
+  exists and the release-install smoke workflow retains successful results.
 
 ## [3.6.0] — 2026-08-11
 

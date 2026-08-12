@@ -22,6 +22,7 @@ Start:
   init                                      Create tasks/ and .taskspec/config
   setup                                     Readiness board + one next action
   setup signing [--force]                   Provision the repository HMAC key
+  demo                                      Prove the full lifecycle in isolation
 
 Author:
   new [--format 3|4] <slug> <size> [agent]   Create one non-clobbering scaffold
@@ -90,7 +91,7 @@ _ts_doctor() {
 
 _ts_completion() {
   local shell_name="${1:-}"
-  local words="init setup new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge mcp ready lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help"
+  local words="init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge mcp ready lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help"
   case "$shell_name" in
     bash)
       printf '_taskspec_complete() { COMPREPLY=( $(compgen -W %q -- "${COMP_WORDS[1]}") ); }\ncomplete -F _taskspec_complete taskspec\n' "$words"
@@ -120,6 +121,7 @@ _ts_dispatch() {
     help|--help|-h) _ts_usage; return 0 ;;
     version|--version) cat "$TASKSPEC_HOME/VERSION"; return 0 ;;
     doctor) _ts_doctor; return $? ;;
+    demo) bash "$TASKSPEC_HOME/src/setup/demo.sh" "$@"; return $? ;;
     completion) _ts_completion "$@"; return $? ;;
     agent-context) python3 "$TASKSPEC_HOME/src/dispatch/agent-context.py"; return $? ;;
     author-doctor) python3 "$TASKSPEC_HOME/src/author/doctor.py" "$@"; return $? ;;

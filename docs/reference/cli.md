@@ -19,9 +19,17 @@ taskspec completion zsh
 taskspec completion fish
 ```
 
-Stable machine tokens include `INIT=OK`, `TASK_PLAN=OK`, `TASK_BATCH=OK`,
+Stable machine tokens include `INIT=OK`, `DEMO=READY`, `TASK_PLAN=OK`, `TASK_BATCH=OK`,
 `DOD=COMPLETE`, `TIER=1|2`, `ACCEPTED=0|1`, and `INSTALL=OK`. A token is not a
 substitute for the associated report or JSON contract.
+
+## Installation proof
+
+| Command | Purpose |
+|---|---|
+| `doctor` | Inspect runtime prerequisites and signing readiness |
+| `demo` | Run plan → generate → gate → handoff → eval → accept in a disposable repository |
+| `conformance --self-test` | Prove the bundled executor reaches conformance L2 |
 
 ## Evidence and interoperability
 
