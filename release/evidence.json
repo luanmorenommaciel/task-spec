@@ -7,8 +7,8 @@
     "repository": "converge",
     "commit": "f78f077"
   },
-  "source_commit": "pending_commit",
-  "release_status": "implemented_local_unpublished",
+  "source_commit": "ce05d44a9e5e4f162330e58a71f777c09e69e228",
+  "release_status": "published_main",
   "gates": {
     "make_check": "pass",
     "v37_evidence_suite": "28/28_local",
