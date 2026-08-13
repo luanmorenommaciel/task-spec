@@ -479,9 +479,11 @@ The canonical status source is [release/evidence.json](release/evidence.json).
 `CHECK=READY` only when doctor, documentation lint, every self-test, the
 isolated demo, and conformance are green.
 
-Hosted status is reported separately from local evidence. A workflow that fails
-before receiving a runner has not executed the repository gate and must not be
-described as a test failure or a pass.
+Hosted status is reported separately from local evidence. Run
+[`31733425728`](https://github.com/luanmorenommaciel/task-spec/actions/runs/31733425728)
+was attempted twice, but GitHub started zero steps on both Ubuntu and macOS
+because account billing or the Actions spending limit requires attention. That
+is infrastructure evidence—not a repository-gate failure or pass.
 
 ## Documentation
 

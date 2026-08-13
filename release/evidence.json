@@ -11,7 +11,8 @@
   "release_status": "published_main",
   "gates": {
     "make_check": "pass",
-    "hosted_ci": "not_run_runner_unallocated",
+    "hosted_ci": "not_run_billing_or_spending_limit",
+    "hosted_ci_run": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31733425728",
     "isolated_demo": "pass",
     "v37_evidence_suite": "42/42_local",
     "v38_adversarial_suite": "45/45_local",
