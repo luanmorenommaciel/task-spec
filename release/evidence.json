@@ -7,8 +7,8 @@
     "repository": "converge",
     "commit": "f78f077"
   },
-  "source_commit": "pending_commit",
-  "release_status": "implemented_local_unpublished",
+  "source_commit": "3a4c03a01ed2d879d709170c422f08499c2beb65",
+  "release_status": "published_main",
   "gates": {
     "make_check": "pass",
     "hosted_ci": "not_run_runner_unallocated",

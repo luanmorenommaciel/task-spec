@@ -471,7 +471,7 @@ machine-readable command and token contract.
 | Research | Offline fake Firecrawl/Tavily/Exa adapters and named failure states | Pass; live providers not advertised |
 | Converge consumption | Deterministic generated mirror plus per-file SHA-256 lock | Not updated |
 | External engines | Nine-family matrix contract and honest unavailable state | Not run; no real-engine result claimed |
-| Publication | Canonical source commit, main branch, v3.8.0 tag, and remote curl/npm doors | Implemented locally; unpublished; tag-dependent installs pending v3.8.0 release tag |
+| Publication | Canonical source commit, main branch, v3.8.0 tag, and remote curl/npm doors | Published on main; tag-dependent installs pending v3.8.0 release tag |
 <!-- release-status:end -->
 
 The canonical status source is [release/evidence.json](release/evidence.json).
