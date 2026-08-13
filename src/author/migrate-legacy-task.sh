@@ -2,7 +2,7 @@
 # migrate-legacy-task.sh — Convert a legacy Task-Spec (v0) to v1-shaped output.
 #
 # Usage:
-#   bash migrate-legacy-task.sh <path/to/T-*.md>
+#   taskspec migrate <path/to/T-*.md>
 #
 # What it does:
 #   - Adds format_version: 1 to frontmatter
@@ -22,15 +22,30 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
 
-FILE="${1:?Usage: migrate-legacy-task.sh <path/to/T-*.md>}"
+if [[ $# -ne 1 || "$1" == "--help" || "$1" == "-h" ]]; then
+  echo "Usage: taskspec migrate <path/to/T-*.md>"
+  [[ $# -eq 1 ]] && exit 0
+  exit 2
+fi
+FILE="$1"
 
 if [[ ! -f "$FILE" ]]; then
-  echo "FAIL: $FILE not found" >&2
+  echo "taskspec migrate: file not found: $FILE" >&2
+  exit 2
+fi
+
+BACKLOG_ROOT="$(ts_backlog_root "$FILE")"
+LOCK_FILE="$BACKLOG_ROOT/.state.lock"
+if ! ts_lock_acquire "$LOCK_FILE"; then
+  echo "taskspec migrate: another process holds the task-state lock" >&2
   exit 1
 fi
+trap 'ts_lock_release "$LOCK_FILE"' EXIT
 
 # Use python3 for reliable markdown parsing and rewriting
 python3 - "$FILE" <<'PYEOF'
+import os
+import pathlib
 import sys
 import re
 
@@ -253,8 +268,15 @@ while i < len(post_fm):
 if new_lines and not new_lines[-1].endswith("\n"):
     new_lines[-1] += "\n"
 
-with open(path, "w", encoding="utf-8") as f:
-    f.writelines(new_lines)
+target = pathlib.Path(path)
+temporary = target.with_name(f".{target.name}.tmp.{os.getpid()}")
+try:
+    with temporary.open("w", encoding="utf-8") as f:
+        f.writelines(new_lines)
+    os.replace(temporary, target)
+finally:
+    if temporary.exists():
+        temporary.unlink()
 
 print(f"Migrated {path} to Task-Spec v1 shape")
 PYEOF

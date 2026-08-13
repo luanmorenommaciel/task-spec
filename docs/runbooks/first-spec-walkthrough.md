@@ -38,7 +38,7 @@ Verify the install:
 ```bash
 taskspec doctor
 taskspec version
-# 3.7.0
+# 3.8.0
 ```
 
 If the version doesn't match, you're running an older copy — check `which taskspec`.
@@ -73,7 +73,7 @@ You should see:
 
 ```
 Spec written: /tmp/.../tasks/T-20260602-add-health-endpoint.md
-  status: ready  format: 3  outdir: /tmp/.../tasks  task_spec_version: 3.7.0
+  status: ready  format: 3  outdir: /tmp/.../tasks  task_spec_version: 3.8.0
 
 Next steps:
 
@@ -85,14 +85,14 @@ Next steps:
   2. VALIDATE (pre-gate structural linter — does NOT stamp signed_off):
      bash <engine>/src/gate/validate-task-spec.sh tasks/T-20260602-add-health-endpoint.md
 
-Next: bash <engine>/src/gate/safe-to-delegate.sh --stamp tasks/T-20260602-add-health-endpoint.md
+Next: taskspec gate --stamp tasks/T-20260602-add-health-endpoint.md
 ...
 
   3. DISPATCH (after the gate stamps signed_off:true):
      See docs/runbooks/dispatching-a-task-spec.md ...
 ```
 
-Note the **breadcrumb**: the `Next: ...safe-to-delegate.sh --stamp ...` line tells you the exact gate command for THIS specific spec.
+Note the **breadcrumb**: the `Next: taskspec gate --stamp ...` line tells you the exact gate command for THIS specific spec.
 
 ---
 
@@ -206,8 +206,8 @@ If you got this far, **the skill is correctly installed and your first spec is s
 
 | Symptom | Likely cause | Action |
 |---------|--------------|--------|
-| older `task-spec vX.Y.Z` from `--version` | Old install path is shadowing | `which taskspec` — reinstall the pinned 3.7 copy or call by absolute path |
-| `OK: ...v2` on a generated spec | A v2 spec (or an older generator) — default freshly generated specs are `format_version: 3` | Cosmetic for a real v2 spec; regenerate with the 3.7 engine if you expected v3, or pass `--format 4` explicitly |
+| older `task-spec vX.Y.Z` from `--version` | Old install path is shadowing | `which taskspec` — reinstall the pinned 3.8 copy or call by absolute path |
+| `OK: ...v2` on a generated spec | A v2 spec (or an older generator) — default freshly generated specs are `format_version: 3` | Cosmetic for a real v2 spec; regenerate with the 3.8 engine if you expected v3, or pass `--format 4` explicitly |
 | `FAIL: signed_off: true but signed_off_by is empty` | You hand-edited `signed_off:` to `true` | Set it back to `false`; run the gate to stamp properly |
 | `inverted grep -c pattern: ...` | An eval uses the foot-gun | Replace with `! grep -q PATTERN file` (see Step 4) |
 | `flock: command not found` (macOS) | Missing `flock(1)` on default macOS | The test harness ships a shim; for direct script calls install via `brew install util-linux` |

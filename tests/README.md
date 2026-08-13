@@ -26,6 +26,9 @@ read or write a real `tasks/` backlog.
 | `test-v3-closed-loop-e2e.sh` | v3 closed loop: author → gate → dispatch → execute → `accept-task.sh` |
 | `test-v36-experience.sh` | Installer modes, harness parity, clean-room acceptance, research contracts, and local npm package |
 | `test-v37-evidence-integrity.sh` | v4 policies, holdouts, receipts, identity, engine isolation, and A2A/MCP bridges |
+| `test-v38-hardening.sh` | HMAC v3 downgrade resistance, attempt-bound receipts, Git/path attacks, closure drift, AcceptanceRecord atomicity, and recovery |
+| `test-backlog-analysis.sh` | Recursive graph resolution, dependency frontier, cycles, composition, supersession, conflicts, and exact closure |
+| `test-schema-contracts.sh` | Draft 2020-12 schema IDs/references plus checked-in and generated contract fixtures, stdlib-only |
 | `lint-skill-docs.sh` | Version consistency: `VERSION` == latest `CHANGELOG.md` heading == `src/lib/_lib.sh:TASKSPEC_VERSION` |
 
 ## Conformance suite
@@ -33,7 +36,8 @@ read or write a real `tasks/` backlog.
 The executor-conformance suite moved to **`spec/conformance/`** (it is part of
 the published spec, not just a test): **6** `T-conformance-*.md` fixtures (one
 per contract clause), the reference driver `run_conformance.sh`, and the
-reference self-adapter `adapters/self.sh`. See
+reference self-adapter `adapters/self.sh`. The current suite contains **8**
+contract fixtures. See
 [../spec/conformance/README.md](../spec/conformance/README.md) for the vendoring
 protocol. Run it via `taskspec conformance --self-test` or
 `bash spec/conformance/run_conformance.sh`.
@@ -74,7 +78,6 @@ The scripts operate relative to the current working directory and do not accept 
 
 ## macOS compatibility
 
-`transition-status.sh` uses `flock(1)` (from `util-linux`), which is not present on
-macOS. The self-test detects the missing binary and prepends a minimal shim to
-`PATH`. The shim is safe because the test environment is single-threaded with no
-concurrent access.
+Task-state mutations use an atomic `mkdir` lock shared by the Bash and Python
+paths, so macOS needs no `flock(1)` shim. Core gate and acceptance paths remain
+compatible with the system Bash 3.2.57 shipped by macOS.

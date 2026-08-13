@@ -81,26 +81,35 @@ while [[ $# -gt 0 ]]; do
     --shellcheck-evals) SHELLCHECK_EVALS=true; shift ;;
     --dry-run-eval) DRY_RUN_EVAL=true; shift ;;
     --no-state) WRITE_STATE=false; shift ;;
+    --help|-h)
+      sed -n '2,28p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+      exit 0
+      ;;
     --) shift; ARGS+=("$@"); break ;;
     -*)
       echo "Unknown option: $1" >&2
-      echo "Usage: validate-task-spec.sh [options] <path/to/T-*.md>" >&2
-      exit 1
+      echo "Usage: taskspec validate [options] <path/to/T-*.md>" >&2
+      exit 2
       ;;
     *) ARGS+=("$1"); shift ;;
   esac
 done
 
 if [[ ${#ARGS[@]} -eq 0 ]]; then
-  echo "Usage: validate-task-spec.sh [options] <path/to/T-*.md>" >&2
-  exit 1
+  echo "Usage: taskspec validate [options] <path/to/T-*.md>" >&2
+  exit 2
+fi
+
+if [[ ${#ARGS[@]} -ne 1 ]]; then
+  echo "Usage: taskspec validate [options] <path/to/T-*.md>" >&2
+  exit 2
 fi
 
 FILE="${ARGS[0]}"
 
 if [[ ! -f "$FILE" ]]; then
   echo "FAIL: $FILE not found" >&2
-  exit 1
+  exit 2
 fi
 
 ERRORS=()
@@ -363,7 +372,7 @@ fi
 # Check 7: eval functions
 if ! grep -qE '^eval_[0-9]+\(\)' "$FILE"; then
   if [[ "$FORMAT_VERSION" == "0" ]]; then
-    WARNINGS+=("no eval_N() bash functions found (legacy v0 uses markdown checklists); run migrate-legacy-task.sh to upgrade")
+    WARNINGS+=("no eval_N() bash functions found (legacy v0 uses markdown checklists); run taskspec migrate to upgrade")
   else
     ERRORS+=("no eval_N() bash functions found in Success Criteria")
   fi
@@ -372,7 +381,7 @@ fi
 # Check 8: validation_card YAML
 if ! grep -q 'success_criteria:' "$FILE"; then
   if [[ "$FORMAT_VERSION" == "0" ]]; then
-    WARNINGS+=("validation_card YAML missing (legacy v0); run migrate-legacy-task.sh to upgrade")
+    WARNINGS+=("validation_card YAML missing (legacy v0); run taskspec migrate to upgrade")
   else
     ERRORS+=("validation_card YAML missing success_criteria list")
   fi
@@ -596,6 +605,39 @@ if [[ "$FORMAT_VERSION" == "4" ]]; then
       [[ -n "$v4_error" ]] && ERRORS+=("v4 policy: $v4_error")
     done <<< "$V4_OUTPUT"
   fi
+fi
+
+# Retry limits are engine-enforced but also author-time validated. The effective
+# maximum is retry_policy.max_iterations and may never exceed signed authority.
+set +e
+RUNTIME_OUTPUT=$(python3 "$TASKSPEC_SKILL_DIR/src/gate/validate-runtime.py" "$FILE" 2>&1)
+RUNTIME_RC=$?
+set -e
+if [[ $RUNTIME_RC -ne 0 ]]; then
+  while IFS= read -r runtime_error; do [[ -n "$runtime_error" ]] && ERRORS+=("runtime policy: $runtime_error"); done <<< "$RUNTIME_OUTPUT"
+fi
+
+# Validation, readiness, handoff, status, and acceptance share the same graph
+# resolver. Only graph errors involving this task are surfaced here so an
+# unrelated broken backlog entry does not make a focused validation misleading.
+GRAPH_BACKLOG="$(ts_backlog_root "$FILE")"
+GRAPH_REFERENCE_ARG=""
+[[ "$CHECK_DEPENDS_ON" == false ]] && GRAPH_REFERENCE_ARG="--skip-references"
+set +e
+GRAPH_OUTPUT=$(python3 "$TASKSPEC_SKILL_DIR/src/gate/validate-graph.py" "$FILE" "$GRAPH_BACKLOG" ${GRAPH_REFERENCE_ARG:+"$GRAPH_REFERENCE_ARG"} 2>&1)
+GRAPH_RC=$?
+set -e
+if [[ $GRAPH_RC -ne 0 ]]; then
+  while IFS= read -r graph_error; do [[ -n "$graph_error" ]] && ERRORS+=("graph: $graph_error"); done <<< "$GRAPH_OUTPUT"
+fi
+
+# Authoring evidence may constrain or inform a task, but it is never an
+# acceptance oracle. Warn when prose appears to use the evidence catalog as a
+# Success Criteria or Exit Check input; the v4 policy validator already blocks
+# structured acceptance references outright.
+if awk '/^## Success Criteria/{f=1} /^## Exit Check/{f=1} /^## / && $0 !~ /^## (Success Criteria|Exit Check)/{f=0} f' "$FILE" \
+    | grep -qE '\.taskspec/evidence/|AuthoringEvidence/v1'; then
+  WARNINGS+=("Success Criteria or Exit Check references authoring evidence; research may inform context, constraints, and risks but cannot satisfy acceptance")
 fi
 
 # Check 8e: parent reference (C5). PRD/SDD altitude is REFERENCED, never embedded.
@@ -939,14 +981,14 @@ if [[ "$SIGNED_OFF_RAW" == "true" ]]; then
 
   STRUCTURAL_FLOOR_OK=true
   if [[ -z "$SIGNED_BY" || "$SIGNED_BY" == "(none)" ]]; then
-    ERRORS+=("signed_off: true but signed_off_by is empty or (none) — hand-stamping detected. The autonomy contract is produced ONLY by safe-to-delegate.sh --stamp. Run: bash $(dirname "${BASH_SOURCE[0]}")/safe-to-delegate.sh --stamp $FILE")
+    ERRORS+=("signed_off: true but signed_off_by is empty or (none) — hand-stamping detected. Run: taskspec gate --stamp $FILE")
     STRUCTURAL_FLOOR_OK=false
   fi
   if [[ -z "$SIGNED_AT" || "$SIGNED_AT" == "(none)" ]]; then
-    ERRORS+=("signed_off: true but signed_off_at is empty or (none) — hand-stamping detected. The autonomy contract is produced ONLY by safe-to-delegate.sh --stamp. Run: bash $(dirname "${BASH_SOURCE[0]}")/safe-to-delegate.sh --stamp $FILE")
+    ERRORS+=("signed_off: true but signed_off_at is empty or (none) — hand-stamping detected. Run: taskspec gate --stamp $FILE")
     STRUCTURAL_FLOOR_OK=false
   elif ! [[ "$SIGNED_AT" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z?$ ]]; then
-    ERRORS+=("signed_off_at must be ISO-8601 (got: '$SIGNED_AT') — hand-stamping suspected. Re-run safe-to-delegate.sh --stamp.")
+    ERRORS+=("signed_off_at must be ISO-8601 (got: '$SIGNED_AT') — hand-stamping suspected. Re-run taskspec gate --stamp.")
     STRUCTURAL_FLOOR_OK=false
   fi
 
@@ -964,36 +1006,31 @@ if [[ "$SIGNED_OFF_RAW" == "true" ]]; then
       echo "WARN(Tier 2): $FILE — no signing key resolved; sign-off is structural-only (Tier 2). Supervised dispatch only; NOT eligible for unsupervised crank. Set TASKSPEC_SIGNING_KEY or run configs/setup-taskspec-signing-key.sh for Tier 1 crypto trust."
     elif [[ -z "$SIGNED_SIG" ]]; then
       # TIER 2: key present but no sig field (legacy v2.1.1 spec). Structural-only.
-      echo "WARN(Tier 2): $FILE — signed_off_sig absent (legacy/structural-only sign-off). Re-stamp with safe-to-delegate.sh --stamp under a key for Tier 1 crypto trust. Supervised dispatch only."
-    elif ! [[ "$SIGNED_SIG" =~ ^hmac-sha256-v[12]:[0-9a-zA-Z]+:[0-9a-f]+$ ]]; then
+      echo "WARN(Tier 2): $FILE — signed_off_sig absent (legacy/structural-only sign-off). Re-stamp with taskspec gate --stamp under a key for Tier 1 crypto trust. Supervised dispatch only."
+    elif ! [[ "$SIGNED_SIG" =~ ^hmac-sha256-v[123]:[0-9a-zA-Z]+:[0-9a-f]+$ ]]; then
       # TIER 3: sig field malformed.
-      ERRORS+=("DO NOT DELEGATE: signed_off_sig is malformed (got: '$SIGNED_SIG'); expected hmac-sha256-v2:<keyid>:<hex>. Spec body or envelope modified after stamping. Re-run safe-to-delegate.sh --stamp.")
+      ERRORS+=("DO NOT DELEGATE: signed_off_sig is malformed (got: '$SIGNED_SIG'); expected hmac-sha256-v3:<keyid>:<hex>. Re-run taskspec gate --stamp.")
     else
+      SIG_VERSION="${SIGNED_SIG%%:*}"
+      case "$SIG_VERSION" in
+        hmac-sha256-v3) VERIFY_VERSION=v3 ;;
+        hmac-sha256-v2) VERIFY_VERSION=v2 ;;
+        hmac-sha256-v1) VERIFY_VERSION=v1 ;;
+      esac
       set +e
-      EXPECTED_SIG="$(ts_compute_signoff_sig "$FILE" "$SIGN_KEY")"
+      EXPECTED_SIG="$(ts_compute_signoff_sig "$FILE" "$SIGN_KEY" "$VERIFY_VERSION")"
       ESIG_RC=$?
       set -e
       if [[ $ESIG_RC -ne 0 || -z "$EXPECTED_SIG" ]]; then
-        # Key present but no crypto provider to recompute → degrade to Tier 2.
-        echo "WARN(Tier 2): $FILE — signing key present but no sha256 provider (openssl/shasum/sha256sum) to verify the MAC; sign-off is structural-only (Tier 2). Supervised dispatch only."
-      elif [[ "$EXPECTED_SIG" == "$SIGNED_SIG" ]]; then
-        # TIER 1: full crypto trust.
-        echo "OK(Tier 1): $FILE — signed_off_sig HMAC verified (full crypto trust)."
-      elif [[ "$SIGNED_SIG" == hmac-sha256-v1:* ]]; then
-        # A v1 envelope predates authorization sealing: it never covered write
-        # scope, dependencies, budgets, or routing. Verify it on its own terms —
-        # authentic means Tier 2 (supervised), NOT a forgery.
-        set +e
-        LEGACY_SIG="$(ts_compute_signoff_sig "$FILE" "$SIGN_KEY" v1)"
-        set -e
-        if [[ -n "$LEGACY_SIG" && "$LEGACY_SIG" == "$SIGNED_SIG" ]]; then
-          echo "WARN(Tier 2): $FILE — legacy envelope v1: authentic, but write scope, dependencies, budgets and routing were NOT sealed. Re-stamp with safe-to-delegate.sh --stamp for Tier 1."
-        else
-          ERRORS+=("DO NOT DELEGATE: spec body or envelope modified after stamping — signed_off_sig HMAC mismatch. Re-run safe-to-delegate.sh --stamp to re-seal.")
-        fi
+        echo "WARN(Tier 2): $FILE — signing key present but the authorization payload could not be verified; supervised dispatch only."
+      elif [[ "$EXPECTED_SIG" != "$SIGNED_SIG" && "${TASKSPEC_RESTAMP:-0}" == "1" ]]; then
+        echo "WARN(Tier 2): $FILE — prior authorization is stale and will be replaced by the requested atomic restamp."
+      elif [[ "$EXPECTED_SIG" != "$SIGNED_SIG" ]]; then
+        ERRORS+=("DO NOT DELEGATE: spec body, authority manifest, or envelope modified after stamping — signed_off_sig HMAC mismatch. Re-run taskspec gate --stamp to re-seal.")
+      elif [[ "$VERIFY_VERSION" == "v3" ]]; then
+        echo "OK(Tier 1): $FILE — HMAC v3 verified over TaskRevision/v1 (full crypto trust)."
       else
-        # TIER 3: MAC mismatch — body OR an authorization field changed.
-        ERRORS+=("DO NOT DELEGATE: spec body, authorization fields (touches_paths/creates_paths/depends_on/effort/backend/agent/budgets/requires), or envelope modified after stamping — signed_off_sig HMAC mismatch. Re-run safe-to-delegate.sh --stamp to re-seal.")
+        echo "WARN(Tier 2): $FILE — legacy envelope $VERIFY_VERSION is authentic but narrow. Re-stamp with taskspec gate --stamp for HMAC v3 Tier 1. Supervised dispatch only."
       fi
     fi
   fi
@@ -1011,15 +1048,25 @@ if [[ "${ACCEPTED_RAW:-}" == "true" ]]; then
   ACC_BY=$(grep -m1 '^accepted_by:' "$FILE" 2>/dev/null | sed -E 's/^accepted_by:[[:space:]]*//' || true)
   ACC_AT=$(grep -m1 '^accepted_at:' "$FILE" 2>/dev/null | sed -E 's/^accepted_at:[[:space:]]*//' || true)
   if [[ -z "$ACC_BY" || "$ACC_BY" == "(none)" ]]; then
-    ERRORS+=("accepted: true but accepted_by is empty or (none) — acceptance is produced ONLY by accept-task.sh. Run: bash $(dirname "${BASH_SOURCE[0]}")/accept-task.sh $FILE")
+    ERRORS+=("accepted: true but accepted_by is empty or (none) — acceptance is produced only by taskspec accept --stamp.")
   fi
   if [[ -z "$ACC_AT" || "$ACC_AT" == "(none)" ]]; then
-    ERRORS+=("accepted: true but accepted_at is empty or (none) — acceptance is produced ONLY by accept-task.sh.")
+    ERRORS+=("accepted: true but accepted_at is empty or (none) — acceptance is produced only by taskspec accept --stamp.")
   elif ! [[ "$ACC_AT" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z?$ ]]; then
     ERRORS+=("accepted_at must be ISO-8601 (got: '$ACC_AT')")
   fi
   if [[ "${SIGNED_OFF_RAW:-}" != "true" ]]; then
     ERRORS+=("accepted: true but signed_off is not true — a task cannot be accepted before it is signed off (gate → dispatch → accept ordering)")
+  fi
+  if [[ "${SIGNED_SIG:-}" == hmac-sha256-v3:* ]]; then
+    ACC_TIER=$(grep -m1 '^accepted_tier:' "$FILE" 2>/dev/null | awk -F: '{print $2}' | xargs || true)
+    ACC_ATTEMPT=$(grep -m1 '^accepted_attempt_id:' "$FILE" 2>/dev/null | sed -E 's/^accepted_attempt_id:[[:space:]]*//' | tr -d '"' || true)
+    ACC_AUTH=$(grep -m1 '^accepted_authorization_ref:' "$FILE" 2>/dev/null | sed -E 's/^accepted_authorization_ref:[[:space:]]*//' | tr -d '"' || true)
+    ACC_RECORD=$(grep -m1 '^acceptance_record_digest:' "$FILE" 2>/dev/null | sed -E 's/^acceptance_record_digest:[[:space:]]*//' | tr -d '"' || true)
+    [[ "$ACC_TIER" =~ ^[12]$ ]] || ERRORS+=("HMAC v3 acceptance requires accepted_tier: 1 or 2")
+    [[ -n "$ACC_ATTEMPT" ]] || ERRORS+=("HMAC v3 acceptance requires accepted_attempt_id")
+    [[ "$ACC_AUTH" == "$SIGNED_SIG" ]] || ERRORS+=("accepted_authorization_ref must match the current HMAC v3 authorization")
+    [[ "$ACC_RECORD" =~ ^sha256:[0-9a-f]{64}$ ]] || ERRORS+=("HMAC v3 acceptance requires acceptance_record_digest")
   fi
 fi
 # Report

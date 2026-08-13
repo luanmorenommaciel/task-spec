@@ -8,6 +8,6 @@
   "properties": {
     "contract": {"const": "TaskSpecMCPTask/v1"},
     "task": {"type": "object", "required": ["id", "status", "input"], "properties": {"id": {"type": "string"}, "status": {"type": "string"}, "input": {"type": "object"}}},
-    "metadata": {"type": "object", "required": ["task_id", "spec_digest"], "properties": {"task_id": {"type": "string"}, "spec_digest": {"type": "string"}}}
+    "metadata": {"type": "object", "required": ["task_id", "spec_digest", "handoff_digest"], "properties": {"task_id": {"type": "string"}, "spec_digest": {"type": "string"}, "handoff_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}}
   }
 }

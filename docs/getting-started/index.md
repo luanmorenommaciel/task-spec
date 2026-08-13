@@ -22,3 +22,7 @@ taskspec setup
 an isolated disposable repository before you use the engine on real work.
 `taskspec setup` always ends with one `NEXT:` line. A missing signing key is not
 hidden: operation remains supervised Tier 2 until the key exists.
+
+After authorizing a real task, persist its `TaskHandoff/v3` and pass that same
+file to acceptance. This is what binds the Git base, attempt, receipts, and
+acceptance record to one revision.

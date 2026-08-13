@@ -92,7 +92,7 @@ case "$STEM" in
 
   T-conformance-008-v4-policy)
     # C18: format-v4 acceptance policy reaches the executor unchanged.
-    echo "format=4 deterministic=required policy=preserved" > "$WORKDIR/c008.log"
+    echo "format=4 deterministic=required environment=optional evidence=sealed policy=preserved" > "$WORKDIR/c008.log"
     ;;
 
   *)

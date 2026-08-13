@@ -1,6 +1,6 @@
 {
   "name": "@luanmorenommaciel/task-spec",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Canonical atomic, vendor-neutral, self-verifying task format, CLI, and agent skill",
   "license": "MIT",
   "repository": {"type": "git", "url": "git+https://github.com/luanmorenommaciel/task-spec.git"},

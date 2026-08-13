@@ -7,7 +7,7 @@ grep -q '^DEMO=READY$' <<< "$output"
 grep -q '^  PLAN=VALID$' <<< "$output"
 grep -q '^  DOD=COMPLETE$' <<< "$output"
 grep -q '^  VERDICT=DELEGATE TIER=1$' <<< "$output"
-grep -q '^  HANDOFF=TaskHandoff/v1$' <<< "$output"
+grep -q '^  HANDOFF=TaskHandoff/v3$' <<< "$output"
 grep -q '^  EVAL=PASS$' <<< "$output"
 grep -q '^  ACCEPTED=1$' <<< "$output"
 

@@ -6,7 +6,7 @@
 > **retired**; the v1 filename had been retained there for link stability only.
 > The Version History section at the end is preserved.
 
-> **Stable compatibility format:** v3 (supported unchanged by engine 3.7.0). Format v4 is opt-in for evidence policies.
+> **Stable compatibility format:** v3 (the authoring default in engine 3.8.0). Format v4 is opt-in for evidence policies.
 > **First published:** 2026-05-19 (v1)
 > **Format Owner:** task-spec CAW
 > **Adopters:** anthive, taskship, AgentSpec, overnight-builder, Claude /goal, Codex, Kimi
@@ -142,7 +142,7 @@ Optional frontmatter fields:
 
 | Field | Type | When to use |
 |-------|------|-------------|
-| `blocks` | list[string] | Inverse of `depends_on`; lists tasks blocked by this one |
+| `blocks` | list[string] | Deprecated advisory projection. `depends_on` is authoritative; the linter warns when they disagree. |
 | `source_action_item` | string | Specific item from `source_note` (e.g., "AI #6") |
 | `precondition` | string | External event needed (not a task — e.g., "spec must be checked in") |
 | `owner` | string | Human accountable for review |
@@ -648,7 +648,7 @@ that lineage.
 | **v2** | Six zones (adds **Rollback Plan** + **Observability Hooks**); cross-vendor `agent_contract` schema (`produce` as list, `emit` enum, `required_tools`, `timeout_minutes`, `sandbox_type`, `backend_metadata`); accountability frontmatter (`owner`, `priority`, `severity`, `due_date`, `precondition`); severity-scaled quality thresholds; `creates_paths` for greenfield tasks. |
 | **v2.2** | Historical key-optional HMAC v1 sign-off envelope. Valid v1 remains readable on its original narrow payload as supervised Tier 2. |
 | **v3** | Effort-scaled **profiles** (`lite | standard | full`); the **Behavior** zone with bidirectional behavior↔eval traceability (`B-N` ⇄ eval `verifies:`); the POST-execution **accept-task gate** (`accept-task.sh` → `accepted: true`, with `accepted_by`/`accepted_at`); executor **conformance levels** (L0/L1/L2) mapped to A2A `TaskState`; one-level **decomposition** (`parent:` + flat index) with open questions as first-class `blocked` holes; `execution_backend` as an open string. |
-| **v3, engine 3.5/3.6 (current)** | Six-tier leaves/nodes, HMAC v2 authorization sealing, dependency-aware readiness, DoD, TaskPlan/TaskHandoff/AuthoringEvidence contracts, and multi-harness installation. Format version remains 3. |
+| **v3, engine 3.5–3.8 (current default)** | Six-tier leaves/nodes, TaskRevision/HMAC v3 authorization, dependency-aware graph/closure, DoD, TaskPlan/TaskHandoff/AuthoringEvidence contracts, and multi-harness installation. Format version remains 3. |
 
 The validator accepts every version via `format_version` (default 1 if absent,
 0 = legacy). v3 specs declare `format_version: 3`; the `profile` axis is

@@ -1,6 +1,4 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://taskspec.dev/schema/v4/graded-evaluation-receipt.schema.json",
-  "title": "GradedEvaluationReceipt v1", "type": "object", "additionalProperties": false,
-  "required": ["contract", "task_id", "authorization_ref", "evaluator", "rubric_digest", "score", "threshold", "result", "evaluated_at"],
-  "properties": {"contract": {"const": "GradedEvaluationReceipt/v1"}, "task_id": {"type": "string"}, "authorization_ref": {"type": "string"}, "evaluator": {"type": "string"}, "rubric_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "score": {"type": "number", "minimum": 0, "maximum": 1}, "threshold": {"type": "number", "minimum": 0, "maximum": 1}, "result": {"enum": ["pass", "fail"]}, "evaluated_at": {"type": "string"}}
-}
+{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://taskspec.dev/schema/graded-evaluation-receipt.schema.json","title":"GradedEvaluationReceipt v1-v2","oneOf":[
+{"type":"object","additionalProperties":false,"required":["contract","task_id","authorization_ref","evaluator","rubric_digest","score","threshold","result","evaluated_at"],"properties":{"contract":{"const":"GradedEvaluationReceipt/v1"},"task_id":{"type":"string"},"authorization_ref":{"type":"string"},"evaluator":{"type":"string"},"rubric_digest":{"type":"string"},"score":{"type":"number"},"threshold":{"type":"number"},"result":{"enum":["pass","fail"]},"evaluated_at":{"type":"string"}}},
+{"type":"object","additionalProperties":false,"required":["contract","subject","observed_at","evaluator","rubric_digest","score","threshold","result"],"properties":{"contract":{"const":"GradedEvaluationReceipt/v2"},"subject":{"$ref":"receipt-subject.schema.json"},"observed_at":{"type":"string"},"evaluator":{"type":"string"},"rubric_digest":{"type":"string"},"score":{"type":"number"},"threshold":{"type":"number"},"result":{"enum":["pass","fail"]},"signature":{"type":"object"}}}
+]}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/acceptance-record.schema.json",
+  "title": "AcceptanceRecord/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "subject",
+    "outcome",
+    "gate_outcomes",
+    "receipts",
+    "acceptance_tier",
+    "accepted_by",
+    "accepted_at"
+  ],
+  "properties": {
+    "contract": {"const": "AcceptanceRecord/v1"},
+    "subject": {"$ref": "receipt-subject.schema.json"},
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "code"],
+      "properties": {
+        "status": {"const": "accepted"},
+        "code": {"enum": ["ACCEPTED_TIER_1", "ACCEPTED_TIER_2"]}
+      }
+    },
+    "gate_outcomes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorization", "evaluation", "preflight", "evidence"],
+      "properties": {
+        "authorization": {"$ref": "#/$defs/gate"},
+        "evaluation": {"$ref": "#/$defs/gate"},
+        "preflight": {"$ref": "#/$defs/gate"},
+        "evidence": {"$ref": "#/$defs/gate"}
+      }
+    },
+    "receipts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "digest"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "acceptance_tier": {"enum": [1, 2]},
+    "accepted_by": {"type": "string", "minLength": 1},
+    "accepted_at": {"type": "string", "format": "date-time"},
+    "supervision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supervised_by", "reason"],
+      "properties": {
+        "supervised_by": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "verifier_signature": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "gate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "code"],
+      "properties": {
+        "status": {"const": "pass"},
+        "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"}
+      }
+    }
+  }
+}

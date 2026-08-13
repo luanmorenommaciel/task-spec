@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/task-status.schema.json",
+  "title": "TaskStatus/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "task_id", "path", "lifecycle", "authorization", "graph", "evidence", "acceptance", "next_command"],
+  "properties": {
+    "contract": {"const": "TaskStatus/v1"}, "task_id": {"type": "string"}, "path": {"type": "string"},
+    "lifecycle": {"enum": ["ready", "in-progress", "blocked", "done", "parked"]},
+    "authorization": {"type": "object", "additionalProperties": false, "required": ["scheme", "tier", "verification", "stale", "task_revision_digest"], "properties": {"scheme": {"type": "string"}, "tier": {"enum": [1, 2, 3]}, "verification": {"type": "string"}, "stale": {"type": "boolean"}, "task_revision_digest": {"$ref": "#/$defs/digest"}}},
+    "graph": {"type": "object", "additionalProperties": false, "required": ["revision_digest", "projection_digest", "stale", "issues", "blockers"], "properties": {"revision_digest": {"$ref": "#/$defs/digest"}, "projection_digest": {"type": ["string", "null"]}, "stale": {"type": "boolean"}, "issues": {"type": "array"}, "blockers": {"type": "array", "items": {"type": "string"}}}},
+    "evidence": {"type": "object", "additionalProperties": false, "required": ["missing_or_mismatched", "authoring_refs"], "properties": {"missing_or_mismatched": {"type": "array", "items": {"type": "string"}}, "authoring_refs": {"type": "array", "items": {"$ref": "#/$defs/authoringRef"}}}},
+    "acceptance": {"type": "object", "additionalProperties": false, "required": ["accepted", "record", "record_matches", "record_error"], "properties": {"accepted": {"type": "boolean"}, "record": {"type": ["string", "null"]}, "record_matches": {"type": "boolean"}, "record_error": {"type": ["string", "null"]}}},
+    "next_command": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "authoringRef": {"type": "object", "additionalProperties": false, "required": ["ref", "role", "available", "digest_matches", "observed_at", "age_sec"], "properties": {"ref": {"type": ["string", "null"]}, "role": {"type": ["string", "null"]}, "available": {"type": "boolean"}, "digest_matches": {"type": "boolean"}, "observed_at": {"type": ["string", "null"]}, "age_sec": {"type": ["integer", "null"], "minimum": 0}}}
+  }
+}

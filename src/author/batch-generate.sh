@@ -89,7 +89,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     *)
       echo "Unknown option: $1" >&2
-      echo "Usage: batch-generate.sh --intent-file <path> --effort S|M [options]" >&2
+      echo "Usage: taskspec batch --intent-file <path> --effort S|M [options]" >&2
       exit 1
       ;;
   esac
@@ -295,7 +295,7 @@ echo ""
 echo "Next steps:"
 echo "  1. Fill in the {{TODO}} stubs in each generated file"
 echo "  2. Re-run validation after editing:"
-echo "     bash $SKILL_DIR/src/gate/validate-task-spec.sh $OUTDIR/T-*.md"
+echo "     taskspec validate $OUTDIR/T-*.md"
 echo "  3. Commit:"
 echo "     git add $OUTDIR/"
 

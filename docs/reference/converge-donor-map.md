@@ -9,7 +9,7 @@ runtime dependency.
 |---|---|---|
 | Six-tier sizing, L routing, XL/XXL composition | `skills/task-spec/scripts/_lib.sh`, `validate-task-spec.sh`, `templates/task-spec.md.tpl`, `references/concepts/effort-gate.md`, `tests/test-effort-sizing.sh` | `src/lib/_lib.sh`, `src/gate/validate-task-spec.sh`, template, schema, guide, and sizing suite |
 | Write-surface union and collision analysis | `_lib.sh`, `validate-task-spec.sh`, `lint-backlog.sh` | Portable `touches_paths` plus `creates_paths` budgets, dual-create failures, shared-write reports, and concurrency groups |
-| HMAC authorization envelope | `_lib.sh`, `safe-to-delegate.sh`, `validate-task-spec.sh`, `accept-task.sh`, `tests/test-hmac-envelope.sh` | HMAC v2 over body and authority; v1 remains authentic-but-narrow Tier 2 until re-stamped |
+| HMAC authorization envelope | `_lib.sh`, `safe-to-delegate.sh`, `validate-task-spec.sh`, `accept-task.sh`, `tests/test-hmac-envelope.sh` | Donor v2 parity plus upstream HMAC v3/TaskRevision hardening; v1/v2 remain authentic-but-narrow Tier 2 |
 | Worktree and eval workspace correctness | `_lib.sh`, `run-task-spec.sh`, signing-key setup | Git common-directory key lookup and task-workspace-relative eval execution |
 | Stub resistance and validation purity | `safe-to-delegate.sh`, `validate-task-spec.sh` | Existence-only eval detection, supervised override, and `validate --no-state` |
 | Dependency frontier and backlog analysis | `list-ready.sh`, `lint-backlog.sh`, `rebuild-state.sh` | Dependency-aware `ready`, `--all`, dangling/cycle failures, conflicts, and deterministic derived state |

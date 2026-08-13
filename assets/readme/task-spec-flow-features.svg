@@ -109,7 +109,7 @@
     </g>
     <path d="M190 66V214" stroke="#2f4656" stroke-width="1.5"/>
     <text class="stage-name" x="218" y="104">AUTHORIZE LEAF</text>
-    <text class="stage-sub" x="218" y="145">validate · DoD · HMAC v2</text>
+    <text class="stage-sub" x="218" y="145">validate · DoD · HMAC v3</text>
     <text class="stage-sub" x="218" y="176">explicit delegation tier</text>
     <text class="stage-proof" x="218" y="215" fill="#ffb454">PRE-GATE · HUMAN DECISION</text>
   </g>

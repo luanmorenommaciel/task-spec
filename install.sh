@@ -2,7 +2,7 @@
 # Install a pinned Task-Spec engine, CLI launcher, and equivalent harness skills.
 set -euo pipefail
 
-PINNED_VERSION="3.7.0"
+PINNED_VERSION="3.8.0"
 REPOSITORY="luanmorenommaciel/task-spec"
 TARGET="$PWD"
 MODE="copy"
@@ -13,6 +13,7 @@ FORCE=false
 usage() {
   cat <<'EOF'
 Usage: install.sh [options]
+  --global           install user-level skills for Codex/Kimi, Claude, and Grok
   --target DIR       repository receiving harness skills (default: PWD)
   --copy             pinned copy installation (default)
   --symlink          checkout-development mode; source must be a local checkout
@@ -24,6 +25,11 @@ EOF
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --global)
+      [[ -n "${HOME:-}" ]] || { echo "install.sh: HOME is required for --global" >&2; exit 2; }
+      TARGET="$HOME"
+      shift
+      ;;
     --target) TARGET="${2:-}"; shift 2 ;;
     --target=*) TARGET="${1#*=}"; shift ;;
     --copy) MODE="copy"; shift ;;
@@ -60,7 +66,27 @@ else
   DOWNLOAD_DIR="$(mktemp -d -t taskspec-install-XXXXXX)"
   trap '[[ -n "$DOWNLOAD_DIR" ]] && rm -rf "$DOWNLOAD_DIR"' EXIT
   archive="$DOWNLOAD_DIR/task-spec.tar.gz"
-  curl -fsSL "https://github.com/$REPOSITORY/archive/refs/tags/v$PINNED_VERSION.tar.gz" -o "$archive"
+  checksum="$DOWNLOAD_DIR/task-spec.tar.gz.sha256"
+  release_base="${TASKSPEC_RELEASE_BASE_URL:-https://github.com/$REPOSITORY/releases/download/v$PINNED_VERSION}"
+  asset_name="task-spec-$PINNED_VERSION.tar.gz"
+  curl -fsSL "$release_base/$asset_name" -o "$archive"
+  curl -fsSL "$release_base/$asset_name.sha256" -o "$checksum"
+  expected_sha="$(awk 'NR == 1 {print $1}' "$checksum")"
+  case "$expected_sha" in
+    *[!0-9a-f]*|'') echo "install.sh: invalid release checksum manifest" >&2; exit 1 ;;
+  esac
+  if command -v shasum >/dev/null 2>&1; then
+    actual_sha="$(shasum -a 256 "$archive" | awk '{print $1}')"
+  elif command -v sha256sum >/dev/null 2>&1; then
+    actual_sha="$(sha256sum "$archive" | awk '{print $1}')"
+  elif command -v openssl >/dev/null 2>&1; then
+    actual_sha="$(openssl dgst -sha256 "$archive" | awk '{print $NF}')"
+  else
+    echo "install.sh: SHA-256 provider required to verify the immutable release archive" >&2
+    exit 2
+  fi
+  [[ "$actual_sha" == "$expected_sha" ]] || { echo "install.sh: release archive checksum mismatch" >&2; exit 1; }
+  echo "verified: release archive sha256:$actual_sha"
   tar -xzf "$archive" -C "$DOWNLOAD_DIR"
   SOURCE_ROOT="$DOWNLOAD_DIR/task-spec-$PINNED_VERSION"
 fi
@@ -147,7 +173,7 @@ for destination in \
   if [[ "$MODE" == "symlink" ]]; then install_skill_link "$destination"; else install_skill_copy "$destination"; fi
 done
 
-# Preserve the pre-3.6 Claude subagent entrypoint alongside the portable skill.
+# Preserve the legacy Claude subagent entrypoint alongside the portable skill.
 # The skill is the canonical authoring surface; this file is a compatibility
 # door for existing checkouts and prompts that invoke `task-architect` directly.
 architect_destination="$TARGET/.claude/agents/task-architect.md"
@@ -210,6 +236,12 @@ if [[ "$NO_BIN" != true ]]; then
 fi
 
 echo "Credentials: unchanged (Task-Spec never installs provider or model secrets)."
+if [[ "$NO_BIN" != true ]]; then
+  case ":$PATH:" in
+    *":$BIN_DIR:"*) ;;
+    *) echo "PATH: add $BIN_DIR, then enable completion with: taskspec completion bash|zsh|fish" ;;
+  esac
+fi
 echo "Verify: taskspec doctor"
 echo "Prove:  taskspec demo"
 echo "INSTALL=OK"

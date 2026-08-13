@@ -4,7 +4,7 @@
 # Idempotent. Safe to run anytime. Updates _state.yaml after moves.
 #
 # Usage:
-#   bash archive.sh
+#   taskspec archive
 
 set -euo pipefail
 
@@ -12,12 +12,26 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/_lib.sh
 source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  echo "Usage: taskspec archive"
+  exit 0
+fi
+if [[ $# -ne 0 ]]; then
+  echo "taskspec archive: no arguments are accepted" >&2
+  exit 2
+fi
 
 if [[ ! -d "$TASKSPEC_BACKLOG_DIR" ]]; then
   exit 0
 fi
 
 mkdir -p "$TASKSPEC_BACKLOG_DIR/done" "$TASKSPEC_BACKLOG_DIR/parked"
+LOCK_FILE="$TASKSPEC_BACKLOG_DIR/.state.lock"
+if ! ts_lock_acquire "$LOCK_FILE"; then
+  echo "taskspec archive: another process holds the task-state lock" >&2
+  exit 1
+fi
+trap 'ts_lock_release "$LOCK_FILE"' EXIT
 
 MOVED_DONE=0
 MOVED_PARKED=0
@@ -43,7 +57,7 @@ done
 # Rebuild state after moves
 SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 if [[ -x "$SKILL_DIR/src/backlog/rebuild-state.sh" ]]; then
-  bash "$SKILL_DIR/src/backlog/rebuild-state.sh" >/dev/null 2>&1 || true
+  TASKSPEC_STATE_LOCK_HELD=1 bash "$SKILL_DIR/src/backlog/rebuild-state.sh" >/dev/null 2>&1 || true
 fi
 
 echo ">>> Archived: $MOVED_DONE done, $MOVED_PARKED parked"

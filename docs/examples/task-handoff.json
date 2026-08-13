@@ -1,23 +1,21 @@
 {
-  "contract": "TaskHandoff/v1",
+  "contract": "TaskHandoff/v3",
   "task_id": "T-20260811-example-s",
+  "format_version": 3,
   "spec": "/workspace/tasks/T-20260811-example-s.md",
-  "spec_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "spec_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "task_revision_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
   "signoff_tier": 1,
   "backend": "codex",
   "workspace": "/workspace",
-  "write_scope": {
-    "touches_paths": [],
-    "creates_paths": ["examples/search.sh", "examples/search-test.sh"],
-    "do_not_touch": [".git/info/taskspec-signing-key"]
-  },
+  "authorization": {"scheme": "hmac-sha256-v3", "ref": "hmac-sha256-v3:12345678:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "tier": 1, "signed_by": "author", "signed_at": "2026-08-13T12:00:00Z"},
+  "attempt": {"id": "11111111-1111-4111-8111-111111111111", "issued_at": "2026-08-13T12:01:00Z"},
+  "source": {"workspace": "/workspace", "base_commit": "2222222222222222222222222222222222222222"},
+  "dependency_closure": {"contract": "DependencyClosure/v1", "task_id": "T-20260811-example-s", "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333", "members": [{"task_id": "T-20260811-example-s", "task_revision_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"}]},
+  "write_scope": {"touches_paths": [], "creates_paths": ["examples/search.sh", "examples/search-test.sh"], "do_not_touch": [".git/info/taskspec-signing-key"]},
   "budgets": {"iterations": 15, "tokens": null, "effort": "S"},
-  "agent_contract": {
-    "version": 2,
-    "read": ["intent", "contract", "guardrails"],
-    "produce": ["code", "tests"],
-    "emit": ["pass", "fail", "parked_with_context"]
-  },
+  "agent_contract": {"version": 2, "read": ["intent", "contract", "guardrails"], "produce": ["code", "tests"], "emit": ["pass", "fail", "parked_with_context"]},
   "eval_command": ["taskspec", "run", "--ci", "/workspace/tasks/T-20260811-example-s.md"],
-  "acceptance_command": ["taskspec", "accept", "--stamp", "/workspace/tasks/T-20260811-example-s.md"]
+  "acceptance_command": ["taskspec", "accept", "--stamp", "--handoff", "<handoff.json>", "/workspace/tasks/T-20260811-example-s.md"],
+  "evaluation_policy": {}, "environment_contract": {}, "identity_policy": {}, "receipt_requirements": ["deterministic"]
 }

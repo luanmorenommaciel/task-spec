@@ -9,6 +9,7 @@ budget_iterations: {{BUDGET_ITERATIONS}}
 agent: {{AGENT}}
 parent: (none)  # FEATURE-altitude PRD/SDD this task decomposes from (path or url); the task DISTILLS it, never embeds it
 depends_on: {{DEPENDS_ON}}
+supersedes: (none)  # explicit replanning only; downstream dependencies are never rewritten automatically
 {{CHILDREN_FIELD}}
 {{TOUCHES_PATHS_FIELD}}
 creates_paths: []
@@ -31,6 +32,7 @@ signed_off_at: (none)  # ISO-8601 timestamp of sign-off
 accepted: false  # flipped true by accept-task.sh AFTER execution — closes the loop (evals re-run from clean checkout + blast-radius + envelope)
 accepted_by: (none)
 accepted_at: (none)
+evidence_refs: []
 {{EVIDENCE_POLICY_BLOCK}}
 ---
 

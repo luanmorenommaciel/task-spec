@@ -85,4 +85,5 @@ if [ "$failures" -gt 0 ]; then
   printf 'lint-docs: %d failure(s)\n' "$failures" >&2
   exit 1
 fi
+python3 tools/render-cli-reference.py --check docs/reference/cli.md
 printf 'lint-docs: OK\n'

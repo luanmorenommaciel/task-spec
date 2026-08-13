@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/mutation-matrix.schema.json",
+  "title": "MutationMatrix/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "stack", "experimental", "mutations"],
+  "properties": {
+    "contract": {"const": "MutationMatrix/v1"},
+    "stack": {"enum": ["python", "javascript", "go", "bash", "generic"]},
+    "experimental": {"const": true},
+    "mutations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "patch"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+          "patch": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+\\.patch$"}
+        }
+      }
+    }
+  }
+}

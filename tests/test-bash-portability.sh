@@ -9,8 +9,8 @@
 #       gate/safe-to-delegate.sh, gate/run-task-spec.sh, lib/_lib.sh) contain
 #       NO `declare -A` and NO mapfile.
 #       (These must stay runnable on macOS system bash 3.2.57.)
-#   (c) backlog/lint-backlog.sh and backlog/query-metrics.sh both call
-#       ts_require_bash4, the bash-4 self-detecting guard.
+#   (c) the remaining bash-4 auxiliary script calls its self-detecting guard.
+#       backlog lint now delegates to the stdlib Python graph resolver.
 #
 # Prints a "Results: N passed, M failed" line. Exits non-zero if any fail.
 
@@ -77,7 +77,7 @@ done
 # (c) Aux scripts must call ts_require_bash4
 # ---------------------------------------------------------------------------
 echo "=== (c) aux scripts call ts_require_bash4 ==="
-AUX_SCRIPTS=(backlog/lint-backlog.sh backlog/query-metrics.sh)
+AUX_SCRIPTS=(backlog/query-metrics.sh)
 for name in "${AUX_SCRIPTS[@]}"; do
   path="$SCRIPTS_DIR/$name"
   if [[ ! -f "$path" ]]; then

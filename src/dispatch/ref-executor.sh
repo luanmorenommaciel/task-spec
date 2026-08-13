@@ -19,7 +19,7 @@
 # else — the lifecycle, the budget loop, the park — is the part that MATTERS and
 # is identical for any executor.
 #
-# Usage: bash ref-executor.sh <path/to/T-*.md>
+# Usage: taskspec executor <path/to/T-*.md>
 
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -27,17 +27,42 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
 
-SPEC="${1:?usage: ref-executor.sh <spec-path>}"
+if [[ $# -ne 1 ]]; then
+  echo "Usage: taskspec executor <task-spec>" >&2
+  exit 2
+fi
+SPEC="$1"
 [[ -f "$SPEC" ]] || { echo "no such spec: $SPEC" >&2; exit 2; }
 
 GIT_ROOT=$(cd "$(dirname "$SPEC")" && git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")
 export GIT_ROOT
 
-set_status() { ts_set_frontmatter_field "$SPEC" "status" "$1"; }
 budget=$(grep -m1 '^budget_iterations:' "$SPEC" | awk '{print $2}'); budget="${budget:-10}"
+read retry_max no_progress < <(python3 - "$SPEC" "$TASKSPEC_SKILL_DIR/src/lib" <<'PY'
+import re,sys
+sys.path.insert(0,sys.argv[2])
+from taskspec_data import parse_yaml_subset
+text=open(sys.argv[1],encoding="utf-8").read()
+m=re.search(r"## Validation Card.*?```ya?ml\s*\n(.*?)```",text,re.S|re.I)
+card=parse_yaml_subset(m.group(1)) if m else {}
+retry=card.get("retry_policy",{}) if isinstance(card,dict) else {}
+print(retry.get("max_iterations",1),retry.get("circuit_breaker_no_progress",1))
+PY
+)
+if [[ "$retry_max" -gt "$budget" ]]; then
+  echo "taskspec executor: retry_policy.max_iterations exceeds signed budget_iterations" >&2
+  exit 1
+fi
+effective_max="$retry_max"
+TASK_ID="$(grep -m1 '^id:' "$SPEC" | awk '{print $2}')"
+HANDOFF_FILE="$(mktemp -t taskspec-ref-handoff-XXXXXX.json)"
+trap 'rm -f "$HANDOFF_FILE"' EXIT
+HANDOFF_BACKEND="$(grep -m1 '^execution_backend:' "$SPEC" | awk '{print $2}')"
+[[ -n "$HANDOFF_BACKEND" && "$HANDOFF_BACKEND" != "any" ]] || HANDOFF_BACKEND=ref-executor
+python3 "$SCRIPT_DIR/handoff.py" "$SPEC" --backend "$HANDOFF_BACKEND" --out "$HANDOFF_FILE" --force >/dev/null
 
 # --- on pickup: acquire the lock ---
-set_status "in-progress"
+bash "$SCRIPT_DIR/../backlog/transition-status.sh" "$TASK_ID" in-progress >/dev/null
 
 # --- the swappable "work" block (a real executor calls an AI agent here) ---
 attempt_work() {
@@ -51,27 +76,33 @@ attempt_work() {
 }
 
 # --- per-iteration loop, bounded by budget_iterations ---
-i=0
-while [[ $i -lt $budget ]]; do
+i=0; repeated=0; previous_failure=""
+while [[ $i -lt $effective_max ]]; do
   i=$((i + 1))
   attempt_work
   if bash "$SCRIPT_DIR/../gate/run-task-spec.sh" "$SPEC" >/dev/null 2>&1; then
     # --- on success: independently accept, then release as done ---
-    if ! bash "$SCRIPT_DIR/../accept/accept-task.sh" --stamp --no-blast-radius \
+    if ! bash "$SCRIPT_DIR/../accept/accept-task.sh" --stamp --handoff "$HANDOFF_FILE" \
       --accepted-by ref-executor "$SPEC" >/dev/null 2>&1; then
-      ts_set_frontmatter_field "$SPEC" "blocked_reason" "reference acceptance gate rejected the work"
-      set_status "parked"
+      bash "$SCRIPT_DIR/../backlog/transition-status.sh" "$TASK_ID" parked "reference acceptance gate rejected the work" >/dev/null
       echo "ref-executor: evals passed but acceptance rejected → status: parked"
       exit 0
     fi
-    set_status "done"
+    bash "$SCRIPT_DIR/../backlog/transition-status.sh" "$TASK_ID" done >/dev/null
     echo "ref-executor: PASS after $i iteration(s) → status: done"
+    exit 0
+  fi
+  failure="$(bash "$SCRIPT_DIR/../gate/run-task-spec.sh" "$SPEC" 2>&1 || true)"
+  failure_digest="$(printf '%s' "$failure" | ts_sha256)"
+  if [[ "$failure_digest" == "$previous_failure" ]]; then repeated=$((repeated + 1)); else repeated=1; previous_failure="$failure_digest"; fi
+  if [[ "$repeated" -ge "$no_progress" ]]; then
+    bash "$SCRIPT_DIR/../backlog/transition-status.sh" "$TASK_ID" parked "circuit_breaker_no_progress reached after identical failing eval results" >/dev/null
+    echo "ref-executor: no-progress circuit breaker after $i iteration(s) → status: parked"
     exit 0
   fi
 done
 
 # --- on budget exhaustion: park with context (never loop forever) ---
-ts_set_frontmatter_field "$SPEC" "blocked_reason" "budget_iterations ($budget) exhausted without a passing Exit Check"
-set_status "parked"
-echo "ref-executor: budget exhausted after $i iteration(s) → status: parked"
+bash "$SCRIPT_DIR/../backlog/transition-status.sh" "$TASK_ID" parked "retry_policy.max_iterations ($effective_max) exhausted without a passing Exit Check" >/dev/null
+echo "ref-executor: retry budget exhausted after $i iteration(s) → status: parked"
 exit 0

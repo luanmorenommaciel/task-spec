@@ -23,7 +23,7 @@
 #   3) add a CHANGELOG.md entry
 #   4) bump version field in plugin.json + marketplace.json (if present)
 # The doc-consistency lint asserts (1) == (2) == (4).
-TASKSPEC_VERSION="3.7.0"
+TASKSPEC_VERSION="3.8.0"
 
 # ----- Resolve skill root from this file's location -----
 # Works whether sourced from scripts/ or via an indirect symlink.
@@ -678,9 +678,11 @@ ts_keyid() {
 # verbatim. This is the single serialization path used to stamp signed_off,
 # signed_off_by (user/CI-controlled), signed_off_at, and signed_off_sig. A value
 # containing `|`, `&`, `\`, a literal `:`, a backslash-n sequence, a tab, or any
-# other byte is written verbatim. Only frontmatter (the region between the first
-# two '---' lines) is touched; a body line that happens to start with `<name>:`
-# is never rewritten.
+# other byte is written verbatim. New HMAC v3 and acceptance envelopes use the
+# shared Python atomic replacer; this compatibility helper remains covered for
+# older adapters and acquires the same task-state lock. Only frontmatter (the
+# region between the first two '---' lines) is touched; a body line that happens
+# to start with `<name>:` is never rewritten.
 #
 # $1=file  $2=field name  $3=field value.  Edits the file in place (temp+mv,
 # portable across BSD and GNU). The file is left UNTOUCHED on any failure.
@@ -696,13 +698,18 @@ ts_keyid() {
 # The field NAME ($2) is script-controlled (never user input) and is passed via
 # -v because it is used as a regex anchor; the VALUE is the untrusted channel.
 ts_set_frontmatter_field() {
-  local file="$1" fname="$2" fval="$3" tmp rc
+  local file="$1" fname="$2" fval="$3" tmp rc lock_file
   case "$fval" in
     *$'\n'*|*$'\r'*)
       echo "ts_set_frontmatter_field: refusing multi-line value for '$fname' (newline/CR not allowed in a frontmatter scalar)" >&2
       return 2
       ;;
   esac
+  lock_file="$(ts_backlog_root "$file")/.state.lock"
+  if ! ts_lock_acquire "$lock_file"; then
+    echo "ts_set_frontmatter_field: task-state lock is busy" >&2
+    return 1
+  fi
   tmp="${file}.fmset.$$"
   ts_prepare_tmp "$tmp"
   # awk exits 0 if the field was written, 3 if the frontmatter had no closing
@@ -734,10 +741,16 @@ ts_set_frontmatter_field() {
   rc=$?
   if [[ $rc -ne 0 ]]; then
     rm -f "$tmp"
+    ts_lock_release "$lock_file"
     [[ $rc -eq 3 ]] && echo "ts_set_frontmatter_field: no closing '---' frontmatter delimiter in $file; '$fname' not written" >&2
     return 1
   fi
-  mv "$tmp" "$file"
+  if ! mv "$tmp" "$file"; then
+    rm -f "$tmp"
+    ts_lock_release "$lock_file"
+    return 1
+  fi
+  ts_lock_release "$lock_file"
 }
 
 # ----- Canonical sign-off payload (REQUIREMENT 1 boundary) -----
@@ -831,7 +844,7 @@ ts_signoff_payload_v1() {
     "$id" "$body_digest" "$so" "$so_by" "$so_at"
 }
 
-ts_signoff_payload() {
+ts_signoff_payload_v2() {
   local file="$1"
   local id body_digest authz_digest so so_by so_at
   id=$(grep -m1 '^id:' "$file" | sed -E 's/^id:[[:space:]]*//' | sed -E 's/[[:space:]]*$//')
@@ -844,16 +857,43 @@ ts_signoff_payload() {
     "$id" "$body_digest" "$authz_digest" "$so" "$so_by" "$so_at"
 }
 
+# TaskAuthorization/v3 seals the complete authority manifest through the
+# stdlib-only TaskRevision/v1 canonicalizer.  The canonicalizer excludes only
+# explicitly mutable lifecycle/projection fields, so unknown future fields are
+# protected by default instead of silently falling outside an allow-list.
+ts_task_revision_digest() {
+  python3 "$TASKSPEC_SKILL_DIR/src/security/task_revision.py" "$1" --field task_revision_digest
+}
+
+ts_signoff_payload_v3() {
+  local file="$1"
+  local revision so so_by so_at
+  revision="$(ts_task_revision_digest "$file")" || return 1
+  so=$(grep -m1 '^signed_off:' "$file" | sed -E 's/^signed_off:[[:space:]]*//' | sed -E 's/[[:space:]]*$//')
+  so_by=$(grep -m1 '^signed_off_by:' "$file" | sed -E 's/^signed_off_by:[[:space:]]*//' | sed -E 's/[[:space:]]*$//')
+  so_at=$(grep -m1 '^signed_off_at:' "$file" | sed -E 's/^signed_off_at:[[:space:]]*//' | sed -E 's/[[:space:]]*$//')
+  printf 'contract=TaskAuthorization/v3\ntask_revision_digest=%s\nsigned_off=%s\nsigned_off_by=%s\nsigned_off_at=%s' \
+    "$revision" "$so" "$so_by" "$so_at"
+}
+
+# New callers write v3.  The named v2/v1 helpers remain verification-only
+# compatibility paths for authentic-but-narrow historical seals.
+ts_signoff_payload() {
+  ts_signoff_payload_v3 "$1"
+}
+
 # Compute the full signed_off_sig field value for a spec, given a key.
-# Format: hmac-sha256-v2:<keyid>:<hex> (v1 remains a verification-only legacy path)
+# Format: hmac-sha256-v3:<keyid>:<hex> (v1/v2 remain verification-only paths)
 # Echoes the value; returns 1 (and echoes nothing) if crypto is unavailable.
-# $3 = envelope version ("v2" default, "v1" only to re-verify a legacy seal).
+# $3 = envelope version ("v3" default; v1/v2 only re-verify historical seals).
 ts_compute_signoff_sig() {
-  local file="$1" key="$2" version="${3:-v2}" payload keyid mac
+  local file="$1" key="$2" version="${3:-v3}" payload keyid mac
   if [[ "$version" == "v1" ]]; then
     payload="$(ts_signoff_payload_v1 "$file")"
+  elif [[ "$version" == "v2" ]]; then
+    payload="$(ts_signoff_payload_v2 "$file")"
   else
-    payload="$(ts_signoff_payload "$file")"
+    payload="$(ts_signoff_payload_v3 "$file")"
   fi
   if [[ "$payload" == *"$TS_CRYPTO_UNAVAILABLE"* ]]; then
     return 1

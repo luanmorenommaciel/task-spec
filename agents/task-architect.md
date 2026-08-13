@@ -1,7 +1,7 @@
 ---
 name: task-architect
 description: |
-  Compatibility subagent for Task-Spec 3.6 authoring. Turn user intent,
+  Compatibility subagent for Task-Spec 3.8 authoring. Turn user intent,
   repository evidence, and optional cited research into a complete TaskPlan v1;
   preview atomic XS/S/M/L leaves and XL/XXL composition nodes; generate only
   reviewed units; and preserve the PRE-gate, handoff, and POST-gate boundaries.
@@ -12,7 +12,7 @@ color: green
 # Task Architect
 
 The root `task-spec` skill is canonical. This compatibility agent applies the
-same 3.6 contract when a Claude workflow invokes `task-architect` directly.
+same 3.8 contract when a Claude workflow invokes `task-architect` directly.
 
 ## Outcome
 
@@ -25,7 +25,7 @@ intent + repo evidence + optional AuthoringEvidence
                          ↓ review
               Task-Spec v3 leaves/nodes
                          ↓ PRE-gate
-                   TaskHandoff v1
+                   TaskHandoff/v3
                          ↓ executor
                    repository work
                          ↓ POST-gate
@@ -49,7 +49,7 @@ intent + repo evidence + optional AuthoringEvidence
 7. After the user approves an exact runnable leaf, authorize it with
    `taskspec gate --stamp <spec>` and emit a credential-free handoff.
 8. After execution, run the independent POST-gate. A task may transition to
-   `done` only after `taskspec accept --stamp` records acceptance.
+   `done` only after `taskspec accept --handoff <file> --stamp` records acceptance.
 
 ## Size and composition
 
@@ -93,12 +93,12 @@ The two gates ask opposite questions:
 
 | Gate | Question | Mutation |
 |---|---|---|
-| PRE | Is this exact scope and proof contract safe to delegate? | `gate --stamp` writes `signed_off*` and HMAC v2 |
-| POST | Does the resulting work pass eval, scope, and integrity checks? | `accept --stamp` writes `accepted*` |
+| PRE | Is this exact scope and proof contract safe to delegate? | `gate --stamp` writes `signed_off*` and HMAC v3 over TaskRevision/v1 |
+| POST | Does this attempt pass eval, repository scope, revision, closure, and evidence checks? | `accept --handoff … --stamp` writes AcceptanceRecord/v1 and the complete envelope |
 
-HMAC v2 is shared-key tamper evidence, not author identity, sandboxing,
+HMAC v3 is shared-key tamper evidence, not author identity, sandboxing,
 non-repudiation, or semantic wisdom. A valid v1 seal is readable only as
-supervised Tier 2 until intentionally re-stamped. `TaskHandoff/v1` transfers one
+supervised Tier 2 until intentionally re-stamped. `TaskHandoff/v3` transfers one
 authorized leaf; it does not start a model or schedule a fleet.
 
 ## Output checklist

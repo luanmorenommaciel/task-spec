@@ -46,7 +46,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     *)
       echo "Unknown option: $1" >&2
-      echo "Usage: query-metrics.sh [--since YYYY-MM-DD] [--author <name>] [--status <status>]" >&2
+      echo "Usage: taskspec metrics [--since YYYY-MM-DD] [--author <name>] [--status <status>]" >&2
       exit 1
       ;;
   esac

@@ -33,8 +33,8 @@ def load(path: pathlib.Path) -> dict[str, Any]:
 def payload_for(spec: pathlib.Path) -> tuple[dict[str, str], dict[str, Any]]:
     fm = frontmatter(spec.read_text(encoding="utf-8"))
     signature = fm.get("signed_off_sig")
-    if not isinstance(signature, str) or not signature.startswith("hmac-sha256-v2:"):
-        raise ValueError("identity signing requires a verified Tier 1 HMAC v2 authorization")
+    if not isinstance(signature, str) or not signature.startswith("hmac-sha256-v3:"):
+        raise ValueError("identity signing requires a verified Tier 1 HMAC v3 authorization")
     payload = {"task_id": str(fm.get("id")), "authorization_ref": signature}
     return payload, fm
 

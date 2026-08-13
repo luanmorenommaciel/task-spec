@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/task-graph-view.schema.json",
+  "title": "TaskGraphView/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "backlog", "graph_revision_digest", "nodes", "edges", "write_conflicts", "issues", "ready_frontier", "blocked_reasons", "concurrency_groups", "composition_parents"],
+  "properties": {
+    "contract": {"const": "TaskGraphView/v1"},
+    "backlog": {"type": "string", "minLength": 1},
+    "graph_revision_digest": {"$ref": "#/$defs/digest"},
+    "nodes": {"type": "array", "items": {"$ref": "#/$defs/node"}},
+    "edges": {"type": "array", "items": {"$ref": "#/$defs/edge"}},
+    "write_conflicts": {"type": "array", "items": {"$ref": "#/$defs/conflict"}},
+    "issues": {"type": "array", "items": {"$ref": "#/$defs/issue"}},
+    "ready_frontier": {"type": "array", "items": {"type": "string"}},
+    "blocked_reasons": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+    "concurrency_groups": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}},
+    "composition_parents": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+    "selected_closure": {"$ref": "#/$defs/closure"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "writeSurface": {"type": "object", "additionalProperties": false, "required": ["touches_paths", "creates_paths"], "properties": {"touches_paths": {"type": "array", "items": {"type": "string"}}, "creates_paths": {"type": "array", "items": {"type": "string"}}}},
+    "node": {
+      "type": "object", "additionalProperties": false,
+      "required": ["task_id", "path", "status", "effort", "task_revision_digest", "depends_on", "blocks", "children", "supersedes", "write_surface"],
+      "properties": {
+        "task_id": {"type": "string"}, "path": {"type": "string"},
+        "status": {"enum": ["ready", "in-progress", "blocked", "done", "parked", "unknown"]},
+        "effort": {"enum": ["XS", "S", "M", "L", "XL", "XXL", "unknown"]},
+        "task_revision_digest": {"$ref": "#/$defs/digest"},
+        "depends_on": {"type": "array", "items": {"type": "string"}}, "blocks": {"type": "array", "items": {"type": "string"}},
+        "children": {"type": "array", "items": {"type": "string"}}, "supersedes": {"type": ["string", "null"]},
+        "write_surface": {"$ref": "#/$defs/writeSurface"}
+      }
+    },
+    "edge": {"type": "object", "additionalProperties": false, "required": ["type", "from", "to"], "properties": {"type": {"enum": ["depends_on", "contains", "supersedes"]}, "from": {"type": "string"}, "to": {"type": "string"}}},
+    "overlap": {"type": "object", "additionalProperties": false, "required": ["left", "right"], "properties": {"left": {"type": "string"}, "right": {"type": "string"}}},
+    "conflict": {"type": "object", "additionalProperties": false, "required": ["type", "from", "to", "dual_create", "overlaps"], "properties": {"type": {"const": "write_conflict"}, "from": {"type": "string"}, "to": {"type": "string"}, "dual_create": {"type": "boolean"}, "overlaps": {"type": "array", "items": {"$ref": "#/$defs/overlap"}}}},
+    "issue": {"type": "object", "required": ["code", "severity"], "properties": {"code": {"type": "string"}, "severity": {"enum": ["error", "warning"]}}, "additionalProperties": true},
+    "member": {"type": "object", "additionalProperties": false, "required": ["task_id", "task_revision_digest"], "properties": {"task_id": {"type": "string"}, "task_revision_digest": {"$ref": "#/$defs/digest"}}},
+    "closure": {"type": "object", "additionalProperties": false, "required": ["contract", "task_id", "digest", "members"], "properties": {"contract": {"const": "DependencyClosure/v1"}, "task_id": {"type": "string"}, "digest": {"$ref": "#/$defs/digest"}, "members": {"type": "array", "items": {"$ref": "#/$defs/member"}}}}
+  }
+}

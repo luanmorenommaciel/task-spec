@@ -76,11 +76,11 @@ PLAN
   git add .
   git commit -qm "Seal isolated Task-Spec demo"
 
-  handoff_output=$("$CLI" handoff "$SPEC" --backend any)
-  python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["contract"] == "TaskHandoff/v1" and d["signoff_tier"] == 1' <<< "$handoff_output"
+  "$CLI" handoff "$SPEC" --backend any --out tasks/.plans/demo-handoff.json >/dev/null
+  python3 -c 'import json; d=json.load(open("tasks/.plans/demo-handoff.json")); assert d["contract"] == "TaskHandoff/v3" and d["signoff_tier"] == 1 and d["attempt"]["id"]'
   printf 'accepted\n' > src/task-spec-demo.txt
   "$CLI" run "$SPEC" >/dev/null
-  accept_output=$("$CLI" accept --stamp "$SPEC")
+  accept_output=$("$CLI" accept --stamp --handoff tasks/.plans/demo-handoff.json "$SPEC")
   grep -q 'ACCEPTED=1' <<< "$accept_output"
   "$CLI" validate "$SPEC" >/dev/null
 )
@@ -90,7 +90,7 @@ Task-Spec isolated lifecycle
   PLAN=VALID
   DOD=COMPLETE
   VERDICT=DELEGATE TIER=1
-  HANDOFF=TaskHandoff/v1
+  HANDOFF=TaskHandoff/v3
   EVAL=PASS
   ACCEPTED=1
 DEMO=READY

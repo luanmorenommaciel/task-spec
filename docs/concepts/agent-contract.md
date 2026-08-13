@@ -26,7 +26,7 @@ in the sense of [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
   plus non-empty `signed_off_by` and ISO-8601 `signed_off_at`) before claiming,
   and MUST refuse to execute tasks where the envelope is incomplete. The current
   the envelope also carries a key-optional cryptographic MAC, `signed_off_sig`
-  (`hmac-sha256-v2:<keyid>:<hex>`), sealed by `taskspec gate --stamp` and
+  (`hmac-sha256-v3:<keyid>:<hex>`), sealed by `taskspec gate --stamp` and
   re-verified by `validate-task-spec.sh`. An engine SHOULD honor its three
   tiers: **Tier 1** (key present + v2 sig verifies) is authorization-integrity trust
   (unsupervised crank OK); **Tier 2** (no key / no sig / legacy spec) is
@@ -266,7 +266,7 @@ All six are true for Task-Spec v2. That's the portability proof.
 | Don't | Why |
 |-------|-----|
 | Modify T-*.md frontmatter directly | Bypasses lock + ledger; desyncs state |
-| **Hand-stamp `signed_off: true`** | **The autonomy contract is produced ONLY by `taskspec gate --stamp`. HMAC v2 catches body or authorization edits as a Tier-3 hard fail. Do not hand-stamp or bypass the gate.** |
+| **Hand-stamp `signed_off: true`** | **The autonomy contract is produced ONLY by `taskspec gate --stamp`. HMAC v3 catches body or complete authority edits as a Tier-3 hard fail. Do not hand-stamp or bypass the gate.** |
 | Skip the metrics ledger entry | Forensic record becomes lying |
 | Treat "evals passed" as "task is correct" | Evals catch what they check; PR review catches the rest |
 | Modify Do-Not-Touch paths | Hard guardrail; violation = task failed |

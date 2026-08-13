@@ -2,5 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://taskspec.dev/schema/v4/holdout-descriptor.schema.json",
   "title": "HoldoutDescriptor v1", "type": "object", "additionalProperties": false,
   "required": ["contract", "task_id", "bundle_digest", "behavior_refs", "check_count", "created_at", "seal"],
-  "properties": {"contract": {"const": "HoldoutDescriptor/v1"}, "task_id": {"type": "string"}, "bundle_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "behavior_refs": {"type": "array", "items": {"type": "string", "pattern": "^B-"}}, "check_count": {"type": "integer", "minimum": 1}, "created_at": {"type": "string", "format": "date-time"}, "seal": {"type": ["string", "null"]}}
+  "properties": {
+    "contract": {"const": "HoldoutDescriptor/v1"}, "task_id": {"type": "string"},
+    "bundle_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "behavior_refs": {"type": "array", "items": {"type": "string", "pattern": "^B-"}},
+    "check_count": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "rotation_id": {"type": "string", "minLength": 1},
+    "seal": {"type": ["string", "null"]}
+  }
 }

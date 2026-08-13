@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://taskspec.dev/schema/receipt-subject.schema.json","title":"ReceiptSubject/v1","type":"object","additionalProperties":false,
+  "required":["task_id","task_revision_digest","authorization_ref","attempt_id","base_commit"],
+  "properties":{"task_id":{"type":"string"},"task_revision_digest":{"type":"string","pattern":"^sha256:[0-9a-f]{64}$"},"authorization_ref":{"type":"string","pattern":"^hmac-sha256-v3:"},"attempt_id":{"type":"string","format":"uuid"},"base_commit":{"type":"string","pattern":"^[0-9a-f]{40,64}$"}}
+}

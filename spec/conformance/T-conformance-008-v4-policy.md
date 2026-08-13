@@ -9,6 +9,7 @@ budget_iterations: 1
 agent: any
 parent: (none)
 depends_on: []
+supersedes: (none)
 touches_paths: [spec/conformance/_workdir/c008.log]
 creates_paths: []
 source_note: conformance fixture C18
@@ -34,8 +35,11 @@ evaluation_policy:
     required: false
   human:
     required: false
+environment_contract:
+  required: false
 identity_policy:
   required: false
+evidence_refs: []
 ---
 
 # Preserve the format-v4 evidence policy
@@ -50,7 +54,7 @@ Record that format v4 and its deterministic evidence requirement were observed.
 
 ```bash
 eval_1() {
-  grep -qx 'format=4 deterministic=required policy=preserved' spec/conformance/_workdir/c008.log
+  grep -qx 'format=4 deterministic=required environment=optional evidence=sealed policy=preserved' spec/conformance/_workdir/c008.log
 }
 ```
 

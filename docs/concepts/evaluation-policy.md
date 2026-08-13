@@ -14,7 +14,7 @@ The executor sees the policy, not the private evaluator implementation:
 
 ```mermaid
 flowchart LR
-  S[Sealed Task-Spec v4] --> H[TaskHandoff v2]
+  S[Sealed Task-Spec v4] --> H[TaskHandoff/v3]
   H --> X[Executor]
   X --> C[Repository change]
   C --> D[Deterministic gate]

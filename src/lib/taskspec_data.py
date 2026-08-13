@@ -26,12 +26,31 @@ class DataError(ValueError):
     pass
 
 
+def _reject_json_constant(value: str) -> Any:
+    raise DataError(f"ambiguous JSON numeric constant {value!r} is not supported")
+
+
+def _json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    value: dict[str, Any] = {}
+    for key, child in pairs:
+        if key in value:
+            raise DataError(f"duplicate key {key!r}")
+        value[key] = child
+    return value
+
+
 def _scalar(raw: str) -> Any:
     value = raw.strip()
     if value == "":
         return None
     if value in {"|", ">"}:
         raise DataError("block scalars are not supported; use a quoted string")
+    if value.startswith(("&", "*", "!")):
+        raise DataError("YAML anchors, aliases, and tags are not supported")
+    if value.lower() in {"yes", "no", "on", "off", ".nan", ".inf", "-.inf"}:
+        raise DataError(f"ambiguous YAML scalar {value!r}; use an explicit quoted string")
+    if re.fullmatch(r"-?0[0-9]+", value):
+        raise DataError(f"ambiguous leading-zero number {value!r}; quote it or remove the leading zero")
     if value.lower() == "true":
         return True
     if value.lower() == "false":
@@ -44,7 +63,7 @@ def _scalar(raw: str) -> Any:
         return float(value)
     if value.startswith(("[", "{", '"')):
         try:
-            return json.loads(value)
+            return json.loads(value, object_pairs_hook=_json_object, parse_constant=_reject_json_constant)
         except json.JSONDecodeError as exc:
             if value.startswith("[") and value.endswith("]"):
                 inner = value[1:-1].strip()
@@ -105,6 +124,9 @@ def parse_yaml_subset(text: str) -> Any:
                         extra, index = parse_block(index, indent + 2)
                         if not isinstance(extra, dict):
                             raise DataError(f"line {number}: list mapping continuation must be a mapping")
+                        duplicate = set(item).intersection(extra)
+                        if duplicate:
+                            raise DataError(f"line {number}: duplicate key {sorted(duplicate)[0]!r}")
                         item.update(extra)
                     container.append(item)
                 else:
@@ -114,6 +136,8 @@ def parse_yaml_subset(text: str) -> Any:
                 if content.startswith("- "):
                     break
                 key, raw_value = _split_key(content, number)
+                if key in container:
+                    raise DataError(f"line {number}: duplicate key {key!r}")
                 index += 1
                 if raw_value == "":
                     if index < len(rows) and rows[index][0] > indent:
@@ -140,7 +164,7 @@ def load_document(path: str | pathlib.Path) -> Any:
     except OSError as exc:
         raise DataError(f"cannot read {source}: {exc}") from exc
     try:
-        return json.loads(text)
+        return json.loads(text, object_pairs_hook=_json_object, parse_constant=_reject_json_constant)
     except json.JSONDecodeError:
         return parse_yaml_subset(text)
 

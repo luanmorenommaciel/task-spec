@@ -83,7 +83,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$FILE" ]]; then
-  echo "Usage: safe-to-delegate.sh [--skip-touches-paths] <path/to/T-*.md>" >&2
+  echo "Usage: taskspec gate [--skip-touches-paths] <path/to/T-*.md>" >&2
   exit 2
 fi
 if [[ ! -f "$FILE" ]]; then
@@ -114,14 +114,7 @@ echo "────────────────────────�
 # authority — the fresh MAC still requires the signing key, and without one the
 # spec lands at Tier 2 (supervised only) just as it would on a first stamp.
 if [[ "$STAMP" == true ]] && grep -q '^signed_off_sig:' "$FILE"; then
-  _ss_tmp="$(mktemp -t taskspec-reseal.XXXXXX)"
-  if grep -v '^signed_off_sig:' "$FILE" > "$_ss_tmp" && mv "$_ss_tmp" "$FILE"; then
-    echo "   ${YELLOW}re-sealing${RESET} — the previous signature is superseded by this stamp"
-  else
-    rm -f "$_ss_tmp"
-    echo "   ${RED}BLOCK${RESET} — could not retire the previous signature; spec NOT stamped." >&2
-    exit 1
-  fi
+  echo "   ${YELLOW}re-sealing${RESET} — the previous signature will be replaced atomically after validation"
 fi
 
 # --- Gate 0: leaf-only — a NODE (XL/XXL) is NEVER delegated ---
@@ -153,7 +146,7 @@ set +e
 # Validation's derived-index refresh is useful when invoked directly, but would
 # make a plain sign-off check mutate _state.yaml and contradict the gate/JSON
 # contract. The task's status is unchanged here, so suppress that side effect.
-v_out=$(bash "$VALIDATE" --no-state --shellcheck-evals ${PASS_THROUGH[@]+"${PASS_THROUGH[@]}"} "$FILE" 2>&1)
+v_out=$(TASKSPEC_RESTAMP="$([[ "$STAMP" == true ]] && echo 1 || echo 0)" bash "$VALIDATE" --no-state --shellcheck-evals ${PASS_THROUGH[@]+"${PASS_THROUGH[@]}"} "$FILE" 2>&1)
 v_rc=$?
 set -e
 if [[ $v_rc -ne 0 ]]; then
@@ -238,58 +231,20 @@ if [[ $blockers -eq 0 ]]; then
   # This is the Sign-Off Line made real — past this, the task runs unattended.
   if [[ "$STAMP" == true ]]; then
     ts="$(date -u +%FT%TZ)"
-    # Write the three envelope fields. CRITICAL: signed_off_by carries a
-    # user/CI-controlled value (--stamp-by, $USER). It MUST NOT flow through a
-    # sed substitution (a `|` closes the delimiter, an `&` expands to the match)
-    # NOR through `awk -v` (which C-escape-expands a backslash-n into a real
-    # newline, injecting a forged frontmatter line). ts_set_frontmatter_field is
-    # the one serialization path: it carries the value verbatim via the process
-    # environment (ENVIRON[]), so every byte — `|`, `&`, `\`, backslash-n, tab —
-    # is written literally. The same primitive later writes signed_off_sig.
-    if ! ts_set_frontmatter_field "$FILE" "signed_off"    "true" \
-       || ! ts_set_frontmatter_field "$FILE" "signed_off_by" "$STAMP_BY" \
-       || ! ts_set_frontmatter_field "$FILE" "signed_off_at" "$ts"; then
-      echo "   ${RED}BLOCK${RESET} — could not write sign-off envelope (bad --stamp-by value or malformed frontmatter); spec NOT stamped." >&2
+    set +e
+    stamp_out="$(python3 "$TASKSPEC_SKILL_DIR/src/security/stamp.py" "$FILE" --by "$STAMP_BY" --at "$ts" --backlog "$TASKSPEC_BACKLOG_DIR" 2>&1)"
+    stamp_rc=$?
+    set -e
+    if [[ $stamp_rc -ne 0 ]]; then
+      echo "   ${RED}BLOCK${RESET} — atomic TaskAuthorization/v3 stamp failed: $stamp_out" >&2
       exit 1
     fi
+    stamp_tier="$(printf '%s' "$stamp_out" | python3 -c 'import json,sys; print(json.load(sys.stdin)["tier"])')"
     echo "   ${GREEN}stamped${RESET} signed_off: true by ${STAMP_BY} at ${ts}"
-
-    # --- B2: key-optional HMAC envelope (v2.2) ---
-    # The 3 plaintext signed_off* lines are now final on disk. Compute the MAC
-    # over the CANONICAL payload (ts_signoff_payload reads those 3 values + the
-    # body digest + id, and EXCLUDES the signed_off_sig line itself, so the MAC
-    # verifies on the very next read regardless of frontmatter line ordering).
-    #
-    # Key-optional: with no key (fresh clone / no env var) OR no crypto binary,
-    # we DO NOT write a sig and we DO NOT fail — the spec is a structural-only
-    # (Tier 2) sign-off, dispatch-eligible for supervised use only. Crypto trust
-    # (Tier 1) requires a key + a sha256 provider.
-    sig=""
-    key="$(ts_resolve_signing_key "$FILE" 2>/dev/null || true)"
-    if [[ -n "$key" ]]; then
-      set +e
-      sig="$(ts_compute_signoff_sig "$FILE" "$key")"
-      sig_rc=$?
-      set -e
-      if [[ $sig_rc -eq 0 && -n "$sig" ]]; then
-        # Write the sig via the SAME rewrite-or-inject primitive as the
-        # plaintext fields (single serialization path; no sed delimiter).
-        if ! ts_set_frontmatter_field "$FILE" "signed_off_sig" "$sig"; then
-          echo "   ${RED}BLOCK${RESET} — could not write signed_off_sig into frontmatter; spec stamped but UNSEALED." >&2
-          exit 1
-        fi
-        # Report the envelope version that was ACTUALLY written. Hardcoding v1
-        # here outlived the v2 envelope and told every operator their spec was
-        # sealed v1 while the file said v2 — the one line whose whole job is to
-        # state what just happened.
-        sig_ver="${sig%%:*}"                      # hmac-sha256-v2
-        keyid_disp="${sig#"$sig_ver":}"; keyid_disp="${keyid_disp%%:*}"
-        echo "   ${GREEN}sealed${RESET}  signed_off_sig: ${sig_ver} (keyid ${keyid_disp}) — Tier 1 crypto trust"
-      else
-        echo "   ${YELLOW}note:${RESET} key present but no sha256 provider (openssl/shasum/sha256sum) — structural-only (Tier 2), supervised dispatch only"
-      fi
+    if [[ "$stamp_tier" == "1" ]]; then
+      echo "   ${GREEN}sealed${RESET} signed_off_sig: hmac-sha256-v3 — Tier 1 crypto trust"
     else
-      echo "   ${YELLOW}note:${RESET} no signing key resolved — structural-only (Tier 2), supervised dispatch only. Run configs/setup-taskspec-signing-key.sh or set TASKSPEC_SIGNING_KEY for Tier 1 crypto trust."
+      echo "   ${YELLOW}note:${RESET} no signing key resolved — structural-only Tier 2. Run taskspec setup signing."
     fi
   fi
 
@@ -304,31 +259,28 @@ if [[ $blockers -eq 0 ]]; then
     key_now="$(ts_resolve_signing_key "$FILE" 2>/dev/null || true)"
     if [[ -n "$key_now" && -n "$sig_now" ]]; then
       set +e
-      expected_sig="$(ts_compute_signoff_sig "$FILE" "$key_now")"
+      case "${sig_now%%:*}" in
+        hmac-sha256-v3) sig_verify_version=v3 ;;
+        hmac-sha256-v2) sig_verify_version=v2 ;;
+        hmac-sha256-v1) sig_verify_version=v1 ;;
+        *) sig_verify_version=invalid ;;
+      esac
+      if [[ "$sig_verify_version" == invalid ]]; then
+        expected_sig=""
+      else
+        expected_sig="$(ts_compute_signoff_sig "$FILE" "$key_now" "$sig_verify_version")"
+      fi
       set -e
-      if [[ -n "$expected_sig" && "$expected_sig" == "$sig_now" ]]; then
+      if [[ "$sig_verify_version" == v3 && -n "$expected_sig" && "$expected_sig" == "$sig_now" ]]; then
         TIER=1
-        echo "   ${GREEN}sign-off: Tier 1${RESET} — HMAC verified, full crypto trust (unsupervised dispatch OK)"
-      elif [[ "$sig_now" == hmac-sha256-v1:* ]]; then
-        # A v1 seal is AUTHENTIC-BUT-NARROW: it proves the prose is untouched, but
-        # it never covered write scope, dependencies, budgets, or routing. Those
-        # could have changed since stamping, so it cannot authorize unsupervised
-        # work. Verify it on its own terms and downgrade rather than cry forgery.
-        set +e
-        legacy_sig="$(ts_compute_signoff_sig "$FILE" "$key_now" v1)"
-        set -e
-        if [[ -n "$legacy_sig" && "$legacy_sig" == "$sig_now" ]]; then
-          TIER=2
-          echo "   ${YELLOW}sign-off: legacy envelope v1 (Tier 2)${RESET} — authentic, but the seal predates authorization sealing"
-          echo "   ${YELLOW}         ${RESET}  write scope, dependencies, budgets and routing were NOT covered."
-          echo "   ${YELLOW}         ${RESET}  Re-stamp to regain Tier 1: safe-to-delegate.sh --stamp ${FILE}"
-        else
-          TIER=3
-          echo "   ${RED}sign-off: Tier 3${RESET} — HMAC MISMATCH; spec body or envelope modified after stamping (DO NOT DELEGATE unsupervised)"
-        fi
+        echo "   ${GREEN}sign-off: Tier 1${RESET} — HMAC v3 verified over TaskRevision/v1 (unsupervised dispatch OK)"
+      elif [[ "$sig_verify_version" != invalid && -n "$expected_sig" && "$expected_sig" == "$sig_now" ]]; then
+        TIER=2
+        echo "   ${YELLOW}sign-off: legacy envelope ${sig_verify_version} (Tier 2)${RESET} — authentic but narrow; supervised dispatch only"
+        echo "   ${YELLOW}         ${RESET}  Re-stamp to regain Tier 1: taskspec gate --stamp ${FILE}"
       else
         TIER=3
-        echo "   ${RED}sign-off: Tier 3${RESET} — HMAC MISMATCH; spec body, authorization fields, or envelope modified after stamping (DO NOT DELEGATE unsupervised)"
+        echo "   ${RED}sign-off: Tier 3${RESET} — HMAC MISMATCH; spec body, authority manifest, or envelope modified after stamping"
       fi
     else
       TIER=2

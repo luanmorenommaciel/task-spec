@@ -7,6 +7,7 @@
 - [Multi-harness execution](multi-harness.md)
 - [Multi-engine evidence](multi-engine-evidence.md)
 - [Recovering from failure](../runbooks/recovering-from-crash.md)
+- [Replanning and recovery](replanning-and-recovery.md)
 - [Dark-factory boundary](../runbooks/dark-factory-as-task-spec.md)
 
 The invariant across every guide is the same: research and orchestration may

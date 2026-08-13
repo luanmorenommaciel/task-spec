@@ -116,6 +116,8 @@ def isolated_handoff(
                 raise ValueError(f"cannot commit sealed spec overlay for {family}: {committed.stderr.strip()}")
         copy_handoff = copy.deepcopy(original)
         copy_handoff["workspace"] = str(isolated)
+        if copy_handoff.get("contract") == "TaskHandoff/v3":
+            copy_handoff["source"]["workspace"] = str(isolated)
         copy_handoff["spec"] = str(isolated_spec)
         for key in ("eval_command", "acceptance_command"):
             copy_handoff[key] = [str(isolated_spec) if item == str(original_spec) else item for item in copy_handoff.get(key, [])]
@@ -181,12 +183,17 @@ def main() -> int:
         handoff = pathlib.Path(args.handoff).resolve()
         handoff_data = load(handoff)
         out_dir = pathlib.Path(args.out_dir).resolve()
-        if handoff_data.get("contract") not in {"TaskHandoff/v1", "TaskHandoff/v2"}:
-            raise ValueError("--handoff must be TaskHandoff/v1 or TaskHandoff/v2")
-        source_workspace = pathlib.Path(str(handoff_data.get("workspace", ""))).resolve()
+        if handoff_data.get("contract") not in {"TaskHandoff/v1", "TaskHandoff/v2", "TaskHandoff/v3"}:
+            raise ValueError("--handoff must be TaskHandoff/v1, v2, or v3")
+        source_workspace = pathlib.Path(str(
+            handoff_data.get("source", {}).get("workspace") or handoff_data.get("workspace", "")
+        )).resolve()
         current_spec = pathlib.Path(str(handoff_data.get("spec", ""))).resolve()
+        expected_spec_digest = str(handoff_data.get("spec_digest", ""))
+        if expected_spec_digest.startswith("sha256:"):
+            expected_spec_digest = expected_spec_digest[len("sha256:"):]
         if any(engine.get("enabled") is True for engine in matrix["engines"]) and (
-            not current_spec.is_file() or digest(current_spec) != handoff_data.get("spec_digest")
+            not current_spec.is_file() or digest(current_spec) != expected_spec_digest
         ):
             raise ValueError("handoff spec digest no longer matches the source workspace; regenerate the frozen handoff")
         source_commit_result = git(source_workspace, "rev-parse", "HEAD")
@@ -243,8 +250,8 @@ def main() -> int:
                 finally:
                     remove_worktree(source_workspace, isolated)
             receipt = {
-                "contract": "EngineRunReceipt/v1", "run_id": str(uuid.uuid4()),
-                "task_id": handoff_data.get("task_id"), "task_digest": handoff_data.get("spec_digest"),
+                "contract": "EngineRunReceipt/v2" if handoff_data.get("contract") == "TaskHandoff/v3" else "EngineRunReceipt/v1",
+                "run_id": str(uuid.uuid4()),
                 "handoff_digest": digest(handoff), "source_commit": source_commit,
                 "provider": entry["provider"], "model_id": entry["model_id"], "adapter_version": engine["adapter_version"],
                 "engine_version": (ROOT / "VERSION").read_text(encoding="utf-8").strip(),
@@ -257,6 +264,22 @@ def main() -> int:
                     f"stderr=sha256:{hashlib.sha256(stderr.encode()).hexdigest()}",
                 ],
             }
+            if handoff_data.get("contract") == "TaskHandoff/v3":
+                receipt.update({
+                    "subject": {
+                        "task_id": handoff_data["task_id"],
+                        "task_revision_digest": handoff_data["task_revision_digest"],
+                        "authorization_ref": handoff_data["authorization"]["ref"],
+                        "attempt_id": handoff_data["attempt"]["id"],
+                        "base_commit": handoff_data["source"]["base_commit"],
+                    },
+                    "observed_at": now(),
+                })
+            else:
+                receipt.update({
+                    "task_id": handoff_data.get("task_id"),
+                    "task_digest": handoff_data.get("spec_digest"),
+                })
             receipt_path = out_dir / "receipts" / f"{entry['family']}.json"
             receipt_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
             results.append(receipt)

@@ -5,6 +5,9 @@ from __future__ import annotations
 
 import pathlib
 import re
+import hashlib
+import json
+import subprocess
 import sys
 from typing import Any
 
@@ -64,6 +67,27 @@ def validate(path: pathlib.Path) -> list[str]:
     identity = fm.get("identity_policy")
     if required(identity) and not identity.get("key_id"):
         errors.append("required identity_policy needs a trusted key_id")
+    evidence_refs = fm.get("evidence_refs", [])
+    if evidence_refs and not isinstance(evidence_refs, list):
+        errors.append("evidence_refs must be a list")
+    else:
+        root_result = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=path.parent, text=True, capture_output=True, check=False)
+        workspace = pathlib.Path(root_result.stdout.strip()).resolve() if root_result.returncode == 0 else path.parent
+        for index, item in enumerate(evidence_refs):
+            if not isinstance(item, dict): errors.append(f"evidence_refs[{index}] must be an object"); continue
+            if item.get("role") == "acceptance": errors.append("authoring evidence role acceptance is forbidden")
+            if item.get("role") not in {"context", "constraint", "risk"}: errors.append(f"evidence_refs[{index}].role is invalid")
+            ref = item.get("ref")
+            if not isinstance(ref, str) or pathlib.PurePosixPath(ref).is_absolute() or ".." in pathlib.PurePosixPath(ref).parts:
+                errors.append(f"evidence_refs[{index}].ref must be a safe repository-relative path"); continue
+            evidence_path = workspace / ref
+            try:
+                raw = evidence_path.read_bytes(); value = json.loads(raw)
+                if value.get("contract") != "AuthoringEvidence/v1": errors.append(f"evidence_refs[{index}] is not AuthoringEvidence/v1")
+                if item.get("digest") != f"sha256:{hashlib.sha256(raw).hexdigest()}": errors.append(f"evidence_refs[{index}] digest mismatch")
+            except (OSError, json.JSONDecodeError) as exc: errors.append(f"evidence_refs[{index}] cannot be read: {exc}")
+    if any(key in json.dumps(policy, sort_keys=True) for key in ("evidence_ref", "evidence_id", "authoring_evidence")):
+        errors.append("evaluation_policy cannot reference authoring evidence identifiers")
     for sensitive in sensitive_key_paths(fm):
         errors.append(f"credential-bearing key is forbidden in Task-Spec frontmatter: {sensitive}")
     try: card = validation_card(text)

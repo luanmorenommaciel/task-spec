@@ -259,7 +259,7 @@ def _frontmatter(unit: dict) -> list[str]:
         "status: ready", "format_version: 3", f"profile: {unit['profile']}",
         f"effort: {unit['effort']}", f"budget_iterations: {int(unit.get('budget_iterations', 15))}",
         f"agent: {unit['agent']}", f"parent: {unit.get('parent', '(none)')}",
-        f"depends_on: {_tokens(unit['depends_on'])}",
+        f"depends_on: {_tokens(unit['depends_on'])}", "supersedes: (none)",
     ]
     if unit.get("children"):
         rows.append(f"children: {_tokens(unit['children'])}")

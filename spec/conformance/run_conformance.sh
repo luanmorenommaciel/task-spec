@@ -205,7 +205,10 @@ echo "== self-test floor: validating ${#FIXTURES[@]} conformance fixtures =="
 floor_failed=0
 for f in "${FIXTURES[@]}"; do
   set +e
-  vout=$(bash "$VALIDATOR" --skip-touches-paths --skip-id-filename "$f" 2>&1)
+  # Fixtures are intentionally portable one-file oracles; C17 names example
+  # child IDs without vendoring a scheduler backlog, so reference existence is
+  # outside this structural self-test floor.
+  vout=$(bash "$VALIDATOR" --skip-touches-paths --skip-id-filename --skip-depends-on "$f" 2>&1)
   vrc=$?
   set -e
   if [[ $vrc -ne 0 ]]; then

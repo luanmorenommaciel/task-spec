@@ -2,7 +2,7 @@
 # transition-status.sh — Atomically transition a task's status.
 #
 # Usage:
-#   bash transition-status.sh <task-id> <new-status> [reason]
+#   taskspec transition <task-id> <new-status> [reason]
 #
 # Statuses: ready | in-progress | blocked | done | parked
 
@@ -13,27 +13,24 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
 
-TASK_ID="${1:?Usage: transition-status.sh <task-id> <new-status> [reason]}"
-NEW_STATUS="${2:?new-status required}"
+if [[ $# -lt 2 ]]; then
+  echo "Usage: taskspec transition <task-id> <new-status> [reason]" >&2
+  exit 2
+fi
+TASK_ID="$1"
+NEW_STATUS="$2"
 REASON="${3:-}"
 
 case "$NEW_STATUS" in
   ready|in-progress|blocked|done|parked) ;;
-  *) echo "ERROR: invalid status '$NEW_STATUS'" >&2; exit 1 ;;
+  *) echo "ERROR: invalid status '$NEW_STATUS'" >&2; exit 2 ;;
 esac
 
-TASK_FILE=""
-for candidate in \
-  "$TASKSPEC_BACKLOG_DIR/${TASK_ID}.md" \
-  "$TASKSPEC_BACKLOG_DIR/done/${TASK_ID}.md" \
-  "$TASKSPEC_BACKLOG_DIR/parked/${TASK_ID}.md"; do
-  if [[ -f "$candidate" ]]; then
-    TASK_FILE="$candidate"
-    break
-  fi
-done
-
-if [[ -z "$TASK_FILE" ]]; then
+set +e
+TASK_FILE="$(python3 "$SCRIPT_DIR/../graph/resolve_task.py" --backlog "$TASKSPEC_BACKLOG_DIR" "$TASK_ID" 2>/dev/null)"
+resolve_rc=$?
+set -e
+if [[ $resolve_rc -ne 0 || -z "$TASK_FILE" ]]; then
   echo "ERROR: task ${TASK_ID} not found" >&2
   exit 1
 fi
@@ -64,31 +61,49 @@ if [[ "$NEW_STATUS" == "done" ]]; then
     echo "ERROR: $TASK_ID cannot enter done until taskspec accept --stamp records accepted:true, accepted_by, and accepted_at" >&2
     exit 1
   fi
+  SIGNED_SIG=$(grep -m1 '^signed_off_sig:' "$TASK_FILE" 2>/dev/null | sed -E 's/^signed_off_sig:[[:space:]]*//' || true)
+  if [[ "$SIGNED_SIG" == hmac-sha256-v3:* ]]; then
+    ACCEPTED_TIER=$(grep -m1 '^accepted_tier:' "$TASK_FILE" 2>/dev/null | awk -F: '{print $2}' | xargs || true)
+    ACCEPTED_ATTEMPT=$(grep -m1 '^accepted_attempt_id:' "$TASK_FILE" 2>/dev/null | sed -E 's/^accepted_attempt_id:[[:space:]]*//' | tr -d '"' || true)
+    ACCEPTED_AUTH=$(grep -m1 '^accepted_authorization_ref:' "$TASK_FILE" 2>/dev/null | sed -E 's/^accepted_authorization_ref:[[:space:]]*//' | tr -d '"' || true)
+    RECORD_DIGEST=$(grep -m1 '^acceptance_record_digest:' "$TASK_FILE" 2>/dev/null | sed -E 's/^acceptance_record_digest:[[:space:]]*//' | tr -d '"' || true)
+    if [[ ! "$ACCEPTED_TIER" =~ ^[12]$ || -z "$ACCEPTED_ATTEMPT" || "$ACCEPTED_AUTH" != "$SIGNED_SIG" || "$RECORD_DIGEST" != sha256:* ]]; then
+      echo "ERROR: $TASK_ID has HMAC v3 and needs the complete acceptance envelope before done" >&2
+      exit 1
+    fi
+    if ! python3 "$SCRIPT_DIR/../accept/record.py" "$TASK_FILE" --backlog "$TASKSPEC_BACKLOG_DIR" >/dev/null; then
+      echo "ERROR: $TASK_ID acceptance record does not match the accepted task revision" >&2
+      exit 1
+    fi
+  fi
 fi
 
-TMP="${TASK_FILE}.tmp.$$"
-ts_prepare_tmp "$TMP"
-awk -v new="$NEW_STATUS" '
-  /^status:/ && !done { print "status: " new; done=1; next }
-  { print }
-' "$TASK_FILE" > "$TMP"
-mv "$TMP" "$TASK_FILE"
+MUTATION_JSON="$(python3 - "$NEW_STATUS" "$REASON" <<'PY'
+import json,sys
+value={"status":sys.argv[1]}
+if sys.argv[2] and sys.argv[1] in {"blocked","parked"}: value["blocked_reason"]=sys.argv[2]
+elif sys.argv[1] in {"ready","in-progress","done"}: value["blocked_reason"]="(none)"
+print(json.dumps(value))
+PY
+)"
+python3 "$SCRIPT_DIR/../lib/update_frontmatter.py" "$TASK_FILE" --set-json "$MUTATION_JSON"
 
 TARGET_LOC="$TASK_FILE"
+TASK_BASENAME="$(basename "$TASK_FILE")"
 case "$NEW_STATUS" in
   done)
     mkdir -p "$TASKSPEC_BACKLOG_DIR/done"
-    TARGET_LOC="$TASKSPEC_BACKLOG_DIR/done/${TASK_ID}.md"
+    TARGET_LOC="$TASKSPEC_BACKLOG_DIR/done/$TASK_BASENAME"
     [[ "$TASK_FILE" != "$TARGET_LOC" ]] && mv "$TASK_FILE" "$TARGET_LOC"
     ;;
   parked)
     mkdir -p "$TASKSPEC_BACKLOG_DIR/parked"
-    TARGET_LOC="$TASKSPEC_BACKLOG_DIR/parked/${TASK_ID}.md"
+    TARGET_LOC="$TASKSPEC_BACKLOG_DIR/parked/$TASK_BASENAME"
     [[ "$TASK_FILE" != "$TARGET_LOC" ]] && mv "$TASK_FILE" "$TARGET_LOC"
     ;;
   ready|in-progress|blocked)
-    if [[ "$TASK_FILE" == "$TASKSPEC_BACKLOG_DIR/done"/* || "$TASK_FILE" == "$TASKSPEC_BACKLOG_DIR/parked"/* ]]; then
-      TARGET_LOC="$TASKSPEC_BACKLOG_DIR/${TASK_ID}.md"
+    if [[ "$(dirname "$TASK_FILE")" != "$(cd "$TASKSPEC_BACKLOG_DIR" && pwd)" ]]; then
+      TARGET_LOC="$TASKSPEC_BACKLOG_DIR/$TASK_BASENAME"
       mv "$TASK_FILE" "$TARGET_LOC"
     fi
     ;;
@@ -103,7 +118,7 @@ ts_append_metric "$TASKSPEC_BACKLOG_DIR/_metrics.jsonl" "${METRIC_ARGS[@]}"
 
 SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 if [[ -x "$SKILL_DIR/src/backlog/rebuild-state.sh" ]]; then
-  bash "$SKILL_DIR/src/backlog/rebuild-state.sh" >/dev/null 2>&1 || true
+  TASKSPEC_STATE_LOCK_HELD=1 bash "$SKILL_DIR/src/backlog/rebuild-state.sh" >/dev/null 2>&1 || true
 fi
 
 echo ">>> $TASK_ID: $CURRENT -> $NEW_STATUS"

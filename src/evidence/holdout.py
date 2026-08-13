@@ -14,6 +14,10 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src" / "evidence"))
+from receipts import receipt_subject  # noqa: E402
+
 
 def _read_json(path: pathlib.Path) -> dict[str, Any]:
     try:
@@ -80,7 +84,7 @@ def validate_bundle(bundle: dict[str, Any]) -> list[str]:
     return errors
 
 
-def make_descriptor(bundle_path: pathlib.Path, bundle: dict[str, Any], key: bytes | None) -> dict[str, Any]:
+def make_descriptor(bundle_path: pathlib.Path, bundle: dict[str, Any], key: bytes | None, expires_at: str | None = None, rotation_id: str | None = None) -> dict[str, Any]:
     descriptor: dict[str, Any] = {
         "contract": "HoldoutDescriptor/v1",
         "task_id": bundle["task_id"],
@@ -90,6 +94,8 @@ def make_descriptor(bundle_path: pathlib.Path, bundle: dict[str, Any], key: byte
         "created_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "seal": None,
     }
+    if expires_at: descriptor["expires_at"] = expires_at
+    if rotation_id: descriptor["rotation_id"] = rotation_id
     if key:
         payload = dict(descriptor)
         payload.pop("seal", None)
@@ -178,6 +184,8 @@ def main() -> int:
     seal.add_argument("bundle")
     seal.add_argument("--out", required=True)
     seal.add_argument("--key-file")
+    seal.add_argument("--expires-at")
+    seal.add_argument("--rotation-id")
 
     verify = sub.add_parser("verify")
     verify.add_argument("descriptor")
@@ -190,6 +198,8 @@ def main() -> int:
     run.add_argument("--workspace", required=True)
     run.add_argument("--key-file")
     run.add_argument("--receipt-out")
+    run.add_argument("--handoff")
+    run.add_argument("--legacy-v1", action="store_true")
 
     args = parser.parse_args()
     bundle_path = pathlib.Path(args.bundle).resolve()
@@ -200,12 +210,15 @@ def main() -> int:
             raise ValueError("; ".join(errors))
         key = _key(args.key_file)
         if args.command == "seal":
-            descriptor = make_descriptor(bundle_path, bundle, key)
+            descriptor = make_descriptor(bundle_path, bundle, key, args.expires_at, args.rotation_id)
             _write_json(pathlib.Path(args.out), descriptor)
             print(f"HOLDOUT=SEALED digest={descriptor['bundle_digest']} checks={descriptor['check_count']}")
             return 0
         descriptor = _read_json(pathlib.Path(args.descriptor))
         errors = verify_descriptor(descriptor, bundle_path, bundle, key)
+        if descriptor.get("expires_at"):
+            expires = datetime.fromisoformat(str(descriptor["expires_at"]).replace("Z", "+00:00"))
+            if expires <= datetime.now(timezone.utc): errors.append("holdout descriptor is expired; rotate and reauthorize")
         if errors:
             raise ValueError("; ".join(errors))
         if args.command == "verify":
@@ -213,17 +226,28 @@ def main() -> int:
             return 0
         workspace = pathlib.Path(args.workspace).resolve()
         passed, results = run_bundle(bundle, workspace)
+        if not args.legacy_v1 and not args.handoff:
+            raise ValueError("holdout v2 requires --handoff (or pass --legacy-v1)")
         receipt = {
-            "contract": "EvaluationReceipt/v1",
-            "task_id": bundle["task_id"],
+            "contract": "EvaluationReceipt/v1" if args.legacy_v1 else "EvaluationReceipt/v2",
             "check_type": "holdout",
-            "authorization_ref": descriptor.get("seal") or descriptor["bundle_digest"],
             "descriptor_digest": f"sha256:{_sha256(pathlib.Path(args.descriptor))}",
             "evaluator": "taskspec-holdout-runner",
-            "evaluated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
             "result": "pass" if passed else "fail",
             "evidence": results,
         }
+        observed = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        if args.legacy_v1:
+            receipt.update({
+                "task_id": bundle["task_id"],
+                "authorization_ref": descriptor.get("seal") or descriptor["bundle_digest"],
+                "evaluated_at": observed,
+            })
+        else:
+            subject, _ = receipt_subject(pathlib.Path(args.handoff))
+            if subject["task_id"] != bundle["task_id"]:
+                raise ValueError("holdout bundle task_id does not match handoff")
+            receipt.update({"subject": subject, "observed_at": observed})
         if args.receipt_out:
             _write_json(pathlib.Path(args.receipt_out), receipt)
         print(json.dumps(receipt, indent=2))

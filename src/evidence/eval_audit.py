@@ -56,8 +56,28 @@ def load_matrix(path: pathlib.Path | None) -> list[dict[str, Any]]:
     if path is None:
         return []
     value = json.loads(path.read_text(encoding="utf-8"))
-    if value.get("contract") != "MutationMatrix/v1" or not isinstance(value.get("mutations"), list):
+    if not isinstance(value, dict) or value.get("contract") != "MutationMatrix/v1" or not isinstance(value.get("mutations"), list):
         raise ValueError("mutation matrix must be MutationMatrix/v1 with a mutations list")
+    unknown = set(value) - {"contract", "stack", "experimental", "mutations"}
+    if unknown:
+        raise ValueError(f"mutation matrix has unknown fields: {sorted(unknown)}")
+    if value.get("stack") not in {"python", "javascript", "go", "bash", "generic"}:
+        raise ValueError("mutation matrix stack must be python, javascript, go, bash, or generic")
+    if value.get("experimental") is not True:
+        raise ValueError("MutationMatrix/v1 must be explicitly experimental")
+    seen: set[str] = set()
+    for index, mutation in enumerate(value["mutations"]):
+        if not isinstance(mutation, dict) or set(mutation) != {"id", "patch"}:
+            raise ValueError(f"mutations[{index}] must contain only id and patch")
+        mutation_id, raw_patch = mutation.get("id"), mutation.get("patch")
+        if not isinstance(mutation_id, str) or not mutation_id or mutation_id in seen:
+            raise ValueError(f"mutations[{index}].id must be non-empty and unique")
+        seen.add(mutation_id)
+        if not isinstance(raw_patch, str) or not raw_patch:
+            raise ValueError(f"mutations[{index}].patch must be a non-empty string")
+        pure = pathlib.PurePosixPath(raw_patch)
+        if pure.is_absolute() or ".." in pure.parts:
+            raise ValueError(f"mutations[{index}].patch must remain inside the matrix directory")
     return value["mutations"]
 
 
@@ -67,12 +87,15 @@ def main() -> int:
     parser.add_argument("--baseline", required=True)
     parser.add_argument("--mutations")
     parser.add_argument("--report")
+    parser.add_argument("--repeat", type=int, default=1)
     args = parser.parse_args()
     spec = pathlib.Path(args.spec).resolve()
     try:
         root = repo_root(spec)
         rel = spec.relative_to(root)
-        current = run_spec(spec, root)
+        if not 1 <= args.repeat <= 20: raise ValueError("--repeat must be 1..20")
+        current_runs = [run_spec(spec, root) for _ in range(args.repeat)]
+        current = {"passed": all(run["passed"] for run in current_runs), "exit_code": current_runs[-1]["exit_code"], "runs": current_runs, "pass_rate": sum(run["passed"] for run in current_runs) / args.repeat}
         cases: list[dict[str, Any]] = [{"id": "current", "expected": "pass", **current}]
 
         baseline_tree = worktree(root, args.baseline)
@@ -80,7 +103,8 @@ def main() -> int:
             target_spec = baseline_tree / rel
             target_spec.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(spec, target_spec)
-            observed = run_spec(target_spec, baseline_tree)
+            baseline_runs = [run_spec(target_spec, baseline_tree) for _ in range(args.repeat)]
+            observed = {"passed": all(run["passed"] for run in baseline_runs), "exit_code": baseline_runs[-1]["exit_code"], "runs": baseline_runs, "pass_rate": sum(run["passed"] for run in baseline_runs) / args.repeat}
             cases.append({"id": "baseline", "ref": args.baseline, "expected": "fail", **observed})
         finally:
             remove_worktree(root, baseline_tree)
@@ -99,17 +123,25 @@ def main() -> int:
                 target_spec = tree / rel
                 target_spec.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(spec, target_spec)
-                observed = run_spec(target_spec, tree)
+                mutation_runs = [run_spec(target_spec, tree) for _ in range(args.repeat)]
+                observed = {
+                    "passed": all(run["passed"] for run in mutation_runs),
+                    "exit_code": mutation_runs[-1]["exit_code"],
+                    "runs": mutation_runs,
+                    "pass_rate": sum(run["passed"] for run in mutation_runs) / args.repeat,
+                }
                 cases.append({"id": mutation_id, "patch": str(patch), "expected": "fail", **observed})
             finally:
                 remove_worktree(root, tree)
 
-        discriminating = current["passed"] and all(
+        flaky = any(0 < case.get("pass_rate", int(case.get("passed", False))) < 1 for case in cases)
+        discriminating = not flaky and current["passed"] and all(
             not case["passed"] and case.get("exit_code") != 125 for case in cases[1:]
         )
         report = {
             "contract": "EvalAuditReceipt/v1", "spec": str(spec), "baseline_ref": args.baseline,
-            "audited_at": now(), "result": "pass" if discriminating else "fail", "cases": cases,
+            "audited_at": now(), "repeat": args.repeat, "flake_detected": flaky,
+            "result": "pass" if discriminating else "fail", "cases": cases,
         }
         if args.report:
             out = pathlib.Path(args.report); out.parent.mkdir(parents=True, exist_ok=True)

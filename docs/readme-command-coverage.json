@@ -1,0 +1,23 @@
+{
+  "contract": "ReadmeCommandCoverage/v1",
+  "commands": {
+    "demo": "tests/test-demo.sh and tests/test-v36-experience.sh",
+    "doctor": "tests/test-v36-experience.sh",
+    "init": "tests/test-v36-experience.sh clean-room journey",
+    "setup": "tests/test-v36-experience.sh clean-room journey",
+    "plan": "tests/test-v36-experience.sh clean-room journey",
+    "batch": "tests/test-v36-experience.sh clean-room journey",
+    "validate": "tests/test-v36-experience.sh clean-room journey",
+    "dod": "tests/test-v36-experience.sh clean-room journey",
+    "author-doctor": "tests/test-v36-experience.sh clean-room journey",
+    "gate": "tests/test-v36-experience.sh clean-room journey",
+    "handoff": "tests/test-v36-experience.sh clean-room journey with --out",
+    "run": "tests/test-v36-experience.sh clean-room journey",
+    "accept": "tests/test-v36-experience.sh clean-room journey with --gold-sanity",
+    "transition": "tests/test-v36-experience.sh clean-room journey",
+    "ready": "tests/test-v36-experience.sh clean-room journey",
+    "graph": "tests/test-v36-experience.sh clean-room journey",
+    "status": "tests/test-v36-experience.sh clean-room journey",
+    "new": "tests/test-v36-experience.sh README scaffold commands"
+  }
+}

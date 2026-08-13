@@ -34,7 +34,7 @@ signed_off_at: 2026-06-02T00:00:00Z
 > the `signed_off`, `signed_off_at`, or `signed_off_by` envelope fields.
 > These are produced exclusively by `taskspec gate --stamp`."
 > Hand-stamping or rewriting these fields defeats the autonomy gate.
-> The current `signed_off_sig` HMAC v2 also detects body and authorization
+> The current `signed_off_sig` HMAC v3 also detects body and complete authority
 > mutation; this fixture preserves the executor-side no-edit rule.
 
 ## Goal

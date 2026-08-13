@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-hmac-envelope.sh — keyed HMAC authorization envelope suite (v2).
+# test-hmac-envelope.sh — keyed HMAC authorization envelope suite (v3).
 #
 # The default oracle (tests/test-task-spec-skill.sh --suite fixtures) runs with
 # NO key, so it can only exercise Tier 2. This suite owns the KEYED paths:
@@ -65,7 +65,7 @@ masked_path() {
   echo "$shim:$PATH"
 }
 
-echo "═══ test-hmac-envelope.sh (B2 keyed suite, v2.2) ═══"
+echo "═══ test-hmac-envelope.sh (TaskAuthorization/v3 suite) ═══"
 
 # ---------------------------------------------------------------------------
 # Scenario 1 — Tier 1: stamp then verify (payload boundary self-consistency)
@@ -84,7 +84,7 @@ echo "── Scenario 1: Tier 1 stamp-then-verify ──"
     else
       echo "FAIL stamp did not seal: $stamp_out"
     fi
-    if grep -qE '^signed_off_sig: hmac-sha256-v2:[0-9a-zA-Z]+:[0-9a-f]+$' "tasks/$ID.md"; then
+    if grep -qE '^signed_off_sig: hmac-sha256-v3:[0-9a-zA-Z]+:[0-9a-f]+$' "tasks/$ID.md"; then
       echo "PASS sig-format"
     else
       echo "FAIL sig field malformed or absent"
@@ -259,14 +259,15 @@ echo "── Scenario 5: portability floor (crypto masked) ──"
     # provider must report none under masked PATH
     prov=$(PATH="$MASKED" bash -c "source '$SKILL_DIR/src/lib/_lib.sh'; ts_sha256_provider")
     if [[ "$prov" == "none" ]]; then echo "PASS provider-none"; else echo "FAIL provider=$prov (expected none)"; fi
-    # stamp under masked PATH -> DELEGATE, no sig, exit 0
+    # The atomic stamper uses stdlib Python HMAC, so it still writes v3 when the
+    # optional shell crypto providers are masked.
     set +e
     s=$(PATH="$MASKED" bash "$SAFE" --stamp "tasks/$ID.md" 2>&1); src=$?
     set -e
-    if echo "$s" | grep -q "VERDICT: DELEGATE" && ! grep -q '^signed_off_sig:' "tasks/$ID.md"; then
-      echo "PASS masked-stamp-no-sig"
+    if echo "$s" | grep -q "VERDICT: DELEGATE" && grep -q '^signed_off_sig: hmac-sha256-v3:' "tasks/$ID.md"; then
+      echo "PASS masked-stamp-stdlib-hmac"
     else
-      echo "FAIL masked stamp wrote sig or did not DELEGATE (rc=$src)"
+      echo "FAIL masked stamp did not write stdlib v3 or did not DELEGATE (rc=$src)"
     fi
     # seal WITH real crypto, then verify under masked PATH -> Tier 2, exit 0, no hard error
     cp "$FIXTURES/$ID.md" "tasks/$ID.md"
@@ -498,9 +499,9 @@ rm -rf "$WORK"
 }
 
 # ---------------------------------------------------------------------------
-# Scenario 10 — envelope v2 seals authorization, not lifecycle bookkeeping.
+# Scenario 10 — envelope v3 seals authorization, not lifecycle bookkeeping.
 # ---------------------------------------------------------------------------
-echo "── Scenario 10: envelope v2 authorization boundary ──"
+echo "── Scenario 10: envelope v3 authorization boundary ──"
 {
   ID="T-20260603-stamp-then-verify"
   probe() {
@@ -560,10 +561,24 @@ echo "── Scenario 11: legacy v1 verification and re-stamp ──"
       echo "FAIL legacy v1 was not accepted as Tier 2 (rc=$old_rc)"
     fi
     set +e; restamp=$(bash "$SAFE" --stamp --stamp-by hmac-test "tasks/$ID.md" 2>&1); restamp_rc=$?; set -e
-    if [[ $restamp_rc -eq 0 ]] && grep -q '^signed_off_sig: hmac-sha256-v2:' "tasks/$ID.md"; then
-      echo "PASS legacy-restamped-v2"
+    if [[ $restamp_rc -eq 0 ]] && grep -q '^signed_off_sig: hmac-sha256-v3:' "tasks/$ID.md"; then
+      echo "PASS legacy-restamped-v3"
     else
       echo "FAIL legacy v1 could not be re-stamped (rc=$restamp_rc)"
+    fi
+    legacy_v2_sig=$(ts_compute_signoff_sig "tasks/$ID.md" "$(cat "$KEYFILE")" v2)
+    ts_set_frontmatter_field "tasks/$ID.md" signed_off_sig "$legacy_v2_sig"
+    set +e; v2_out=$(bash "$VALIDATE" "tasks/$ID.md" 2>&1); v2_rc=$?; set -e
+    if [[ $v2_rc -eq 0 ]] && echo "$v2_out" | grep -q "legacy envelope v2"; then
+      echo "PASS legacy-v2-tier2"
+    else
+      echo "FAIL legacy v2 was not accepted as Tier 2 (rc=$v2_rc)"
+    fi
+    set +e; v2_restamp=$(bash "$SAFE" --stamp --stamp-by hmac-test "tasks/$ID.md" 2>&1); v2_restamp_rc=$?; set -e
+    if [[ $v2_restamp_rc -eq 0 ]] && grep -q '^signed_off_sig: hmac-sha256-v3:' "tasks/$ID.md"; then
+      echo "PASS legacy-v2-restamped-v3"
+    else
+      echo "FAIL legacy v2 could not be re-stamped (rc=$v2_restamp_rc)"
     fi
   ) > "$REPO/out.txt" 2>&1
   while IFS= read -r line; do

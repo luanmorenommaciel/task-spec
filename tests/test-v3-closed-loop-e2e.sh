@@ -168,25 +168,28 @@ g_out=$(TASKSPEC_SIGNING_KEY="$WORK/.git/info/taskspec-signing-key" bash "$GATE_
 chk "pre-gate verdict DELEGATE (rc=0)" "[[ $g_rc -eq 0 ]]"
 chk "pre-gate stamped signed_off: true" "grep -q '^signed_off: true' '$SPEC'"
 chk "pre-gate sealed HMAC (Tier 1)" "echo \"\$g_out\" | grep -q 'TIER=1'"
+HANDOFF_DIR="$(mktemp -d -t taskspec-e2e-handoff-XXXXXX)"
+HANDOFF="$HANDOFF_DIR/handoff.json"
+python3 "$SKILL_DIR/src/dispatch/handoff.py" "$SPEC" --backend codex --out "$HANDOFF" >/dev/null
 
 echo "${BOLD}=== Phase 4: DISPATCH (reference executor drives the work) ===${RESET}"
 # The ref-executor's work block keys on the Goal phrasing; this spec uses a
 # different file, so we use a tiny inline executor that honors the same contract
 # (acquire lock → do work → run evals → await acceptance/park) to keep the test self-contained.
 INLINE_EXEC="$(mktemp -t inline-exec-XXXXXX.sh)"
-trap 'rm -rf "$WORK" "$INLINE_EXEC"' EXIT
+trap 'rm -rf "$WORK" "$INLINE_EXEC" "$HANDOFF_DIR"' EXIT
 cat > "$INLINE_EXEC" <<EXEC
 #!/usr/bin/env bash
 set -euo pipefail
 source "$LIB_DIR/_lib.sh"
 SPEC="\$1"
 GIT_ROOT="\$(cd "\$(dirname "\$SPEC")" && git rev-parse --show-toplevel)"; export GIT_ROOT
-ts_set_frontmatter_field "\$SPEC" "status" "in-progress"
+TASKSPEC_BACKLOG_DIR="$WORK/tasks" bash "$SKILL_DIR/src/backlog/transition-status.sh" T-20260618-e2e-closed-loop in-progress >/dev/null
 printf 'done\n' > "\$GIT_ROOT/src/feature.txt"
 if bash "$GATE_DIR/run-task-spec.sh" "\$SPEC" >/dev/null 2>&1; then
-  ts_set_frontmatter_field "\$SPEC" "status" "in-progress"
+  :
 else
-  ts_set_frontmatter_field "\$SPEC" "status" "parked"
+  TASKSPEC_BACKLOG_DIR="$WORK/tasks" bash "$SKILL_DIR/src/backlog/transition-status.sh" T-20260618-e2e-closed-loop parked "inline executor eval failed" >/dev/null
 fi
 EXEC
 chmod +x "$INLINE_EXEC"
@@ -199,30 +202,30 @@ echo "${BOLD}=== Phase 5: ACCEPT (post-execution gate) ===${RESET}"
 # and re-verifies the sign-off HMAC. signed_off_sig was computed over the BODY at
 # stamp time; the executor only changed FRONTMATTER status + repo files, so the
 # body digest is unchanged and the HMAC must still verify.
-a_out=$(TASKSPEC_SIGNING_KEY="$WORK/.git/info/taskspec-signing-key" bash "$ACCEPT_DIR/accept-task.sh" --stamp --base HEAD "$SPEC" 2>&1); a_rc=$?
+a_out=$(TASKSPEC_SIGNING_KEY="$WORK/.git/info/taskspec-signing-key" bash "$ACCEPT_DIR/accept-task.sh" --stamp --handoff "$HANDOFF" "$SPEC" 2>&1); a_rc=$?
 echo "$a_out" | sed 's/^/    /'
 chk "accept verdict ACCEPT (rc=0)" "[[ $a_rc -eq 0 ]]"
 chk "accept stamped accepted: true" "grep -q '^accepted: true' '$SPEC'"
 chk "accept emitted ACCEPTED=1" "echo \"\$a_out\" | grep -q 'ACCEPTED=1'"
-chk "accept GATE A (evals pass) reported" "echo \"\$a_out\" | grep -q 'A. Evals pass'"
-bash -c "source '$LIB_DIR/_lib.sh'; ts_set_frontmatter_field '$SPEC' 'status' 'done'"
-chk "accepted work transitions status → done" "grep -q '^status: done' '$SPEC'"
+chk "accept GATE A (evals pass) reported" "echo \"\$a_out\" | grep -q 'A. Independent evaluation'"
 
-echo "${BOLD}=== Phase 6: LOOP CLOSED — final spec validates with full envelope ===${RESET}"
-f_out=$(TASKSPEC_SIGNING_KEY="$WORK/.git/info/taskspec-signing-key" bash "$GATE_DIR/validate-task-spec.sh" "$SPEC" 2>&1); f_rc=$?
-chk "final validate passes" "[[ $f_rc -eq 0 ]]"
-chk "final validate confirms Tier-1 HMAC" "echo \"\$f_out\" | grep -q 'OK(Tier 1)'"
-
-echo "${BOLD}=== Phase 7: NEGATIVE — blast-radius breach is REJECTED ===${RESET}"
-# Reset acceptance, write a stray file OUTSIDE touches_paths, and confirm reject.
-bash -c "source '$LIB_DIR/_lib.sh'; ts_set_frontmatter_field '$SPEC' 'accepted' 'false'"
+echo "${BOLD}=== Phase 6: NEGATIVE — blast-radius breach is REJECTED ===${RESET}"
 echo "stray" > "$WORK/src/unauthorized.txt"
 set +e
-n_out=$(TASKSPEC_SIGNING_KEY="$WORK/.git/info/taskspec-signing-key" bash "$ACCEPT_DIR/accept-task.sh" --base HEAD "$SPEC" 2>&1); n_rc=$?
+n_out=$(TASKSPEC_SIGNING_KEY="$WORK/.git/info/taskspec-signing-key" bash "$ACCEPT_DIR/accept-task.sh" --handoff "$HANDOFF" "$SPEC" 2>&1); n_rc=$?
 set -e
 chk "breach REJECTED (rc=1)" "[[ $n_rc -eq 1 ]]"
 chk "breach names the out-of-scope file" "echo \"\$n_out\" | grep -q 'unauthorized.txt'"
 rm -f "$WORK/src/unauthorized.txt"
+
+TASKSPEC_BACKLOG_DIR="$WORK/tasks" bash "$SKILL_DIR/src/backlog/transition-status.sh" T-20260618-e2e-closed-loop done >/dev/null
+SPEC="$WORK/tasks/done/T-20260618-e2e-closed-loop.md"
+chk "accepted work transitions status → done" "grep -q '^status: done' '$SPEC'"
+
+echo "${BOLD}=== Phase 7: LOOP CLOSED — final spec validates with full envelope ===${RESET}"
+f_out=$(TASKSPEC_SIGNING_KEY="$WORK/.git/info/taskspec-signing-key" bash "$GATE_DIR/validate-task-spec.sh" "$SPEC" 2>&1); f_rc=$?
+chk "final validate passes" "[[ $f_rc -eq 0 ]]"
+chk "final validate confirms Tier-1 HMAC" "echo \"\$f_out\" | grep -q 'OK(Tier 1)'"
 
 echo ""
 echo "========================================"

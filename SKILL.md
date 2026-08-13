@@ -3,7 +3,7 @@ name: task-spec
 description: Turn intent, repository evidence, and optional cited research into atomic, signed, self-verifying Task-Specs; preview complete TaskPlan manifests; hand one authorized leaf to any coding harness; and independently accept the result.
 license: MIT
 metadata:
-  version: "3.7.0"
+  version: "3.8.0"
 ---
 
 # Task-Spec
@@ -25,9 +25,9 @@ replaceable executor.
    and `taskspec dod` on every leaf and node.
 6. Authorize a leaf only through `taskspec gate --stamp <spec>`. Never edit
    `signed_off*` or `accepted*` by hand.
-7. Emit `taskspec handoff <spec> --backend <harness>` and give that read-only
+7. Emit `taskspec handoff <spec> --backend <harness> --out <handoff>` and give that read-only
    contract to Codex, Claude Code, Kimi, Grok Build, or another executor.
-8. After work, independently run `taskspec accept --stamp <spec>`. Only then may
+8. After work, independently run `taskspec accept --handoff <handoff> --stamp <spec>`. Only then may
    the task transition to `done`.
 9. Use format v4 only when the approved contract requires independent evidence.
    Run `taskspec author-doctor`, keep holdouts outside the handoff, validate each
@@ -59,8 +59,8 @@ taskspec batch --plan tasks/.plans/change.yaml
 taskspec validate tasks/T-*.md
 taskspec dod tasks/T-*.md
 taskspec gate --stamp tasks/T-…-leaf.md
-taskspec handoff tasks/T-…-leaf.md --backend codex
-taskspec accept --stamp tasks/T-…-leaf.md
+taskspec handoff tasks/T-…-leaf.md --backend codex --out .taskspec/handoffs/attempt.json
+taskspec accept --handoff .taskspec/handoffs/attempt.json --stamp tasks/T-…-leaf.md
 ```
 
 For an opt-in evidence-bearing task, start with

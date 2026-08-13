@@ -22,7 +22,7 @@ ts_version_flag "$@"
 
 FILE="${1:-}"
 if [ -z "$FILE" ] || [ ! -f "$FILE" ]; then
-  echo "ERROR: usage: definition-of-done.sh <task-spec.md>" >&2
+  echo "ERROR: Usage: taskspec dod <task-spec.md>" >&2
   echo "DOD=USAGE_ERROR"; exit 2
 fi
 

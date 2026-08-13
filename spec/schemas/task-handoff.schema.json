@@ -1,20 +1,25 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://taskspec.dev/schema/v1/task-handoff.schema.json",
-  "title": "TaskHandoff v1 and v2",
-  "type": "object",
-  "additionalProperties": false,
-  "required": ["contract", "task_id", "spec", "spec_digest", "signoff_tier", "backend", "workspace", "write_scope", "budgets", "agent_contract", "eval_command", "acceptance_command"],
-  "properties": {
-    "contract": {"enum": ["TaskHandoff/v1", "TaskHandoff/v2"]},
-    "task_id": {"type": "string"},
-    "spec": {"type": "string"},
-    "spec_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "signoff_tier": {"type": "integer", "minimum": 1, "maximum": 3},
-    "backend": {"type": "string"},
-    "workspace": {"type": "string"},
-    "write_scope": {
-      "type": "object",
+  "$id": "https://taskspec.dev/schema/v3/task-handoff.schema.json",
+  "title": "TaskHandoff v1-v3",
+  "oneOf": [
+    {"$ref": "#/$defs/legacy"},
+    {"$ref": "#/$defs/v3"}
+  ],
+  "$defs": {
+    "subject": {
+      "type": "object", "additionalProperties": false,
+      "required": ["task_id", "task_revision_digest", "authorization_ref", "attempt_id", "base_commit"],
+      "properties": {
+        "task_id": {"type": "string"},
+        "task_revision_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "authorization_ref": {"type": "string", "pattern": "^hmac-sha256-v3:"},
+        "attempt_id": {"type": "string", "format": "uuid"},
+        "base_commit": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"}
+      }
+    },
+    "writeScope": {
+      "type": "object", "additionalProperties": false,
       "required": ["touches_paths", "creates_paths", "do_not_touch"],
       "properties": {
         "touches_paths": {"type": "array", "items": {"type": "string"}},
@@ -22,18 +27,41 @@
         "do_not_touch": {"type": "array", "items": {"type": "string"}}
       }
     },
-    "budgets": {"type": "object"},
-    "agent_contract": {"type": "object"},
-    "eval_command": {"type": "array", "items": {"type": "string"}},
-    "acceptance_command": {"type": "array", "items": {"type": "string"}},
-    "format_version": {"type": "integer", "const": 4},
-    "evaluation_policy": {"type": "object"},
-    "environment_contract": {"type": "object"},
-    "identity_policy": {"type": "object"},
-    "receipt_requirements": {"type": "array", "items": {"type": "string"}}
-  },
-  "allOf": [{
-    "if": {"properties": {"contract": {"const": "TaskHandoff/v2"}}, "required": ["contract"]},
-    "then": {"required": ["format_version", "evaluation_policy", "environment_contract", "identity_policy", "receipt_requirements"]}
-  }]
+    "legacy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contract", "task_id", "spec", "spec_digest", "signoff_tier", "backend", "workspace", "write_scope", "budgets", "agent_contract", "eval_command", "acceptance_command"],
+      "properties": {
+        "contract": {"enum": ["TaskHandoff/v1", "TaskHandoff/v2"]}, "task_id": {"type": "string"},
+        "spec": {"type": "string"}, "spec_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "signoff_tier": {"type": "integer", "minimum": 1, "maximum": 3}, "backend": {"type": "string"},
+        "workspace": {"type": "string"}, "write_scope": {"$ref": "#/$defs/writeScope"}, "budgets": {"type": "object"},
+        "agent_contract": {"type": "object"}, "eval_command": {"type": "array", "items": {"type": "string"}},
+        "acceptance_command": {"type": "array", "items": {"type": "string"}}, "format_version": {"type": "integer"},
+        "evaluation_policy": {"type": "object"}, "environment_contract": {"type": "object"},
+        "identity_policy": {"type": "object"}, "receipt_requirements": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "v3": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contract", "task_id", "format_version", "spec", "spec_digest", "task_revision_digest", "signoff_tier", "backend", "workspace", "authorization", "attempt", "source", "dependency_closure", "write_scope", "budgets", "agent_contract", "eval_command", "acceptance_command", "evaluation_policy", "environment_contract", "identity_policy", "receipt_requirements"],
+      "properties": {
+        "contract": {"const": "TaskHandoff/v3"}, "task_id": {"type": "string"}, "format_version": {"type": "integer", "minimum": 1, "maximum": 4},
+        "spec": {"type": "string"}, "spec_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "task_revision_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "signoff_tier": {"type": "integer", "minimum": 1, "maximum": 2}, "backend": {"type": "string"}, "workspace": {"type": "string"},
+        "authorization": {
+          "type": "object", "additionalProperties": false,
+          "required": ["scheme", "ref", "tier", "signed_by", "signed_at"],
+          "properties": {"scheme": {"type": "string"}, "ref": {"type": "string"}, "tier": {"type": "integer"}, "signed_by": {"type": "string"}, "signed_at": {"type": "string"}}
+        },
+        "attempt": {"type": "object", "additionalProperties": false, "required": ["id", "issued_at"], "properties": {"id": {"type": "string", "format": "uuid"}, "issued_at": {"type": "string", "format": "date-time"}}},
+        "source": {"type": "object", "additionalProperties": false, "required": ["workspace", "base_commit"], "properties": {"workspace": {"type": "string"}, "base_commit": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"}}},
+        "dependency_closure": {"type": "object", "required": ["contract", "task_id", "digest", "members"]},
+        "write_scope": {"$ref": "#/$defs/writeScope"}, "budgets": {"type": "object"}, "agent_contract": {"type": "object"},
+        "eval_command": {"type": "array", "items": {"type": "string"}}, "acceptance_command": {"type": "array", "items": {"type": "string"}},
+        "evaluation_policy": {"type": "object"}, "environment_contract": {"type": "object"}, "identity_policy": {"type": "object"},
+        "receipt_requirements": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
 }

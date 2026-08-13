@@ -83,6 +83,19 @@
       "items": {"type": "string", "pattern": "^T-[0-9]{8}-[a-z0-9][a-z0-9-]*$"},
       "description": "Child Task-Spec ids composed by an XL/XXL node."
     },
+    "supersedes": {
+      "oneOf": [
+        {"type": "string", "pattern": "^T-[0-9]{8}-[a-z0-9][a-z0-9-]*$"},
+        {"const": "(none)"}
+      ],
+      "description": "Optional predecessor retired by explicit replanning. Dependents are never rewritten automatically."
+    },
+    "blocks": {
+      "type": "array",
+      "deprecated": true,
+      "items": {"type": "string"},
+      "description": "Advisory compatibility projection only. depends_on is authoritative."
+    },
     "touches_paths": {
       "type": "array",
       "items": {"type": "string", "minLength": 1},
@@ -174,14 +187,18 @@
       "type": "string",
       "description": "ISO-8601 timestamp of acceptance, or (none)."
     },
+    "accepted_tier": {"type": "integer", "enum": [1, 2]},
+    "accepted_attempt_id": {"type": "string", "format": "uuid"},
+    "accepted_authorization_ref": {"type": "string"},
+    "acceptance_record_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
     "task_spec_version": {
       "type": "string",
       "description": "Version of the task-spec skill that authored the file."
     },
     "signed_off_sig": {
       "type": "string",
-      "pattern": "^hmac-sha256-v[12]:[0-9a-zA-Z]+:[0-9a-f]+$",
-      "description": "HMAC sign-off envelope. v2 seals the body plus authorization-relevant paths, dependencies, effort, backend, agent, budgets, and requirements. A valid v1 envelope remains readable but is supervised Tier 2 until re-stamped. HMAC is tamper evidence with a shared repository key, not identity or sandbox enforcement."
+      "pattern": "^hmac-sha256-v[123]:[0-9a-zA-Z]+:[0-9a-f]+$",
+      "description": "HMAC authorization. v3 seals TaskRevision/v1 with unknown fields protected by default. Valid v1/v2 envelopes remain readable as supervised Tier 2."
     },
     "requires": {
       "type": "object",
@@ -207,6 +224,7 @@
       "required": ["acceptance_scope"],
       "properties": {
         "acceptance_scope": {"type": "string", "enum": ["local", "portable", "human-authorized"]},
+        "max_age_sec": {"type": "integer", "minimum": 1},
         "deterministic": {"$ref": "#/$defs/requiredPolicy"},
         "holdout": {"$ref": "#/$defs/holdoutPolicy"},
         "graded": {"$ref": "#/$defs/gradedPolicy"},
@@ -232,19 +250,32 @@
         "signer": {"type": "string"}
       }
     },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref", "digest", "role"],
+        "properties": {
+          "ref": {"type": "string"},
+          "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+          "role": {"enum": ["context", "constraint", "risk"]}
+        }
+      }
+    },
     "signed_off_envelope": {
       "type": "object",
-      "description": "DEPRECATED structured form retained for forward compatibility. The current source of truth is signed_off_sig: hmac-sha256-v2:<keyid>:<hex>; valid historical v1 strings remain readable as Tier 2.",
+      "description": "DEPRECATED structured form. The current source of truth is signed_off_sig: hmac-sha256-v3:<keyid>:<hex>.",
       "additionalProperties": true,
       "properties": {
-        "algorithm": {"type": "string", "description": "e.g. hmac-sha256-v2"},
+        "algorithm": {"type": "string", "description": "e.g. hmac-sha256-v3"},
         "keyid": {"type": "string", "description": "First 8 hex of sha256(key)."},
         "signature": {"type": "string", "description": "Hex MAC over the canonical payload."}
       }
     }
   },
   "$defs": {
-    "requiredPolicy": {"type": "object", "required": ["required"], "properties": {"required": {"type": "boolean"}}},
+    "requiredPolicy": {"type": "object", "required": ["required"], "properties": {"required": {"type": "boolean"}, "max_age_sec": {"type": "integer", "minimum": 1}}},
     "holdoutPolicy": {"type": "object", "required": ["required"], "properties": {"required": {"type": "boolean"}, "descriptor_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "authorization_ref": {"type": "string"}}},
     "gradedPolicy": {"type": "object", "required": ["required"], "properties": {"required": {"type": "boolean"}, "rubric_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "threshold": {"type": "number", "minimum": 0, "maximum": 1}}},
     "humanPolicy": {"type": "object", "required": ["required"], "properties": {"required": {"type": "boolean"}, "owner": {"type": "string", "minLength": 1}}}
@@ -291,6 +322,18 @@
           "accepted_by": {"not": {"const": "(none)"}},
           "accepted_at": {"not": {"const": "(none)"}}
         }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {"const": "done"},
+          "signed_off_sig": {"pattern": "^hmac-sha256-v3:"}
+        },
+        "required": ["status", "signed_off_sig"]
+      },
+      "then": {
+        "required": ["accepted_tier", "accepted_attempt_id", "accepted_authorization_ref", "acceptance_record_digest"]
       }
     }
   ]

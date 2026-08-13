@@ -35,12 +35,13 @@ Prove:
   validate [--no-state] <spec>               Structural and authorization lint
   dod <spec>                                 Behavior → eval → Exit Check matrix
   gate [--stamp] [--require-tier1] <spec>    PRE-gate authorization seal
-  handoff <spec> --backend <token>           Emit read-only TaskHandoff v1 JSON
+  handoff <spec> --backend <token> [--out f] Emit attempt-bound TaskHandoff v3
   run [--ci] <spec>                          Execute evals in the task workspace
-  accept [--stamp] [--gold-sanity] <spec>    POST-gate independent acceptance
+  accept --handoff <file> [--stamp] <spec>   POST-gate independent acceptance
   author-doctor <spec>                       Explain weak or unsafe authoring
   holdout seal|verify|run ...                Hidden evaluator bundles + receipts
   receipt validate|engine|environment|...    Create and validate evidence receipts
+  dsse export|verify ...                     Optional signed-receipt envelope
   eval-audit <spec> --baseline <ref>          Baseline + mutation discrimination
   identity init|sign|verify|revoke ...        Optional Ed25519 signer identity
   evidence validate|plan|run <matrix>         Multi-engine evidence matrix
@@ -49,7 +50,9 @@ Prove:
 
 Backlog:
   ready [--all] [filters]                    Dependency-aware pickup frontier
-  lint                                      DAG, collision, conflict, concurrency
+  graph [--task ID] [--check|--mermaid]      Derived TaskGraphView/v1
+  status <id-or-path>                        Lifecycle, trust, blockers, next step
+  lint                                      Graph integrity compatibility alias
   transition <id> <status> [reason]          Atomic lifecycle transition
   rebuild-state | archive | backup | metrics
 
@@ -59,7 +62,7 @@ Integrate:
   conformance --self-test                   Test the bundled reference executor
   executor <spec>                           Reference L2 executor
 
-Meta: doctor | version | help
+Meta: doctor [--backlog] | version | help
 
 Global controls:
   --json       One JSON envelope with command, success, exit_code, stdout/stderr
@@ -68,6 +71,51 @@ Global controls:
 
 Exit codes: 0 success · 1 contract/gate/eval failure · 2 usage · 3 runtime floor
 EOF
+}
+
+_ts_command_help() {
+  local command="$1"
+  case "$command" in
+    init) echo "Usage: taskspec init [--force]" ;;
+    setup) echo "Usage: taskspec setup | taskspec setup signing [--force]" ;;
+    demo) echo "Usage: taskspec demo" ;;
+    new) echo "Usage: taskspec new [--format 3|4] [--status ready|blocked] [--queue] <slug> <XS|S|M|L|XL|XXL> [agent] [source-note]" ;;
+    plan) echo "Usage: taskspec plan --manifest <TaskPlan.yaml>" ;;
+    batch) echo "Usage: taskspec batch --plan <TaskPlan.yaml> | taskspec batch --intent-file <file> --effort <size>" ;;
+    migrate) echo "Usage: taskspec migrate <task-spec>" ;;
+    validate) echo "Usage: taskspec validate [--no-state] <task-spec>" ;;
+    dod) echo "Usage: taskspec dod <task-spec>" ;;
+    gate) echo "Usage: taskspec gate [--stamp] [--require-tier1] <task-spec>" ;;
+    handoff) echo "Usage: taskspec handoff <task-spec> --backend <token> [--out <file>] [--attempt-id <uuid>]" ;;
+    run) echo "Usage: taskspec run [--ci] <task-spec>" ;;
+    accept) echo "Usage: taskspec accept [--stamp] [--handoff <file>] [receipt flags] <task-spec>" ;;
+    author-doctor) echo "Usage: taskspec author-doctor <task-spec>" ;;
+    holdout) echo "Usage: taskspec holdout seal|verify|run ..." ;;
+    receipt) echo "Usage: taskspec receipt validate|sign|engine|environment|evaluation|graded|human ..." ;;
+    dsse) echo "Usage: taskspec dsse export|verify ..." ;;
+    eval-audit) echo "Usage: taskspec eval-audit <task-spec> --baseline <git-ref> [--mutations <matrix>] [--repeat N]" ;;
+    identity) echo "Usage: taskspec identity init|sign|verify|revoke ..." ;;
+    evidence) echo "Usage: taskspec evidence validate|plan|run <EngineMatrix.json> ..." ;;
+    bridge) echo "Usage: taskspec bridge export|validate ..." ;;
+    mcp) echo "Usage: taskspec mcp" ;;
+    ready) echo "Usage: taskspec ready [--all] [filters]" ;;
+    graph) echo "Usage: taskspec graph [--task <id>] [--check] [--mermaid] [--json]" ;;
+    status) echo "Usage: taskspec status <task-id-or-path> [--json]" ;;
+    lint) echo "Usage: taskspec lint" ;;
+    transition) echo "Usage: taskspec transition <task-id> <ready|in-progress|blocked|done|parked> [reason]" ;;
+    rebuild-state) echo "Usage: taskspec rebuild-state" ;;
+    archive) echo "Usage: taskspec archive" ;;
+    backup) echo "Usage: taskspec backup [destination-directory]" ;;
+    metrics) echo "Usage: taskspec metrics [--since YYYY-MM-DD] [--author <name>] [--status <status>]" ;;
+    conformance) echo "Usage: taskspec conformance --self-test | --level L0|L1|L2 --executor <command>" ;;
+    executor) echo "Usage: taskspec executor <task-spec>" ;;
+    agent-context) echo "Usage: taskspec agent-context" ;;
+    completion) echo "Usage: taskspec completion bash|zsh|fish" ;;
+    doctor) echo "Usage: taskspec doctor [--backlog]" ;;
+    version) echo "Usage: taskspec version" ;;
+    help) echo "Usage: taskspec help [command]" ;;
+    *) echo "taskspec help: unknown command '$command'" >&2; return 2 ;;
+  esac
 }
 
 _ts_doctor() {
@@ -91,7 +139,7 @@ _ts_doctor() {
 
 _ts_completion() {
   local shell_name="${1:-}"
-  local words="init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge mcp ready lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help"
+  local words="init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help"
   case "$shell_name" in
     bash)
       printf '_taskspec_complete() { COMPREPLY=( $(compgen -W %q -- "${COMP_WORDS[1]}") ); }\ncomplete -F _taskspec_complete taskspec\n' "$words"
@@ -117,10 +165,23 @@ _ts_dispatch() {
   local cmd="${1:-}" script=""
   [[ -n "$cmd" ]] || { _ts_usage; return 2; }
   shift || true
+  if [[ "$cmd" != "help" && ( "${1:-}" == "--help" || "${1:-}" == "-h" ) ]]; then
+    _ts_command_help "$cmd"
+    return $?
+  fi
   case "$cmd" in
-    help|--help|-h) _ts_usage; return 0 ;;
+    help)
+      if [[ -n "${1:-}" ]]; then
+        local help_command="$1"
+        _ts_command_help "$help_command"; return $?
+      fi
+      _ts_usage; return 0 ;;
+    --help|-h) _ts_usage; return 0 ;;
     version|--version) cat "$TASKSPEC_HOME/VERSION"; return 0 ;;
-    doctor) _ts_doctor; return $? ;;
+    doctor)
+      if [[ "${1:-}" == "--backlog" ]]; then shift; python3 "$TASKSPEC_HOME/src/setup/backlog_doctor.py" "$@"; return $?; fi
+      [[ $# -eq 0 ]] || { echo "taskspec doctor: unknown argument: $1" >&2; return 2; }
+      _ts_doctor; return $? ;;
     demo) bash "$TASKSPEC_HOME/src/setup/demo.sh" "$@"; return $? ;;
     completion) _ts_completion "$@"; return $? ;;
     agent-context) python3 "$TASKSPEC_HOME/src/dispatch/agent-context.py"; return $? ;;
@@ -143,6 +204,9 @@ _ts_dispatch() {
     bridge)
       if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" && "${1:-}" == "export" ]] && _ts_has_arg --out "$@"; then echo "DRY_RUN: would run taskspec bridge $*"; return 0; fi
       python3 "$TASKSPEC_HOME/src/interop/bridge.py" "$@"; return $? ;;
+    dsse)
+      if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" && "${1:-}" == "export" ]]; then echo "DRY_RUN: would run taskspec dsse $*"; return 0; fi
+      python3 "$TASKSPEC_HOME/src/interop/dsse.py" "$@"; return $? ;;
     mcp) python3 "$TASKSPEC_HOME/src/interop/mcp_server.py" "$@"; return $? ;;
     init) script="src/setup/init.sh" ;;
     setup)
@@ -175,7 +239,15 @@ _ts_dispatch() {
     gate) script="src/gate/safe-to-delegate.sh" ;;
     run) script="src/gate/run-task-spec.sh" ;;
     accept) script="src/accept/accept-task.sh" ;;
-    ready) script="src/backlog/list-ready.sh" ;;
+    graph)
+      [[ "${TASKSPEC_JSON_MODE:-0}" == "1" ]] && set -- --json "$@"
+      python3 "$TASKSPEC_HOME/src/graph/task_graph.py" "$@"; return $? ;;
+    status)
+      [[ "${TASKSPEC_JSON_MODE:-0}" == "1" ]] && set -- --json "$@"
+      python3 "$TASKSPEC_HOME/src/backlog/status.py" "$@"; return $? ;;
+    ready)
+      [[ "${TASKSPEC_JSON_MODE:-0}" == "1" ]] && set -- --json "$@"
+      python3 "$TASKSPEC_HOME/src/backlog/ready.py" "$@"; return $? ;;
     lint) script="src/backlog/lint-backlog.sh" ;;
     transition) script="src/backlog/transition-status.sh" ;;
     rebuild-state) script="src/backlog/rebuild-state.sh" ;;
@@ -211,6 +283,7 @@ for arg in "$@"; do
   esac
 done
 export TASKSPEC_DRY_RUN="$DRY_RUN"
+export TASKSPEC_JSON_MODE="$JSON_MODE"
 
 if [[ "$JSON_MODE" == "0" ]]; then
   _ts_dispatch ${ARGS[@]+"${ARGS[@]}"}
@@ -237,6 +310,14 @@ try:
     data = json.loads(stdout)
 except (json.JSONDecodeError, ValueError):
     pass
+if command == "accept":
+    import re
+    if code == 0:
+        tier = re.search(r"VERDICT: ACCEPT.*?Tier ([12])", stdout)
+        data = {"contract": "AcceptanceResult/v1", "accepted": True, "tier": int(tier.group(1)) if tier else None}
+    else:
+        failure = re.search(r"ACCEPTANCE_FAILURE=([A-Z_]+)", stdout)
+        data = {"contract": "AcceptanceFailure/v1", "accepted": False, "code": failure.group(1) if failure else "POLICY_TAMPER"}
 envelope = {
     "contract": "TaskSpecCLIResult/v1",
     "engine_version": version,

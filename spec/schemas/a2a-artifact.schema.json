@@ -1,15 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://taskspec.dev/schema/v4/a2a-artifact.schema.json",
-  "title": "TaskSpecA2AArtifact v1",
+  "title": "TaskSpecA2AArtifact v1-v2 (A2A 1.0)",
   "type": "object",
   "additionalProperties": false,
   "required": ["contract", "artifactId", "name", "parts", "metadata"],
   "properties": {
-    "contract": {"const": "TaskSpecA2AArtifact/v1"},
+    "contract": {"enum": ["TaskSpecA2AArtifact/v1", "TaskSpecA2AArtifact/v2"]},
+    "protocol": {"type": "object", "properties": {"name": {"const": "A2A"}, "version": {"const": "1.0"}}},
     "artifactId": {"type": "string"},
     "name": {"const": "task-spec-handoff"},
     "parts": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "object", "required": ["kind", "data"], "properties": {"kind": {"const": "data"}, "data": {"type": "object"}}}},
-    "metadata": {"type": "object", "required": ["task_id", "spec_digest", "task_state"], "properties": {"task_id": {"type": "string"}, "spec_digest": {"type": "string"}, "task_state": {"type": "string"}}}
-  }
+    "metadata": {"type": "object", "required": ["task_id", "spec_digest", "handoff_digest", "task_state"], "properties": {"task_id": {"type": "string"}, "spec_digest": {"type": "string"}, "handoff_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "task_state": {"type": "string"}}}
+  },
+  "allOf": [{"if": {"properties": {"contract": {"const": "TaskSpecA2AArtifact/v2"}}}, "then": {"required": ["protocol"]}}]
 }

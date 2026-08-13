@@ -59,7 +59,7 @@ if [[ "$SELF_TEST" == true ]]; then
   [[ -z "$LEVEL" ]] && LEVEL="L2"
 fi
 if [[ -z "$LEVEL" || -z "$EXECUTOR" ]]; then
-  echo "Usage: conformance-check.sh --level L0|L1|L2 --executor \"<cmd>\"   (or --self-test)" >&2
+  echo "Usage: taskspec conformance --level L0|L1|L2 --executor \"<cmd>\"   (or --self-test)" >&2
   exit 2
 fi
 case "$LEVEL" in L0|L1|L2) ;; *) echo "level must be L0|L1|L2 (got: $LEVEL)" >&2; exit 2 ;; esac
@@ -80,7 +80,12 @@ git config user.name "Conformance Harness"
 mkdir -p tasks src
 
 # status_of <spec> → current frontmatter status
-status_of() { grep -m1 '^status:' "$1" | awk '{print $2}'; }
+status_of() {
+  local file="$1" candidate
+  if [[ -f "$file" ]]; then candidate="$file"
+  else candidate="$(find "$WORK/tasks" -type f -name "$(basename "$file")" | head -1)"; fi
+  [[ -n "$candidate" ]] && grep -m1 '^status:' "$candidate" | awk '{print $2}'
+}
 
 # A SOLVABLE reference spec: the eval passes once src/marker.txt contains "done".
 write_solvable_spec() {
@@ -102,9 +107,12 @@ source_note: (none)
 created: 2026-06-18T00:00:00Z
 tags: []
 execution_backend: any
-signed_off: true
-signed_off_by: conformance-harness
-signed_off_at: 2026-06-18T00:00:00Z
+signed_off: false
+signed_off_by: (none)
+signed_off_at: (none)
+accepted: false
+accepted_by: (none)
+accepted_at: (none)
 ---
 
 # Conformance solvable reference
@@ -176,12 +184,17 @@ source_note: (none)
 created: 2026-06-18T00:00:00Z
 tags: []
 execution_backend: any
-signed_off: true
-signed_off_by: conformance-harness
-signed_off_at: 2026-06-18T00:00:00Z
+signed_off: false
+signed_off_by: (none)
+signed_off_at: (none)
+accepted: false
+accepted_by: (none)
+accepted_at: (none)
 ---
 
 # Conformance unsolvable reference
+
+<!-- task-spec:allow-existence-only — this adversarial fixture must remain impossible -->
 
 > **Why:** Forces the budget/park path.
 
@@ -230,6 +243,7 @@ SPEC
 }
 
 GIT_ROOT="$WORK"; export GIT_ROOT
+TASKSPEC_SIGNING_KEY="conformance-key"; export TASKSPEC_SIGNING_KEY
 fails=0
 report() { if [[ "$1" -eq 0 ]]; then echo "   ${GREEN}PASS${RESET} — $2"; else echo "   ${RED}FAIL${RESET} — $2"; fails=$((fails+1)); fi; }
 
@@ -239,10 +253,14 @@ echo "────────────────────────�
 # ===== L0: reads the format + makes the evals pass =====
 SPEC="$WORK/tasks/T-20260618-conformance-solvable.md"
 write_solvable_spec "$SPEC"
+printf 'not-done\n' > "$WORK/src/marker.txt"
+git add . && git commit -qm "conformance solvable base"
+bash "$SCRIPT_DIR/../gate/safe-to-delegate.sh" --stamp "$SPEC" >/dev/null
 echo "L0. Executor drives a solvable spec to a passing Exit Check ..."
 set +e
 $EXECUTOR "$SPEC" >/dev/null 2>&1
-bash "$SCRIPT_DIR/../gate/run-task-spec.sh" "$SPEC" >/dev/null 2>&1
+SOLVED_SPEC="$(find "$WORK/tasks" -type f -name "$(basename "$SPEC")" | head -1)"
+bash "$SCRIPT_DIR/../gate/run-task-spec.sh" "$SOLVED_SPEC" >/dev/null 2>&1
 l0_rc=$?
 set -e
 report "$l0_rc" "Exit Check passes after execution (L0: reads format, runs evals)"
@@ -257,7 +275,10 @@ fi
 # ===== L2: honors the retry budget (parks an unsolvable spec) =====
 if [[ "$LEVEL" == "L2" ]]; then
   USPEC="$WORK/tasks/T-20260618-conformance-unsolvable.md"
+  git add . && git commit -qm "accepted solvable fixture"
   write_unsolvable_spec "$USPEC"
+  git add "$USPEC" && git commit -qm "conformance unsolvable base"
+  bash "$SCRIPT_DIR/../gate/safe-to-delegate.sh" --stamp "$USPEC" >/dev/null
   echo "L2. Executor parks an unsolvable spec within budget (no infinite loop) ..."
   set +e
   # shellcheck disable=SC2086
@@ -267,8 +288,10 @@ if [[ "$LEVEL" == "L2" ]]; then
   st=$(status_of "$USPEC")
   if [[ $l2_exec_rc -eq 124 ]]; then
     report 1 "executor TIMED OUT on an unsolvable spec — it does not honor budget_iterations (looped forever)"
+  elif [[ "$st" == "parked" ]] && grep -q '^blocked_reason: circuit_breaker_no_progress reached after identical failing eval results$' "$WORK/tasks/parked/T-20260618-conformance-unsolvable.md"; then
+    report 0 "unsolvable spec parked by the no-progress circuit breaker within the signed retry budget"
   elif [[ "$st" == "parked" ]]; then
-    report 0 "unsolvable spec parked (status: parked, A2A: $(ts_a2a_state parked)) within budget"
+    report 1 "unsolvable spec parked without the required structured no-progress reason"
   else
     report 1 "unsolvable spec ended in status '$st', expected 'parked'"
   fi

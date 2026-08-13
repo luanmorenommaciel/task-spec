@@ -21,6 +21,15 @@ if [[ ! -d "$TASKS_DIR" ]]; then
   exit 1
 fi
 
+LOCK_FILE="$TASKS_DIR/.state.lock"
+if [[ "${TASKSPEC_STATE_LOCK_HELD:-0}" != "1" ]]; then
+  if ! ts_lock_acquire "$LOCK_FILE"; then
+    echo "taskspec rebuild-state: another process holds the task-state lock" >&2
+    exit 1
+  fi
+  trap 'ts_lock_release "$LOCK_FILE"' EXIT
+fi
+
 # A derived index must be reproducible. Use the latest canonical lifecycle
 # timestamp already present in tasks or the event ledger, never the wall clock
 # of the rebuild itself.
@@ -37,6 +46,8 @@ TS="$(
 WORKSPACE_ROOT="$(ts_workspace_root "$TASKS_DIR")"
 STATE_GENERATOR="${TASKSPEC_STATE_GENERATOR:-rebuild-state.sh}"
 STATE_VALIDATOR_VERSION="${TASKSPEC_STATE_VALIDATOR_VERSION:-rebuild}"
+GRAPH_REVISION="$(python3 "$TASKSPEC_SKILL_DIR/src/graph/task_graph.py" --backlog "$TASKS_DIR" --json \
+  | python3 -c 'import json,sys; print(json.load(sys.stdin)["graph_revision_digest"])')"
 
 TMP="${STATE_FILE}.tmp.$$"
 ts_prepare_tmp "$TMP"
@@ -46,6 +57,7 @@ ts_prepare_tmp "$TMP"
   echo "# Source of truth: frontmatter in each tasks/T-*.md"
   echo "schema_version: 1"
   echo "last_rebuilt: $TS"
+  echo "graph_revision_digest: $GRAPH_REVISION"
   echo ""
   echo "tasks:"
 } > "$TMP"

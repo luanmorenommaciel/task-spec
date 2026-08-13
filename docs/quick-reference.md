@@ -10,10 +10,13 @@ taskspec batch --plan tasks/.plans/change.yaml
 taskspec validate tasks/T-*.md
 taskspec dod tasks/T-*.md
 taskspec gate --stamp tasks/T-…-leaf.md
-taskspec handoff tasks/T-…-leaf.md --backend codex
+taskspec handoff tasks/T-…-leaf.md --backend codex --out .taskspec/handoffs/attempt.json
 taskspec run --ci tasks/T-…-leaf.md
-taskspec accept --stamp tasks/T-…-leaf.md
+taskspec accept --handoff .taskspec/handoffs/attempt.json --stamp tasks/T-…-leaf.md
 taskspec transition T-…-leaf done
+taskspec graph --check
+taskspec status T-…-leaf
+taskspec doctor --backlog
 ```
 
 ## Frontmatter essentials
@@ -63,6 +66,6 @@ delegated. XS/S/M/L leaves omit `children`.
 - Write scope is `touches_paths ∪ creates_paths`.
 - `status: done` requires `accepted: true`.
 - Never hand-edit `signed_off*` or `accepted*`.
-- Valid HMAC v1 is supervised Tier 2; re-stamp for v2 authorization coverage.
+- Valid HMAC v1/v2 is supervised Tier 2; re-stamp each active task for v3/TaskRevision coverage.
 - Research credentials stay outside every Task-Spec contract.
 - `--json`, `--dry-run`, `NO_COLOR`, and `TASKSPEC_COLOR` are global.

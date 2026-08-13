@@ -1,0 +1,1 @@
+{"contract":"MutationMatrix/v1","stack":"python","experimental":true,"mutations":[{"id":"remove-primary-assertion","patch":"python/remove-primary-assertion.patch"}]}

@@ -1,15 +1,31 @@
 # Multi-harness execution
 
-Multi-harness means one portable handoff, not a fleet scheduler.
+Multi-harness means one portable contract, not a fleet scheduler.
 
 ```bash
-taskspec handoff tasks/T-…-leaf.md --backend codex
-taskspec handoff tasks/T-…-leaf.md --backend claude
-taskspec handoff tasks/T-…-leaf.md --backend kimi
+taskspec handoff tasks/T-…-leaf.md --backend codex \
+  --out .taskspec/handoffs/codex-attempt.json
 ```
 
-`TaskHandoff/v1` carries the spec digest, verified sign-off tier, selected
-backend, workspace, write scope, budgets, normalized agent contract, eval
-command, and acceptance command. It never contains credentials and never starts
-a model. The receiver must reject nodes and respect a sealed specific backend;
-only `execution_backend: any` permits selection at handoff time.
+`TaskHandoff/v3` carries the task revision, HMAC authorization, UUID attempt,
+immutable Git base, dependency closure, selected backend, workspace, write
+scope, budgets, normalized agent contract, eval command, evidence requirements,
+and acceptance command. It contains no credentials or private evaluator
+instructions and never starts a model.
+
+Give that file to Codex, Claude Code, Kimi, Grok Build, or a conformant custom
+executor. A sealed specific `execution_backend` must match; only
+`execution_backend: any` permits selection when issuing the handoff.
+
+Each dispatch receives a fresh attempt ID by default. If you issue separate
+Codex and Claude attempts, their receipts and acceptance records cannot be
+reused across one another even though they share a task revision.
+
+```bash
+taskspec handoff tasks/T-…-leaf.md --backend codex --out codex.json
+taskspec handoff tasks/T-…-leaf.md --backend claude --out claude.json
+```
+
+Only one resulting attempt should be accepted. Task-Spec does not schedule,
+race, merge, or choose among those attempts; that orchestration belongs to a
+harness or Converge.

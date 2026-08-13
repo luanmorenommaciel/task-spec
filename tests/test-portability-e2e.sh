@@ -3,7 +3,7 @@
 #
 # Simulates a fresh-repo, fresh-author install + first-spec walkthrough in a
 # disposable tempdir. Exits 0 only if every step from install through
-# safe-to-delegate.sh --stamp produces the expected output.
+# `taskspec gate --stamp` produces the expected output.
 #
 # This is the contract for "scale anywhere by anyone": if this test exits 0,
 # any new author at any repo can follow runbooks/first-spec-walkthrough.md
@@ -162,7 +162,7 @@ if echo "$gen_out" | grep -q "task_spec_version: $EXPECTED_VERSION"; then
 else
   fail "generator did not stamp version $EXPECTED_VERSION"
 fi
-if echo "$gen_out" | grep -q 'Next: .*safe-to-delegate.sh --stamp'; then
+if echo "$gen_out" | grep -q 'Next: taskspec gate --stamp'; then
   pass "generator printed --stamp breadcrumb"
 else
   fail "generator missing --stamp breadcrumb"
@@ -218,7 +218,7 @@ signed_off_at: (none)
 
 # E2E portability test spec
 
-> **Why:** Exercises install → generate → validate → safe-to-delegate end-to-end in a fresh tempdir.
+> **Why:** Exercises install → generate → validate → taskspec gate end-to-end in a fresh tempdir.
 
 ## Goal
 Prove the skill is portable.
@@ -299,7 +299,7 @@ else
 fi
 
 echo ""
-echo "═══ Step 5: GATE (safe-to-delegate.sh --stamp) ═══"
+echo "═══ Step 5: GATE (taskspec gate --stamp) ═══"
 gate_out=$(bash "$SKILL_DIR/src/gate/safe-to-delegate.sh" --stamp --stamp-by "e2e-test" "$SPEC" 2>&1) || true
 if echo "$gate_out" | grep -q "VERDICT: DELEGATE"; then
   pass "gate reported DELEGATE"

@@ -9,7 +9,8 @@
 #
 # Exit codes:
 #   0 — Exit Check returned 0 (task evals pass)
-#   1 — Exit Check returned non-zero, file not found, or parsing error
+#   1 — Exit Check returned non-zero or the task contract cannot be evaluated
+#   2 — CLI usage (missing file, unknown option, or extra argument)
 
 set -euo pipefail
 
@@ -26,7 +27,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --ci) CI_MODE=true; shift ;;
     --help|-h)
-      echo "Usage: run-task-spec.sh [--ci] <path/to/T-*.md>"
+      echo "Usage: taskspec run [--ci] <path/to/T-*.md>"
       exit 0
       ;;
     --) shift; break ;;
@@ -35,9 +36,9 @@ while [[ $# -gt 0 ]]; do
         echo '{"eval":"_runner","status":"fail","message":"unknown option: '"$1"'"}'
       else
         echo "Unknown option: $1" >&2
-        echo "Usage: run-task-spec.sh [--ci] <path/to/T-*.md>" >&2
+        echo "Usage: taskspec run [--ci] <path/to/T-*.md>" >&2
       fi
-      exit 1
+      exit 2
       ;;
     *)
       if [[ -z "$FILE" ]]; then
@@ -46,9 +47,9 @@ while [[ $# -gt 0 ]]; do
         if [[ "$CI_MODE" == true ]]; then
           echo '{"eval":"_runner","status":"fail","message":"too many arguments"}'
         else
-          echo "Usage: run-task-spec.sh [--ci] <path/to/T-*.md>" >&2
+          echo "Usage: taskspec run [--ci] <path/to/T-*.md>" >&2
         fi
-        exit 1
+        exit 2
       fi
       shift ;;
   esac
@@ -58,9 +59,9 @@ if [[ -z "$FILE" ]]; then
   if [[ "$CI_MODE" == true ]]; then
     echo '{"eval":"_runner","status":"fail","message":"path required"}'
   else
-    echo "Usage: run-task-spec.sh [--ci] <path/to/T-*.md>" >&2
+    echo "Usage: taskspec run [--ci] <path/to/T-*.md>" >&2
   fi
-  exit 1
+  exit 2
 fi
 
 if [[ ! -f "$FILE" ]]; then
@@ -69,7 +70,7 @@ if [[ ! -f "$FILE" ]]; then
   else
     echo "FAIL: $FILE not found" >&2
   fi
-  exit 1
+  exit 2
 fi
 
 # Resolve git root

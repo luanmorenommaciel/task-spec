@@ -1,0 +1,1 @@
+{"contract":"MutationMatrix/v1","stack":"go","experimental":true,"mutations":[{"id":"remove-primary-assertion","patch":"go/remove-primary-assertion.patch"}]}

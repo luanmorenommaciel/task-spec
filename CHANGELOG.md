@@ -12,6 +12,73 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ---
 
+## [3.8.0] — 2026-08-13
+
+The **revision-bound trust, graph, recovery, and DX** release. Format v3 remains
+the authoring default, format v4 remains opt-in, and formats v1-v4 stay readable.
+
+### Security and acceptance
+
+- Added canonical `TaskRevision/v1` and `TaskAuthorization/v3`. The authority
+  manifest excludes only named mutable operational fields, so unknown future
+  fields are sealed by default. New stamps write `hmac-sha256-v3`; valid v1/v2
+  seals remain authentic-but-narrow Tier 2 evidence.
+- Added `TaskHandoff/v3`, UUID attempts, immutable base commits, dependency
+  closures, non-clobbering `--out`, and v1/v2 compatibility writers behind an
+  explicit flag.
+- Added `ReceiptSubject/v1`, v2 evaluation/environment/graded/human/engine
+  receipts, scoped `EvaluatorTrust/v1`, ordering/replay protection, and optional
+  Ed25519 receipt signing.
+- Hardened acceptance against committed, staged, unstaged, untracked, rebased,
+  traversal, `.git`, and symlink-escaped changes. Tier-2 acceptance now requires
+  explicit supervision flags.
+- Added atomic `AcceptanceRecord/v1`, complete acceptance envelopes, idempotent
+  attempts/metrics, crash recovery, and stable `AcceptanceFailure/v1` codes.
+- Acceptance retries now reject changes to acceptor, tier, receipt set,
+  supervision, or verifier identity. Status, backlog doctor, and transition-to-
+  done verify the record subject and envelope rather than trusting its hash alone.
+
+### Graph, recovery, and developer experience
+
+- Added one deterministic stdlib resolver for `TaskGraphView/v1`, dependency
+  closure, cycles, dangling edges, composition, supersession, write conflicts,
+  ready frontier, blocked reasons, and concurrency groups.
+- The resolver scans nested lifecycle buckets recursively. Leaf closures include
+  only transitive task dependencies and containing composition ancestors, while
+  handoff and acceptance reject conflicts with currently in-progress work.
+- Added `taskspec graph`, `taskspec status`, and `taskspec doctor --backlog`.
+  Markdown Task-Specs and Git remain canonical; graph and state are projections.
+- Made frontmatter mutations atomic under the portable mkdir lock, moved the
+  reference executor to lifecycle transition commands, enforced retry policy
+  within signed budgets, and added no-progress circuit breaking.
+- Deprecated advisory `blocks`; `depends_on` is authoritative. Explicit
+  `supersedes` never rewrites downstream dependencies automatically.
+- Added uniform per-command help, usage exit code 2, standard-library schema
+  reference/fixture checks, locked migration/archive/state rebuilds, authoring-
+  evidence age reporting, and integrity digests over optional A2A/MCP handoffs.
+- Added an explicit `install.sh --global` user-level door for equivalent Codex/
+  Kimi, Claude Code, and Grok Build skill copies plus the pinned CLI. The
+  compatibility agent and host guidance now describe the same 3.8 lifecycle as
+  the canonical skill, and the clean-room suite proves the global layout.
+
+### Experimental opt-in extensions
+
+- Added sealed authoring `evidence_refs` restricted to context/constraint/risk,
+  provider smoke graduation, holdout expiry/rotation metadata, repeated eval
+  audits, mutation-pack scaffolding, A2A v1.0 negotiation, and DSSE export for
+  v2 receipts. These remain optional and do not authorize or accept work.
+- Added validated experimental mutation manifest shapes for Python, JavaScript,
+  Go, and Bash; repository-specific patches remain opt-in falsifiers.
+
+### Compatibility and boundaries
+
+- No format-v5 bump. MCP/A2A/DSSE remain optional adapters, not normative core
+  dependencies. No scheduler, fleet, hosted dispatcher, silent replanner, or
+  canonical graph database was added.
+- The new adversarial suite covers downgrade, authority deletion, unknown-field
+  expansion, replay, stale receipts, committed scope breaches, symlink escape,
+  history divergence, closure drift, and interrupted acceptance recovery.
+
 ## [3.7.0] — 2026-08-12
 
 The **evidence, integrity, and portability** release. Existing format-v3 tasks

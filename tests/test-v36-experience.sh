@@ -25,6 +25,23 @@ if TASKSPEC_INSTALL_ROOT="$INSTALL_ROOT" bash "$ROOT/install.sh" --target "$TARG
 if [[ "$(shasum -a 256 "$TARGET/.agents/skills/task-spec/SKILL.md" | awk '{print $1}')" == "$(shasum -a 256 "$TARGET/.claude/skills/task-spec/SKILL.md" | awk '{print $1}')" \
    && "$(shasum -a 256 "$TARGET/.agents/skills/task-spec/SKILL.md" | awk '{print $1}')" == "$(shasum -a 256 "$TARGET/.grok/skills/task-spec/SKILL.md" | awk '{print $1}')" ]]; then pass "equivalent harness skills"; else fail "equivalent harness skills"; fi
 
+GLOBAL_HOME="$WORK/global-home"
+GLOBAL_ROOT="$WORK/global-root"
+mkdir -p "$GLOBAL_HOME" "$GLOBAL_ROOT"
+if HOME="$GLOBAL_HOME" TASKSPEC_INSTALL_ROOT="$GLOBAL_ROOT" bash "$ROOT/install.sh" --global --copy >"$WORK/global.out" 2>&1 \
+  && grep -q '^INSTALL=OK$' "$WORK/global.out" \
+  && [[ -f "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" ]] \
+  && [[ -f "$GLOBAL_HOME/.claude/skills/task-spec/SKILL.md" ]] \
+  && [[ -f "$GLOBAL_HOME/.grok/skills/task-spec/SKILL.md" ]] \
+  && [[ -f "$GLOBAL_HOME/.claude/agents/task-architect.md" ]] \
+  && [[ "$("$GLOBAL_HOME/.local/bin/taskspec" version)" == "3.8.0" ]] \
+  && cmp -s "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" "$GLOBAL_HOME/.claude/skills/task-spec/SKILL.md" \
+  && cmp -s "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" "$GLOBAL_HOME/.grok/skills/task-spec/SKILL.md"; then
+  pass "global user install"
+else
+  fail "global user install"
+fi
+
 SYMLINK_TARGET="$WORK/symlink-project"
 SYMLINK_ROOT="$WORK/symlink-root"
 SYMLINK_BIN="$WORK/symlink-bin"
@@ -34,7 +51,7 @@ if TASKSPEC_INSTALL_ROOT="$SYMLINK_ROOT" bash "$ROOT/install.sh" --target "$SYML
   && [[ -L "$SYMLINK_TARGET/.claude/skills/task-spec" ]] \
   && [[ -L "$SYMLINK_TARGET/.grok/skills/task-spec" ]] \
   && [[ -L "$SYMLINK_TARGET/.claude/agents/task-architect.md" ]] \
-  && [[ "$($SYMLINK_BIN/taskspec version)" == "3.7.0" ]]; then
+  && [[ "$($SYMLINK_BIN/taskspec version)" == "3.8.0" ]]; then
   pass "checkout symlink install"
 else
   fail "checkout symlink install"
@@ -76,17 +93,35 @@ printf '%s\n' '#!/usr/bin/env sh' '# task-spec launcher v3.6.0' 'exit 91' > "$BI
 chmod +x "$BIN_DIR/taskspec"
 if TASKSPEC_INSTALL_ROOT="$INSTALL_ROOT" bash "$ROOT/install.sh" --target "$TARGET" --copy --bin-dir "$BIN_DIR" >"$WORK/launcher-upgrade.out" 2>&1 \
   && grep -q '^updated: CLI launcher ' "$WORK/launcher-upgrade.out" \
-  && [[ "$("$BIN_DIR/taskspec" version)" == "3.7.0" ]]; then
+  && [[ "$("$BIN_DIR/taskspec" version)" == "3.8.0" ]]; then
   pass "managed launcher upgrades safely"
 else
   fail "managed launcher upgrade"
 fi
 
 TS="$BIN_DIR/taskspec"
-check "installed version" bash -c "[[ \"\$('$TS' version)\" == 3.7.0 ]]"
+check "installed version" bash -c "[[ \"\$('$TS' version)\" == 3.8.0 ]]"
 check "installed isolated demo" bash -c "'$TS' demo | grep -q '^DEMO=READY$'"
 check "agent context JSON" bash -c "'$TS' agent-context | python3 -m json.tool"
+check "agent context covers the complete public command and schema surfaces" bash -c "'$TS' agent-context | python3 -c 'import json,sys; d=json.load(sys.stdin); commands=set(d[\"commands\"]); required=set(\"init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help\".split()); assert required <= commands and d[\"default_format_version\"] == 3; assert len(d[\"contracts\"]) == 25'"
+if grep -q 'TaskHandoff/v3' "$ROOT/agents/task-architect.md" \
+  && grep -q 'taskspec plan --manifest' "$ROOT/integrations/codex/AGENTS.md" \
+  && grep -q 'AcceptanceRecord/v1' "$ROOT/integrations/codex/AGENTS.md" \
+  && grep -q 'taskspec handoff' "$ROOT/integrations/claude-code/SKILL.md" \
+  && grep -q 'TaskHandoff/v3' "$ROOT/integrations/claude-code/SKILL.md" \
+  && ! grep -q '3.6 contract' "$ROOT/agents/task-architect.md" \
+  && ! grep -q 'Canonical Task-Spec 3.6' "$ROOT/.claude-plugin/marketplace.json"; then
+  pass "agent guidance surfaces share the 3.8 lifecycle"
+else
+  fail "agent guidance lifecycle alignment"
+fi
 check "global JSON envelope" bash -c "'$TS' --json help | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d[\"ok\"] and d[\"command\"] == \"help\"'"
+for command in init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt dsse eval-audit identity evidence bridge mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help; do
+  check "per-command help $command" "$TS" help "$command"
+done
+for command in "status" "transition" "migrate" "executor" "run"; do
+  check "usage exit 2: $command" bash -c "set +e; '$TS' $command >/dev/null 2>&1; rc=\$?; set -e; test \$rc -eq 2"
+done
 for shell_name in bash zsh fish; do check "completion $shell_name" bash -c "test -n \"\$('$TS' completion '$shell_name')\""; done
 
 echo "== clean-room journey =="
@@ -97,8 +132,10 @@ set +e
 (
   cd "$TARGET"
   "$TS" init
+  "$TS" setup
   "$TS" setup signing
   "$TS" setup signing
+  "$TS" doctor
   mkdir -p tasks/.plans src
   cat > tasks/.plans/marker.yaml <<'PLAN'
 api_version: taskspec.dev/v1
@@ -139,22 +176,39 @@ units:
 PLAN
   "$TS" plan --manifest tasks/.plans/marker.yaml
   "$TS" batch --plan tasks/.plans/marker.yaml
+  "$TS" author-doctor tasks/T-20260811-write-marker.md
   "$TS" validate tasks/T-20260811-write-marker.md
   "$TS" dod tasks/T-20260811-write-marker.md
+  "$TS" ready --all
+  "$TS" graph --check
   "$TS" gate --stamp tasks/T-20260811-write-marker.md
   git add .
   git commit -qm "sealed clean-room task"
-  "$TS" handoff tasks/T-20260811-write-marker.md --backend codex > "$WORK/handoff.json"
-  python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert d["contract"] == "TaskHandoff/v1" and d["signoff_tier"] == 1' "$WORK/handoff.json"
+  "$TS" status T-20260811-write-marker
+  "$TS" doctor --backlog
+  "$TS" handoff tasks/T-20260811-write-marker.md --backend codex --out "$WORK/handoff.json"
+  python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert d["contract"] == "TaskHandoff/v3" and d["signoff_tier"] == 1 and d["attempt"]["id"]' "$WORK/handoff.json"
   printf 'done\n' > src/marker.txt
   "$TS" run tasks/T-20260811-write-marker.md
-  "$TS" accept --stamp tasks/T-20260811-write-marker.md
+  "$TS" accept --stamp --gold-sanity --handoff "$WORK/handoff.json" tasks/T-20260811-write-marker.md
   "$TS" transition T-20260811-write-marker done
   "$TS" validate tasks/done/T-20260811-write-marker.md
+  "$TS" status T-20260811-write-marker
 ) >"$WORK/journey.out" 2>&1
 journey_rc=$?
 set -e
 if [[ "$journey_rc" -eq 0 ]] && grep -q 'ACCEPTED=1' "$WORK/journey.out" && grep -q 'DOD=COMPLETE' "$WORK/journey.out"; then pass "install-to-accept clean room"; else fail "install-to-accept clean room"; tail -30 "$WORK/journey.out" >&2; fi
+
+README_NEW="$WORK/readme-new"
+mkdir -p "$README_NEW"
+git -C "$README_NEW" init -q
+if (cd "$README_NEW" && "$TS" new add-search S codex >/dev/null && "$TS" new --format 4 benchmark-search S codex >/dev/null) \
+  && grep -q '^format_version: 3$' "$README_NEW"/tasks/T-*-add-search.md \
+  && grep -q '^format_version: 4$' "$README_NEW"/tasks/T-*-benchmark-search.md; then
+  pass "README v3 and opt-in v4 scaffold commands"
+else
+  fail "README scaffold commands"
+fi
 
 cat > "$WORK/invalid-plan.json" <<'PLAN'
 {
@@ -226,6 +280,34 @@ check "checked-in evidence example" python3 "$ROOT/integrations/research/validat
 check "checked-in handoff example" python3 -m json.tool "$ROOT/docs/examples/task-handoff.json"
 check "README release status is generated from evidence" python3 "$ROOT/tools/render-status.py" --check "$ROOT/README.md"
 
+echo "== checksum-backed release archive =="
+DIST="$WORK/dist"
+python3 "$ROOT/tools/build-release-archive.py" --out-dir "$DIST" --include-worktree >"$WORK/archive.out"
+REMOTE_TARGET="$WORK/remote-project"; REMOTE_ROOT="$WORK/remote-root"; REMOTE_BIN="$WORK/remote-bin"
+mkdir -p "$REMOTE_TARGET" "$REMOTE_ROOT" "$REMOTE_BIN"
+cp "$ROOT/install.sh" "$WORK/remote-install.sh"
+if TASKSPEC_RELEASE_BASE_URL="file://$DIST" TASKSPEC_INSTALL_ROOT="$REMOTE_ROOT" \
+  bash "$WORK/remote-install.sh" --target "$REMOTE_TARGET" --bin-dir "$REMOTE_BIN" >"$WORK/remote.out" 2>&1 \
+  && grep -q '^verified: release archive sha256:' "$WORK/remote.out" \
+  && grep -q '^INSTALL=OK$' "$WORK/remote.out"; then
+  pass "checksum-backed remote install"
+else
+  fail "checksum-backed remote install"
+fi
+cp "$DIST/task-spec-3.8.0.tar.gz" "$WORK/tampered.tar.gz"
+printf 'tamper' >> "$DIST/task-spec-3.8.0.tar.gz"
+set +e
+TASKSPEC_RELEASE_BASE_URL="file://$DIST" TASKSPEC_INSTALL_ROOT="$WORK/tampered-root" \
+  bash "$WORK/remote-install.sh" --target "$REMOTE_TARGET" --no-bin >"$WORK/tampered.out" 2>&1
+tampered_rc=$?
+set -e
+if [[ $tampered_rc -ne 0 ]] && grep -q 'checksum mismatch' "$WORK/tampered.out"; then
+  pass "tampered release archive fails closed"
+else
+  fail "tampered release archive fails closed"
+fi
+mv "$WORK/tampered.tar.gz" "$DIST/task-spec-3.8.0.tar.gz"
+
 echo "== package =="
 if command -v npm >/dev/null 2>&1 && (cd "$ROOT" && npm pack --dry-run --json > "$WORK/npm-pack.json") \
   && python3 -c 'import json; d=json.load(open("'"$WORK/npm-pack.json"'")); assert d[0]["name"] == "@luanmorenommaciel/task-spec"'; then
@@ -238,7 +320,7 @@ NPM_INSTALL_ROOT="$WORK/npm-install-root"
 mkdir -p "$NPM_TARGET" "$NPM_INSTALL_ROOT"
 if command -v npm >/dev/null 2>&1 \
   && npm install --global --prefix "$WORK/npm-prefix" "$ROOT" >/dev/null 2>&1 \
-  && [[ "$("$WORK/npm-prefix/bin/taskspec" version)" == "3.7.0" ]] \
+  && [[ "$("$WORK/npm-prefix/bin/taskspec" version)" == "3.8.0" ]] \
   && [[ -x "$WORK/npm-prefix/bin/taskspec-install" ]] \
   && TASKSPEC_INSTALL_ROOT="$NPM_INSTALL_ROOT" "$WORK/npm-prefix/bin/taskspec-install" --target "$NPM_TARGET" --no-bin >"$WORK/npm-install.out" 2>&1 \
   && grep -q '^INSTALL=OK$' "$WORK/npm-install.out" \
@@ -250,4 +332,7 @@ fi
 
 echo
 echo "Results: $PASS passed, $FAIL failed"
+if [[ "$FAIL" -eq 0 ]]; then
+  echo "INSTALL=OK"
+fi
 [[ "$FAIL" -eq 0 ]]

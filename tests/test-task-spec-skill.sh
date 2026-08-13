@@ -234,19 +234,6 @@ trap 'rm -rf "$TMPDIR"' EXIT
 cd "$TMPDIR"
 git init --quiet
 
-# macOS lacks flock(1); provide a minimal shim for isolated, single-threaded
-# tests. Safe because no concurrent processes access the lock.
-if ! command -v flock >/dev/null 2>&1; then
-  mkdir -p "$TMPDIR/bin"
-  cat > "$TMPDIR/bin/flock" <<'FLOCKSHIM'
-#!/usr/bin/env bash
-# Minimal flock shim for isolated test environments.
-exit 0
-FLOCKSHIM
-  chmod +x "$TMPDIR/bin/flock"
-  export PATH="$TMPDIR/bin:$PATH"
-fi
-
 # Dummy file for touches_paths validation
 mkdir -p tasks
 touch tasks/dummy.txt
@@ -483,7 +470,7 @@ fi
 
 # Produce the declared work, then independently accept it.
 printf 'complete\n' > tasks/dummy.txt
-accept_out=$(bash "$SRC_ACCEPT/accept-task.sh" --stamp --no-blast-radius --accepted-by self-test "$TARGET" 2>&1) && accept_rc=0 || accept_rc=$?
+accept_out=$(bash "$SRC_ACCEPT/accept-task.sh" --stamp --no-blast-radius --allow-tier2 --supervised-by self-test --reason "legacy fixture has no handoff" --accepted-by self-test "$TARGET" 2>&1) && accept_rc=0 || accept_rc=$?
 if [[ $accept_rc -eq 0 ]] && echo "$accept_out" | grep -q 'ACCEPTED=1'; then
   pass "post-gate accepts and stamps the completed task"
 else
@@ -540,6 +527,12 @@ if grep -A5 "id: ${ID}" "tasks/_state.yaml" | grep -q "status: done"; then
   pass "_state.yaml reflects done status"
 else
   fail "_state.yaml does not reflect done status"
+fi
+cp tasks/_state.yaml "$TMPDIR/state-first.yaml"
+if bash "$SRC_BACKLOG/rebuild-state.sh" >/dev/null 2>&1 && cmp -s "$TMPDIR/state-first.yaml" tasks/_state.yaml; then
+  pass "rebuild-state is byte-deterministic"
+else
+  fail "rebuild-state changed bytes without canonical task changes"
 fi
 
 # ---------------------------------------------------------------------------

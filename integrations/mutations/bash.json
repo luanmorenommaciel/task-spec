@@ -1,0 +1,1 @@
+{"contract":"MutationMatrix/v1","stack":"bash","experimental":true,"mutations":[{"id":"bypass-terminal-check","patch":"bash/bypass-terminal-check.patch"}]}

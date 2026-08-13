@@ -1,6 +1,4 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://taskspec.dev/schema/v4/human-acceptance-receipt.schema.json",
-  "title": "HumanAcceptanceReceipt v1", "type": "object", "additionalProperties": false,
-  "required": ["contract", "task_id", "authorization_ref", "owner", "accepted_by", "accepted_at", "decision"],
-  "properties": {"contract": {"const": "HumanAcceptanceReceipt/v1"}, "task_id": {"type": "string"}, "authorization_ref": {"type": "string"}, "owner": {"type": "string"}, "accepted_by": {"type": "string"}, "accepted_at": {"type": "string"}, "decision": {"enum": ["accept", "reject"]}}
-}
+{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://taskspec.dev/schema/human-acceptance-receipt.schema.json","title":"HumanAcceptanceReceipt v1-v2","oneOf":[
+{"type":"object","additionalProperties":false,"required":["contract","task_id","authorization_ref","owner","accepted_by","accepted_at","decision"],"properties":{"contract":{"const":"HumanAcceptanceReceipt/v1"},"task_id":{"type":"string"},"authorization_ref":{"type":"string"},"owner":{"type":"string"},"accepted_by":{"type":"string"},"accepted_at":{"type":"string"},"decision":{"enum":["accept","reject"]}}},
+{"type":"object","additionalProperties":false,"required":["contract","subject","observed_at","owner","accepted_by","decision"],"properties":{"contract":{"const":"HumanAcceptanceReceipt/v2"},"subject":{"$ref":"receipt-subject.schema.json"},"observed_at":{"type":"string"},"owner":{"type":"string"},"accepted_by":{"type":"string"},"decision":{"enum":["accept","reject"]},"signature":{"type":"object"}}}
+]}

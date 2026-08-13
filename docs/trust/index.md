@@ -1,23 +1,32 @@
 # Trust and operational boundaries
 
-Task-Spec narrows trust; it does not eliminate it.
+Task-Spec assumes the executor may be hostile and may write or commit inside the
+repository. Author and evaluator private keys must remain outside the executor
+environment. Markdown Task-Specs and Git history are authoritative; indexes,
+graphs, records catalogs, and metrics are rebuildable projections.
 
 | Mechanism | Proves | Does not prove |
 |---|---|---|
-| HMAC v2 | A holder of the shared repository key sealed this exact body and authorization envelope | Per-author identity, non-repudiation, secret safety, or sandboxing |
-| PRE-gate | Structural validity, shell quality, non-trivial eval behavior, and seal tier | That future implementation is correct |
-| POST-gate v3 | Current eval pass, declared blast radius, and unchanged seal | Deployment, production health, independent external receipt, or semantic perfection |
-| POST-gate v4 | The v3 gates plus every policy-required receipt match the sealed task | That any evaluator or environment claim is globally complete |
-| Gold sanity / eval audit | Evals fail on selected baseline/mutations and pass now | Completeness against every possible fault |
-| Ed25519 identity receipt | A matching non-revoked public key signed the HMAC authorization reference | That the signer was authorized by an external organization |
-| Environment receipt | A named provider asserted it enforced a contract digest | A production sandbox unless that provider actually supplies one |
-| Conformance | Adapter behavior against published fixtures | Operational reliability or fleet autonomy |
+| HMAC v3 | A repository-key holder sealed one exact `TaskRevision/v1` | Human identity, non-repudiation, key secrecy, or isolation |
+| PRE-gate | Structure, eval-shell quality, graph readiness, and authorization tier | That future work is correct |
+| TaskHandoff/v3 | One revision was issued as one attempt from one Git base and dependency closure | That an executor ran or obeyed it |
+| POST-gate | Evals, Git/worktree blast radius, revision, closure, and configured evidence passed | Deployment, production health, or perfect semantics |
+| v2 receipt | One named surface reported an observation for one exact subject | That the evaluator is wise, complete, or honest |
+| Ed25519 evaluator signature | Receipt bytes came from a key trusted for that receipt class | Organizational authority or semantic truth |
+| Environment receipt | A named external provider reported enforcement for this attempt | A sandbox merely because JSON exists |
+| AcceptanceRecord/v1 | The accepted attempt, gates, tier, and receipt digests were durably recorded | Production success beyond the configured contract |
+| Conformance L0–L2 | An adapter honors the tested format and lifecycle behavior | Fleet reliability, hosted service quality, or certification |
 
-Existence-only evals are rejected for blind delegation unless supervised or
-explicitly annotated. Valid HMAC v1 remains authentic on its narrower historical
-payload but is downgraded to Tier 2 until re-stamped with v2.
+Existence-only evals are blocked for blind delegation unless explicitly
+supervised or annotated. HMAC v1/v2 and receipt v1 remain compatibility inputs,
+but are Tier 2. Skipping the blast-radius gate or accepting without a verifiable
+key also forces Tier 2 and requires explicit supervisor identity and reason.
 
-For high consequence work, format v4 can require private holdouts, an external
-sandbox receipt, durable graded evidence, and accountable human authorization.
-The actual sandbox, evaluator quality, and organizational authority remain
-outside this repository and must be independently governed.
+Research evidence may inform context, constraints, and risks. It cannot
+authorize work or satisfy acceptance. DSSE proves signed bytes, not truth.
+A2A and MCP are optional transports, not normative trust dependencies.
+
+Read the full [threat model](threat-model.md),
+[authorization contract](../concepts/signed-off.md), and
+[acceptance contracts](../reference/acceptance-contracts.md) before granting
+unsupervised Tier 1.

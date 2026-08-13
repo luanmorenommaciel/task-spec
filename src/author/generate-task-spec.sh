@@ -70,7 +70,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     -*)
       echo "Unknown option: $1" >&2
-      echo "Usage: generate-task-spec.sh [--status=ready|blocked] [--queue] <slug> <effort> [agent] [source_note]" >&2
+      echo "Usage: taskspec new [--status=ready|blocked] [--queue] <slug> <effort> [agent] [source_note]" >&2
       exit 1
       ;;
     *)
@@ -81,7 +81,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ ${#ARGS[@]} -lt 2 ]]; then
-  echo "Usage: generate-task-spec.sh [--status=ready|blocked] [--queue] <slug> <effort> [agent] [source_note]" >&2
+  echo "Usage: taskspec new [--status=ready|blocked] [--queue] <slug> <effort> [agent] [source_note]" >&2
   exit 1
 fi
 
@@ -217,9 +217,9 @@ echo "       || echo 0); [ \"\$count\" -eq 0 ]')"
 echo "     - anti-patterns + do-not-touch"
 echo ""
 echo "  2. VALIDATE (pre-gate structural linter — does NOT stamp signed_off):"
-echo "     bash $SKILL_DIR/src/gate/validate-task-spec.sh $TARGET"
+echo "     taskspec validate $TARGET"
 echo ""
-echo "Next: bash $SKILL_DIR/src/gate/safe-to-delegate.sh --stamp $TARGET"
+echo "Next: taskspec gate --stamp $TARGET"
 echo ""
 echo "     The gate is THE only path to signed_off:true. Hand-stamping the"
 echo "     signed_off field is rejected by the structural sign-off envelope check."
