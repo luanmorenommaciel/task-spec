@@ -10,8 +10,8 @@ agent: codex
 parent: (none)
 depends_on: [T-20260815-installed-example-and-docs, T-20260815-real-engine-benchmark, T-20260815-signed-sandbox-attestation]
 supersedes: (none)
-touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh]
-creates_paths: [release/3.8.1/checksums.txt, release/3.8.1/release-report.json, tests/test-release-packaging.sh]
+touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh, README.md, SKILL.md, spec/task-spec-v3.md, spec/task-spec-v4.md, .claude-plugin, integrations/claude-code, .github/workflows, tools/build-release-archive.py, release/evidence.json, release/3.8.1, release/docker, tests/test-v36-experience.sh, tests/fixtures/task-materialization-receipt.json]
+creates_paths: [release/3.8.1/checksums.txt, release/3.8.1/release-report.json, release/3.8.1/local-gates.json, release/3.8.1/install-matrix.json, release/3.8.1/sbom.spdx.json, tools/build-sbom.py, tools/build-release-evidence-archive.py, tests/test-release-packaging.sh]
 source_note: "user-approved release train"
 created: "2026-08-15T00:00:00Z"
 tags: []
@@ -27,11 +27,11 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-15T17:57:16Z
+signed_off_at: 2026-08-15T19:50:58Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:b812ff8076ced1d963548ce0c8724bc72ef732292e02c5571807cd45288890bf
+signed_off_sig: hmac-sha256-v3:e2e418a3:5543ea85164c79e2471176c640dc0310abd7f48dd66a3e7e25dba3980b8a90b3
 ---
 
 # Package, attest, publish, and synchronize Task-Spec 3.8.1

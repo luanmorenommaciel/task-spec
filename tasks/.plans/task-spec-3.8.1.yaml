@@ -232,8 +232,8 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: [T-20260815-installed-example-and-docs, T-20260815-real-engine-benchmark, T-20260815-signed-sandbox-attestation]
-    touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh]
-    creates_paths: [release/3.8.1/checksums.txt, release/3.8.1/release-report.json, tests/test-release-packaging.sh]
+    touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh, README.md, SKILL.md, spec/task-spec-v3.md, spec/task-spec-v4.md, .claude-plugin, integrations/claude-code, .github/workflows, tools/build-release-archive.py, release/evidence.json, release/3.8.1, release/docker, tests/test-v36-experience.sh, tests/fixtures/task-materialization-receipt.json]
+    creates_paths: [release/3.8.1/checksums.txt, release/3.8.1/release-report.json, release/3.8.1/local-gates.json, release/3.8.1/install-matrix.json, release/3.8.1/sbom.spdx.json, tools/build-sbom.py, tools/build-release-evidence-archive.py, tests/test-release-packaging.sh]
     source_note: user-approved release train
     why: The evidence-backed release must be installable, attestable, hosted, and synchronized without weakening truth boundaries.
     goal: Produce the final 3.8.1 artifacts, pass hosted and remote gates, publish the tag, and update Converge from the immutable export.
