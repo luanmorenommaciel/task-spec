@@ -1,7 +1,7 @@
 ---
 id: T-20260815-quality-release-audit
 title: "Generate the evidence-backed quality score and release audit"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-15T18:11:05Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-15T18:22:14Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:2153981f99ee9838dfddbede141641ab7e1d42c641349fbfc691973ba721ff4b
+accepted_tier: 1
+accepted_attempt_id: 288ab899-242f-44e0-a1fd-47605439507c
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:2153981f99ee9838dfddbede141641ab7e1d42c641349fbfc691973ba721ff4b
+acceptance_record_digest: sha256:716e36fa18d46ec1bbc5f8bef544e9eb393cb0637f9d6e686950da9bc6285544
 ---
 
 # Generate the evidence-backed quality score and release audit

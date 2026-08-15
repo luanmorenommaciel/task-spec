@@ -467,18 +467,23 @@ machine-readable command and token contract.
 <!-- release-status:start -->
 | Surface | Repository evidence | Status |
 |---|---|---|
-| Engine | Bash 3.2 portability, schemas, formats v1-v4, HMAC v1/v2/v3, TaskRevision, graph, DoD, conformance | Pass — `make check` → `CHECK=READY` |
-| Trust hardening | Downgrade, receipt replay/staleness, committed scope, symlink escape, base divergence, closure drift, and crash recovery | Evidence 45/45_local |
-| v4 evidence | Policy validation, hidden holdout, v2 receipt subjects/signatures, mutation audit, identity/revocation, A2A/MCP round trip | Evidence suite 42/42_local |
-| Experience | Global/copy/symlink installs, isolated demo, and init → sign → plan → generate → gate → handoff → execute → accept | Pass; experience suite 79/79_local |
-| Package | `npm pack --dry-run` and local global npm install | Pass; GitHub install pending release tag |
-| Research | Offline fake Firecrawl/Tavily/Exa adapters and named failure states | Pass; live providers not advertised |
-| Converge consumption | Deterministic generated mirror plus per-file SHA-256 lock | Not updated |
-| External engines | Nine-family matrix contract and honest unavailable state | Not run; no real-engine result claimed |
-| Publication | Canonical source commit, main branch, v3.8.0 tag, and remote curl/npm doors | Published on main; tag-dependent installs pending v3.8.0 release tag |
+| Evidence-derived score | Only digest-matching retained artifacts earn points | **14/100**; target 97; release gate blocked |
+| Contract and trust | Revision-bound authorization, compatibility, and the explicit HMAC boundary | 6/25 |
+| Lifecycle and recovery | Nested workspaces, graph recovery, atomic acceptance, and replay resistance | 8/25 |
+| Documentation and DX | Installed reviewer route, executable docs, and generated status | 0/20 |
+| Harness and packaging | All installation doors plus frozen Codex and Claude execution | 0/10 |
+| Standards interoperability | Pinned official A2A and MCP SDK conformance | 0/10 |
+| Public and external proof | Hosted CI, published provenance, and externally signed sandbox evidence | 0/10 |
+| Publication | Task-Spec 3.8.1 at `caf63bf7ac07` | Working release |
+| Deliberately unclaimed | Semantic truth, ecosystem-wide certification, and long-running production reliability | 3 points remain unavailable by design |
 <!-- release-status:end -->
 
-The canonical status source is [release/evidence.json](release/evidence.json).
+The canonical status sources are the fixed
+[quality rubric](release/quality-rubric.json), retained
+[release evidence](release/evidence.json), and generated
+[scorecard](release/3.8.1/scorecard.json). Missing, pending, unavailable, or
+digest-mismatched proof earns zero. `make release-audit` recalculates the score
+and fails until every blocking criterion is supported and the total reaches 97.
 `make check` is the single local and normal-CI boundary. It ends with
 `CHECK=READY` only when doctor, documentation lint, every self-test, the
 isolated demo, and conformance are green.

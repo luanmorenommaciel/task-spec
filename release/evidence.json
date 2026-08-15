@@ -1,47 +1,134 @@
 {
-  "contract": "TaskSpecReleaseEvidence/v1",
-  "version": "3.8.0",
+  "contract": "TaskSpecReleaseEvidence/v2",
+  "version": "3.8.1",
   "format_version": 4,
-  "compatible_format_versions": [1, 2, 3, 4],
-  "donor": {
-    "repository": "converge",
-    "commit": "f78f077"
+  "compatible_format_versions": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "generated_at": "2026-08-15T18:15:00Z",
+  "source": {
+    "commit": "caf63bf7ac0779d2a262f1ad25ee8ffcf70cdc75",
+    "branch": "codex/taskspec-3.8.1"
   },
-  "source_commit": "3a4c03a01ed2d879d709170c422f08499c2beb65",
-  "release_status": "published_main",
+  "release_status": "working",
+  "quality_scorecard": {
+    "path": "release/3.8.1/scorecard.json",
+    "digest": "sha256:7706b4a873593ae3ee1f3a580db133415b7861a79755922611776fed2962abf0"
+  },
   "gates": {
-    "make_check": "pass",
-    "hosted_ci": "not_run_billing_or_spending_limit",
-    "hosted_ci_run": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31733425728",
-    "isolated_demo": "pass",
-    "v37_evidence_suite": "42/42_local",
-    "v38_adversarial_suite": "45/45_local",
-    "schema_contracts": "25_schemas_10_fixtures_local",
-    "readme_visual": "pass_desktop_mobile_2_mermaid_0_broken",
-    "conformance": "reference_L2_local",
-    "clean_room": "pass",
-    "experience_suite": "79/79_local",
-    "checkout_copy_install": "pass",
-    "checkout_symlink_install": "pass",
-    "npm_pack_dry_run": "pass",
-    "npm_local_install": "pass",
-    "release_install_workflow": "implemented_not_run",
-    "curl_pinned_install": "pending_v3.8.0_release_tag",
-    "npm_github_install": "pending_release_tag",
-    "research_fake_adapters": "pass",
-    "converge_mirror": "not_updated",
-    "real_engine_matrix": "not_run",
-    "signed_environment_receipt": "not_run",
-    "a2a_1_0_roundtrip": "pass",
-    "dsse_roundtrip": "pass",
-    "mcp_refresh": "deferred_spec_not_final"
+    "authority_contracts": {
+      "state": "pending",
+      "evidence": null,
+      "reason": "The final 3.8.1 local gate has not run against the release commit."
+    },
+    "compatibility_contracts": {
+      "state": "pass",
+      "evidence": {
+        "path": ".taskspec/acceptance/T-20260815-release-evidence-contracts/e3c2d208-284e-43ff-866c-d85a819cb30a.json",
+        "digest": "sha256:eed94c0611421b6c04a4ab96a49973febf4888ccc387632943b00dea26faa201"
+      },
+      "reason": "The typed release contracts task passed its deterministic schema suite and was Tier-1 accepted."
+    },
+    "honest_hmac_boundary": {
+      "state": "pending",
+      "evidence": null,
+      "reason": "The final documentation-claim reconciliation has not run."
+    },
+    "semantic_truth": {
+      "state": "unavailable",
+      "evidence": null,
+      "reason": "Intentionally unclaimed: HMAC and runnable evals cannot prove universal semantic truth."
+    },
+    "nested_workspace": {
+      "state": "pass",
+      "evidence": {
+        "path": ".taskspec/acceptance/T-20260815-nested-workspace-hardening/f094fb99-3ece-4ea2-a837-eba700ef9f99.json",
+        "digest": "sha256:d40b07112224a3ebbb0ff9dedd4705e8e716fea983edaec609a1c5232c3b8dfa"
+      },
+      "reason": "Nested workspace hardening passed its adversarial suite and was Tier-1 accepted."
+    },
+    "graph_recovery": {
+      "state": "pending",
+      "evidence": null,
+      "reason": "The final graph and crash-recovery evidence bundle has not been generated."
+    },
+    "atomic_acceptance": {
+      "state": "pending",
+      "evidence": null,
+      "reason": "The final attempt-replay and crash-fault evidence bundle has not been generated."
+    },
+    "reviewer_journey": {
+      "state": "not_run",
+      "evidence": null,
+      "reason": "The installed reviewer journey is a later authorized leaf."
+    },
+    "documentation_contract": {
+      "state": "pending",
+      "evidence": null,
+      "reason": "The final README command and visual review has not run."
+    },
+    "generated_status": {
+      "state": "pending",
+      "evidence": null,
+      "reason": "The generated status task is in progress."
+    },
+    "installation_matrix": {
+      "state": "pending",
+      "evidence": null,
+      "reason": "Local and remote installation evidence must be regenerated for 3.8.1."
+    },
+    "real_engine_matrix": {
+      "state": "not_run",
+      "evidence": null,
+      "reason": "Frozen Codex and Claude attempts have not run."
+    },
+    "a2a_official": {
+      "state": "not_run",
+      "evidence": null,
+      "reason": "Official A2A SDK conformance is a later authorized leaf."
+    },
+    "mcp_official": {
+      "state": "not_run",
+      "evidence": null,
+      "reason": "Official MCP SDK conformance is a later authorized leaf."
+    },
+    "ecosystem_certification": {
+      "state": "unavailable",
+      "evidence": null,
+      "reason": "Intentionally unclaimed: pinned SDK conformance is not ecosystem-wide certification."
+    },
+    "hosted_ci": {
+      "state": "unavailable",
+      "evidence": null,
+      "reason": "The last hosted attempt started zero steps because GitHub Actions billing or spending limits require external resolution."
+    },
+    "published_provenance": {
+      "state": "not_run",
+      "evidence": null,
+      "reason": "No 3.8.1 RC, final tag, SBOM, checksum archive, or provenance attestation exists yet."
+    },
+    "signed_sandbox": {
+      "state": "not_run",
+      "evidence": null,
+      "reason": "The externally signed Docker attestation has not run."
+    },
+    "production_reliability": {
+      "state": "unavailable",
+      "evidence": null,
+      "reason": "Intentionally unclaimed: a synthetic release benchmark is not long-running production reliability."
+    }
   },
-  "boundaries": {
-    "live_research_providers": "not_advertised",
-    "hosted_service": "not_provided",
-    "fleet_scheduler": "not_provided",
-    "production_evidence": "not_claimed",
-    "environment_enforcement": "contract_only_requires_external_enforcer",
-    "a2a_mcp_certification": "not_claimed"
-  }
+  "artifacts": [
+    {
+      "path": ".taskspec/acceptance/T-20260815-release-evidence-contracts/e3c2d208-284e-43ff-866c-d85a819cb30a.json",
+      "digest": "sha256:eed94c0611421b6c04a4ab96a49973febf4888ccc387632943b00dea26faa201"
+    },
+    {
+      "path": ".taskspec/acceptance/T-20260815-nested-workspace-hardening/f094fb99-3ece-4ea2-a837-eba700ef9f99.json",
+      "digest": "sha256:d40b07112224a3ebbb0ff9dedd4705e8e716fea983edaec609a1c5232c3b8dfa"
+    }
+  ]
 }

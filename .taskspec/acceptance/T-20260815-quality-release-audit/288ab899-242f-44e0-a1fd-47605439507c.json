@@ -1,0 +1,42 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-15T18:22:14Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": [
+        "spec digest changed while TaskRevision/v1 remained stable; mutable lifecycle fields may have changed"
+      ]
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "288ab899-242f-44e0-a1fd-47605439507c",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:2153981f99ee9838dfddbede141641ab7e1d42c641349fbfc691973ba721ff4b",
+    "base_commit": "caf63bf7ac0779d2a262f1ad25ee8ffcf70cdc75",
+    "task_id": "T-20260815-quality-release-audit",
+    "task_revision_digest": "sha256:9f4e55e589fe21bce4fb252bdf9952b5f0c3150cd7de7a79ebc292cdb4397c7f"
+  }
+}

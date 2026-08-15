@@ -1,0 +1,203 @@
+{
+  "contract": "QualityRubric/v1",
+  "rubric_id": "taskspec-release-quality-3.8.1",
+  "version": 1,
+  "max_score": 100,
+  "target_score": 97,
+  "dimensions": [
+    {
+      "id": "contract_trust",
+      "title": "Contract and trust",
+      "max_points": 25,
+      "criteria": [
+        {
+          "id": "authority_contracts",
+          "title": "Revision-bound authorization and acceptance contracts",
+          "points": 12,
+          "blocking": true,
+          "evidence_classes": ["local"],
+          "falsifiers": ["The accepted hardening task is absent, rejected, or its retained digest changes."]
+        },
+        {
+          "id": "compatibility_contracts",
+          "title": "Formats v1-v4 and historical contract compatibility",
+          "points": 6,
+          "blocking": true,
+          "evidence_classes": ["local"],
+          "falsifiers": ["The schema and compatibility suite is not retained with a matching digest."]
+        },
+        {
+          "id": "honest_hmac_boundary",
+          "title": "Shared-key HMAC boundary is explicit and tested",
+          "points": 6,
+          "blocking": true,
+          "evidence_classes": ["local"],
+          "falsifiers": ["Documentation or tests claim HMAC proves author identity, semantic truth, or isolation."]
+        },
+        {
+          "id": "semantic_truth",
+          "title": "Universal semantic truth",
+          "points": 1,
+          "blocking": false,
+          "evidence_classes": ["external_enforcement"],
+          "falsifiers": ["No finite release artifact can prove universal semantic correctness."]
+        }
+      ]
+    },
+    {
+      "id": "lifecycle_recovery",
+      "title": "Lifecycle and recovery",
+      "max_points": 25,
+      "criteria": [
+        {
+          "id": "nested_workspace",
+          "title": "Nested workspace authority is consistent across the lifecycle",
+          "points": 8,
+          "blocking": true,
+          "evidence_classes": ["local"],
+          "falsifiers": ["Any lifecycle command resolves a different workspace or accepts an escaped path."]
+        },
+        {
+          "id": "graph_recovery",
+          "title": "Graph, closure, retry, and crash recovery are deterministic",
+          "points": 8,
+          "blocking": true,
+          "evidence_classes": ["local"],
+          "falsifiers": ["Graph views disagree or an interrupted mutation leaves partial canonical state."]
+        },
+        {
+          "id": "atomic_acceptance",
+          "title": "Attempt-bound acceptance is atomic and replay resistant",
+          "points": 9,
+          "blocking": true,
+          "evidence_classes": ["local"],
+          "falsifiers": ["A stale, mismatched, or duplicated attempt can create a Tier-1 acceptance."]
+        }
+      ]
+    },
+    {
+      "id": "documentation_dx",
+      "title": "Documentation and developer experience",
+      "max_points": 20,
+      "criteria": [
+        {
+          "id": "reviewer_journey",
+          "title": "Installed five-minute reviewer journey is executable",
+          "points": 10,
+          "blocking": true,
+          "evidence_classes": ["local", "published"],
+          "falsifiers": ["A documented reviewer command fails from an installed release or requires a source checkout."]
+        },
+        {
+          "id": "documentation_contract",
+          "title": "Links, fences, help, JSON envelopes, completions, alt text, and layouts are verified",
+          "points": 5,
+          "blocking": true,
+          "evidence_classes": ["local"],
+          "falsifiers": ["A documentation command, link, fence, completion, help surface, or visual assertion fails."]
+        },
+        {
+          "id": "generated_status",
+          "title": "README release status is generated from retained evidence",
+          "points": 5,
+          "blocking": true,
+          "evidence_classes": ["local"],
+          "falsifiers": ["The README status differs from the scorecard or can be edited without detection."]
+        }
+      ]
+    },
+    {
+      "id": "harness_packaging",
+      "title": "Harness and packaging",
+      "max_points": 10,
+      "criteria": [
+        {
+          "id": "installation_matrix",
+          "title": "Copy, symlink, npm, GitHub, and pinned curl installs",
+          "points": 4,
+          "blocking": true,
+          "evidence_classes": ["local", "published"],
+          "falsifiers": ["Any required installation door fails or the package contents differ from the release manifest."]
+        },
+        {
+          "id": "real_engine_matrix",
+          "title": "Frozen Codex and Claude benchmark",
+          "points": 6,
+          "blocking": true,
+          "evidence_classes": ["external_engine"],
+          "falsifiers": ["Either engine family accepts fewer than two of three tasks or violates scope, authorization, or secret boundaries."]
+        }
+      ]
+    },
+    {
+      "id": "standards_interoperability",
+      "title": "Standards interoperability",
+      "max_points": 10,
+      "criteria": [
+        {
+          "id": "a2a_official",
+          "title": "A2A 1.0 official-SDK round trip",
+          "points": 4,
+          "blocking": true,
+          "evidence_classes": ["protocol"],
+          "falsifiers": ["The official SDK changes any required Task-Spec identity, authority, scope, budget, attempt, or receipt field."]
+        },
+        {
+          "id": "mcp_official",
+          "title": "MCP 2026-07-28 official-SDK stateless conformance",
+          "points": 5,
+          "blocking": true,
+          "evidence_classes": ["protocol"],
+          "falsifiers": ["Discovery, tool listing, or calls fail with the pinned official SDK or require obsolete session state."]
+        },
+        {
+          "id": "ecosystem_certification",
+          "title": "Ecosystem-wide protocol certification",
+          "points": 1,
+          "blocking": false,
+          "evidence_classes": ["protocol"],
+          "falsifiers": ["Passing pinned SDK tests is compatibility evidence, not ecosystem-wide certification."]
+        }
+      ]
+    },
+    {
+      "id": "public_external_proof",
+      "title": "Public and external proof",
+      "max_points": 10,
+      "criteria": [
+        {
+          "id": "hosted_ci",
+          "title": "Hosted Ubuntu and macOS CI executes real steps",
+          "points": 3,
+          "blocking": true,
+          "evidence_classes": ["hosted"],
+          "falsifiers": ["A required hosted job starts zero steps, fails, or cannot be tied to the release commit."]
+        },
+        {
+          "id": "published_provenance",
+          "title": "Published artifacts, checksums, SBOM, attestations, and remote installs",
+          "points": 3,
+          "blocking": true,
+          "evidence_classes": ["published", "provenance"],
+          "falsifiers": ["An artifact digest, SBOM, provenance statement, or tag-pinned installation cannot be independently verified."]
+        },
+        {
+          "id": "signed_sandbox",
+          "title": "Externally signed sandbox attestation",
+          "points": 3,
+          "blocking": true,
+          "evidence_classes": ["external_enforcement"],
+          "falsifiers": ["The attestor key enters the worker or mutated attestation evidence remains acceptable."]
+        },
+        {
+          "id": "production_reliability",
+          "title": "Long-running production reliability",
+          "points": 1,
+          "blocking": false,
+          "evidence_classes": ["external_engine"],
+          "falsifiers": ["A single synthetic release benchmark cannot establish long-running production reliability."]
+        }
+      ]
+    }
+  ]
+}
