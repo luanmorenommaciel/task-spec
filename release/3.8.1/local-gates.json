@@ -1,0 +1,56 @@
+{
+  "contract": "TaskSpecLocalGateEvidence/v1",
+  "version": "3.8.1",
+  "observed_at": "2026-08-15T19:54:07Z",
+  "source": {
+    "commit_before_evidence_finalization": "38fd3756027a7d8d16992fd2404cd2c1bae6d10f",
+    "branch": "codex/taskspec-3.8.1",
+    "source_archive": "task-spec-3.8.1.tar.gz",
+    "source_archive_digest": "sha256:f756a47e70cb5007995a1253992a36023c50243b8d35ab9f1525e721670822bd"
+  },
+  "command": [
+    "make",
+    "check"
+  ],
+  "tokens": {
+    "CHECK=READY": true,
+    "CONFORMANCE=L2": true,
+    "DEMO=READY": true,
+    "INSTALL=OK": true
+  },
+  "log_asset": {
+    "name": "task-spec-3.8.1-local-gates.log",
+    "digest": "sha256:78eb44c86ccecfed673bd2b807c542db02898151b1a35092a0c63f5b6a5b886d"
+  },
+  "suites": {
+    "authority_contracts": {
+      "state": "pass",
+      "proof": [
+        "TaskAuthorization/v3",
+        "TaskHandoff/v3",
+        "ReceiptSubject/v1"
+      ]
+    },
+    "honest_hmac_boundary": {
+      "state": "pass",
+      "proof": [
+        "HMAC is documented as shared-key tamper evidence, not identity or semantic truth"
+      ]
+    },
+    "graph_recovery": {
+      "state": "pass",
+      "proof": [
+        "TaskGraphView/v1 deterministic graph and crash recovery suites"
+      ]
+    },
+    "atomic_acceptance": {
+      "state": "pass",
+      "proof": [
+        "AcceptanceRecord/v1 replay, mismatch, and crash-fault suites"
+      ]
+    }
+  },
+  "limitations": [
+    "Local evidence is not hosted CI evidence."
+  ]
+}

@@ -13,6 +13,8 @@ on:
 
 permissions:
   contents: write
+  id-token: write
+  attestations: write
 
 jobs:
   release-assets:
@@ -26,15 +28,42 @@ jobs:
         with:
           ref: ${{ env.RELEASE_REF }}
           persist-credentials: false
-      - name: Build deterministic archive and checksum
+      - name: Build deterministic archives, checksum, and SPDX SBOM
         run: |
           set -euo pipefail
-          test "$RELEASE_REF" = "v$(tr -d '[:space:]' < VERSION)"
-          SOURCE_DATE_EPOCH="$(git show -s --format=%ct HEAD)" python3 tools/build-release-archive.py --out-dir dist
+          version="$(tr -d '[:space:]' < VERSION)"
+          case "$RELEASE_REF" in
+            "v$version"|"v$version-rc."*) ;;
+            *) echo "release ref $RELEASE_REF does not carry Task-Spec $version" >&2; exit 1 ;;
+          esac
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+          epoch="$(git show -s --format=%ct HEAD)"
+          SOURCE_DATE_EPOCH="$epoch" python3 tools/build-release-archive.py --out-dir dist
+          python3 tools/build-sbom.py \
+            --archive "dist/task-spec-$(cat VERSION).tar.gz" \
+            --epoch "$epoch" \
+            --out "dist/task-spec-$(cat VERSION).spdx.json"
+          SOURCE_DATE_EPOCH="$epoch" python3 tools/build-release-evidence-archive.py --out-dir dist
+          cp release/evidence.json "dist/task-spec-$(cat VERSION)-release-evidence.json"
+          cp "release/$(cat VERSION)/scorecard.json" "dist/task-spec-$(cat VERSION)-scorecard.json"
+          cp "release/$(cat VERSION)/reviewer-report.json" "dist/task-spec-$(cat VERSION)-reviewer-report.json"
+          (cd dist && shasum -a 256 task-spec-* > "task-spec-$(cat ../VERSION)-checksums.txt")
+
+      - name: Attest release archive provenance
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8
+        with:
+          subject-path: dist/task-spec-${{ env.RELEASE_VERSION }}.tar.gz
+
+      - name: Attest SPDX SBOM
+        uses: actions/attest-sbom@c604332985a26aa8cf1bdc465b92731239ec6b9e
+        with:
+          subject-path: dist/task-spec-${{ env.RELEASE_VERSION }}.tar.gz
+          sbom-path: dist/task-spec-${{ env.RELEASE_VERSION }}.spdx.json
+
       - name: Attach immutable assets to the existing release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "$RELEASE_REF" dist/task-spec-*.tar.gz dist/task-spec-*.sha256 --clobber
+        run: gh release upload "$RELEASE_REF" dist/task-spec-* --clobber
 
   install:
     name: remote install (${{ matrix.os }})
@@ -74,7 +103,12 @@ jobs:
       - name: Verify release identity
         run: |
           set -euo pipefail
-          test "$RELEASE_REF" = "v$(tr -d '[:space:]' < VERSION)"
+          version="$(tr -d '[:space:]' < VERSION)"
+          case "$RELEASE_REF" in
+            "v$version"|"v$version-rc."*) ;;
+            *) echo "release ref $RELEASE_REF does not carry Task-Spec $version" >&2; exit 1 ;;
+          esac
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
 
       - name: Prove curl installer and isolated lifecycle
         run: |
@@ -85,9 +119,10 @@ jobs:
             "https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${RELEASE_REF}/install.sh" \
             -o "$work/install.sh"
           HOME="$work/home" TASKSPEC_INSTALL_ROOT="$work/install-root" \
+            TASKSPEC_RELEASE_BASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_REF}" \
             bash "$work/install.sh" --target "$work/project" --bin-dir "$work/bin" \
             | tee "$work/logs/curl-install.log"
-          test "$("$work/bin/taskspec" version)" = "${RELEASE_REF#v}"
+          test "$("$work/bin/taskspec" version)" = "$RELEASE_VERSION"
           "$work/bin/taskspec" demo | tee "$work/logs/curl-demo.log"
           grep -q '^INSTALL=OK$' "$work/logs/curl-install.log"
           grep -q '^DEMO=READY$' "$work/logs/curl-demo.log"
@@ -101,7 +136,7 @@ jobs:
           npm install --global --prefix "$work/npm" \
             "github:${GITHUB_REPOSITORY}#${RELEASE_REF}" \
             | tee "$work/logs/npm-install.log"
-          test "$("$work/npm/bin/taskspec" version)" = "${RELEASE_REF#v}"
+          test "$("$work/npm/bin/taskspec" version)" = "$RELEASE_VERSION"
           TASKSPEC_INSTALL_ROOT="$work/install-root" \
             "$work/npm/bin/taskspec-install" --target "$work/project" --no-bin \
             | tee "$work/logs/npm-harness-install.log"

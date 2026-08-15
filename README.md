@@ -7,7 +7,7 @@
 <p><strong>Agents can write code. Task-Spec makes them earn <code>done</code>.</strong></p>
 <p>One open contract for bounded scope, executable proof, sealed authority,<br/>portable handoff, and independent acceptance.</p>
 
-[![version](https://img.shields.io/badge/version-3.8.0-68c7ff)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-3.8.1-68c7ff)](CHANGELOG.md)
 [![format](https://img.shields.io/badge/format-v3%20stable%20%7C%20v4%20opt--in-ffb454)](spec/task-spec-v4.md)
 [![bash](https://img.shields.io/badge/bash-3.2%2B-4EAA25?logo=gnubash&logoColor=white)](#requirements)
 [![release gate](https://img.shields.io/badge/local%20gate-CHECK%3DREADY-3ddc97)](#verified-status)
@@ -170,7 +170,8 @@ reliability or every provider. The retained result is
 
 ### Source checkout — available now
 
-This is the honest installation door while the `v3.8.0` release tag remains
+This is the checkout installation door while the `v3.8.1` release candidate is
+being verified and the final tag remains
 unpublished:
 
 ```bash
@@ -196,16 +197,16 @@ The installer ends with `INSTALL=OK` only after the installed engine reports the
 expected version, all harness skill copies match the canonical skill, and the
 CLI launcher resolves to that same engine.
 
-### Pinned release doors — activate when `v3.8.0` is published
+### Pinned release doors — activate when `v3.8.1` is published
 
 ```bash
 curl -fsSL \
-  https://raw.githubusercontent.com/luanmorenommaciel/task-spec/v3.8.0/install.sh \
+  https://raw.githubusercontent.com/luanmorenommaciel/task-spec/v3.8.1/install.sh \
   | bash -s -- --global
 ```
 
 ```bash
-npm install -g github:luanmorenommaciel/task-spec#v3.8.0
+npm install -g github:luanmorenommaciel/task-spec#v3.8.1
 taskspec-install --global
 ```
 
@@ -504,9 +505,9 @@ machine-readable command and token contract.
 <!-- release-status:start -->
 | Surface | Repository evidence | Status |
 |---|---|---|
-| Evidence-derived score | Only digest-matching retained artifacts earn points | **52/100**; target 97; release gate blocked |
-| Contract and trust | Revision-bound authorization, compatibility, and the explicit HMAC boundary | 6/25 |
-| Lifecycle and recovery | Nested workspaces, graph recovery, atomic acceptance, and replay resistance | 8/25 |
+| Evidence-derived score | Only digest-matching retained artifacts earn points | **87/100**; target 97; release gate blocked |
+| Contract and trust | Revision-bound authorization, compatibility, and the explicit HMAC boundary | 24/25 |
+| Lifecycle and recovery | Nested workspaces, graph recovery, atomic acceptance, and replay resistance | 25/25 |
 | Documentation and DX | Installed reviewer route, executable docs, and generated status | 20/20 |
 | Harness and packaging | All installation doors plus frozen Codex and Claude execution | 6/10 |
 | Standards interoperability | Pinned official A2A and MCP SDK conformance | 9/10 |

@@ -2,7 +2,7 @@
   "contract": "EvaluatorTrust/v1",
   "evaluators": [
     {
-      "key_id": "83ad2fdf75e307f8",
+      "key_id": "6280c958b38d755f",
       "public_key": "environment-evaluator.pub.pem",
       "receipt_classes": [
         "EnvironmentReceipt/v2"

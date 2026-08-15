@@ -1,0 +1,53 @@
+{
+  "contract": "TaskSpecReleaseReport/v1",
+  "version": "3.8.1",
+  "generated_at": "2026-08-15T19:54:07Z",
+  "source": {
+    "commit_before_evidence_finalization": "38fd3756027a7d8d16992fd2404cd2c1bae6d10f",
+    "branch": "codex/taskspec-3.8.1",
+    "source_archive": "task-spec-3.8.1.tar.gz",
+    "source_archive_digest": "sha256:f756a47e70cb5007995a1253992a36023c50243b8d35ab9f1525e721670822bd"
+  },
+  "artifacts": [
+    {
+      "name": "task-spec-3.8.1.tar.gz",
+      "digest": "sha256:f756a47e70cb5007995a1253992a36023c50243b8d35ab9f1525e721670822bd"
+    },
+    {
+      "name": "task-spec-3.8.1-evidence.tar.gz",
+      "digest": "sha256:f6cfd8b4ca157c5061a5b64236b34c9f6e36689dce16858013c5fcdad5204745"
+    },
+    {
+      "name": "sbom.spdx.json",
+      "digest": "sha256:057b0db5bb4c03ea846162ee4c99624c6ceb1b79aa22f58d42f12452c3d4ed9b"
+    }
+  ],
+  "checksums": {
+    "path": "checksums.txt",
+    "digest": "sha256:47f65b2856a07630537d62070512b42b822834eaa070eebe03e6afd1af1033ac"
+  },
+  "sbom": {
+    "format": "SPDX-2.3",
+    "path": "sbom.spdx.json",
+    "digest": "sha256:057b0db5bb4c03ea846162ee4c99624c6ceb1b79aa22f58d42f12452c3d4ed9b"
+  },
+  "local_gates": {
+    "path": "local-gates.json",
+    "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+    "state": "pass"
+  },
+  "installation": {
+    "path": "install-matrix.json",
+    "digest": "sha256:d8c421409d3c6b78ad7a21b61a546f67f179d65f65f1ee134be2f7c241f11540",
+    "state": "partial"
+  },
+  "hosted_ci": {
+    "state": "pending"
+  },
+  "provenance_attestation": {
+    "state": "pending"
+  },
+  "publication": {
+    "state": "pending"
+  }
+}

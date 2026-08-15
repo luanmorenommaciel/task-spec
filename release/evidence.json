@@ -16,13 +16,16 @@
   "release_status": "working",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:478fec06322f6e5f0f865ea5fbe55ff9d5e06be1cfcc3fd840dd9ac78fb0dd38"
+    "digest": "sha256:5be5ebb9de431912db5cee6e5edd2d4a506dd2aad4abe0dd4c05ee4787c71a27"
   },
   "gates": {
     "authority_contracts": {
-      "state": "pending",
-      "evidence": null,
-      "reason": "The final 3.8.1 local gate has not run against the release commit."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/local-gates.json",
+        "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+      },
+      "reason": "The retained local gate validates revision-bound authorization, handoff, receipt subjects, and acceptance contracts against the candidate source archive."
     },
     "compatibility_contracts": {
       "state": "pass",
@@ -33,9 +36,12 @@
       "reason": "The typed release contracts task passed its deterministic schema suite and was Tier-1 accepted."
     },
     "honest_hmac_boundary": {
-      "state": "pending",
-      "evidence": null,
-      "reason": "The final documentation-claim reconciliation has not run."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/local-gates.json",
+        "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+      },
+      "reason": "Tests and documentation preserve HMAC as shared-key tamper evidence and explicitly deny identity, isolation, and semantic-truth claims."
     },
     "semantic_truth": {
       "state": "unavailable",
@@ -51,14 +57,20 @@
       "reason": "Nested workspace hardening passed its adversarial suite and was Tier-1 accepted."
     },
     "graph_recovery": {
-      "state": "pending",
-      "evidence": null,
-      "reason": "The final graph and crash-recovery evidence bundle has not been generated."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/local-gates.json",
+        "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+      },
+      "reason": "The retained gate passed deterministic graph, closure, retry, lock, and crash-recovery suites."
     },
     "atomic_acceptance": {
-      "state": "pending",
-      "evidence": null,
-      "reason": "The final attempt-replay and crash-fault evidence bundle has not been generated."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/local-gates.json",
+        "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+      },
+      "reason": "Attempt, revision, authorization, receipt, and base-commit mismatches fail closed; acceptance crash and idempotency tests pass."
     },
     "reviewer_journey": {
       "state": "pass",
@@ -132,7 +144,7 @@
       "state": "pass",
       "evidence": {
         "path": "release/3.8.1/environment-proof.json",
-        "digest": "sha256:633c29dd1f2aadf2700902a729aaada15e40fd50b95c919979fdade805a0c87a"
+        "digest": "sha256:9da567b233522187aa2f7c3dcdd10e806118f1b41bca724f1fde0f0ebd4d40d1"
       },
       "reason": "A host-attested Docker run enforced the declared isolation, produced an Ed25519-signed EnvironmentReceipt/v2, reached Tier-1 portable acceptance, and rejected mutated evidence."
     },
@@ -169,31 +181,43 @@
     },
     {
       "path": "release/3.8.1/environment-proof.json",
-      "digest": "sha256:633c29dd1f2aadf2700902a729aaada15e40fd50b95c919979fdade805a0c87a"
+      "digest": "sha256:9da567b233522187aa2f7c3dcdd10e806118f1b41bca724f1fde0f0ebd4d40d1"
     },
     {
       "path": "release/3.8.1/environment-attestation.json",
-      "digest": "sha256:2b6a84b086bc17a7c370c5aadaa7c68ec742be6f86ab51b16a8309ef4677f925"
+      "digest": "sha256:570de92b0931d847990f8ef75b015fee2cac001f23a650bc745dfb2396e369e1"
     },
     {
       "path": "release/3.8.1/environment-receipt.json",
-      "digest": "sha256:a8a499f272360f990400c80c5090f6755cbd6bd7eb7055db8aa2c9c7dd983dbe"
+      "digest": "sha256:65f40907f59544ea6b0b280f89efa0e4ca684a4fec44a050c618fa7761990925"
     },
     {
       "path": "release/3.8.1/environment-trust.json",
-      "digest": "sha256:0aefc0b7bc216f512f7c0695de0e0244c6ce554e9518eaa79f6d513855b2ac9b"
+      "digest": "sha256:38ed4fe122275e90a4e0bb5784ffdbf86e8c3f8ba7ea3064741725205f8712ec"
     },
     {
       "path": "release/3.8.1/environment-evaluator.pub.pem",
-      "digest": "sha256:6bed652b123a4df52bdaac556ac0a368815d60c3c3fc995f2205f7168b6c2fca"
+      "digest": "sha256:ff9726b1ededfa5a2e0446f1e9301dac1182fed92ecfa24d2f4832cb8b6aeb1e"
     },
     {
       "path": "release/3.8.1/environment-handoff.json",
-      "digest": "sha256:724e2893147d05560721ed39fd28273a803c4fc8e2458d7fb70522e162b3a49f"
+      "digest": "sha256:c15cd7857003374d461f0f57dcc2c4cf97af657857853259cee38fe0a3a5ce49"
     },
     {
       "path": "release/3.8.1/sandbox-execution-artifact.json",
-      "digest": "sha256:04e80ccc427b94aa48f1bcd0c28852457cbca187ddf311eab6afdb68b1e1d255"
+      "digest": "sha256:d495b70e3e0109ea90018bafaf03f76988f42d26a321fc3647347e0a7fcba2f3"
+    },
+    {
+      "path": "release/3.8.1/local-gates.json",
+      "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+    },
+    {
+      "path": "release/3.8.1/install-matrix.json",
+      "digest": "sha256:d8c421409d3c6b78ad7a21b61a546f67f179d65f65f1ee134be2f7c241f11540"
+    },
+    {
+      "path": "release/3.8.1/sbom.spdx.json",
+      "digest": "sha256:057b0db5bb4c03ea846162ee4c99624c6ceb1b79aa22f58d42f12452c3d4ed9b"
     }
   ]
 }

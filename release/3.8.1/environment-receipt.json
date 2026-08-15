@@ -3,20 +3,20 @@
   "subject": {
     "task_id": "T-20260815-sandbox-proof",
     "task_revision_digest": "sha256:b03523857f210e389b2c5b6e7fb42529b7678bb9796dd0a7e373e110d4f783c1",
-    "authorization_ref": "hmac-sha256-v3:47d0e1a2:7aaad6c0b45570afcc21d38344b703f43df86454059ab99a29292f011bc1b4dc",
+    "authorization_ref": "hmac-sha256-v3:741e1c92:137290dd74cb8cf4d9721d397e665b32cac71c8409bca468ee43ea98c172ba90",
     "attempt_id": "8ae65cd7-e6aa-4e44-8aec-efbd524c3352",
-    "base_commit": "524c2db43ae92fb026d59d4ae8cc726d8a1429cb"
+    "base_commit": "805cce4c57d5f6d0066f9f43e67a767e56826780"
   },
-  "observed_at": "2026-08-15T19:48:49Z",
+  "observed_at": "2026-08-15T20:10:54Z",
   "contract_digest": "sha256:c63f9fe6c2b59816b3a1b2e8544d773657056eed283c6c7f8be8702b5244ea10",
   "provider": "host-docker-attestor",
-  "environment_digest": "sha256:2b6a84b086bc17a7c370c5aadaa7c68ec742be6f86ab51b16a8309ef4677f925",
+  "environment_digest": "sha256:570de92b0931d847990f8ef75b015fee2cac001f23a650bc745dfb2396e369e1",
   "enforced": true,
   "signature": {
     "algorithm": "Ed25519",
-    "key_id": "83ad2fdf75e307f8",
-    "public_key_fingerprint": "sha256:83ad2fdf75e307f81a913376a08abbb4f8b83fd87d38c690cde88383f90f7b79",
-    "payload_digest": "sha256:20ea547c792d6be17a2197dbc3a4622ca9e553b250dcb9bd36c1ac14d974ab56",
-    "value": "AvDdtUokr8yR4fntJys0pI4iS2f3j5A1a+bbf8+RjnuDAzW3Kch0aNoPjRpauw8AlLTDGPzDR5BAeMNLKlOFAA=="
+    "key_id": "6280c958b38d755f",
+    "public_key_fingerprint": "sha256:6280c958b38d755f141fb097519c620a267d95470cf9dec6a456144ddfe4e92a",
+    "payload_digest": "sha256:3fa0011964752d7ef368ed25ae4dc4e09ae222cee2e9300b70490dcf8af3543d",
+    "value": "LTC+ilOx+YCV4anczbPm5tWGg87cOrYzEypJ3b+nEXj4fKus6mSRLEnJTM1gYI/SqvEgFvBO0/vR898+Vd68Dw=="
   }
 }

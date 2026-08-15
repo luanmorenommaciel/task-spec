@@ -6,16 +6,23 @@
   "dimensions": [
     {
       "id": "contract_trust",
-      "awarded_points": 6,
+      "awarded_points": 24,
       "max_points": 25,
       "criteria": [
         {
           "id": "authority_contracts",
           "points": 12,
-          "awarded": 0,
-          "state": "pending",
-          "evidence": [],
-          "reason": "The final 3.8.1 local gate has not run against the release commit."
+          "awarded": 12,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/local-gates.json",
+              "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "The retained local gate validates revision-bound authorization, handoff, receipt subjects, and acceptance contracts against the candidate source archive."
         },
         {
           "id": "compatibility_contracts",
@@ -35,10 +42,17 @@
         {
           "id": "honest_hmac_boundary",
           "points": 6,
-          "awarded": 0,
-          "state": "pending",
-          "evidence": [],
-          "reason": "The final documentation-claim reconciliation has not run."
+          "awarded": 6,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/local-gates.json",
+              "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "Tests and documentation preserve HMAC as shared-key tamper evidence and explicitly deny identity, isolation, and semantic-truth claims."
         },
         {
           "id": "semantic_truth",
@@ -52,7 +66,7 @@
     },
     {
       "id": "lifecycle_recovery",
-      "awarded_points": 8,
+      "awarded_points": 25,
       "max_points": 25,
       "criteria": [
         {
@@ -73,18 +87,32 @@
         {
           "id": "graph_recovery",
           "points": 8,
-          "awarded": 0,
-          "state": "pending",
-          "evidence": [],
-          "reason": "The final graph and crash-recovery evidence bundle has not been generated."
+          "awarded": 8,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/local-gates.json",
+              "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "The retained gate passed deterministic graph, closure, retry, lock, and crash-recovery suites."
         },
         {
           "id": "atomic_acceptance",
           "points": 9,
-          "awarded": 0,
-          "state": "pending",
-          "evidence": [],
-          "reason": "The final attempt-replay and crash-fault evidence bundle has not been generated."
+          "awarded": 9,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/local-gates.json",
+              "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "Attempt, revision, authorization, receipt, and base-commit mismatches fail closed; acceptance crash and idempotency tests pass."
         }
       ]
     },
@@ -244,7 +272,7 @@
           "evidence": [
             {
               "path": "release/3.8.1/environment-proof.json",
-              "digest": "sha256:633c29dd1f2aadf2700902a729aaada15e40fd50b95c919979fdade805a0c87a",
+              "digest": "sha256:9da567b233522187aa2f7c3dcdd10e806118f1b41bca724f1fde0f0ebd4d40d1",
               "class": "external_enforcement",
               "state": "pass"
             }
@@ -263,7 +291,7 @@
     }
   ],
   "total": {
-    "awarded": 52,
+    "awarded": 87,
     "maximum": 100,
     "target": 97,
     "passed": false

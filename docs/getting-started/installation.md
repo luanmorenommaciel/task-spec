@@ -3,7 +3,8 @@
 The canonical installer writes equivalent skill content to all supported local
 harness destinations. It never stores model/provider credentials.
 
-Until the `v3.8.0` release tag is published, install from a checkout:
+Until the `v3.8.1` release clears its evidence gate and the final tag is
+published, install from a checkout:
 
 ```bash
 git clone --depth 1 https://github.com/luanmorenomaciel/task-spec.git \
@@ -28,7 +29,7 @@ curl door is:
 
 ```bash
 curl -fsSL \
-  https://raw.githubusercontent.com/luanmorenomaciel/task-spec/v3.8.0/install.sh \
+  https://raw.githubusercontent.com/luanmorenomaciel/task-spec/v3.8.1/install.sh \
   | bash -s -- --global
 ```
 
@@ -64,7 +65,7 @@ credentials or modify shell startup files.
 For npm/GitHub:
 
 ```bash
-npm install -g github:luanmorenommaciel/task-spec#v3.8.0
+npm install -g github:luanmorenommaciel/task-spec#v3.8.1
 taskspec-install --global
 ```
 

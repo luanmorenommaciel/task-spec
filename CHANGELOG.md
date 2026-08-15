@@ -12,6 +12,56 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ---
 
+## [3.8.1] — 2026-08-15
+
+The **evidence-backed quality** patch. It preserves formats v1-v4, keeps format
+v3 as the authoring default, and turns the remaining 3.8 trust and distribution
+claims into digest-bound release evidence.
+
+### Lifecycle and reviewer experience
+
+- Unified standalone `tasks/` and nested `cvg/tasks/` workspaces across graph
+  resolution, handoff bases, eval execution, blast radius, worktrees, signing
+  keys, and acceptance storage. Traversal, mismatched roots, conflicting
+  overrides, and symlink-escaped acceptance paths fail closed.
+- Added `taskspec example task-plan` so an installed release can materialize the
+  canonical reviewer example without a source checkout, with non-clobbering,
+  dry-run, and JSON behavior.
+- Added a five-minute reviewer corridor, executable README command checks,
+  generated status, accessible visual checks at mobile and desktop widths, and
+  retained `reviewer-report.json` evidence.
+
+### Evidence and interoperability
+
+- Added `QualityRubric/v1`, `TaskSpecQualityScorecard/v1`,
+  `TaskSpecReleaseEvidence/v2`, `EngineMatrix/v2`, `EngineMatrixResult/v2`,
+  `ProtocolConformanceEvidence/v1`, and `EnvironmentAttestation/v1`.
+- Added a reproducible `make release-audit`; missing, unavailable, stale, or
+  digest-mismatched evidence earns zero. The last three rubric points remain
+  deliberately unclaimed for universal semantic truth, ecosystem-wide
+  certification, and long-running production reliability.
+- Corrected A2A output to the v1 data-part model and round-tripped it through the
+  pinned official Python SDK. Updated the optional MCP adapter to stateless
+  protocol `2026-07-28` and verified discovery, listing, and read-only calls
+  through the pinned official Python SDK.
+- Retained one-shot XS/S/M execution evidence for Codex `gpt-5.6-sol` and Claude
+  Code with observed `claude-opus-5`: six of six attempts accepted with no
+  write-scope violations. This is synthetic portability proof, not production
+  reliability evidence.
+
+### External enforcement and distribution
+
+- Added a pinned non-root Docker fixture for format-v4 portable acceptance. The
+  host attestor verifies no network, a read-only root, one writable attempt
+  workspace, dropped capabilities, `no-new-privileges`, and bounded resources;
+  then signs an attempt-bound `EnvironmentReceipt/v2` with an Ed25519 key that
+  never enters the container. Receipt and attestation mutations fail closed.
+- Added deterministic release archive, evidence archive, checksum, SPDX SBOM,
+  install-matrix, and normalized release-report tooling. Hosted provenance and
+  SBOM attestations are emitted only by the pinned release workflow.
+- Release status remains evidence-derived: hosted CI, remote installs, and
+  publication are never inferred from local success.
+
 ## [3.8.0] — 2026-08-13
 
 The **revision-bound trust, graph, recovery, and DX** release. Format v3 remains

@@ -24,7 +24,7 @@
 #   3) add a CHANGELOG.md entry
 #   4) bump version field in plugin.json + marketplace.json (if present)
 # The doc-consistency lint asserts (1) == (2) == (4).
-TASKSPEC_VERSION="3.8.0"
+TASKSPEC_VERSION="3.8.1"
 
 # ----- Resolve skill root from this file's location -----
 # Works whether sourced from scripts/ or via an indirect symlink.

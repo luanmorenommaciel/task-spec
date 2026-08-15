@@ -2,26 +2,26 @@
   "contract": "TaskHandoff/v3",
   "task_id": "T-20260815-sandbox-proof",
   "format_version": 4,
-  "spec": "/private/tmp/taskspec-sandbox-work.nFXEn8/tasks/T-20260815-sandbox-proof.md",
-  "spec_digest": "sha256:e40afd797816046f8f1711dbe1192ffe7e06ba8ea6a11345b7b26f29369d5577",
+  "spec": "/private/tmp/taskspec-sandbox-work.3yqFXb/tasks/T-20260815-sandbox-proof.md",
+  "spec_digest": "sha256:443681bbf774d194fa20f5765ef51ca0664b41a775318ad59921166fcf88781f",
   "task_revision_digest": "sha256:b03523857f210e389b2c5b6e7fb42529b7678bb9796dd0a7e373e110d4f783c1",
   "signoff_tier": 1,
   "backend": "ref-executor",
-  "workspace": "/private/tmp/taskspec-sandbox-work.nFXEn8",
+  "workspace": "/private/tmp/taskspec-sandbox-work.3yqFXb",
   "authorization": {
     "scheme": "hmac-sha256-v3",
-    "ref": "hmac-sha256-v3:47d0e1a2:7aaad6c0b45570afcc21d38344b703f43df86454059ab99a29292f011bc1b4dc",
+    "ref": "hmac-sha256-v3:741e1c92:137290dd74cb8cf4d9721d397e665b32cac71c8409bca468ee43ea98c172ba90",
     "tier": 1,
     "signed_by": "luanmorenomaciel",
-    "signed_at": "2026-08-15T19:48:42Z"
+    "signed_at": "2026-08-15T20:10:45Z"
   },
   "attempt": {
     "id": "8ae65cd7-e6aa-4e44-8aec-efbd524c3352",
-    "issued_at": "2026-08-15T19:48:44Z"
+    "issued_at": "2026-08-15T20:10:47Z"
   },
   "source": {
-    "workspace": "/private/tmp/taskspec-sandbox-work.nFXEn8",
-    "base_commit": "524c2db43ae92fb026d59d4ae8cc726d8a1429cb"
+    "workspace": "/private/tmp/taskspec-sandbox-work.3yqFXb",
+    "base_commit": "805cce4c57d5f6d0066f9f43e67a767e56826780"
   },
   "dependency_closure": {
     "contract": "DependencyClosure/v1",
@@ -80,7 +80,7 @@
     "taskspec",
     "run",
     "--ci",
-    "/private/tmp/taskspec-sandbox-work.nFXEn8/tasks/T-20260815-sandbox-proof.md"
+    "/private/tmp/taskspec-sandbox-work.3yqFXb/tasks/T-20260815-sandbox-proof.md"
   ],
   "acceptance_command": [
     "taskspec",
@@ -88,7 +88,7 @@
     "--stamp",
     "--handoff",
     "<handoff.json>",
-    "/private/tmp/taskspec-sandbox-work.nFXEn8/tasks/T-20260815-sandbox-proof.md"
+    "/private/tmp/taskspec-sandbox-work.3yqFXb/tasks/T-20260815-sandbox-proof.md"
   ],
   "evaluation_policy": {
     "acceptance_scope": "portable",

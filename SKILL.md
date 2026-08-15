@@ -3,7 +3,7 @@ name: task-spec
 description: Turn intent, repository evidence, and optional cited research into atomic, signed, self-verifying Task-Specs; preview complete TaskPlan manifests; hand one authorized leaf to any coding harness; and independently accept the result.
 license: MIT
 metadata:
-  version: "3.8.0"
+  version: "3.8.1"
 ---
 
 # Task-Spec

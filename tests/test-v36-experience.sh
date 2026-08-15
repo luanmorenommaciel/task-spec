@@ -3,6 +3,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+CURRENT_VERSION="$(tr -d '[:space:]' < "$ROOT/VERSION")"
 PASS=0
 FAIL=0
 pass() { echo "  ✓ $1"; PASS=$((PASS + 1)); }
@@ -34,7 +35,7 @@ if HOME="$GLOBAL_HOME" TASKSPEC_INSTALL_ROOT="$GLOBAL_ROOT" bash "$ROOT/install.
   && [[ -f "$GLOBAL_HOME/.claude/skills/task-spec/SKILL.md" ]] \
   && [[ -f "$GLOBAL_HOME/.grok/skills/task-spec/SKILL.md" ]] \
   && [[ -f "$GLOBAL_HOME/.claude/agents/task-architect.md" ]] \
-  && [[ "$("$GLOBAL_HOME/.local/bin/taskspec" version)" == "3.8.0" ]] \
+  && [[ "$("$GLOBAL_HOME/.local/bin/taskspec" version)" == "$CURRENT_VERSION" ]] \
   && cmp -s "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" "$GLOBAL_HOME/.claude/skills/task-spec/SKILL.md" \
   && cmp -s "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" "$GLOBAL_HOME/.grok/skills/task-spec/SKILL.md"; then
   pass "global user install"
@@ -51,7 +52,7 @@ if TASKSPEC_INSTALL_ROOT="$SYMLINK_ROOT" bash "$ROOT/install.sh" --target "$SYML
   && [[ -L "$SYMLINK_TARGET/.claude/skills/task-spec" ]] \
   && [[ -L "$SYMLINK_TARGET/.grok/skills/task-spec" ]] \
   && [[ -L "$SYMLINK_TARGET/.claude/agents/task-architect.md" ]] \
-  && [[ "$($SYMLINK_BIN/taskspec version)" == "3.8.0" ]]; then
+  && [[ "$($SYMLINK_BIN/taskspec version)" == "$CURRENT_VERSION" ]]; then
   pass "checkout symlink install"
 else
   fail "checkout symlink install"
@@ -93,14 +94,14 @@ printf '%s\n' '#!/usr/bin/env sh' '# task-spec launcher v3.6.0' 'exit 91' > "$BI
 chmod +x "$BIN_DIR/taskspec"
 if TASKSPEC_INSTALL_ROOT="$INSTALL_ROOT" bash "$ROOT/install.sh" --target "$TARGET" --copy --bin-dir "$BIN_DIR" >"$WORK/launcher-upgrade.out" 2>&1 \
   && grep -q '^updated: CLI launcher ' "$WORK/launcher-upgrade.out" \
-  && [[ "$("$BIN_DIR/taskspec" version)" == "3.8.0" ]]; then
+  && [[ "$("$BIN_DIR/taskspec" version)" == "$CURRENT_VERSION" ]]; then
   pass "managed launcher upgrades safely"
 else
   fail "managed launcher upgrade"
 fi
 
 TS="$BIN_DIR/taskspec"
-check "installed version" bash -c "[[ \"\$('$TS' version)\" == 3.8.0 ]]"
+check "installed version" bash -c "[[ \"\$('$TS' version)\" == '$CURRENT_VERSION' ]]"
 check "installed isolated demo" bash -c "'$TS' demo | grep -q '^DEMO=READY$'"
 check "agent context JSON" bash -c "'$TS' agent-context | python3 -m json.tool"
 check "agent context covers the complete public command and schema surfaces" bash -c "'$TS' agent-context | python3 -c 'import json,sys; d=json.load(sys.stdin); commands=set(d[\"commands\"]); required=set(\"init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help\".split()); assert required <= commands and d[\"default_format_version\"] == 3; assert len(d[\"contracts\"]) == 27 and {\"task_materialization_receipt\",\"acceptance_finalized\"} <= set(d[\"contracts\"])'"
@@ -370,8 +371,8 @@ if TASKSPEC_RELEASE_BASE_URL="file://$DIST" TASKSPEC_INSTALL_ROOT="$REMOTE_ROOT"
 else
   fail "checksum-backed remote install"
 fi
-cp "$DIST/task-spec-3.8.0.tar.gz" "$WORK/tampered.tar.gz"
-printf 'tamper' >> "$DIST/task-spec-3.8.0.tar.gz"
+cp "$DIST/task-spec-$CURRENT_VERSION.tar.gz" "$WORK/tampered.tar.gz"
+printf 'tamper' >> "$DIST/task-spec-$CURRENT_VERSION.tar.gz"
 set +e
 TASKSPEC_RELEASE_BASE_URL="file://$DIST" TASKSPEC_INSTALL_ROOT="$WORK/tampered-root" \
   bash "$WORK/remote-install.sh" --target "$REMOTE_TARGET" --no-bin >"$WORK/tampered.out" 2>&1
@@ -382,7 +383,7 @@ if [[ $tampered_rc -ne 0 ]] && grep -q 'checksum mismatch' "$WORK/tampered.out";
 else
   fail "tampered release archive fails closed"
 fi
-mv "$WORK/tampered.tar.gz" "$DIST/task-spec-3.8.0.tar.gz"
+mv "$WORK/tampered.tar.gz" "$DIST/task-spec-$CURRENT_VERSION.tar.gz"
 
 echo "== package =="
 if command -v npm >/dev/null 2>&1 && (cd "$ROOT" && npm pack --dry-run --json > "$WORK/npm-pack.json") \
@@ -396,7 +397,7 @@ NPM_INSTALL_ROOT="$WORK/npm-install-root"
 mkdir -p "$NPM_TARGET" "$NPM_INSTALL_ROOT"
 if command -v npm >/dev/null 2>&1 \
   && npm install --global --prefix "$WORK/npm-prefix" "$ROOT" >/dev/null 2>&1 \
-  && [[ "$("$WORK/npm-prefix/bin/taskspec" version)" == "3.8.0" ]] \
+  && [[ "$("$WORK/npm-prefix/bin/taskspec" version)" == "$CURRENT_VERSION" ]] \
   && [[ -x "$WORK/npm-prefix/bin/taskspec-install" ]] \
   && TASKSPEC_INSTALL_ROOT="$NPM_INSTALL_ROOT" "$WORK/npm-prefix/bin/taskspec-install" --target "$NPM_TARGET" --no-bin >"$WORK/npm-install.out" 2>&1 \
   && grep -q '^INSTALL=OK$' "$WORK/npm-install.out" \

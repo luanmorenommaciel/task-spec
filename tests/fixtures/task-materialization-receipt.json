@@ -1,6 +1,6 @@
 {
   "contract": "TaskMaterializationReceipt/v1",
-  "engine_version": "3.8.0",
+  "engine_version": "3.8.1",
   "input": {
     "contract": "TaskPlan/v1",
     "manifest": "/workspace/tasks/.plans/example.yaml",
