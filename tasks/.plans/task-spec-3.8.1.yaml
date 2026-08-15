@@ -168,8 +168,8 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: [T-20260815-nested-workspace-hardening, T-20260815-release-evidence-contracts]
-    touches_paths: [src/evidence/engine_matrix.py, evidence/3.7/engine-matrix.json]
-    creates_paths: [evidence/3.8.1/engine-matrix.json, evidence/3.8.1/benchmark/README.md, tests/test-engine-matrix-v2.sh, release/3.8.1/engine-matrix-result.json]
+    touches_paths: [src/evidence/engine_matrix.py, evidence/3.7/engine-matrix.json, release/evidence.json, release/3.8.1, README.md]
+    creates_paths: [evidence/3.8.1, tests/test-engine-matrix-v2.sh]
     source_note: user-approved release train
     why: Portable handoff claims need retained evidence from more than the bundled reference executor.
     goal: Freeze XS, S, and M tasks and run one guarded attempt through Codex and Claude with honest result retention.

@@ -10,8 +10,8 @@ agent: codex
 parent: (none)
 depends_on: [T-20260815-nested-workspace-hardening, T-20260815-release-evidence-contracts]
 supersedes: (none)
-touches_paths: [src/evidence/engine_matrix.py, evidence/3.7/engine-matrix.json]
-creates_paths: [evidence/3.8.1/engine-matrix.json, evidence/3.8.1/benchmark/README.md, tests/test-engine-matrix-v2.sh, release/3.8.1/engine-matrix-result.json]
+touches_paths: [src/evidence/engine_matrix.py, evidence/3.7/engine-matrix.json, release/evidence.json, release/3.8.1, README.md]
+creates_paths: [evidence/3.8.1, tests/test-engine-matrix-v2.sh]
 source_note: "user-approved release train"
 created: "2026-08-15T00:00:00Z"
 tags: []
@@ -27,11 +27,11 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-15T17:57:19Z
+signed_off_at: 2026-08-15T19:04:31Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:0460435b83f4558c59d9476e3fbfe2c6c73f9a930f510f97caaa33c787b709f5
+signed_off_sig: hmac-sha256-v3:e2e418a3:fe5d1459277a96f408d0e4c6a78e09b820d3d00ac04c34558724b1619095e23f
 ---
 
 # Build and retain the Codex and Claude benchmark matrix
