@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Translate TaskHandoff contracts to optional A2A v1.0 and MCP envelopes."""
+"""Translate TaskHandoff contracts to optional A2A 1.0 and MCP envelopes."""
 
 from __future__ import annotations
 
@@ -19,8 +19,23 @@ def load(path: pathlib.Path) -> dict[str, Any]:
 
 
 def handoff_digest(handoff: dict[str, Any]) -> str:
-    payload = json.dumps(handoff, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    payload = canonical_json(handoff)
     return f"sha256:{hashlib.sha256(payload.encode('utf-8')).hexdigest()}"
+
+
+def canonical_json(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def value_digest(value: Any) -> str:
+    return f"sha256:{hashlib.sha256(canonical_json(value).encode('utf-8')).hexdigest()}"
+
+
+def evidence_requirements(handoff: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: handoff.get(key)
+        for key in ("evaluation_policy", "environment_contract", "identity_policy", "receipt_requirements")
+    }
 
 
 def export(handoff: dict[str, Any], protocol: str, protocol_version: str | None = None) -> dict[str, Any]:
@@ -34,41 +49,69 @@ def export(handoff: dict[str, Any], protocol: str, protocol_version: str | None 
             "authorization_ref": handoff["authorization"]["ref"],
             "attempt_id": handoff["attempt"]["id"],
             "base_commit": handoff["source"]["base_commit"],
+            "write_scope_digest": value_digest(handoff.get("write_scope", {})),
+            "budgets_digest": value_digest(handoff.get("budgets", {})),
+            "evidence_requirements_digest": value_digest(evidence_requirements(handoff)),
         })
     if protocol == "a2a":
         if protocol_version not in {None, "1.0"}:
             raise ValueError("A2A bridge supports protocol version 1.0")
         return {
-            "contract": "TaskSpecA2AArtifact/v2", "protocol": {"name": "A2A", "version": "1.0"},
+            "contract": "TaskSpecA2AArtifact/v3", "protocol": {"name": "A2A", "version": "1.0"},
             "artifactId": handoff["task_id"], "name": "task-spec-handoff",
-            "parts": [{"kind": "data", "data": handoff}], "metadata": {**identity, "task_state": "submitted"},
+            "parts": [{
+                "data": canonical_json(handoff),
+                "mediaType": "application/vnd.taskspec.handoff+json",
+            }],
+            "metadata": {**identity, "task_state": "submitted"},
         }
     return {
-        "contract": "TaskSpecMCPTask/v1", "task": {"id": handoff["task_id"], "status": "working", "input": handoff},
+        "contract": "TaskSpecMCPTask/v2",
+        "protocol": {"name": "MCP", "version": "2026-07-28", "mode": "stateless"},
+        "task": {"id": handoff["task_id"], "status": "working", "input": handoff},
         "metadata": identity,
     }
 
 
 def validate(value: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    if value.get("contract") in {"TaskSpecA2AArtifact/v1", "TaskSpecA2AArtifact/v2"}:
-        if value.get("contract") == "TaskSpecA2AArtifact/v2" and value.get("protocol") != {"name": "A2A", "version": "1.0"}:
+    if value.get("contract") in {"TaskSpecA2AArtifact/v1", "TaskSpecA2AArtifact/v2", "TaskSpecA2AArtifact/v3"}:
+        if value.get("contract") in {"TaskSpecA2AArtifact/v2", "TaskSpecA2AArtifact/v3"} and value.get("protocol") != {"name": "A2A", "version": "1.0"}:
             errors.append("A2A protocol negotiation did not preserve version 1.0")
-        try: embedded = value["parts"][0]["data"]
+        try:
+            part = value["parts"][0]
+            embedded = part["data"]
         except (KeyError, IndexError, TypeError): return ["A2A artifact has no embedded handoff"]
-    elif value.get("contract") == "TaskSpecMCPTask/v1":
+        if value.get("contract") == "TaskSpecA2AArtifact/v3":
+            if "kind" in part:
+                errors.append("A2A 1.0 data part must not contain the legacy kind discriminator")
+            if part.get("mediaType") != "application/vnd.taskspec.handoff+json":
+                errors.append("A2A v3 data part has the wrong media type")
+            try:
+                embedded = json.loads(embedded)
+            except (TypeError, json.JSONDecodeError):
+                return ["A2A v3 data part does not contain canonical TaskHandoff JSON"]
+    elif value.get("contract") in {"TaskSpecMCPTask/v1", "TaskSpecMCPTask/v2"}:
+        if value.get("contract") == "TaskSpecMCPTask/v2" and value.get("protocol") != {"name": "MCP", "version": "2026-07-28", "mode": "stateless"}:
+            errors.append("MCP protocol negotiation did not preserve stateless 2026-07-28")
         try: embedded = value["task"]["input"]
         except (KeyError, TypeError): return ["MCP task has no embedded handoff"]
     else: return ["unsupported bridge contract"]
     metadata = value.get("metadata", {})
     fields = ["task_id", "spec_digest"]
     if embedded.get("contract") == "TaskHandoff/v3":
-        fields.extend(["task_revision_digest", "authorization_ref", "attempt_id", "base_commit"])
+        fields.extend([
+            "task_revision_digest", "authorization_ref", "attempt_id", "base_commit",
+            "write_scope_digest", "budgets_digest", "evidence_requirements_digest",
+        ])
     expected = {
         "task_revision_digest": embedded.get("task_revision_digest"),
         "authorization_ref": embedded.get("authorization", {}).get("ref"),
         "attempt_id": embedded.get("attempt", {}).get("id"),
         "base_commit": embedded.get("source", {}).get("base_commit"),
+        "write_scope_digest": value_digest(embedded.get("write_scope", {})),
+        "budgets_digest": value_digest(embedded.get("budgets", {})),
+        "evidence_requirements_digest": value_digest(evidence_requirements(embedded)),
     }
     for field in fields:
         embedded_value = expected.get(field, embedded.get(field))

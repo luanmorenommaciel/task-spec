@@ -16,7 +16,7 @@
   "release_status": "working",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:7706b4a873593ae3ee1f3a580db133415b7861a79755922611776fed2962abf0"
+    "digest": "sha256:75a38436a81d56efdf8bcc1be0380334b4b61242222e773dca4a57360ff3a948"
   },
   "gates": {
     "authority_contracts": {
@@ -86,14 +86,20 @@
       "reason": "Frozen Codex and Claude attempts have not run."
     },
     "a2a_official": {
-      "state": "not_run",
-      "evidence": null,
-      "reason": "Official A2A SDK conformance is a later authorized leaf."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/protocol-conformance.json",
+        "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d"
+      },
+      "reason": "A2A 1.0 round-tripped through the pinned official Python SDK with authority and handoff bytes preserved."
     },
     "mcp_official": {
-      "state": "not_run",
-      "evidence": null,
-      "reason": "Official MCP SDK conformance is a later authorized leaf."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/protocol-conformance.json",
+        "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d"
+      },
+      "reason": "The pinned MCP v2 client negotiated stateless 2026-07-28 discovery, listed tools, and completed a read-only tool call."
     },
     "ecosystem_certification": {
       "state": "unavailable",
@@ -129,6 +135,10 @@
     {
       "path": ".taskspec/acceptance/T-20260815-nested-workspace-hardening/f094fb99-3ece-4ea2-a837-eba700ef9f99.json",
       "digest": "sha256:d40b07112224a3ebbb0ff9dedd4705e8e716fea983edaec609a1c5232c3b8dfa"
+    },
+    {
+      "path": "release/3.8.1/protocol-conformance.json",
+      "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d"
     }
   ]
 }

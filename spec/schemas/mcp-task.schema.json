@@ -1,13 +1,62 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://taskspec.dev/schema/v4/mcp-task.schema.json",
-  "title": "TaskSpecMCPTask v1",
+  "title": "TaskSpecMCPTask v1-v2",
   "type": "object",
   "additionalProperties": false,
   "required": ["contract", "task", "metadata"],
   "properties": {
-    "contract": {"const": "TaskSpecMCPTask/v1"},
-    "task": {"type": "object", "required": ["id", "status", "input"], "properties": {"id": {"type": "string"}, "status": {"type": "string"}, "input": {"type": "object"}}},
-    "metadata": {"type": "object", "required": ["task_id", "spec_digest", "handoff_digest"], "properties": {"task_id": {"type": "string"}, "spec_digest": {"type": "string"}, "handoff_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}}
+    "contract": {"enum": ["TaskSpecMCPTask/v1", "TaskSpecMCPTask/v2"]},
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "mode"],
+      "properties": {
+        "name": {"const": "MCP"},
+        "version": {"const": "2026-07-28"},
+        "mode": {"const": "stateless"}
+      }
+    },
+    "task": {
+      "type": "object",
+      "required": ["id", "status", "input"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "status": {"type": "string", "minLength": 1},
+        "input": {"type": "object"}
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["task_id", "spec_digest", "handoff_digest"],
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "spec_digest": {"$ref": "#/$defs/digest"},
+        "handoff_digest": {"$ref": "#/$defs/digest"},
+        "task_revision_digest": {"$ref": "#/$defs/digest"},
+        "authorization_ref": {"type": "string", "minLength": 1},
+        "attempt_id": {"type": "string", "minLength": 1},
+        "base_commit": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+        "write_scope_digest": {"$ref": "#/$defs/digest"},
+        "budgets_digest": {"$ref": "#/$defs/digest"},
+        "evidence_requirements_digest": {"$ref": "#/$defs/digest"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"contract": {"const": "TaskSpecMCPTask/v2"}}},
+      "then": {
+        "required": ["protocol"],
+        "properties": {
+          "metadata": {
+            "required": ["task_revision_digest", "authorization_ref", "attempt_id", "base_commit", "write_scope_digest", "budgets_digest", "evidence_requirements_digest"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
   }
 }

@@ -264,7 +264,7 @@ check "A2A v1.0 bridge round trip" bash -c "'$TS' bridge export '$WORK/evidence/
 check "MCP bridge round trip" bash -c "'$TS' bridge export '$WORK/evidence/handoff.json' --protocol mcp --out '$WORK/evidence/mcp-task.json' && '$TS' bridge validate '$WORK/evidence/mcp-task.json'"
 python3 - "$WORK/evidence/a2a.json" "$WORK/evidence/a2a-tampered.json" <<'PY'
 import json,sys
-value=json.load(open(sys.argv[1])); value["parts"][0]["data"]["budgets"]["iterations"]=999
+value=json.load(open(sys.argv[1])); embedded=json.loads(value["parts"][0]["data"]); embedded["budgets"]["iterations"]=999; value["parts"][0]["data"]=json.dumps(embedded,sort_keys=True,separators=(",",":"))
 json.dump(value,open(sys.argv[2],"w"))
 PY
 check "A2A bridge detects embedded handoff tampering" bash -c "! '$TS' bridge validate '$WORK/evidence/a2a-tampered.json' >/dev/null 2>&1"

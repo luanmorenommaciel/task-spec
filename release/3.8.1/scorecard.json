@@ -144,24 +144,38 @@
     },
     {
       "id": "standards_interoperability",
-      "awarded_points": 0,
+      "awarded_points": 9,
       "max_points": 10,
       "criteria": [
         {
           "id": "a2a_official",
           "points": 4,
-          "awarded": 0,
-          "state": "not_run",
-          "evidence": [],
-          "reason": "Official A2A SDK conformance is a later authorized leaf."
+          "awarded": 4,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/protocol-conformance.json",
+              "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d",
+              "class": "protocol",
+              "state": "pass"
+            }
+          ],
+          "reason": "A2A 1.0 round-tripped through the pinned official Python SDK with authority and handoff bytes preserved."
         },
         {
           "id": "mcp_official",
           "points": 5,
-          "awarded": 0,
-          "state": "not_run",
-          "evidence": [],
-          "reason": "Official MCP SDK conformance is a later authorized leaf."
+          "awarded": 5,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/protocol-conformance.json",
+              "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d",
+              "class": "protocol",
+              "state": "pass"
+            }
+          ],
+          "reason": "The pinned MCP v2 client negotiated stateless 2026-07-28 discovery, listed tools, and completed a read-only tool call."
         },
         {
           "id": "ecosystem_certification",
@@ -214,7 +228,7 @@
     }
   ],
   "total": {
-    "awarded": 14,
+    "awarded": 23,
     "maximum": 100,
     "target": 97,
     "passed": false

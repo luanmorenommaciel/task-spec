@@ -1,7 +1,7 @@
 ---
 id: T-20260815-official-protocol-conformance
 title: "Correct and externally verify A2A and MCP interop"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-15T18:38:24Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-15T18:45:48Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:508c83ba6b0d5516beb4b93b1773fe3896d6f2fdefb18a2828e35d46208ab5c4
+accepted_tier: 1
+accepted_attempt_id: 0fa013aa-5f1c-4d4f-9da1-4c2e5d2a5877
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:508c83ba6b0d5516beb4b93b1773fe3896d6f2fdefb18a2828e35d46208ab5c4
+acceptance_record_digest: sha256:a18603cc696fa9aa99f3b4c3f433985cf0bcd44dc5edd4bcdfb8188f8706bd17
 ---
 
 # Correct and externally verify A2A and MCP interop
