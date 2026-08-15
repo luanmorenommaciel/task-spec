@@ -104,7 +104,7 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: [T-20260815-release-evidence-contracts]
-    touches_paths: [src/interop/bridge.py, src/interop/mcp_server.py, spec/schemas/a2a-artifact.schema.json, spec/schemas/mcp-task.schema.json, tests/test-v37-evidence-integrity.sh]
+    touches_paths: [src/interop/bridge.py, src/interop/mcp_server.py, spec/schemas/a2a-artifact.schema.json, spec/schemas/mcp-task.schema.json, tests/test-v37-evidence-integrity.sh, release/evidence.json, release/3.8.1/scorecard.json, README.md]
     creates_paths: [interop/UPSTREAM.lock, tests/test-protocol-conformance.sh, release/3.8.1/protocol-conformance.json]
     source_note: user-approved release train
     why: Internal round trips alone cannot support official compatibility claims.

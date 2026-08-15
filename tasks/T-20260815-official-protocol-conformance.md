@@ -10,7 +10,7 @@ agent: codex
 parent: (none)
 depends_on: [T-20260815-release-evidence-contracts]
 supersedes: (none)
-touches_paths: [src/interop/bridge.py, src/interop/mcp_server.py, spec/schemas/a2a-artifact.schema.json, spec/schemas/mcp-task.schema.json, tests/test-v37-evidence-integrity.sh]
+touches_paths: [src/interop/bridge.py, src/interop/mcp_server.py, spec/schemas/a2a-artifact.schema.json, spec/schemas/mcp-task.schema.json, tests/test-v37-evidence-integrity.sh, release/evidence.json, release/3.8.1/scorecard.json, README.md]
 creates_paths: [interop/UPSTREAM.lock, tests/test-protocol-conformance.sh, release/3.8.1/protocol-conformance.json]
 source_note: "user-approved release train"
 created: "2026-08-15T00:00:00Z"
@@ -27,11 +27,11 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-15T17:57:14Z
+signed_off_at: 2026-08-15T18:38:24Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:906fdc9e559c9e7dce7300dccc2e34226a3ca244969e7572cff601f2c3f7610e
+signed_off_sig: hmac-sha256-v3:e2e418a3:508c83ba6b0d5516beb4b93b1773fe3896d6f2fdefb18a2828e35d46208ab5c4
 ---
 
 # Correct and externally verify A2A and MCP interop
