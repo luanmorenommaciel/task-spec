@@ -245,24 +245,38 @@
     },
     {
       "id": "public_external_proof",
-      "awarded_points": 3,
+      "awarded_points": 6,
       "max_points": 10,
       "criteria": [
         {
           "id": "hosted_ci",
           "points": 3,
-          "awarded": 0,
-          "state": "unavailable",
-          "evidence": [],
-          "reason": "The last hosted attempt started zero steps because GitHub Actions billing or spending limits require external resolution."
+          "awarded": 3,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/hosted-ci.json",
+              "digest": "sha256:f76e38a782f6693ad6c338795a9abf21420ce30409da9a3c6060b8141904f71b",
+              "class": "hosted",
+              "state": "pass"
+            }
+          ],
+          "reason": "GitHub Actions run 31906913000 executed the full gate successfully on hosted Ubuntu and macOS runners with nonzero steps."
         },
         {
           "id": "published_provenance",
           "points": 3,
           "awarded": 0,
-          "state": "not_run",
-          "evidence": [],
-          "reason": "No 3.8.1 RC, final tag, SBOM, checksum archive, or provenance attestation exists yet."
+          "state": "fail",
+          "evidence": [
+            {
+              "path": "release/3.8.1/rc1-publication-attempt.json",
+              "digest": "sha256:12f3e029972f9483284af2b35810eb3aa3a84e1acd197018c4a555a33aea8cb6",
+              "class": "published",
+              "state": "fail"
+            }
+          ],
+          "reason": "RC 1 built the hosted archive and SBOM, but GitHub rejected attestations for this user-owned private repository and downstream public installation was skipped."
         },
         {
           "id": "signed_sandbox",
@@ -291,7 +305,7 @@
     }
   ],
   "total": {
-    "awarded": 87,
+    "awarded": 90,
     "maximum": 100,
     "target": 97,
     "passed": false

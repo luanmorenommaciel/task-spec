@@ -1,0 +1,24 @@
+{
+  "contract": "ReleasePublicationAttempt/v1",
+  "version": "3.8.1",
+  "release_ref": "v3.8.1-rc.1",
+  "observed_at": "2026-08-15T20:38:22Z",
+  "repository_visibility": "private",
+  "run_id": 31907180516,
+  "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31907180516",
+  "result": "blocked",
+  "completed_evidence": [
+    "The deterministic source archive, evidence archive, checksums, and SPDX SBOM were built successfully in the hosted job."
+  ],
+  "blocking_failure": {
+    "code": "GITHUB_ATTESTATIONS_PRIVATE_REPOSITORY_UNAVAILABLE",
+    "job_id": 95066721688,
+    "step": "Attest release archive provenance",
+    "message": "GitHub artifact attestations are unavailable for a user-owned private repository."
+  },
+  "downstream": {
+    "asset_upload": "skipped",
+    "remote_install_matrix": "skipped"
+  },
+  "required_resolution": "Make the repository public, or explicitly revise the release contract to use a different independently verifiable provenance system."
+}

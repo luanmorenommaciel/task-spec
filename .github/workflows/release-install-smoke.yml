@@ -49,6 +49,36 @@ jobs:
           cp "release/$(cat VERSION)/reviewer-report.json" "dist/task-spec-$(cat VERSION)-reviewer-report.json"
           (cd dist && shasum -a 256 task-spec-* > "task-spec-$(cat ../VERSION)-checksums.txt")
 
+      - name: Attach immutable assets to the existing release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$RELEASE_REF" dist/task-spec-* --clobber
+
+  provenance:
+    name: GitHub artifact and SBOM attestations
+    needs: release-assets
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_REF: ${{ github.event.release.tag_name || inputs.release_ref }}
+    steps:
+      - name: Checkout the exact release
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ env.RELEASE_REF }}
+          persist-credentials: false
+
+      - name: Download the immutable subjects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="$(tr -d '[:space:]' < VERSION)"
+          mkdir -p dist
+          gh release download "$RELEASE_REF" --dir dist \
+            --pattern "task-spec-${version}.tar.gz" \
+            --pattern "task-spec-${version}.spdx.json"
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+
       - name: Attest release archive provenance
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8
         with:
@@ -59,11 +89,6 @@ jobs:
         with:
           subject-path: dist/task-spec-${{ env.RELEASE_VERSION }}.tar.gz
           sbom-path: dist/task-spec-${{ env.RELEASE_VERSION }}.spdx.json
-
-      - name: Attach immutable assets to the existing release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release upload "$RELEASE_REF" dist/task-spec-* --clobber
 
   install:
     name: remote install (${{ matrix.os }})

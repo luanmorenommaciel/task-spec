@@ -10,13 +10,13 @@
   ],
   "generated_at": "2026-08-15T18:15:00Z",
   "source": {
-    "commit": "417fc79e6e43b482847cf6f34c314a2795f77abc",
+    "commit": "441c48c8128f0953ec12d96fafa08eaa5a7be86a",
     "branch": "codex/taskspec-3.8.1"
   },
-  "release_status": "working",
+  "release_status": "blocked",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:06224e82b94e0d498c70e05f8b5da131098138976036b3c4f3695959de657164"
+    "digest": "sha256:ec80c8eb4e3bbefd8adbfc64739f2bf686564dca6691e9e7aeefb3efa77ccb82"
   },
   "gates": {
     "authority_contracts": {
@@ -131,14 +131,20 @@
       "reason": "Intentionally unclaimed: pinned SDK conformance is not ecosystem-wide certification."
     },
     "hosted_ci": {
-      "state": "unavailable",
-      "evidence": null,
-      "reason": "The last hosted attempt started zero steps because GitHub Actions billing or spending limits require external resolution."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/hosted-ci.json",
+        "digest": "sha256:f76e38a782f6693ad6c338795a9abf21420ce30409da9a3c6060b8141904f71b"
+      },
+      "reason": "GitHub Actions run 31906913000 executed the full gate successfully on hosted Ubuntu and macOS runners with nonzero steps."
     },
     "published_provenance": {
-      "state": "not_run",
-      "evidence": null,
-      "reason": "No 3.8.1 RC, final tag, SBOM, checksum archive, or provenance attestation exists yet."
+      "state": "blocked",
+      "evidence": {
+        "path": "release/3.8.1/rc1-publication-attempt.json",
+        "digest": "sha256:12f3e029972f9483284af2b35810eb3aa3a84e1acd197018c4a555a33aea8cb6"
+      },
+      "reason": "RC 1 built the hosted archive and SBOM, but GitHub rejected attestations for this user-owned private repository and downstream public installation was skipped."
     },
     "signed_sandbox": {
       "state": "pass",
@@ -218,6 +224,14 @@
     {
       "path": "release/3.8.1/sbom.spdx.json",
       "digest": "sha256:8f76476d2515666cd11d39874ef71bed5acbe62d61961b308b5fcabd655f2796"
+    },
+    {
+      "path": "release/3.8.1/hosted-ci.json",
+      "digest": "sha256:f76e38a782f6693ad6c338795a9abf21420ce30409da9a3c6060b8141904f71b"
+    },
+    {
+      "path": "release/3.8.1/rc1-publication-attempt.json",
+      "digest": "sha256:12f3e029972f9483284af2b35810eb3aa3a84e1acd197018c4a555a33aea8cb6"
     }
   ]
 }
