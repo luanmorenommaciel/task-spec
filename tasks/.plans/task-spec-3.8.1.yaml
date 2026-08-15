@@ -136,8 +136,8 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: [T-20260815-quality-release-audit, T-20260815-official-protocol-conformance]
-    touches_paths: [bin/taskspec, src/dispatch/agent-context.py, README.md, docs/reference/cli.md, tests/readme_contract.py]
-    creates_paths: [src/author/examples.py, docs/getting-started/reviewer-route.md, tests/test-v381-experience.sh]
+    touches_paths: [bin/taskspec, src/dispatch/agent-context.py, README.md, docs/reference/cli.md, docs/reference/compatibility-policy.md, docs/getting-started/index.md, docs/readme-command-coverage.json, tests/readme_contract.py, release/evidence.json, release/3.8.1/scorecard.json]
+    creates_paths: [src/author/examples.py, docs/getting-started/reviewer-route.md, tests/test-v381-experience.sh, release/3.8.1/reviewer-report.json]
     source_note: user-approved release train
     why: Reviewers need a source-checkout-independent path whose commands and claims execute exactly as documented.
     goal: Add taskspec example task-plan and a five-minute evidence-review journey with generated status.

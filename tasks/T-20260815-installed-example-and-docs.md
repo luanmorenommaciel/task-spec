@@ -10,8 +10,8 @@ agent: codex
 parent: (none)
 depends_on: [T-20260815-quality-release-audit, T-20260815-official-protocol-conformance]
 supersedes: (none)
-touches_paths: [bin/taskspec, src/dispatch/agent-context.py, README.md, docs/reference/cli.md, tests/readme_contract.py]
-creates_paths: [src/author/examples.py, docs/getting-started/reviewer-route.md, tests/test-v381-experience.sh]
+touches_paths: [bin/taskspec, src/dispatch/agent-context.py, README.md, docs/reference/cli.md, docs/reference/compatibility-policy.md, docs/getting-started/index.md, docs/readme-command-coverage.json, tests/readme_contract.py, release/evidence.json, release/3.8.1/scorecard.json]
+creates_paths: [src/author/examples.py, docs/getting-started/reviewer-route.md, tests/test-v381-experience.sh, release/3.8.1/reviewer-report.json]
 source_note: "user-approved release train"
 created: "2026-08-15T00:00:00Z"
 tags: []
@@ -27,11 +27,11 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-15T17:57:10Z
+signed_off_at: 2026-08-15T18:47:07Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:b7dd7f20a1182f97e95728af347ff3e395b317957167b957a793d6957bbe27c5
+signed_off_sig: hmac-sha256-v3:e2e418a3:95c65e7b4d8b7527258b1bbdd3e9d5947b8d1047ac0681c2f59622eef51562c9
 ---
 
 # Deliver the installed example and reviewer-grade documentation
