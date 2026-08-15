@@ -67,6 +67,7 @@ contract = {
     "contracts": {
         "task_spec": "spec/schemas/task-spec-frontmatter.schema.json",
         "task_plan": "spec/schemas/task-plan.schema.json",
+        "task_materialization_receipt": "spec/schemas/task-materialization-receipt.schema.json",
         "task_handoff": "spec/schemas/task-handoff.schema.json",
         "task_revision": "spec/schemas/task-revision.schema.json",
         "task_graph_view": "spec/schemas/task-graph-view.schema.json",

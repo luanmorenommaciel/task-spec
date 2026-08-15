@@ -9,6 +9,7 @@
 #   TASKSPEC_VERSION       — canonical version string (single source of truth)
 #   TASKSPEC_SKILL_DIR     — absolute path of the task-spec skill root
 #   TASKSPEC_BACKLOG_DIR   — configurable backlog directory (default: tasks)
+#   TASKSPEC_WORKSPACE_ROOT — optional explicit repository/workspace authority
 #
 # Helpers:
 #   ts_version_flag "$@"   — call ONCE at the top of arg parsing.
@@ -964,6 +965,19 @@ ts_workspace_root() {
   _tswr_d="$1"
   [ -d "$_tswr_d" ] || _tswr_d="$(dirname "$_tswr_d")"
   _tswr_d="$(cd "$_tswr_d" 2>/dev/null && pwd)" || return 1
+  if [ -n "${TASKSPEC_WORKSPACE_ROOT:-}" ]; then
+    _tswr_explicit_workspace="$(cd "$TASKSPEC_WORKSPACE_ROOT" 2>/dev/null && pwd)" || return 1
+    case "$_tswr_d" in
+      "$_tswr_explicit_workspace"|"$_tswr_explicit_workspace"/*)
+        printf '%s' "$_tswr_explicit_workspace"
+        return 0
+        ;;
+      *)
+        echo "ERROR: task path is outside TASKSPEC_WORKSPACE_ROOT" >&2
+        return 1
+        ;;
+    esac
+  fi
   _tswr_backlog="$(ts_backlog_root "$_tswr_d" 2>/dev/null || true)"
   _tswr_is_backlog=false
   [ -n "$_tswr_backlog" ] && [ "$(basename "$_tswr_backlog")" = "tasks" ] && _tswr_is_backlog=true

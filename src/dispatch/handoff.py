@@ -38,6 +38,16 @@ def fenced_yaml(text: str) -> dict:
 
 
 def workspace_for(spec: pathlib.Path) -> pathlib.Path:
+    configured_workspace = os.environ.get("TASKSPEC_WORKSPACE_ROOT")
+    if configured_workspace:
+        workspace = pathlib.Path(configured_workspace).resolve()
+        try:
+            spec.relative_to(workspace)
+        except ValueError as exc:
+            raise DataError(
+                "Task-Spec is outside TASKSPEC_WORKSPACE_ROOT"
+            ) from exc
+        return workspace
     configured = os.environ.get("TASKSPEC_BACKLOG_DIR")
     if configured:
         backlog = pathlib.Path(configured).resolve()

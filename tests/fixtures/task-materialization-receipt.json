@@ -1,0 +1,24 @@
+{
+  "contract": "TaskMaterializationReceipt/v1",
+  "engine_version": "3.8.0",
+  "input": {
+    "contract": "TaskPlan/v1",
+    "manifest": "/workspace/tasks/.plans/example.yaml",
+    "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "approved": true
+  },
+  "output_dir": "tasks",
+  "dry_run": false,
+  "materialized": true,
+  "changed": true,
+  "state": "created",
+  "dispatch_authorized": false,
+  "tasks": [
+    {
+      "task_id": "T-20260815-example",
+      "path": "tasks/T-20260815-example.md",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "warnings": []
+}

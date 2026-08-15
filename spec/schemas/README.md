@@ -9,6 +9,7 @@ structural schema cannot prove.
 | [`task-spec-frontmatter.schema.json`](task-spec-frontmatter.schema.json) | Opt-in format-v4 evidence policy plus compatible v1-v3 frontmatter |
 | [`agent-contract.schema.json`](agent-contract.schema.json) | Validation Card success criteria, retry policy, and executor contract |
 | [`task-plan.schema.json`](task-plan.schema.json) | Complete deterministic authoring manifest consumed by `plan` and `batch --plan` |
+| [`task-materialization-receipt.schema.json`](task-materialization-receipt.schema.json) | Task-Spec-owned receipt binding an approved TaskPlan to generated task bytes without dispatch authority |
 | [`task-handoff.schema.json`](task-handoff.schema.json) | Read-only credential-free executor handoff |
 | [`task-revision.schema.json`](task-revision.schema.json) | Canonical authorized revision identity |
 | [`task-graph-view.schema.json`](task-graph-view.schema.json) / [`task-status.schema.json`](task-status.schema.json) | Derived backlog graph and read-only lifecycle status |

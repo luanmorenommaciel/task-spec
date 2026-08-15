@@ -1,7 +1,11 @@
 # CLI reference
 
 The default surface is human-readable. Global `--json` wraps command output in
-`TaskSpecCLIResult/v1` while preserving the underlying exit code. Global
+`TaskSpecCLIResult/v1` while preserving the underlying exit code. Plan preview
+returns `TaskPlan/v1` in `data`; approved batch materialization returns
+`TaskMaterializationReceipt/v1` with generated paths and content hashes while
+explicitly recording whether bytes were `created`, `unchanged`, or only
+previewed with `dry_run`; no materialization receipt grants dispatch authority. Global
 `--dry-run` prevents supported mutations.
 
 | Exit | Meaning |
