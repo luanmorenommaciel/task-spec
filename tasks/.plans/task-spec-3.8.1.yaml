@@ -72,7 +72,7 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: [T-20260815-release-evidence-contracts]
-    touches_paths: [Makefile, release/evidence.json, README.md]
+    touches_paths: [Makefile, release/evidence.json, README.md, tools/render-status.py]
     creates_paths: [release/quality-rubric.json, release/3.8.1/scorecard.json, src/evidence/release_audit.py, tests/test-release-audit.sh]
     source_note: user-approved release train
     why: The 97-point claim must be calculated from retained evidence and fail closed on missing proof.
