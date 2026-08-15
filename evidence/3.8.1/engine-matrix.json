@@ -1,0 +1,43 @@
+{
+  "contract": "EngineMatrix/v2",
+  "matrix_id": "taskspec-3.8.1",
+  "frozen_at": "2026-08-15T19:07:00Z",
+  "tasks": [
+    {
+      "task_id": "T-20260815-benchmark-xs",
+      "effort": "XS",
+      "handoff": "benchmark/handoffs/xs.json",
+      "handoff_digest": "sha256:b00d32ba90fee6e509312ce5a2103bead6948bc401aaf721ad2cf6ae0ddb5192"
+    },
+    {
+      "task_id": "T-20260815-benchmark-s",
+      "effort": "S",
+      "handoff": "benchmark/handoffs/s.json",
+      "handoff_digest": "sha256:ee777eb89869d380442c5196f486acc1732ecc6d82b1f9cbb3da0ee931be5dc1"
+    },
+    {
+      "task_id": "T-20260815-benchmark-m",
+      "effort": "M",
+      "handoff": "benchmark/handoffs/m.json",
+      "handoff_digest": "sha256:4bfae4de33ace4cf7a1ee7e6a3ca9242ce7e544eb30e1aa80df9a19f227f2c57"
+    }
+  ],
+  "engines": [
+    {
+      "family": "openai",
+      "adapter": "codex",
+      "model": "gpt-5.6-sol",
+      "enabled": true,
+      "max_attempts": 1,
+      "budget": {"timeout_sec": 900, "max_cost_usd": null}
+    },
+    {
+      "family": "anthropic",
+      "adapter": "claude",
+      "model": "opus",
+      "enabled": true,
+      "max_attempts": 1,
+      "budget": {"timeout_sec": 900, "max_cost_usd": 10}
+    }
+  ]
+}

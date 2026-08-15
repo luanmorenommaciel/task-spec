@@ -16,7 +16,7 @@
   "release_status": "working",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:7e424bbb31ada1b3cfcecfaf3c94b56cfa6083b377e30a56ea0cbb49a0cc9757"
+    "digest": "sha256:57e9792b108eb5e66f304a50b19766428b658a73b580be8fc7332dc9190be7b5"
   },
   "gates": {
     "authority_contracts": {
@@ -90,9 +90,12 @@
       "reason": "Local and remote installation evidence must be regenerated for 3.8.1."
     },
     "real_engine_matrix": {
-      "state": "not_run",
-      "evidence": null,
-      "reason": "Frozen Codex and Claude attempts have not run."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/engine-matrix-result.json",
+        "digest": "sha256:337e9e968225149bfd41e7ca62a0568280a2a582170ad0dfd5738b3c29d9f060"
+      },
+      "reason": "Codex gpt-5.6-sol and Claude Code with observed claude-opus-5 each accepted all three frozen one-shot tasks with zero scope violations."
     },
     "a2a_official": {
       "state": "pass",
@@ -152,6 +155,14 @@
     {
       "path": "release/3.8.1/reviewer-report.json",
       "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6"
+    },
+    {
+      "path": "release/3.8.1/engine-matrix-result.json",
+      "digest": "sha256:337e9e968225149bfd41e7ca62a0568280a2a582170ad0dfd5738b3c29d9f060"
+    },
+    {
+      "path": "release/3.8.1/engine-matrix-artifacts.json",
+      "digest": "sha256:aeb74f1a8c64f49bff1b9fd17a220ba4f559cef1020967269af2e00ff0da2a51"
     }
   ]
 }

@@ -1,0 +1,99 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260815-benchmark-xs",
+  "format_version": 3,
+  "spec": "/private/tmp/taskspec-3.8.1-engine-matrix/xs/worktree/tasks/T-20260815-benchmark-xs.md",
+  "spec_digest": "sha256:3136660014bac14a0fa00150c2a4dcfe93acad73a13e7df0aebf2f7c903fee72",
+  "task_revision_digest": "sha256:0b8859a668deb9293cd33ca80efce2cf3f39ef68d0ace8878b815d9883d34d83",
+  "signoff_tier": 1,
+  "backend": "any",
+  "workspace": "/private/tmp/taskspec-3.8.1-engine-matrix/xs/worktree",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:0db911a2bac7820fb58b4312fbc7f5d557e5b6fdc92e279f66b7cbf037bb36c9",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-08-15T19:06:41Z"
+  },
+  "attempt": {
+    "id": "38100000-0000-4000-8000-000000000001",
+    "issued_at": "2026-08-15T19:07:26Z"
+  },
+  "source": {
+    "workspace": "/private/tmp/taskspec-3.8.1-engine-matrix/xs/worktree",
+    "base_commit": "3dccff2b769abb3183a2fd02e447d20042d9ae36"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260815-benchmark-xs",
+    "digest": "sha256:48c9d950fcf79c5a25052a8bb199a848b6834bbdb79eff2d0c7e4c1e6510b3ff",
+    "members": [
+      {
+        "task_id": "T-20260815-benchmark-xs",
+        "task_revision_digest": "sha256:0b8859a668deb9293cd33ca80efce2cf3f39ef68d0ace8878b815d9883d34d83"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [],
+    "creates_paths": [
+      "work/xs/result.txt"
+    ],
+    "do_not_touch": [
+      "tasks/T-20260815-benchmark-xs.md"
+    ]
+  },
+  "budgets": {
+    "iterations": 3,
+    "tokens": null,
+    "effort": "XS"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code"
+    ],
+    "required_tools": [
+      "bash"
+    ],
+    "timeout_minutes": 5,
+    "sandbox_type": "host",
+    "output_artifacts": [
+      "work/xs/result.txt"
+    ],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/private/tmp/taskspec-3.8.1-engine-matrix/xs/worktree/tasks/T-20260815-benchmark-xs.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/private/tmp/taskspec-3.8.1-engine-matrix/xs/worktree/tasks/T-20260815-benchmark-xs.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}

@@ -1,7 +1,7 @@
 ---
 id: T-20260815-real-engine-benchmark
 title: "Build and retain the Codex and Claude benchmark matrix"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-15T19:04:31Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-15T19:30:17Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:fe5d1459277a96f408d0e4c6a78e09b820d3d00ac04c34558724b1619095e23f
+accepted_tier: 1
+accepted_attempt_id: 7fb19d36-7a0b-4bdf-9e55-fbd797be0a81
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:fe5d1459277a96f408d0e4c6a78e09b820d3d00ac04c34558724b1619095e23f
+acceptance_record_digest: sha256:b555f0d350ff8a3ca562b6a25f406aef9b575f89dd476a6e473d02e42bd3f8dc
 ---
 
 # Build and retain the Codex and Claude benchmark matrix

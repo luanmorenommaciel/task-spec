@@ -142,7 +142,7 @@
     },
     {
       "id": "harness_packaging",
-      "awarded_points": 0,
+      "awarded_points": 6,
       "max_points": 10,
       "criteria": [
         {
@@ -156,10 +156,17 @@
         {
           "id": "real_engine_matrix",
           "points": 6,
-          "awarded": 0,
-          "state": "not_run",
-          "evidence": [],
-          "reason": "Frozen Codex and Claude attempts have not run."
+          "awarded": 6,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/engine-matrix-result.json",
+              "digest": "sha256:337e9e968225149bfd41e7ca62a0568280a2a582170ad0dfd5738b3c29d9f060",
+              "class": "external_engine",
+              "state": "pass"
+            }
+          ],
+          "reason": "Codex gpt-5.6-sol and Claude Code with observed claude-opus-5 each accepted all three frozen one-shot tasks with zero scope violations."
         }
       ]
     },
@@ -249,7 +256,7 @@
     }
   ],
   "total": {
-    "awarded": 43,
+    "awarded": 49,
     "maximum": 100,
     "target": 97,
     "passed": false
