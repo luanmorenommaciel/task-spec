@@ -29,15 +29,27 @@ STATUS=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --since)
-      SINCE="${2:-}"
+      [[ $# -ge 2 ]] || {
+        echo "Usage: taskspec metrics --since YYYY-MM-DD" >&2
+        exit 2
+      }
+      SINCE="$2"
       shift 2
       ;;
     --author)
-      AUTHOR="${2:-}"
+      [[ $# -ge 2 ]] || {
+        echo "Usage: taskspec metrics --author <name>" >&2
+        exit 2
+      }
+      AUTHOR="$2"
       shift 2
       ;;
     --status)
-      STATUS="${2:-}"
+      [[ $# -ge 2 ]] || {
+        echo "Usage: taskspec metrics --status <status>" >&2
+        exit 2
+      }
+      STATUS="$2"
       shift 2
       ;;
     --help|-h)
@@ -47,7 +59,7 @@ while [[ $# -gt 0 ]]; do
     *)
       echo "Unknown option: $1" >&2
       echo "Usage: taskspec metrics [--since YYYY-MM-DD] [--author <name>] [--status <status>]" >&2
-      exit 1
+      exit 2
       ;;
   esac
 done
