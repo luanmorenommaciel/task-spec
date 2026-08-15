@@ -9,7 +9,8 @@ writes the newest contract by default.
 | HMAC authorization | v1, v2, v3 | v3 |
 | TaskHandoff | v1, v2, v3 | v3 |
 | Evidence receipts | v1, v2 | v2 |
-| A2A artifact | v1 compatibility, v2 bridge | v2 with A2A 1.0 |
+| A2A artifact | v1, v2, v3 | v3 with the A2A 1.0 data-part shape |
+| MCP task bridge | v1, v2 | v2 with the stateless MCP 2026-07-28 marker |
 
 Historical HMAC v1/v2 and receipt v1 are supervised Tier 2 because their
 payloads cannot express the complete revision/attempt subject. They are not

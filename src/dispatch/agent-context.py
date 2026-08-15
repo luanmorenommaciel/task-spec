@@ -12,6 +12,7 @@ commands = {
     "setup": {"mutation": "none", "tokens": ["SETUP=READY"]},
     "setup signing": {"mutation": "creates or explicitly rotates the repository-private HMAC key", "tokens": []},
     "demo": {"mutation": "creates and removes an isolated temporary repository", "tokens": ["DEMO=READY", "DEMO=DRY_RUN"]},
+    "example": {"mutation": "writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing", "tokens": ["EXAMPLE=WRITTEN", "EXAMPLE=DRY_RUN", "EXAMPLE=REFUSED"]},
     "new": {"mutation": "creates one Task-Spec scaffold and derived state", "tokens": []},
     "plan": {"mutation": "none", "tokens": ["TASK_PLAN=OK", "TASK_PLAN=INVALID"]},
     "batch": {"mutation": "creates declared Task-Spec scaffolds; --dry-run writes nothing", "tokens": ["TASK_BATCH=OK", "TASK_BATCH=DRY_RUN", "TASK_BATCH=REFUSED"]},

@@ -1,0 +1,42 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-15T19:02:21Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": [
+        "spec digest changed while TaskRevision/v1 remained stable; mutable lifecycle fields may have changed"
+      ]
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "d42df040-4f8f-463d-945e-1030b46da884",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:95c65e7b4d8b7527258b1bbdd3e9d5947b8d1047ac0681c2f59622eef51562c9",
+    "base_commit": "2bca2d44d28ef70d35facf31cef5f2a1b3f189cc",
+    "task_id": "T-20260815-installed-example-and-docs",
+    "task_revision_digest": "sha256:98d2c2d0e2ba8909989d9a6fa59395a4ff9fd474752977776c8559231098a993"
+  }
+}

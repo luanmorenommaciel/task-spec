@@ -1,7 +1,7 @@
 ---
 id: T-20260815-installed-example-and-docs
 title: "Deliver the installed example and reviewer-grade documentation"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-15T18:47:07Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-15T19:02:21Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:95c65e7b4d8b7527258b1bbdd3e9d5947b8d1047ac0681c2f59622eef51562c9
+accepted_tier: 1
+accepted_attempt_id: d42df040-4f8f-463d-945e-1030b46da884
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:95c65e7b4d8b7527258b1bbdd3e9d5947b8d1047ac0681c2f59622eef51562c9
+acceptance_record_digest: sha256:9d934282607918a23019e15b2be137f5de805f2ed5671956f913726d92a8a631
 ---
 
 # Deliver the installed example and reviewer-grade documentation

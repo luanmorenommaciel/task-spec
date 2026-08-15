@@ -90,32 +90,53 @@
     },
     {
       "id": "documentation_dx",
-      "awarded_points": 0,
+      "awarded_points": 20,
       "max_points": 20,
       "criteria": [
         {
           "id": "reviewer_journey",
           "points": 10,
-          "awarded": 0,
-          "state": "not_run",
-          "evidence": [],
-          "reason": "The installed reviewer journey is a later authorized leaf."
+          "awarded": 10,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/reviewer-report.json",
+              "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "A disposable installed release completed the canonical example and five-minute reviewer journey."
         },
         {
           "id": "documentation_contract",
           "points": 5,
-          "awarded": 0,
-          "state": "pending",
-          "evidence": [],
-          "reason": "The final README command and visual review has not run."
+          "awarded": 5,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/reviewer-report.json",
+              "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "Commands, links, fences, CLI surfaces, images, alt text, Mermaid blocks, and 390/1440 viewport checks passed."
         },
         {
           "id": "generated_status",
           "points": 5,
-          "awarded": 0,
-          "state": "pending",
-          "evidence": [],
-          "reason": "The generated status task is in progress."
+          "awarded": 5,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/reviewer-report.json",
+              "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "The README status block is regenerated from the digest-validated scorecard and fails when stale."
         }
       ]
     },
@@ -228,7 +249,7 @@
     }
   ],
   "total": {
-    "awarded": 23,
+    "awarded": 43,
     "maximum": 100,
     "target": 97,
     "passed": false

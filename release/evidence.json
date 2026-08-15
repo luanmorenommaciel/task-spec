@@ -16,7 +16,7 @@
   "release_status": "working",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:75a38436a81d56efdf8bcc1be0380334b4b61242222e773dca4a57360ff3a948"
+    "digest": "sha256:7e424bbb31ada1b3cfcecfaf3c94b56cfa6083b377e30a56ea0cbb49a0cc9757"
   },
   "gates": {
     "authority_contracts": {
@@ -61,19 +61,28 @@
       "reason": "The final attempt-replay and crash-fault evidence bundle has not been generated."
     },
     "reviewer_journey": {
-      "state": "not_run",
-      "evidence": null,
-      "reason": "The installed reviewer journey is a later authorized leaf."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/reviewer-report.json",
+        "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6"
+      },
+      "reason": "A disposable installed release completed the canonical example and five-minute reviewer journey."
     },
     "documentation_contract": {
-      "state": "pending",
-      "evidence": null,
-      "reason": "The final README command and visual review has not run."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/reviewer-report.json",
+        "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6"
+      },
+      "reason": "Commands, links, fences, CLI surfaces, images, alt text, Mermaid blocks, and 390/1440 viewport checks passed."
     },
     "generated_status": {
-      "state": "pending",
-      "evidence": null,
-      "reason": "The generated status task is in progress."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/reviewer-report.json",
+        "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6"
+      },
+      "reason": "The README status block is regenerated from the digest-validated scorecard and fails when stale."
     },
     "installation_matrix": {
       "state": "pending",
@@ -139,6 +148,10 @@
     {
       "path": "release/3.8.1/protocol-conformance.json",
       "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d"
+    },
+    {
+      "path": "release/3.8.1/reviewer-report.json",
+      "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6"
     }
   ]
 }

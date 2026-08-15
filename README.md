@@ -16,6 +16,7 @@
 Works with **Codex · Claude Code · Kimi · Grok Build · any conformant executor**
 
 [Prove it](#prove-it-in-one-command) ·
+[Review](#review-it-in-five-minutes) ·
 [Highlights](#what-shipped-in-38) ·
 [Features](#feature-matrix) ·
 [Install](#installation) ·
@@ -72,6 +73,34 @@ the repository from which you invoke it.
 That command is exercised by `make check`; tagged releases also have a separate
 remote-install workflow that runs the curl and npm/GitHub distribution doors on
 both Ubuntu and macOS before those doors are called verified.
+
+## Review it in five minutes
+
+The installed package carries its canonical TaskPlan example, so a reviewer no
+longer needs to copy a checkout-relative sample path:
+
+```bash
+mkdir -p tasks/.plans
+taskspec agent-context
+taskspec example task-plan --out tasks/.plans/reviewer.yaml
+taskspec plan --manifest tasks/.plans/reviewer.yaml
+```
+
+From the corresponding tagged source checkout, verify local behavior, retained
+evidence, the generated README projection, and then the stricter release gate:
+
+```bash
+make check
+python3 src/evidence/release_audit.py check
+python3 tools/render-status.py --check README.md
+make release-audit
+```
+
+During development, `make release-audit` is expected to fail with named
+`BLOCKED` tokens. Publication requires digest-backed proof for every blocking
+criterion and `QUALITY_SCORE=97`; unavailable evidence earns zero. The complete
+[reviewer route](docs/getting-started/reviewer-route.md) explains exactly what
+each evidence class proves—and what it does not.
 
 ## What shipped in 3.8
 
@@ -470,10 +499,10 @@ machine-readable command and token contract.
 <!-- release-status:start -->
 | Surface | Repository evidence | Status |
 |---|---|---|
-| Evidence-derived score | Only digest-matching retained artifacts earn points | **23/100**; target 97; release gate blocked |
+| Evidence-derived score | Only digest-matching retained artifacts earn points | **43/100**; target 97; release gate blocked |
 | Contract and trust | Revision-bound authorization, compatibility, and the explicit HMAC boundary | 6/25 |
 | Lifecycle and recovery | Nested workspaces, graph recovery, atomic acceptance, and replay resistance | 8/25 |
-| Documentation and DX | Installed reviewer route, executable docs, and generated status | 0/20 |
+| Documentation and DX | Installed reviewer route, executable docs, and generated status | 20/20 |
 | Harness and packaging | All installation doors plus frozen Codex and Claude execution | 0/10 |
 | Standards interoperability | Pinned official A2A and MCP SDK conformance | 9/10 |
 | Public and external proof | Hosted CI, published provenance, and externally signed sandbox evidence | 0/10 |
