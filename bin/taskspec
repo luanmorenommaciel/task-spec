@@ -313,13 +313,13 @@ try:
     data = json.loads(stdout)
 except (json.JSONDecodeError, ValueError):
     pass
-if command == "accept":
+if command == "accept" and data is None:
     import re
     if code == 0:
         tier = re.search(r"VERDICT: ACCEPT.*?Tier ([12])", stdout)
         data = {"contract": "AcceptanceResult/v1", "accepted": True, "tier": int(tier.group(1)) if tier else None}
     else:
-        failure = re.search(r"ACCEPTANCE_FAILURE=([A-Z_]+)", stdout)
+        failure = re.search(r"ACCEPTANCE_FAILURE=([A-Z_]+)", stdout + "\n" + stderr)
         data = {"contract": "AcceptanceFailure/v1", "accepted": False, "code": failure.group(1) if failure else "POLICY_TAMPER"}
 envelope = {
     "contract": "TaskSpecCLIResult/v1",

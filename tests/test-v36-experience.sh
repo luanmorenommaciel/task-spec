@@ -254,6 +254,19 @@ PY
   printf 'done\n' > src/marker.txt
   "$TS" run tasks/T-20260811-write-marker.md
   "$TS" accept --stamp --gold-sanity --handoff "$WORK/handoff.json" tasks/T-20260811-write-marker.md
+  "$TS" --json accept --stamp --gold-sanity --handoff "$WORK/handoff.json" tasks/T-20260811-write-marker.md > "$WORK/acceptance.json"
+  python3 - "$WORK/acceptance.json" <<'PY'
+import json, pathlib, sys
+value = json.load(open(sys.argv[1]))
+assert value["contract"] == "TaskSpecCLIResult/v1"
+assert value["ok"] is True
+result = value["data"]
+assert result["contract"] == "AcceptanceFinalized/v1"
+record = pathlib.Path(result["acceptance_record"])
+assert record.is_file()
+assert json.load(record.open())["contract"] == "AcceptanceRecord/v1"
+assert result["acceptance_record_digest"].startswith("sha256:")
+PY
   "$TS" transition T-20260811-write-marker done
   "$TS" validate tasks/done/T-20260811-write-marker.md
   "$TS" status T-20260811-write-marker

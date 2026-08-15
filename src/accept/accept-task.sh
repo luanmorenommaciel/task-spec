@@ -9,6 +9,14 @@
 # Exit: 0 accepted; 1 contract/eval/policy rejection; 2 usage.
 set -euo pipefail
 
+# In global JSON mode, keep the human gate trace on stderr and reserve stdout
+# for the single structured acceptance result consumed by the CLI envelope.
+# fd 3 always points at the caller's original stdout.
+exec 3>&1
+if [[ "${TASKSPEC_JSON_MODE:-0}" == "1" ]]; then
+  exec 1>&2
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/_lib.sh
 source "$SCRIPT_DIR/../lib/_lib.sh"
@@ -197,3 +205,10 @@ if [[ "$STAMP" == true ]]; then
 fi
 echo "${BOLD}${GREEN}VERDICT: ACCEPT${RESET} — Tier $tier evidence is bound to the authorized task attempt"
 echo "ACCEPTED=1"
+if [[ "${TASKSPEC_JSON_MODE:-0}" == "1" ]]; then
+  if [[ "$STAMP" == true ]]; then
+    printf '%s\n' "$finalize_out" >&3
+  else
+    printf '{"contract":"AcceptanceResult/v1","accepted":true,"tier":%s}\n' "$tier" >&3
+  fi
+fi
