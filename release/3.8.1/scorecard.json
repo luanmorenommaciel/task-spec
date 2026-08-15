@@ -217,7 +217,7 @@
     },
     {
       "id": "public_external_proof",
-      "awarded_points": 0,
+      "awarded_points": 3,
       "max_points": 10,
       "criteria": [
         {
@@ -239,10 +239,17 @@
         {
           "id": "signed_sandbox",
           "points": 3,
-          "awarded": 0,
-          "state": "not_run",
-          "evidence": [],
-          "reason": "The externally signed Docker attestation has not run."
+          "awarded": 3,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/environment-proof.json",
+              "digest": "sha256:633c29dd1f2aadf2700902a729aaada15e40fd50b95c919979fdade805a0c87a",
+              "class": "external_enforcement",
+              "state": "pass"
+            }
+          ],
+          "reason": "A host-attested Docker run enforced the declared isolation, produced an Ed25519-signed EnvironmentReceipt/v2, reached Tier-1 portable acceptance, and rejected mutated evidence."
         },
         {
           "id": "production_reliability",
@@ -256,7 +263,7 @@
     }
   ],
   "total": {
-    "awarded": 49,
+    "awarded": 52,
     "maximum": 100,
     "target": 97,
     "passed": false

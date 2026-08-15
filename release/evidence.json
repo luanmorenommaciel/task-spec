@@ -16,7 +16,7 @@
   "release_status": "working",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:57e9792b108eb5e66f304a50b19766428b658a73b580be8fc7332dc9190be7b5"
+    "digest": "sha256:478fec06322f6e5f0f865ea5fbe55ff9d5e06be1cfcc3fd840dd9ac78fb0dd38"
   },
   "gates": {
     "authority_contracts": {
@@ -129,9 +129,12 @@
       "reason": "No 3.8.1 RC, final tag, SBOM, checksum archive, or provenance attestation exists yet."
     },
     "signed_sandbox": {
-      "state": "not_run",
-      "evidence": null,
-      "reason": "The externally signed Docker attestation has not run."
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/environment-proof.json",
+        "digest": "sha256:633c29dd1f2aadf2700902a729aaada15e40fd50b95c919979fdade805a0c87a"
+      },
+      "reason": "A host-attested Docker run enforced the declared isolation, produced an Ed25519-signed EnvironmentReceipt/v2, reached Tier-1 portable acceptance, and rejected mutated evidence."
     },
     "production_reliability": {
       "state": "unavailable",
@@ -163,6 +166,34 @@
     {
       "path": "release/3.8.1/engine-matrix-artifacts.json",
       "digest": "sha256:aeb74f1a8c64f49bff1b9fd17a220ba4f559cef1020967269af2e00ff0da2a51"
+    },
+    {
+      "path": "release/3.8.1/environment-proof.json",
+      "digest": "sha256:633c29dd1f2aadf2700902a729aaada15e40fd50b95c919979fdade805a0c87a"
+    },
+    {
+      "path": "release/3.8.1/environment-attestation.json",
+      "digest": "sha256:2b6a84b086bc17a7c370c5aadaa7c68ec742be6f86ab51b16a8309ef4677f925"
+    },
+    {
+      "path": "release/3.8.1/environment-receipt.json",
+      "digest": "sha256:a8a499f272360f990400c80c5090f6755cbd6bd7eb7055db8aa2c9c7dd983dbe"
+    },
+    {
+      "path": "release/3.8.1/environment-trust.json",
+      "digest": "sha256:0aefc0b7bc216f512f7c0695de0e0244c6ce554e9518eaa79f6d513855b2ac9b"
+    },
+    {
+      "path": "release/3.8.1/environment-evaluator.pub.pem",
+      "digest": "sha256:6bed652b123a4df52bdaac556ac0a368815d60c3c3fc995f2205f7168b6c2fca"
+    },
+    {
+      "path": "release/3.8.1/environment-handoff.json",
+      "digest": "sha256:724e2893147d05560721ed39fd28273a803c4fc8e2458d7fb70522e162b3a49f"
+    },
+    {
+      "path": "release/3.8.1/sandbox-execution-artifact.json",
+      "digest": "sha256:04e80ccc427b94aa48f1bcd0c28852457cbca187ddf311eab6afdb68b1e1d255"
     }
   ]
 }

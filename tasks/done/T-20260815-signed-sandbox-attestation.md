@@ -1,7 +1,7 @@
 ---
 id: T-20260815-signed-sandbox-attestation
 title: "Produce externally signed sandbox attestation evidence"
-status: in-progress
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-15T19:37:22Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-15T19:47:48Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:a7b8d3133b7a0bbb369c062189877caba4c24f8f4228a80dd2678592cd4441c4
+accepted_tier: 1
+accepted_attempt_id: 6e663b38-b71d-4516-8246-8628aeaf1d0b
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:a7b8d3133b7a0bbb369c062189877caba4c24f8f4228a80dd2678592cd4441c4
+acceptance_record_digest: sha256:17ecc580514df7c187dab1fe66be009e0e01a60b847d37992a3ff74c54ccede7
 ---
 
 # Produce externally signed sandbox attestation evidence

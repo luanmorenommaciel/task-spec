@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-15T19:47:48Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "6e663b38-b71d-4516-8246-8628aeaf1d0b",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:a7b8d3133b7a0bbb369c062189877caba4c24f8f4228a80dd2678592cd4441c4",
+    "base_commit": "2a714bc9035c06120f464e3bf51aa930f3faaeaf",
+    "task_id": "T-20260815-signed-sandbox-attestation",
+    "task_revision_digest": "sha256:c3a080e4563c29e902720d3f9f366ca098da0d13f6a2f4a082de4422468bf934"
+  }
+}

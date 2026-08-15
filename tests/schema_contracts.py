@@ -302,6 +302,7 @@ def main() -> int:
             "writable_mounts": ["/workspace"],
             "limits": {"cpus": 1, "memory_mb": 512, "pids": 64, "timeout_sec": 120, "tmpfs_mb": 64},
         },
+        "command": ["taskspec", "executor", "/workspace/tasks/T-sandbox.md"],
         "command_digest": evidence_digest, "artifact_digest": evidence_digest,
     }, "environment-attestation.schema.json")
     validate_instance({

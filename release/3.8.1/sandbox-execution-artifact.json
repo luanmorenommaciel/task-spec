@@ -1,0 +1,25 @@
+{
+  "contract": "SandboxExecutionArtifact/v1",
+  "container_id": "f0b5782c3eb36ef03a5e06e7416a2735517683dceead73eefefe38b4e5307b38",
+  "reference_executor_exit": 0,
+  "marker_digest": "sha256:d117fa006ba9208500b2930ce69cbde436c647afa917cb7396a9bc9111a46dd2",
+  "changed_paths": [
+    "evidence/handoff.json",
+    "src/",
+    "tasks/T-20260815-sandbox-proof.md",
+    "tasks/_metrics.jsonl",
+    "tasks/_state.yaml",
+    "tasks/parked/"
+  ],
+  "security_checks": {
+    "network_none": true,
+    "read_only_root": true,
+    "capabilities_dropped": true,
+    "no_new_privileges": true,
+    "one_workspace_bind": true,
+    "docker_socket_mounted": false,
+    "credential_environment_count": 0,
+    "failures": []
+  },
+  "output_digest": "sha256:649eeb414086732fdbf92131334cd6ac93663e88411cff8de6ed02fe9ac981f1"
+}

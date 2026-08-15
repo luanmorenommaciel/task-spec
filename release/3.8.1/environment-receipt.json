@@ -1,0 +1,22 @@
+{
+  "contract": "EnvironmentReceipt/v2",
+  "subject": {
+    "task_id": "T-20260815-sandbox-proof",
+    "task_revision_digest": "sha256:b03523857f210e389b2c5b6e7fb42529b7678bb9796dd0a7e373e110d4f783c1",
+    "authorization_ref": "hmac-sha256-v3:47d0e1a2:7aaad6c0b45570afcc21d38344b703f43df86454059ab99a29292f011bc1b4dc",
+    "attempt_id": "8ae65cd7-e6aa-4e44-8aec-efbd524c3352",
+    "base_commit": "524c2db43ae92fb026d59d4ae8cc726d8a1429cb"
+  },
+  "observed_at": "2026-08-15T19:48:49Z",
+  "contract_digest": "sha256:c63f9fe6c2b59816b3a1b2e8544d773657056eed283c6c7f8be8702b5244ea10",
+  "provider": "host-docker-attestor",
+  "environment_digest": "sha256:2b6a84b086bc17a7c370c5aadaa7c68ec742be6f86ab51b16a8309ef4677f925",
+  "enforced": true,
+  "signature": {
+    "algorithm": "Ed25519",
+    "key_id": "83ad2fdf75e307f8",
+    "public_key_fingerprint": "sha256:83ad2fdf75e307f81a913376a08abbb4f8b83fd87d38c690cde88383f90f7b79",
+    "payload_digest": "sha256:20ea547c792d6be17a2197dbc3a4622ca9e553b250dcb9bd36c1ac14d974ab56",
+    "value": "AvDdtUokr8yR4fntJys0pI4iS2f3j5A1a+bbf8+RjnuDAzW3Kch0aNoPjRpauw8AlLTDGPzDR5BAeMNLKlOFAA=="
+  }
+}

@@ -504,13 +504,13 @@ machine-readable command and token contract.
 <!-- release-status:start -->
 | Surface | Repository evidence | Status |
 |---|---|---|
-| Evidence-derived score | Only digest-matching retained artifacts earn points | **49/100**; target 97; release gate blocked |
+| Evidence-derived score | Only digest-matching retained artifacts earn points | **52/100**; target 97; release gate blocked |
 | Contract and trust | Revision-bound authorization, compatibility, and the explicit HMAC boundary | 6/25 |
 | Lifecycle and recovery | Nested workspaces, graph recovery, atomic acceptance, and replay resistance | 8/25 |
 | Documentation and DX | Installed reviewer route, executable docs, and generated status | 20/20 |
 | Harness and packaging | All installation doors plus frozen Codex and Claude execution | 6/10 |
 | Standards interoperability | Pinned official A2A and MCP SDK conformance | 9/10 |
-| Public and external proof | Hosted CI, published provenance, and externally signed sandbox evidence | 0/10 |
+| Public and external proof | Hosted CI, published provenance, and externally signed sandbox evidence | 3/10 |
 | Publication | Task-Spec 3.8.1 at `caf63bf7ac07` | Working release |
 | Deliberately unclaimed | Semantic truth, ecosystem-wide certification, and long-running production reliability | 3 points remain unavailable by design |
 <!-- release-status:end -->

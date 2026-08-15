@@ -1,0 +1,36 @@
+{
+  "contract": "EnvironmentAttestation/v1",
+  "observed_at": "2026-08-15T19:48:48Z",
+  "result": "pass",
+  "verified": true,
+  "runtime": {
+    "name": "docker",
+    "version": "29.7.2",
+    "kernel": "6.12.76-linuxkit"
+  },
+  "image_digest": "sha256:22bc5e6dc71443e7c562c4eeda2e9bb0a16eafb602cfaf514c2077e69497421c",
+  "isolation": {
+    "network": "none",
+    "read_only_root": true,
+    "capabilities_dropped": true,
+    "no_new_privileges": true,
+    "writable_mounts": [
+      "/private/tmp/taskspec-sandbox-work.nFXEn8",
+      "/tmp"
+    ],
+    "limits": {
+      "cpus": 1.0,
+      "memory_mb": 256,
+      "pids": 64,
+      "timeout_sec": 120,
+      "tmpfs_mb": 16
+    }
+  },
+  "command": [
+    "/opt/task-spec/bin/taskspec",
+    "executor",
+    "/private/tmp/taskspec-sandbox-work.nFXEn8/tasks/T-20260815-sandbox-proof.md"
+  ],
+  "command_digest": "sha256:cc18f058e7786edd4594c001ac62e44b21a3f198ef770cc2b037495dd56a5920",
+  "artifact_digest": "sha256:04e80ccc427b94aa48f1bcd0c28852457cbca187ddf311eab6afdb68b1e1d255"
+}

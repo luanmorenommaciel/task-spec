@@ -1,0 +1,109 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260815-sandbox-proof",
+  "format_version": 4,
+  "spec": "/private/tmp/taskspec-sandbox-work.nFXEn8/tasks/T-20260815-sandbox-proof.md",
+  "spec_digest": "sha256:e40afd797816046f8f1711dbe1192ffe7e06ba8ea6a11345b7b26f29369d5577",
+  "task_revision_digest": "sha256:b03523857f210e389b2c5b6e7fb42529b7678bb9796dd0a7e373e110d4f783c1",
+  "signoff_tier": 1,
+  "backend": "ref-executor",
+  "workspace": "/private/tmp/taskspec-sandbox-work.nFXEn8",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:47d0e1a2:7aaad6c0b45570afcc21d38344b703f43df86454059ab99a29292f011bc1b4dc",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-08-15T19:48:42Z"
+  },
+  "attempt": {
+    "id": "8ae65cd7-e6aa-4e44-8aec-efbd524c3352",
+    "issued_at": "2026-08-15T19:48:44Z"
+  },
+  "source": {
+    "workspace": "/private/tmp/taskspec-sandbox-work.nFXEn8",
+    "base_commit": "524c2db43ae92fb026d59d4ae8cc726d8a1429cb"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260815-sandbox-proof",
+    "digest": "sha256:a4aa8fc980c75752201ef6d00ed02b2262f7fc9269708990877644fe271a03fa",
+    "members": [
+      {
+        "task_id": "T-20260815-sandbox-proof",
+        "task_revision_digest": "sha256:b03523857f210e389b2c5b6e7fb42529b7678bb9796dd0a7e373e110d4f783c1"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [],
+    "creates_paths": [
+      "src/marker.txt"
+    ],
+    "do_not_touch": [
+      ".git/info/taskspec-signing-key"
+    ]
+  },
+  "budgets": {
+    "iterations": 2,
+    "tokens": null,
+    "effort": "XS"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails",
+      "operations"
+    ],
+    "produce": [
+      "code"
+    ],
+    "required_tools": [
+      "git",
+      "bash"
+    ],
+    "timeout_minutes": 2,
+    "sandbox_type": "isolated",
+    "output_artifacts": [
+      "src/marker.txt"
+    ],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "parked_with_context"
+    ]
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/private/tmp/taskspec-sandbox-work.nFXEn8/tasks/T-20260815-sandbox-proof.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/private/tmp/taskspec-sandbox-work.nFXEn8/tasks/T-20260815-sandbox-proof.md"
+  ],
+  "evaluation_policy": {
+    "acceptance_scope": "portable",
+    "deterministic": {
+      "required": true
+    }
+  },
+  "environment_contract": {
+    "required": true,
+    "ref": "evidence/environment.json",
+    "digest": "sha256:c63f9fe6c2b59816b3a1b2e8544d773657056eed283c6c7f8be8702b5244ea10"
+  },
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic",
+    "EnvironmentReceipt/v2"
+  ]
+}

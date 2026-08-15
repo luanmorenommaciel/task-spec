@@ -1,0 +1,29 @@
+{
+  "contract": "SandboxReleaseProof/v1",
+  "result": "pass",
+  "image_digest": "sha256:22bc5e6dc71443e7c562c4eeda2e9bb0a16eafb602cfaf514c2077e69497421c",
+  "attestation_digest": "sha256:2b6a84b086bc17a7c370c5aadaa7c68ec742be6f86ab51b16a8309ef4677f925",
+  "receipt_digest": "sha256:a8a499f272360f990400c80c5090f6755cbd6bd7eb7055db8aa2c9c7dd983dbe",
+  "acceptance_record_digest": "sha256:c178bdebae1525482309710ba994102c81fbdfc40f09b1d9ab49030dafc6a46e",
+  "accepted_tier": 1,
+  "attempt_id": "8ae65cd7-e6aa-4e44-8aec-efbd524c3352",
+  "reference_executor": "bundled",
+  "security_checks": {
+    "network_none": true,
+    "read_only_root": true,
+    "capabilities_dropped": true,
+    "no_new_privileges": true,
+    "one_workspace_bind": true,
+    "docker_socket_mounted": false,
+    "credential_environment_count": 0,
+    "failures": []
+  },
+  "signing_key_mounted": false,
+  "evaluator_private_key_mounted": false,
+  "tampered_attestation_rejected": true,
+  "tampered_receipt_rejected": true,
+  "limitations": [
+    "This is one release fixture, not evidence of production reliability.",
+    "The host attestor proves observed Docker configuration; it does not make task semantics universally true."
+  ]
+}
