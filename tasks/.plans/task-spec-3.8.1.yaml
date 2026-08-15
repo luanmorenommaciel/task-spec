@@ -257,6 +257,34 @@ units:
       - Do not tag, publish, or synchronize Converge before every blocking gate is satisfied.
     do_not_touch: [/Users/luanmorenomaciel/GitHub/converge]
 
+  - id: T-20260815-acceptance-finalized-contract
+    title: Publish the structured acceptance-finalization contract
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260815-release-evidence-contracts]
+    touches_paths: [CHANGELOG.md, README.md, docs/reference/cli.md, docs/reference/contracts.md, src/dispatch/agent-context.py, tests/schema_contracts.py, tests/test-v36-experience.sh]
+    creates_paths: [spec/schemas/acceptance-finalized.schema.json, tests/fixtures/acceptance-finalized.json]
+    source_note: discovered during the evidence-backed release audit
+    why: JSON-mode acceptance already emits AcceptanceFinalized/v1, so its public result needs a schema, fixture, context entry, and documentation.
+    goal: Make the successful acceptance result discoverable and schema-validated without changing its runtime semantics.
+    behaviors:
+      - id: B-1
+        given: a successful JSON-mode acceptance
+        when: an external coordinator consumes the result
+        then: the attempt, acceptance-record path, and digest conform to AcceptanceFinalized/v1
+    evals:
+      - id: eval_1
+        description: acceptance finalization contract, docs, and installed context agree
+        command: python3 tests/schema_contracts.py && bash tests/lint-docs.sh && bash tests/test-v36-experience.sh
+        verifies: [B-1]
+        terminal: true
+        expected_duration_sec: 120
+    anti_patterns:
+      - Do not imply that the JSON result grants new authority or replaces AcceptanceRecord/v1.
+    do_not_touch: [src/accept/accept-task.sh, bin/taskspec]
+
   - id: T-20260815-release-381
     title: Compose the evidence-backed Task-Spec 3.8.1 release
     effort: XXL
@@ -264,7 +292,7 @@ units:
     agent: any
     execution_backend: none
     depends_on: []
-    children: [T-20260815-nested-workspace-hardening, T-20260815-release-evidence-contracts, T-20260815-quality-release-audit, T-20260815-official-protocol-conformance, T-20260815-installed-example-and-docs, T-20260815-real-engine-benchmark, T-20260815-signed-sandbox-attestation, T-20260815-package-publish-and-sync]
+    children: [T-20260815-nested-workspace-hardening, T-20260815-release-evidence-contracts, T-20260815-quality-release-audit, T-20260815-acceptance-finalized-contract, T-20260815-official-protocol-conformance, T-20260815-installed-example-and-docs, T-20260815-real-engine-benchmark, T-20260815-signed-sandbox-attestation, T-20260815-package-publish-and-sync]
     touches_paths: []
     creates_paths: []
     source_note: user-approved release train
