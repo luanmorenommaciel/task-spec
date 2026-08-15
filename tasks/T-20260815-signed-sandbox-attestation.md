@@ -1,7 +1,7 @@
 ---
 id: T-20260815-signed-sandbox-attestation
 title: "Produce externally signed sandbox attestation evidence"
-status: ready
+status: in-progress
 format_version: 3
 profile: full
 effort: L
@@ -10,7 +10,7 @@ agent: codex
 parent: (none)
 depends_on: [T-20260815-release-evidence-contracts, T-20260815-official-protocol-conformance]
 supersedes: (none)
-touches_paths: [src/evidence/receipts.py, tests/test-v37-evidence-integrity.sh, release/evidence.json, release/3.8.1, README.md]
+touches_paths: [src/evidence/receipts.py, tests/test-v37-evidence-integrity.sh, spec/schemas/environment-attestation.schema.json, release/evidence.json, release/3.8.1, README.md]
 creates_paths: [src/evidence/environment_attestation.py, release/docker/Dockerfile, release/docker/run-attestation.sh, tests/test-environment-attestation.sh, release/3.8.1/environment-attestation.json]
 source_note: "user-approved release train"
 created: "2026-08-15T00:00:00Z"
@@ -27,11 +27,11 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-15T19:31:11Z
+signed_off_at: 2026-08-15T19:33:22Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:5d97416ee4af66cccf2167281b0ecdff1e44f1d83e60bec1e7d1e99a7fd3a3d4
+signed_off_sig: hmac-sha256-v3:e2e418a3:3cdaa882573e2198dbc9b562e599003aa70841898e7bbfd271d0350e11ed9f3b
 ---
 
 # Produce externally signed sandbox attestation evidence

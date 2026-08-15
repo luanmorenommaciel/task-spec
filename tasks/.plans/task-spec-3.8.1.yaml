@@ -200,7 +200,7 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: [T-20260815-release-evidence-contracts, T-20260815-official-protocol-conformance]
-    touches_paths: [src/evidence/receipts.py, tests/test-v37-evidence-integrity.sh, release/evidence.json, release/3.8.1, README.md]
+    touches_paths: [src/evidence/receipts.py, tests/test-v37-evidence-integrity.sh, spec/schemas/environment-attestation.schema.json, release/evidence.json, release/3.8.1, README.md]
     creates_paths: [src/evidence/environment_attestation.py, release/docker/Dockerfile, release/docker/run-attestation.sh, tests/test-environment-attestation.sh, release/3.8.1/environment-attestation.json]
     source_note: user-approved release train
     why: Environment contracts need external enforcement evidence before portable Tier-1 claims are credible.
