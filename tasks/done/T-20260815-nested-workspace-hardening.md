@@ -1,7 +1,7 @@
 ---
 id: T-20260815-nested-workspace-hardening
 title: "Complete nested-workspace lifecycle hardening"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-15T17:59:04Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-15T18:05:56Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:493ddb14662e9d47d8bed6769e87d23b6940135b40362022af69b4898efc07ef
+accepted_tier: 1
+accepted_attempt_id: f094fb99-3ece-4ea2-a837-eba700ef9f99
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:493ddb14662e9d47d8bed6769e87d23b6940135b40362022af69b4898efc07ef
+acceptance_record_digest: sha256:d40b07112224a3ebbb0ff9dedd4705e8e716fea983edaec609a1c5232c3b8dfa
 ---
 
 # Complete nested-workspace lifecycle hardening

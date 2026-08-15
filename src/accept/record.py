@@ -14,14 +14,13 @@ sys.path.insert(0, str(ROOT / "src" / "lib"))
 sys.path.insert(0, str(ROOT / "src" / "security"))
 from taskspec_data import DataError, frontmatter, sha256_file  # noqa: E402
 from task_revision import revision  # noqa: E402
+from workspace import WorkspaceError, resolve_acceptance_root, resolve_workspace  # noqa: E402
 
 
 def acceptance_root(backlog: pathlib.Path) -> pathlib.Path:
     """Return the configured projection root without changing canonical task state."""
-    import os
-
-    configured = os.environ.get("TASKSPEC_ACCEPTANCE_DIR")
-    return pathlib.Path(configured).resolve() if configured else backlog.parent / ".taskspec" / "acceptance"
+    workspace = resolve_workspace(backlog.resolve())
+    return resolve_acceptance_root(workspace)
 
 
 def record_path(backlog: pathlib.Path, task_id: str, attempt_id: str) -> pathlib.Path:
@@ -97,7 +96,7 @@ def main() -> int:
         else:
             print(f"ACCEPTANCE_RECORD=VALID path={result['path']}")
         return 0
-    except (OSError, DataError, ValueError) as exc:
+    except (OSError, DataError, WorkspaceError, ValueError) as exc:
         if args.json:
             print(json.dumps({"contract": "AcceptanceRecordVerification/v1", "ok": False, "error": str(exc)}, sort_keys=True))
         else:

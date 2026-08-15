@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 import json
-import os
 import pathlib
 import re
 import subprocess
@@ -19,27 +18,13 @@ sys.path.insert(0, str(ROOT / "src" / "lib"))
 sys.path.insert(0, str(ROOT / "src" / "security"))
 sys.path.insert(0, str(ROOT / "src" / "graph"))
 from taskspec_data import DataError, frontmatter, parse_yaml_subset, sha256_file  # noqa: E402
+from workspace import WorkspaceError, resolve_backlog, resolve_workspace  # noqa: E402
 from task_revision import revision  # noqa: E402
 from task_graph import active_write_conflicts, build as build_graph, dependency_closure  # noqa: E402
 
 
 def _git(workspace: pathlib.Path, *args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(["git", *args], cwd=workspace, text=True, capture_output=True, check=False)
-
-
-def _backlog(spec: pathlib.Path) -> pathlib.Path:
-    configured = os.environ.get("TASKSPEC_BACKLOG_DIR")
-    if configured:
-        candidate = pathlib.Path(configured).resolve()
-        try:
-            spec.relative_to(candidate)
-            return candidate
-        except ValueError:
-            pass
-    for parent in spec.parents:
-        if parent.name == "tasks":
-            return parent
-    raise DataError("spec is not inside a tasks backlog")
 
 
 def _inside(path: pathlib.Path, root: pathlib.Path) -> bool:
@@ -140,11 +125,11 @@ def evaluate(spec: pathlib.Path, handoff_path: pathlib.Path | None, check_blast:
     text = spec.read_text(encoding="utf-8")
     fm = frontmatter(text)
     task_rev = revision(spec)
-    workspace_result = _git(spec.parent, "rev-parse", "--show-toplevel")
-    if workspace_result.returncode:
-        raise DataError("acceptance requires a Git workspace")
-    workspace = pathlib.Path(workspace_result.stdout.strip()).resolve()
-    backlog = _backlog(spec)
+    try:
+        workspace = resolve_workspace(spec)
+        backlog = resolve_backlog(spec, workspace)
+    except WorkspaceError as exc:
+        raise DataError(str(exc)) from exc
 
     handoff: dict[str, Any] | None = None
     if handoff_path:

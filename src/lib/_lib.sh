@@ -965,10 +965,18 @@ ts_workspace_root() {
   _tswr_d="$1"
   [ -d "$_tswr_d" ] || _tswr_d="$(dirname "$_tswr_d")"
   _tswr_d="$(cd "$_tswr_d" 2>/dev/null && pwd)" || return 1
+  _tswr_git="$(git -C "$_tswr_d" rev-parse --show-toplevel 2>/dev/null || true)"
+  if [ -n "$_tswr_git" ]; then
+    _tswr_git="$(cd "$_tswr_git" 2>/dev/null && pwd)" || return 1
+  fi
   if [ -n "${TASKSPEC_WORKSPACE_ROOT:-}" ]; then
     _tswr_explicit_workspace="$(cd "$TASKSPEC_WORKSPACE_ROOT" 2>/dev/null && pwd)" || return 1
     case "$_tswr_d" in
       "$_tswr_explicit_workspace"|"$_tswr_explicit_workspace"/*)
+        if [ -n "$_tswr_git" ] && [ "$_tswr_explicit_workspace" != "$_tswr_git" ]; then
+          echo "ERROR: TASKSPEC_WORKSPACE_ROOT must equal the Git repository root" >&2
+          return 1
+        fi
         printf '%s' "$_tswr_explicit_workspace"
         return 0
         ;;
@@ -977,6 +985,10 @@ ts_workspace_root() {
         return 1
         ;;
     esac
+  fi
+  if [ -n "$_tswr_git" ]; then
+    printf '%s' "$_tswr_git"
+    return 0
   fi
   _tswr_backlog="$(ts_backlog_root "$_tswr_d" 2>/dev/null || true)"
   _tswr_is_backlog=false

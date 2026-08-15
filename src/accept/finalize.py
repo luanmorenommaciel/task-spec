@@ -9,7 +9,6 @@ import hashlib
 import json
 import os
 import pathlib
-import subprocess
 import sys
 import uuid
 from typing import Any
@@ -19,6 +18,7 @@ sys.path.insert(0, str(ROOT / "src" / "lib"))
 from taskspec_data import DataError, frontmatter, sha256_file  # noqa: E402
 from file_lock import DirectoryLock  # noqa: E402
 from update_frontmatter import update as update_frontmatter  # noqa: E402
+from workspace import WorkspaceError, resolve_acceptance_root, resolve_backlog, resolve_workspace  # noqa: E402
 
 
 def now() -> str:
@@ -80,17 +80,9 @@ def main() -> int:
         else:
             attempt_id = str(uuid.uuid5(uuid.NAMESPACE_URL, f"taskspec:{fm.get('id')}:{fm.get('signed_off_sig')}"))
             base_commit = str(preflight.get("base_commit", "HEAD"))
-        resolved = subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"], cwd=spec.parent,
-            text=True, capture_output=True, check=False,
-        )
-        workspace_result = resolved.stdout.strip()
-        if resolved.returncode or not workspace_result:
-            raise ValueError("cannot resolve Git workspace")
-        workspace = pathlib.Path(workspace_result).resolve()
-        backlog = pathlib.Path(os.environ.get("TASKSPEC_BACKLOG_DIR", workspace / "tasks")).resolve()
-        configured_acceptance = args.acceptance_dir or os.environ.get("TASKSPEC_ACCEPTANCE_DIR")
-        acceptance_root = pathlib.Path(configured_acceptance).resolve() if configured_acceptance else workspace / ".taskspec" / "acceptance"
+        workspace = resolve_workspace(spec)
+        backlog = resolve_backlog(spec, workspace)
+        acceptance_root = resolve_acceptance_root(workspace, args.acceptance_dir)
         record_path = acceptance_root / str(fm.get("id")) / f"{attempt_id}.json"
         accepted_at = now()
         subject = {
@@ -180,7 +172,7 @@ def main() -> int:
             "acceptance_record_digest": record_digest,
         }, sort_keys=True))
         return 0
-    except (OSError, ValueError, DataError, KeyError, RuntimeError) as exc:
+    except (OSError, ValueError, DataError, WorkspaceError, KeyError, RuntimeError) as exc:
         print(f"ACCEPTANCE_FINALIZE=FAILED error={exc}", file=sys.stderr)
         return 1
 

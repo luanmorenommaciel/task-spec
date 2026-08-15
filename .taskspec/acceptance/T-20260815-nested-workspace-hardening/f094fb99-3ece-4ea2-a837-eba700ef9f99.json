@@ -1,0 +1,42 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-15T18:05:56Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": [
+        "spec digest changed while TaskRevision/v1 remained stable; mutable lifecycle fields may have changed"
+      ]
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "f094fb99-3ece-4ea2-a837-eba700ef9f99",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:493ddb14662e9d47d8bed6769e87d23b6940135b40362022af69b4898efc07ef",
+    "base_commit": "9ee77314462f643d68a7e1a06e4bb5f7cdbd45f4",
+    "task_id": "T-20260815-nested-workspace-hardening",
+    "task_revision_digest": "sha256:e455f9c78f8cdcdcdb0b7f3da95478c2267a7107c5eeaa27becf45ebed333207"
+  }
+}
