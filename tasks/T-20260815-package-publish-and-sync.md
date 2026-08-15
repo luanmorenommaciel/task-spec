@@ -10,7 +10,7 @@ agent: codex
 parent: (none)
 depends_on: [T-20260815-installed-example-and-docs, T-20260815-real-engine-benchmark, T-20260815-signed-sandbox-attestation]
 supersedes: (none)
-touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh, README.md, SKILL.md, spec/task-spec-v3.md, spec/task-spec-v4.md, .claude-plugin, integrations/claude-code, .github/workflows, docs/getting-started, tools/build-release-archive.py, release/evidence.json, release/3.8.1, release/docker, tests/test-v36-experience.sh, tests/fixtures/task-materialization-receipt.json]
+touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh, README.md, SKILL.md, spec/task-spec-v3.md, spec/task-spec-v4.md, .claude-plugin, integrations/claude-code, .github/workflows, docs/getting-started, docs/examples/consume-task-spec.py, tools/build-release-archive.py, release/evidence.json, release/3.8.1, release/docker, tests/test-v36-experience.sh, tests/test-portability-e2e.sh, tests/fixtures/task-materialization-receipt.json]
 creates_paths: [release/3.8.1/checksums.txt, release/3.8.1/release-report.json, release/3.8.1/local-gates.json, release/3.8.1/install-matrix.json, release/3.8.1/sbom.spdx.json, tools/build-sbom.py, tools/build-release-evidence-archive.py, tools/build-release-report.py, tests/test-release-packaging.sh]
 source_note: "user-approved release train"
 created: "2026-08-15T00:00:00Z"
@@ -27,11 +27,11 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-15T19:54:06Z
+signed_off_at: 2026-08-15T20:30:31Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:13077c7c65381a55b06d9323b5cc12096a843073c9d0b8fb39a0f9b125288fc3
+signed_off_sig: hmac-sha256-v3:e2e418a3:c21e594919b5c1439bf53f7632df49db45ecd93f079f26daf7fdb29c9f2eacea
 ---
 
 # Package, attest, publish, and synchronize Task-Spec 3.8.1
