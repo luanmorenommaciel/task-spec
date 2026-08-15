@@ -360,6 +360,13 @@ else
   fail "python consumer missing at docs/examples/consume-task-spec.py"
 fi
 
+PY_SCHEMA_DIR="$SKILL_DIR/spec/schemas"
+if [[ -f "$PY_SCHEMA_DIR/task-spec-frontmatter.schema.json" && -f "$PY_SCHEMA_DIR/agent-contract.schema.json" ]]; then
+  pass "python consumer canonical schemas are packaged under spec/schemas"
+else
+  fail "python consumer canonical schemas are missing under spec/schemas"
+fi
+
 PY_JSON=""
 if [[ -f "$PY_CONSUMER" && -f "$GOLDEN_DST" ]]; then
   set +e
