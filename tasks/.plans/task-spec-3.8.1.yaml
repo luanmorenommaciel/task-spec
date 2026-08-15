@@ -12,7 +12,7 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: []
-    touches_paths: [src/lib/_lib.sh, src/accept/accept-task.sh, src/dispatch/handoff.py, tests/test-v38-hardening.sh, tests/test-v36-experience.sh]
+    touches_paths: [src/lib/_lib.sh, src/accept/accept-task.sh, src/accept/preflight.py, src/accept/finalize.py, src/accept/record.py, src/dispatch/handoff.py, tests/test-v38-hardening.sh, tests/test-v36-experience.sh]
     creates_paths: [tests/test-v381-workspace.sh]
     source_note: user-approved release train
     why: Standalone and Converge-style nested workspaces must resolve one safe Git, evaluation, scope, and acceptance boundary.
