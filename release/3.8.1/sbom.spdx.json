@@ -3,9 +3,9 @@
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
   "name": "task-spec-3.8.1",
-  "documentNamespace": "https://github.com/luanmorenommaciel/task-spec/releases/tag/v3.8.1/sbom/f756a47e70cb5007995a1253992a36023c50243b8d35ab9f1525e721670822bd",
+  "documentNamespace": "https://github.com/luanmorenommaciel/task-spec/releases/tag/v3.8.1/sbom/7b8dd55e0b8d95f6841d7c91d9286c98001da9d75d6526c6901606987841a967",
   "creationInfo": {
-    "created": "2026-08-15T19:54:07Z",
+    "created": "2026-08-15T20:18:36Z",
     "creators": [
       "Tool: task-spec-build-sbom/1"
     ],
@@ -22,12 +22,12 @@
       "downloadLocation": "https://github.com/luanmorenommaciel/task-spec/releases/download/v3.8.1/task-spec-3.8.1.tar.gz",
       "filesAnalyzed": true,
       "packageVerificationCode": {
-        "packageVerificationCodeValue": "22124354b9b0f7c5c7099bc20da4632c98dddefd"
+        "packageVerificationCodeValue": "891abbe733b97c2ceb12829c543b12144a5c1813"
       },
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "f756a47e70cb5007995a1253992a36023c50243b8d35ab9f1525e721670822bd"
+          "checksumValue": "7b8dd55e0b8d95f6841d7c91d9286c98001da9d75d6526c6901606987841a967"
         }
       ],
       "licenseConcluded": "MIT",
@@ -225,11 +225,11 @@
       "checksums": [
         {
           "algorithm": "SHA256",
-          "checksumValue": "b301d53f8ce2dc352b1d2993fd76f0672f0bb6f4cc8a5e7823bd8a296ad0bd88"
+          "checksumValue": "5d97414e12b4cf8882708f8dde202de765180b54c2d01babf89191ada3f5d159"
         },
         {
           "algorithm": "SHA1",
-          "checksumValue": "87dad8bd9838b35f3f34caf496224fda2bd143ad"
+          "checksumValue": "1da42ac2abb86b48c3c95849c741658bafed1a31"
         }
       ],
       "licenseConcluded": "NOASSERTION",

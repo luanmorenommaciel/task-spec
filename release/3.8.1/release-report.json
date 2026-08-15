@@ -1,44 +1,44 @@
 {
   "contract": "TaskSpecReleaseReport/v1",
   "version": "3.8.1",
-  "generated_at": "2026-08-15T19:54:07Z",
+  "generated_at": "2026-08-15T20:18:36Z",
   "source": {
-    "commit_before_evidence_finalization": "38fd3756027a7d8d16992fd2404cd2c1bae6d10f",
+    "commit_before_evidence_finalization": "417fc79e6e43b482847cf6f34c314a2795f77abc",
     "branch": "codex/taskspec-3.8.1",
     "source_archive": "task-spec-3.8.1.tar.gz",
-    "source_archive_digest": "sha256:f756a47e70cb5007995a1253992a36023c50243b8d35ab9f1525e721670822bd"
+    "source_archive_digest": "sha256:7b8dd55e0b8d95f6841d7c91d9286c98001da9d75d6526c6901606987841a967"
   },
   "artifacts": [
     {
       "name": "task-spec-3.8.1.tar.gz",
-      "digest": "sha256:f756a47e70cb5007995a1253992a36023c50243b8d35ab9f1525e721670822bd"
+      "digest": "sha256:7b8dd55e0b8d95f6841d7c91d9286c98001da9d75d6526c6901606987841a967"
     },
     {
       "name": "task-spec-3.8.1-evidence.tar.gz",
-      "digest": "sha256:f6cfd8b4ca157c5061a5b64236b34c9f6e36689dce16858013c5fcdad5204745"
+      "digest": "sha256:2534dada449ac76f355bff132b0c14d8775a235eed53ef244a75e8dca899b7b1"
     },
     {
       "name": "sbom.spdx.json",
-      "digest": "sha256:057b0db5bb4c03ea846162ee4c99624c6ceb1b79aa22f58d42f12452c3d4ed9b"
+      "digest": "sha256:8f76476d2515666cd11d39874ef71bed5acbe62d61961b308b5fcabd655f2796"
     }
   ],
   "checksums": {
     "path": "checksums.txt",
-    "digest": "sha256:47f65b2856a07630537d62070512b42b822834eaa070eebe03e6afd1af1033ac"
+    "digest": "sha256:51525d890a236de8ee07f6c654a22c2fcd73e82b0b4513d3ebb0fad696cff48a"
   },
   "sbom": {
     "format": "SPDX-2.3",
     "path": "sbom.spdx.json",
-    "digest": "sha256:057b0db5bb4c03ea846162ee4c99624c6ceb1b79aa22f58d42f12452c3d4ed9b"
+    "digest": "sha256:8f76476d2515666cd11d39874ef71bed5acbe62d61961b308b5fcabd655f2796"
   },
   "local_gates": {
     "path": "local-gates.json",
-    "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+    "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5",
     "state": "pass"
   },
   "installation": {
     "path": "install-matrix.json",
-    "digest": "sha256:d8c421409d3c6b78ad7a21b61a546f67f179d65f65f1ee134be2f7c241f11540",
+    "digest": "sha256:c163df59d47f363ea98cea05ebfbd12e64e6da0417a17698c58468bbb271879e",
     "state": "partial"
   },
   "hosted_ci": {

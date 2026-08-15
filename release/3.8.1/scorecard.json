@@ -17,7 +17,7 @@
           "evidence": [
             {
               "path": "release/3.8.1/local-gates.json",
-              "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+              "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5",
               "class": "local",
               "state": "pass"
             }
@@ -47,7 +47,7 @@
           "evidence": [
             {
               "path": "release/3.8.1/local-gates.json",
-              "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+              "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5",
               "class": "local",
               "state": "pass"
             }
@@ -92,7 +92,7 @@
           "evidence": [
             {
               "path": "release/3.8.1/local-gates.json",
-              "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+              "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5",
               "class": "local",
               "state": "pass"
             }
@@ -107,7 +107,7 @@
           "evidence": [
             {
               "path": "release/3.8.1/local-gates.json",
-              "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262",
+              "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5",
               "class": "local",
               "state": "pass"
             }

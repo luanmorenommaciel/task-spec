@@ -10,20 +10,20 @@
   ],
   "generated_at": "2026-08-15T18:15:00Z",
   "source": {
-    "commit": "caf63bf7ac0779d2a262f1ad25ee8ffcf70cdc75",
+    "commit": "417fc79e6e43b482847cf6f34c314a2795f77abc",
     "branch": "codex/taskspec-3.8.1"
   },
   "release_status": "working",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:5be5ebb9de431912db5cee6e5edd2d4a506dd2aad4abe0dd4c05ee4787c71a27"
+    "digest": "sha256:06224e82b94e0d498c70e05f8b5da131098138976036b3c4f3695959de657164"
   },
   "gates": {
     "authority_contracts": {
       "state": "pass",
       "evidence": {
         "path": "release/3.8.1/local-gates.json",
-        "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+        "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
       },
       "reason": "The retained local gate validates revision-bound authorization, handoff, receipt subjects, and acceptance contracts against the candidate source archive."
     },
@@ -39,7 +39,7 @@
       "state": "pass",
       "evidence": {
         "path": "release/3.8.1/local-gates.json",
-        "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+        "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
       },
       "reason": "Tests and documentation preserve HMAC as shared-key tamper evidence and explicitly deny identity, isolation, and semantic-truth claims."
     },
@@ -60,7 +60,7 @@
       "state": "pass",
       "evidence": {
         "path": "release/3.8.1/local-gates.json",
-        "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+        "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
       },
       "reason": "The retained gate passed deterministic graph, closure, retry, lock, and crash-recovery suites."
     },
@@ -68,7 +68,7 @@
       "state": "pass",
       "evidence": {
         "path": "release/3.8.1/local-gates.json",
-        "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+        "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
       },
       "reason": "Attempt, revision, authorization, receipt, and base-commit mismatches fail closed; acceptance crash and idempotency tests pass."
     },
@@ -209,15 +209,15 @@
     },
     {
       "path": "release/3.8.1/local-gates.json",
-      "digest": "sha256:2853c4d4e9e10fcfbb4380a09049c549c640df79a145c8f0f0b4d68746f19262"
+      "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
     },
     {
       "path": "release/3.8.1/install-matrix.json",
-      "digest": "sha256:d8c421409d3c6b78ad7a21b61a546f67f179d65f65f1ee134be2f7c241f11540"
+      "digest": "sha256:c163df59d47f363ea98cea05ebfbd12e64e6da0417a17698c58468bbb271879e"
     },
     {
       "path": "release/3.8.1/sbom.spdx.json",
-      "digest": "sha256:057b0db5bb4c03ea846162ee4c99624c6ceb1b79aa22f58d42f12452c3d4ed9b"
+      "digest": "sha256:8f76476d2515666cd11d39874ef71bed5acbe62d61961b308b5fcabd655f2796"
     }
   ]
 }

@@ -512,7 +512,7 @@ machine-readable command and token contract.
 | Harness and packaging | All installation doors plus frozen Codex and Claude execution | 6/10 |
 | Standards interoperability | Pinned official A2A and MCP SDK conformance | 9/10 |
 | Public and external proof | Hosted CI, published provenance, and externally signed sandbox evidence | 3/10 |
-| Publication | Task-Spec 3.8.1 at `caf63bf7ac07` | Working release |
+| Publication | Task-Spec 3.8.1 at `417fc79e6e43` | Working release |
 | Deliberately unclaimed | Semantic truth, ecosystem-wide certification, and long-running production reliability | 3 points remain unavailable by design |
 <!-- release-status:end -->
 

@@ -1,8 +1,8 @@
 {
   "contract": "InstallationMatrixEvidence/v1",
   "version": "3.8.1",
-  "observed_at": "2026-08-15T19:54:07Z",
-  "source_archive_digest": "sha256:f756a47e70cb5007995a1253992a36023c50243b8d35ab9f1525e721670822bd",
+  "observed_at": "2026-08-15T20:18:36Z",
+  "source_archive_digest": "sha256:7b8dd55e0b8d95f6841d7c91d9286c98001da9d75d6526c6901606987841a967",
   "local": {
     "checkout_copy": {
       "state": "pass"
@@ -36,7 +36,7 @@
   },
   "log_asset": {
     "name": "task-spec-3.8.1-install.log",
-    "digest": "sha256:78eb44c86ccecfed673bd2b807c542db02898151b1a35092a0c63f5b6a5b886d"
+    "digest": "sha256:f3181b7a83933677999f0b6e9826017f14471ca79753010fa8a2a4a8f0bc5470"
   },
   "complete": false
 }
