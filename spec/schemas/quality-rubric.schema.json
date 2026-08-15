@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/quality-rubric.schema.json",
+  "title": "QualityRubric/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "rubric_id", "version", "max_score", "target_score", "dimensions"],
+  "properties": {
+    "contract": {"const": "QualityRubric/v1"},
+    "rubric_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "version": {"const": 1},
+    "max_score": {"type": "integer", "minimum": 1},
+    "target_score": {"type": "integer", "minimum": 1},
+    "dimensions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/dimension"}
+    }
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "max_points", "criteria"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "max_points": {"type": "integer", "minimum": 1},
+        "criteria": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/criterion"}}
+      }
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "points", "blocking", "evidence_classes", "falsifiers"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9._-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "points": {"type": "integer", "minimum": 1},
+        "blocking": {"type": "boolean"},
+        "evidence_classes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["local", "hosted", "published", "external_engine", "external_enforcement", "protocol", "provenance"]}
+        },
+        "falsifiers": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

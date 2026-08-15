@@ -1,0 +1,42 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-15T18:09:45Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": [
+        "spec digest changed while TaskRevision/v1 remained stable; mutable lifecycle fields may have changed"
+      ]
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "e3c2d208-284e-43ff-866c-d85a819cb30a",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:92cf20bf14f4e1c63cf3400c3ad2b9d3f0dac3b780dcb7bf4d41831cf5796abf",
+    "base_commit": "4dac4a35f36616419300c6065e8808fe066b9e1d",
+    "task_id": "T-20260815-release-evidence-contracts",
+    "task_revision_digest": "sha256:85f0f6aa46ad83c5c33e4d52f2ab34861899328bfb71c806458d7814e5e2295e"
+  }
+}

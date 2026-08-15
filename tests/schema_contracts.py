@@ -220,7 +220,91 @@ def main() -> int:
         "gate_outcomes": {name: {"status": "pass", "code": code} for name, code in (("authorization", "AUTHORIZATION_VALID"), ("evaluation", "EVAL_PASSED"), ("preflight", "PREFLIGHT_PASSED"), ("evidence", "EVIDENCE_SATISFIED"))},
         "receipts": [], "acceptance_tier": 1, "accepted_by": "verifier", "accepted_at": "2026-08-13T12:00:00Z",
     }, "acceptance-record.schema.json")
-    print(f"SCHEMAS=READY count={len(schema_paths)} fixtures=11")
+    evidence_digest = "sha256:" + "d" * 64
+    rubric = {
+        "contract": "QualityRubric/v1", "rubric_id": "taskspec-3.8.1", "version": 1,
+        "max_score": 100, "target_score": 97,
+        "dimensions": [{
+            "id": "contract_trust", "title": "Contract and trust", "max_points": 24,
+            "criteria": [{
+                "id": "contract.hmac_boundary", "title": "HMAC boundary remains honest", "points": 24,
+                "blocking": True, "evidence_classes": ["local"],
+                "falsifiers": ["A policy mutation preserves Tier 1"],
+            }],
+        }],
+    }
+    validate_instance(rubric, "quality-rubric.schema.json")
+    scorecard = {
+        "contract": "TaskSpecQualityScorecard/v1", "release_version": "3.8.1",
+        "rubric_digest": evidence_digest, "generated_at": "2026-08-15T18:00:00Z",
+        "dimensions": [{
+            "id": "contract_trust", "awarded_points": 24, "max_points": 24,
+            "criteria": [{
+                "id": "contract.hmac_boundary", "points": 24, "awarded": 24, "state": "pass",
+                "evidence": [{"path": "release/3.8.1/local.json", "digest": evidence_digest, "class": "local", "state": "pass"}],
+                "reason": "retained adversarial suite passed",
+            }],
+        }],
+        "total": {"awarded": 24, "maximum": 100, "target": 97, "passed": False},
+    }
+    validate_instance(scorecard, "task-spec-quality-scorecard.schema.json")
+    release_evidence = {
+        "contract": "TaskSpecReleaseEvidence/v2", "version": "3.8.1", "format_version": 4,
+        "compatible_format_versions": [1, 2, 3, 4], "generated_at": "2026-08-15T18:00:00Z",
+        "source": {"commit": "a" * 40, "branch": "codex/taskspec-3.8.1"}, "release_status": "working",
+        "quality_scorecard": {"path": "release/3.8.1/scorecard.json", "digest": evidence_digest},
+        "gates": {"make_check": {"state": "pass", "evidence": {"path": "release/3.8.1/local.json", "digest": evidence_digest}}},
+        "artifacts": [],
+    }
+    validate_instance(release_evidence, "task-spec-release-evidence.schema.json")
+    tasks = [
+        {"task_id": f"T-20260815-benchmark-{effort.lower()}", "effort": effort, "handoff": f"benchmark/{effort.lower()}.json", "handoff_digest": evidence_digest}
+        for effort in ("XS", "S", "M")
+    ]
+    engines = [
+        {"family": family, "adapter": adapter, "model": model, "enabled": True, "max_attempts": 1, "budget": {"timeout_sec": 900, "max_cost_usd": 10}}
+        for family, adapter, model in (("openai", "codex", "gpt-5.6-sol"), ("anthropic", "claude", "opus"))
+    ]
+    validate_instance({
+        "contract": "EngineMatrix/v2", "matrix_id": "taskspec-3.8.1", "frozen_at": "2026-08-15T18:00:00Z",
+        "tasks": tasks, "engines": engines,
+    }, "engine-matrix.schema.json")
+    attempts = [{
+        "task_id": task["task_id"], "attempt_id": f"00000000-0000-4000-8000-00000000000{index}",
+        "status": "accepted", "handoff_digest": evidence_digest, "command_digest": evidence_digest,
+        "patch_digest": evidence_digest, "transcript_digest": evidence_digest, "duration_sec": 1,
+        "scope_violation": False, "failure_code": None,
+    } for index, task in enumerate(tasks, 1)]
+    validate_instance({
+        "contract": "EngineMatrixResult/v2", "matrix_digest": evidence_digest, "generated_at": "2026-08-15T18:00:00Z",
+        "results": [
+            {"family": family, "adapter_version": "test", "observed_model": model, "state": "pass", "attempts": attempts, "accepted_count": 3}
+            for family, model in (("openai", "gpt-5.6-sol"), ("anthropic", "claude-opus"))
+        ],
+        "summary": {"required_families": 2, "families_passing": 2, "scope_violations": 0, "passed": True},
+    }, "engine-matrix-result.schema.json")
+    validate_instance({
+        "contract": "ProtocolConformanceEvidence/v1", "protocol": "MCP", "specification_version": "2026-07-28",
+        "sdk": {"name": "mcp-python", "version": "2.0.0", "source_revision": "v2.0.0", "source_digest": evidence_digest},
+        "observed_at": "2026-08-15T18:00:00Z", "result": "pass",
+        "scenarios": [{"id": "discover", "status": "pass", "description": "stateless discovery preserves tools"}],
+        "artifacts": [{"path": "release/3.8.1/mcp.json", "digest": evidence_digest}],
+    }, "protocol-conformance-evidence.schema.json")
+    validate_instance({
+        "contract": "EnvironmentAttestation/v1", "observed_at": "2026-08-15T18:00:00Z", "result": "pass", "verified": True,
+        "runtime": {"name": "docker", "version": "test", "kernel": "test"}, "image_digest": evidence_digest,
+        "isolation": {
+            "network": "none", "read_only_root": True, "capabilities_dropped": True, "no_new_privileges": True,
+            "writable_mounts": ["/workspace"],
+            "limits": {"cpus": 1, "memory_mb": 512, "pids": 64, "timeout_sec": 120, "tmpfs_mb": 64},
+        },
+        "command_digest": evidence_digest, "artifact_digest": evidence_digest,
+    }, "environment-attestation.schema.json")
+    validate_instance({
+        "contract": "EnvironmentAttestation/v1", "observed_at": "2026-08-15T18:00:00Z",
+        "result": "unavailable", "verified": False, "error": "Docker daemon unavailable",
+    }, "environment-attestation.schema.json")
+    print(f"SCHEMAS=READY count={len(schema_paths)} fixtures=18")
     return 0
 
 
