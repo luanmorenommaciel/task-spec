@@ -16,7 +16,7 @@
   "release_status": "blocked",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:ec80c8eb4e3bbefd8adbfc64739f2bf686564dca6691e9e7aeefb3efa77ccb82"
+    "digest": "sha256:c5da6d58a06024de70b1b1a4d19552e6152246f6d15fb4a86e33f62f207f7d62"
   },
   "gates": {
     "authority_contracts": {
@@ -97,9 +97,12 @@
       "reason": "The README status block is regenerated from the digest-validated scorecard and fails when stale."
     },
     "installation_matrix": {
-      "state": "pending",
-      "evidence": null,
-      "reason": "Local and remote installation evidence must be regenerated for 3.8.1."
+      "state": "blocked",
+      "evidence": {
+        "path": "release/3.8.1/install-matrix.json",
+        "digest": "sha256:a5825b9838f5889b12f961fa5fb9e8aaab2e82a1fbded738b6ce1e69690bae40"
+      },
+      "reason": "All local installation doors pass, but RC 2 public curl returned HTTP 404 on Ubuntu and macOS because the repository is private; npm steps therefore did not run."
     },
     "real_engine_matrix": {
       "state": "pass",
@@ -141,10 +144,10 @@
     "published_provenance": {
       "state": "blocked",
       "evidence": {
-        "path": "release/3.8.1/rc1-publication-attempt.json",
-        "digest": "sha256:12f3e029972f9483284af2b35810eb3aa3a84e1acd197018c4a555a33aea8cb6"
+        "path": "release/3.8.1/rc2-publication-attempt.json",
+        "digest": "sha256:cada4a86b87037f3162f5af027ce614de5919b85d102b07d60079cc9596a53e0"
       },
-      "reason": "RC 1 built the hosted archive and SBOM, but GitHub rejected attestations for this user-owned private repository and downstream public installation was skipped."
+      "reason": "RC 2 published checksummed assets and an SPDX SBOM, but GitHub attestations and unauthenticated public installs remain blocked by private repository visibility."
     },
     "signed_sandbox": {
       "state": "pass",
@@ -219,7 +222,7 @@
     },
     {
       "path": "release/3.8.1/install-matrix.json",
-      "digest": "sha256:c163df59d47f363ea98cea05ebfbd12e64e6da0417a17698c58468bbb271879e"
+      "digest": "sha256:a5825b9838f5889b12f961fa5fb9e8aaab2e82a1fbded738b6ce1e69690bae40"
     },
     {
       "path": "release/3.8.1/sbom.spdx.json",
@@ -232,6 +235,10 @@
     {
       "path": "release/3.8.1/rc1-publication-attempt.json",
       "digest": "sha256:12f3e029972f9483284af2b35810eb3aa3a84e1acd197018c4a555a33aea8cb6"
+    },
+    {
+      "path": "release/3.8.1/rc2-publication-attempt.json",
+      "digest": "sha256:cada4a86b87037f3162f5af027ce614de5919b85d102b07d60079cc9596a53e0"
     }
   ]
 }

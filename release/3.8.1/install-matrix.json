@@ -1,8 +1,9 @@
 {
   "contract": "InstallationMatrixEvidence/v1",
   "version": "3.8.1",
-  "observed_at": "2026-08-15T20:18:36Z",
+  "observed_at": "2026-08-15T20:40:23Z",
   "source_archive_digest": "sha256:7b8dd55e0b8d95f6841d7c91d9286c98001da9d75d6526c6901606987841a967",
+  "remote_source_archive_digest": "sha256:9fd10f4b6a2eb492b3da61a8ca34692910db1f584ef17b7e610c99a8d609a291",
   "local": {
     "checkout_copy": {
       "state": "pass"
@@ -22,16 +23,24 @@
   },
   "remote": {
     "pinned_curl_linux": {
-      "state": "pending"
+      "state": "blocked",
+      "job_id": 95067006511,
+      "reason": "Unauthenticated public download returned HTTP 404 because the repository is private."
     },
     "pinned_curl_macos": {
-      "state": "pending"
+      "state": "blocked",
+      "job_id": 95067006506,
+      "reason": "Unauthenticated public download returned HTTP 404 because the repository is private."
     },
     "github_npm_linux": {
-      "state": "pending"
+      "state": "blocked",
+      "job_id": 95067006511,
+      "reason": "The prior pinned-curl gate failed closed, so the npm step did not run."
     },
     "github_npm_macos": {
-      "state": "pending"
+      "state": "blocked",
+      "job_id": 95067006506,
+      "reason": "The prior pinned-curl gate failed closed, so the npm step did not run."
     }
   },
   "log_asset": {

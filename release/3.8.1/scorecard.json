@@ -177,9 +177,16 @@
           "id": "installation_matrix",
           "points": 4,
           "awarded": 0,
-          "state": "pending",
-          "evidence": [],
-          "reason": "Local and remote installation evidence must be regenerated for 3.8.1."
+          "state": "fail",
+          "evidence": [
+            {
+              "path": "release/3.8.1/install-matrix.json",
+              "digest": "sha256:a5825b9838f5889b12f961fa5fb9e8aaab2e82a1fbded738b6ce1e69690bae40",
+              "class": "local",
+              "state": "fail"
+            }
+          ],
+          "reason": "All local installation doors pass, but RC 2 public curl returned HTTP 404 on Ubuntu and macOS because the repository is private; npm steps therefore did not run."
         },
         {
           "id": "real_engine_matrix",
@@ -270,13 +277,13 @@
           "state": "fail",
           "evidence": [
             {
-              "path": "release/3.8.1/rc1-publication-attempt.json",
-              "digest": "sha256:12f3e029972f9483284af2b35810eb3aa3a84e1acd197018c4a555a33aea8cb6",
+              "path": "release/3.8.1/rc2-publication-attempt.json",
+              "digest": "sha256:cada4a86b87037f3162f5af027ce614de5919b85d102b07d60079cc9596a53e0",
               "class": "published",
               "state": "fail"
             }
           ],
-          "reason": "RC 1 built the hosted archive and SBOM, but GitHub rejected attestations for this user-owned private repository and downstream public installation was skipped."
+          "reason": "RC 2 published checksummed assets and an SPDX SBOM, but GitHub attestations and unauthenticated public installs remain blocked by private repository visibility."
         },
         {
           "id": "signed_sandbox",
