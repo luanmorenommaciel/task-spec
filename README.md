@@ -321,6 +321,9 @@ Acceptance reruns the Exit Check, compares every committed and uncommitted
 change with the handoff's immutable Git base, verifies the revision and graph
 closure, applies v4 receipt policy, and writes `AcceptanceRecord/v1` before the
 complete acceptance envelope. A task cannot transition to `done` first.
+With global `--json`, success returns `AcceptanceFinalized/v1`, binding the task
+and attempt to the exact acceptance-record path and digest for external
+schedulers such as Workhelm.
 
 ### 8. Expose the next safe frontier
 

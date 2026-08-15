@@ -74,6 +74,7 @@ contract = {
         "task_status": "spec/schemas/task-status.schema.json",
         "receipt_subject": "spec/schemas/receipt-subject.schema.json",
         "acceptance_record": "spec/schemas/acceptance-record.schema.json",
+        "acceptance_finalized": "spec/schemas/acceptance-finalized.schema.json",
         "acceptance_failure": "spec/schemas/acceptance-failure.schema.json",
         "evaluator_trust": "spec/schemas/evaluator-trust.schema.json",
         "mutation_matrix": "spec/schemas/mutation-matrix.schema.json",

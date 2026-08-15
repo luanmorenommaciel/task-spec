@@ -34,6 +34,8 @@ the authoring default, format v4 remains opt-in, and formats v1-v4 stay readable
   explicit supervision flags.
 - Added atomic `AcceptanceRecord/v1`, complete acceptance envelopes, idempotent
   attempts/metrics, crash recovery, and stable `AcceptanceFailure/v1` codes.
+- Added `AcceptanceFinalized/v1` for successful JSON-mode acceptance so external
+  schedulers can bind the exact record path and digest without parsing prose.
 - Acceptance retries now reject changes to acceptor, tier, receipt set,
   supervision, or verifier identity. Status, backlog doctor, and transition-to-
   done verify the record subject and envelope rather than trusting its hash alone.

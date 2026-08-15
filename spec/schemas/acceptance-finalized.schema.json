@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/acceptance-finalized.schema.json",
+  "title": "AcceptanceFinalized/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "accepted",
+    "task_id",
+    "attempt_id",
+    "tier",
+    "acceptance_record",
+    "acceptance_record_digest"
+  ],
+  "properties": {
+    "contract": {"const": "AcceptanceFinalized/v1"},
+    "accepted": {"const": true},
+    "task_id": {"type": "string", "minLength": 1},
+    "attempt_id": {"type": "string", "minLength": 1},
+    "tier": {"type": "integer", "minimum": 1, "maximum": 2},
+    "acceptance_record": {"type": "string", "minLength": 1},
+    "acceptance_record_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

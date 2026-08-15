@@ -189,6 +189,10 @@ def main() -> int:
         ROOT / "tests" / "fixtures" / "task-materialization-receipt.json",
         "task-materialization-receipt.schema.json",
     )
+    validate_file(
+        ROOT / "tests" / "fixtures" / "acceptance-finalized.json",
+        "acceptance-finalized.schema.json",
+    )
     for path in sorted((ROOT / "integrations" / "mutations").glob("*.json")):
         validate_file(path, "mutation-matrix.schema.json")
     fixture = ROOT / "tests" / "fixtures" / "T-20260603-stamp-then-verify.md"

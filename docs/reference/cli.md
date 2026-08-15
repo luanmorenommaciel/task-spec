@@ -8,6 +8,11 @@ explicitly recording whether bytes were `created`, `unchanged`, or only
 previewed with `dry_run`; no materialization receipt grants dispatch authority. Global
 `--dry-run` prevents supported mutations.
 
+On successful `taskspec --json accept --stamp`, `data` is
+`AcceptanceFinalized/v1`. It binds the accepted task and attempt to the exact
+`AcceptanceRecord/v1` path and `sha256:` digest. Automation consumes that
+structured result rather than parsing the human gate transcript.
+
 | Exit | Meaning |
 |---:|---|
 | 0 | Success or positive proof |

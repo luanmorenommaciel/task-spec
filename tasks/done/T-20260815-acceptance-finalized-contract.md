@@ -1,7 +1,7 @@
 ---
 id: T-20260815-acceptance-finalized-contract
 title: "Publish the structured acceptance-finalization contract"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-15T18:27:37Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-15T18:29:33Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:e56fc74235db8e20e71b3fba36b31ad3dbe9e9f934893c9417aacc7f783cf7ea
+accepted_tier: 1
+accepted_attempt_id: 0a5ad087-243a-4ff5-bf20-eb312e7ff8be
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:e56fc74235db8e20e71b3fba36b31ad3dbe9e9f934893c9417aacc7f783cf7ea
+acceptance_record_digest: sha256:06fb2cdabcf0814322a628c3368d2578f90a7a9294f42dfeae2a6118b2307c3d
 ---
 
 # Publish the structured acceptance-finalization contract

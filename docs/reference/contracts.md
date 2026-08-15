@@ -15,6 +15,7 @@
 | Evaluation receipts | [`evaluation-receipt.schema.json`](../../spec/schemas/evaluation-receipt.schema.json) and companion receipt schemas | Evaluators, humans, environments, engines | Acceptance and evidence analysis |
 | ReceiptSubject v1 | [`receipt-subject.schema.json`](../../spec/schemas/receipt-subject.schema.json) | v2 receipt writers | Acceptance policy |
 | AcceptanceRecord v1 | [`acceptance-record.schema.json`](../../spec/schemas/acceptance-record.schema.json) | `taskspec accept --stamp` | Doctor, status, audit tooling |
+| AcceptanceFinalized v1 | [`acceptance-finalized.schema.json`](../../spec/schemas/acceptance-finalized.schema.json) | `taskspec --json accept --stamp` | External schedulers and lifecycle coordinators |
 | AcceptanceFailure v1 | [`acceptance-failure.schema.json`](../../spec/schemas/acceptance-failure.schema.json) | `taskspec --json accept` | Automation |
 | EvaluatorTrust v1 | [`evaluator-trust.schema.json`](../../spec/schemas/evaluator-trust.schema.json) | Repository trust owner | Portable receipt verifier |
 | MutationMatrix v1 | [`mutation-matrix.schema.json`](../../spec/schemas/mutation-matrix.schema.json) | Optional stack pack | `taskspec eval-audit --mutations` |
