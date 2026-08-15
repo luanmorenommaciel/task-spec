@@ -45,7 +45,7 @@ units:
     execution_backend: codex
     depends_on: [T-20260815-nested-workspace-hardening]
     touches_paths: [spec/schemas/README.md, tests/schema_contracts.py, docs/reference/contracts.md]
-    creates_paths: [spec/schemas/quality-rubric.schema.json, spec/schemas/task-spec-quality-scorecard.schema.json, spec/schemas/task-spec-release-evidence.schema.json, spec/schemas/engine-matrix.schema.json, spec/schemas/engine-matrix-result.schema.json, spec/schemas/protocol-conformance-evidence.schema.json, spec/schemas/environment-attestation.schema.json]
+    creates_paths: [spec/schemas/quality-rubric.schema.json, spec/schemas/task-spec-quality-scorecard.schema.json, spec/schemas/task-spec-release-evidence.schema.json, spec/schemas/engine-matrix.schema.json, spec/schemas/engine-matrix-result.schema.json, spec/schemas/protocol-conformance-evidence.schema.json, spec/schemas/environment-attestation.schema.json, tests/test-release-evidence-contracts.sh]
     source_note: user-approved release train
     why: Quality and release claims need typed, independently validatable evidence rather than prose.
     goal: Define and validate the complete evidence contract set required by the 3.8.1 release audit.
@@ -57,7 +57,7 @@ units:
     evals:
       - id: eval_1
         description: all evidence schemas and fixtures satisfy the schema contract suite
-        command: python3 tests/schema_contracts.py
+        command: bash tests/test-release-evidence-contracts.sh
         verifies: [B-1]
         terminal: true
         expected_duration_sec: 30

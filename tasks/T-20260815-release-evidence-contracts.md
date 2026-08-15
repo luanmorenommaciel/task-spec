@@ -11,7 +11,7 @@ parent: (none)
 depends_on: [T-20260815-nested-workspace-hardening]
 supersedes: (none)
 touches_paths: [spec/schemas/README.md, tests/schema_contracts.py, docs/reference/contracts.md]
-creates_paths: [spec/schemas/quality-rubric.schema.json, spec/schemas/task-spec-quality-scorecard.schema.json, spec/schemas/task-spec-release-evidence.schema.json, spec/schemas/engine-matrix.schema.json, spec/schemas/engine-matrix-result.schema.json, spec/schemas/protocol-conformance-evidence.schema.json, spec/schemas/environment-attestation.schema.json]
+creates_paths: [spec/schemas/quality-rubric.schema.json, spec/schemas/task-spec-quality-scorecard.schema.json, spec/schemas/task-spec-release-evidence.schema.json, spec/schemas/engine-matrix.schema.json, spec/schemas/engine-matrix-result.schema.json, spec/schemas/protocol-conformance-evidence.schema.json, spec/schemas/environment-attestation.schema.json, tests/test-release-evidence-contracts.sh]
 source_note: "user-approved release train"
 created: "2026-08-15T00:00:00Z"
 tags: []
@@ -27,11 +27,11 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-15T18:06:49Z
+signed_off_at: 2026-08-15T18:07:14Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:4c3e761eff856fa7a2af701511dc321e863913d3f88309ca4cb296a79bb652ee
+signed_off_sig: hmac-sha256-v3:e2e418a3:92cf20bf14f4e1c63cf3400c3ad2b9d3f0dac3b780dcb7bf4d41831cf5796abf
 ---
 
 # Add versioned 3.8.1 release-evidence contracts
@@ -55,7 +55,7 @@ Define and validate the complete evidence contract set required by the 3.8.1 rel
 ```bash
 # eval_1: all evidence schemas and fixtures satisfy the schema contract suite
 eval_1() {
-  python3 tests/schema_contracts.py
+  bash tests/test-release-evidence-contracts.sh
 }
 
 ```
