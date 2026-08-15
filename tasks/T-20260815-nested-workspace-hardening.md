@@ -11,7 +11,7 @@ parent: (none)
 depends_on: []
 supersedes: (none)
 touches_paths: [src/lib/_lib.sh, src/accept/accept-task.sh, src/accept/preflight.py, src/accept/finalize.py, src/accept/record.py, src/dispatch/handoff.py, tests/test-v38-hardening.sh, tests/test-v36-experience.sh]
-creates_paths: [tests/test-v381-workspace.sh]
+creates_paths: [src/lib/workspace.py, tests/test-v381-workspace.sh]
 source_note: "user-approved release train"
 created: "2026-08-15T00:00:00Z"
 tags: []
@@ -27,11 +27,11 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-15T17:58:42Z
+signed_off_at: 2026-08-15T17:59:04Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:0cc091ef79095566eb825b033ffdb997552b41ba9f7c7c0b6bd720402cec59bd
+signed_off_sig: hmac-sha256-v3:e2e418a3:493ddb14662e9d47d8bed6769e87d23b6940135b40362022af69b4898efc07ef
 ---
 
 # Complete nested-workspace lifecycle hardening
