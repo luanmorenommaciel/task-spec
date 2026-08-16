@@ -93,7 +93,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
         raw = json.dumps({"ok": True, "model": value["model"]}).encode()
         self.send_response(200); self.send_header("content-type", "application/json")
         self.send_header("content-length", str(len(raw))); self.end_headers(); self.wfile.write(raw)
-server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+# Docker Desktop forwards host.docker.internal to the host loopback, while
+# Linux Docker resolves host-gateway to the bridge address. Listen on every
+# host interface so the same credential-boundary proof reaches the fake
+# upstream on both runner families.
+server = http.server.ThreadingHTTPServer(("0.0.0.0", 0), Handler)
 pathlib.Path(sys.argv[1]).write_text(str(server.server_port), encoding="utf-8")
 server.serve_forever()
 PY
