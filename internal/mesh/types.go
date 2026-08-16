@@ -103,6 +103,32 @@ type DispatchDecision struct {
 	DecidedAt             string              `json:"decided_at"`
 }
 
+type CredentialLease struct {
+	Contract  string   `json:"contract"`
+	LeaseID   string   `json:"lease_id"`
+	AttemptID string   `json:"attempt_id"`
+	Provider  string   `json:"provider"`
+	Model     string   `json:"model"`
+	Audience  string   `json:"audience"`
+	Scopes    []string `json:"scopes"`
+	IssuedAt  string   `json:"issued_at"`
+	ExpiresAt string   `json:"expires_at"`
+	State     string   `json:"state"`
+	BrokerRef *string  `json:"broker_ref"`
+}
+
+type SandboxSetup struct {
+	Contract    string `json:"contract"`
+	Runtime     string `json:"runtime"`
+	RuntimeVer  string `json:"runtime_version"`
+	ImageRef    string `json:"image_ref"`
+	ImageDigest string `json:"image_digest"`
+	LockDigest  string `json:"lock_digest"`
+	OMPVersion  string `json:"omp_version"`
+	VerifiedAt  string `json:"verified_at"`
+	Verified    bool   `json:"verified"`
+}
+
 func NewID() string {
 	var raw [16]byte
 	if _, err := rand.Read(raw[:]); err != nil {

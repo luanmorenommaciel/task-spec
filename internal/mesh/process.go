@@ -51,7 +51,7 @@ func sanitizedEnvironment() ([]string, []string) {
 	for _, entry := range os.Environ() {
 		name, value, _ := strings.Cut(entry, "=")
 		upper := strings.ToUpper(name)
-		if name == "TASKSPEC_SIGNING_KEY" || strings.Contains(upper, "EVALUATOR_PRIVATE") || strings.Contains(upper, "IDENTITY_PRIVATE") {
+		if name == "TASKSPEC_SIGNING_KEY" || strings.Contains(upper, "EVALUATOR_PRIVATE") || strings.Contains(upper, "IDENTITY_PRIVATE") || strings.Contains(upper, "PRIVATE_KEY") || strings.Contains(upper, "SIGNING_KEY") {
 			continue
 		}
 		if (strings.HasSuffix(upper, "_API_KEY") || strings.HasSuffix(upper, "_TOKEN")) && len(value) >= 8 {
@@ -166,6 +166,13 @@ func (store *Store) ExecuteAttempt(parent context.Context, attemptID string) err
 	if !ok {
 		return fmt.Errorf("NO_ELIGIBLE_EXECUTOR: %s", lease.Adapter)
 	}
+	var mode string
+	if err := store.db.QueryRow("SELECT mode FROM runs WHERE run_id = ?", lease.RunID).Scan(&mode); err != nil {
+		return err
+	}
+	if mode == "autonomous" {
+		return store.executeAutonomousAttempt(parent, lease, definition)
+	}
 	probe := ProbeAdapter(definition)
 	if !probe.Available {
 		_ = store.transitionAttempt("adapter-"+NewID(), attemptID, lease.FencingToken, []string{"leased"}, "parked", "ATTEMPT_PARKED", map[string]any{"code": "NO_ELIGIBLE_EXECUTOR", "probe": probe})
@@ -231,7 +238,80 @@ func (store *Store) ExecuteAttempt(parent context.Context, attemptID string) err
 	if err := store.transitionAttempt("adapter-"+NewID(), attemptID, lease.FencingToken, []string{"running"}, "verifying", "ADAPTER_COMPLETED", map[string]any{"artifact": artifact, "digest": artifactDigest}); err != nil {
 		return err
 	}
-	return store.verifyAcceptCommitAndIntegrate(lease, handoff, probe, artifact, artifactDigest, started, finished)
+	return store.verifyAcceptCommitAndIntegrate(lease, handoff, probe, artifact, artifactDigest, started, finished, "supervised", "", "", "")
+}
+
+func (store *Store) executeAutonomousAttempt(parent context.Context, lease Lease, definition AdapterDefinition) error {
+	setup, err := store.loadSandboxSetup()
+	if err != nil {
+		_ = store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"leased"}, "parked", "ATTEMPT_PARKED", map[string]any{"code": "SANDBOX_UNAVAILABLE", "message": err.Error()})
+		return codedError{Code: "SANDBOX_UNAVAILABLE", Message: err.Error()}
+	}
+	provider, model := "", ""
+	var decisionRaw string
+	if err := store.db.QueryRow("SELECT COALESCE(decision_json, '') FROM leases WHERE attempt_id = ?", lease.AttemptID).Scan(&decisionRaw); err != nil {
+		return err
+	}
+	var decision map[string]any
+	if err := json.Unmarshal([]byte(decisionRaw), &decision); err == nil {
+		// Provider and model are sealed into the routing policy digest and recovered from the run event below.
+		_ = decision
+	}
+	var payloadRaw string
+	err = store.db.QueryRow("SELECT payload_json FROM events WHERE attempt_id = ? AND event_type = 'ROUTE_SELECTED' ORDER BY sequence DESC LIMIT 1", lease.AttemptID).Scan(&payloadRaw)
+	if err == nil {
+		var payload map[string]any
+		if json.Unmarshal([]byte(payloadRaw), &payload) == nil {
+			if route, ok := payload["route"].(map[string]any); ok {
+				provider, _ = route["provider"].(string)
+				model, _ = route["model"].(string)
+			}
+		}
+	}
+	if provider == "" || model == "" {
+		_ = store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"leased"}, "parked", "ATTEMPT_PARKED", map[string]any{"code": "CREDENTIAL_BOUNDARY_UNVERIFIED"})
+		return codedError{Code: "CREDENTIAL_BOUNDARY_UNVERIFIED", Message: "autonomous route lost its fixed provider or model"}
+	}
+	probe := AdapterProbe{Contract: "ExecutorCapability/v1", Adapter: definition.Name, AdapterVersion: "omp/" + setup.OMPVersion, Harness: definition.Harness, Available: true, AssuranceModes: []string{"autonomous"}, Tools: []string{"read", "edit", "shell"}, Network: "attempt_proxy_only", Executable: setup.ImageDigest, ObservedAt: NowUTC()}
+	probe.Limits.MaxParallel, probe.Limits.MaxOutputBytes, probe.Limits.TimeoutSec = 1, 1048576, int(executionTimeout().Seconds())
+	if err := store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"leased"}, "preparing", "SANDBOX_PREPARING", map[string]any{"probe": probe, "image_digest": setup.ImageDigest}); err != nil {
+		return err
+	}
+	handoff, prompt, err := store.GenerateHandoff(lease, definition)
+	if err != nil {
+		_ = store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"preparing"}, "parked", "ATTEMPT_PARKED", map[string]any{"code": "HANDOFF_FAILED", "message": err.Error()})
+		return err
+	}
+	if err := store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"preparing"}, "running", "SANDBOX_STARTED", map[string]any{"runtime": setup.Runtime, "image_digest": setup.ImageDigest}); err != nil {
+		return err
+	}
+	ctx, cancel := context.WithTimeout(parent, executionTimeout())
+	defer cancel()
+	result, runErr := store.runSandbox(ctx, lease, handoff, prompt, provider, model, setup)
+	artifact, artifactDigest, artifactErr := store.writeExecutionArtifact(lease, definition, probe, result.StartedAt, result.FinishedAt, redact(result.Output, nil), result.Truncated, runErr)
+	if artifactErr != nil {
+		return artifactErr
+	}
+	if runErr != nil {
+		code := "EXECUTION_FAILED"
+		if typed, ok := runErr.(codedError); ok {
+			code = typed.Code
+		}
+		_ = store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"running"}, "parked", "ATTEMPT_PARKED", map[string]any{"code": code, "artifact": artifact, "digest": artifactDigest})
+		return runErr
+	}
+	if err := store.finalizeSandboxEvidence(lease, handoff, artifact, artifactDigest, &result); err != nil {
+		code := "CREDENTIAL_BOUNDARY_UNVERIFIED"
+		if typed, ok := err.(codedError); ok {
+			code = typed.Code
+		}
+		_ = store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"running"}, "parked", "ATTEMPT_PARKED", map[string]any{"code": code, "message": err.Error()})
+		return err
+	}
+	if err := store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"running"}, "verifying", "SANDBOX_COMPLETED", map[string]any{"artifact": artifact, "digest": artifactDigest, "sandbox_evidence": result.SandboxEvidence}); err != nil {
+		return err
+	}
+	return store.verifyAcceptCommitAndIntegrate(lease, handoff, probe, artifact, artifactDigest, result.StartedAt, result.FinishedAt, "autonomous", result.Receipt, os.Getenv("TASKSPEC_MESH_TRUST_REGISTRY"), result.SandboxEvidence)
 }
 
 func (store *Store) writeExecutionArtifact(lease Lease, definition AdapterDefinition, probe AdapterProbe, started, finished, output string, truncated bool, runErr error) (string, string, error) {
@@ -287,7 +367,7 @@ func copyNonClobbering(source, destination string) error {
 	return file.Close()
 }
 
-func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, probe AdapterProbe, artifact, artifactDigest, started, finished string) error {
+func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, probe AdapterProbe, artifact, artifactDigest, started, finished, mode, environmentReceipt, trustRegistry, sandboxEvidence string) error {
 	cli, err := taskSpecCLI(store.repository)
 	if err != nil {
 		return err
@@ -307,7 +387,14 @@ func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, 
 	if err := json.Unmarshal(statusEnvelope.Data, &status); err != nil {
 		return err
 	}
-	accept := exec.Command("bash", cli, "--json", "accept", "--stamp", "--handoff", handoff, "--allow-tier2", "--supervised-by", "taskmesh", "--reason", "supervised host worktree execution", status.Path)
+	acceptArguments := []string{"--json", "accept", "--stamp", "--handoff", handoff}
+	if mode == "autonomous" {
+		acceptArguments = append(acceptArguments, "--accepted-by", "taskmesh-autonomous", "--environment-receipt", environmentReceipt, "--trust-registry", trustRegistry)
+	} else {
+		acceptArguments = append(acceptArguments, "--allow-tier2", "--supervised-by", "taskmesh", "--reason", "supervised host worktree execution")
+	}
+	acceptArguments = append(acceptArguments, status.Path)
+	accept := exec.Command("bash", append([]string{cli}, acceptArguments...)...)
 	accept.Dir = lease.Workspace
 	accept.Env = append(os.Environ(), "TASKSPEC_WORKSPACE_ROOT="+lease.Workspace)
 	acceptOutput, err := accept.Output()
@@ -349,10 +436,10 @@ func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, 
 	if err != nil || !integrateResult.OK {
 		return fmt.Errorf("INTEGRATION_FAILED: %s", integrateResult.Code)
 	}
-	return store.writeEngineReceipt(lease, handoff, probe, artifact, artifactDigest, started, finished, destination)
+	return store.writeEngineReceipt(lease, handoff, probe, artifact, artifactDigest, started, finished, destination, sandboxEvidence)
 }
 
-func (store *Store) writeEngineReceipt(lease Lease, handoff string, probe AdapterProbe, artifact, artifactDigest, started, finished, acceptance string) error {
+func (store *Store) writeEngineReceipt(lease Lease, handoff string, probe AdapterProbe, artifact, artifactDigest, started, finished, acceptance, sandboxEvidence string) error {
 	handoffRaw, err := os.ReadFile(handoff)
 	if err != nil {
 		return err
@@ -362,6 +449,10 @@ func (store *Store) writeEngineReceipt(lease Lease, handoff string, probe Adapte
 		return err
 	}
 	handoffHash := sha256.Sum256(handoffRaw)
+	artifacts := []map[string]any{{"path": artifact, "digest": artifactDigest}, {"path": acceptance}}
+	if sandboxEvidence != "" {
+		artifacts = append(artifacts, map[string]any{"path": sandboxEvidence})
+	}
 	receipt := map[string]any{
 		"contract": "EngineRunReceipt/v2", "subject": map[string]any{
 			"task_id": lease.TaskID, "task_revision_digest": lease.TaskRevisionDigest,
@@ -372,7 +463,7 @@ func (store *Store) writeEngineReceipt(lease Lease, handoff string, probe Adapte
 		"provider": probe.Harness, "model_id": "adapter-selected", "adapter_version": probe.AdapterVersion,
 		"engine_version": probe.AdapterVersion, "environment_digest": artifactDigest, "started_at": started,
 		"finished_at": finished, "attempts": 1, "terminal_outcome": "accepted", "acceptance_verdict": "accepted",
-		"artifacts": []map[string]any{{"path": artifact, "digest": artifactDigest}, {"path": acceptance}}, "deviations": []string{},
+		"artifacts": artifacts, "deviations": []string{},
 	}
 	raw, err := json.MarshalIndent(receipt, "", "  ")
 	if err != nil {

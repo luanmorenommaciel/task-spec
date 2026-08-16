@@ -24,6 +24,7 @@ func adapterForBackend(backend string) string {
 
 func routeTask(task FrontierTask, arguments []string) (DispatchDecision, error) {
 	explicit := option(arguments, "--adapter", "")
+	mode := option(arguments, "--mode", "supervised")
 	backend := adapterForBackend(task.ExecutionBackend)
 	definitions, err := LoadAdapters()
 	if err != nil {
@@ -62,7 +63,7 @@ func routeTask(task FrontierTask, arguments []string) (DispatchDecision, error) 
 		digest, _ := digestJSON(map[string]any{"order": advisor.Order})
 		advisorDigest = &digest
 	}
-	policy := map[string]any{"allowed_adapters": defaultAdapterOrder, "explicit": explicit, "task_backend": task.ExecutionBackend}
+	policy := map[string]any{"allowed_adapters": defaultAdapterOrder, "explicit": explicit, "task_backend": task.ExecutionBackend, "mode": mode, "provider": option(arguments, "--provider", ""), "model": option(arguments, "--model", "")}
 	policyDigest, _ := digestJSON(policy)
 	decision := DispatchDecision{
 		Contract: "DispatchDecision/v1", TaskID: task.TaskID, TaskRevisionDigest: task.TaskRevisionDigest,
@@ -78,7 +79,16 @@ func routeTask(task FrontierTask, arguments []string) (DispatchDecision, error) 
 	}
 	for index, adapter := range defaultAdapterOrder {
 		candidate := DispatchCandidate{Adapter: adapter, Eligible: true, RejectionReasons: []string{}, StaticScore: float64(100 - index)}
-		if backend != "" && adapter != backend {
+		definition := definitions[adapter]
+		if !contains(definition.AssuranceModes, mode) {
+			candidate.Eligible = false
+			candidate.RejectionReasons = append(candidate.RejectionReasons, "ASSURANCE_MODE_UNSUPPORTED")
+		}
+		if mode == "autonomous" && adapter != "omp-rpc" {
+			candidate.Eligible = false
+			candidate.RejectionReasons = append(candidate.RejectionReasons, "AUTONOMOUS_OMP_ONLY")
+		}
+		if mode == "supervised" && backend != "" && adapter != backend {
 			candidate.Eligible = false
 			candidate.RejectionReasons = append(candidate.RejectionReasons, "TASK_BACKEND_CONSTRAINT")
 		}
@@ -87,6 +97,8 @@ func routeTask(task FrontierTask, arguments []string) (DispatchDecision, error) 
 	ranked := append([]string{}, order...)
 	if explicit != "" {
 		ranked = append([]string{explicit}, ranked...)
+	} else if mode == "autonomous" {
+		ranked = append([]string{"omp-rpc"}, ranked...)
 	} else if backend != "" {
 		ranked = append([]string{backend}, ranked...)
 	}

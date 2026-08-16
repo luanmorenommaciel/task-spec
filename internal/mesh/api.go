@@ -10,17 +10,17 @@ import (
 	"time"
 )
 
-func HTTPClient(socket string) *http.Client {
+func httpClient(socket string, timeout time.Duration) *http.Client {
 	transport := &http.Transport{
 		DialContext: func(ctx context.Context, _, _ string) (net.Conn, error) {
 			return (&net.Dialer{}).DialContext(ctx, "unix", socket)
 		},
 	}
-	return &http.Client{Transport: transport, Timeout: 10 * time.Second}
+	return &http.Client{Transport: transport, Timeout: timeout}
 }
 
 func Health(socket string) (APIIdentity, error) {
-	response, err := HTTPClient(socket).Get("http://taskmesh/v1/health")
+	response, err := httpClient(socket, 10*time.Second).Get("http://taskmesh/v1/health")
 	if err != nil {
 		return APIIdentity{}, err
 	}
@@ -38,7 +38,7 @@ func Call(socket string, request CommandRequest) (CommandResponse, error) {
 		err := json.NewEncoder(writer).Encode(request)
 		writer.CloseWithError(err)
 	}()
-	response, err := HTTPClient(socket).Post("http://taskmesh/v1/command", "application/json", reader)
+	response, err := httpClient(socket, 15*time.Minute).Post("http://taskmesh/v1/command", "application/json", reader)
 	if err != nil {
 		return CommandResponse{}, err
 	}

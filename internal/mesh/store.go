@@ -81,6 +81,18 @@ func OpenStore(repository Repository) (*Store, error) {
             task_revision_digest TEXT PRIMARY KEY,
             token INTEGER NOT NULL
         )`,
+		`CREATE TABLE IF NOT EXISTS credential_leases (
+            lease_id TEXT PRIMARY KEY,
+            attempt_id TEXT NOT NULL UNIQUE REFERENCES leases(attempt_id),
+            provider TEXT NOT NULL,
+            model TEXT NOT NULL,
+            audience TEXT NOT NULL,
+            scopes_json TEXT NOT NULL,
+            issued_at TEXT NOT NULL,
+            expires_at TEXT NOT NULL,
+            state TEXT NOT NULL,
+            broker_ref TEXT
+        )`,
 		`CREATE UNIQUE INDEX IF NOT EXISTS one_authoritative_lease
             ON leases(task_revision_digest)
             WHERE state IN ('leased', 'preparing', 'running', 'verifying', 'awaiting_supervision')`,
@@ -191,6 +203,8 @@ func (store *Store) execute(transaction *sql.Tx, request CommandRequest) Command
 		response.Code, response.Message, response.Data = "MESH_FRONTIER_READY", "authorized ready frontier resolved", map[string]any{"frontier": frontier}
 	case "run":
 		response = store.startRun(transaction, request)
+	case "setup":
+		response = store.setupCommand(request)
 	case "adapters":
 		response = store.adaptersCommand(request)
 	case "explain":

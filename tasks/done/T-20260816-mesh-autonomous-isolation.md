@@ -1,7 +1,7 @@
 ---
 id: T-20260816-mesh-autonomous-isolation
 title: "Implement autonomous OMP isolation and credential leases"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-16T20:10:58Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-16T20:30:03Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:2db9088d62c78001442d23367ac0b4c8bd4410dd253abd097e0e3d68b36d5e4a
+accepted_tier: 1
+accepted_attempt_id: 548297a0-4bb5-411f-b674-03bd7a835430
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:2db9088d62c78001442d23367ac0b4c8bd4410dd253abd097e0e3d68b36d5e4a
+acceptance_record_digest: sha256:18ae6fcc4d15646ca34d792876fee1025d97fe443988672b96ad01326d7c6922
 ---
 
 # Implement autonomous OMP isolation and credential leases

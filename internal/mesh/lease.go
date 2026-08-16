@@ -64,6 +64,11 @@ func (store *Store) startRun(transaction *sql.Tx, request CommandRequest) Comman
 	if mode != "supervised" && mode != "autonomous" {
 		return failure("MESH_USAGE", "--mode must be supervised or autonomous")
 	}
+	if mode == "autonomous" {
+		if code, err := store.autonomousPreflight(request.Arguments); err != nil {
+			return failure(code, err.Error())
+		}
+	}
 	selected := []FrontierTask{}
 	if taskID := option(request.Arguments, "--task", ""); taskID != "" {
 		task, ok := frontier.Eligible(taskID)
@@ -132,7 +137,8 @@ func (store *Store) startRun(transaction *sql.Tx, request CommandRequest) Comman
 		if _, err := transaction.Exec("UPDATE leases SET adapter = ?, branch = ?, workspace = ?, decision_json = ? WHERE attempt_id = ?", lease.Adapter, branch, workspace, string(decisionRaw), lease.AttemptID); err != nil {
 			return failure("MESH_STATE_ERROR", err.Error())
 		}
-		_ = appendRunEvent(transaction, request.RequestID, runID, lease.AttemptID, lease.FencingToken, "ROUTE_SELECTED", map[string]any{"decision": decision, "branch": branch, "workspace": workspace})
+		route := map[string]any{"provider": option(request.Arguments, "--provider", ""), "model": option(request.Arguments, "--model", ""), "mode": mode}
+		_ = appendRunEvent(transaction, request.RequestID, runID, lease.AttemptID, lease.FencingToken, "ROUTE_SELECTED", map[string]any{"decision": decision, "route": route, "branch": branch, "workspace": workspace})
 		leases = append(leases, lease)
 		attempts = append(attempts, map[string]any{"lease": lease, "adapter": lease.Adapter, "branch": branch, "workspace": workspace, "decision": decision})
 	}
