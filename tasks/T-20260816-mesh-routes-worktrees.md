@@ -10,7 +10,7 @@ agent: codex
 parent: (none)
 depends_on: [T-20260816-mesh-leases-graph]
 supersedes: (none)
-touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
+touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/graph.go, internal/mesh/lease.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
 creates_paths: [internal/mesh/integration.go, internal/mesh/routing.go, internal/mesh/worktree.go, tests/test-mesh-routing-integration.sh]
 source_note: "user-approved TaskMesh 3.9.0 release plan"
 created: "2026-08-16T00:00:00Z"
@@ -25,12 +25,13 @@ security_class: (none)
 source_action_item: (none)
 tracker_ref: (none)
 execution_backend: codex
-signed_off: false
-signed_off_by: (none)
-signed_off_at: (none)
+signed_off: true
+signed_off_by: luanmorenomaciel
+signed_off_at: 2026-08-16T19:57:13Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
+signed_off_sig: hmac-sha256-v3:e2e418a3:53e9fcf5149e379dc2c415ca015cd2637178a7024c26d5d67ff371c6498381cd
 ---
 
 # Implement deterministic routing and integration worktrees

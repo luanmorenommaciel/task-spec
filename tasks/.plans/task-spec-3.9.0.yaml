@@ -84,7 +84,7 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: [T-20260816-mesh-daemon-state]
-    touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
+    touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/graph.go, internal/mesh/lease.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
     creates_paths: [internal/mesh/graph.go, internal/mesh/lease.go, internal/mesh/recovery.go, tests/test-mesh-leases.sh]
     source_note: user-approved TaskMesh 3.9.0 release plan
     why: Only authorized ready leaves may be scheduled, and stale workers must never regain authority after recovery.
