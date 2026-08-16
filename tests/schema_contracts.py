@@ -185,6 +185,10 @@ def main() -> int:
             resolve(ref, path, schema)
     validate_file(ROOT / "docs" / "examples" / "task-handoff.json", "task-handoff.schema.json")
     validate_file(ROOT / "docs" / "examples" / "authoring-evidence.json", "authoring-evidence.schema.json")
+    validate_file(
+        ROOT / "tests" / "fixtures" / "task-materialization-receipt.json",
+        "task-materialization-receipt.schema.json",
+    )
     for path in sorted((ROOT / "integrations" / "mutations").glob("*.json")):
         validate_file(path, "mutation-matrix.schema.json")
     fixture = ROOT / "tests" / "fixtures" / "T-20260603-stamp-then-verify.md"
@@ -216,7 +220,7 @@ def main() -> int:
         "gate_outcomes": {name: {"status": "pass", "code": code} for name, code in (("authorization", "AUTHORIZATION_VALID"), ("evaluation", "EVAL_PASSED"), ("preflight", "PREFLIGHT_PASSED"), ("evidence", "EVIDENCE_SATISFIED"))},
         "receipts": [], "acceptance_tier": 1, "accepted_by": "verifier", "accepted_at": "2026-08-13T12:00:00Z",
     }, "acceptance-record.schema.json")
-    print(f"SCHEMAS=READY count={len(schema_paths)} fixtures=10")
+    print(f"SCHEMAS=READY count={len(schema_paths)} fixtures=11")
     return 0
 
 

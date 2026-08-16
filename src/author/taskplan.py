@@ -4,14 +4,18 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import pathlib
 import re
 import sys
+import tempfile
 from collections import defaultdict
 
 LIB = pathlib.Path(__file__).resolve().parents[1] / "lib"
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 sys.path.insert(0, str(LIB))
 from taskspec_data import DataError, canonical_digest, load_document, sensitive_key_paths, yaml_scalar  # noqa: E402
 
@@ -89,7 +93,7 @@ def validate_plan(plan: object) -> tuple[list[str], list[str]]:
         parent = unit.get("parent", "(none)")
         if not isinstance(parent, str) or (parent != "(none)" and not SAFE_TOKEN.fullmatch(parent)):
             errors.append(f"{task_id}: parent must be (none) or a safe repository-relative reference")
-        for field in ("tags", "produces"):
+        for field in ("tags", "produces", "required_tools"):
             values = unit.get(field, [])
             if not isinstance(values, list) or any(not isinstance(value, str) or not SAFE_TOKEN.fullmatch(value) for value in values):
                 errors.append(f"{task_id}: {field} must be a list of safe tokens")
@@ -312,7 +316,8 @@ def render_spec(unit: dict) -> str:
         "  circuit_breaker_no_progress: 3", "  on_terminal_failure: park_with_context",
         "agent_contract:", "  version: 2", "  read: [intent, behavior, contract, guardrails]",
         f"  produce: {_tokens(unit.get('produces', ['code', 'tests']))}",
-        "  required_tools: [git, bash]", "  timeout_minutes: 30", "  sandbox_type: host",
+        f"  required_tools: {_tokens(unit.get('required_tools', ['git', 'bash']))}",
+        "  timeout_minutes: 30", "  sandbox_type: host",
         "  output_artifacts: []", "  mcp_dependencies: []", "  emit: [pass, fail, retry_with_reason, parked_with_context]",
         "  backend_metadata: {}", "```", "", "## Exit Check", "", "```bash",
         " && ".join(str(check["id"]) for check in unit["evals"]), "```",
@@ -326,6 +331,21 @@ def render_spec(unit: dict) -> str:
     lines.extend(f"- `{item}`" for item in unit.get("do_not_touch", ["(none)"]))
     lines += ["", "## Open Questions", "", str(unit.get("open_questions", "(none — this task is fully specified)")), ""]
     return "\n".join(lines)
+
+
+def _atomic_write(path: pathlib.Path, content: bytes) -> None:
+    """Replace one task with complete bytes or leave no target behind."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle, temporary = tempfile.mkstemp(prefix=f".{path.name}.tmp.", dir=path.parent)
+    temporary_path = pathlib.Path(temporary)
+    try:
+        with os.fdopen(handle, "wb") as stream:
+            stream.write(content)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary_path, path)
+    finally:
+        temporary_path.unlink(missing_ok=True)
 
 
 def main() -> int:
@@ -343,9 +363,11 @@ def main() -> int:
         return 1
     errors, warnings = validate_plan(plan)
     units = plan.get("units", []) if isinstance(plan, dict) else []
+    plan_digest = canonical_digest(plan)
+    plan_approved = bool(plan.get("approved")) if isinstance(plan, dict) else False
     result = {
         "contract": "TaskPlan/v1", "manifest": str(pathlib.Path(args.manifest).resolve()),
-        "digest": canonical_digest(plan), "approved": bool(plan.get("approved")) if isinstance(plan, dict) else False,
+        "digest": plan_digest, "approved": plan_approved,
         "valid": not errors, "errors": errors, "warnings": warnings,
         "units": [{key: unit.get(key) for key in ("id", "title", "effort", "profile", "execution_backend", "depends_on", "children") if key in unit} for unit in units if isinstance(unit, dict)],
     }
@@ -367,10 +389,24 @@ def main() -> int:
     if args.action == "generate":
         out_dir = pathlib.Path(args.out_dir)
         targets = [out_dir / f"{unit['id']}.md" for unit in units]
-        existing = [str(path) for path in targets if path.exists()]
-        if existing:
+        rendered = [render_spec(unit) for unit in units]
+        rendered_bytes = [content.encode("utf-8") for content in rendered]
+        existing = [path for path in targets if path.exists()]
+        conflicts = [
+            path
+            for path, expected in zip(targets, rendered_bytes)
+            if path.exists() and (not path.is_file() or path.read_bytes() != expected)
+        ]
+        partial = existing and len(existing) != len(targets)
+        if not args.dry_run and (conflicts or partial):
             result["valid"] = False
-            result["errors"] = [f"refusing to clobber existing file: {path}" for path in existing]
+            result["errors"] = [
+                f"refusing conflicting existing path: {path}" for path in conflicts
+            ]
+            if partial:
+                result["errors"].append(
+                    "refusing partial existing task set; remove the interrupted output set or restore every exact generated file"
+                )
             if args.json:
                 print(json.dumps(result, indent=2, ensure_ascii=False))
             else:
@@ -378,12 +414,35 @@ def main() -> int:
                     print(f"ERROR: {error}", file=sys.stderr)
                 print("TASK_BATCH=REFUSED")
             return 1
-        if not args.dry_run:
-            out_dir.mkdir(parents=True, exist_ok=True)
-            for unit, target in zip(units, targets):
-                target.write_text(render_spec(unit), encoding="utf-8")
-        result["dry_run"] = args.dry_run
-        result["created"] = [str(path) for path in targets]
+        changed = not args.dry_run and not existing
+        if changed:
+            for target, content in zip(targets, rendered_bytes):
+                _atomic_write(target, content)
+        result = {
+            "contract": "TaskMaterializationReceipt/v1",
+            "engine_version": VERSION,
+            "input": {
+                "contract": "TaskPlan/v1",
+                "manifest": str(pathlib.Path(args.manifest).resolve()),
+                "digest": plan_digest,
+                "approved": True,
+            },
+            "output_dir": str(out_dir),
+            "dry_run": args.dry_run,
+            "materialized": not args.dry_run,
+            "changed": changed,
+            "state": "dry_run" if args.dry_run else ("created" if changed else "unchanged"),
+            "dispatch_authorized": False,
+            "tasks": [
+                {
+                    "task_id": unit["id"],
+                    "path": str(target),
+                    "sha256": hashlib.sha256(content.encode("utf-8")).hexdigest(),
+                }
+                for unit, target, content in zip(units, targets, rendered)
+            ],
+            "warnings": warnings,
+        }
         token = "TASK_BATCH=DRY_RUN" if args.dry_run else "TASK_BATCH=OK"
     else:
         token = "TASK_PLAN=OK"
@@ -391,7 +450,7 @@ def main() -> int:
     if args.json:
         print(json.dumps(result, indent=2, ensure_ascii=False))
     else:
-        print(f"TaskPlan v1 · {'approved' if result['approved'] else 'review required'} · digest {result['digest'][:12]}")
+        print(f"TaskPlan v1 · {'approved' if plan_approved else 'review required'} · digest {plan_digest[:12]}")
         print(f"{'ID':<38} {'KIND':<6} {'SIZE':<4} {'BACKEND':<12} TITLE")
         for unit in units:
             kind = "node" if unit["effort"] in NODES else "leaf"
@@ -399,8 +458,8 @@ def main() -> int:
         for warning in warnings:
             print(f"WARN: {warning}")
         if args.action == "generate":
-            verb = "would create" if args.dry_run else "created"
-            print(f"{verb}: {len(result['created'])} Task-Spec scaffold(s) in {args.out_dir}/")
+            verb = "would create" if args.dry_run else ("created" if result["changed"] else "unchanged")
+            print(f"{verb}: {len(result['tasks'])} Task-Spec scaffold(s) in {args.out_dir}/")
         print(token)
     return 0
 

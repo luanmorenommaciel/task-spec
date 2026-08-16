@@ -89,7 +89,8 @@ def main() -> int:
             raise ValueError("cannot resolve Git workspace")
         workspace = pathlib.Path(workspace_result).resolve()
         backlog = pathlib.Path(os.environ.get("TASKSPEC_BACKLOG_DIR", workspace / "tasks")).resolve()
-        acceptance_root = pathlib.Path(args.acceptance_dir).resolve() if args.acceptance_dir else workspace / ".taskspec" / "acceptance"
+        configured_acceptance = args.acceptance_dir or os.environ.get("TASKSPEC_ACCEPTANCE_DIR")
+        acceptance_root = pathlib.Path(configured_acceptance).resolve() if configured_acceptance else workspace / ".taskspec" / "acceptance"
         record_path = acceptance_root / str(fm.get("id")) / f"{attempt_id}.json"
         accepted_at = now()
         subject = {

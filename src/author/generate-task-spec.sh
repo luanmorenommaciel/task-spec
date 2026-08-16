@@ -36,7 +36,11 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --status)
-      STATUS="${2:-ready}"
+      [[ $# -ge 2 ]] || {
+        echo "Usage: taskspec new [--status=ready|blocked] [--queue] <slug> <effort> [agent] [source_note]" >&2
+        exit 2
+      }
+      STATUS="$2"
       shift 2
       ;;
     --profile=*)
@@ -44,7 +48,11 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --profile)
-      PROFILE="${2:-standard}"
+      [[ $# -ge 2 ]] || {
+        echo "Usage: taskspec new [--profile standard|eval-heavy|research-heavy] <slug> <effort> [agent] [source_note]" >&2
+        exit 2
+      }
+      PROFILE="$2"
       shift 2
       ;;
     --format=*)
@@ -52,7 +60,11 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --format)
-      FORMAT_VERSION="${2:-3}"
+      [[ $# -ge 2 ]] || {
+        echo "Usage: taskspec new [--format 3|4] <slug> <effort> [agent] [source_note]" >&2
+        exit 2
+      }
+      FORMAT_VERSION="$2"
       shift 2
       ;;
     --queue)
@@ -71,7 +83,7 @@ while [[ $# -gt 0 ]]; do
     -*)
       echo "Unknown option: $1" >&2
       echo "Usage: taskspec new [--status=ready|blocked] [--queue] <slug> <effort> [agent] [source_note]" >&2
-      exit 1
+      exit 2
       ;;
     *)
       ARGS+=("$1")
@@ -82,7 +94,7 @@ done
 
 if [[ ${#ARGS[@]} -lt 2 ]]; then
   echo "Usage: taskspec new [--status=ready|blocked] [--queue] <slug> <effort> [agent] [source_note]" >&2
-  exit 1
+  exit 2
 fi
 
 SLUG="${ARGS[0]}"

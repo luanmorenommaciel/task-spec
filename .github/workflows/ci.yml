@@ -50,10 +50,14 @@ jobs:
           sudo install -m 0755 "/tmp/shellcheck-${ver}/shellcheck" /usr/local/bin/shellcheck
           shellcheck --version
 
-      - name: Install pyyaml (schema-fidelity consumer test)
+      - name: Install schema-fidelity consumer dependencies
         # tests/test-portability-e2e.sh Step 6 runs docs/examples/consume-task-spec.py,
-        # which requires PyYAML. Pinned for determinism.
-        run: python3 -m pip install --disable-pip-version-check --quiet --break-system-packages pyyaml==6.0.2
+        # which requires PyYAML and validates with jsonschema when present.
+        # Install both explicitly so hosted proof never depends on runner-image
+        # package drift. Pinned for determinism.
+        run: >-
+          python3 -m pip install --disable-pip-version-check --quiet
+          --break-system-packages pyyaml==6.0.2 jsonschema==4.26.0
 
       - name: make check (includes isolated install-to-accept demo)
         run: make check

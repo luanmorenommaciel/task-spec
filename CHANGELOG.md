@@ -40,6 +40,9 @@ the authoring default, format v4 remains opt-in, and formats v1-v4 stay readable
 
 ### Graph, recovery, and developer experience
 
+- Added approved `TaskPlan/v1` materialization receipts with exact plan and task
+  digests. Exact batch reruns are unchanged, while partial or conflicting
+  output sets fail closed and individual file writes replace atomically.
 - Added one deterministic stdlib resolver for `TaskGraphView/v1`, dependency
   closure, cycles, dangling edges, composition, supersession, write conflicts,
   ready frontier, blocked reasons, and concurrency groups.

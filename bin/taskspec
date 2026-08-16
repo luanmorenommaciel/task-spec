@@ -217,12 +217,15 @@ _ts_dispatch() {
       fi
       script="src/setup/readiness.sh"
       ;;
-    plan) python3 "$TASKSPEC_HOME/src/author/taskplan.py" preview "$@"; return $? ;;
+    plan)
+      [[ "${TASKSPEC_JSON_MODE:-0}" == "1" ]] && set -- --json "$@"
+      python3 "$TASKSPEC_HOME/src/author/taskplan.py" preview "$@"; return $? ;;
     batch)
       if [[ "${1:-}" == "--plan" ]]; then
         local manifest="${2:-}"; shift 2 || true
         [[ -n "$manifest" ]] || { echo "taskspec batch --plan requires a manifest" >&2; return 2; }
         if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" ]]; then set -- --dry-run "$@"; fi
+        if [[ "${TASKSPEC_JSON_MODE:-0}" == "1" ]]; then set -- --json "$@"; fi
         python3 "$TASKSPEC_HOME/src/author/taskplan.py" generate --manifest "$manifest" "$@"; return $?
       fi
       script="src/author/batch-generate.sh"

@@ -114,7 +114,7 @@ models, adapters, credentials, and retained results.
 
 | Surface | Capability | Deterministic proof |
 |---|---|---|
-| Atomic authoring | v3/v4 scaffolds, approved `TaskPlan/v1`, batch generation | `taskspec plan`, `batch`, `validate` |
+| Atomic authoring | v3/v4 scaffolds, approved `TaskPlan/v1`, Task-Spec-owned `TaskMaterializationReceipt/v1` | `taskspec plan`, `batch`, `validate` |
 | Behavior contract | Given/When/Then IDs with bidirectional eval traceability | `taskspec dod` → `DOD=COMPLETE` |
 | Scope control | bounded read/write surfaces and Do-Not-Touch rules | PRE-gate validation + POST-gate blast-radius check |
 | Authorization | HMAC v3 over `TaskRevision/v1`; unknown fields sealed by default | `taskspec gate --stamp` → `TIER=1` |
@@ -272,7 +272,11 @@ taskspec batch --plan tasks/.plans/add-search.yaml
 ```
 
 `plan` is read-only. `batch` refuses an unapproved, malformed, cyclic, or
-credential-bearing manifest.
+credential-bearing manifest. With global `--json`, `batch` returns a
+`TaskMaterializationReceipt/v1` binding the input digest to every generated
+path and content hash; materialization never grants dispatch authority.
+An exact rerun returns `state: unchanged` and `changed: false`. A partial task
+set or any conflicting existing bytes fails closed instead of overwriting work.
 
 ### 4. Inspect the contract and its proof graph
 

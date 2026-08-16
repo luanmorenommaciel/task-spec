@@ -85,6 +85,23 @@ p=pathlib.Path(sys.argv[1]); p.write_text(p.read_text().replace("eval_1() {", "#
 PY
 must "textual authoring-evidence acceptance use produces a lint warning" bash -c "bash '$ROOT/src/gate/validate-task-spec.sh' --no-state '$R/tasks/T-20260813-evidence-warning.md' | grep -q 'cannot satisfy acceptance'"
 
+# Integrations may keep the backlog below a control-plane directory while task
+# paths and Git authority remain repository-root-relative. The workspace must be
+# explicit in that layout; otherwise handoff and acceptance disagree about it.
+R="$WORK/nested-backlog"; repo "$R"; spec "$R" T-20260813-nested-backlog 3
+mkdir -p "$R/cvg"; mv "$R/tasks" "$R/cvg/tasks"
+TASKSPEC_SIGNING_KEY=hardening-key \
+TASKSPEC_BACKLOG_DIR="$R/cvg/tasks" TASKSPEC_WORKSPACE_ROOT="$R" \
+  "$TS" gate --stamp "$R/cvg/tasks/T-20260813-nested-backlog.md" >/dev/null
+git -C "$R" add cvg; git -C "$R" commit -qm nested-authorized
+H="$ART/nested-backlog.json"
+TASKSPEC_SIGNING_KEY=hardening-key \
+TASKSPEC_BACKLOG_DIR="$R/cvg/tasks" TASKSPEC_WORKSPACE_ROOT="$R" \
+  "$TS" handoff "$R/cvg/tasks/T-20260813-nested-backlog.md" --backend codex \
+    --attempt-id 99999999-9999-4999-8999-999999999999 --out "$H" >/dev/null
+must "explicit workspace supports a nested custom backlog" bash -c \
+  "python3 -c 'import json,pathlib; d=json.load(open(\"$H\")); root=str(pathlib.Path(\"$R\").resolve()); assert d[\"workspace\"]==root and d[\"source\"][\"workspace\"]==root' && TASKSPEC_SIGNING_KEY=hardening-key TASKSPEC_BACKLOG_DIR='$R/cvg/tasks' TASKSPEC_WORKSPACE_ROOT='$R' '$TS' accept --handoff '$H' '$R/cvg/tasks/T-20260813-nested-backlog.md' | grep -q '^ACCEPTED=1$'"
+
 # Attempt-bound receipts, ordering, replay, and supervised compatibility.
 R="$WORK/receipts"; repo "$R"; spec "$R" T-20260813-receipts 4; gate "$R" T-20260813-receipts
 H1="$ART/handoff-a.json"; H2="$ART/handoff-b.json"; RECEIPT="$ART/holdout-a.json"

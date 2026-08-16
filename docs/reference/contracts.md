@@ -5,6 +5,7 @@
 | Task-Spec v3/v4 | [`task-spec-frontmatter.schema.json`](../../spec/schemas/task-spec-frontmatter.schema.json) | Skill/CLI | Gates and executors |
 | TaskRevision v1 | [`task-revision.schema.json`](../../spec/schemas/task-revision.schema.json) | Canonicalizer | Authorization, handoff, graph, receipts |
 | TaskPlan v1 | [`task-plan.schema.json`](../../spec/schemas/task-plan.schema.json) | Installed skill | `taskspec plan` / `batch --plan` |
+| TaskMaterializationReceipt v1 | [`task-materialization-receipt.schema.json`](../../spec/schemas/task-materialization-receipt.schema.json) | `taskspec batch --plan` | External compilers and orchestrators |
 | TaskHandoff v1/v2/v3 | [`task-handoff.schema.json`](../../spec/schemas/task-handoff.schema.json) | `taskspec handoff` | Any harness |
 | TaskGraphView v1 | [`task-graph-view.schema.json`](../../spec/schemas/task-graph-view.schema.json) | `taskspec graph` | Lifecycle commands and external planners |
 | TaskStatus v1 | [`task-status.schema.json`](../../spec/schemas/task-status.schema.json) | `taskspec status` | Humans, harnesses, and adapters |
@@ -21,6 +22,8 @@
 The schemas document structure; the CLI performs the operational checks that a
 JSON Schema cannot, including filesystem scope, HMAC/identity verification,
 dependency state, eval discrimination, receipt binding, and acceptance ordering.
+`TaskMaterializationReceipt/v1` reports `changed: false` for an exact rerun;
+partial output sets and conflicting existing bytes are rejected without writes.
 Optional A2A/MCP bridge metadata carries a canonical `handoff_digest`; changing
 any embedded scope, budget, authorization, revision, or evidence requirement
 breaks bridge validation.

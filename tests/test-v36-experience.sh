@@ -103,7 +103,7 @@ TS="$BIN_DIR/taskspec"
 check "installed version" bash -c "[[ \"\$('$TS' version)\" == 3.8.0 ]]"
 check "installed isolated demo" bash -c "'$TS' demo | grep -q '^DEMO=READY$'"
 check "agent context JSON" bash -c "'$TS' agent-context | python3 -m json.tool"
-check "agent context covers the complete public command and schema surfaces" bash -c "'$TS' agent-context | python3 -c 'import json,sys; d=json.load(sys.stdin); commands=set(d[\"commands\"]); required=set(\"init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help\".split()); assert required <= commands and d[\"default_format_version\"] == 3; assert len(d[\"contracts\"]) == 25'"
+check "agent context covers the complete public command and schema surfaces" bash -c "'$TS' agent-context | python3 -c 'import json,sys; d=json.load(sys.stdin); commands=set(d[\"commands\"]); required=set(\"init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help\".split()); assert required <= commands and d[\"default_format_version\"] == 3; assert len(d[\"contracts\"]) == 26 and \"task_materialization_receipt\" in d[\"contracts\"]'"
 if grep -q 'TaskHandoff/v3' "$ROOT/agents/task-architect.md" \
   && grep -q 'taskspec plan --manifest' "$ROOT/integrations/codex/AGENTS.md" \
   && grep -q 'AcceptanceRecord/v1' "$ROOT/integrations/codex/AGENTS.md" \
@@ -150,6 +150,7 @@ units:
     profile: standard
     agent: any
     execution_backend: codex
+    required_tools: [git, bash, python3]
     depends_on: []
     touches_paths: []
     creates_paths:
@@ -175,7 +176,69 @@ units:
       - .git/info/taskspec-signing-key
 PLAN
   "$TS" plan --manifest tasks/.plans/marker.yaml
+  "$TS" --json batch --dry-run --plan tasks/.plans/marker.yaml > "$WORK/materialization.json"
+  python3 - "$WORK/materialization.json" <<'PY' || exit 1
+import json, sys
+value = json.load(open(sys.argv[1]))
+assert value["contract"] == "TaskSpecCLIResult/v1"
+assert value["ok"] is True
+receipt = value["data"]
+assert receipt["contract"] == "TaskMaterializationReceipt/v1"
+assert receipt["input"]["contract"] == "TaskPlan/v1"
+assert receipt["input"]["approved"] is True
+assert receipt["dry_run"] is True
+assert receipt["materialized"] is False
+assert receipt["changed"] is False
+assert receipt["state"] == "dry_run"
+assert receipt["dispatch_authorized"] is False
+assert receipt["tasks"][0]["task_id"] == "T-20260811-write-marker"
+assert len(receipt["tasks"][0]["sha256"]) == 64
+assert value["stdout"] == ""
+PY
   "$TS" batch --plan tasks/.plans/marker.yaml
+  "$TS" --json batch --plan tasks/.plans/marker.yaml > "$WORK/materialization-rerun.json"
+  python3 - "$WORK/materialization-rerun.json" <<'PY' || exit 1
+import json, sys
+receipt = json.load(open(sys.argv[1]))["data"]
+assert receipt["materialized"] is True
+assert receipt["changed"] is False
+assert receipt["state"] == "unchanged"
+assert receipt["dispatch_authorized"] is False
+PY
+  cp tasks/T-20260811-write-marker.md "$WORK/marker-exact.md"
+  printf '\nexecutor-owned change\n' >> tasks/T-20260811-write-marker.md
+  if "$TS" batch --plan tasks/.plans/marker.yaml >"$WORK/materialization-conflict.out" 2>&1; then
+    exit 1
+  fi
+  grep -q 'TASK_BATCH=REFUSED' "$WORK/materialization-conflict.out" || exit 1
+  grep -q 'executor-owned change' tasks/T-20260811-write-marker.md || exit 1
+  cp "$WORK/marker-exact.md" tasks/T-20260811-write-marker.md
+
+  python3 - "$ROOT/src/lib" tasks/.plans/marker.yaml tasks/.plans/pair.json <<'PY' || exit 1
+import copy, json, sys
+sys.path.insert(0, sys.argv[1])
+from taskspec_data import load_document
+
+plan = load_document(sys.argv[2])
+second = copy.deepcopy(plan["units"][0])
+second.update({
+    "id": "T-20260811-write-second-marker",
+    "title": "Write the second accepted marker",
+    "creates_paths": ["src/second-marker.txt"],
+})
+plan["units"].append(second)
+with open(sys.argv[3], "w", encoding="utf-8") as stream:
+    json.dump(plan, stream)
+PY
+  "$TS" batch --plan tasks/.plans/pair.json --out-dir pair-tasks >/dev/null
+  rm pair-tasks/T-20260811-write-second-marker.md
+  if "$TS" batch --plan tasks/.plans/pair.json --out-dir pair-tasks >"$WORK/materialization-partial.out" 2>&1; then
+    exit 1
+  fi
+  grep -q 'partial existing task set' "$WORK/materialization-partial.out" || exit 1
+  rm -r pair-tasks tasks/.plans/pair.json
+
+  grep -Fq 'required_tools: [git, bash, python3]' tasks/T-20260811-write-marker.md || exit 1
   "$TS" author-doctor tasks/T-20260811-write-marker.md
   "$TS" validate tasks/T-20260811-write-marker.md
   "$TS" dod tasks/T-20260811-write-marker.md
@@ -197,7 +260,7 @@ PLAN
 ) >"$WORK/journey.out" 2>&1
 journey_rc=$?
 set -e
-if [[ "$journey_rc" -eq 0 ]] && grep -q 'ACCEPTED=1' "$WORK/journey.out" && grep -q 'DOD=COMPLETE' "$WORK/journey.out"; then pass "install-to-accept clean room"; else fail "install-to-accept clean room"; tail -30 "$WORK/journey.out" >&2; fi
+if [[ "$journey_rc" -eq 0 ]] && grep -q 'ACCEPTED=1' "$WORK/journey.out" && grep -q 'DOD=COMPLETE' "$WORK/journey.out"; then pass "install-to-accept clean room with structured materialization receipt"; else fail "install-to-accept clean room"; tail -30 "$WORK/journey.out" >&2; fi
 
 README_NEW="$WORK/readme-new"
 mkdir -p "$README_NEW"
