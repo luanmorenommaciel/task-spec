@@ -25,12 +25,17 @@ security_class: (none)
 source_action_item: (none)
 tracker_ref: (none)
 execution_backend: codex
-signed_off: false
-signed_off_by: (none)
-signed_off_at: (none)
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+signed_off: true
+signed_off_by: luanmorenomaciel
+signed_off_at: 2026-08-16T19:30:47Z
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-16T19:38:24Z
+signed_off_sig: hmac-sha256-v3:e2e418a3:116f7cbf685d4609b8b35036998bec05dbdd29a716f483069070231578871c6e
+accepted_tier: 1
+accepted_attempt_id: 412f6f17-ab38-46b5-b2e0-1d1779c73446
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:116f7cbf685d4609b8b35036998bec05dbdd29a716f483069070231578871c6e
+acceptance_record_digest: sha256:dc3b310fcdee1f55c93303a0bf77d3c12896fae41eabd87afb2a4a3084f0f157
 ---
 
 # Implement the repository-local TaskMesh daemon and durable state
