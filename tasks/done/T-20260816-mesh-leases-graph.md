@@ -1,7 +1,7 @@
 ---
 id: T-20260816-mesh-leases-graph
 title: "Connect the authorized graph to leases, fencing, and recovery"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -25,12 +25,17 @@ security_class: (none)
 source_action_item: (none)
 tracker_ref: (none)
 execution_backend: codex
-signed_off: false
-signed_off_by: (none)
-signed_off_at: (none)
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+signed_off: true
+signed_off_by: luanmorenomaciel
+signed_off_at: 2026-08-16T19:39:21Z
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-16T19:47:49Z
+signed_off_sig: hmac-sha256-v3:e2e418a3:aba91519b960ee84b640e6193f1bee281a18d8328fa6ce494a2b1e82f05fd86c
+accepted_tier: 1
+accepted_attempt_id: 87d3f798-df68-4ab8-a3fc-6cf312e442ca
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:aba91519b960ee84b640e6193f1bee281a18d8328fa6ce494a2b1e82f05fd86c
+acceptance_record_digest: sha256:e2c9308bea575de773cf778001600de7b08d4fbc1a3971fe273e73edc131cdbe
 ---
 
 # Connect the authorized graph to leases, fencing, and recovery

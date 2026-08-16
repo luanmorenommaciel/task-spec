@@ -23,6 +23,10 @@ func NewDaemon(repository Repository, productVersion string) (*Daemon, error) {
 	if err != nil {
 		return nil, err
 	}
+	if err := store.RecoverExpired(context.Background()); err != nil {
+		store.Close()
+		return nil, err
+	}
 	return &Daemon{repository: repository, store: store, productVersion: productVersion}, nil
 }
 

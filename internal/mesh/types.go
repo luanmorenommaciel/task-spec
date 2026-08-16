@@ -38,13 +38,46 @@ type CommandResponse struct {
 
 type Event struct {
 	Contract      string         `json:"contract"`
+	RunID         string         `json:"run_id,omitempty"`
 	Sequence      int64          `json:"sequence"`
 	EventID       string         `json:"event_id"`
-	RequestID     string         `json:"request_id"`
+	RequestID     string         `json:"-"`
+	AttemptID     string         `json:"attempt_id,omitempty"`
+	FencingToken  int64          `json:"fencing_token,omitempty"`
 	Type          string         `json:"type"`
 	ObservedAt    string         `json:"observed_at"`
 	Payload       map[string]any `json:"payload"`
 	PayloadDigest string         `json:"payload_digest"`
+}
+
+type Run struct {
+	Contract            string `json:"contract"`
+	RunID               string `json:"run_id"`
+	Repository          string `json:"repository"`
+	GraphRevisionDigest string `json:"graph_revision_digest"`
+	Target              struct {
+		Branch string `json:"branch"`
+		Commit string `json:"commit"`
+	} `json:"target"`
+	IntegrationBranch string `json:"integration_branch"`
+	Mode              string `json:"mode"`
+	MaxParallel       int    `json:"max_parallel"`
+	State             string `json:"state"`
+	CreatedAt         string `json:"created_at"`
+}
+
+type Lease struct {
+	Contract           string `json:"contract"`
+	RunID              string `json:"run_id"`
+	TaskID             string `json:"task_id"`
+	TaskRevisionDigest string `json:"task_revision_digest"`
+	AttemptID          string `json:"attempt_id"`
+	FencingToken       int64  `json:"fencing_token"`
+	Owner              string `json:"owner"`
+	IssuedAt           string `json:"issued_at"`
+	ExpiresAt          string `json:"expires_at"`
+	HeartbeatAt        string `json:"heartbeat_at"`
+	State              string `json:"state"`
 }
 
 func NewID() string {

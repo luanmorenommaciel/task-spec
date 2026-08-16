@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	_ "modernc.org/sqlite"
 )
@@ -22,7 +23,7 @@ func OpenStore(repository Repository) (*Store, error) {
 	if err := repository.Prepare(); err != nil {
 		return nil, err
 	}
-	database, err := sql.Open("sqlite", "file:"+repository.Database+"?_pragma=busy_timeout(5000)")
+	database, err := sql.Open("sqlite", "file:"+repository.Database+"?_pragma=busy_timeout(5000)&_txlock=immediate")
 	if err != nil {
 		return nil, err
 	}
@@ -38,16 +39,55 @@ func OpenStore(repository Repository) (*Store, error) {
             sequence INTEGER PRIMARY KEY AUTOINCREMENT,
             event_id TEXT NOT NULL UNIQUE,
             request_id TEXT NOT NULL,
+            run_id TEXT,
+            attempt_id TEXT,
+            fencing_token INTEGER,
             event_type TEXT NOT NULL,
             observed_at TEXT NOT NULL,
             payload_json TEXT NOT NULL,
             payload_digest TEXT NOT NULL
-        )`,
+		)`,
 		`CREATE TABLE IF NOT EXISTS metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)`,
+		`CREATE TABLE IF NOT EXISTS runs (
+            run_id TEXT PRIMARY KEY,
+            graph_revision_digest TEXT NOT NULL,
+            target_branch TEXT NOT NULL,
+            target_commit TEXT NOT NULL,
+            integration_branch TEXT NOT NULL,
+            mode TEXT NOT NULL,
+            max_parallel INTEGER NOT NULL,
+            state TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        )`,
+		`CREATE TABLE IF NOT EXISTS leases (
+            attempt_id TEXT PRIMARY KEY,
+            run_id TEXT NOT NULL REFERENCES runs(run_id),
+            task_id TEXT NOT NULL,
+            task_revision_digest TEXT NOT NULL,
+            fencing_token INTEGER NOT NULL,
+            owner TEXT NOT NULL,
+            issued_at TEXT NOT NULL,
+            expires_at TEXT NOT NULL,
+            heartbeat_at TEXT NOT NULL,
+            state TEXT NOT NULL
+        )`,
+		`CREATE TABLE IF NOT EXISTS lease_fences (
+            task_revision_digest TEXT PRIMARY KEY,
+            token INTEGER NOT NULL
+        )`,
+		`CREATE UNIQUE INDEX IF NOT EXISTS one_authoritative_lease
+            ON leases(task_revision_digest)
+            WHERE state IN ('leased', 'preparing', 'running', 'verifying', 'awaiting_supervision')`,
 	} {
 		if _, err := database.Exec(statement); err != nil {
 			database.Close()
 			return nil, fmt.Errorf("initialize TaskMesh database: %w", err)
+		}
+	}
+	for _, column := range []string{"run_id TEXT", "attempt_id TEXT", "fencing_token INTEGER"} {
+		if _, err := database.Exec("ALTER TABLE events ADD COLUMN " + column); err != nil && !strings.Contains(err.Error(), "duplicate column") {
+			database.Close()
+			return nil, fmt.Errorf("migrate TaskMesh events: %w", err)
 		}
 	}
 	if _, err := database.Exec("INSERT OR REPLACE INTO metadata(key, value) VALUES ('repository', ?)", repository.Root); err != nil {
@@ -78,6 +118,9 @@ func (store *Store) Process(ctx context.Context, request CommandRequest) (Comman
 		return CommandResponse{}, err
 	}
 	defer transaction.Rollback()
+	if err := recoverExpiredTx(transaction, "recovery-"+request.RequestID, time.Now().UTC()); err != nil {
+		return CommandResponse{}, err
+	}
 	var retained string
 	err = transaction.QueryRowContext(ctx, "SELECT response_json FROM commands WHERE request_id = ?", request.RequestID).Scan(&retained)
 	if err == nil {
@@ -129,12 +172,23 @@ func (store *Store) execute(transaction *sql.Tx, request CommandRequest) Command
 		response.Code, response.Message = "MESH_DOCTOR_READY", "TaskMesh daemon and durable state are ready"
 		response.Data = map[string]any{"repository": store.repository.Root, "database": store.repository.Database, "socket": store.repository.Socket, "journal_mode": strings.ToLower(journal), "event_count": eventCount, "daemon_pid": os.Getpid()}
 	case "status":
-		events, err := eventsFrom(transaction)
+		response = store.statusView(transaction, request)
+	case "frontier":
+		frontier, err := ResolveFrontier(store.repository)
 		if err != nil {
-			return failure("MESH_STATE_ERROR", err.Error())
+			return failure("GRAPH_INVALID", err.Error())
 		}
-		response.Code, response.Message = "MESH_STATUS_READY", "TaskMesh durable view rebuilt from events"
-		response.Data = map[string]any{"contract": "TaskMeshRepositoryView/v1", "repository": store.repository.Root, "events": events, "latest_sequence": latestSequence(events)}
+		response.Code, response.Message, response.Data = "MESH_FRONTIER_READY", "authorized ready frontier resolved", map[string]any{"frontier": frontier}
+	case "run":
+		response = store.startRun(transaction, request)
+	case "heartbeat":
+		response = store.heartbeat(transaction, request)
+	case "submit":
+		response = store.submit(transaction, request)
+	case "cancel":
+		response = store.cancel(transaction, request)
+	case "resume":
+		response = store.resume(transaction, request)
 	default:
 		response = failure("MESH_NOT_IMPLEMENTED", "command is declared but not implemented in this runtime slice")
 		response.NextCommand = "taskspec mesh --help"
@@ -147,6 +201,10 @@ func failure(code, message string) CommandResponse {
 }
 
 func appendEvent(transaction *sql.Tx, requestID, eventType string, payload map[string]any) error {
+	return appendRunEvent(transaction, requestID, "", "", 0, eventType, payload)
+}
+
+func appendRunEvent(transaction *sql.Tx, requestID, runID, attemptID string, fencingToken int64, eventType string, payload map[string]any) error {
 	raw, err := canonicalJSON(payload)
 	if err != nil {
 		return err
@@ -156,8 +214,8 @@ func appendEvent(transaction *sql.Tx, requestID, eventType string, payload map[s
 		return err
 	}
 	_, err = transaction.Exec(
-		"INSERT INTO events(event_id, request_id, event_type, observed_at, payload_json, payload_digest) VALUES (?, ?, ?, ?, ?, ?)",
-		NewID(), requestID, eventType, NowUTC(), string(raw), digest,
+		"INSERT INTO events(event_id, request_id, run_id, attempt_id, fencing_token, event_type, observed_at, payload_json, payload_digest) VALUES (?, ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, 0), ?, ?, ?, ?)",
+		NewID(), requestID, runID, attemptID, fencingToken, eventType, NowUTC(), string(raw), digest,
 	)
 	return err
 }
@@ -167,7 +225,7 @@ type rowQuerier interface {
 }
 
 func eventsFrom(query rowQuerier) ([]Event, error) {
-	rows, err := query.Query("SELECT sequence, event_id, request_id, event_type, observed_at, payload_json, payload_digest FROM events ORDER BY sequence")
+	rows, err := query.Query("SELECT sequence, event_id, request_id, COALESCE(run_id, ''), COALESCE(attempt_id, ''), COALESCE(fencing_token, 0), event_type, observed_at, payload_json, payload_digest FROM events ORDER BY sequence")
 	if err != nil {
 		return nil, err
 	}
@@ -176,10 +234,13 @@ func eventsFrom(query rowQuerier) ([]Event, error) {
 	for rows.Next() {
 		var event Event
 		var payload string
-		if err := rows.Scan(&event.Sequence, &event.EventID, &event.RequestID, &event.Type, &event.ObservedAt, &payload, &event.PayloadDigest); err != nil {
+		if err := rows.Scan(&event.Sequence, &event.EventID, &event.RequestID, &event.RunID, &event.AttemptID, &event.FencingToken, &event.Type, &event.ObservedAt, &payload, &event.PayloadDigest); err != nil {
 			return nil, err
 		}
 		event.Contract = "TaskMeshEvent/v1"
+		if event.RunID == "" {
+			event.Contract = "TaskMeshRepositoryEvent/v1"
+		}
 		if err := json.Unmarshal([]byte(payload), &event.Payload); err != nil {
 			return nil, err
 		}
