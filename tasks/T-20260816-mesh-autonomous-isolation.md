@@ -10,7 +10,7 @@ agent: codex
 parent: (none)
 depends_on: [T-20260816-mesh-supervised-adapters]
 supersedes: (none)
-touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/types.go, src/mesh/cli.py]
+touches_paths: [internal/mesh/adapter.go, internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/lease.go, internal/mesh/process.go, internal/mesh/routing.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
 creates_paths: [internal/mesh/credential.go, internal/mesh/sandbox.go, release/mesh/Dockerfile, release/mesh/worker-entrypoint.sh, release/mesh/image.lock, tests/test-mesh-isolation.sh]
 source_note: "user-approved TaskMesh 3.9.0 release plan"
 created: "2026-08-16T00:00:00Z"
