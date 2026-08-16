@@ -25,12 +25,13 @@ security_class: (none)
 source_action_item: (none)
 tracker_ref: (none)
 execution_backend: codex
-signed_off: false
-signed_off_by: (none)
-signed_off_at: (none)
+signed_off: true
+signed_off_by: luanmorenomaciel
+signed_off_at: 2026-08-16T20:52:07Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
+signed_off_sig: hmac-sha256-v3:e2e418a3:de93cb85bbc4487882f83b35b0671b234bcb562ed0114c39f13e9c738b95bd27
 ---
 
 # Package, document, prove, and privately publish Task-Spec 3.9.0
