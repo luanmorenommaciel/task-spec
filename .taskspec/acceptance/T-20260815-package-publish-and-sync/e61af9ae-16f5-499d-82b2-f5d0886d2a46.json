@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-16T19:16:13Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "e61af9ae-16f5-499d-82b2-f5d0886d2a46",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:0ce0e43a0ab4dc2eaab72572c362e6938b07e50ce140da8bcb7096de6ccdd780",
+    "base_commit": "4f9502180b636878a9b24f0b9df19fa6a8f278f6",
+    "task_id": "T-20260815-package-publish-and-sync",
+    "task_revision_digest": "sha256:74417395742ec8ed2149e629b74ddc3d7f530c994db79a3d2f2065e9097d232e"
+  }
+}

@@ -50,7 +50,7 @@ grep -q "release/evidence.json$" "$WORK/evidence-files.txt"
 grep -q "release/$VERSION/environment-attestation.json$" "$WORK/evidence-files.txt"
 grep -q "release/$VERSION/engine-matrix-result.json$" "$WORK/evidence-files.txt"
 
-for retained in checksums.txt release-report.json local-gates.json install-matrix.json sbom.spdx.json; do
+for retained in checksums.txt release-report.json local-gates.json install-matrix.json private-release-evidence.json sbom.spdx.json; do
   test -s "$ROOT/release/$VERSION/$retained"
 done
 python3 - "$ROOT" "$VERSION" <<'PY'
@@ -61,10 +61,19 @@ local = json.loads((release / "local-gates.json").read_text(encoding="utf-8"))
 install = json.loads((release / "install-matrix.json").read_text(encoding="utf-8"))
 report = json.loads((release / "release-report.json").read_text(encoding="utf-8"))
 sbom = json.loads((release / "sbom.spdx.json").read_text(encoding="utf-8"))
+private_release = json.loads((release / "private-release-evidence.json").read_text(encoding="utf-8"))
 assert local["contract"] == "TaskSpecLocalGateEvidence/v1" and all(local["tokens"].values())
 assert all(item["state"] == "pass" for item in local["suites"].values())
 assert install["contract"] == "InstallationMatrixEvidence/v1"
 assert all(item["state"] == "pass" for item in install["local"].values())
+assert install["complete"] is True and install["repository_visibility"] == "private"
+assert all(item["state"] == "pass" for item in install["remote"].values())
+assert private_release["contract"] == "PrivateReleaseEvidence/v1"
+assert private_release["repository"]["visibility"] == "private"
+assert private_release["authentication"]["anonymous_download_required"] is False
+assert private_release["provenance"]["independent_verification"] == "pass"
+assert private_release["provenance"]["tamper_test"] == "pass"
+assert private_release["installation"]["scope_or_secret_violations"] == 0
 assert report["contract"] == "TaskSpecReleaseReport/v1" and report["version"] == version
 assert sbom["spdxVersion"] == "SPDX-2.3"
 for row in report["artifacts"]:

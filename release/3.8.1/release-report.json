@@ -38,16 +38,23 @@
   },
   "installation": {
     "path": "install-matrix.json",
-    "digest": "sha256:c163df59d47f363ea98cea05ebfbd12e64e6da0417a17698c58468bbb271879e",
-    "state": "partial"
+    "digest": "sha256:da2ba0ae6003c462d4e5b665f7196bee9d9df923d8390d6f68add4417e1abc4e",
+    "state": "pass"
   },
   "hosted_ci": {
-    "state": "pending"
+    "state": "pass",
+    "path": "hosted-ci.json",
+    "digest": "sha256:e0fde5f7d28921a357edf9cb6fdf39c3033adc359ed00fb41ae5b6706c657559"
   },
   "provenance_attestation": {
-    "state": "pending"
+    "state": "pass",
+    "format": "DSSE with in-toto Statement/v1 and SLSA Provenance/v1",
+    "path": "private-release-evidence.json",
+    "digest": "sha256:b0fd0eb85d968ab64e238cd3b23b2f592c36413cb99333b9a6252801b7f598cd"
   },
   "publication": {
-    "state": "pending"
+    "state": "rc",
+    "release_ref": "v3.8.1-rc.3",
+    "run_id": 31966382961
   }
 }

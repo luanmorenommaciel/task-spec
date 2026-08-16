@@ -1,7 +1,7 @@
 ---
 id: T-20260815-package-publish-and-sync
 title: "Package, attest, publish, and synchronize Task-Spec 3.8.1"
-status: in-progress
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -27,11 +27,15 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-16T18:46:06Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:a9596e478a11a0d159a5e2eb075e2dba5b8bf3cd5ddf1f01d76d571a0acf0607
+signed_off_at: 2026-08-16T19:15:41Z
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-16T19:16:13Z
+signed_off_sig: hmac-sha256-v3:e2e418a3:0ce0e43a0ab4dc2eaab72572c362e6938b07e50ce140da8bcb7096de6ccdd780
+accepted_tier: 1
+accepted_attempt_id: e61af9ae-16f5-499d-82b2-f5d0886d2a46
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:0ce0e43a0ab4dc2eaab72572c362e6938b07e50ce140da8bcb7096de6ccdd780
+acceptance_record_digest: sha256:e73625ff87638fd6eced499c19b5d553349a411eaaf2184a4cc4615abd995cfc
 ---
 
 # Package, attest, publish, and synchronize Task-Spec 3.8.1
@@ -112,7 +116,7 @@ Revert only the declared write surface and park the task with context.
 
 ## Do-Not-Touch
 
-- `/Users/luanmorenomaciel/GitHub/converge`
+- Converge is outside this workspace and will be synchronized separately from the immutable upstream tag.
 
 ## Open Questions
 

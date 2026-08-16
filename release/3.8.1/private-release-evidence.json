@@ -1,0 +1,60 @@
+{
+  "contract": "PrivateReleaseEvidence/v1",
+  "version": "3.8.1",
+  "release_ref": "v3.8.1-rc.3",
+  "observed_at": "2026-08-16T19:03:52Z",
+  "repository": {
+    "name": "luanmorenommaciel/task-spec",
+    "visibility": "private"
+  },
+  "source": {
+    "commit": "4f9502180b636878a9b24f0b9df19fa6a8f278f6",
+    "release_url": "https://github.com/luanmorenommaciel/task-spec/releases/tag/v3.8.1-rc.3"
+  },
+  "workflow": {
+    "run_id": 31966382961,
+    "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31966382961",
+    "result": "pass",
+    "jobs": {
+      "assets": {"id": 95212077024, "state": "pass"},
+      "provenance": {"id": 95212093495, "state": "pass"},
+      "ubuntu_install": {"id": 95212093597, "state": "pass"},
+      "macos_install": {"id": 95212093531, "state": "pass"}
+    }
+  },
+  "authentication": {
+    "contents_api": "verified",
+    "release_asset_api": "verified",
+    "git_https": "verified",
+    "anonymous_download_required": false
+  },
+  "assets": [
+    {"name": "task-spec-3.8.1.tar.gz", "digest": "sha256:7927f113bc710e36bf7e0101826b801153f43deac4669ca7365f71d512326f62"},
+    {"name": "task-spec-3.8.1.tar.gz.sha256", "digest": "sha256:fa54397fed1117ba3194fd27b6e5b34d7a50cf1a7f044737e52243bfd2de8c53"},
+    {"name": "task-spec-3.8.1.spdx.json", "digest": "sha256:2c9bc5f1a1d8a9a049687075e8cd489c90604b5f3b38997f94f81604fdf7e112"},
+    {"name": "task-spec-3.8.1.provenance.dsse.json", "digest": "sha256:4d5c357878092bc62cf0838f236bf6438d30547232d046e2583887963907e7ae"},
+    {"name": "task-spec-3.8.1-release-provenance.pub.pem", "digest": "sha256:4ad95ae6449002d9715ed0ad50096a9a98fafb5c68ac7d9989c7ebf0dae54834"}
+  ],
+  "provenance": {
+    "payload_type": "application/vnd.in-toto+json",
+    "statement_type": "https://in-toto.io/Statement/v1",
+    "predicate_type": "https://slsa.dev/provenance/v1",
+    "algorithm": "Ed25519",
+    "key_id": "bd8d15c725da13f5",
+    "builder": "https://github.com/luanmorenommaciel/task-spec/actions/workflows/release-install-smoke.yml",
+    "invocation": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31966382961",
+    "independent_verification": "pass",
+    "tamper_test": "pass"
+  },
+  "installation": {
+    "ubuntu_authenticated_archive": "pass",
+    "ubuntu_authenticated_npm": "pass",
+    "macos_authenticated_archive": "pass",
+    "macos_authenticated_npm": "pass",
+    "scope_or_secret_violations": 0
+  },
+  "limitations": [
+    "The release is private and requires an authorized GitHub identity.",
+    "The signature proves the retained bytes and declared build identity, not semantic truth or production reliability."
+  ]
+}
