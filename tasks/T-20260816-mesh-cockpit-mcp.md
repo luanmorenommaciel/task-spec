@@ -27,11 +27,11 @@ tracker_ref: (none)
 execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-16T20:32:40Z
+signed_off_at: 2026-08-16T20:41:07Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:a512a3b3088c4561947b91a2ee8ff96491813988a293166d3005d3fa5f2a05e2
+signed_off_sig: hmac-sha256-v3:e2e418a3:43ee6ec50e9baddbca643f03f79457a4f148cbe659f44c94696cc2d024f88038
 ---
 
 # Deliver the durable cross-harness cockpit and MCP facade
