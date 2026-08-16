@@ -1,7 +1,7 @@
 {
   "name": "@luanmorenommaciel/task-spec",
-  "version": "3.8.1",
-  "description": "Canonical atomic, vendor-neutral, self-verifying task format, CLI, and agent skill",
+  "version": "3.9.0",
+  "description": "Canonical atomic-task contract with an optional portable multi-harness execution control plane",
   "license": "MIT",
   "repository": {"type": "git", "url": "git+https://github.com/luanmorenommaciel/task-spec.git"},
   "bin": {
@@ -11,8 +11,9 @@
   "files": [
     "VERSION", "LICENSE", "README.md", "SKILL.md", "CHANGELOG.md", "install.sh",
     "agents", "assets", "bin", "configs", "src", "spec", "templates", "docs", "integrations",
+    "adapters", "cmd", "internal", "go.mod", "go.sum", "release/mesh",
     ".claude-plugin"
   ],
   "engines": {"node": ">=18"},
-  "keywords": ["agents", "codex", "claude-code", "evals", "task-spec"]
+  "keywords": ["agents", "codex", "claude-code", "evals", "task-spec", "taskmesh", "orchestration"]
 }

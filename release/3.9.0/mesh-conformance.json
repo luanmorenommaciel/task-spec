@@ -1,0 +1,37 @@
+{
+  "contract": "TaskMeshConformanceEvidence/v1",
+  "version": "3.9.0",
+  "observed_at": "2026-08-16T21:07:35Z",
+  "source_commit_before_evidence_finalization": "4e64cb2b3ada9eee4b17dc7d19e83e6940fc7b54",
+  "platform": {
+    "os": "macOS",
+    "architecture": "arm64",
+    "docker_server": "29.7.2"
+  },
+  "suites": [
+    {"id": "contracts", "state": "pass", "token": "MESH_CONTRACTS=READY"},
+    {"id": "daemon", "state": "pass", "token": "MESH_DAEMON=READY"},
+    {"id": "leases-and-fencing", "state": "pass", "token": "MESH_LEASES=READY"},
+    {"id": "routing-and-integration", "state": "pass", "token": "MESH_ROUTING_INTEGRATION=READY"},
+    {"id": "supervised-adapters", "state": "pass", "token": "MESH_ADAPTERS=READY"},
+    {"id": "autonomous-isolation", "state": "pass", "token": "MESH_ISOLATION=READY"},
+    {"id": "cross-cockpit-mcp", "state": "pass", "token": "MESH_COCKPIT=READY"},
+    {"id": "crash-recovery", "state": "pass", "token": "MESH_RECOVERY=READY"},
+    {"id": "demonstration", "state": "pass", "token": "MESH_DEMO=READY"},
+    {"id": "core-and-mesh-install", "state": "pass", "token": "MESH_INSTALL=READY"}
+  ],
+  "invariants": {
+    "canonical_task_authority_only": true,
+    "target_branch_unchanged": true,
+    "one_authoritative_fenced_attempt": true,
+    "advisor_cannot_widen_eligibility": true,
+    "supervised_worktree_not_claimed_as_sandbox": true,
+    "autonomous_no_silent_downgrade": true,
+    "credential_values_not_retained": true,
+    "omp_hidden_fanout_disabled": true
+  },
+  "limitations": [
+    "The local corridor is synthetic control-plane proof, not long-running production reliability.",
+    "Hosted Ubuntu/macOS and tagged private-install evidence are retained separately after they execute."
+  ]
+}

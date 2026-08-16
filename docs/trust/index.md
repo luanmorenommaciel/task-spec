@@ -16,6 +16,9 @@ graphs, records catalogs, and metrics are rebuildable projections.
 | Environment receipt | A named external provider reported enforcement for this attempt | A sandbox merely because JSON exists |
 | AcceptanceRecord/v1 | The accepted attempt, gates, tier, and receipt digests were durably recorded | Production success beyond the configured contract |
 | Conformance L0–L2 | An adapter honors the tested format and lifecycle behavior | Fleet reliability, hosted service quality, or certification |
+| TaskMesh lease and fence | One current attempt remains authoritative for a task revision | Exactly-once provider execution |
+| TaskMesh supervised worktree | Bounded Git workspace and branch ownership | A hostile-code security sandbox |
+| TaskMesh autonomous evidence | A host attestor observed the declared container and credential boundary | Universal isolation or semantic correctness |
 
 Existence-only evals are blocked for blind delegation unless explicitly
 supervised or annotated. HMAC v1/v2 and receipt v1 remain compatibility inputs,
@@ -27,6 +30,7 @@ authorize work or satisfy acceptance. DSSE proves signed bytes, not truth.
 A2A and MCP are optional transports, not normative trust dependencies.
 
 Read the full [threat model](threat-model.md),
+[TaskMesh trust boundaries](taskmesh-boundaries.md),
 [authorization contract](../concepts/signed-off.md), and
 [acceptance contracts](../reference/acceptance-contracts.md) before granting
 unsupervised Tier 1.

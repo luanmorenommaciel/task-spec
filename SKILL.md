@@ -3,7 +3,7 @@ name: task-spec
 description: Turn intent, repository evidence, and optional cited research into atomic, signed, self-verifying Task-Specs; preview complete TaskPlan manifests; hand one authorized leaf to any coding harness; and independently accept the result.
 license: MIT
 metadata:
-  version: "3.8.1"
+  version: "3.9.0"
 ---
 
 # Task-Spec
@@ -32,6 +32,14 @@ replaceable executor.
 9. Use format v4 only when the approved contract requires independent evidence.
    Run `taskspec author-doctor`, keep holdouts outside the handoff, validate each
    receipt, and supply every required receipt to `taskspec accept`.
+
+When the optional TaskMesh helper is installed, the current harness may also
+act as a cockpit. Inspect `taskspec mesh frontier` and `taskspec mesh explain`
+before starting a run. TaskMesh may lease and route only already-authorized
+ready leaves; it must not edit scope, dependencies, proof policy, sign-off, or
+acceptance fields. Supervised attempts require explicit supervisor identity and
+reason. Autonomous OMP attempts require verified sandbox and credential
+evidence and may never silently downgrade.
 
 ## Atomicity rules
 
@@ -62,6 +70,18 @@ taskspec gate --stamp tasks/T-…-leaf.md
 taskspec handoff tasks/T-…-leaf.md --backend codex --out .taskspec/handoffs/attempt.json
 taskspec accept --handoff .taskspec/handoffs/attempt.json --stamp tasks/T-…-leaf.md
 ```
+
+Optional multi-harness execution:
+
+```bash
+taskspec mesh frontier
+taskspec mesh run --task T-…-leaf --adapter codex-native --execute
+taskspec mesh watch <run-id>
+taskspec mesh finish <run-id>
+```
+
+`finish` prints a human merge route; it never merges, pushes, or opens a pull
+request against the target branch.
 
 For an opt-in evidence-bearing task, start with
 `taskspec new --format 4 …`; read `spec/task-spec-v4.md` before setting the

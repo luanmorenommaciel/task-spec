@@ -4,6 +4,7 @@
 - [Portable contracts](contracts.md)
 - [TaskRevision/v1](task-revision.md)
 - [TaskGraphView/v1](task-graph-view.md)
+- [TaskMesh contracts and runtime model](taskmesh-contracts.md)
 - [Handoff, receipt, and acceptance contracts](acceptance-contracts.md)
 - [Compatibility policy](compatibility-policy.md)
 - [Converge donor map](converge-donor-map.md)

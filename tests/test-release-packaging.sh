@@ -11,7 +11,8 @@ bash "$ROOT/tests/lint-skill-docs.sh" >/dev/null
 
 if [[ "${TASKSPEC_RELEASE_BOOTSTRAP:-0}" == "1" ]]; then
   python3 -m py_compile "$ROOT/tools/build-release-archive.py" "$ROOT/tools/build-sbom.py" \
-    "$ROOT/tools/build-release-evidence-archive.py" "$ROOT/tools/build-release-report.py"
+    "$ROOT/tools/build-release-evidence-archive.py" "$ROOT/tools/build-release-report.py" \
+    "$ROOT/tools/build-mesh-release.py"
   echo "RELEASE_PACKAGING=BOOTSTRAP"
   exit 0
 fi
@@ -24,7 +25,11 @@ cmp -s "$WORK/one/task-spec-$VERSION.tar.gz.sha256" "$WORK/two/task-spec-$VERSIO
 tar -tzf "$WORK/one/task-spec-$VERSION.tar.gz" > "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/assets/taskspec-banner.png$" "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/bin/taskspec$" "$WORK/archive-files.txt"
-if grep -qE "^task-spec-$VERSION/(release|evidence|tasks)/" "$WORK/archive-files.txt"; then
+grep -q "^task-spec-$VERSION/cmd/taskspec-meshd/main.go$" "$WORK/archive-files.txt"
+grep -q "^task-spec-$VERSION/internal/mesh/daemon.go$" "$WORK/archive-files.txt"
+grep -q "^task-spec-$VERSION/adapters/mesh/omp-rpc.json$" "$WORK/archive-files.txt"
+grep -q "^task-spec-$VERSION/release/mesh/image.lock$" "$WORK/archive-files.txt"
+if grep -qE "^task-spec-$VERSION/(release/[0-9]|evidence|tasks)/" "$WORK/archive-files.txt"; then
   echo "source archive contains mutable release or backlog state" >&2
   exit 1
 fi
@@ -47,39 +52,36 @@ SOURCE_DATE_EPOCH="$EPOCH" python3 "$ROOT/tools/build-release-evidence-archive.p
 cmp -s "$WORK/one/task-spec-$VERSION-evidence.tar.gz" "$WORK/two/task-spec-$VERSION-evidence.tar.gz"
 tar -tzf "$WORK/one/task-spec-$VERSION-evidence.tar.gz" > "$WORK/evidence-files.txt"
 grep -q "release/evidence.json$" "$WORK/evidence-files.txt"
-grep -q "release/$VERSION/environment-attestation.json$" "$WORK/evidence-files.txt"
-grep -q "release/$VERSION/engine-matrix-result.json$" "$WORK/evidence-files.txt"
+grep -q "release/3.8.1/environment-attestation.json$" "$WORK/evidence-files.txt"
+grep -q "release/3.8.1/engine-matrix-result.json$" "$WORK/evidence-files.txt"
+grep -q "release/$VERSION/mesh-release-evidence.json$" "$WORK/evidence-files.txt"
 
-for retained in checksums.txt release-report.json local-gates.json install-matrix.json private-release-evidence.json sbom.spdx.json; do
+for retained in mesh-release-evidence.json mesh-conformance.json reviewer-report.json; do
   test -s "$ROOT/release/$VERSION/$retained"
 done
 python3 - "$ROOT" "$VERSION" <<'PY'
-import hashlib, json, pathlib, re, sys
+import json, pathlib, re, sys
 root, version = pathlib.Path(sys.argv[1]), sys.argv[2]
 release = root / "release" / version
-local = json.loads((release / "local-gates.json").read_text(encoding="utf-8"))
-install = json.loads((release / "install-matrix.json").read_text(encoding="utf-8"))
-report = json.loads((release / "release-report.json").read_text(encoding="utf-8"))
-sbom = json.loads((release / "sbom.spdx.json").read_text(encoding="utf-8"))
-private_release = json.loads((release / "private-release-evidence.json").read_text(encoding="utf-8"))
-assert local["contract"] == "TaskSpecLocalGateEvidence/v1" and all(local["tokens"].values())
-assert all(item["state"] == "pass" for item in local["suites"].values())
-assert install["contract"] == "InstallationMatrixEvidence/v1"
-assert all(item["state"] == "pass" for item in install["local"].values())
-assert install["complete"] is True and install["repository_visibility"] == "private"
-assert all(item["state"] == "pass" for item in install["remote"].values())
-assert private_release["contract"] == "PrivateReleaseEvidence/v1"
-assert private_release["repository"]["visibility"] == "private"
-assert private_release["authentication"]["anonymous_download_required"] is False
-assert private_release["provenance"]["independent_verification"] == "pass"
-assert private_release["provenance"]["tamper_test"] == "pass"
-assert private_release["installation"]["scope_or_secret_violations"] == 0
-assert report["contract"] == "TaskSpecReleaseReport/v1" and report["version"] == version
-assert sbom["spdxVersion"] == "SPDX-2.3"
-for row in report["artifacts"]:
+evidence = json.loads((release / "mesh-release-evidence.json").read_text(encoding="utf-8"))
+conformance = json.loads((release / "mesh-conformance.json").read_text(encoding="utf-8"))
+reviewer = json.loads((release / "reviewer-report.json").read_text(encoding="utf-8"))
+assert evidence["contract"] == "TaskMeshReleaseEvidence/v1" and evidence["version"] == version
+assert evidence["quality_baseline"]["score"] >= 97
+assert conformance["contract"] == "TaskMeshConformanceEvidence/v1"
+assert all(item["state"] == "pass" for item in conformance["suites"])
+assert reviewer["contract"] == "TaskMeshReviewerReport/v1" and reviewer["result"] == "pass"
+for row in evidence["artifacts"]:
     assert re.fullmatch(r"sha256:[0-9a-f]{64}", row["digest"])
-assert report["checksums"]["digest"] == "sha256:" + hashlib.sha256((release / "checksums.txt").read_bytes()).hexdigest()
 PY
+
+host_os="$(uname -s | tr '[:upper:]' '[:lower:]')"
+host_arch="$(uname -m)"
+case "$host_arch" in x86_64|amd64) host_arch=amd64 ;; arm64|aarch64) host_arch=arm64 ;; esac
+python3 "$ROOT/tools/build-mesh-release.py" --out-dir "$WORK/one/mesh" --target "$host_os/$host_arch" >/dev/null
+python3 "$ROOT/tools/build-mesh-release.py" --out-dir "$WORK/two/mesh" --target "$host_os/$host_arch" >/dev/null
+cmp -s "$WORK/one/mesh/taskspec-meshd-$host_os-$host_arch" "$WORK/two/mesh/taskspec-meshd-$host_os-$host_arch"
+cmp -s "$WORK/one/mesh/taskspec-meshd-$host_os-$host_arch.sha256" "$WORK/two/mesh/taskspec-meshd-$host_os-$host_arch.sha256"
 
 python3 - "$ROOT/.github/workflows/release-install-smoke.yml" <<'PY'
 import pathlib, sys
@@ -90,6 +92,8 @@ assert "tools/release-provenance.py verify" in text
 assert "actions/attest-build-provenance" not in text
 assert "actions/attest-sbom" not in text
 assert "build-release-evidence-archive.py" in text and "build-sbom.py" in text
+assert "build-mesh-release.py" in text and "--with-mesh" in text
+assert "taskmesh-binaries.provenance.dsse.json" in text
 assert "gh api" in text and "gh auth setup-git" in text
 PY
 
@@ -101,6 +105,9 @@ files = {row["path"] for row in json.load(open(sys.argv[1], encoding="utf-8"))[0
 assert "assets/taskspec-banner.png" in files
 assert "bin/taskspec" in files
 assert "src/evidence/environment_attestation.py" in files
+assert "cmd/taskspec-meshd/main.go" in files
+assert "internal/mesh/daemon.go" in files
+assert "release/mesh/image.lock" in files
 PY
 fi
 

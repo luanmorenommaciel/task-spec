@@ -66,6 +66,7 @@ if the machine contract and reference diverge.
 | `taskspec bridge` | export writes only with --out; validate is read-only | `BRIDGE=VALID`, `BRIDGE=INVALID` |
 | `taskspec dsse` | export writes only to --out; verify is read-only | `DSSE=EXPORTED`, `DSSE=VERIFIED`, `DSSE=INVALID` |
 | `taskspec mcp` | read-only stdio server | — |
+| `taskspec mesh` | optional repository-local control plane; run/cancel/resume/accept/finish/setup mutate disposable mesh state while canonical acceptance still calls Task-Spec | `MESH_WATCH_READY`, `MESH_SUPERVISED_ACCEPTED`, `MESH_FINISHED`, `TASKMESH_ERROR=<code>`, `TASKMESH_DRY_RUN` |
 | `taskspec ready` | none | — |
 | `taskspec graph` | none; TaskGraphView/v1 is derived from Markdown and Git | `GRAPH=<digest>`, `GRAPH=INVALID` |
 | `taskspec status` | none; emits TaskStatus/v1 and exactly one safe next command | `NEXT=<command>`, `STATUS=INVALID` |

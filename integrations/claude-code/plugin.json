@@ -1,6 +1,6 @@
 {
   "name": "task-spec",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "description": "The task-spec engine: atomic, vendor-neutral, self-verifying task units (markdown + YAML frontmatter + runnable bash evals) with dual gates (PRE seal / POST accept) and an L0/L1/L2 executor conformance suite. Works with Claude, Codex, Kimi, GLM, Gemini, or any conformant executor.",
   "author": {
     "name": "Luan Moreno",

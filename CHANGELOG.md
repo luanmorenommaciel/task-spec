@@ -12,6 +12,56 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ---
 
+## [3.9.0] — 2026-08-16
+
+The **TaskMesh portable execution control-plane** release. Task-Spec remains
+the canonical source of task authority; the optional Go runtime leases, routes,
+observes, recovers, accepts, and integrates already-authorized atomic leaves.
+Formats v1-v4 remain readable and format v3 remains the authoring default.
+
+### Portable runtime and cockpit
+
+- Added the `taskspec mesh` namespace and version-negotiated
+  `TaskMeshAPI/v1alpha1`, with typed run, capability, dispatch, lease, event,
+  view, sandbox, and credential contracts.
+- Added a repository-local `taskspec-meshd` daemon with SQLite WAL, protected
+  Unix sockets, durable ordered events, idempotent commands, crash recovery,
+  expiring leases, monotonically increasing fencing tokens, and bounded output.
+- Added deterministic routing over the canonical `TaskGraphView/v1`. Only
+  Tier-1 authorized, dependency-ready leaves enter write-disjoint waves; an
+  optional advisor may reorder eligible candidates but cannot widen authority.
+- Added TaskMesh-owned run and attempt worktrees. Accepted, conflict-free
+  attempts integrate into a run branch while the user-selected target branch
+  remains unchanged and requires a human merge.
+- Added a reconnectable CLI and stateless MCP cockpit so Codex, Claude, Grok,
+  or another conforming client can observe and control the same durable run.
+
+### Executors and assurance
+
+- Added supervised native adapters for Codex, Claude Code, Grok Build, and OMP.
+  Every adapter receives one `TaskHandoff/v3`, reports its exact version,
+  preserves revision/scope/budget/attempt identity, supports cancellation, and
+  emits normalized events without receiving author or evaluator keys.
+- Added explicit supervised acceptance. A worktree is not described as a
+  security sandbox, and no supervised attempt self-accepts.
+- Added an autonomous OMP path using a pinned non-root Docker/Podman worker,
+  read-only root, one writable workspace, bounded resources, dropped
+  capabilities, `no-new-privileges`, network mediation, expiring attempt
+  capabilities, and host-signed sandbox evidence. Isolation failure never
+  silently downgrades to supervised execution.
+
+### Installation, proof, and compatibility
+
+- Added `install.sh --with-mesh` for checksummed macOS/Linux helpers on amd64
+  and arm64. Core-only installation remains unchanged; helper and CLI versions
+  must match exactly.
+- Added deterministic helper builds, TaskMesh conformance/recovery/isolation/
+  cockpit demonstrations, private release evidence, and hosted install smoke.
+- Preserved the evidence-derived 3.8.1 quality score at 97/100 as an immutable
+  historical proof set. TaskMesh adds a separate runtime assurance corridor;
+  it does not claim production reliability, universal semantic truth, or a
+  hosted control plane.
+
 ## [3.8.1] — 2026-08-15
 
 The **evidence-backed quality** patch. It preserves formats v1-v4, keeps format
