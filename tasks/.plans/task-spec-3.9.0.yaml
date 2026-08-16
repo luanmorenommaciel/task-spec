@@ -228,7 +228,7 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: [T-20260816-mesh-autonomous-isolation]
-    touches_paths: [src/mesh/cli.py, src/interop/mcp_server.py, internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/integration.go, internal/mesh/lease.go, internal/mesh/process.go, internal/mesh/store.go, internal/mesh/types.go, bin/taskspec, src/dispatch/agent-context.py, tests/test-mesh-adapters.sh]
+    touches_paths: [src/mesh/cli.py, src/interop/mcp_server.py, cmd/taskspec-meshd/main.go, internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/integration.go, internal/mesh/lease.go, internal/mesh/process.go, internal/mesh/store.go, internal/mesh/types.go, bin/taskspec, src/dispatch/agent-context.py, tests/test-mesh-adapters.sh]
     creates_paths: [src/mesh/mcp_server.py, tests/test-mesh-cockpit.sh]
     source_note: user-approved TaskMesh 3.9.0 release plan
     why: Codex, Claude, or Grok should be able to act as a reconnectable cockpit without owning the durable runtime.
