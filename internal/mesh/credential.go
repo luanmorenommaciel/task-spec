@@ -128,5 +128,14 @@ func writeSecretFile(repository Repository, name, value string) (string, error) 
 	if err := file.Close(); err != nil {
 		return "", err
 	}
+	// Linux bind mounts preserve the host UID. The worker and credential proxy
+	// run as uid 65532, so a runner-owned 0600 file is unreadable inside the
+	// container. The containing runtime directory remains 0700 and outside the
+	// repository; expose only the explicitly mounted file as read-only, then
+	// remove it when the attempt finishes.
+	if err := os.Chmod(path, 0o444); err != nil {
+		os.Remove(path)
+		return "", err
+	}
 	return path, nil
 }
