@@ -10,7 +10,7 @@ agent: codex
 parent: (none)
 depends_on: [T-20260816-mesh-autonomous-isolation]
 supersedes: (none)
-touches_paths: [src/mesh/cli.py, src/interop/mcp_server.py, internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/types.go, bin/taskspec, src/dispatch/agent-context.py]
+touches_paths: [src/mesh/cli.py, src/interop/mcp_server.py, internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/integration.go, internal/mesh/lease.go, internal/mesh/process.go, internal/mesh/store.go, internal/mesh/types.go, bin/taskspec, src/dispatch/agent-context.py]
 creates_paths: [src/mesh/mcp_server.py, tests/test-mesh-cockpit.sh]
 source_note: "user-approved TaskMesh 3.9.0 release plan"
 created: "2026-08-16T00:00:00Z"
