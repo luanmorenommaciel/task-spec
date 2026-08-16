@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type acceptanceRecord struct {
@@ -121,4 +122,64 @@ func (store *Store) integrate(transaction *sql.Tx, request CommandRequest) Comma
 	}
 	_ = appendRunEvent(transaction, request.RequestID, lease.RunID, lease.AttemptID, lease.FencingToken, "ATTEMPT_INTEGRATED", map[string]any{"integration_branch": integrationBranch})
 	return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_INTEGRATED", Message: "accepted attempt merged into the run integration branch", Data: map[string]any{"attempt_id": attemptID, "integration_branch": integrationBranch, "target_unchanged": true}}
+}
+
+func shellQuote(value string) string { return "'" + strings.ReplaceAll(value, "'", "'\\''") + "'" }
+
+func (store *Store) finish(transaction *sql.Tx, request CommandRequest) CommandResponse {
+	if len(request.Arguments) == 0 {
+		return failure("MESH_USAGE", "finish requires a run ID")
+	}
+	runID := request.Arguments[0]
+	run, err := scanRun(transaction.QueryRow("SELECT "+runColumns+" FROM runs WHERE run_id = ?", runID), store.repository.Root)
+	if err != nil {
+		return failure("MESH_RUN_NOT_FOUND", "run does not exist")
+	}
+	if run.State == "finished" {
+		commands := [][]string{{"git", "checkout", run.Target.Branch}, {"git", "merge", "--no-ff", run.IntegrationBranch}}
+		return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_FINISHED", Message: "run was already finished; target branch remains human-owned", Data: map[string]any{"run": run, "merge_route": map[string]any{"commands": commands, "target_unchanged": true}}, NextCommand: "git checkout " + shellQuote(run.Target.Branch) + " && git merge --no-ff " + shellQuote(run.IntegrationBranch)}
+	}
+	if run.State != "active" {
+		return failure("RUN_INCOMPLETE", "only an active run can finish")
+	}
+	if run.Target.Branch != "detached" {
+		current, err := gitValue(store.repository, "rev-parse", "refs/heads/"+run.Target.Branch)
+		if err != nil || current != run.Target.Commit {
+			return failure("TARGET_DIVERGED", "target branch moved; create a new explicitly authorized run")
+		}
+	}
+	rows, err := transaction.Query("SELECT task_id, state, fencing_token FROM leases WHERE run_id = ? ORDER BY task_id, fencing_token DESC", runID)
+	if err != nil {
+		return failure("MESH_STATE_ERROR", err.Error())
+	}
+	latest := map[string]string{}
+	for rows.Next() {
+		var taskID, state string
+		var token int64
+		if err := rows.Scan(&taskID, &state, &token); err != nil {
+			rows.Close()
+			return failure("MESH_STATE_ERROR", err.Error())
+		}
+		if _, exists := latest[taskID]; !exists {
+			latest[taskID] = state
+		}
+	}
+	rows.Close()
+	if len(latest) == 0 {
+		return failure("RUN_INCOMPLETE", "run has no attempts")
+	}
+	for taskID, state := range latest {
+		if state != "integrated" {
+			return failure("RUN_INCOMPLETE", "latest attempt for "+taskID+" is "+state)
+		}
+	}
+	finished := NowUTC()
+	if _, err := transaction.Exec("UPDATE runs SET state = 'finished', finished_at = ? WHERE run_id = ? AND state = 'active'", finished, runID); err != nil {
+		return failure("MESH_STATE_ERROR", err.Error())
+	}
+	run.State, run.FinishedAt = "finished", &finished
+	commands := [][]string{{"git", "checkout", run.Target.Branch}, {"git", "merge", "--no-ff", run.IntegrationBranch}}
+	mergeRoute := map[string]any{"target_branch": run.Target.Branch, "target_commit": run.Target.Commit, "integration_branch": run.IntegrationBranch, "commands": commands, "target_unchanged": true}
+	_ = appendRunEvent(transaction, request.RequestID, runID, "", 0, "RUN_FINISHED", map[string]any{"merge_route": mergeRoute})
+	return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_FINISHED", Message: "integration branch is ready for a human-owned merge", Data: map[string]any{"run": run, "merge_route": mergeRoute}, NextCommand: "git checkout " + shellQuote(run.Target.Branch) + " && git merge --no-ff " + shellQuote(run.IntegrationBranch)}
 }

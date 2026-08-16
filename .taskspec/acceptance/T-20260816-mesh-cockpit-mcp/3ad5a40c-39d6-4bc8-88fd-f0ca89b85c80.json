@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-16T20:46:13Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "3ad5a40c-39d6-4bc8-88fd-f0ca89b85c80",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:43ee6ec50e9baddbca643f03f79457a4f148cbe659f44c94696cc2d024f88038",
+    "base_commit": "2d681f0b051c5a79226aa8910607ec7a73e4b167",
+    "task_id": "T-20260816-mesh-cockpit-mcp",
+    "task_revision_digest": "sha256:992bdea20a04bc6cb033e6653d116161d502c6480eac918808f16c2943a07f9c"
+  }
+}

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"crypto/sha256"
+	"database/sql"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -238,7 +239,10 @@ func (store *Store) ExecuteAttempt(parent context.Context, attemptID string) err
 	if err := store.transitionAttempt("adapter-"+NewID(), attemptID, lease.FencingToken, []string{"running"}, "verifying", "ADAPTER_COMPLETED", map[string]any{"artifact": artifact, "digest": artifactDigest}); err != nil {
 		return err
 	}
-	return store.verifyAcceptCommitAndIntegrate(lease, handoff, probe, artifact, artifactDigest, started, finished, "supervised", "", "", "")
+	if err := store.transitionAttempt("supervision-"+NewID(), attemptID, lease.FencingToken, []string{"verifying"}, "awaiting_supervision", "SUPERVISION_REQUIRED", map[string]any{"artifact": artifact, "digest": artifactDigest, "next_command": "taskspec mesh accept " + attemptID + " --supervised-by <identity> --reason <text>"}); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (store *Store) executeAutonomousAttempt(parent context.Context, lease Lease, definition AdapterDefinition) error {
@@ -311,7 +315,111 @@ func (store *Store) executeAutonomousAttempt(parent context.Context, lease Lease
 	if err := store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"running"}, "verifying", "SANDBOX_COMPLETED", map[string]any{"artifact": artifact, "digest": artifactDigest, "sandbox_evidence": result.SandboxEvidence}); err != nil {
 		return err
 	}
-	return store.verifyAcceptCommitAndIntegrate(lease, handoff, probe, artifact, artifactDigest, result.StartedAt, result.FinishedAt, "autonomous", result.Receipt, os.Getenv("TASKSPEC_MESH_TRUST_REGISTRY"), result.SandboxEvidence)
+	return store.verifyAcceptCommitAndIntegrate(lease, handoff, probe, artifact, artifactDigest, result.StartedAt, result.FinishedAt, "autonomous", "", "", result.Receipt, os.Getenv("TASKSPEC_MESH_TRUST_REGISTRY"), result.SandboxEvidence)
+}
+
+type adapterArtifact struct {
+	Contract        string `json:"contract"`
+	Adapter         string `json:"adapter"`
+	AdapterVersion  string `json:"adapter_version"`
+	StartedAt       string `json:"started_at"`
+	FinishedAt      string `json:"finished_at"`
+	TerminalOutcome string `json:"terminal_outcome"`
+}
+
+func (store *Store) retainedCommand(requestID string) (CommandResponse, bool, error) {
+	var raw string
+	err := store.db.QueryRow("SELECT response_json FROM commands WHERE request_id = ?", requestID).Scan(&raw)
+	if err == sql.ErrNoRows {
+		return CommandResponse{}, false, nil
+	}
+	if err != nil {
+		return CommandResponse{}, false, err
+	}
+	var response CommandResponse
+	if err := json.Unmarshal([]byte(raw), &response); err != nil {
+		return CommandResponse{}, false, err
+	}
+	return response, true, nil
+}
+
+func (store *Store) retainCommand(request CommandRequest, response CommandResponse) (CommandResponse, error) {
+	response.RequestID = request.RequestID
+	raw, err := canonicalJSON(response)
+	if err != nil {
+		return response, err
+	}
+	_, err = store.db.Exec("INSERT INTO commands(request_id, command, response_json, created_at) VALUES (?, ?, ?, ?)", request.RequestID, request.Command, string(raw), NowUTC())
+	if err != nil {
+		if retained, ok, readErr := store.retainedCommand(request.RequestID); readErr == nil && ok {
+			return retained, nil
+		}
+		return response, err
+	}
+	return response, nil
+}
+
+func (store *Store) processSupervisedAccept(ctx context.Context, request CommandRequest) (CommandResponse, error) {
+	if retained, ok, err := store.retainedCommand(request.RequestID); err != nil || ok {
+		return retained, err
+	}
+	if err := store.RecoverExpired(ctx); err != nil {
+		return CommandResponse{}, err
+	}
+	if len(request.Arguments) == 0 {
+		return store.retainCommand(request, failure("MESH_USAGE", "accept requires an attempt ID, --supervised-by, and --reason"))
+	}
+	attemptID := request.Arguments[0]
+	supervisor, reason := option(request.Arguments, "--supervised-by", ""), option(request.Arguments, "--reason", "")
+	_, secrets := sanitizedEnvironment()
+	reason = strings.TrimSpace(redact(reason, secrets))
+	if !validRouteToken(supervisor) || reason == "" || len(reason) > 512 {
+		return store.retainCommand(request, failure("MESH_USAGE", "accept requires --supervised-by <identity> and --reason <text>"))
+	}
+	lease, err := store.loadAttempt(attemptID)
+	if err != nil {
+		return store.retainCommand(request, failure("ATTEMPT_NOT_FOUND", "attempt does not exist"))
+	}
+	var mode string
+	if err := store.db.QueryRow("SELECT mode FROM runs WHERE run_id = ?", lease.RunID).Scan(&mode); err != nil {
+		return CommandResponse{}, err
+	}
+	if mode != "supervised" || lease.State != "awaiting_supervision" {
+		return store.retainCommand(request, failure("ATTEMPT_STALE", "only a supervised attempt awaiting explicit supervision can be accepted"))
+	}
+	if err := store.transitionAttempt("supervision-"+NewID(), attemptID, lease.FencingToken, []string{"awaiting_supervision"}, "awaiting_supervision", "SUPERVISION_GRANTED", map[string]any{"supervised_by": supervisor, "reason": reason}); err != nil {
+		return store.retainCommand(request, failure("ATTEMPT_STALE", err.Error()))
+	}
+	artifact := filepath.Join(store.repository.StateDir, "artifacts", attemptID+".json")
+	raw, err := os.ReadFile(artifact)
+	if err != nil {
+		return store.retainCommand(request, failure("ACCEPTANCE_FAILED", "execution artifact is unavailable"))
+	}
+	var retained adapterArtifact
+	if err := json.Unmarshal(raw, &retained); err != nil || retained.Contract != "TaskMeshAdapterArtifact/v1" || retained.TerminalOutcome != "success" {
+		return store.retainCommand(request, failure("ACCEPTANCE_FAILED", "execution artifact is invalid or unsuccessful"))
+	}
+	digest := sha256.Sum256(raw)
+	definitions, err := LoadAdapters()
+	if err != nil {
+		return store.retainCommand(request, failure("NO_ELIGIBLE_EXECUTOR", err.Error()))
+	}
+	definition, ok := definitions[lease.Adapter]
+	if !ok {
+		return store.retainCommand(request, failure("NO_ELIGIBLE_EXECUTOR", "attempt adapter is unavailable"))
+	}
+	handoff := filepath.Join(lease.Workspace, ".taskspec", "mesh", "handoffs", attemptID+".json")
+	if _, err := os.Stat(handoff); err != nil {
+		return store.retainCommand(request, failure("HANDOFF_STALE", "attempt handoff is unavailable"))
+	}
+	probe := ProbeAdapter(definition)
+	probe.AdapterVersion, probe.Available = retained.AdapterVersion, true
+	if err := store.verifyAcceptCommitAndIntegrate(lease, handoff, probe, artifact, "sha256:"+hex.EncodeToString(digest[:]), retained.StartedAt, retained.FinishedAt, "supervised", supervisor, reason, "", "", ""); err != nil {
+		return store.retainCommand(request, failure("ACCEPTANCE_FAILED", err.Error()))
+	}
+	response := CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_SUPERVISED_ACCEPTED", Message: "explicit supervision completed canonical Task-Spec acceptance and integration", Data: map[string]any{"attempt_id": attemptID, "supervised_by": supervisor}}
+	_ = ctx
+	return store.retainCommand(request, response)
 }
 
 func (store *Store) writeExecutionArtifact(lease Lease, definition AdapterDefinition, probe AdapterProbe, started, finished, output string, truncated bool, runErr error) (string, string, error) {
@@ -367,7 +475,7 @@ func copyNonClobbering(source, destination string) error {
 	return file.Close()
 }
 
-func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, probe AdapterProbe, artifact, artifactDigest, started, finished, mode, environmentReceipt, trustRegistry, sandboxEvidence string) error {
+func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, probe AdapterProbe, artifact, artifactDigest, started, finished, mode, supervisor, reason, environmentReceipt, trustRegistry, sandboxEvidence string) error {
 	cli, err := taskSpecCLI(store.repository)
 	if err != nil {
 		return err
@@ -391,7 +499,7 @@ func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, 
 	if mode == "autonomous" {
 		acceptArguments = append(acceptArguments, "--accepted-by", "taskmesh-autonomous", "--environment-receipt", environmentReceipt, "--trust-registry", trustRegistry)
 	} else {
-		acceptArguments = append(acceptArguments, "--allow-tier2", "--supervised-by", "taskmesh", "--reason", "supervised host worktree execution")
+		acceptArguments = append(acceptArguments, "--allow-tier2", "--supervised-by", supervisor, "--reason", reason)
 	}
 	acceptArguments = append(acceptArguments, status.Path)
 	accept := exec.Command("bash", append([]string{cli}, acceptArguments...)...)
@@ -453,6 +561,10 @@ func (store *Store) writeEngineReceipt(lease Lease, handoff string, probe Adapte
 	if sandboxEvidence != "" {
 		artifacts = append(artifacts, map[string]any{"path": sandboxEvidence})
 	}
+	deviations := []string{}
+	if sandboxEvidence == "" {
+		deviations = append(deviations, "supervised host worktree; not a security sandbox")
+	}
 	receipt := map[string]any{
 		"contract": "EngineRunReceipt/v2", "subject": map[string]any{
 			"task_id": lease.TaskID, "task_revision_digest": lease.TaskRevisionDigest,
@@ -463,7 +575,7 @@ func (store *Store) writeEngineReceipt(lease Lease, handoff string, probe Adapte
 		"provider": probe.Harness, "model_id": "adapter-selected", "adapter_version": probe.AdapterVersion,
 		"engine_version": probe.AdapterVersion, "environment_digest": artifactDigest, "started_at": started,
 		"finished_at": finished, "attempts": 1, "terminal_outcome": "accepted", "acceptance_verdict": "accepted",
-		"artifacts": artifacts, "deviations": []string{},
+		"artifacts": artifacts, "deviations": deviations,
 	}
 	raw, err := json.MarshalIndent(receipt, "", "  ")
 	if err != nil {

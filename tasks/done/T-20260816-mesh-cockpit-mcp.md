@@ -1,7 +1,7 @@
 ---
 id: T-20260816-mesh-cockpit-mcp
 title: "Deliver the durable cross-harness cockpit and MCP facade"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-16T20:41:07Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-16T20:46:13Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:43ee6ec50e9baddbca643f03f79457a4f148cbe659f44c94696cc2d024f88038
+accepted_tier: 1
+accepted_attempt_id: 3ad5a40c-39d6-4bc8-88fd-f0ca89b85c80
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:43ee6ec50e9baddbca643f03f79457a4f148cbe659f44c94696cc2d024f88038
+acceptance_record_digest: sha256:85df310e30a45ff9ce28521e067b43968b7efa3c0e068695445ff16bfcff092a
 ---
 
 # Deliver the durable cross-harness cockpit and MCP facade

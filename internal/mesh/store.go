@@ -104,7 +104,7 @@ func OpenStore(repository Repository) (*Store, error) {
 	}
 	for _, migration := range []struct{ table, column string }{
 		{"events", "run_id TEXT"}, {"events", "attempt_id TEXT"}, {"events", "fencing_token INTEGER"},
-		{"runs", "integration_workspace TEXT"}, {"leases", "adapter TEXT"}, {"leases", "branch TEXT"},
+		{"runs", "integration_workspace TEXT"}, {"runs", "finished_at TEXT"}, {"leases", "adapter TEXT"}, {"leases", "branch TEXT"},
 		{"leases", "workspace TEXT"}, {"leases", "decision_json TEXT"}, {"leases", "acceptance_record TEXT"},
 	} {
 		if _, err := database.Exec("ALTER TABLE " + migration.table + " ADD COLUMN " + migration.column); err != nil && !strings.Contains(err.Error(), "duplicate column") {
@@ -135,6 +135,9 @@ func digestJSON(value any) (string, error) {
 }
 
 func (store *Store) Process(ctx context.Context, request CommandRequest) (CommandResponse, error) {
+	if request.Command == "accept" {
+		return store.processSupervisedAccept(ctx, request)
+	}
 	transaction, err := store.db.BeginTx(ctx, nil)
 	if err != nil {
 		return CommandResponse{}, err
@@ -195,6 +198,8 @@ func (store *Store) execute(transaction *sql.Tx, request CommandRequest) Command
 		response.Data = map[string]any{"repository": store.repository.Root, "database": store.repository.Database, "socket": store.repository.Socket, "journal_mode": strings.ToLower(journal), "event_count": eventCount, "daemon_pid": os.Getpid()}
 	case "status":
 		response = store.statusView(transaction, request)
+	case "watch":
+		response = store.watchView(transaction, request)
 	case "frontier":
 		frontier, err := ResolveFrontier(store.repository)
 		if err != nil {
@@ -230,6 +235,8 @@ func (store *Store) execute(transaction *sql.Tx, request CommandRequest) Command
 		response = store.recordAcceptance(transaction, request)
 	case "integrate":
 		response = store.integrate(transaction, request)
+	case "finish":
+		response = store.finish(transaction, request)
 	default:
 		response = failure("MESH_NOT_IMPLEMENTED", "command is declared but not implemented in this runtime slice")
 		response.NextCommand = "taskspec mesh --help"

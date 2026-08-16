@@ -59,11 +59,12 @@ type Run struct {
 		Branch string `json:"branch"`
 		Commit string `json:"commit"`
 	} `json:"target"`
-	IntegrationBranch string `json:"integration_branch"`
-	Mode              string `json:"mode"`
-	MaxParallel       int    `json:"max_parallel"`
-	State             string `json:"state"`
-	CreatedAt         string `json:"created_at"`
+	IntegrationBranch string  `json:"integration_branch"`
+	Mode              string  `json:"mode"`
+	MaxParallel       int     `json:"max_parallel"`
+	State             string  `json:"state"`
+	CreatedAt         string  `json:"created_at"`
+	FinishedAt        *string `json:"finished_at,omitempty"`
 }
 
 type Lease struct {

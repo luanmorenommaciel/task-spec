@@ -2,6 +2,7 @@ package mesh
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"os/exec"
 	"strconv"
@@ -281,6 +282,30 @@ func (store *Store) resume(transaction *sql.Tx, request CommandRequest) CommandR
 	if contains(activeLeaseStates, prior.State) {
 		return failure("LEASE_CONFLICT", "the prior attempt is still authoritative")
 	}
+	var runMode string
+	if err := transaction.QueryRow("SELECT mode FROM runs WHERE run_id = ?", prior.RunID).Scan(&runMode); err != nil {
+		return failure("MESH_STATE_ERROR", err.Error())
+	}
+	routingArguments := []string{"--mode", runMode, "--adapter", prior.Adapter}
+	var priorRouteRaw string
+	if err := transaction.QueryRow("SELECT payload_json FROM events WHERE attempt_id = ? AND event_type = 'ROUTE_SELECTED' ORDER BY sequence DESC LIMIT 1", prior.AttemptID).Scan(&priorRouteRaw); err == nil {
+		var payload map[string]any
+		if json.Unmarshal([]byte(priorRouteRaw), &payload) == nil {
+			if route, ok := payload["route"].(map[string]any); ok {
+				if provider, ok := route["provider"].(string); ok && provider != "" {
+					routingArguments = append(routingArguments, "--provider", provider)
+				}
+				if model, ok := route["model"].(string); ok && model != "" {
+					routingArguments = append(routingArguments, "--model", model)
+				}
+			}
+		}
+	}
+	if runMode == "autonomous" {
+		if code, err := store.autonomousPreflight(routingArguments); err != nil {
+			return failure(code, err.Error())
+		}
+	}
 	frontier, err := ResolveFrontier(store.repository)
 	if err != nil {
 		return failure("GRAPH_INVALID", err.Error())
@@ -293,7 +318,7 @@ func (store *Store) resume(transaction *sql.Tx, request CommandRequest) CommandR
 	if err != nil {
 		return failure("LEASE_CONFLICT", err.Error())
 	}
-	decision, err := routeTask(task, request.Arguments)
+	decision, err := routeTask(task, routingArguments)
 	if err != nil || decision.Selected == nil {
 		return failure("NO_ELIGIBLE_EXECUTOR", "no executor remains eligible for resumed attempt")
 	}
@@ -310,7 +335,10 @@ func (store *Store) resume(transaction *sql.Tx, request CommandRequest) CommandR
 	if _, err := transaction.Exec("UPDATE leases SET adapter = ?, branch = ?, workspace = ?, decision_json = ? WHERE attempt_id = ?", lease.Adapter, branch, workspace, string(decisionRaw), lease.AttemptID); err != nil {
 		return failure("MESH_STATE_ERROR", err.Error())
 	}
-	return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_RESUMED", Message: "new fenced attempt acquired", Data: map[string]any{"lease": lease}}
+	route := map[string]any{"provider": option(routingArguments, "--provider", ""), "model": option(routingArguments, "--model", ""), "mode": runMode}
+	_ = appendRunEvent(transaction, request.RequestID, prior.RunID, lease.AttemptID, lease.FencingToken, "ROUTE_SELECTED", map[string]any{"decision": decision, "route": route, "branch": branch, "workspace": workspace, "resumed_from": prior.AttemptID})
+	attempt := map[string]any{"lease": lease, "adapter": lease.Adapter, "branch": branch, "workspace": workspace, "decision": decision}
+	return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_RESUMED", Message: "new fenced attempt acquired without widening the prior route", Data: map[string]any{"lease": lease, "attempts": []map[string]any{attempt}}}
 }
 
 func contains(values []string, wanted string) bool {
@@ -325,11 +353,46 @@ func contains(values []string, wanted string) bool {
 func scanRun(scanner interface{ Scan(...any) error }, repository string) (Run, error) {
 	var run Run
 	run.Contract, run.Repository = "TaskMeshRun/v1", repository
-	err := scanner.Scan(&run.RunID, &run.GraphRevisionDigest, &run.Target.Branch, &run.Target.Commit, &run.IntegrationBranch, &run.Mode, &run.MaxParallel, &run.State, &run.CreatedAt)
+	var finished sql.NullString
+	err := scanner.Scan(&run.RunID, &run.GraphRevisionDigest, &run.Target.Branch, &run.Target.Commit, &run.IntegrationBranch, &run.Mode, &run.MaxParallel, &run.State, &run.CreatedAt, &finished)
+	if finished.Valid {
+		run.FinishedAt = &finished.String
+	}
 	return run, err
 }
 
-const runColumns = "run_id, graph_revision_digest, target_branch, target_commit, integration_branch, mode, max_parallel, state, created_at"
+const runColumns = "run_id, graph_revision_digest, target_branch, target_commit, integration_branch, mode, max_parallel, state, created_at, finished_at"
+
+func (store *Store) watchView(transaction *sql.Tx, request CommandRequest) CommandResponse {
+	if len(request.Arguments) == 0 {
+		return failure("MESH_USAGE", "watch requires a run ID")
+	}
+	runID := request.Arguments[0]
+	after, err := integerOption(request.Arguments, "--after", 0, 0, int(^uint(0)>>1))
+	if err != nil {
+		return failure("MESH_USAGE", err.Error())
+	}
+	if _, err := scanRun(transaction.QueryRow("SELECT "+runColumns+" FROM runs WHERE run_id = ?", runID), store.repository.Root); err != nil {
+		return failure("MESH_RUN_NOT_FOUND", "run does not exist")
+	}
+	all, err := eventsFrom(transaction)
+	if err != nil {
+		return failure("MESH_STATE_ERROR", err.Error())
+	}
+	events := []Event{}
+	var runLatest int64
+	for _, event := range all {
+		if event.RunID == runID {
+			if event.Sequence > runLatest {
+				runLatest = event.Sequence
+			}
+			if event.Sequence > int64(after) {
+				events = append(events, event)
+			}
+		}
+	}
+	return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_WATCH_READY", Message: "ordered durable TaskMesh history replayed", Data: map[string]any{"contract": "TaskMeshEventLog/v1", "run_id": runID, "after_sequence": after, "events": events, "latest_sequence": runLatest}}
+}
 
 func (store *Store) statusView(transaction *sql.Tx, request CommandRequest) CommandResponse {
 	if len(request.Arguments) == 0 {

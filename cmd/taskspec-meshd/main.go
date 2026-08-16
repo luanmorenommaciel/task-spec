@@ -169,6 +169,26 @@ func printHuman(response mesh.CommandResponse) {
 			fmt.Printf("  %s: %v\n", name, response.Data[name])
 		}
 	}
+	if response.Code == "MESH_WATCH_READY" {
+		raw, _ := json.Marshal(response.Data["events"])
+		var events []mesh.Event
+		if json.Unmarshal(raw, &events) == nil {
+			for _, event := range events {
+				identity := event.RunID
+				if event.AttemptID != "" {
+					identity = event.AttemptID
+				}
+				fmt.Printf("  %06d  %-28s  %s\n", event.Sequence, event.Type, identity)
+			}
+		}
+	}
+	if response.Code == "MESH_FINISHED" {
+		if route, ok := response.Data["merge_route"].(map[string]any); ok {
+			fmt.Printf("  target: %v @ %v\n", route["target_branch"], route["target_commit"])
+			fmt.Printf("  integration: %v\n", route["integration_branch"])
+			fmt.Println("  target mutated: false")
+		}
+	}
 	if response.NextCommand != "" {
 		fmt.Printf("NEXT=%s\n", response.NextCommand)
 	}

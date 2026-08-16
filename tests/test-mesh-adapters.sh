@@ -110,9 +110,19 @@ view = json.loads(pathlib.Path(sys.argv[1]).read_text())["data"]["data"]
 print(next(item["state"] for item in view["attempts"] if item["attempt_id"] == sys.argv[2]))
 PY
 )"
-  [[ "$FINAL_STATE" == "integrated" || "$FINAL_STATE" == "parked" || "$FINAL_STATE" == "cancelled" ]] && break
+  [[ "$FINAL_STATE" == "awaiting_supervision" || "$FINAL_STATE" == "parked" || "$FINAL_STATE" == "cancelled" ]] && break
   sleep 0.25
 done
+[[ "$FINAL_STATE" == "awaiting_supervision" ]]
+mesh accept "$ATTEMPT" --supervised-by adapter-test --reason 'reviewed deterministic fake adapter result' >"$TMP/accept.json"
+grep -q 'MESH_SUPERVISED_ACCEPTED' "$TMP/accept.json"
+mesh status "$ATTEMPT" >"$TMP/accepted-status.json"
+FINAL_STATE="$(python3 - "$TMP/accepted-status.json" "$ATTEMPT" <<'PY'
+import json, pathlib, sys
+view = json.loads(pathlib.Path(sys.argv[1]).read_text())["data"]["data"]
+print(next(item["state"] for item in view["attempts"] if item["attempt_id"] == sys.argv[2]))
+PY
+)"
 [[ "$FINAL_STATE" == "integrated" ]]
 [[ "$(git -C "$REPO" rev-parse main)" == "$TARGET_COMMIT" ]]
 [[ -z "$(cat "$REPO/a.txt")" ]]

@@ -67,7 +67,7 @@ func (daemon *Daemon) Handler() http.Handler {
 		if !result.OK {
 			status = http.StatusConflict
 		}
-		if result.OK && command.Command == "run" && hasOption(command.Arguments, "--execute") {
+		if result.OK && (command.Command == "run" || command.Command == "resume") && hasOption(command.Arguments, "--execute") {
 			daemon.launchAttempts(result)
 		}
 		if result.OK && command.Command == "cancel" && len(command.Arguments) > 0 {

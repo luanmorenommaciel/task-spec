@@ -27,13 +27,14 @@ Repository:
   frontier [--json]
 
 Runs:
-  run --task <id> [--adapter <name>] [--mode supervised|autonomous]
-  run --frontier [--max-parallel <n>] [--mode supervised|autonomous]
+  run --task <id> [--adapter <name>] [--mode supervised|autonomous] [--execute]
+  run --frontier [--max-parallel <n>] [--mode supervised|autonomous] [--execute]
+    autonomous requires --provider <id> --model <id> and verified sandbox setup
   status [<run-or-attempt>] [--json]
-  watch <run>
+  watch <run> [--after <sequence>]
   explain --task <id>
   cancel <attempt>
-  resume <run-or-attempt>
+  resume <run-or-attempt> [--execute]
   accept <attempt> --supervised-by <identity> --reason <text>
   finish <run>
 
@@ -163,6 +164,9 @@ def main(argv: list[str]) -> int:
             next_command="install.sh --with-mesh",
         )
     negotiate(helper)
+    if command == "mcp":
+        os.environ["TASKSPEC_MESH_HELPER"] = str(helper)
+        os.execv(sys.executable, [sys.executable, str(ROOT / "src" / "mesh" / "mcp_server.py")])
     invocation = [str(helper), "--repository", str(repository_root())]
     if json_mode():
         invocation.append("--json")
