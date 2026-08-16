@@ -52,9 +52,8 @@ SOURCE_DATE_EPOCH="$EPOCH" python3 "$ROOT/tools/build-release-evidence-archive.p
 cmp -s "$WORK/one/task-spec-$VERSION-evidence.tar.gz" "$WORK/two/task-spec-$VERSION-evidence.tar.gz"
 tar -tzf "$WORK/one/task-spec-$VERSION-evidence.tar.gz" > "$WORK/evidence-files.txt"
 grep -q "release/evidence.json$" "$WORK/evidence-files.txt"
-grep -q "release/3.8.1/environment-attestation.json$" "$WORK/evidence-files.txt"
-grep -q "release/3.8.1/engine-matrix-result.json$" "$WORK/evidence-files.txt"
 grep -q "release/$VERSION/mesh-release-evidence.json$" "$WORK/evidence-files.txt"
+grep -q "release/$VERSION/mesh-conformance.json$" "$WORK/evidence-files.txt"
 
 for retained in mesh-release-evidence.json mesh-conformance.json reviewer-report.json; do
   test -s "$ROOT/release/$VERSION/$retained"
