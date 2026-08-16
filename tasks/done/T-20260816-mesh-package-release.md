@@ -1,7 +1,7 @@
 ---
 id: T-20260816-mesh-package-release
 title: "Package, document, prove, and privately publish Task-Spec 3.9.0"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-16T22:33:27Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-16T22:56:38Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:7bb5eed55653eda4771b7d4261766e7a5747818030684d9c75ecdb53033f4cd4
+accepted_tier: 1
+accepted_attempt_id: 57c96e14-159a-445d-9d92-3132e0a83d2c
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:7bb5eed55653eda4771b7d4261766e7a5747818030684d9c75ecdb53033f4cd4
+acceptance_record_digest: sha256:1c163d4b3bf06a771fdd2c5930ba60077ee70df95fa6c9bfb9692ff50969a2af
 ---
 
 # Package, document, prove, and privately publish Task-Spec 3.9.0
