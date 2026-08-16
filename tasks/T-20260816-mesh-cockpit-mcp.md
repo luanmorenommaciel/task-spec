@@ -25,12 +25,13 @@ security_class: (none)
 source_action_item: (none)
 tracker_ref: (none)
 execution_backend: codex
-signed_off: false
-signed_off_by: (none)
-signed_off_at: (none)
+signed_off: true
+signed_off_by: luanmorenomaciel
+signed_off_at: 2026-08-16T20:31:54Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
+signed_off_sig: hmac-sha256-v3:e2e418a3:723238cef2962a1844b1eb0f13a20f1a27a71a64e4c062a5b0c7d5c90c329258
 ---
 
 # Deliver the durable cross-harness cockpit and MCP facade
