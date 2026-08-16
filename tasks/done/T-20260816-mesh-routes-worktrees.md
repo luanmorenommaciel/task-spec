@@ -1,7 +1,7 @@
 ---
 id: T-20260816-mesh-routes-worktrees
 title: "Implement deterministic routing and integration worktrees"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-16T19:57:13Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-16T19:57:52Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:53e9fcf5149e379dc2c415ca015cd2637178a7024c26d5d67ff371c6498381cd
+accepted_tier: 1
+accepted_attempt_id: 17a92f61-b0e3-4e0d-bca2-c3bd81b60901
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:53e9fcf5149e379dc2c415ca015cd2637178a7024c26d5d67ff371c6498381cd
+acceptance_record_digest: sha256:33c9e626163492578723ccce34dcacaa25510ceca84631ae35c832a00d182a5d
 ---
 
 # Implement deterministic routing and integration worktrees

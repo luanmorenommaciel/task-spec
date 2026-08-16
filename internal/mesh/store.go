@@ -57,7 +57,8 @@ func OpenStore(repository Repository) (*Store, error) {
             mode TEXT NOT NULL,
             max_parallel INTEGER NOT NULL,
             state TEXT NOT NULL,
-            created_at TEXT NOT NULL
+            created_at TEXT NOT NULL,
+            integration_workspace TEXT
         )`,
 		`CREATE TABLE IF NOT EXISTS leases (
             attempt_id TEXT PRIMARY KEY,
@@ -69,7 +70,12 @@ func OpenStore(repository Repository) (*Store, error) {
             issued_at TEXT NOT NULL,
             expires_at TEXT NOT NULL,
             heartbeat_at TEXT NOT NULL,
-            state TEXT NOT NULL
+            state TEXT NOT NULL,
+            adapter TEXT,
+            branch TEXT,
+            workspace TEXT,
+            decision_json TEXT,
+            acceptance_record TEXT
         )`,
 		`CREATE TABLE IF NOT EXISTS lease_fences (
             task_revision_digest TEXT PRIMARY KEY,
@@ -84,10 +90,14 @@ func OpenStore(repository Repository) (*Store, error) {
 			return nil, fmt.Errorf("initialize TaskMesh database: %w", err)
 		}
 	}
-	for _, column := range []string{"run_id TEXT", "attempt_id TEXT", "fencing_token INTEGER"} {
-		if _, err := database.Exec("ALTER TABLE events ADD COLUMN " + column); err != nil && !strings.Contains(err.Error(), "duplicate column") {
+	for _, migration := range []struct{ table, column string }{
+		{"events", "run_id TEXT"}, {"events", "attempt_id TEXT"}, {"events", "fencing_token INTEGER"},
+		{"runs", "integration_workspace TEXT"}, {"leases", "adapter TEXT"}, {"leases", "branch TEXT"},
+		{"leases", "workspace TEXT"}, {"leases", "decision_json TEXT"}, {"leases", "acceptance_record TEXT"},
+	} {
+		if _, err := database.Exec("ALTER TABLE " + migration.table + " ADD COLUMN " + migration.column); err != nil && !strings.Contains(err.Error(), "duplicate column") {
 			database.Close()
-			return nil, fmt.Errorf("migrate TaskMesh events: %w", err)
+			return nil, fmt.Errorf("migrate TaskMesh %s: %w", migration.table, err)
 		}
 	}
 	if _, err := database.Exec("INSERT OR REPLACE INTO metadata(key, value) VALUES ('repository', ?)", repository.Root); err != nil {
@@ -181,6 +191,17 @@ func (store *Store) execute(transaction *sql.Tx, request CommandRequest) Command
 		response.Code, response.Message, response.Data = "MESH_FRONTIER_READY", "authorized ready frontier resolved", map[string]any{"frontier": frontier}
 	case "run":
 		response = store.startRun(transaction, request)
+	case "explain":
+		frontier, err := ResolveFrontier(store.repository)
+		if err != nil {
+			return failure("GRAPH_INVALID", err.Error())
+		}
+		taskID := option(request.Arguments, "--task", "")
+		task, ok := frontier.Eligible(taskID)
+		if !ok {
+			return failure("TASK_NOT_ELIGIBLE", "explain requires an authorized ready leaf")
+		}
+		response = explainRoute(task, request.Arguments)
 	case "heartbeat":
 		response = store.heartbeat(transaction, request)
 	case "submit":
@@ -189,6 +210,10 @@ func (store *Store) execute(transaction *sql.Tx, request CommandRequest) Command
 		response = store.cancel(transaction, request)
 	case "resume":
 		response = store.resume(transaction, request)
+	case "record-acceptance":
+		response = store.recordAcceptance(transaction, request)
+	case "integrate":
+		response = store.integrate(transaction, request)
 	default:
 		response = failure("MESH_NOT_IMPLEMENTED", "command is declared but not implemented in this runtime slice")
 		response.NextCommand = "taskspec mesh --help"

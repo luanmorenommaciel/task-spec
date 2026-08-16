@@ -1,11 +1,13 @@
 package mesh
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 type graphNode struct {
@@ -34,6 +36,7 @@ type graphView struct {
 type taskStatus struct {
 	Contract      string `json:"contract"`
 	TaskID        string `json:"task_id"`
+	Path          string `json:"path"`
 	Lifecycle     string `json:"lifecycle"`
 	Authorization struct {
 		Tier         int    `json:"tier"`
@@ -53,6 +56,7 @@ type FrontierTask struct {
 	TaskID             string   `json:"task_id"`
 	TaskRevisionDigest string   `json:"task_revision_digest"`
 	Effort             string   `json:"effort"`
+	ExecutionBackend   string   `json:"execution_backend"`
 	Eligible           bool     `json:"eligible"`
 	Blockers           []string `json:"blockers"`
 }
@@ -136,6 +140,7 @@ func ResolveFrontier(repository Repository) (Frontier, error) {
 			if err := json.Unmarshal(statusRaw, &status); err != nil {
 				candidate.Blockers = append(candidate.Blockers, "STATUS_INVALID")
 			} else {
+				candidate.ExecutionBackend = readExecutionBackend(status.Path)
 				if status.Lifecycle != "ready" {
 					candidate.Blockers = append(candidate.Blockers, "NOT_READY")
 				}
@@ -160,6 +165,30 @@ func ResolveFrontier(repository Repository) (Frontier, error) {
 		}
 	}
 	return frontier, nil
+}
+
+func readExecutionBackend(path string) string {
+	file, err := os.Open(path)
+	if err != nil {
+		return "any"
+	}
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	inside := false
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line == "---" {
+			if inside {
+				break
+			}
+			inside = true
+			continue
+		}
+		if inside && len(line) > len("execution_backend:") && line[:len("execution_backend:")] == "execution_backend:" {
+			return strings.TrimSpace(line[len("execution_backend:"):])
+		}
+	}
+	return "any"
 }
 
 func (frontier Frontier) Eligible(taskID string) (FrontierTask, bool) {

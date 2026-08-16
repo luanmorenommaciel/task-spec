@@ -78,6 +78,29 @@ type Lease struct {
 	ExpiresAt          string `json:"expires_at"`
 	HeartbeatAt        string `json:"heartbeat_at"`
 	State              string `json:"state"`
+	Adapter            string `json:"-"`
+	Branch             string `json:"-"`
+	Workspace          string `json:"-"`
+	AcceptanceRecord   string `json:"-"`
+}
+
+type DispatchCandidate struct {
+	Adapter          string   `json:"adapter"`
+	Eligible         bool     `json:"eligible"`
+	RejectionReasons []string `json:"rejection_reasons"`
+	StaticScore      float64  `json:"static_score"`
+}
+
+type DispatchDecision struct {
+	Contract              string              `json:"contract"`
+	TaskID                string              `json:"task_id"`
+	TaskRevisionDigest    string              `json:"task_revision_digest"`
+	PolicyDigest          string              `json:"policy_digest"`
+	Candidates            []DispatchCandidate `json:"candidates"`
+	Selected              *string             `json:"selected"`
+	AdvisorResponseDigest *string             `json:"advisor_response_digest,omitempty"`
+	Explanation           string              `json:"explanation"`
+	DecidedAt             string              `json:"decided_at"`
 }
 
 func NewID() string {

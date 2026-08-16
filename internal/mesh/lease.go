@@ -95,9 +95,13 @@ func (store *Store) startRun(transaction *sql.Tx, request CommandRequest) Comman
 	}
 	runID, createdAt := NewID(), NowUTC()
 	integrationBranch := "taskmesh/run/" + strings.Split(runID, "-")[0]
+	integrationWorkspace, err := prepareIntegration(store.repository, runID, integrationBranch, targetCommit)
+	if err != nil {
+		return failure("MESH_WORKTREE_ERROR", err.Error())
+	}
 	if _, err := transaction.Exec(
-		"INSERT INTO runs(run_id, graph_revision_digest, target_branch, target_commit, integration_branch, mode, max_parallel, state, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?)",
-		runID, frontier.GraphRevisionDigest, targetBranch, targetCommit, integrationBranch, mode, maxParallel, createdAt,
+		"INSERT INTO runs(run_id, graph_revision_digest, target_branch, target_commit, integration_branch, mode, max_parallel, state, created_at, integration_workspace) VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?, ?)",
+		runID, frontier.GraphRevisionDigest, targetBranch, targetCommit, integrationBranch, mode, maxParallel, createdAt, integrationWorkspace,
 	); err != nil {
 		return failure("MESH_STATE_ERROR", err.Error())
 	}
@@ -107,17 +111,35 @@ func (store *Store) startRun(transaction *sql.Tx, request CommandRequest) Comman
 		return failure("MESH_STATE_ERROR", err.Error())
 	}
 	leases := []Lease{}
+	attempts := []map[string]any{}
 	for _, task := range selected {
+		decision, routeErr := routeTask(task, request.Arguments)
+		if routeErr != nil || decision.Selected == nil {
+			continue
+		}
 		lease, acquireErr := store.acquireLease(transaction, request.RequestID, runID, task, request.RequestID, time.Duration(ttl)*time.Second)
 		if acquireErr != nil {
 			continue
 		}
+		branch, workspace, prepareErr := prepareAttempt(store.repository, runID, lease, integrationBranch)
+		if prepareErr != nil {
+			_, _ = transaction.Exec("UPDATE leases SET state = 'parked' WHERE attempt_id = ?", lease.AttemptID)
+			_ = appendRunEvent(transaction, request.RequestID, runID, lease.AttemptID, lease.FencingToken, "ATTEMPT_PARKED", map[string]any{"code": "MESH_WORKTREE_ERROR", "message": prepareErr.Error()})
+			continue
+		}
+		decisionRaw, _ := canonicalJSON(decision)
+		lease.Adapter, lease.Branch, lease.Workspace = *decision.Selected, branch, workspace
+		if _, err := transaction.Exec("UPDATE leases SET adapter = ?, branch = ?, workspace = ?, decision_json = ? WHERE attempt_id = ?", lease.Adapter, branch, workspace, string(decisionRaw), lease.AttemptID); err != nil {
+			return failure("MESH_STATE_ERROR", err.Error())
+		}
+		_ = appendRunEvent(transaction, request.RequestID, runID, lease.AttemptID, lease.FencingToken, "ROUTE_SELECTED", map[string]any{"decision": decision, "branch": branch, "workspace": workspace})
 		leases = append(leases, lease)
+		attempts = append(attempts, map[string]any{"lease": lease, "adapter": lease.Adapter, "branch": branch, "workspace": workspace, "decision": decision})
 	}
 	if len(leases) == 0 {
 		return failure("LEASE_CONFLICT", "another authoritative attempt already holds every selected task")
 	}
-	return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_RUN_STARTED", Message: "authorized TaskMesh leases acquired", Data: map[string]any{"run": run, "leases": leases}}
+	return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_RUN_STARTED", Message: "authorized TaskMesh leases acquired", Data: map[string]any{"run": run, "leases": leases, "attempts": attempts}}
 }
 
 func (store *Store) acquireLease(transaction *sql.Tx, requestID, runID string, task FrontierTask, owner string, ttl time.Duration) (Lease, error) {
@@ -165,11 +187,11 @@ func (store *Store) acquireLease(transaction *sql.Tx, requestID, runID string, t
 func scanLease(scanner interface{ Scan(...any) error }) (Lease, error) {
 	var lease Lease
 	lease.Contract = "RunLease/v1"
-	err := scanner.Scan(&lease.RunID, &lease.TaskID, &lease.TaskRevisionDigest, &lease.AttemptID, &lease.FencingToken, &lease.Owner, &lease.IssuedAt, &lease.ExpiresAt, &lease.HeartbeatAt, &lease.State)
+	err := scanner.Scan(&lease.RunID, &lease.TaskID, &lease.TaskRevisionDigest, &lease.AttemptID, &lease.FencingToken, &lease.Owner, &lease.IssuedAt, &lease.ExpiresAt, &lease.HeartbeatAt, &lease.State, &lease.Adapter, &lease.Branch, &lease.Workspace, &lease.AcceptanceRecord)
 	return lease, err
 }
 
-const leaseColumns = "run_id, task_id, task_revision_digest, attempt_id, fencing_token, owner, issued_at, expires_at, heartbeat_at, state"
+const leaseColumns = "run_id, task_id, task_revision_digest, attempt_id, fencing_token, owner, issued_at, expires_at, heartbeat_at, state, COALESCE(adapter, ''), COALESCE(branch, ''), COALESCE(workspace, ''), COALESCE(acceptance_record, '')"
 
 func (store *Store) heartbeat(transaction *sql.Tx, request CommandRequest) CommandResponse {
 	attemptID := option(request.Arguments, "--attempt-id", "")
@@ -264,6 +286,23 @@ func (store *Store) resume(transaction *sql.Tx, request CommandRequest) CommandR
 	lease, err := store.acquireLease(transaction, request.RequestID, prior.RunID, task, request.RequestID, 5*time.Minute)
 	if err != nil {
 		return failure("LEASE_CONFLICT", err.Error())
+	}
+	decision, err := routeTask(task, request.Arguments)
+	if err != nil || decision.Selected == nil {
+		return failure("NO_ELIGIBLE_EXECUTOR", "no executor remains eligible for resumed attempt")
+	}
+	var integrationBranch string
+	if err := transaction.QueryRow("SELECT integration_branch FROM runs WHERE run_id = ?", prior.RunID).Scan(&integrationBranch); err != nil {
+		return failure("MESH_STATE_ERROR", err.Error())
+	}
+	branch, workspace, err := prepareAttempt(store.repository, prior.RunID, lease, integrationBranch)
+	if err != nil {
+		return failure("MESH_WORKTREE_ERROR", err.Error())
+	}
+	decisionRaw, _ := canonicalJSON(decision)
+	lease.Adapter, lease.Branch, lease.Workspace = *decision.Selected, branch, workspace
+	if _, err := transaction.Exec("UPDATE leases SET adapter = ?, branch = ?, workspace = ?, decision_json = ? WHERE attempt_id = ?", lease.Adapter, branch, workspace, string(decisionRaw), lease.AttemptID); err != nil {
+		return failure("MESH_STATE_ERROR", err.Error())
 	}
 	return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_RESUMED", Message: "new fenced attempt acquired", Data: map[string]any{"lease": lease}}
 }

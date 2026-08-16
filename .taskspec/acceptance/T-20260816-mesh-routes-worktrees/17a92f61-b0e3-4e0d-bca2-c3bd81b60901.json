@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-16T19:57:52Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "17a92f61-b0e3-4e0d-bca2-c3bd81b60901",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:53e9fcf5149e379dc2c415ca015cd2637178a7024c26d5d67ff371c6498381cd",
+    "base_commit": "79fb37f9d2a617a1f03d5cfd5be2de1d1e984ba6",
+    "task_id": "T-20260816-mesh-routes-worktrees",
+    "task_revision_digest": "sha256:b39ca364f8948980eae8eff3222c6361ff575fef6c88f2bd31a711a877104651"
+  }
+}
