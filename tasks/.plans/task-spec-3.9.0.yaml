@@ -120,7 +120,7 @@ units:
     agent: codex
     execution_backend: codex
     depends_on: [T-20260816-mesh-leases-graph]
-    touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
+    touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/integration.go, internal/mesh/lease.go, internal/mesh/routing.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
     creates_paths: [internal/mesh/integration.go, internal/mesh/routing.go, internal/mesh/worktree.go, tests/test-mesh-routing-integration.sh]
     source_note: user-approved TaskMesh 3.9.0 release plan
     why: Executors need deterministic selection and isolated branches while the user's target branch remains untouched.
