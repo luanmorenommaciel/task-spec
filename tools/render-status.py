@@ -54,7 +54,7 @@ def render(evidence: dict, scorecard: dict) -> str:
         ("Documentation and DX", "Installed reviewer route, executable docs, and generated status", dimension("documentation_dx")),
         ("Harness and packaging", "All installation doors plus frozen Codex and Claude execution", dimension("harness_packaging")),
         ("Standards interoperability", "Pinned official A2A and MCP SDK conformance", dimension("standards_interoperability")),
-        ("Public and external proof", "Hosted CI, published provenance, and externally signed sandbox evidence", dimension("public_external_proof")),
+        ("Private distribution and external proof", "Hosted CI, private signed provenance, authenticated installs, and externally signed sandbox evidence", dimension("public_external_proof")),
         ("Publication", f"Task-Spec {evidence['version']} at `{evidence['source']['commit'][:12]}`", release_label),
         ("Deliberately unclaimed", "Semantic truth, ecosystem-wide certification, and long-running production reliability", "3 points remain unavailable by design"),
     ]

@@ -1,31 +1,31 @@
 {
   "contract": "HostedCIEvidence/v1",
   "version": "3.8.1",
-  "observed_at": "2026-08-15T20:38:22Z",
+  "observed_at": "2026-08-16T19:02:07Z",
   "provider": "github-actions",
   "repository": "luanmorenommaciel/task-spec",
-  "run_id": 31906913000,
-  "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31906913000",
+  "run_id": 31966151781,
+  "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31966151781",
   "event": "pull_request",
-  "head_commit": "441c48c8128f0953ec12d96fafa08eaa5a7be86a",
+  "head_commit": "4f9502180b636878a9b24f0b9df19fa6a8f278f6",
   "result": "pass",
   "jobs": [
     {
       "platform": "macos-latest",
-      "job_id": 95066092694,
+      "job_id": 95211519110,
       "result": "pass",
-      "started_at": "2026-08-15T20:31:26Z",
-      "completed_at": "2026-08-15T20:36:36Z",
+      "started_at": "2026-08-16T18:58:04Z",
+      "completed_at": "2026-08-16T19:02:06Z",
       "executed_steps": 7,
       "gate_step": "make check (includes isolated install-to-accept demo)",
       "gate_result": "pass"
     },
     {
       "platform": "ubuntu-latest",
-      "job_id": 95066092828,
+      "job_id": 95211519187,
       "result": "pass",
-      "started_at": "2026-08-15T20:31:25Z",
-      "completed_at": "2026-08-15T20:33:28Z",
+      "started_at": "2026-08-16T18:58:03Z",
+      "completed_at": "2026-08-16T19:00:35Z",
       "executed_steps": 6,
       "skipped_steps": ["Install shellcheck (macOS)"],
       "gate_step": "make check (includes isolated install-to-accept demo)",
@@ -34,6 +34,6 @@
   ],
   "limitations": [
     "This proves the repository gate on GitHub-hosted Ubuntu and macOS runners; it is not production reliability evidence.",
-    "The release-install and provenance workflow is evaluated separately."
+    "Private release installation and provenance are retained separately from the normal CI gate."
   ]
 }

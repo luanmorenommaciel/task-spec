@@ -113,11 +113,11 @@
       "criteria": [
         {
           "id": "installation_matrix",
-          "title": "Copy, symlink, npm, GitHub, and pinned curl installs",
+          "title": "Copy, symlink, npm, and authenticated tag installs",
           "points": 4,
           "blocking": true,
           "evidence_classes": ["local", "published"],
-          "falsifiers": ["Any required installation door fails or the package contents differ from the release manifest."]
+          "falsifiers": ["Any required private installation door fails authentication, checksum verification, lifecycle proof, or package-manifest parity."]
         },
         {
           "id": "real_engine_matrix",
@@ -162,7 +162,7 @@
     },
     {
       "id": "public_external_proof",
-      "title": "Public and external proof",
+      "title": "Private distribution and external proof",
       "max_points": 10,
       "criteria": [
         {
@@ -175,11 +175,11 @@
         },
         {
           "id": "published_provenance",
-          "title": "Published artifacts, checksums, SBOM, attestations, and remote installs",
+          "title": "Private release assets, checksums, SBOM, signed provenance, and authenticated installs",
           "points": 3,
           "blocking": true,
           "evidence_classes": ["published", "provenance"],
-          "falsifiers": ["An artifact digest, SBOM, provenance statement, or tag-pinned installation cannot be independently verified."]
+          "falsifiers": ["An authenticated release asset, digest, SBOM, DSSE/in-toto statement, signer, source commit, or tag-pinned installation cannot be independently verified."]
         },
         {
           "id": "signed_sandbox",

@@ -50,7 +50,7 @@ grep -q "release/evidence.json$" "$WORK/evidence-files.txt"
 grep -q "release/$VERSION/environment-attestation.json$" "$WORK/evidence-files.txt"
 grep -q "release/$VERSION/engine-matrix-result.json$" "$WORK/evidence-files.txt"
 
-for retained in checksums.txt release-report.json local-gates.json install-matrix.json sbom.spdx.json; do
+for retained in checksums.txt release-report.json local-gates.json install-matrix.json private-release-evidence.json sbom.spdx.json; do
   test -s "$ROOT/release/$VERSION/$retained"
 done
 python3 - "$ROOT" "$VERSION" <<'PY'
@@ -61,10 +61,19 @@ local = json.loads((release / "local-gates.json").read_text(encoding="utf-8"))
 install = json.loads((release / "install-matrix.json").read_text(encoding="utf-8"))
 report = json.loads((release / "release-report.json").read_text(encoding="utf-8"))
 sbom = json.loads((release / "sbom.spdx.json").read_text(encoding="utf-8"))
+private_release = json.loads((release / "private-release-evidence.json").read_text(encoding="utf-8"))
 assert local["contract"] == "TaskSpecLocalGateEvidence/v1" and all(local["tokens"].values())
 assert all(item["state"] == "pass" for item in local["suites"].values())
 assert install["contract"] == "InstallationMatrixEvidence/v1"
 assert all(item["state"] == "pass" for item in install["local"].values())
+assert install["complete"] is True and install["repository_visibility"] == "private"
+assert all(item["state"] == "pass" for item in install["remote"].values())
+assert private_release["contract"] == "PrivateReleaseEvidence/v1"
+assert private_release["repository"]["visibility"] == "private"
+assert private_release["authentication"]["anonymous_download_required"] is False
+assert private_release["provenance"]["independent_verification"] == "pass"
+assert private_release["provenance"]["tamper_test"] == "pass"
+assert private_release["installation"]["scope_or_secret_violations"] == 0
 assert report["contract"] == "TaskSpecReleaseReport/v1" and report["version"] == version
 assert sbom["spdxVersion"] == "SPDX-2.3"
 for row in report["artifacts"]:
@@ -75,10 +84,13 @@ PY
 python3 - "$ROOT/.github/workflows/release-install-smoke.yml" <<'PY'
 import pathlib, sys
 text = pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")
-assert "actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8" in text
-assert "actions/attest-sbom@c604332985a26aa8cf1bdc465b92731239ec6b9e" in text
-assert "id-token: write" in text and "attestations: write" in text
+assert "TASKSPEC_RELEASE_PROVENANCE_KEY_PEM" in text
+assert "tools/release-provenance.py create" in text
+assert "tools/release-provenance.py verify" in text
+assert "actions/attest-build-provenance" not in text
+assert "actions/attest-sbom" not in text
 assert "build-release-evidence-archive.py" in text and "build-sbom.py" in text
+assert "gh api" in text and "gh auth setup-git" in text
 PY
 
 if command -v npm >/dev/null 2>&1; then

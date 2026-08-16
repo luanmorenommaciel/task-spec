@@ -8,15 +8,15 @@
     3,
     4
   ],
-  "generated_at": "2026-08-15T18:15:00Z",
+  "generated_at": "2026-08-16T19:03:52Z",
   "source": {
-    "commit": "441c48c8128f0953ec12d96fafa08eaa5a7be86a",
-    "branch": "codex/taskspec-3.8.1"
+    "commit": "4f9502180b636878a9b24f0b9df19fa6a8f278f6",
+    "branch": "codex/taskspec-3.8.1-private-final"
   },
-  "release_status": "blocked",
+  "release_status": "rc",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:c5da6d58a06024de70b1b1a4d19552e6152246f6d15fb4a86e33f62f207f7d62"
+    "digest": "sha256:a0c7349db6df8593dccc6be9a72716b6377df9111f63f7fc9b8c73304866f4d9"
   },
   "gates": {
     "authority_contracts": {
@@ -97,12 +97,12 @@
       "reason": "The README status block is regenerated from the digest-validated scorecard and fails when stale."
     },
     "installation_matrix": {
-      "state": "blocked",
+      "state": "pass",
       "evidence": {
         "path": "release/3.8.1/install-matrix.json",
-        "digest": "sha256:a5825b9838f5889b12f961fa5fb9e8aaab2e82a1fbded738b6ce1e69690bae40"
+        "digest": "sha256:da2ba0ae6003c462d4e5b665f7196bee9d9df923d8390d6f68add4417e1abc4e"
       },
-      "reason": "All local installation doors pass, but RC 2 public curl returned HTTP 404 on Ubuntu and macOS because the repository is private; npm steps therefore did not run."
+      "reason": "RC 3 passed authenticated checksum-backed archive and npm/GitHub installation on hosted Ubuntu and macOS, with INSTALL=OK and DEMO=READY retained for both platforms."
     },
     "real_engine_matrix": {
       "state": "pass",
@@ -137,17 +137,17 @@
       "state": "pass",
       "evidence": {
         "path": "release/3.8.1/hosted-ci.json",
-        "digest": "sha256:f76e38a782f6693ad6c338795a9abf21420ce30409da9a3c6060b8141904f71b"
+        "digest": "sha256:e0fde5f7d28921a357edf9cb6fdf39c3033adc359ed00fb41ae5b6706c657559"
       },
-      "reason": "GitHub Actions run 31906913000 executed the full gate successfully on hosted Ubuntu and macOS runners with nonzero steps."
+      "reason": "GitHub Actions run 31966151781 executed the full gate successfully on hosted Ubuntu and macOS runners at the RC 3 source commit with nonzero steps."
     },
     "published_provenance": {
-      "state": "blocked",
+      "state": "pass",
       "evidence": {
-        "path": "release/3.8.1/rc2-publication-attempt.json",
-        "digest": "sha256:cada4a86b87037f3162f5af027ce614de5919b85d102b07d60079cc9596a53e0"
+        "path": "release/3.8.1/private-release-evidence.json",
+        "digest": "sha256:b0fd0eb85d968ab64e238cd3b23b2f592c36413cb99333b9a6252801b7f598cd"
       },
-      "reason": "RC 2 published checksummed assets and an SPDX SBOM, but GitHub attestations and unauthenticated public installs remain blocked by private repository visibility."
+      "reason": "RC 3 published private checksum-backed assets and an SPDX SBOM, emitted an Ed25519-signed DSSE/in-toto statement bound to the source commit, and passed independent verification plus authenticated remote installs."
     },
     "signed_sandbox": {
       "state": "pass",
@@ -222,7 +222,7 @@
     },
     {
       "path": "release/3.8.1/install-matrix.json",
-      "digest": "sha256:a5825b9838f5889b12f961fa5fb9e8aaab2e82a1fbded738b6ce1e69690bae40"
+      "digest": "sha256:da2ba0ae6003c462d4e5b665f7196bee9d9df923d8390d6f68add4417e1abc4e"
     },
     {
       "path": "release/3.8.1/sbom.spdx.json",
@@ -230,7 +230,7 @@
     },
     {
       "path": "release/3.8.1/hosted-ci.json",
-      "digest": "sha256:f76e38a782f6693ad6c338795a9abf21420ce30409da9a3c6060b8141904f71b"
+      "digest": "sha256:e0fde5f7d28921a357edf9cb6fdf39c3033adc359ed00fb41ae5b6706c657559"
     },
     {
       "path": "release/3.8.1/rc1-publication-attempt.json",
@@ -239,6 +239,10 @@
     {
       "path": "release/3.8.1/rc2-publication-attempt.json",
       "digest": "sha256:cada4a86b87037f3162f5af027ce614de5919b85d102b07d60079cc9596a53e0"
+    },
+    {
+      "path": "release/3.8.1/private-release-evidence.json",
+      "digest": "sha256:b0fd0eb85d968ab64e238cd3b23b2f592c36413cb99333b9a6252801b7f598cd"
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "contract": "TaskSpecQualityScorecard/v1",
   "release_version": "3.8.1",
-  "rubric_digest": "sha256:a25e7971318c07fcd993ff765a92e93478f5023f5e07b7a9387342498e35cf8c",
-  "generated_at": "2026-08-15T18:15:00Z",
+  "rubric_digest": "sha256:12127173866b4f7c21b063fcfeb36957dad3f7dd3f7ebeb6d171ce1d7e78fe2b",
+  "generated_at": "2026-08-16T19:03:52Z",
   "dimensions": [
     {
       "id": "contract_trust",
@@ -170,23 +170,23 @@
     },
     {
       "id": "harness_packaging",
-      "awarded_points": 6,
+      "awarded_points": 10,
       "max_points": 10,
       "criteria": [
         {
           "id": "installation_matrix",
           "points": 4,
-          "awarded": 0,
-          "state": "fail",
+          "awarded": 4,
+          "state": "pass",
           "evidence": [
             {
               "path": "release/3.8.1/install-matrix.json",
-              "digest": "sha256:a5825b9838f5889b12f961fa5fb9e8aaab2e82a1fbded738b6ce1e69690bae40",
+              "digest": "sha256:da2ba0ae6003c462d4e5b665f7196bee9d9df923d8390d6f68add4417e1abc4e",
               "class": "local",
-              "state": "fail"
+              "state": "pass"
             }
           ],
-          "reason": "All local installation doors pass, but RC 2 public curl returned HTTP 404 on Ubuntu and macOS because the repository is private; npm steps therefore did not run."
+          "reason": "RC 3 passed authenticated checksum-backed archive and npm/GitHub installation on hosted Ubuntu and macOS, with INSTALL=OK and DEMO=READY retained for both platforms."
         },
         {
           "id": "real_engine_matrix",
@@ -252,7 +252,7 @@
     },
     {
       "id": "public_external_proof",
-      "awarded_points": 6,
+      "awarded_points": 9,
       "max_points": 10,
       "criteria": [
         {
@@ -263,27 +263,27 @@
           "evidence": [
             {
               "path": "release/3.8.1/hosted-ci.json",
-              "digest": "sha256:f76e38a782f6693ad6c338795a9abf21420ce30409da9a3c6060b8141904f71b",
+              "digest": "sha256:e0fde5f7d28921a357edf9cb6fdf39c3033adc359ed00fb41ae5b6706c657559",
               "class": "hosted",
               "state": "pass"
             }
           ],
-          "reason": "GitHub Actions run 31906913000 executed the full gate successfully on hosted Ubuntu and macOS runners with nonzero steps."
+          "reason": "GitHub Actions run 31966151781 executed the full gate successfully on hosted Ubuntu and macOS runners at the RC 3 source commit with nonzero steps."
         },
         {
           "id": "published_provenance",
           "points": 3,
-          "awarded": 0,
-          "state": "fail",
+          "awarded": 3,
+          "state": "pass",
           "evidence": [
             {
-              "path": "release/3.8.1/rc2-publication-attempt.json",
-              "digest": "sha256:cada4a86b87037f3162f5af027ce614de5919b85d102b07d60079cc9596a53e0",
+              "path": "release/3.8.1/private-release-evidence.json",
+              "digest": "sha256:b0fd0eb85d968ab64e238cd3b23b2f592c36413cb99333b9a6252801b7f598cd",
               "class": "published",
-              "state": "fail"
+              "state": "pass"
             }
           ],
-          "reason": "RC 2 published checksummed assets and an SPDX SBOM, but GitHub attestations and unauthenticated public installs remain blocked by private repository visibility."
+          "reason": "RC 3 published private checksum-backed assets and an SPDX SBOM, emitted an Ed25519-signed DSSE/in-toto statement bound to the source commit, and passed independent verification plus authenticated remote installs."
         },
         {
           "id": "signed_sandbox",
@@ -312,9 +312,9 @@
     }
   ],
   "total": {
-    "awarded": 90,
+    "awarded": 97,
     "maximum": 100,
     "target": 97,
-    "passed": false
+    "passed": true
   }
 }
