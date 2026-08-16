@@ -17,6 +17,7 @@ END = "<!-- release-status:end -->"
 def label(value: str) -> str:
     return {
         "pass": "Pass",
+        "pass_ubuntu_macos": "Pass on Ubuntu and macOS",
         "pending_release_tag": "Pending release tag",
         "published_main": "Published on main",
         "unpublished_worktree": "Unpublished worktree",
@@ -25,6 +26,7 @@ def label(value: str) -> str:
         "not_run": "Not run",
         "not_updated": "Not updated",
         "pending_v3.8.0_release_tag": "Pending v3.8.0 release tag",
+        "unavailable_while_repository_private": "Unavailable while repository is private",
     }.get(value, value.replace("_", " ").capitalize())
 
 
@@ -35,14 +37,15 @@ def render(evidence: dict) -> str:
         ("Trust hardening", "Downgrade, receipt replay/staleness, committed scope, symlink escape, base divergence, closure drift, and crash recovery", f"Evidence {gates['v38_adversarial_suite']}"),
         ("v4 evidence", "Policy validation, hidden holdout, v2 receipt subjects/signatures, mutation audit, identity/revocation, A2A/MCP round trip", f"Evidence suite {gates['v37_evidence_suite']}"),
         ("Experience", "Global/copy/symlink installs, isolated demo, and init → sign → plan → generate → gate → handoff → execute → accept", f"{label(gates['clean_room'])}; experience suite {gates['experience_suite']}"),
+        ("Hosted CI", "Full repository gate on Ubuntu and macOS", f"{label(gates['hosted_ci'])} — [run]({gates['hosted_ci_run']})"),
         ("Package", "`npm pack --dry-run` and local global npm install", f"{label(gates['npm_pack_dry_run'])}; GitHub install {label(gates['npm_github_install']).lower()}"),
         ("Research", "Offline fake Firecrawl/Tavily/Exa adapters and named failure states", f"{label(gates['research_fake_adapters'])}; live providers not advertised"),
         ("Converge consumption", "Deterministic generated mirror plus per-file SHA-256 lock", f"{label(gates['converge_mirror'])}"),
         ("External engines", "Nine-family matrix contract and honest unavailable state", f"{label(gates['real_engine_matrix'])}; no real-engine result claimed"),
         (
             "Publication",
-            "Canonical source commit, main branch, v3.8.0 tag, and remote curl/npm doors",
-            f"{label(evidence['release_status'])}; tag-dependent installs {label(gates['curl_pinned_install']).lower()}",
+            "Canonical source commit, main branch, v3.8.0 tag, checksum assets, and authenticated release doors",
+            f"{label(evidence['release_status'])}; hosted install {label(gates['release_install_workflow']).lower()}",
         ),
     ]
     lines = [START, "| Surface | Repository evidence | Status |", "|---|---|---|"]

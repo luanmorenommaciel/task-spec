@@ -70,8 +70,8 @@ runs its eval, accepts the result, and removes the repository. It does not touch
 the repository from which you invoke it.
 
 That command is exercised by `make check`; tagged releases also have a separate
-remote-install workflow that runs the curl and npm/GitHub distribution doors on
-both Ubuntu and macOS before those doors are called verified.
+remote-install workflow that verifies the checksum-backed release assets and
+authenticated npm/GitHub installation on both Ubuntu and macOS.
 
 ## What shipped in 3.8
 
@@ -134,10 +134,9 @@ models, adapters, credentials, and retained results.
 
 ## Installation
 
-### Source checkout — available now
+### Authenticated source checkout
 
-This is the honest installation door while the `v3.8.0` release tag remains
-unpublished:
+The repository is currently private, so authenticate GitHub before cloning:
 
 ```bash
 git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \
@@ -162,18 +161,29 @@ The installer ends with `INSTALL=OK` only after the installed engine reports the
 expected version, all harness skill copies match the canonical skill, and the
 CLI launcher resolves to that same engine.
 
-### Pinned release doors — activate when `v3.8.0` is published
+### Pinned release archive
 
 ```bash
-curl -fsSL \
-  https://raw.githubusercontent.com/luanmorenommaciel/task-spec/v3.8.0/install.sh \
-  | bash -s -- --global
+gh auth status
+release_dir="$(mktemp -d)"
+gh release download v3.8.0 \
+  --repo luanmorenommaciel/task-spec \
+  --pattern 'task-spec-3.8.0.tar.gz*' \
+  --dir "$release_dir"
+(cd "$release_dir" && shasum -a 256 -c task-spec-3.8.0.tar.gz.sha256)
+tar -xzf "$release_dir/task-spec-3.8.0.tar.gz" -C "$release_dir"
+bash "$release_dir/task-spec-3.8.0/install.sh" --global --copy
 ```
 
 ```bash
-npm install -g github:luanmorenommaciel/task-spec#v3.8.0
+gh auth setup-git
+npm install -g git+https://github.com/luanmorenommaciel/task-spec.git#v3.8.0
 taskspec-install --global
 ```
+
+Anonymous raw-file and release-asset URLs are not installation doors while the
+repository is private. The hosted release smoke uses the same authenticated
+Contents, release-asset, and Git transports shown above.
 
 ### Claude marketplace
 
@@ -436,7 +446,7 @@ done-condition, decompose it instead of hiding more autonomy inside the prompt.
 | Ed25519 receipt | Optional signer attribution and revocation; not authorization policy by itself |
 | `accepted: true` | The configured POST-gate passed; not proof of deployment or production health |
 | Conformance L0–L2 | An adapter honors format and lifecycle behavior in the suite; not fleet reliability |
-| Release smoke CI | Published curl and npm/GitHub doors install and pass the isolated demo; it does not test provider credentials |
+| Release smoke CI | Published checksum assets and authenticated npm/GitHub doors install and pass the isolated demo; it does not test provider credentials |
 
 Legacy HMAC v1/v2 seals remain readable on their original terms but are narrowed
 to supervised Tier 2 until individually re-stamped with v3. Read
@@ -471,11 +481,12 @@ machine-readable command and token contract.
 | Trust hardening | Downgrade, receipt replay/staleness, committed scope, symlink escape, base divergence, closure drift, and crash recovery | Evidence 45/45_local |
 | v4 evidence | Policy validation, hidden holdout, v2 receipt subjects/signatures, mutation audit, identity/revocation, A2A/MCP round trip | Evidence suite 42/42_local |
 | Experience | Global/copy/symlink installs, isolated demo, and init → sign → plan → generate → gate → handoff → execute → accept | Pass; experience suite 79/79_local |
-| Package | `npm pack --dry-run` and local global npm install | Pass; GitHub install pending release tag |
+| Hosted CI | Full repository gate on Ubuntu and macOS | Pass on Ubuntu and macOS — [run](https://github.com/luanmorenommaciel/task-spec/actions/runs/31956071455) |
+| Package | `npm pack --dry-run` and local global npm install | Pass; GitHub install pass |
 | Research | Offline fake Firecrawl/Tavily/Exa adapters and named failure states | Pass; live providers not advertised |
 | Converge consumption | Deterministic generated mirror plus per-file SHA-256 lock | Not updated |
 | External engines | Nine-family matrix contract and honest unavailable state | Not run; no real-engine result claimed |
-| Publication | Canonical source commit, main branch, v3.8.0 tag, and remote curl/npm doors | Published on main; tag-dependent installs pending v3.8.0 release tag |
+| Publication | Canonical source commit, main branch, v3.8.0 tag, checksum assets, and authenticated release doors | Published on main; hosted install pass on ubuntu and macos |
 <!-- release-status:end -->
 
 The canonical status source is [release/evidence.json](release/evidence.json).
@@ -483,11 +494,12 @@ The canonical status source is [release/evidence.json](release/evidence.json).
 `CHECK=READY` only when doctor, documentation lint, every self-test, the
 isolated demo, and conformance are green.
 
-Hosted status is reported separately from local evidence. Run
-[`31733425728`](https://github.com/luanmorenommaciel/task-spec/actions/runs/31733425728)
-was attempted twice, but GitHub started zero steps on both Ubuntu and macOS
-because account billing or the Actions spending limit requires attention. That
-is infrastructure evidence—not a repository-gate failure or pass.
+Hosted status is reported separately from local evidence. The full repository
+gate passed on Ubuntu and macOS in run
+[`31956071455`](https://github.com/luanmorenommaciel/task-spec/actions/runs/31956071455).
+The immutable `v3.8.0` assets, authenticated installer lifecycle, and npm/GitHub
+installation passed on both systems in run
+[`31956630587`](https://github.com/luanmorenommaciel/task-spec/actions/runs/31956630587).
 
 ## Documentation
 
