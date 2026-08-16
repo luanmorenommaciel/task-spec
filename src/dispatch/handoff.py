@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "src" / "lib"))
 sys.path.insert(0, str(ROOT / "src" / "security"))
 sys.path.insert(0, str(ROOT / "src" / "graph"))
 from taskspec_data import DataError, frontmatter, parse_yaml_subset, sensitive_key_paths, sha256_file  # noqa: E402
+from workspace import WorkspaceError, resolve_backlog, resolve_workspace  # noqa: E402
 from task_revision import revision  # noqa: E402
 from task_graph import active_write_conflicts, build as build_graph, dependency_closure  # noqa: E402
 
@@ -38,43 +39,17 @@ def fenced_yaml(text: str) -> dict:
 
 
 def workspace_for(spec: pathlib.Path) -> pathlib.Path:
-    configured_workspace = os.environ.get("TASKSPEC_WORKSPACE_ROOT")
-    if configured_workspace:
-        workspace = pathlib.Path(configured_workspace).resolve()
-        try:
-            spec.relative_to(workspace)
-        except ValueError as exc:
-            raise DataError(
-                "Task-Spec is outside TASKSPEC_WORKSPACE_ROOT"
-            ) from exc
-        return workspace
-    configured = os.environ.get("TASKSPEC_BACKLOG_DIR")
-    if configured:
-        backlog = pathlib.Path(configured).resolve()
-        try:
-            spec.relative_to(backlog)
-            return backlog.parent
-        except ValueError:
-            pass
-    for parent in spec.parents:
-        if parent.name == "tasks":
-            return parent.parent
-    return spec.parent
+    try:
+        return resolve_workspace(spec)
+    except WorkspaceError as exc:
+        raise DataError(str(exc)) from exc
 
 
 def backlog_for(spec: pathlib.Path) -> pathlib.Path:
-    configured = os.environ.get("TASKSPEC_BACKLOG_DIR")
-    if configured:
-        candidate = pathlib.Path(configured).resolve()
-        try:
-            spec.relative_to(candidate)
-            return candidate
-        except ValueError:
-            pass
-    for parent in spec.parents:
-        if parent.name == "tasks":
-            return parent
-    raise DataError("spec is not inside a tasks backlog")
+    try:
+        return resolve_backlog(spec, workspace_for(spec))
+    except WorkspaceError as exc:
+        raise DataError(str(exc)) from exc
 
 
 def now() -> str:

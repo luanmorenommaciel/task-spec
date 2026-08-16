@@ -1,0 +1,101 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260815-benchmark-s",
+  "format_version": 3,
+  "spec": "/private/tmp/taskspec-3.8.1-engine-matrix/s/worktree/tasks/T-20260815-benchmark-s.md",
+  "spec_digest": "sha256:baca4c8c92975ea9df95af0fbbd6f2e8e30253fc9397ea0b9fc1f9ef58270b18",
+  "task_revision_digest": "sha256:cdeef5683714f5b7bdc5d1443f50532a50d44e4063ccad939483fabb97defa11",
+  "signoff_tier": 1,
+  "backend": "any",
+  "workspace": "/private/tmp/taskspec-3.8.1-engine-matrix/s/worktree",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:7c51ffaea58f5786bd21d0f069273e9043fe700af37bfd777004e3612d6a4e61",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-08-15T19:06:43Z"
+  },
+  "attempt": {
+    "id": "38100000-0000-4000-8000-000000000002",
+    "issued_at": "2026-08-15T19:07:29Z"
+  },
+  "source": {
+    "workspace": "/private/tmp/taskspec-3.8.1-engine-matrix/s/worktree",
+    "base_commit": "d6a13a1ac2f963daff73775b5fc13414a0834e0a"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260815-benchmark-s",
+    "digest": "sha256:e5eae414434bf4c7350856128fefa1b367f4c794055bd6a3d0d83262b6ac5e43",
+    "members": [
+      {
+        "task_id": "T-20260815-benchmark-s",
+        "task_revision_digest": "sha256:cdeef5683714f5b7bdc5d1443f50532a50d44e4063ccad939483fabb97defa11"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "work/s/search_cli.py"
+    ],
+    "creates_paths": [],
+    "do_not_touch": [
+      "work/s/test_search_cli.py",
+      "tasks/T-20260815-benchmark-s.md"
+    ]
+  },
+  "budgets": {
+    "iterations": 5,
+    "tokens": null,
+    "effort": "S"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code"
+    ],
+    "required_tools": [
+      "bash",
+      "python3"
+    ],
+    "timeout_minutes": 8,
+    "sandbox_type": "host",
+    "output_artifacts": [
+      "work/s/search_cli.py"
+    ],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/private/tmp/taskspec-3.8.1-engine-matrix/s/worktree/tasks/T-20260815-benchmark-s.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/private/tmp/taskspec-3.8.1-engine-matrix/s/worktree/tasks/T-20260815-benchmark-s.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}

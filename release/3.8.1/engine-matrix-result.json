@@ -1,0 +1,103 @@
+{
+  "contract": "EngineMatrixResult/v2",
+  "matrix_digest": "sha256:81d5a4bf81ca87ca9a31574a46f0ec50aa30339cf2a6cef790aa5397084312f8",
+  "generated_at": "2026-08-15T19:19:15Z",
+  "results": [
+    {
+      "family": "openai",
+      "adapter_version": "codex-cli 0.147.0",
+      "observed_model": "gpt-5.6-sol",
+      "state": "pass",
+      "attempts": [
+        {
+          "task_id": "T-20260815-benchmark-xs",
+          "attempt_id": "38100000-0000-4000-8000-000000000001",
+          "status": "accepted",
+          "handoff_digest": "sha256:b00d32ba90fee6e509312ce5a2103bead6948bc401aaf721ad2cf6ae0ddb5192",
+          "command_digest": "sha256:d4c4cc71b822f8f3a4d72989f79737df73aeb5a094eb233a4a47b87f4ff6c23b",
+          "patch_digest": "sha256:2593e60d4d7ff6f8d125e9c0d0f324aa7815a1cc7eb9537f3aef094191270f51",
+          "transcript_digest": "sha256:628160e741255467fc604c79e2c9b435d9d6d7ee0feda49e5a8ea8345ae36d65",
+          "duration_sec": 41,
+          "scope_violation": false,
+          "failure_code": null
+        },
+        {
+          "task_id": "T-20260815-benchmark-s",
+          "attempt_id": "38100000-0000-4000-8000-000000000002",
+          "status": "accepted",
+          "handoff_digest": "sha256:ee777eb89869d380442c5196f486acc1732ecc6d82b1f9cbb3da0ee931be5dc1",
+          "command_digest": "sha256:43a192fdaf41ebccbc4031173692e0ce93bf1acbe9952c91bbb817ded189ae5c",
+          "patch_digest": "sha256:fdb64fc6581ea58635c8be4e81d82230c9bbe16cc324dba2a2ff7d0f3c99ea22",
+          "transcript_digest": "sha256:007a55738184099d08dbead0a01c6bda791a10a5cba49471360f20eed0b82f3a",
+          "duration_sec": 34,
+          "scope_violation": false,
+          "failure_code": null
+        },
+        {
+          "task_id": "T-20260815-benchmark-m",
+          "attempt_id": "38100000-0000-4000-8000-000000000003",
+          "status": "accepted",
+          "handoff_digest": "sha256:4bfae4de33ace4cf7a1ee7e6a3ca9242ce7e544eb30e1aa80df9a19f227f2c57",
+          "command_digest": "sha256:ca1afc852391fad684820778421089b22b6369199f9647a4e8b53751ee06016d",
+          "patch_digest": "sha256:bfd7363fd100a467b3838e567ca9d998987bc39df3aa8ea26f4d8e51174d012f",
+          "transcript_digest": "sha256:778476749fbf1661afeda40e71babf96467fbd9a5eae0efe740ba4b3dd99fcdb",
+          "duration_sec": 42,
+          "scope_violation": false,
+          "failure_code": null
+        }
+      ],
+      "accepted_count": 3
+    },
+    {
+      "family": "anthropic",
+      "adapter_version": "2.1.233 (Claude Code)",
+      "observed_model": "claude-opus-5",
+      "state": "pass",
+      "attempts": [
+        {
+          "task_id": "T-20260815-benchmark-xs",
+          "attempt_id": "38100000-0000-4000-8000-000000000001",
+          "status": "accepted",
+          "handoff_digest": "sha256:b00d32ba90fee6e509312ce5a2103bead6948bc401aaf721ad2cf6ae0ddb5192",
+          "command_digest": "sha256:0bf9ab22e0b77b2b4e21da0cd5edb3bd7062e39272275d7da3c7be70a4fb0878",
+          "patch_digest": "sha256:2593e60d4d7ff6f8d125e9c0d0f324aa7815a1cc7eb9537f3aef094191270f51",
+          "transcript_digest": "sha256:2f6c3ffd42d5fddb5046cd27777a63e3e11448ef7fdf7bdbc07dac03e0a5f399",
+          "duration_sec": 14,
+          "scope_violation": false,
+          "failure_code": null
+        },
+        {
+          "task_id": "T-20260815-benchmark-s",
+          "attempt_id": "38100000-0000-4000-8000-000000000002",
+          "status": "accepted",
+          "handoff_digest": "sha256:ee777eb89869d380442c5196f486acc1732ecc6d82b1f9cbb3da0ee931be5dc1",
+          "command_digest": "sha256:b43d31a716ef52c625e734d62322d5f9c8a1482f518ea5c78752c6d18a6588e7",
+          "patch_digest": "sha256:a5667cf31e17613d99f9af0d2b6156fd18396502e38c4f5d69744fc25f291c1c",
+          "transcript_digest": "sha256:fd5b374ff55d1f19a5e95b81c9b9748bad35056166f5b323caf067382fcf0791",
+          "duration_sec": 24,
+          "scope_violation": false,
+          "failure_code": null
+        },
+        {
+          "task_id": "T-20260815-benchmark-m",
+          "attempt_id": "38100000-0000-4000-8000-000000000003",
+          "status": "accepted",
+          "handoff_digest": "sha256:4bfae4de33ace4cf7a1ee7e6a3ca9242ce7e544eb30e1aa80df9a19f227f2c57",
+          "command_digest": "sha256:ed414b0acbe3f65d41d04357762ce23e54df6b29839e1715bf904c1d827dea5b",
+          "patch_digest": "sha256:f42945e33418f7b6644ae101ba9d041e3917125d282b5c917dde8a888a7a1908",
+          "transcript_digest": "sha256:8f2aac4d192a220263f7509d65d163454d9bc010837a6560bf87d7db118f3204",
+          "duration_sec": 38,
+          "scope_violation": false,
+          "failure_code": null
+        }
+      ],
+      "accepted_count": 3
+    }
+  ],
+  "summary": {
+    "required_families": 2,
+    "families_passing": 2,
+    "scope_violations": 0,
+    "passed": true
+  }
+}

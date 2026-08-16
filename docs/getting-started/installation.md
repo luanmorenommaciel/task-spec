@@ -3,8 +3,9 @@
 The canonical installer writes equivalent skill content to all supported local
 harness destinations. It never stores model/provider credentials.
 
-The repository is currently private, so authenticate GitHub before installing
-from a checkout:
+The repository is private. Authenticate GitHub before cloning; until `v3.8.1`
+clears its evidence gate and the final tag is published, install from a
+checkout:
 
 ```bash
 git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \
@@ -75,7 +76,7 @@ For npm/GitHub:
 
 ```bash
 gh auth setup-git
-npm install -g git+https://github.com/luanmorenomaciel/task-spec.git#v3.8.0
+npm install -g git+https://github.com/luanmorenommaciel/task-spec.git#v3.8.0
 taskspec-install --global
 ```
 

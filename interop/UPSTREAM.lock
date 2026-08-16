@@ -1,0 +1,44 @@
+{
+  "lock_version": 1,
+  "generated_at": "2026-08-15T18:40:00Z",
+  "protocols": {
+    "a2a": {
+      "specification": {
+        "version": "1.0",
+        "repository": "https://github.com/a2aproject/A2A",
+        "tag": "v1.0.0",
+        "commit": "173695755607e884aa9acf8ce4feed90e32727a1",
+        "artifact": "specification/a2a.proto",
+        "digest": "sha256:4b74c0baa923ae0acb55474e548f1d6e5d3f83b80d757b65f8bf3e99a3c2257f"
+      },
+      "sdk": {
+        "name": "a2a-sdk",
+        "version": "1.1.2",
+        "repository": "https://github.com/a2aproject/a2a-python",
+        "tag": "v1.1.2",
+        "commit": "3e6fa6a41d64f0581202df214a0515a0b0194832",
+        "distribution": "a2a_sdk-1.1.2-py3-none-any.whl",
+        "digest": "sha256:eb9a698f526dc45a9ea967d7804e7aa363ff273d2c44fbed699bc68c9399f9c9"
+      }
+    },
+    "mcp": {
+      "specification": {
+        "version": "2026-07-28",
+        "repository": "https://github.com/modelcontextprotocol/modelcontextprotocol",
+        "tag": "2026-07-28",
+        "commit": "5f5440bb26a62e2cf3440b92da5a667efa03b267",
+        "artifact": "schema/2026-07-28/schema.json",
+        "digest": "sha256:ef70b61f99b6d2e5e3b46863822eab08dff6a45bedc7a08914e0e5b133f40203"
+      },
+      "sdk": {
+        "name": "mcp",
+        "version": "2.0.0",
+        "repository": "https://github.com/modelcontextprotocol/python-sdk",
+        "tag": "v2.0.0",
+        "commit": "6f69a3758ebf2ee55ce050f58b470ce11af71133",
+        "distribution": "mcp-2.0.0-py3-none-any.whl",
+        "digest": "sha256:1cb4c75d2d2c7b8c1d756355e5d82a39f2822cc7f13e22a2051d7ca3592349d6"
+      }
+    }
+  }
+}

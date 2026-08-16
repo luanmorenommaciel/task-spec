@@ -1,0 +1,46 @@
+{
+  "contract": "ReleasePublicationAttempt/v1",
+  "version": "3.8.1",
+  "release_ref": "v3.8.1-rc.2",
+  "observed_at": "2026-08-15T20:40:23Z",
+  "repository_visibility": "private",
+  "release_url": "https://github.com/luanmorenommaciel/task-spec/releases/tag/v3.8.1-rc.2",
+  "run_id": 31907289248,
+  "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31907289248",
+  "result": "blocked",
+  "asset_publication": {
+    "state": "pass",
+    "job_id": 95066990238,
+    "asset_count": 8,
+    "source_archive": {
+      "name": "task-spec-3.8.1.tar.gz",
+      "digest": "sha256:9fd10f4b6a2eb492b3da61a8ca34692910db1f584ef17b7e610c99a8d609a291"
+    },
+    "evidence_archive": {
+      "name": "task-spec-3.8.1-evidence.tar.gz",
+      "digest": "sha256:0cbe33ddf9020ef92ccca2f960c85f2d8200be0a2058709198747f4105256095"
+    },
+    "sbom": {
+      "name": "task-spec-3.8.1.spdx.json",
+      "digest": "sha256:e2788149d58934d2b967bfa6b2b399dc02f2c9024381db2c34c67c31ad15645c"
+    },
+    "checksums": {
+      "name": "task-spec-3.8.1-checksums.txt",
+      "digest": "sha256:aae151639e50204c49ca770746eec1f39217cd984c79afe08fe5dfc12cae8b19"
+    }
+  },
+  "provenance": {
+    "state": "blocked",
+    "job_id": 95067006529,
+    "code": "GITHUB_ATTESTATIONS_PRIVATE_REPOSITORY_UNAVAILABLE",
+    "message": "GitHub artifact attestations are unavailable for a user-owned private repository."
+  },
+  "remote_installation": {
+    "state": "blocked",
+    "ubuntu_job_id": 95067006511,
+    "macos_job_id": 95067006506,
+    "code": "PRIVATE_RELEASE_UNAUTHENTICATED_DOWNLOAD_404",
+    "message": "The public raw and release URLs correctly returned HTTP 404 for the private repository."
+  },
+  "required_resolution": "Make the repository public, or explicitly revise both the public-install and provenance contracts before creating another RC."
+}

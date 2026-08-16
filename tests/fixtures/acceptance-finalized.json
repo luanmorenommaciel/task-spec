@@ -1,0 +1,9 @@
+{
+  "contract": "AcceptanceFinalized/v1",
+  "accepted": true,
+  "task_id": "T-20260815-candidate-ranking",
+  "attempt_id": "65da78ac-acde-4d92-9288-940a93f71c78",
+  "tier": 1,
+  "acceptance_record": "tasks/.taskspec/acceptance/T-20260815-candidate-ranking.json",
+  "acceptance_record_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/task-spec-release-evidence.schema.json",
+  "title": "TaskSpecReleaseEvidence/v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "version", "format_version", "compatible_format_versions", "generated_at", "source", "release_status", "quality_scorecard", "gates", "artifacts"],
+  "properties": {
+    "contract": {"const": "TaskSpecReleaseEvidence/v2"},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"},
+    "format_version": {"enum": [3, 4]},
+    "compatible_format_versions": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"enum": [1, 2, 3, 4]}},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "branch"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+        "branch": {"type": "string", "minLength": 1}
+      }
+    },
+    "release_status": {"enum": ["working", "rc", "published", "blocked"]},
+    "quality_scorecard": {"$ref": "#/$defs/artifact"},
+    "gates": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/gate"}
+    },
+    "artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "digest"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"},
+        "digest": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "evidence"],
+      "properties": {
+        "state": {"enum": ["pass", "fail", "pending", "not_run", "unavailable", "blocked"]},
+        "evidence": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/artifact"}]},
+        "reason": {"type": "string"}
+      }
+    }
+  }
+}

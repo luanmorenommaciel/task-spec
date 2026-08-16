@@ -1,0 +1,315 @@
+api_version: taskspec.dev/v1
+kind: TaskPlan
+approved: true
+metadata:
+  name: task-spec-3.8.1-evidence-backed-release
+  source: user-approved Task-Spec 3.8.1 and 3.9.0 release train
+units:
+  - id: T-20260815-nested-workspace-hardening
+    title: Complete nested-workspace lifecycle hardening
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: []
+    touches_paths: [src/lib/_lib.sh, src/accept/accept-task.sh, src/accept/preflight.py, src/accept/finalize.py, src/accept/record.py, src/dispatch/handoff.py, tests/test-v38-hardening.sh, tests/test-v36-experience.sh]
+    creates_paths: [src/lib/workspace.py, tests/test-v381-workspace.sh]
+    source_note: user-approved release train
+    why: Standalone and Converge-style nested workspaces must resolve one safe Git, evaluation, scope, and acceptance boundary.
+    goal: Make workspace-root and acceptance-directory behavior explicit, traversal-safe, symlink-safe, and consistent across the lifecycle.
+    behaviors:
+      - id: B-1
+        given: a standalone tasks workspace or nested cvg/tasks workspace
+        when: handoff, evaluation, blast-radius, and acceptance paths are resolved
+        then: every lifecycle component uses the same validated repository workspace
+      - id: B-2
+        given: an escaped spec, mismatched root, traversal, symlink escape, or conflicting override
+        when: the lifecycle is invoked
+        then: the operation fails closed with no partial acceptance mutation
+    evals:
+      - id: eval_1
+        description: nested-workspace positive and adversarial cases pass
+        command: bash tests/test-v381-workspace.sh
+        verifies: [B-1, B-2]
+        terminal: true
+        expected_duration_sec: 60
+    anti_patterns:
+      - Do not hard-code cvg paths or conflate Converge receipts with Task-Spec acceptance records.
+    do_not_touch: [fixtures/diamond-6]
+
+  - id: T-20260815-release-evidence-contracts
+    title: Add versioned 3.8.1 release-evidence contracts
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260815-nested-workspace-hardening]
+    touches_paths: [spec/schemas/README.md, tests/schema_contracts.py, docs/reference/contracts.md]
+    creates_paths: [spec/schemas/quality-rubric.schema.json, spec/schemas/task-spec-quality-scorecard.schema.json, spec/schemas/task-spec-release-evidence.schema.json, spec/schemas/engine-matrix.schema.json, spec/schemas/engine-matrix-result.schema.json, spec/schemas/protocol-conformance-evidence.schema.json, spec/schemas/environment-attestation.schema.json, tests/test-release-evidence-contracts.sh]
+    source_note: user-approved release train
+    why: Quality and release claims need typed, independently validatable evidence rather than prose.
+    goal: Define and validate the complete evidence contract set required by the 3.8.1 release audit.
+    behaviors:
+      - id: B-1
+        given: a release rubric, scorecard, engine result, protocol result, or environment attestation
+        when: schema validation runs
+        then: valid typed evidence passes and malformed or incomplete evidence fails
+    evals:
+      - id: eval_1
+        description: all evidence schemas and fixtures satisfy the schema contract suite
+        command: bash tests/test-release-evidence-contracts.sh
+        verifies: [B-1]
+        terminal: true
+        expected_duration_sec: 30
+    anti_patterns:
+      - Do not encode a claimed score without artifact references and digests.
+    do_not_touch: [spec/task-spec-v3.md, spec/task-spec-v4.md]
+
+  - id: T-20260815-quality-release-audit
+    title: Generate the evidence-backed quality score and release audit
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260815-release-evidence-contracts]
+    touches_paths: [Makefile, release/evidence.json, README.md, tools/render-status.py]
+    creates_paths: [release/quality-rubric.json, release/3.8.1/scorecard.json, src/evidence/release_audit.py, tests/test-release-audit.sh]
+    source_note: user-approved release train
+    why: The 97-point claim must be calculated from retained evidence and fail closed on missing proof.
+    goal: Implement QualityRubric/v1, scorecard generation, generated README status, and make release-audit.
+    behaviors:
+      - id: B-1
+        given: retained evidence with matching digests
+        when: the release audit runs
+        then: the score is derived from fixed criteria without trusting a manually entered total
+      - id: B-2
+        given: missing, pending, unavailable, tampered, or mismatched evidence
+        when: the audit runs
+        then: the affected points are denied and the blocking gate fails
+    evals:
+      - id: eval_1
+        description: score derivation and evidence falsifiers pass
+        command: bash tests/test-release-audit.sh
+        verifies: [B-1, B-2]
+        terminal: true
+        expected_duration_sec: 45
+    anti_patterns:
+      - Do not turn a local pass, contract declaration, or synthetic fixture into external proof.
+    do_not_touch: [release/3.8.1/external]
+
+  - id: T-20260815-official-protocol-conformance
+    title: Correct and externally verify A2A and MCP interop
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260815-release-evidence-contracts]
+    touches_paths: [src/interop/bridge.py, src/interop/mcp_server.py, spec/schemas/a2a-artifact.schema.json, spec/schemas/mcp-task.schema.json, tests/test-v37-evidence-integrity.sh, release/evidence.json, release/3.8.1/scorecard.json, README.md]
+    creates_paths: [interop/UPSTREAM.lock, tests/test-protocol-conformance.sh, release/3.8.1/protocol-conformance.json]
+    source_note: user-approved release train
+    why: Internal round trips alone cannot support official compatibility claims.
+    goal: Emit A2A v3 and MCP v2 objects, preserve legacy readers, and validate them against pinned official implementations.
+    behaviors:
+      - id: B-1
+        given: a TaskHandoff v1, v2, or v3
+        when: it is exported and round-tripped through A2A or MCP
+        then: task revision, authorization, attempt, scope, budgets, and evidence identity are preserved
+      - id: B-2
+        given: an unavailable optional SDK
+        when: the local core suite runs
+        then: core compatibility remains testable while release-audit records protocol proof as unavailable
+    evals:
+      - id: eval_1
+        description: pinned protocol compatibility and legacy parsing tests pass
+        command: bash tests/test-protocol-conformance.sh
+        verifies: [B-1, B-2]
+        terminal: true
+        expected_duration_sec: 90
+    anti_patterns:
+      - Do not claim certification or make experimental MCP Tasks a release dependency.
+    do_not_touch: [src/interop/dsse.py]
+
+  - id: T-20260815-installed-example-and-docs
+    title: Deliver the installed example and reviewer-grade documentation
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260815-quality-release-audit, T-20260815-official-protocol-conformance]
+    touches_paths: [bin/taskspec, src/dispatch/agent-context.py, README.md, docs/reference/cli.md, docs/reference/compatibility-policy.md, docs/getting-started/index.md, docs/readme-command-coverage.json, tests/readme_contract.py, release/evidence.json, release/3.8.1/scorecard.json]
+    creates_paths: [src/author/examples.py, docs/getting-started/reviewer-route.md, tests/test-v381-experience.sh, release/3.8.1/reviewer-report.json]
+    source_note: user-approved release train
+    why: Reviewers need a source-checkout-independent path whose commands and claims execute exactly as documented.
+    goal: Add taskspec example task-plan and a five-minute evidence-review journey with generated status.
+    behaviors:
+      - id: B-1
+        given: a globally installed Task-Spec release
+        when: taskspec example task-plan is invoked
+        then: the canonical example is written non-clobberingly with JSON and dry-run parity
+      - id: B-2
+        given: the README and reviewer route
+        when: documentation tests execute them in a clean repository
+        then: commands, links, fences, help, envelopes, and claims agree with retained evidence
+    evals:
+      - id: eval_1
+        description: installed example and reviewer journey pass
+        command: bash tests/test-v381-experience.sh && bash tests/test-readme-contract.sh
+        verifies: [B-1, B-2]
+        terminal: true
+        expected_duration_sec: 120
+    anti_patterns:
+      - Do not require a source checkout or hand-maintain the public quality total.
+    do_not_touch: [assets/readme]
+
+  - id: T-20260815-real-engine-benchmark
+    title: Build and retain the Codex and Claude benchmark matrix
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260815-nested-workspace-hardening, T-20260815-release-evidence-contracts]
+    touches_paths: [src/evidence/engine_matrix.py, evidence/3.7/engine-matrix.json, release/evidence.json, release/3.8.1, README.md]
+    creates_paths: [evidence/3.8.1, tests/test-engine-matrix-v2.sh]
+    source_note: user-approved release train
+    why: Portable handoff claims need retained evidence from more than the bundled reference executor.
+    goal: Freeze XS, S, and M tasks and run one guarded attempt through Codex and Claude with honest result retention.
+    behaviors:
+      - id: B-1
+        given: the frozen three-task benchmark
+        when: an enabled engine family runs it
+        then: every attempt retains identity, command, version, patch, scope, timing, usage, transcript digest, and acceptance result
+      - id: B-2
+        given: a disabled, failed, or unavailable engine
+        when: results are summarized
+        then: the state remains visible and cannot be counted as a pass
+    evals:
+      - id: eval_1
+        description: engine matrix v2 fixtures and honest availability rules pass
+        command: bash tests/test-engine-matrix-v2.sh
+        verifies: [B-1, B-2]
+        terminal: true
+        expected_duration_sec: 60
+    anti_patterns:
+      - Do not remove failures, retry selectively, or expose signing keys and private evaluator instructions.
+    do_not_touch: [evidence/3.7]
+
+  - id: T-20260815-signed-sandbox-attestation
+    title: Produce externally signed sandbox attestation evidence
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260815-release-evidence-contracts, T-20260815-official-protocol-conformance]
+    touches_paths: [src/evidence/receipts.py, tests/test-v37-evidence-integrity.sh, tests/schema_contracts.py, spec/schemas/environment-attestation.schema.json, release/evidence.json, release/3.8.1, README.md]
+    creates_paths: [src/evidence/environment_attestation.py, release/docker/Dockerfile, release/docker/run-attestation.sh, tests/test-environment-attestation.sh, release/3.8.1/environment-attestation.json]
+    source_note: user-approved release train
+    why: Environment contracts need external enforcement evidence before portable Tier-1 claims are credible.
+    goal: Attest a locked-down Docker execution, sign the receipt outside the sandbox, and fail closed on mutation.
+    behaviors:
+      - id: B-1
+        given: Docker and a host-side evaluator key
+        when: the reference executor runs in the pinned sandbox
+        then: the attestation records the actual image, runtime, mounts, limits, command, artifacts, and result
+      - id: B-2
+        given: a mutated attestation or receipt
+        when: portable acceptance validates it
+        then: verification fails closed
+    evals:
+      - id: eval_1
+        description: secret-free attestation fixtures pass and live Docker proof is reported honestly
+        command: bash tests/test-environment-attestation.sh
+        verifies: [B-1, B-2]
+        terminal: true
+        expected_duration_sec: 120
+    anti_patterns:
+      - Do not treat an unavailable Docker daemon or self-declared environment as verified enforcement.
+    do_not_touch: [.git/info/taskspec-signing-key]
+
+  - id: T-20260815-package-publish-and-sync
+    title: Package, attest, publish, and synchronize Task-Spec 3.8.1
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260815-installed-example-and-docs, T-20260815-real-engine-benchmark, T-20260815-signed-sandbox-attestation]
+    touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh, README.md, SKILL.md, spec/task-spec-v3.md, spec/task-spec-v4.md, .claude-plugin, integrations/claude-code, .github/workflows, docs/getting-started, tools/build-release-archive.py, release/evidence.json, release/3.8.1, release/docker, tests/test-v36-experience.sh, tests/fixtures/task-materialization-receipt.json]
+    creates_paths: [release/3.8.1/checksums.txt, release/3.8.1/release-report.json, release/3.8.1/local-gates.json, release/3.8.1/install-matrix.json, release/3.8.1/sbom.spdx.json, tools/build-sbom.py, tools/build-release-evidence-archive.py, tools/build-release-report.py, tests/test-release-packaging.sh]
+    source_note: user-approved release train
+    why: The evidence-backed release must be installable, attestable, hosted, and synchronized without weakening truth boundaries.
+    goal: Produce the final 3.8.1 artifacts, pass hosted and remote gates, publish the tag, and update Converge from the immutable export.
+    behaviors:
+      - id: B-1
+        given: all blocking evidence is verified
+        when: the release is packaged
+        then: versions, archives, checksums, SBOM, provenance, installers, release evidence, and documentation agree
+      - id: B-2
+        given: any blocking evidence is pending, unavailable, not run, failed, or billing-blocked
+        when: publication is attempted
+        then: the final tag is refused
+    evals:
+      - id: eval_1
+        description: local packaging and publication-preflight gates pass
+        command: bash tests/test-release-packaging.sh && make release-audit
+        verifies: [B-1, B-2]
+        terminal: true
+        expected_duration_sec: 180
+    anti_patterns:
+      - Do not tag, publish, or synchronize Converge before every blocking gate is satisfied.
+    do_not_touch: [/Users/luanmorenomaciel/GitHub/converge]
+
+  - id: T-20260815-acceptance-finalized-contract
+    title: Publish the structured acceptance-finalization contract
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260815-release-evidence-contracts]
+    touches_paths: [CHANGELOG.md, README.md, docs/reference/cli.md, docs/reference/contracts.md, src/dispatch/agent-context.py, tests/schema_contracts.py, tests/test-v36-experience.sh]
+    creates_paths: [spec/schemas/acceptance-finalized.schema.json, tests/fixtures/acceptance-finalized.json]
+    source_note: discovered during the evidence-backed release audit
+    why: JSON-mode acceptance already emits AcceptanceFinalized/v1, so its public result needs a schema, fixture, context entry, and documentation.
+    goal: Make the successful acceptance result discoverable and schema-validated without changing its runtime semantics.
+    behaviors:
+      - id: B-1
+        given: a successful JSON-mode acceptance
+        when: an external coordinator consumes the result
+        then: the attempt, acceptance-record path, and digest conform to AcceptanceFinalized/v1
+    evals:
+      - id: eval_1
+        description: acceptance finalization contract, docs, and installed context agree
+        command: python3 tests/schema_contracts.py && bash tests/lint-docs.sh && bash tests/test-v36-experience.sh
+        verifies: [B-1]
+        terminal: true
+        expected_duration_sec: 120
+    anti_patterns:
+      - Do not imply that the JSON result grants new authority or replaces AcceptanceRecord/v1.
+    do_not_touch: [src/accept/accept-task.sh, bin/taskspec]
+
+  - id: T-20260815-release-381
+    title: Compose the evidence-backed Task-Spec 3.8.1 release
+    effort: XXL
+    profile: full
+    agent: any
+    execution_backend: none
+    depends_on: []
+    children: [T-20260815-nested-workspace-hardening, T-20260815-release-evidence-contracts, T-20260815-quality-release-audit, T-20260815-acceptance-finalized-contract, T-20260815-official-protocol-conformance, T-20260815-installed-example-and-docs, T-20260815-real-engine-benchmark, T-20260815-signed-sandbox-attestation, T-20260815-package-publish-and-sync]
+    touches_paths: []
+    creates_paths: []
+    source_note: user-approved release train
+    why: Track the complete 3.8.1 program without delegating a composition node.
+    goal: Complete every authorized leaf and publish only after the evidence-derived release gate passes.
+    behaviors:
+      - id: B-1
+        given: every 3.8.1 child task
+        when: the program release gate runs
+        then: all children are accepted and the generated quality score is at least 97
+    evals:
+      - id: eval_1
+        description: the complete release audit proves the 3.8.1 program
+        command: make release-audit
+        verifies: [B-1]
+        terminal: true
+        expected_duration_sec: 300
+    anti_patterns:
+      - Do not delegate this composition node or start TaskMesh before the final 3.8.1 release boundary.
+    do_not_touch: [fixtures/diamond-6]

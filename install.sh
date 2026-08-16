@@ -2,7 +2,7 @@
 # Install a pinned Task-Spec engine, CLI launcher, and equivalent harness skills.
 set -euo pipefail
 
-PINNED_VERSION="3.8.0"
+PINNED_VERSION="3.8.1"
 REPOSITORY="luanmorenommaciel/task-spec"
 TARGET="$PWD"
 MODE="copy"
@@ -128,7 +128,7 @@ else
   else
     [[ ! -e "$ENGINE_DEST" ]] || backup_existing "$ENGINE_DEST"
     mkdir -p "$ENGINE_DEST"
-    for item in VERSION LICENSE README.md CHANGELOG.md SKILL.md agents bin configs src spec templates docs integrations .claude-plugin; do
+    for item in VERSION LICENSE README.md CHANGELOG.md SKILL.md agents assets bin configs src spec templates docs integrations .claude-plugin; do
       [[ -e "$SOURCE_ROOT/$item" ]] && cp -R "$SOURCE_ROOT/$item" "$ENGINE_DEST/$item"
     done
     echo "engine: $ENGINE_DEST"

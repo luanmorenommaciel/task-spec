@@ -1,0 +1,42 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-15T18:45:48Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": [
+        "spec digest changed while TaskRevision/v1 remained stable; mutable lifecycle fields may have changed"
+      ]
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "0fa013aa-5f1c-4d4f-9da1-4c2e5d2a5877",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:508c83ba6b0d5516beb4b93b1773fe3896d6f2fdefb18a2828e35d46208ab5c4",
+    "base_commit": "af5e88832873ffb190bcf196ba335d92f0357527",
+    "task_id": "T-20260815-official-protocol-conformance",
+    "task_revision_digest": "sha256:7fbf3bfee2d38fc3b7762722bbe395ef47d09f88f3ab21e988244d84378041e5"
+  }
+}

@@ -25,6 +25,7 @@ Start:
   demo                                      Prove the full lifecycle in isolation
 
 Author:
+  example task-plan --out <file> [--force]   Materialize the canonical TaskPlan
   new [--format 3|4] <slug> <size> [agent]   Create one non-clobbering scaffold
   plan --manifest <TaskPlan.yaml>            Validate + preview; writes nothing
   batch --plan <TaskPlan.yaml>               Generate an approved declared plan
@@ -79,6 +80,7 @@ _ts_command_help() {
     init) echo "Usage: taskspec init [--force]" ;;
     setup) echo "Usage: taskspec setup | taskspec setup signing [--force]" ;;
     demo) echo "Usage: taskspec demo" ;;
+    example) echo "Usage: taskspec example task-plan --out <file> [--force]" ;;
     new) echo "Usage: taskspec new [--format 3|4] [--status ready|blocked] [--queue] <slug> <XS|S|M|L|XL|XXL> [agent] [source-note]" ;;
     plan) echo "Usage: taskspec plan --manifest <TaskPlan.yaml>" ;;
     batch) echo "Usage: taskspec batch --plan <TaskPlan.yaml> | taskspec batch --intent-file <file> --effort <size>" ;;
@@ -139,7 +141,7 @@ _ts_doctor() {
 
 _ts_completion() {
   local shell_name="${1:-}"
-  local words="init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help"
+  local words="init setup demo example new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help"
   case "$shell_name" in
     bash)
       printf '_taskspec_complete() { COMPREPLY=( $(compgen -W %q -- "${COMP_WORDS[1]}") ); }\ncomplete -F _taskspec_complete taskspec\n' "$words"
@@ -183,6 +185,7 @@ _ts_dispatch() {
       [[ $# -eq 0 ]] || { echo "taskspec doctor: unknown argument: $1" >&2; return 2; }
       _ts_doctor; return $? ;;
     demo) bash "$TASKSPEC_HOME/src/setup/demo.sh" "$@"; return $? ;;
+    example) python3 "$TASKSPEC_HOME/src/author/examples.py" "$@"; return $? ;;
     completion) _ts_completion "$@"; return $? ;;
     agent-context) python3 "$TASKSPEC_HOME/src/dispatch/agent-context.py"; return $? ;;
     author-doctor) python3 "$TASKSPEC_HOME/src/author/doctor.py" "$@"; return $? ;;
@@ -313,13 +316,13 @@ try:
     data = json.loads(stdout)
 except (json.JSONDecodeError, ValueError):
     pass
-if command == "accept":
+if command == "accept" and data is None:
     import re
     if code == 0:
         tier = re.search(r"VERDICT: ACCEPT.*?Tier ([12])", stdout)
         data = {"contract": "AcceptanceResult/v1", "accepted": True, "tier": int(tier.group(1)) if tier else None}
     else:
-        failure = re.search(r"ACCEPTANCE_FAILURE=([A-Z_]+)", stdout)
+        failure = re.search(r"ACCEPTANCE_FAILURE=([A-Z_]+)", stdout + "\n" + stderr)
         data = {"contract": "AcceptanceFailure/v1", "accepted": False, "code": failure.group(1) if failure else "POLICY_TAMPER"}
 envelope = {
     "contract": "TaskSpecCLIResult/v1",

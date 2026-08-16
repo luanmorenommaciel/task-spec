@@ -2,6 +2,8 @@
   "contract": "ReadmeCommandCoverage/v1",
   "commands": {
     "demo": "tests/test-demo.sh and tests/test-v36-experience.sh",
+    "example": "tests/test-v381-experience.sh installed canonical example",
+    "agent-context": "tests/test-v36-experience.sh machine-readable command contract",
     "doctor": "tests/test-v36-experience.sh",
     "init": "tests/test-v36-experience.sh clean-room journey",
     "setup": "tests/test-v36-experience.sh clean-room journey",

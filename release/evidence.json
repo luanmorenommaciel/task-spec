@@ -1,49 +1,244 @@
 {
-  "contract": "TaskSpecReleaseEvidence/v1",
-  "version": "3.8.0",
+  "contract": "TaskSpecReleaseEvidence/v2",
+  "version": "3.8.1",
   "format_version": 4,
-  "compatible_format_versions": [1, 2, 3, 4],
-  "donor": {
-    "repository": "converge",
-    "commit": "f78f077"
+  "compatible_format_versions": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "generated_at": "2026-08-15T18:15:00Z",
+  "source": {
+    "commit": "441c48c8128f0953ec12d96fafa08eaa5a7be86a",
+    "branch": "codex/taskspec-3.8.1"
   },
-  "source_commit": "0e6180cfc3009bd4ef9cf7ab050b463e10d4af91",
-  "release_status": "published_main",
+  "release_status": "blocked",
+  "quality_scorecard": {
+    "path": "release/3.8.1/scorecard.json",
+    "digest": "sha256:c5da6d58a06024de70b1b1a4d19552e6152246f6d15fb4a86e33f62f207f7d62"
+  },
   "gates": {
-    "make_check": "pass",
-    "hosted_ci": "pass_ubuntu_macos",
-    "hosted_ci_run": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31956071455",
-    "isolated_demo": "pass",
-    "v37_evidence_suite": "42/42_local",
-    "v38_adversarial_suite": "45/45_local",
-    "schema_contracts": "25_schemas_10_fixtures_local",
-    "readme_visual": "pass_desktop_mobile_2_mermaid_0_broken",
-    "conformance": "reference_L2_local",
-    "clean_room": "pass",
-    "experience_suite": "79/79_local",
-    "checkout_copy_install": "pass",
-    "checkout_symlink_install": "pass",
-    "npm_pack_dry_run": "pass",
-    "npm_local_install": "pass",
-    "release_install_workflow": "pass_ubuntu_macos",
-    "release_install_run": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31956630587",
-    "authenticated_release_install": "pass",
-    "curl_pinned_install": "unavailable_while_repository_private",
-    "npm_github_install": "pass",
-    "research_fake_adapters": "pass",
-    "converge_mirror": "not_updated",
-    "real_engine_matrix": "not_run",
-    "signed_environment_receipt": "not_run",
-    "a2a_1_0_roundtrip": "pass",
-    "dsse_roundtrip": "pass",
-    "mcp_refresh": "deferred_spec_not_final"
+    "authority_contracts": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/local-gates.json",
+        "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
+      },
+      "reason": "The retained local gate validates revision-bound authorization, handoff, receipt subjects, and acceptance contracts against the candidate source archive."
+    },
+    "compatibility_contracts": {
+      "state": "pass",
+      "evidence": {
+        "path": ".taskspec/acceptance/T-20260815-release-evidence-contracts/e3c2d208-284e-43ff-866c-d85a819cb30a.json",
+        "digest": "sha256:eed94c0611421b6c04a4ab96a49973febf4888ccc387632943b00dea26faa201"
+      },
+      "reason": "The typed release contracts task passed its deterministic schema suite and was Tier-1 accepted."
+    },
+    "honest_hmac_boundary": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/local-gates.json",
+        "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
+      },
+      "reason": "Tests and documentation preserve HMAC as shared-key tamper evidence and explicitly deny identity, isolation, and semantic-truth claims."
+    },
+    "semantic_truth": {
+      "state": "unavailable",
+      "evidence": null,
+      "reason": "Intentionally unclaimed: HMAC and runnable evals cannot prove universal semantic truth."
+    },
+    "nested_workspace": {
+      "state": "pass",
+      "evidence": {
+        "path": ".taskspec/acceptance/T-20260815-nested-workspace-hardening/f094fb99-3ece-4ea2-a837-eba700ef9f99.json",
+        "digest": "sha256:d40b07112224a3ebbb0ff9dedd4705e8e716fea983edaec609a1c5232c3b8dfa"
+      },
+      "reason": "Nested workspace hardening passed its adversarial suite and was Tier-1 accepted."
+    },
+    "graph_recovery": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/local-gates.json",
+        "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
+      },
+      "reason": "The retained gate passed deterministic graph, closure, retry, lock, and crash-recovery suites."
+    },
+    "atomic_acceptance": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/local-gates.json",
+        "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
+      },
+      "reason": "Attempt, revision, authorization, receipt, and base-commit mismatches fail closed; acceptance crash and idempotency tests pass."
+    },
+    "reviewer_journey": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/reviewer-report.json",
+        "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6"
+      },
+      "reason": "A disposable installed release completed the canonical example and five-minute reviewer journey."
+    },
+    "documentation_contract": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/reviewer-report.json",
+        "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6"
+      },
+      "reason": "Commands, links, fences, CLI surfaces, images, alt text, Mermaid blocks, and 390/1440 viewport checks passed."
+    },
+    "generated_status": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/reviewer-report.json",
+        "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6"
+      },
+      "reason": "The README status block is regenerated from the digest-validated scorecard and fails when stale."
+    },
+    "installation_matrix": {
+      "state": "blocked",
+      "evidence": {
+        "path": "release/3.8.1/install-matrix.json",
+        "digest": "sha256:a5825b9838f5889b12f961fa5fb9e8aaab2e82a1fbded738b6ce1e69690bae40"
+      },
+      "reason": "All local installation doors pass, but RC 2 public curl returned HTTP 404 on Ubuntu and macOS because the repository is private; npm steps therefore did not run."
+    },
+    "real_engine_matrix": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/engine-matrix-result.json",
+        "digest": "sha256:337e9e968225149bfd41e7ca62a0568280a2a582170ad0dfd5738b3c29d9f060"
+      },
+      "reason": "Codex gpt-5.6-sol and Claude Code with observed claude-opus-5 each accepted all three frozen one-shot tasks with zero scope violations."
+    },
+    "a2a_official": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/protocol-conformance.json",
+        "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d"
+      },
+      "reason": "A2A 1.0 round-tripped through the pinned official Python SDK with authority and handoff bytes preserved."
+    },
+    "mcp_official": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/protocol-conformance.json",
+        "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d"
+      },
+      "reason": "The pinned MCP v2 client negotiated stateless 2026-07-28 discovery, listed tools, and completed a read-only tool call."
+    },
+    "ecosystem_certification": {
+      "state": "unavailable",
+      "evidence": null,
+      "reason": "Intentionally unclaimed: pinned SDK conformance is not ecosystem-wide certification."
+    },
+    "hosted_ci": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/hosted-ci.json",
+        "digest": "sha256:f76e38a782f6693ad6c338795a9abf21420ce30409da9a3c6060b8141904f71b"
+      },
+      "reason": "GitHub Actions run 31906913000 executed the full gate successfully on hosted Ubuntu and macOS runners with nonzero steps."
+    },
+    "published_provenance": {
+      "state": "blocked",
+      "evidence": {
+        "path": "release/3.8.1/rc2-publication-attempt.json",
+        "digest": "sha256:cada4a86b87037f3162f5af027ce614de5919b85d102b07d60079cc9596a53e0"
+      },
+      "reason": "RC 2 published checksummed assets and an SPDX SBOM, but GitHub attestations and unauthenticated public installs remain blocked by private repository visibility."
+    },
+    "signed_sandbox": {
+      "state": "pass",
+      "evidence": {
+        "path": "release/3.8.1/environment-proof.json",
+        "digest": "sha256:9da567b233522187aa2f7c3dcdd10e806118f1b41bca724f1fde0f0ebd4d40d1"
+      },
+      "reason": "A host-attested Docker run enforced the declared isolation, produced an Ed25519-signed EnvironmentReceipt/v2, reached Tier-1 portable acceptance, and rejected mutated evidence."
+    },
+    "production_reliability": {
+      "state": "unavailable",
+      "evidence": null,
+      "reason": "Intentionally unclaimed: a synthetic release benchmark is not long-running production reliability."
+    }
   },
-  "boundaries": {
-    "live_research_providers": "not_advertised",
-    "hosted_service": "not_provided",
-    "fleet_scheduler": "not_provided",
-    "production_evidence": "not_claimed",
-    "environment_enforcement": "contract_only_requires_external_enforcer",
-    "a2a_mcp_certification": "not_claimed"
-  }
+  "artifacts": [
+    {
+      "path": ".taskspec/acceptance/T-20260815-release-evidence-contracts/e3c2d208-284e-43ff-866c-d85a819cb30a.json",
+      "digest": "sha256:eed94c0611421b6c04a4ab96a49973febf4888ccc387632943b00dea26faa201"
+    },
+    {
+      "path": ".taskspec/acceptance/T-20260815-nested-workspace-hardening/f094fb99-3ece-4ea2-a837-eba700ef9f99.json",
+      "digest": "sha256:d40b07112224a3ebbb0ff9dedd4705e8e716fea983edaec609a1c5232c3b8dfa"
+    },
+    {
+      "path": "release/3.8.1/protocol-conformance.json",
+      "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d"
+    },
+    {
+      "path": "release/3.8.1/reviewer-report.json",
+      "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6"
+    },
+    {
+      "path": "release/3.8.1/engine-matrix-result.json",
+      "digest": "sha256:337e9e968225149bfd41e7ca62a0568280a2a582170ad0dfd5738b3c29d9f060"
+    },
+    {
+      "path": "release/3.8.1/engine-matrix-artifacts.json",
+      "digest": "sha256:aeb74f1a8c64f49bff1b9fd17a220ba4f559cef1020967269af2e00ff0da2a51"
+    },
+    {
+      "path": "release/3.8.1/environment-proof.json",
+      "digest": "sha256:9da567b233522187aa2f7c3dcdd10e806118f1b41bca724f1fde0f0ebd4d40d1"
+    },
+    {
+      "path": "release/3.8.1/environment-attestation.json",
+      "digest": "sha256:570de92b0931d847990f8ef75b015fee2cac001f23a650bc745dfb2396e369e1"
+    },
+    {
+      "path": "release/3.8.1/environment-receipt.json",
+      "digest": "sha256:65f40907f59544ea6b0b280f89efa0e4ca684a4fec44a050c618fa7761990925"
+    },
+    {
+      "path": "release/3.8.1/environment-trust.json",
+      "digest": "sha256:38ed4fe122275e90a4e0bb5784ffdbf86e8c3f8ba7ea3064741725205f8712ec"
+    },
+    {
+      "path": "release/3.8.1/environment-evaluator.pub.pem",
+      "digest": "sha256:ff9726b1ededfa5a2e0446f1e9301dac1182fed92ecfa24d2f4832cb8b6aeb1e"
+    },
+    {
+      "path": "release/3.8.1/environment-handoff.json",
+      "digest": "sha256:c15cd7857003374d461f0f57dcc2c4cf97af657857853259cee38fe0a3a5ce49"
+    },
+    {
+      "path": "release/3.8.1/sandbox-execution-artifact.json",
+      "digest": "sha256:d495b70e3e0109ea90018bafaf03f76988f42d26a321fc3647347e0a7fcba2f3"
+    },
+    {
+      "path": "release/3.8.1/local-gates.json",
+      "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5"
+    },
+    {
+      "path": "release/3.8.1/install-matrix.json",
+      "digest": "sha256:a5825b9838f5889b12f961fa5fb9e8aaab2e82a1fbded738b6ce1e69690bae40"
+    },
+    {
+      "path": "release/3.8.1/sbom.spdx.json",
+      "digest": "sha256:8f76476d2515666cd11d39874ef71bed5acbe62d61961b308b5fcabd655f2796"
+    },
+    {
+      "path": "release/3.8.1/hosted-ci.json",
+      "digest": "sha256:f76e38a782f6693ad6c338795a9abf21420ce30409da9a3c6060b8141904f71b"
+    },
+    {
+      "path": "release/3.8.1/rc1-publication-attempt.json",
+      "digest": "sha256:12f3e029972f9483284af2b35810eb3aa3a84e1acd197018c4a555a33aea8cb6"
+    },
+    {
+      "path": "release/3.8.1/rc2-publication-attempt.json",
+      "digest": "sha256:cada4a86b87037f3162f5af027ce614de5919b85d102b07d60079cc9596a53e0"
+    }
+  ]
 }

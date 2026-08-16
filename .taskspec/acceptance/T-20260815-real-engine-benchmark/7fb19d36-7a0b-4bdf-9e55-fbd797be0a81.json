@@ -1,0 +1,42 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-15T19:30:17Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": [
+        "spec digest changed while TaskRevision/v1 remained stable; mutable lifecycle fields may have changed"
+      ]
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "7fb19d36-7a0b-4bdf-9e55-fbd797be0a81",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:fe5d1459277a96f408d0e4c6a78e09b820d3d00ac04c34558724b1619095e23f",
+    "base_commit": "397ae4b1ea2b4f1cfb7684615a9f7fb7d6041f19",
+    "task_id": "T-20260815-real-engine-benchmark",
+    "task_revision_digest": "sha256:61205cbd8be3194a9eb2ad6a85b9e33458e1fc37cdc20dab50e9dee3c6921466"
+  }
+}

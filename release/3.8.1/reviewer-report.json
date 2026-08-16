@@ -1,0 +1,64 @@
+{
+  "contract": "TaskSpecReviewerReport/v1",
+  "release_version": "3.8.1",
+  "observed_at": "2026-08-15T18:54:00Z",
+  "result": "pass",
+  "checks": [
+    {
+      "id": "installed-example",
+      "state": "pass",
+      "proof": "A disposable copy installation materialized the bundled TaskPlan, previewed it, refused a clobber, replaced only with --force, and preserved JSON and dry-run semantics."
+    },
+    {
+      "id": "cli-discovery",
+      "state": "pass",
+      "proof": "Per-command help, bash/zsh/fish completion, and TaskSpecAgentContext/v1 expose the example command and stable tokens."
+    },
+    {
+      "id": "documentation-contract",
+      "state": "pass",
+      "proof": "README command coverage, links, fences, generated CLI reference, generated release status, eight non-empty image alternatives, existing image targets, and two Mermaid blocks passed."
+    },
+    {
+      "id": "viewport-390",
+      "state": "pass",
+      "proof": "Playwright CLI 0.1.18 rendered the UTF-8 README at 390x844 with scrollWidth 390, zero broken images, and zero empty image alternatives."
+    },
+    {
+      "id": "viewport-1440",
+      "state": "pass",
+      "proof": "Playwright CLI 0.1.18 rendered the UTF-8 README at 1440x1000 with scrollWidth 1440, zero broken images, and zero empty image alternatives."
+    },
+    {
+      "id": "truth-boundaries",
+      "state": "pass",
+      "proof": "The reviewer route separates local, hosted, published, protocol, external-engine, and external-enforcement evidence and preserves the three deliberately unclaimed points."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "src/author/examples.py",
+      "digest": "sha256:b31ee83c0bd2e6efba3752f3490d64cfea580b2c3adf8efd9dc0fffdd5042c92"
+    },
+    {
+      "path": "docs/getting-started/reviewer-route.md",
+      "digest": "sha256:71fc38cce4f1150c7cb1bde02c238a9fe8c57370be7b0abe0a4c1219e4fa4e4b"
+    },
+    {
+      "path": "docs/reference/cli.md",
+      "digest": "sha256:c8fc659d8a61be11420d48a4972f9a86c03d690417ae0cd56992caad27f2db42"
+    },
+    {
+      "path": "tests/test-v381-experience.sh",
+      "digest": "sha256:ffec86d9640dc75ef4cda1337c9345bbab9e4b245ebcb009f779396d51d38b25"
+    },
+    {
+      "path": "tests/readme_contract.py",
+      "digest": "sha256:1ff4ba760d14e646b5c2b44e041710bc74d0dea8a3d7046c935251d579f05986"
+    }
+  ],
+  "limits": [
+    "The viewport check uses a GitHub-like local stylesheet and is not certification of every Markdown renderer.",
+    "Local command execution is not hosted CI, publication, external-engine, or sandbox-enforcement evidence."
+  ]
+}

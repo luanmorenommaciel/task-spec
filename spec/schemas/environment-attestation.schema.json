@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/environment-attestation.schema.json",
+  "title": "EnvironmentAttestation/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "observed_at", "result", "verified"],
+  "properties": {
+    "contract": {"const": "EnvironmentAttestation/v1"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "result": {"enum": ["pass", "fail", "unavailable"]},
+    "verified": {"type": "boolean"},
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "kernel"],
+      "properties": {
+        "name": {"enum": ["docker", "podman"]},
+        "version": {"type": "string", "minLength": 1},
+        "kernel": {"type": "string", "minLength": 1}
+      }
+    },
+    "image_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "isolation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["network", "read_only_root", "capabilities_dropped", "no_new_privileges", "writable_mounts", "limits"],
+      "properties": {
+        "network": {"enum": ["none", "attempt_proxy_only"]},
+        "read_only_root": {"const": true},
+        "capabilities_dropped": {"const": true},
+        "no_new_privileges": {"const": true},
+        "writable_mounts": {"type": "array", "maxItems": 2, "items": {"type": "string", "minLength": 1}},
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cpus", "memory_mb", "pids", "timeout_sec", "tmpfs_mb"],
+          "properties": {
+            "cpus": {"type": "number", "minimum": 0},
+            "memory_mb": {"type": "integer", "minimum": 1},
+            "pids": {"type": "integer", "minimum": 1},
+            "timeout_sec": {"type": "integer", "minimum": 1},
+            "tmpfs_mb": {"type": "integer", "minimum": 1}
+          }
+        }
+      }
+    },
+    "command": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "command_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "artifact_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "error": {"type": "string", "minLength": 1}
+  },
+  "oneOf": [
+    {
+      "required": ["runtime", "image_digest", "isolation", "command", "command_digest", "artifact_digest"],
+      "properties": {"result": {"const": "pass"}, "verified": {"const": true}}
+    },
+    {
+      "required": ["error"],
+      "properties": {"result": {"enum": ["fail", "unavailable"]}, "verified": {"const": false}}
+    }
+  ]
+}

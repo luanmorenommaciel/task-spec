@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/engine-matrix-result.schema.json",
+  "title": "EngineMatrixResult/v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "matrix_digest", "generated_at", "results", "summary"],
+  "properties": {
+    "contract": {"const": "EngineMatrixResult/v2"},
+    "matrix_digest": {"$ref": "#/$defs/digest"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "results": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/engineResult"}},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_families", "families_passing", "scope_violations", "passed"],
+      "properties": {
+        "required_families": {"type": "integer", "minimum": 2},
+        "families_passing": {"type": "integer", "minimum": 0},
+        "scope_violations": {"type": "integer", "minimum": 0},
+        "passed": {"type": "boolean"}
+      }
+    }
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "attempt_id", "status", "handoff_digest", "command_digest", "transcript_digest", "duration_sec", "scope_violation"],
+      "properties": {
+        "task_id": {"type": "string", "pattern": "^T-[0-9]{8}-[a-z0-9][a-z0-9-]*$"},
+        "attempt_id": {"type": "string", "format": "uuid"},
+        "status": {"enum": ["accepted", "rejected", "failed", "unavailable"]},
+        "handoff_digest": {"$ref": "#/$defs/digest"},
+        "command_digest": {"$ref": "#/$defs/digest"},
+        "patch_digest": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/digest"}]},
+        "transcript_digest": {"$ref": "#/$defs/digest"},
+        "duration_sec": {"type": "integer", "minimum": 0},
+        "scope_violation": {"type": "boolean"},
+        "failure_code": {"type": ["string", "null"]}
+      }
+    },
+    "engineResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "adapter_version", "observed_model", "state", "attempts", "accepted_count"],
+      "properties": {
+        "family": {"type": "string", "minLength": 1},
+        "adapter_version": {"type": "string", "minLength": 1},
+        "observed_model": {"type": ["string", "null"]},
+        "state": {"enum": ["pass", "fail", "disabled", "unavailable"]},
+        "attempts": {"type": "array", "items": {"$ref": "#/$defs/attempt"}},
+        "accepted_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

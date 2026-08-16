@@ -26,6 +26,11 @@ structural schema cannot prove.
 | [`provider-smoke-evidence.schema.json`](provider-smoke-evidence.schema.json) | Live research-adapter graduation evidence |
 | [`mutation-matrix.schema.json`](mutation-matrix.schema.json) | Experimental stack-specific eval falsifiers |
 | [`a2a-artifact.schema.json`](a2a-artifact.schema.json) / [`mcp-task.schema.json`](mcp-task.schema.json) | Identity-preserving interoperability envelopes |
+| [`quality-rubric.schema.json`](quality-rubric.schema.json) / [`task-spec-quality-scorecard.schema.json`](task-spec-quality-scorecard.schema.json) | Fixed quality criteria and evidence-derived score projection |
+| [`task-spec-release-evidence.schema.json`](task-spec-release-evidence.schema.json) | Local, hosted, published, external, and unavailable release truth |
+| [`engine-matrix.schema.json`](engine-matrix.schema.json) / [`engine-matrix-result.schema.json`](engine-matrix-result.schema.json) | Frozen real-engine benchmark and immutable outcomes |
+| [`protocol-conformance-evidence.schema.json`](protocol-conformance-evidence.schema.json) | Pinned official protocol/SDK execution evidence |
+| [`environment-attestation.schema.json`](environment-attestation.schema.json) | Observed external sandbox configuration and enforcement result |
 
 The two embedded Task-Spec schemas are also emitted through the stable CLI:
 
@@ -40,4 +45,6 @@ format v4 only when an author selects `taskspec new --format 4`.
 
 `tests/test-schema-contracts.sh` resolves every local `$ref`, rejects duplicate
 schema IDs, and validates checked-in/generated contract fixtures using only the
-Python standard library.
+Python standard library. `tests/test-release-evidence-contracts.sh` additionally
+proves that missing digests, absolute artifact paths, and stale contract names
+fail closed.

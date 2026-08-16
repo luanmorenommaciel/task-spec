@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import pathlib
 import sys
@@ -183,7 +184,9 @@ def main() -> int:
     env.add_argument("--task-id", required=True)
     env.add_argument("--contract", required=True)
     env.add_argument("--provider", required=True)
-    env.add_argument("--environment-digest", required=True)
+    env_digest = env.add_mutually_exclusive_group(required=True)
+    env_digest.add_argument("--environment-digest")
+    env_digest.add_argument("--attestation")
     env.add_argument("--out", required=True)
     env.add_argument("--handoff")
     env.add_argument("--legacy-v1", action="store_true")
@@ -250,13 +253,23 @@ def main() -> int:
             credential_paths = sensitive_key_paths(contract)
             if credential_paths:
                 raise ValueError(f"environment contract contains credential-bearing keys: {credential_paths}")
+            environment_digest = args.environment_digest
+            if args.attestation:
+                attestation_path = pathlib.Path(args.attestation)
+                attestation = load(attestation_path)
+                if attestation.get("contract") != "EnvironmentAttestation/v1":
+                    raise ValueError("--attestation must be EnvironmentAttestation/v1")
+                if attestation.get("result") != "pass" or attestation.get("verified") is not True:
+                    raise ValueError("--attestation must report a verified pass")
+                environment_digest = "sha256:" + hashlib.sha256(attestation_path.read_bytes()).hexdigest()
+            assert environment_digest is not None
             if args.legacy_v1:
-                value = {"contract": "EnvironmentReceipt/v1", "task_id": args.task_id, "contract_digest": f"sha256:{canonical_digest(contract)}", "provider": args.provider, "environment_digest": args.environment_digest, "enforced": True, "observed_at": now()}
+                value = {"contract": "EnvironmentReceipt/v1", "task_id": args.task_id, "contract_digest": f"sha256:{canonical_digest(contract)}", "provider": args.provider, "environment_digest": environment_digest, "enforced": True, "observed_at": now()}
             else:
                 if not args.handoff: raise ValueError("environment v2 requires --handoff (or pass --legacy-v1)")
                 subject, _ = receipt_subject(pathlib.Path(args.handoff))
                 if args.task_id != subject["task_id"]: raise ValueError("--task-id does not match handoff")
-                value = {"contract": "EnvironmentReceipt/v2", "subject": subject, "observed_at": now(), "contract_digest": f"sha256:{canonical_digest(contract)}", "provider": args.provider, "environment_digest": args.environment_digest, "enforced": True}
+                value = {"contract": "EnvironmentReceipt/v2", "subject": subject, "observed_at": now(), "contract_digest": f"sha256:{canonical_digest(contract)}", "provider": args.provider, "environment_digest": environment_digest, "enforced": True}
         elif args.command == "evaluation":
             subject, _ = receipt_subject(pathlib.Path(args.handoff))
             value = {"contract": "EvaluationReceipt/v2", "subject": subject, "observed_at": now(), "check_type": args.check_type, "evaluator": args.evaluator, "result": args.result, "evidence": args.evidence}

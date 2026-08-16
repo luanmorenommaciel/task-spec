@@ -1,0 +1,320 @@
+{
+  "contract": "TaskSpecQualityScorecard/v1",
+  "release_version": "3.8.1",
+  "rubric_digest": "sha256:a25e7971318c07fcd993ff765a92e93478f5023f5e07b7a9387342498e35cf8c",
+  "generated_at": "2026-08-15T18:15:00Z",
+  "dimensions": [
+    {
+      "id": "contract_trust",
+      "awarded_points": 24,
+      "max_points": 25,
+      "criteria": [
+        {
+          "id": "authority_contracts",
+          "points": 12,
+          "awarded": 12,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/local-gates.json",
+              "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "The retained local gate validates revision-bound authorization, handoff, receipt subjects, and acceptance contracts against the candidate source archive."
+        },
+        {
+          "id": "compatibility_contracts",
+          "points": 6,
+          "awarded": 6,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": ".taskspec/acceptance/T-20260815-release-evidence-contracts/e3c2d208-284e-43ff-866c-d85a819cb30a.json",
+              "digest": "sha256:eed94c0611421b6c04a4ab96a49973febf4888ccc387632943b00dea26faa201",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "The typed release contracts task passed its deterministic schema suite and was Tier-1 accepted."
+        },
+        {
+          "id": "honest_hmac_boundary",
+          "points": 6,
+          "awarded": 6,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/local-gates.json",
+              "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "Tests and documentation preserve HMAC as shared-key tamper evidence and explicitly deny identity, isolation, and semantic-truth claims."
+        },
+        {
+          "id": "semantic_truth",
+          "points": 1,
+          "awarded": 0,
+          "state": "unavailable",
+          "evidence": [],
+          "reason": "Intentionally unclaimed: HMAC and runnable evals cannot prove universal semantic truth."
+        }
+      ]
+    },
+    {
+      "id": "lifecycle_recovery",
+      "awarded_points": 25,
+      "max_points": 25,
+      "criteria": [
+        {
+          "id": "nested_workspace",
+          "points": 8,
+          "awarded": 8,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": ".taskspec/acceptance/T-20260815-nested-workspace-hardening/f094fb99-3ece-4ea2-a837-eba700ef9f99.json",
+              "digest": "sha256:d40b07112224a3ebbb0ff9dedd4705e8e716fea983edaec609a1c5232c3b8dfa",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "Nested workspace hardening passed its adversarial suite and was Tier-1 accepted."
+        },
+        {
+          "id": "graph_recovery",
+          "points": 8,
+          "awarded": 8,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/local-gates.json",
+              "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "The retained gate passed deterministic graph, closure, retry, lock, and crash-recovery suites."
+        },
+        {
+          "id": "atomic_acceptance",
+          "points": 9,
+          "awarded": 9,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/local-gates.json",
+              "digest": "sha256:57b8304b5104871c1d83cd87a196cde28d62b4ba5c2330e5d1174d5fb1ed0cd5",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "Attempt, revision, authorization, receipt, and base-commit mismatches fail closed; acceptance crash and idempotency tests pass."
+        }
+      ]
+    },
+    {
+      "id": "documentation_dx",
+      "awarded_points": 20,
+      "max_points": 20,
+      "criteria": [
+        {
+          "id": "reviewer_journey",
+          "points": 10,
+          "awarded": 10,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/reviewer-report.json",
+              "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "A disposable installed release completed the canonical example and five-minute reviewer journey."
+        },
+        {
+          "id": "documentation_contract",
+          "points": 5,
+          "awarded": 5,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/reviewer-report.json",
+              "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "Commands, links, fences, CLI surfaces, images, alt text, Mermaid blocks, and 390/1440 viewport checks passed."
+        },
+        {
+          "id": "generated_status",
+          "points": 5,
+          "awarded": 5,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/reviewer-report.json",
+              "digest": "sha256:095537a94335f9871b41c4575d54a59c90405c18d6b7623c0abafee7abc12af6",
+              "class": "local",
+              "state": "pass"
+            }
+          ],
+          "reason": "The README status block is regenerated from the digest-validated scorecard and fails when stale."
+        }
+      ]
+    },
+    {
+      "id": "harness_packaging",
+      "awarded_points": 6,
+      "max_points": 10,
+      "criteria": [
+        {
+          "id": "installation_matrix",
+          "points": 4,
+          "awarded": 0,
+          "state": "fail",
+          "evidence": [
+            {
+              "path": "release/3.8.1/install-matrix.json",
+              "digest": "sha256:a5825b9838f5889b12f961fa5fb9e8aaab2e82a1fbded738b6ce1e69690bae40",
+              "class": "local",
+              "state": "fail"
+            }
+          ],
+          "reason": "All local installation doors pass, but RC 2 public curl returned HTTP 404 on Ubuntu and macOS because the repository is private; npm steps therefore did not run."
+        },
+        {
+          "id": "real_engine_matrix",
+          "points": 6,
+          "awarded": 6,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/engine-matrix-result.json",
+              "digest": "sha256:337e9e968225149bfd41e7ca62a0568280a2a582170ad0dfd5738b3c29d9f060",
+              "class": "external_engine",
+              "state": "pass"
+            }
+          ],
+          "reason": "Codex gpt-5.6-sol and Claude Code with observed claude-opus-5 each accepted all three frozen one-shot tasks with zero scope violations."
+        }
+      ]
+    },
+    {
+      "id": "standards_interoperability",
+      "awarded_points": 9,
+      "max_points": 10,
+      "criteria": [
+        {
+          "id": "a2a_official",
+          "points": 4,
+          "awarded": 4,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/protocol-conformance.json",
+              "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d",
+              "class": "protocol",
+              "state": "pass"
+            }
+          ],
+          "reason": "A2A 1.0 round-tripped through the pinned official Python SDK with authority and handoff bytes preserved."
+        },
+        {
+          "id": "mcp_official",
+          "points": 5,
+          "awarded": 5,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/protocol-conformance.json",
+              "digest": "sha256:54d6b53ffe651732050396a818ad9998141e8f863c49ea10f6c1d04fb36dbb8d",
+              "class": "protocol",
+              "state": "pass"
+            }
+          ],
+          "reason": "The pinned MCP v2 client negotiated stateless 2026-07-28 discovery, listed tools, and completed a read-only tool call."
+        },
+        {
+          "id": "ecosystem_certification",
+          "points": 1,
+          "awarded": 0,
+          "state": "unavailable",
+          "evidence": [],
+          "reason": "Intentionally unclaimed: pinned SDK conformance is not ecosystem-wide certification."
+        }
+      ]
+    },
+    {
+      "id": "public_external_proof",
+      "awarded_points": 6,
+      "max_points": 10,
+      "criteria": [
+        {
+          "id": "hosted_ci",
+          "points": 3,
+          "awarded": 3,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/hosted-ci.json",
+              "digest": "sha256:f76e38a782f6693ad6c338795a9abf21420ce30409da9a3c6060b8141904f71b",
+              "class": "hosted",
+              "state": "pass"
+            }
+          ],
+          "reason": "GitHub Actions run 31906913000 executed the full gate successfully on hosted Ubuntu and macOS runners with nonzero steps."
+        },
+        {
+          "id": "published_provenance",
+          "points": 3,
+          "awarded": 0,
+          "state": "fail",
+          "evidence": [
+            {
+              "path": "release/3.8.1/rc2-publication-attempt.json",
+              "digest": "sha256:cada4a86b87037f3162f5af027ce614de5919b85d102b07d60079cc9596a53e0",
+              "class": "published",
+              "state": "fail"
+            }
+          ],
+          "reason": "RC 2 published checksummed assets and an SPDX SBOM, but GitHub attestations and unauthenticated public installs remain blocked by private repository visibility."
+        },
+        {
+          "id": "signed_sandbox",
+          "points": 3,
+          "awarded": 3,
+          "state": "pass",
+          "evidence": [
+            {
+              "path": "release/3.8.1/environment-proof.json",
+              "digest": "sha256:9da567b233522187aa2f7c3dcdd10e806118f1b41bca724f1fde0f0ebd4d40d1",
+              "class": "external_enforcement",
+              "state": "pass"
+            }
+          ],
+          "reason": "A host-attested Docker run enforced the declared isolation, produced an Ed25519-signed EnvironmentReceipt/v2, reached Tier-1 portable acceptance, and rejected mutated evidence."
+        },
+        {
+          "id": "production_reliability",
+          "points": 1,
+          "awarded": 0,
+          "state": "unavailable",
+          "evidence": [],
+          "reason": "Intentionally unclaimed: a synthetic release benchmark is not long-running production reliability."
+        }
+      ]
+    }
+  ],
+  "total": {
+    "awarded": 90,
+    "maximum": 100,
+    "target": 97,
+    "passed": false
+  }
+}

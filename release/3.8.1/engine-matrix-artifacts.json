@@ -1,0 +1,820 @@
+{
+  "contract": "EngineMatrixArtifacts/v1",
+  "matrix_digest": "sha256:81d5a4bf81ca87ca9a31574a46f0ec50aa30339cf2a6cef790aa5397084312f8",
+  "generated_at": "2026-08-15T19:19:15Z",
+  "raw_artifacts_committed": false,
+  "attempts": [
+    {
+      "family": "openai",
+      "task_id": "T-20260815-benchmark-xs",
+      "effort": "XS",
+      "attempt_id": "38100000-0000-4000-8000-000000000001",
+      "adapter_exit_code": 0,
+      "adapter_version": "codex-cli 0.147.0",
+      "configured_model": "gpt-5.6-sol",
+      "observed_model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 125888,
+        "cached_input_tokens": 97792,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1235,
+        "reasoning_output_tokens": 398
+      },
+      "command": {
+        "contract": "SanitizedEngineCommand/v1",
+        "argv": [
+          "codex",
+          "exec",
+          "--cd",
+          "/private/tmp/taskspec-3.8.1-engine-matrix/xs/worktree",
+          "--model",
+          "gpt-5.6-sol",
+          "--sandbox",
+          "workspace-write",
+          "--ephemeral",
+          "--ignore-user-config",
+          "--ignore-rules",
+          "--skip-git-repo-check",
+          "--json",
+          "-"
+        ],
+        "cwd": "/private/tmp/taskspec-3.8.1-engine-matrix/xs/worktree",
+        "handoff_digest": "sha256:b00d32ba90fee6e509312ce5a2103bead6948bc401aaf721ad2cf6ae0ddb5192",
+        "stdin": "<TaskHandoff/v3 prompt>"
+      },
+      "environment": {
+        "contract": "SanitizedEngineEnvironment/v1",
+        "credential_values_retained": false,
+        "removed_variable_names": [
+          "TASKSPEC_DRY_RUN",
+          "TASKSPEC_HOME",
+          "TASKSPEC_JSON_MODE"
+        ],
+        "inherited_variable_names": [
+          "BROWSER_USE_AVAILABLE_BACKENDS",
+          "CODEX_CI",
+          "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+          "CODEX_PERMISSION_PROFILE",
+          "CODEX_SESSION_ID",
+          "CODEX_SHELL",
+          "CODEX_THREAD_ID",
+          "COLORTERM",
+          "COMMAND_MODE",
+          "CVG_HOME",
+          "DISABLE_AUTO_UPDATE",
+          "FPATH",
+          "GH_PAGER",
+          "GIT_PAGER",
+          "HOME",
+          "HOMEBREW_CELLAR",
+          "HOMEBREW_PREFIX",
+          "HOMEBREW_REPOSITORY",
+          "INFOPATH",
+          "JAVA_HOME",
+          "LANG",
+          "LC_ALL",
+          "LC_CTYPE",
+          "LESS",
+          "LOGNAME",
+          "LOG_FORMAT",
+          "LSCOLORS",
+          "LS_COLORS",
+          "MallocNanoZone",
+          "NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S",
+          "NODE_REPL_TRUSTED_CODE_PATHS",
+          "NO_COLOR",
+          "OLDPWD",
+          "OSLogRateLimit",
+          "PAGER",
+          "PATH",
+          "PWD",
+          "RUST_LOG",
+          "SHELL",
+          "SHLVL",
+          "SPARK_HOME",
+          "SSH_AUTH_SOCK",
+          "TERM",
+          "TMPDIR",
+          "USER",
+          "XPC_FLAGS",
+          "XPC_SERVICE_NAME",
+          "ZSH",
+          "ZSH_TMUX_AUTOSTART",
+          "ZSH_TMUX_AUTOSTARTED",
+          "_",
+          "__CF_USER_TEXT_ENCODING"
+        ]
+      },
+      "changed_files": [
+        {
+          "path": "work/xs/result.txt",
+          "bytes": 16,
+          "sha256": "54feb02ae9845215d9726bfadaf7497ad958ddc29681356ff000830572039d17"
+        }
+      ],
+      "acceptance_exit_code": 0,
+      "acceptance_digest": "sha256:daa7ce88e0ce7e55ae13192adfbd292130ada788117ed0021eab473033186098",
+      "artifacts": {
+        "transcript": "/private/tmp/taskspec-381-live-engine-results/raw/openai/xs.jsonl",
+        "patch": "/private/tmp/taskspec-381-live-engine-results/raw/openai/xs.patch",
+        "changed_files": "/private/tmp/taskspec-381-live-engine-results/raw/openai/xs-files.json",
+        "acceptance": "/private/tmp/taskspec-381-live-engine-results/raw/openai/xs-acceptance.txt"
+      }
+    },
+    {
+      "family": "openai",
+      "task_id": "T-20260815-benchmark-s",
+      "effort": "S",
+      "attempt_id": "38100000-0000-4000-8000-000000000002",
+      "adapter_exit_code": 0,
+      "adapter_version": "codex-cli 0.147.0",
+      "configured_model": "gpt-5.6-sol",
+      "observed_model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 108048,
+        "cached_input_tokens": 81664,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 789,
+        "reasoning_output_tokens": 121
+      },
+      "command": {
+        "contract": "SanitizedEngineCommand/v1",
+        "argv": [
+          "codex",
+          "exec",
+          "--cd",
+          "/private/tmp/taskspec-3.8.1-engine-matrix/s/worktree",
+          "--model",
+          "gpt-5.6-sol",
+          "--sandbox",
+          "workspace-write",
+          "--ephemeral",
+          "--ignore-user-config",
+          "--ignore-rules",
+          "--skip-git-repo-check",
+          "--json",
+          "-"
+        ],
+        "cwd": "/private/tmp/taskspec-3.8.1-engine-matrix/s/worktree",
+        "handoff_digest": "sha256:ee777eb89869d380442c5196f486acc1732ecc6d82b1f9cbb3da0ee931be5dc1",
+        "stdin": "<TaskHandoff/v3 prompt>"
+      },
+      "environment": {
+        "contract": "SanitizedEngineEnvironment/v1",
+        "credential_values_retained": false,
+        "removed_variable_names": [
+          "TASKSPEC_DRY_RUN",
+          "TASKSPEC_HOME",
+          "TASKSPEC_JSON_MODE"
+        ],
+        "inherited_variable_names": [
+          "BROWSER_USE_AVAILABLE_BACKENDS",
+          "CODEX_CI",
+          "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+          "CODEX_PERMISSION_PROFILE",
+          "CODEX_SESSION_ID",
+          "CODEX_SHELL",
+          "CODEX_THREAD_ID",
+          "COLORTERM",
+          "COMMAND_MODE",
+          "CVG_HOME",
+          "DISABLE_AUTO_UPDATE",
+          "FPATH",
+          "GH_PAGER",
+          "GIT_PAGER",
+          "HOME",
+          "HOMEBREW_CELLAR",
+          "HOMEBREW_PREFIX",
+          "HOMEBREW_REPOSITORY",
+          "INFOPATH",
+          "JAVA_HOME",
+          "LANG",
+          "LC_ALL",
+          "LC_CTYPE",
+          "LESS",
+          "LOGNAME",
+          "LOG_FORMAT",
+          "LSCOLORS",
+          "LS_COLORS",
+          "MallocNanoZone",
+          "NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S",
+          "NODE_REPL_TRUSTED_CODE_PATHS",
+          "NO_COLOR",
+          "OLDPWD",
+          "OSLogRateLimit",
+          "PAGER",
+          "PATH",
+          "PWD",
+          "RUST_LOG",
+          "SHELL",
+          "SHLVL",
+          "SPARK_HOME",
+          "SSH_AUTH_SOCK",
+          "TERM",
+          "TMPDIR",
+          "USER",
+          "XPC_FLAGS",
+          "XPC_SERVICE_NAME",
+          "ZSH",
+          "ZSH_TMUX_AUTOSTART",
+          "ZSH_TMUX_AUTOSTARTED",
+          "_",
+          "__CF_USER_TEXT_ENCODING"
+        ]
+      },
+      "changed_files": [
+        {
+          "path": "work/s/search_cli.py",
+          "bytes": 788,
+          "sha256": "edafb1379a8ef5bb91a9c452bde49292e3a1078c57bebfaafa0c880322c6e7ad"
+        }
+      ],
+      "acceptance_exit_code": 0,
+      "acceptance_digest": "sha256:23774a0751b838fa6968e508caa0ae8d040a8346e6f4b3b1567e377cfc80e251",
+      "artifacts": {
+        "transcript": "/private/tmp/taskspec-381-live-engine-results/raw/openai/s.jsonl",
+        "patch": "/private/tmp/taskspec-381-live-engine-results/raw/openai/s.patch",
+        "changed_files": "/private/tmp/taskspec-381-live-engine-results/raw/openai/s-files.json",
+        "acceptance": "/private/tmp/taskspec-381-live-engine-results/raw/openai/s-acceptance.txt"
+      }
+    },
+    {
+      "family": "openai",
+      "task_id": "T-20260815-benchmark-m",
+      "effort": "M",
+      "attempt_id": "38100000-0000-4000-8000-000000000003",
+      "adapter_exit_code": 0,
+      "adapter_version": "codex-cli 0.147.0",
+      "configured_model": "gpt-5.6-sol",
+      "observed_model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 109747,
+        "cached_input_tokens": 81664,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1452,
+        "reasoning_output_tokens": 357
+      },
+      "command": {
+        "contract": "SanitizedEngineCommand/v1",
+        "argv": [
+          "codex",
+          "exec",
+          "--cd",
+          "/private/tmp/taskspec-3.8.1-engine-matrix/m/worktree",
+          "--model",
+          "gpt-5.6-sol",
+          "--sandbox",
+          "workspace-write",
+          "--ephemeral",
+          "--ignore-user-config",
+          "--ignore-rules",
+          "--skip-git-repo-check",
+          "--json",
+          "-"
+        ],
+        "cwd": "/private/tmp/taskspec-3.8.1-engine-matrix/m/worktree",
+        "handoff_digest": "sha256:4bfae4de33ace4cf7a1ee7e6a3ca9242ce7e544eb30e1aa80df9a19f227f2c57",
+        "stdin": "<TaskHandoff/v3 prompt>"
+      },
+      "environment": {
+        "contract": "SanitizedEngineEnvironment/v1",
+        "credential_values_retained": false,
+        "removed_variable_names": [
+          "TASKSPEC_DRY_RUN",
+          "TASKSPEC_HOME",
+          "TASKSPEC_JSON_MODE"
+        ],
+        "inherited_variable_names": [
+          "BROWSER_USE_AVAILABLE_BACKENDS",
+          "CODEX_CI",
+          "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+          "CODEX_PERMISSION_PROFILE",
+          "CODEX_SESSION_ID",
+          "CODEX_SHELL",
+          "CODEX_THREAD_ID",
+          "COLORTERM",
+          "COMMAND_MODE",
+          "CVG_HOME",
+          "DISABLE_AUTO_UPDATE",
+          "FPATH",
+          "GH_PAGER",
+          "GIT_PAGER",
+          "HOME",
+          "HOMEBREW_CELLAR",
+          "HOMEBREW_PREFIX",
+          "HOMEBREW_REPOSITORY",
+          "INFOPATH",
+          "JAVA_HOME",
+          "LANG",
+          "LC_ALL",
+          "LC_CTYPE",
+          "LESS",
+          "LOGNAME",
+          "LOG_FORMAT",
+          "LSCOLORS",
+          "LS_COLORS",
+          "MallocNanoZone",
+          "NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S",
+          "NODE_REPL_TRUSTED_CODE_PATHS",
+          "NO_COLOR",
+          "OLDPWD",
+          "OSLogRateLimit",
+          "PAGER",
+          "PATH",
+          "PWD",
+          "RUST_LOG",
+          "SHELL",
+          "SHLVL",
+          "SPARK_HOME",
+          "SSH_AUTH_SOCK",
+          "TERM",
+          "TMPDIR",
+          "USER",
+          "XPC_FLAGS",
+          "XPC_SERVICE_NAME",
+          "ZSH",
+          "ZSH_TMUX_AUTOSTART",
+          "ZSH_TMUX_AUTOSTARTED",
+          "_",
+          "__CF_USER_TEXT_ENCODING"
+        ]
+      },
+      "changed_files": [
+        {
+          "path": "work/m/task_graph.py",
+          "bytes": 1750,
+          "sha256": "8aaa0457585226b88a7e3900ec0e3b18bd4936d8312219e29cec15d81322ea19"
+        }
+      ],
+      "acceptance_exit_code": 0,
+      "acceptance_digest": "sha256:bf30a0dd1bf2e91e5a2c66b9829537072a791c6e6b28d0b23fe4e21d8062f4bf",
+      "artifacts": {
+        "transcript": "/private/tmp/taskspec-381-live-engine-results/raw/openai/m.jsonl",
+        "patch": "/private/tmp/taskspec-381-live-engine-results/raw/openai/m.patch",
+        "changed_files": "/private/tmp/taskspec-381-live-engine-results/raw/openai/m-files.json",
+        "acceptance": "/private/tmp/taskspec-381-live-engine-results/raw/openai/m-acceptance.txt"
+      }
+    },
+    {
+      "family": "anthropic",
+      "task_id": "T-20260815-benchmark-xs",
+      "effort": "XS",
+      "attempt_id": "38100000-0000-4000-8000-000000000001",
+      "adapter_exit_code": 0,
+      "adapter_version": "2.1.233 (Claude Code)",
+      "configured_model": "opus",
+      "observed_model": "claude-opus-5",
+      "usage": {
+        "total_cost_usd": 0.1904745,
+        "duration_ms": 12186,
+        "usage": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 15199,
+          "cache_read_input_tokens": 43083,
+          "output_tokens": 604,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 15199,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "not_available",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 117,
+              "cache_read_input_tokens": 14986,
+              "cache_creation_input_tokens": 213,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 213
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard"
+        }
+      },
+      "command": {
+        "contract": "SanitizedEngineCommand/v1",
+        "argv": [
+          "claude",
+          "-p",
+          "--model",
+          "opus",
+          "--effort",
+          "high",
+          "--safe-mode",
+          "--no-session-persistence",
+          "--output-format",
+          "stream-json",
+          "--verbose",
+          "--permission-mode",
+          "dontAsk",
+          "--tools",
+          "Read,Edit,Write,Bash",
+          "--allowedTools",
+          "Read,Edit,Write,Bash",
+          "--max-budget-usd",
+          "10"
+        ],
+        "cwd": "/private/tmp/taskspec-3.8.1-engine-matrix/xs/worktree",
+        "handoff_digest": "sha256:b00d32ba90fee6e509312ce5a2103bead6948bc401aaf721ad2cf6ae0ddb5192",
+        "stdin": "<TaskHandoff/v3 prompt>"
+      },
+      "environment": {
+        "contract": "SanitizedEngineEnvironment/v1",
+        "credential_values_retained": false,
+        "removed_variable_names": [
+          "TASKSPEC_DRY_RUN",
+          "TASKSPEC_HOME",
+          "TASKSPEC_JSON_MODE"
+        ],
+        "inherited_variable_names": [
+          "BROWSER_USE_AVAILABLE_BACKENDS",
+          "CODEX_CI",
+          "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+          "CODEX_PERMISSION_PROFILE",
+          "CODEX_SESSION_ID",
+          "CODEX_SHELL",
+          "CODEX_THREAD_ID",
+          "COLORTERM",
+          "COMMAND_MODE",
+          "CVG_HOME",
+          "DISABLE_AUTO_UPDATE",
+          "FPATH",
+          "GH_PAGER",
+          "GIT_PAGER",
+          "HOME",
+          "HOMEBREW_CELLAR",
+          "HOMEBREW_PREFIX",
+          "HOMEBREW_REPOSITORY",
+          "INFOPATH",
+          "JAVA_HOME",
+          "LANG",
+          "LC_ALL",
+          "LC_CTYPE",
+          "LESS",
+          "LOGNAME",
+          "LOG_FORMAT",
+          "LSCOLORS",
+          "LS_COLORS",
+          "MallocNanoZone",
+          "NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S",
+          "NODE_REPL_TRUSTED_CODE_PATHS",
+          "NO_COLOR",
+          "OLDPWD",
+          "OSLogRateLimit",
+          "PAGER",
+          "PATH",
+          "PWD",
+          "RUST_LOG",
+          "SHELL",
+          "SHLVL",
+          "SPARK_HOME",
+          "SSH_AUTH_SOCK",
+          "TERM",
+          "TMPDIR",
+          "USER",
+          "XPC_FLAGS",
+          "XPC_SERVICE_NAME",
+          "ZSH",
+          "ZSH_TMUX_AUTOSTART",
+          "ZSH_TMUX_AUTOSTARTED",
+          "_",
+          "__CF_USER_TEXT_ENCODING"
+        ]
+      },
+      "changed_files": [
+        {
+          "path": "work/xs/result.txt",
+          "bytes": 16,
+          "sha256": "54feb02ae9845215d9726bfadaf7497ad958ddc29681356ff000830572039d17"
+        }
+      ],
+      "acceptance_exit_code": 0,
+      "acceptance_digest": "sha256:c3910aa0b5d94a4ee1b378891be20ba1894aa9f3d97a856eb4e92cd9c3b33b91",
+      "artifacts": {
+        "transcript": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/xs.jsonl",
+        "patch": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/xs.patch",
+        "changed_files": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/xs-files.json",
+        "acceptance": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/xs-acceptance.txt"
+      }
+    },
+    {
+      "family": "anthropic",
+      "task_id": "T-20260815-benchmark-s",
+      "effort": "S",
+      "attempt_id": "38100000-0000-4000-8000-000000000002",
+      "adapter_exit_code": 0,
+      "adapter_version": "2.1.233 (Claude Code)",
+      "configured_model": "opus",
+      "observed_model": "claude-opus-5",
+      "usage": {
+        "total_cost_usd": 0.157522,
+        "duration_ms": 22480,
+        "usage": {
+          "input_tokens": 14,
+          "cache_creation_input_tokens": 7528,
+          "cache_read_input_tokens": 102876,
+          "output_tokens": 1157,
+          "output_tokens_details": {
+            "thinking_tokens": 0
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 7528,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "not_available",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 99,
+              "cache_read_input_tokens": 16801,
+              "cache_creation_input_tokens": 177,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 177
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard"
+        }
+      },
+      "command": {
+        "contract": "SanitizedEngineCommand/v1",
+        "argv": [
+          "claude",
+          "-p",
+          "--model",
+          "opus",
+          "--effort",
+          "high",
+          "--safe-mode",
+          "--no-session-persistence",
+          "--output-format",
+          "stream-json",
+          "--verbose",
+          "--permission-mode",
+          "dontAsk",
+          "--tools",
+          "Read,Edit,Write,Bash",
+          "--allowedTools",
+          "Read,Edit,Write,Bash",
+          "--max-budget-usd",
+          "10"
+        ],
+        "cwd": "/private/tmp/taskspec-3.8.1-engine-matrix/s/worktree",
+        "handoff_digest": "sha256:ee777eb89869d380442c5196f486acc1732ecc6d82b1f9cbb3da0ee931be5dc1",
+        "stdin": "<TaskHandoff/v3 prompt>"
+      },
+      "environment": {
+        "contract": "SanitizedEngineEnvironment/v1",
+        "credential_values_retained": false,
+        "removed_variable_names": [
+          "TASKSPEC_DRY_RUN",
+          "TASKSPEC_HOME",
+          "TASKSPEC_JSON_MODE"
+        ],
+        "inherited_variable_names": [
+          "BROWSER_USE_AVAILABLE_BACKENDS",
+          "CODEX_CI",
+          "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+          "CODEX_PERMISSION_PROFILE",
+          "CODEX_SESSION_ID",
+          "CODEX_SHELL",
+          "CODEX_THREAD_ID",
+          "COLORTERM",
+          "COMMAND_MODE",
+          "CVG_HOME",
+          "DISABLE_AUTO_UPDATE",
+          "FPATH",
+          "GH_PAGER",
+          "GIT_PAGER",
+          "HOME",
+          "HOMEBREW_CELLAR",
+          "HOMEBREW_PREFIX",
+          "HOMEBREW_REPOSITORY",
+          "INFOPATH",
+          "JAVA_HOME",
+          "LANG",
+          "LC_ALL",
+          "LC_CTYPE",
+          "LESS",
+          "LOGNAME",
+          "LOG_FORMAT",
+          "LSCOLORS",
+          "LS_COLORS",
+          "MallocNanoZone",
+          "NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S",
+          "NODE_REPL_TRUSTED_CODE_PATHS",
+          "NO_COLOR",
+          "OLDPWD",
+          "OSLogRateLimit",
+          "PAGER",
+          "PATH",
+          "PWD",
+          "RUST_LOG",
+          "SHELL",
+          "SHLVL",
+          "SPARK_HOME",
+          "SSH_AUTH_SOCK",
+          "TERM",
+          "TMPDIR",
+          "USER",
+          "XPC_FLAGS",
+          "XPC_SERVICE_NAME",
+          "ZSH",
+          "ZSH_TMUX_AUTOSTART",
+          "ZSH_TMUX_AUTOSTARTED",
+          "_",
+          "__CF_USER_TEXT_ENCODING"
+        ]
+      },
+      "changed_files": [
+        {
+          "path": "work/s/search_cli.py",
+          "bytes": 796,
+          "sha256": "ab45c66e522e81daa8f52e4e0ea7639a72e1e7734c8be80335d800a7e850616e"
+        }
+      ],
+      "acceptance_exit_code": 0,
+      "acceptance_digest": "sha256:1f6529f19a04b6863dcd12b5849268c458524371cb2da67055c484781c29a2db",
+      "artifacts": {
+        "transcript": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/s.jsonl",
+        "patch": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/s.patch",
+        "changed_files": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/s-files.json",
+        "acceptance": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/s-acceptance.txt"
+      }
+    },
+    {
+      "family": "anthropic",
+      "task_id": "T-20260815-benchmark-m",
+      "effort": "M",
+      "attempt_id": "38100000-0000-4000-8000-000000000003",
+      "adapter_exit_code": 0,
+      "adapter_version": "2.1.233 (Claude Code)",
+      "configured_model": "opus",
+      "observed_model": "claude-opus-5",
+      "usage": {
+        "total_cost_usd": 0.21392599999999998,
+        "duration_ms": 36684,
+        "usage": {
+          "input_tokens": 12,
+          "cache_creation_input_tokens": 9303,
+          "cache_read_input_tokens": 90644,
+          "output_tokens": 2947,
+          "output_tokens_details": {
+            "thinking_tokens": 1400
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 9303,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "not_available",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 176,
+              "cache_read_input_tokens": 18503,
+              "cache_creation_input_tokens": 250,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 250
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard"
+        }
+      },
+      "command": {
+        "contract": "SanitizedEngineCommand/v1",
+        "argv": [
+          "claude",
+          "-p",
+          "--model",
+          "opus",
+          "--effort",
+          "high",
+          "--safe-mode",
+          "--no-session-persistence",
+          "--output-format",
+          "stream-json",
+          "--verbose",
+          "--permission-mode",
+          "dontAsk",
+          "--tools",
+          "Read,Edit,Write,Bash",
+          "--allowedTools",
+          "Read,Edit,Write,Bash",
+          "--max-budget-usd",
+          "10"
+        ],
+        "cwd": "/private/tmp/taskspec-3.8.1-engine-matrix/m/worktree",
+        "handoff_digest": "sha256:4bfae4de33ace4cf7a1ee7e6a3ca9242ce7e544eb30e1aa80df9a19f227f2c57",
+        "stdin": "<TaskHandoff/v3 prompt>"
+      },
+      "environment": {
+        "contract": "SanitizedEngineEnvironment/v1",
+        "credential_values_retained": false,
+        "removed_variable_names": [
+          "TASKSPEC_DRY_RUN",
+          "TASKSPEC_HOME",
+          "TASKSPEC_JSON_MODE"
+        ],
+        "inherited_variable_names": [
+          "BROWSER_USE_AVAILABLE_BACKENDS",
+          "CODEX_CI",
+          "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+          "CODEX_PERMISSION_PROFILE",
+          "CODEX_SESSION_ID",
+          "CODEX_SHELL",
+          "CODEX_THREAD_ID",
+          "COLORTERM",
+          "COMMAND_MODE",
+          "CVG_HOME",
+          "DISABLE_AUTO_UPDATE",
+          "FPATH",
+          "GH_PAGER",
+          "GIT_PAGER",
+          "HOME",
+          "HOMEBREW_CELLAR",
+          "HOMEBREW_PREFIX",
+          "HOMEBREW_REPOSITORY",
+          "INFOPATH",
+          "JAVA_HOME",
+          "LANG",
+          "LC_ALL",
+          "LC_CTYPE",
+          "LESS",
+          "LOGNAME",
+          "LOG_FORMAT",
+          "LSCOLORS",
+          "LS_COLORS",
+          "MallocNanoZone",
+          "NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S",
+          "NODE_REPL_TRUSTED_CODE_PATHS",
+          "NO_COLOR",
+          "OLDPWD",
+          "OSLogRateLimit",
+          "PAGER",
+          "PATH",
+          "PWD",
+          "RUST_LOG",
+          "SHELL",
+          "SHLVL",
+          "SPARK_HOME",
+          "SSH_AUTH_SOCK",
+          "TERM",
+          "TMPDIR",
+          "USER",
+          "XPC_FLAGS",
+          "XPC_SERVICE_NAME",
+          "ZSH",
+          "ZSH_TMUX_AUTOSTART",
+          "ZSH_TMUX_AUTOSTARTED",
+          "_",
+          "__CF_USER_TEXT_ENCODING"
+        ]
+      },
+      "changed_files": [
+        {
+          "path": "work/m/task_graph.py",
+          "bytes": 1626,
+          "sha256": "42593364a6ccde78df6518e093aed2a2e37a978d3c8c381c09b8227b553117bb"
+        }
+      ],
+      "acceptance_exit_code": 0,
+      "acceptance_digest": "sha256:c4b434e81559c45b78207d18ce8d497192720d9f373cfa44592bdbb99d0743df",
+      "artifacts": {
+        "transcript": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/m.jsonl",
+        "patch": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/m.patch",
+        "changed_files": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/m-files.json",
+        "acceptance": "/private/tmp/taskspec-381-live-engine-results/raw/anthropic/m-acceptance.txt"
+      }
+    }
+  ],
+  "limits": [
+    "Synthetic evidence is not production reliability.",
+    "A supervised host worktree is not a security sandbox.",
+    "Only one attempt per engine and task was executed; no retries were removed."
+  ]
+}

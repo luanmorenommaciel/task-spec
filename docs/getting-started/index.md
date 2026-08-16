@@ -5,7 +5,8 @@ change, and what independent evidence will count as done.
 
 1. [Install for your harness](installation.md).
 2. [Create and accept the first atomic task](first-task.md).
-3. Keep [the CLI reference](../reference/cli.md) nearby until the installed
+3. [Review the complete release evidence in five minutes](reviewer-route.md).
+4. Keep [the CLI reference](../reference/cli.md) nearby until the installed
    skill makes the mechanics familiar.
 
 The shortest safe setup is:

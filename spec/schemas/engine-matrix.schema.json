@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/engine-matrix.schema.json",
+  "title": "EngineMatrix/v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "matrix_id", "frozen_at", "tasks", "engines"],
+  "properties": {
+    "contract": {"const": "EngineMatrix/v2"},
+    "matrix_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "frozen_at": {"type": "string", "format": "date-time"},
+    "tasks": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/task"}},
+    "engines": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/engine"}}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "effort", "handoff", "handoff_digest"],
+      "properties": {
+        "task_id": {"type": "string", "pattern": "^T-[0-9]{8}-[a-z0-9][a-z0-9-]*$"},
+        "effort": {"enum": ["XS", "S", "M"]},
+        "handoff": {"type": "string", "minLength": 1},
+        "handoff_digest": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "adapter", "model", "enabled", "max_attempts", "budget"],
+      "properties": {
+        "family": {"type": "string", "minLength": 1},
+        "adapter": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "enabled": {"type": "boolean"},
+        "max_attempts": {"const": 1},
+        "budget": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["timeout_sec"],
+          "properties": {
+            "timeout_sec": {"type": "integer", "minimum": 1},
+            "max_cost_usd": {"type": ["number", "null"], "minimum": 0}
+          }
+        }
+      }
+    }
+  }
+}

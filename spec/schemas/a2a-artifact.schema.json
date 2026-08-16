@@ -1,17 +1,78 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://taskspec.dev/schema/v4/a2a-artifact.schema.json",
-  "title": "TaskSpecA2AArtifact v1-v2 (A2A 1.0)",
+  "title": "TaskSpecA2AArtifact v1-v3 (A2A 1.0)",
   "type": "object",
   "additionalProperties": false,
   "required": ["contract", "artifactId", "name", "parts", "metadata"],
   "properties": {
-    "contract": {"enum": ["TaskSpecA2AArtifact/v1", "TaskSpecA2AArtifact/v2"]},
-    "protocol": {"type": "object", "properties": {"name": {"const": "A2A"}, "version": {"const": "1.0"}}},
-    "artifactId": {"type": "string"},
+    "contract": {"enum": ["TaskSpecA2AArtifact/v1", "TaskSpecA2AArtifact/v2", "TaskSpecA2AArtifact/v3"]},
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {"name": {"const": "A2A"}, "version": {"const": "1.0"}}
+    },
+    "artifactId": {"type": "string", "minLength": 1},
     "name": {"const": "task-spec-handoff"},
-    "parts": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "object", "required": ["kind", "data"], "properties": {"kind": {"const": "data"}, "data": {"type": "object"}}}},
-    "metadata": {"type": "object", "required": ["task_id", "spec_digest", "handoff_digest", "task_state"], "properties": {"task_id": {"type": "string"}, "spec_digest": {"type": "string"}, "handoff_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "task_state": {"type": "string"}}}
+    "parts": {"type": "array", "minItems": 1, "maxItems": 1},
+    "metadata": {
+      "type": "object",
+      "required": ["task_id", "spec_digest", "handoff_digest", "task_state"],
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "spec_digest": {"$ref": "#/$defs/digest"},
+        "handoff_digest": {"$ref": "#/$defs/digest"},
+        "task_state": {"type": "string", "minLength": 1},
+        "task_revision_digest": {"$ref": "#/$defs/digest"},
+        "authorization_ref": {"type": "string", "minLength": 1},
+        "attempt_id": {"type": "string", "minLength": 1},
+        "base_commit": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+        "write_scope_digest": {"$ref": "#/$defs/digest"},
+        "budgets_digest": {"$ref": "#/$defs/digest"},
+        "evidence_requirements_digest": {"$ref": "#/$defs/digest"}
+      }
+    }
   },
-  "allOf": [{"if": {"properties": {"contract": {"const": "TaskSpecA2AArtifact/v2"}}}, "then": {"required": ["protocol"]}}]
+  "allOf": [
+    {
+      "if": {"properties": {"contract": {"enum": ["TaskSpecA2AArtifact/v1", "TaskSpecA2AArtifact/v2"]}}},
+      "then": {
+        "properties": {
+          "parts": {
+            "items": {
+              "type": "object",
+              "required": ["kind", "data"],
+              "properties": {"kind": {"const": "data"}, "data": {"type": "object"}}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"contract": {"const": "TaskSpecA2AArtifact/v3"}}},
+      "then": {
+        "required": ["protocol"],
+        "properties": {
+          "parts": {
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["data", "mediaType"],
+              "properties": {
+                "data": {"type": "string", "minLength": 2},
+                "mediaType": {"const": "application/vnd.taskspec.handoff+json"}
+              }
+            }
+          },
+          "metadata": {
+            "required": ["task_revision_digest", "authorization_ref", "attempt_id", "base_commit", "write_scope_digest", "budgets_digest", "evidence_requirements_digest"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
 }

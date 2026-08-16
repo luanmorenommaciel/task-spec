@@ -5,7 +5,7 @@ description: |
   signed, self-verifying Task-Specs; preview TaskPlan manifests; hand one
   authorized leaf to any harness; and independently accept the result.
 metadata:
-  version: "3.8.0"
+  version: "3.8.1"
 ---
 
 # Task-Spec for Claude Code

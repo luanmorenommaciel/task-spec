@@ -8,6 +8,11 @@ explicitly recording whether bytes were `created`, `unchanged`, or only
 previewed with `dry_run`; no materialization receipt grants dispatch authority. Global
 `--dry-run` prevents supported mutations.
 
+On successful `taskspec --json accept --stamp`, `data` is
+`AcceptanceFinalized/v1`. It binds the accepted task and attempt to the exact
+`AcceptanceRecord/v1` path and `sha256:` digest. Automation consumes that
+structured result rather than parsing the human gate transcript.
+
 | Exit | Meaning |
 |---:|---|
 | 0 | Success or positive proof |
@@ -19,13 +24,14 @@ previewed with `dry_run`; no materialization receipt grants dispatch authority. 
 taskspec help
 taskspec help <command>
 taskspec agent-context
+taskspec example task-plan --out tasks/.plans/example.yaml
 taskspec completion bash
 taskspec completion zsh
 taskspec completion fish
 ```
 
 Stable machine tokens include `INIT=OK`, `DEMO=READY`, `TASK_PLAN=OK`, `TASK_BATCH=OK`,
-`DOD=COMPLETE`, `TIER=1|2`, `ACCEPTED=0|1`, and `INSTALL=OK`. A token is not a
+`EXAMPLE=WRITTEN`, `DOD=COMPLETE`, `TIER=1|2`, `ACCEPTED=0|1`, and `INSTALL=OK`. A token is not a
 substitute for the associated report or JSON contract.
 
 ## Generated command contract
@@ -40,6 +46,7 @@ if the machine contract and reference diverge.
 | `taskspec setup` | none | `SETUP=READY` |
 | `taskspec setup signing` | creates or explicitly rotates the repository-private HMAC key | — |
 | `taskspec demo` | creates and removes an isolated temporary repository | `DEMO=READY`, `DEMO=DRY_RUN` |
+| `taskspec example` | writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing | `EXAMPLE=WRITTEN`, `EXAMPLE=DRY_RUN`, `EXAMPLE=REFUSED` |
 | `taskspec new` | creates one Task-Spec scaffold and derived state | — |
 | `taskspec plan` | none | `TASK_PLAN=OK`, `TASK_PLAN=INVALID` |
 | `taskspec batch` | creates declared Task-Spec scaffolds; --dry-run writes nothing | `TASK_BATCH=OK`, `TASK_BATCH=DRY_RUN`, `TASK_BATCH=REFUSED` |

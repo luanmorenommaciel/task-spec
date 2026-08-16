@@ -7,7 +7,7 @@
 <p><strong>Agents can write code. Task-Spec makes them earn <code>done</code>.</strong></p>
 <p>One open contract for bounded scope, executable proof, sealed authority,<br/>portable handoff, and independent acceptance.</p>
 
-[![version](https://img.shields.io/badge/version-3.8.0-68c7ff)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-3.8.1-68c7ff)](CHANGELOG.md)
 [![format](https://img.shields.io/badge/format-v3%20stable%20%7C%20v4%20opt--in-ffb454)](spec/task-spec-v4.md)
 [![bash](https://img.shields.io/badge/bash-3.2%2B-4EAA25?logo=gnubash&logoColor=white)](#requirements)
 [![release gate](https://img.shields.io/badge/local%20gate-CHECK%3DREADY-3ddc97)](#verified-status)
@@ -16,6 +16,7 @@
 Works with **Codex · Claude Code · Kimi · Grok Build · any conformant executor**
 
 [Prove it](#prove-it-in-one-command) ·
+[Review](#review-it-in-five-minutes) ·
 [Highlights](#what-shipped-in-38) ·
 [Features](#feature-matrix) ·
 [Install](#installation) ·
@@ -73,6 +74,34 @@ That command is exercised by `make check`; tagged releases also have a separate
 remote-install workflow that verifies the checksum-backed release assets and
 authenticated npm/GitHub installation on both Ubuntu and macOS.
 
+## Review it in five minutes
+
+The installed package carries its canonical TaskPlan example, so a reviewer no
+longer needs to copy a checkout-relative sample path:
+
+```bash
+mkdir -p tasks/.plans
+taskspec agent-context
+taskspec example task-plan --out tasks/.plans/reviewer.yaml
+taskspec plan --manifest tasks/.plans/reviewer.yaml
+```
+
+From the corresponding tagged source checkout, verify local behavior, retained
+evidence, the generated README projection, and then the stricter release gate:
+
+```bash
+make check
+python3 src/evidence/release_audit.py check
+python3 tools/render-status.py --check README.md
+make release-audit
+```
+
+During development, `make release-audit` is expected to fail with named
+`BLOCKED` tokens. Publication requires digest-backed proof for every blocking
+criterion and `QUALITY_SCORE=97`; unavailable evidence earns zero. The complete
+[reviewer route](docs/getting-started/reviewer-route.md) explains exactly what
+each evidence class proves—and what it does not.
+
 ## What shipped in 3.8
 
 Version 3.8 finishes the trust chain introduced by format v4 without creating a
@@ -93,9 +122,14 @@ now have to describe the same thing.
 | **Status and recovery** | one read-only status object, one safe next command, backlog doctor | Narrow seals, stale projections, orphan records, and interrupted writes become visible |
 | **Optional interop** | signed v2 receipts, DSSE export, digest-bound A2A v1.0/MCP bridges, provider smoke evidence | Integration grows without becoming a normative transport or trust dependency |
 
-The nine-family matrix is a harness, not a claim that nine real providers have
-passed. Checked-in entries remain disabled until an operator supplies exact
-models, adapters, credentials, and retained results.
+The historical nine-family matrix remains a disabled harness—not a nine-provider
+claim. The 3.8.1 release corridor is narrower and evidence-backed: three frozen
+XS/S/M leaves each ran once through Codex CLI 0.147.0 with `gpt-5.6-sol` and
+Claude Code 2.1.233 with observed model `claude-opus-5`; all six attempts were
+independently accepted with zero write-scope violations. That synthetic result
+demonstrates these two engine families on this corridor, not production
+reliability or every provider. The retained result is
+[`EngineMatrixResult/v2`](release/3.8.1/engine-matrix-result.json).
 
 ## Five reasons to use Task-Spec
 
@@ -136,7 +170,9 @@ models, adapters, credentials, and retained results.
 
 ### Authenticated source checkout
 
-The repository is currently private, so authenticate GitHub before cloning:
+The repository is private. Authenticate GitHub before cloning; use this checkout
+door while the `v3.8.1` candidate is being verified and its final tag remains
+unpublished:
 
 ```bash
 git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \
@@ -161,7 +197,10 @@ The installer ends with `INSTALL=OK` only after the installed engine reports the
 expected version, all harness skill copies match the canonical skill, and the
 CLI launcher resolves to that same engine.
 
-### Pinned release archive
+### Pinned private release archive
+
+`v3.8.0` is the current finalized release. Private release doors use your
+existing GitHub authorization rather than anonymous raw URLs:
 
 ```bash
 gh auth status
@@ -331,6 +370,9 @@ Acceptance reruns the Exit Check, compares every committed and uncommitted
 change with the handoff's immutable Git base, verifies the revision and graph
 closure, applies v4 receipt policy, and writes `AcceptanceRecord/v1` before the
 complete acceptance envelope. A task cannot transition to `done` first.
+With global `--json`, success returns `AcceptanceFinalized/v1`, binding the task
+and attempt to the exact acceptance-record path and digest for external
+schedulers such as Workhelm.
 
 ### 8. Expose the next safe frontier
 
@@ -477,19 +519,23 @@ machine-readable command and token contract.
 <!-- release-status:start -->
 | Surface | Repository evidence | Status |
 |---|---|---|
-| Engine | Bash 3.2 portability, schemas, formats v1-v4, HMAC v1/v2/v3, TaskRevision, graph, DoD, conformance | Pass — `make check` → `CHECK=READY` |
-| Trust hardening | Downgrade, receipt replay/staleness, committed scope, symlink escape, base divergence, closure drift, and crash recovery | Evidence 45/45_local |
-| v4 evidence | Policy validation, hidden holdout, v2 receipt subjects/signatures, mutation audit, identity/revocation, A2A/MCP round trip | Evidence suite 42/42_local |
-| Experience | Global/copy/symlink installs, isolated demo, and init → sign → plan → generate → gate → handoff → execute → accept | Pass; experience suite 79/79_local |
-| Hosted CI | Full repository gate on Ubuntu and macOS | Pass on Ubuntu and macOS — [run](https://github.com/luanmorenommaciel/task-spec/actions/runs/31956071455) |
-| Package | `npm pack --dry-run` and local global npm install | Pass; GitHub install pass |
-| Research | Offline fake Firecrawl/Tavily/Exa adapters and named failure states | Pass; live providers not advertised |
-| Converge consumption | Deterministic generated mirror plus per-file SHA-256 lock | Not updated |
-| External engines | Nine-family matrix contract and honest unavailable state | Not run; no real-engine result claimed |
-| Publication | Canonical source commit, main branch, v3.8.0 tag, checksum assets, and authenticated release doors | Published on main; hosted install pass on ubuntu and macos |
+| Evidence-derived score | Only digest-matching retained artifacts earn points | **90/100**; target 97; release gate blocked |
+| Contract and trust | Revision-bound authorization, compatibility, and the explicit HMAC boundary | 24/25 |
+| Lifecycle and recovery | Nested workspaces, graph recovery, atomic acceptance, and replay resistance | 25/25 |
+| Documentation and DX | Installed reviewer route, executable docs, and generated status | 20/20 |
+| Harness and packaging | All installation doors plus frozen Codex and Claude execution | 6/10 |
+| Standards interoperability | Pinned official A2A and MCP SDK conformance | 9/10 |
+| Public and external proof | Hosted CI, published provenance, and externally signed sandbox evidence | 6/10 |
+| Publication | Task-Spec 3.8.1 at `441c48c8128f` | Blocked |
+| Deliberately unclaimed | Semantic truth, ecosystem-wide certification, and long-running production reliability | 3 points remain unavailable by design |
 <!-- release-status:end -->
 
-The canonical status source is [release/evidence.json](release/evidence.json).
+The canonical status sources are the fixed
+[quality rubric](release/quality-rubric.json), retained
+[release evidence](release/evidence.json), and generated
+[scorecard](release/3.8.1/scorecard.json). Missing, pending, unavailable, or
+digest-mismatched proof earns zero. `make release-audit` recalculates the score
+and fails until every blocking criterion is supported and the total reaches 97.
 `make check` is the single local and normal-CI boundary. It ends with
 `CHECK=READY` only when doctor, documentation lint, every self-test, the
 isolated demo, and conformance are green.

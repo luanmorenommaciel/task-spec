@@ -1,0 +1,89 @@
+[
+  {
+    "contract": "ProtocolConformanceEvidence/v1",
+    "protocol": "A2A",
+    "specification_version": "1.0",
+    "sdk": {
+      "name": "a2a-sdk",
+      "version": "1.1.2",
+      "source_revision": "3e6fa6a41d64f0581202df214a0515a0b0194832",
+      "source_digest": "sha256:eb9a698f526dc45a9ea967d7804e7aa363ff273d2c44fbed699bc68c9399f9c9"
+    },
+    "observed_at": "2026-08-15T18:45:00Z",
+    "result": "pass",
+    "scenarios": [
+      {
+        "id": "a2a-v3-data-part",
+        "status": "pass",
+        "description": "The writer emits the A2A 1.0 data member without the removed kind discriminator."
+      },
+      {
+        "id": "a2a-official-sdk-roundtrip",
+        "status": "pass",
+        "description": "The pinned official protobuf SDK parses and serializes the artifact while preserving the canonical TaskHandoff string."
+      },
+      {
+        "id": "a2a-legacy-reader",
+        "status": "pass",
+        "description": "TaskSpecA2AArtifact v1 and v2 input shapes remain readable."
+      },
+      {
+        "id": "a2a-authority-preservation",
+        "status": "pass",
+        "description": "Revision, authorization, attempt, base, write scope, budgets, and evidence-requirement digests survive the round trip."
+      }
+    ],
+    "artifacts": [
+      {"path": "interop/UPSTREAM.lock", "digest": "sha256:6b5402eadf0b935c6ba323c1d7f1cc29cbacadcff248aee98094e85f33f8cfb9"},
+      {"path": "src/interop/bridge.py", "digest": "sha256:7c0f5e25c0732731a9b1012a8ad74a0e638e37399b39e5cd10f4704dbbe6b307"},
+      {"path": "spec/schemas/a2a-artifact.schema.json", "digest": "sha256:63925a2615dd174bab8ebbf7ae6ee9c0bb2f42f19ab4d337182badd63f318546"},
+      {"path": "tests/test-protocol-conformance.sh", "digest": "sha256:4b7cd915366414a1a868a07b4c8cff79213b9a9f6e0530e56364155ac5503ab5"}
+    ]
+  },
+  {
+    "contract": "ProtocolConformanceEvidence/v1",
+    "protocol": "MCP",
+    "specification_version": "2026-07-28",
+    "sdk": {
+      "name": "mcp",
+      "version": "2.0.0",
+      "source_revision": "6f69a3758ebf2ee55ce050f58b470ce11af71133",
+      "source_digest": "sha256:1cb4c75d2d2c7b8c1d756355e5d82a39f2822cc7f13e22a2051d7ca3592349d6"
+    },
+    "observed_at": "2026-08-15T18:45:00Z",
+    "result": "pass",
+    "scenarios": [
+      {
+        "id": "mcp-stateless-discovery",
+        "status": "pass",
+        "description": "The official v2 client negotiates MCP 2026-07-28 through server/discover without a session handshake."
+      },
+      {
+        "id": "mcp-official-sdk-list-call",
+        "status": "pass",
+        "description": "The pinned official client lists both read-only tools and calls taskspec_validate successfully."
+      },
+      {
+        "id": "mcp-request-metadata",
+        "status": "pass",
+        "description": "Modern requests require protocol version, client info, and client capabilities on every request."
+      },
+      {
+        "id": "mcp-legacy-initialize",
+        "status": "pass",
+        "description": "The explicitly labeled 2025-06-18 initialize response remains available for legacy clients."
+      },
+      {
+        "id": "mcp-authority-preservation",
+        "status": "pass",
+        "description": "TaskSpecMCPTask v2 preserves revision, authorization, attempt, base, scope, budgets, and evidence-requirement digests."
+      }
+    ],
+    "artifacts": [
+      {"path": "interop/UPSTREAM.lock", "digest": "sha256:6b5402eadf0b935c6ba323c1d7f1cc29cbacadcff248aee98094e85f33f8cfb9"},
+      {"path": "src/interop/mcp_server.py", "digest": "sha256:24d591e0df94b4f85be563871b2878e4db04bf31c4d8a911e37b19e5776e8f6d"},
+      {"path": "spec/schemas/mcp-task.schema.json", "digest": "sha256:a35d992a5f165357502b8658a36d4d2b290e8d405671f185b16a36ee957cce76"},
+      {"path": "tests/test-protocol-conformance.sh", "digest": "sha256:4b7cd915366414a1a868a07b4c8cff79213b9a9f6e0530e56364155ac5503ab5"}
+    ]
+  }
+]

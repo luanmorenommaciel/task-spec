@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render/check README's release-status table from release/evidence.json."""
+"""Render/check README status from release evidence and its scorecard."""
 
 from __future__ import annotations
 
@@ -19,34 +19,44 @@ def label(value: str) -> str:
         "pass": "Pass",
         "pass_ubuntu_macos": "Pass on Ubuntu and macOS",
         "pending_release_tag": "Pending release tag",
-        "published_main": "Published on main",
-        "unpublished_worktree": "Unpublished worktree",
-        "implemented_local_unpublished": "Implemented locally; unpublished",
-        "pending_final_run": "Pending final run",
+        "working": "Working release",
+        "rc": "Release candidate",
+        "published": "Published",
+        "blocked": "Blocked",
         "not_run": "Not run",
-        "not_updated": "Not updated",
-        "pending_v3.8.0_release_tag": "Pending v3.8.0 release tag",
-        "unavailable_while_repository_private": "Unavailable while repository is private",
+        "unavailable": "Unavailable",
+        "fail": "Failed",
+        "pending": "Pending",
     }.get(value, value.replace("_", " ").capitalize())
 
 
-def render(evidence: dict) -> str:
-    gates = evidence["gates"]
+def load_scorecard(evidence: dict) -> dict:
+    pointer = evidence["quality_scorecard"]
+    path = (ROOT / pointer["path"]).resolve()
+    path.relative_to(ROOT.resolve())
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def render(evidence: dict, scorecard: dict) -> str:
+    dimensions = {item["id"]: item for item in scorecard["dimensions"]}
+
+    def dimension(dimension_id: str) -> str:
+        item = dimensions[dimension_id]
+        return f"{item['awarded_points']}/{item['max_points']}"
+
+    total = scorecard["total"]
+    release_label = label(evidence["release_status"])
+    ready = "Release gate passed" if total["passed"] else "Release gate blocked"
     rows = [
-        ("Engine", "Bash 3.2 portability, schemas, formats v1-v4, HMAC v1/v2/v3, TaskRevision, graph, DoD, conformance", f"{label(gates['make_check'])} — `make check` → `CHECK=READY`"),
-        ("Trust hardening", "Downgrade, receipt replay/staleness, committed scope, symlink escape, base divergence, closure drift, and crash recovery", f"Evidence {gates['v38_adversarial_suite']}"),
-        ("v4 evidence", "Policy validation, hidden holdout, v2 receipt subjects/signatures, mutation audit, identity/revocation, A2A/MCP round trip", f"Evidence suite {gates['v37_evidence_suite']}"),
-        ("Experience", "Global/copy/symlink installs, isolated demo, and init → sign → plan → generate → gate → handoff → execute → accept", f"{label(gates['clean_room'])}; experience suite {gates['experience_suite']}"),
-        ("Hosted CI", "Full repository gate on Ubuntu and macOS", f"{label(gates['hosted_ci'])} — [run]({gates['hosted_ci_run']})"),
-        ("Package", "`npm pack --dry-run` and local global npm install", f"{label(gates['npm_pack_dry_run'])}; GitHub install {label(gates['npm_github_install']).lower()}"),
-        ("Research", "Offline fake Firecrawl/Tavily/Exa adapters and named failure states", f"{label(gates['research_fake_adapters'])}; live providers not advertised"),
-        ("Converge consumption", "Deterministic generated mirror plus per-file SHA-256 lock", f"{label(gates['converge_mirror'])}"),
-        ("External engines", "Nine-family matrix contract and honest unavailable state", f"{label(gates['real_engine_matrix'])}; no real-engine result claimed"),
-        (
-            "Publication",
-            "Canonical source commit, main branch, v3.8.0 tag, checksum assets, and authenticated release doors",
-            f"{label(evidence['release_status'])}; hosted install {label(gates['release_install_workflow']).lower()}",
-        ),
+        ("Evidence-derived score", "Only digest-matching retained artifacts earn points", f"**{total['awarded']}/{total['maximum']}**; target {total['target']}; {ready.lower()}"),
+        ("Contract and trust", "Revision-bound authorization, compatibility, and the explicit HMAC boundary", dimension("contract_trust")),
+        ("Lifecycle and recovery", "Nested workspaces, graph recovery, atomic acceptance, and replay resistance", dimension("lifecycle_recovery")),
+        ("Documentation and DX", "Installed reviewer route, executable docs, and generated status", dimension("documentation_dx")),
+        ("Harness and packaging", "All installation doors plus frozen Codex and Claude execution", dimension("harness_packaging")),
+        ("Standards interoperability", "Pinned official A2A and MCP SDK conformance", dimension("standards_interoperability")),
+        ("Public and external proof", "Hosted CI, published provenance, and externally signed sandbox evidence", dimension("public_external_proof")),
+        ("Publication", f"Task-Spec {evidence['version']} at `{evidence['source']['commit'][:12]}`", release_label),
+        ("Deliberately unclaimed", "Semantic truth, ecosystem-wide certification, and long-running production reliability", "3 points remain unavailable by design"),
     ]
     lines = [START, "| Surface | Repository evidence | Status |", "|---|---|---|"]
     lines.extend(f"| {surface} | {proof} | {status} |" for surface, proof, status in rows)
@@ -59,7 +69,10 @@ def main() -> int:
     parser.add_argument("--check", metavar="README", help="fail when the marked README region is stale")
     args = parser.parse_args()
     evidence = json.loads(EVIDENCE.read_text(encoding="utf-8"))
-    expected = render(evidence)
+    if evidence.get("contract") != "TaskSpecReleaseEvidence/v2":
+        print("RELEASE_STATUS=STALE unsupported release evidence contract", file=sys.stderr)
+        return 1
+    expected = render(evidence, load_scorecard(evidence))
     if not args.check:
         print(expected)
         return 0

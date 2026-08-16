@@ -1,7 +1,7 @@
 # task-spec engine — single release gate.
 # `make check` runs the exact same boundary as CI (.github/workflows/ci.yml).
 
-.PHONY: check test lint doctor conformance
+.PHONY: check test lint doctor conformance release-audit
 
 check: doctor lint test conformance
 	@echo "CHECK=READY"
@@ -19,3 +19,6 @@ test:
 conformance:
 	bash spec/conformance/run_conformance.sh
 	bash bin/taskspec conformance --self-test
+
+release-audit:
+	python3 src/evidence/release_audit.py audit

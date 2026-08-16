@@ -14,6 +14,7 @@ import subprocess
 import tarfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+EXCLUDED_ROOTS = {".git", ".taskspec", ".playwright-cli", "dist", "evidence", "output", "release", "tasks"}
 
 
 def paths(include_worktree: bool) -> list[pathlib.Path]:
@@ -38,7 +39,7 @@ def main() -> int:
     with tarfile.open(fileobj=tar_bytes, mode="w", format=tarfile.PAX_FORMAT) as bundle:
         for source in paths(args.include_worktree):
             rel = source.relative_to(ROOT)
-            if rel.parts[0] in {"dist", ".git"} or "__pycache__" in rel.parts:
+            if rel.parts[0] in EXCLUDED_ROOTS or "__pycache__" in rel.parts:
                 continue
             arcname = f"{prefix}/{rel.as_posix()}"
             st = source.lstat()
