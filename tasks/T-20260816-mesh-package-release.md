@@ -10,7 +10,7 @@ agent: codex
 parent: (none)
 depends_on: [T-20260816-mesh-cockpit-mcp]
 supersedes: (none)
-touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh, Makefile, README.md, SKILL.md, integrations/claude-code/SKILL.md, integrations/claude-code/plugin.json, integrations/claude-code/marketplace.json, .claude-plugin/plugin.json, .claude-plugin/marketplace.json, cmd/taskspec-meshd/main.go, docs, docs/readme-command-coverage.json, .github/workflows, release/evidence.json, release/quality-rubric.json, tools/build-release-archive.py, tools/build-release-report.py, tests/test-release-packaging.sh, tests/test-v381-experience.sh]
+touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh, Makefile, README.md, SKILL.md, integrations/claude-code/SKILL.md, integrations/claude-code/plugin.json, integrations/claude-code/marketplace.json, .claude-plugin/plugin.json, .claude-plugin/marketplace.json, cmd/taskspec-meshd/main.go, docs, docs/readme-command-coverage.json, .github/workflows, release/evidence.json, release/quality-rubric.json, tools/build-release-archive.py, tools/build-release-report.py, tests/test-release-packaging.sh, tests/test-v36-experience.sh, tests/test-v381-experience.sh]
 creates_paths: [docs/getting-started/taskmesh.md, docs/reference/taskmesh-contracts.md, docs/trust/taskmesh-boundaries.md, release/3.9.0, tools/build-mesh-release.py, tests/test-mesh-install.sh, tests/test-mesh-conformance.sh, tests/test-mesh-demo.sh]
 source_note: "user-approved TaskMesh 3.9.0 release plan"
 created: "2026-08-16T00:00:00Z"
@@ -25,13 +25,12 @@ security_class: (none)
 source_action_item: (none)
 tracker_ref: (none)
 execution_backend: codex
-signed_off: true
-signed_off_by: luanmorenomaciel
-signed_off_at: 2026-08-16T20:52:07Z
+signed_off: false
+signed_off_by: (none)
+signed_off_at: (none)
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
-signed_off_sig: hmac-sha256-v3:e2e418a3:de93cb85bbc4487882f83b35b0671b234bcb562ed0114c39f13e9c738b95bd27
 ---
 
 # Package, document, prove, and privately publish Task-Spec 3.9.0
