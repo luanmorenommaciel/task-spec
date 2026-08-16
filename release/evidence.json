@@ -10,10 +10,10 @@
   ],
   "generated_at": "2026-08-16T19:03:52Z",
   "source": {
-    "commit": "4f9502180b636878a9b24f0b9df19fa6a8f278f6",
-    "branch": "codex/taskspec-3.8.1-private-final"
+    "commit": "351c39908ca07b301d38d9e433b2c7c16e8ad065",
+    "branch": "main"
   },
-  "release_status": "rc",
+  "release_status": "published",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
     "digest": "sha256:a0c7349db6df8593dccc6be9a72716b6377df9111f63f7fc9b8c73304866f4d9"

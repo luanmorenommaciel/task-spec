@@ -5,7 +5,7 @@ description: |
   signed, self-verifying Task-Specs; preview TaskPlan manifests; hand one
   authorized leaf to any harness; and independently accept the result.
 metadata:
-  version: "3.8.1"
+  version: "3.9.0"
 ---
 
 # Task-Spec for Claude Code
@@ -41,6 +41,7 @@ skills, or `--target <repo>` for project-local copies.
    | Portable handoff | `taskspec handoff <spec> --backend claude --out <file>` |
    | POST-gate acceptance | `taskspec accept --handoff <file> --stamp <spec>` |
    | Status and recovery | `taskspec status <id>` and `taskspec doctor --backlog` |
+   | Optional TaskMesh cockpit | `taskspec mesh frontier`, `run`, `watch`, `accept`, and `finish` |
    | Opt-in evidence task | `taskspec new --format 4 <slug> <effort>` then `taskspec author-doctor <spec>` |
 
 5. Respect the effort gate: XS/S/M/L are runnable leaves; L needs a backend
@@ -59,3 +60,8 @@ skills, or `--target <repo>` for project-local copies.
 - Changed scope or proof policy requires explicit replanning and reauthorization;
   never silently rewrite downstream dependencies.
 - Exit codes: `0` pass/accept · `1` failed/rejected · `2` usage error.
+- When TaskMesh is installed, Claude may start or reconnect to the durable
+  cockpit, but the daemon owns the run and Task-Spec owns authority. Do not call
+  a supervised worktree a sandbox, self-accept an attempt, or merge the target
+  branch. Autonomous OMP requires externally verified isolation and expiring
+  credential evidence.

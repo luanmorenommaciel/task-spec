@@ -37,7 +37,11 @@ def git(*args: str) -> str:
 def required_tokens(log: str) -> dict[str, bool]:
     return {
         token: bool(re.search(rf"^{re.escape(token)}$", log, re.M))
-        for token in ("CHECK=READY", "CONFORMANCE=L2", "DEMO=READY", "INSTALL=OK")
+        for token in (
+            "CHECK=READY", "CONFORMANCE=L2", "DEMO=READY", "INSTALL=OK",
+            "MESH_CONFORMANCE=READY", "MESH_RECOVERY=READY", "MESH_DEMO=READY",
+            "MESH_INSTALL=READY", "MESH_ISOLATION=READY",
+        )
     }
 
 
@@ -48,10 +52,11 @@ def main() -> int:
     parser.add_argument("--sbom", required=True)
     parser.add_argument("--gate-log", required=True)
     parser.add_argument("--install-log", required=True)
-    parser.add_argument("--out-dir", default="release/3.8.1")
+    parser.add_argument("--mesh-manifest")
+    parser.add_argument("--out-dir", default=None)
     args = parser.parse_args()
     version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-    out_dir = pathlib.Path(args.out_dir).resolve()
+    out_dir = pathlib.Path(args.out_dir or f"release/{version}").resolve()
     source_archive = pathlib.Path(args.source_archive).resolve()
     evidence_archive = pathlib.Path(args.evidence_archive).resolve()
     sbom = pathlib.Path(args.sbom).resolve()
@@ -69,6 +74,7 @@ def main() -> int:
         "local_npm": "✓ local npm package install" in install_log,
         "checksum_archive": "✓ checksum-backed remote install" in install_log,
         "tamper_rejection": "✓ tampered release archive fails closed" in install_log,
+        "taskmesh_helper": "MESH_INSTALL=READY" in install_log,
     }
     if not all(install_checks.values()) or "INSTALL=OK" not in install_log:
         raise SystemExit("local installation matrix did not pass every required door")
@@ -91,6 +97,7 @@ def main() -> int:
             "honest_hmac_boundary": {"state": "pass", "proof": ["HMAC is documented as shared-key tamper evidence, not identity or semantic truth"]},
             "graph_recovery": {"state": "pass", "proof": ["TaskGraphView/v1 deterministic graph and crash recovery suites"]},
             "atomic_acceptance": {"state": "pass", "proof": ["AcceptanceRecord/v1 replay, mismatch, and crash-fault suites"]},
+            "taskmesh_control_plane": {"state": "pass", "proof": ["leases, fencing, recovery, routing, adapters, cockpit, isolation, and target-branch safety"]},
         },
         "limitations": ["Local evidence is not hosted CI evidence."],
     }
@@ -119,6 +126,9 @@ def main() -> int:
         {"name": evidence_archive.name, "digest": digest(evidence_archive)},
         {"name": sbom.name, "digest": digest(sbom)},
     ]
+    if args.mesh_manifest:
+        mesh_manifest = pathlib.Path(args.mesh_manifest).resolve()
+        artifact_rows.append({"name": mesh_manifest.name, "digest": digest(mesh_manifest)})
     checksum_path = out_dir / "checksums.txt"
     checksum_path.write_text(
         "".join(f"{row['digest'][7:]}  {row['name']}\n" for row in sorted(artifact_rows, key=lambda row: row["name"])),

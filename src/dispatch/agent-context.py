@@ -32,6 +32,7 @@ commands = {
     "bridge": {"mutation": "export writes only with --out; validate is read-only", "tokens": ["BRIDGE=VALID", "BRIDGE=INVALID"]},
     "dsse": {"mutation": "export writes only to --out; verify is read-only", "tokens": ["DSSE=EXPORTED", "DSSE=VERIFIED", "DSSE=INVALID"]},
     "mcp": {"mutation": "read-only stdio server", "tokens": []},
+    "mesh": {"mutation": "optional repository-local control plane; run/cancel/resume/accept/finish/setup mutate disposable mesh state while canonical acceptance still calls Task-Spec", "tokens": ["MESH_WATCH_READY", "MESH_SUPERVISED_ACCEPTED", "MESH_FINISHED", "TASKMESH_ERROR=<code>", "TASKMESH_DRY_RUN"]},
     "ready": {"mutation": "none", "tokens": []},
     "graph": {"mutation": "none; TaskGraphView/v1 is derived from Markdown and Git", "tokens": ["GRAPH=<digest>", "GRAPH=INVALID"]},
     "status": {"mutation": "none; emits TaskStatus/v1 and exactly one safe next command", "tokens": ["NEXT=<command>", "STATUS=INVALID"]},
@@ -93,8 +94,23 @@ contract = {
         "agent_contract": "spec/schemas/agent-contract.schema.json",
         "a2a_artifact": "spec/schemas/a2a-artifact.schema.json",
         "mcp_task": "spec/schemas/mcp-task.schema.json",
+        "taskmesh_api": "spec/schemas/taskmesh-api.schema.json",
+        "taskmesh_run": "spec/schemas/taskmesh-run.schema.json",
+        "executor_capability": "spec/schemas/executor-capability.schema.json",
+        "dispatch_decision": "spec/schemas/dispatch-decision.schema.json",
+        "run_lease": "spec/schemas/run-lease.schema.json",
+        "taskmesh_event": "spec/schemas/taskmesh-event.schema.json",
+        "taskmesh_view": "spec/schemas/taskmesh-view.schema.json",
+        "sandbox_evidence": "spec/schemas/sandbox-evidence.schema.json",
+        "credential_lease": "spec/schemas/credential-lease.schema.json",
     },
     "credentials": "TaskHandoff and AgentContext never contain credentials; provider and model credentials remain external to core.",
+    "taskmesh": {
+        "api": "TaskMeshAPI/v1alpha1",
+        "commands": ["init", "doctor", "serve", "frontier", "run", "status", "watch", "explain", "cancel", "resume", "accept", "finish", "adapters", "setup sandbox", "mcp"],
+        "mcp_tools": ["taskmesh.frontier", "taskmesh.explain_route", "taskmesh.start_run", "taskmesh.get_run", "taskmesh.cancel_attempt", "taskmesh.accept_attempt", "taskmesh.finish_run"],
+        "authority": "TaskMesh leases, routes, observes, recovers, and integrates; only canonical taskspec accept may accept a task revision.",
+    },
 }
 
 print(json.dumps(contract, indent=2, ensure_ascii=False))

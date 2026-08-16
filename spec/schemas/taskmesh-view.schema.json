@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/taskmesh-view.schema.json",
+  "title": "TaskMeshView/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "run", "attempts", "latest_sequence", "generated_at"],
+  "properties": {
+    "contract": {"const": "TaskMeshView/v1"},
+    "run": {"$ref": "taskmesh-run.schema.json"},
+    "attempts": {"type": "array", "items": {"$ref": "run-lease.schema.json"}},
+    "latest_sequence": {"type": "integer", "minimum": 0},
+    "generated_at": {"type": "string", "format": "date-time"}
+  }
+}

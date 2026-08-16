@@ -20,6 +20,7 @@
     "ready": "tests/test-v36-experience.sh clean-room journey",
     "graph": "tests/test-v36-experience.sh clean-room journey",
     "status": "tests/test-v36-experience.sh clean-room journey",
+    "mesh": "tests/test-mesh-demo.sh and tests/test-mesh-conformance.sh complete control-plane corridor",
     "new": "tests/test-v36-experience.sh README scaffold commands"
   }
 }

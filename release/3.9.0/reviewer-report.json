@@ -1,0 +1,22 @@
+{
+  "contract": "TaskMeshReviewerReport/v1",
+  "release_version": "3.9.0",
+  "observed_at": "2026-08-16T21:07:35Z",
+  "result": "pass",
+  "checks": [
+    {"id": "product-boundary", "state": "pass", "proof": "README and trust docs keep Task-Spec authority, TaskMesh runtime state, cockpit control, adapters, OMP, and Converge responsibilities separate."},
+    {"id": "installation", "state": "pass", "proof": "Core-only, checksum-backed copy, checkout symlink, tamper rejection, and version mismatch cases executed."},
+    {"id": "cross-cockpit", "state": "pass", "proof": "Independent CLI processes and a Grok-labeled MCP client observed and controlled one durable run without changing its target branch."},
+    {"id": "assurance-language", "state": "pass", "proof": "Supervised worktrees are not called sandboxes; autonomous claims require live Docker evidence and host-signed receipts."},
+    {"id": "documentation-contract", "state": "pass", "proof": "README command coverage, links, fences, generated CLI reference, generated quality status, images, and Mermaid diagrams passed."}
+  ],
+  "artifacts": [
+    {"path": "docs/getting-started/taskmesh.md", "digest": "sha256:dc19ed325e6b63c6fbb035ce373c06e8f795f268e56e69ec49c462b341a92941"},
+    {"path": "docs/reference/taskmesh-contracts.md", "digest": "sha256:f0f94fb7906dfc150d7626777a8f0baee60a7878e745b6190c0f20e8d94fe1c0"},
+    {"path": "docs/trust/taskmesh-boundaries.md", "digest": "sha256:8646b594d8ce69cfcbf88455c3ba5106e7c6ec1e90e163ce19b391c6824c1209"},
+    {"path": "tests/test-mesh-cockpit.sh", "digest": "sha256:93c5fc08a632ec187b07a5e5944479375ec102587ac0a218bcaece283b694d92"}
+  ],
+  "limitations": [
+    "Documentation describes the private local product and retained tests; hosted and published status remains separately evidenced."
+  ]
+}

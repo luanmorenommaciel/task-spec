@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-16T19:30:18Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "e4e4fa36-2ca5-42ef-af3d-e54dca45b4fd",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:8dc89f86a3f52d59525e3320adb8fa403ed016a76037cd676e50bf9d10e0e88d",
+    "base_commit": "544f34381d4a952235416721bc32136114563740",
+    "task_id": "T-20260816-mesh-contracts-cli",
+    "task_revision_digest": "sha256:a6ae28ab034c9547208c7d0c83d9828d30ebc39f3fc90934252471d86af5995e"
+  }
+}

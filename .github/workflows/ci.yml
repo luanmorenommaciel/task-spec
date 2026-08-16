@@ -30,6 +30,12 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install pinned Go toolchain for optional TaskMesh
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        with:
+          go-version: '1.25.0'
+          cache-dependency-path: go.sum
+
       - name: Install shellcheck (macOS)
         # ubuntu-latest ships shellcheck; macOS runners do not, and the gate's
         # --shellcheck-evals lint hard-requires it. Pinned by SHA-256.
@@ -61,3 +67,22 @@ jobs:
 
       - name: make check (includes isolated install-to-accept demo)
         run: make check
+
+  mesh-isolation:
+    name: TaskMesh autonomous isolation (ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install pinned Go toolchain
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        with:
+          go-version: '1.25.0'
+          cache-dependency-path: go.sum
+      - name: Require live Docker isolation proof
+        env:
+          TASKSPEC_REQUIRE_MESH_ISOLATION: '1'
+        run: bash tests/test-mesh-isolation.sh

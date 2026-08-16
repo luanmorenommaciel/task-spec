@@ -26,6 +26,9 @@
 | [concepts/evaluation-policy.md](concepts/evaluation-policy.md) | Deterministic, holdout, graded, and human acceptance policy |
 | [concepts/evidence-receipts.md](concepts/evidence-receipts.md) | Typed evidence and provenance contracts |
 | [concepts/environment-contract.md](concepts/environment-contract.md) | Portable runtime commitment and enforcement receipt |
+| [getting-started/taskmesh.md](getting-started/taskmesh.md) | Optional multi-harness execution control plane walkthrough |
+| [reference/taskmesh-contracts.md](reference/taskmesh-contracts.md) | TaskMesh API, runtime overlay, leases, states, and errors |
+| [trust/taskmesh-boundaries.md](trust/taskmesh-boundaries.md) | Supervised/autonomous assurance and credential boundaries |
 
 ## Patterns (≤200 lines each)
 

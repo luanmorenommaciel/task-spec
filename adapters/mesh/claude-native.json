@@ -1,0 +1,11 @@
+{
+  "contract": "TaskMeshAdapter/v1",
+  "name": "claude-native",
+  "harness": "claude",
+  "executable": "claude",
+  "version_args": ["--version"],
+  "command": ["-p", "{prompt}", "--output-format", "stream-json", "--no-session-persistence", "--permission-mode", "acceptEdits", "--allowedTools", "Read,Edit,Write,Bash"],
+  "prompt_mode": "argument",
+  "event_format": "jsonl",
+  "assurance_modes": ["supervised"]
+}

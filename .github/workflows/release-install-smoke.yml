@@ -26,6 +26,11 @@ jobs:
         with:
           ref: ${{ env.RELEASE_REF }}
           persist-credentials: false
+      - name: Install pinned Go toolchain
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        with:
+          go-version: '1.25.0'
+          cache-dependency-path: go.sum
       - name: Build deterministic archives, checksum, and SPDX SBOM
         run: |
           set -euo pipefail
@@ -37,20 +42,23 @@ jobs:
           echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
           epoch="$(git show -s --format=%ct HEAD)"
           SOURCE_DATE_EPOCH="$epoch" python3 tools/build-release-archive.py --out-dir dist
+          python3 tools/build-mesh-release.py --out-dir dist
           python3 tools/build-sbom.py \
             --archive "dist/task-spec-$(cat VERSION).tar.gz" \
             --epoch "$epoch" \
             --out "dist/task-spec-$(cat VERSION).spdx.json"
           SOURCE_DATE_EPOCH="$epoch" python3 tools/build-release-evidence-archive.py --out-dir dist
           cp release/evidence.json "dist/task-spec-$(cat VERSION)-release-evidence.json"
-          cp "release/$(cat VERSION)/scorecard.json" "dist/task-spec-$(cat VERSION)-scorecard.json"
+          scorecard="$(python3 -c 'import json; print(json.load(open("release/evidence.json"))["quality_scorecard"]["path"])')"
+          cp "$scorecard" "dist/task-spec-$(cat VERSION)-quality-scorecard.json"
           cp "release/$(cat VERSION)/reviewer-report.json" "dist/task-spec-$(cat VERSION)-reviewer-report.json"
+          cp "release/$(cat VERSION)/mesh-release-evidence.json" "dist/task-spec-$(cat VERSION)-mesh-release-evidence.json"
           (cd dist && shasum -a 256 task-spec-* > "task-spec-$(cat ../VERSION)-checksums.txt")
 
       - name: Attach immutable assets to the existing release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "$RELEASE_REF" dist/task-spec-* --clobber
+        run: gh release upload "$RELEASE_REF" dist/* --clobber
 
   provenance:
     name: private DSSE and in-toto provenance
@@ -75,7 +83,8 @@ jobs:
           mkdir -p dist
           gh release download "$RELEASE_REF" --dir dist \
             --pattern "task-spec-${version}.tar.gz" \
-            --pattern "task-spec-${version}.spdx.json"
+            --pattern "task-spec-${version}.spdx.json" \
+            --pattern "taskmesh-checksums.txt"
           echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
 
       - name: Create and independently verify private release provenance
@@ -115,10 +124,34 @@ jobs:
             --sbom "dist/task-spec-${RELEASE_VERSION}.spdx.json" \
             --envelope "dist/task-spec-${RELEASE_VERSION}.provenance.dsse.json" \
             --public-key release/trust/release-provenance.ed25519.pub.pem
+          python3 tools/release-provenance.py create \
+            --release-version "$RELEASE_VERSION" \
+            --release-ref "$RELEASE_REF" \
+            --source-repository "$GITHUB_REPOSITORY" \
+            --source-commit "$source_commit" \
+            --subject "dist/taskmesh-checksums.txt" \
+            --sbom "dist/task-spec-${RELEASE_VERSION}.spdx.json" \
+            --builder-id "https://github.com/${GITHUB_REPOSITORY}/actions/workflows/release-install-smoke.yml" \
+            --invocation-id "https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+            --started-at "$started_at" \
+            --finished-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --private-key "$key" \
+            --public-key release/trust/release-provenance.ed25519.pub.pem \
+            --out "dist/taskmesh-binaries.provenance.dsse.json"
+          python3 tools/release-provenance.py verify \
+            --release-version "$RELEASE_VERSION" \
+            --release-ref "$RELEASE_REF" \
+            --source-repository "$GITHUB_REPOSITORY" \
+            --source-commit "$source_commit" \
+            --subject "dist/taskmesh-checksums.txt" \
+            --sbom "dist/task-spec-${RELEASE_VERSION}.spdx.json" \
+            --envelope "dist/taskmesh-binaries.provenance.dsse.json" \
+            --public-key release/trust/release-provenance.ed25519.pub.pem
           cp release/trust/release-provenance.ed25519.pub.pem \
             "dist/task-spec-${RELEASE_VERSION}-release-provenance.pub.pem"
           gh release upload "$RELEASE_REF" \
             "dist/task-spec-${RELEASE_VERSION}.provenance.dsse.json" \
+            "dist/taskmesh-binaries.provenance.dsse.json" \
             "dist/task-spec-${RELEASE_VERSION}-release-provenance.pub.pem" \
             --clobber
 
@@ -140,6 +173,12 @@ jobs:
         with:
           ref: ${{ env.RELEASE_REF }}
           persist-credentials: false
+
+      - name: Install pinned Go toolchain
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        with:
+          go-version: '1.25.0'
+          cache-dependency-path: go.sum
 
       - name: Install shellcheck (macOS)
         if: runner.os == 'macOS'
@@ -182,6 +221,13 @@ jobs:
             --pattern "task-spec-${RELEASE_VERSION}.tar.gz" \
             --pattern "task-spec-${RELEASE_VERSION}.tar.gz.sha256" \
             --dir "$work/assets"
+          os="$(uname -s | tr '[:upper:]' '[:lower:]')"
+          arch="$(uname -m)"
+          case "$arch" in x86_64|amd64) arch=amd64 ;; arm64|aarch64) arch=arm64 ;; esac
+          gh release download "$RELEASE_REF" --repo "$GITHUB_REPOSITORY" \
+            --pattern "taskspec-meshd-${os}-${arch}" \
+            --pattern "taskspec-meshd-${os}-${arch}.sha256" \
+            --dir "$work/assets"
           python3 -m http.server 8765 --bind 127.0.0.1 --directory "$work/assets" \
             > release-install-logs/asset-server.log 2>&1 &
           server_pid="$!"
@@ -193,12 +239,22 @@ jobs:
           done
           HOME="$work/home" TASKSPEC_INSTALL_ROOT="$work/install-root" \
             TASKSPEC_RELEASE_BASE_URL="http://127.0.0.1:8765" \
-            bash "$work/install.sh" --target "$work/project" --bin-dir "$work/bin" \
+            TASKSPEC_MESH_ASSET_DIR="$work/assets" \
+            bash "$work/install.sh" --target "$work/project" --bin-dir "$work/bin" --with-mesh \
             | tee release-install-logs/authenticated-release-install.log
           test "$("$work/bin/taskspec" version)" = "$RELEASE_VERSION"
           "$work/bin/taskspec" demo | tee release-install-logs/authenticated-release-demo.log
+          git init -q -b main "$work/project"
+          git -C "$work/project" config user.name taskspec-release
+          git -C "$work/project" config user.email taskspec@example.invalid
+          touch "$work/project/README.md"
+          git -C "$work/project" add README.md
+          git -C "$work/project" commit -qm initial
+          (cd "$work/project" && "$work/bin/taskspec" mesh doctor) \
+            | tee release-install-logs/authenticated-mesh-doctor.log
           grep -q '^INSTALL=OK$' release-install-logs/authenticated-release-install.log
           grep -q '^DEMO=READY$' release-install-logs/authenticated-release-demo.log
+          grep -q '^MESH_DOCTOR_READY:' release-install-logs/authenticated-mesh-doctor.log
 
       - name: Prove npm GitHub installer and isolated lifecycle
         run: |
@@ -211,10 +267,11 @@ jobs:
             | tee release-install-logs/npm-install.log
           test "$("$work/npm/bin/taskspec" version)" = "$RELEASE_VERSION"
           TASKSPEC_INSTALL_ROOT="$work/install-root" \
-            "$work/npm/bin/taskspec-install" --target "$work/project" --no-bin \
+            "$work/npm/bin/taskspec-install" --target "$work/project" --bin-dir "$work/npm/bin" --with-mesh \
             | tee release-install-logs/npm-harness-install.log
           "$work/npm/bin/taskspec" demo | tee release-install-logs/npm-demo.log
           grep -q '^INSTALL=OK$' release-install-logs/npm-harness-install.log
+          test -x "$work/npm/bin/taskspec-meshd"
           grep -q '^DEMO=READY$' release-install-logs/npm-demo.log
 
       - name: Retain installation evidence

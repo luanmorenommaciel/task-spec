@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/taskmesh-event.schema.json",
+  "title": "TaskMeshEvent/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "run_id", "sequence", "event_id", "type", "observed_at", "payload", "payload_digest"],
+  "properties": {
+    "contract": {"const": "TaskMeshEvent/v1"},
+    "run_id": {"type": "string", "format": "uuid"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "event_id": {"type": "string", "format": "uuid"},
+    "attempt_id": {"type": ["string", "null"], "format": "uuid"},
+    "fencing_token": {"type": ["integer", "null"], "minimum": 1},
+    "type": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "payload": {"type": "object"},
+    "payload_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

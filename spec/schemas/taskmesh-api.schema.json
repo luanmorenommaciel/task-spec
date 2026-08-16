@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/taskmesh-api.schema.json",
+  "title": "TaskMeshAPI/v1alpha1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "product_version", "api_version", "capabilities"],
+  "properties": {
+    "contract": {"const": "TaskMeshAPI/v1alpha1"},
+    "product_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][A-Za-z0-9.-]+)?$"},
+    "api_version": {"const": "v1alpha1"},
+    "capabilities": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "repository": {"type": "string", "minLength": 1},
+    "daemon_pid": {"type": "integer", "minimum": 1}
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-08-16T20:30:03Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "548297a0-4bb5-411f-b674-03bd7a835430",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:2db9088d62c78001442d23367ac0b4c8bd4410dd253abd097e0e3d68b36d5e4a",
+    "base_commit": "e74b8d5435964f42ef546a5cde45206484d440ad",
+    "task_id": "T-20260816-mesh-autonomous-isolation",
+    "task_revision_digest": "sha256:3dfdfaf6c88b9c163f52501a9c421c0dfb6982eb044ce599000aebecc10552ba"
+  }
+}

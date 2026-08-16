@@ -2,13 +2,14 @@
 # Install a pinned Task-Spec engine, CLI launcher, and equivalent harness skills.
 set -euo pipefail
 
-PINNED_VERSION="3.8.1"
+PINNED_VERSION="3.9.0"
 REPOSITORY="luanmorenommaciel/task-spec"
 TARGET="$PWD"
 MODE="copy"
 BIN_DIR="${HOME}/.local/bin"
 NO_BIN=false
 FORCE=false
+WITH_MESH=false
 
 usage() {
   cat <<'EOF'
@@ -19,6 +20,7 @@ Usage: install.sh [options]
   --symlink          checkout-development mode; source must be a local checkout
   --bin-dir DIR      CLI launcher directory (default: ~/.local/bin)
   --no-bin           install skills only
+  --with-mesh        install the matching optional TaskMesh helper
   --force            back up and replace existing managed destinations
 EOF
 }
@@ -37,12 +39,18 @@ while [[ $# -gt 0 ]]; do
     --bin-dir) BIN_DIR="${2:-}"; shift 2 ;;
     --bin-dir=*) BIN_DIR="${1#*=}"; shift ;;
     --no-bin) NO_BIN=true; shift ;;
+    --with-mesh) WITH_MESH=true; shift ;;
     --force) FORCE=true; shift ;;
     --help|-h) usage; exit 0 ;;
     --version) echo "$PINNED_VERSION"; exit 0 ;;
     *) echo "install.sh: unknown option $1" >&2; usage >&2; exit 2 ;;
   esac
 done
+
+if [[ "$WITH_MESH" == true && "$NO_BIN" == true ]]; then
+  echo "install.sh: --with-mesh requires the CLI; remove --no-bin" >&2
+  exit 2
+fi
 
 [[ -d "$TARGET" ]] || { echo "install.sh: target directory does not exist: $TARGET" >&2; exit 2; }
 TARGET="$(cd "$TARGET" && pwd)"
@@ -128,11 +136,111 @@ else
   else
     [[ ! -e "$ENGINE_DEST" ]] || backup_existing "$ENGINE_DEST"
     mkdir -p "$ENGINE_DEST"
-    for item in VERSION LICENSE README.md CHANGELOG.md SKILL.md agents assets bin configs src spec templates docs integrations .claude-plugin; do
+    for item in VERSION LICENSE README.md CHANGELOG.md SKILL.md agents assets bin configs src spec templates docs integrations adapters .claude-plugin; do
       [[ -e "$SOURCE_ROOT/$item" ]] && cp -R "$SOURCE_ROOT/$item" "$ENGINE_DEST/$item"
     done
+    if [[ -d "$SOURCE_ROOT/release/mesh" ]]; then
+      mkdir -p "$ENGINE_DEST/release"
+      cp -R "$SOURCE_ROOT/release/mesh" "$ENGINE_DEST/release/mesh"
+    fi
     echo "engine: $ENGINE_DEST"
   fi
+fi
+
+sha256_file() {
+  if command -v shasum >/dev/null 2>&1; then
+    shasum -a 256 "$1" | awk '{print $1}'
+  elif command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | awk '{print $1}'
+  elif command -v openssl >/dev/null 2>&1; then
+    openssl dgst -sha256 "$1" | awk '{print $NF}'
+  else
+    echo "install.sh: SHA-256 provider required for TaskMesh" >&2
+    return 2
+  fi
+}
+
+install_mesh() {
+  local kernel machine platform asset asset_path checksum_path expected_sha actual_sha mesh_tmp
+  kernel="$(uname -s)"
+  machine="$(uname -m)"
+  case "$kernel" in
+    Darwin) platform="darwin" ;;
+    Linux) platform="linux" ;;
+    *) echo "install.sh: TaskMesh has no helper for $kernel" >&2; return 2 ;;
+  esac
+  case "$machine" in
+    x86_64|amd64) machine="amd64" ;;
+    arm64|aarch64) machine="arm64" ;;
+    *) echo "install.sh: TaskMesh has no helper for $machine" >&2; return 2 ;;
+  esac
+  asset="taskspec-meshd-$platform-$machine"
+  asset_path=""
+  for candidate in \
+    "${TASKSPEC_MESH_ASSET_DIR:-}/$asset" \
+    "$SOURCE_ROOT/release/$PINNED_VERSION/bin/$asset" \
+    "$(dirname "$SOURCE_ROOT")/$asset" \
+    "$SCRIPT_DIR/$asset"; do
+    if [[ "$candidate" != "/$asset" && -f "$candidate" ]]; then
+      asset_path="$candidate"
+      break
+    fi
+  done
+
+  if [[ -z "$asset_path" && -f "$SOURCE_ROOT/go.mod" && -d "$SOURCE_ROOT/cmd/taskspec-meshd" ]]; then
+    command -v go >/dev/null 2>&1 || {
+      echo "install.sh: Go is required to build TaskMesh from a checkout; provide a release helper asset instead" >&2
+      return 2
+    }
+    mesh_tmp="$(mktemp -d -t taskspec-mesh-build-XXXXXX)"
+    (cd "$SOURCE_ROOT" && CGO_ENABLED=0 go build -trimpath -ldflags='-s -w' -o "$mesh_tmp/$asset" ./cmd/taskspec-meshd)
+    asset_path="$mesh_tmp/$asset"
+    checksum_path=""
+  elif [[ -n "$asset_path" ]]; then
+    checksum_path="$asset_path.sha256"
+    [[ -f "$checksum_path" ]] || {
+      echo "install.sh: missing TaskMesh checksum: $checksum_path" >&2
+      return 1
+    }
+  else
+    command -v curl >/dev/null 2>&1 || { echo "install.sh: curl is required to download TaskMesh" >&2; return 2; }
+    mesh_tmp="$(mktemp -d -t taskspec-mesh-download-XXXXXX)"
+    release_base="${TASKSPEC_RELEASE_BASE_URL:-https://github.com/$REPOSITORY/releases/download/v$PINNED_VERSION}"
+    curl -fsSL "$release_base/$asset" -o "$mesh_tmp/$asset"
+    curl -fsSL "$release_base/$asset.sha256" -o "$mesh_tmp/$asset.sha256"
+    asset_path="$mesh_tmp/$asset"
+    checksum_path="$mesh_tmp/$asset.sha256"
+  fi
+
+  if [[ -n "${checksum_path:-}" ]]; then
+    expected_sha="$(awk 'NR == 1 {print $1}' "$checksum_path")"
+    case "$expected_sha" in
+      *[!0-9a-f]*|'') echo "install.sh: invalid TaskMesh checksum manifest" >&2; return 1 ;;
+    esac
+    actual_sha="$(sha256_file "$asset_path")"
+    [[ "$actual_sha" == "$expected_sha" ]] || { echo "install.sh: TaskMesh checksum mismatch" >&2; return 1; }
+    echo "verified: TaskMesh sha256:$actual_sha"
+  fi
+
+  mkdir -p "$BIN_DIR"
+  if [[ "$MODE" != "symlink" ]]; then
+    mkdir -p "$ENGINE_DEST/libexec"
+    cp "$asset_path" "$ENGINE_DEST/libexec/.taskspec-meshd.tmp"
+    chmod 0755 "$ENGINE_DEST/libexec/.taskspec-meshd.tmp"
+    mv "$ENGINE_DEST/libexec/.taskspec-meshd.tmp" "$ENGINE_DEST/libexec/taskspec-meshd"
+  fi
+  cp "$asset_path" "$BIN_DIR/.taskspec-meshd.tmp"
+  chmod 0755 "$BIN_DIR/.taskspec-meshd.tmp"
+  mv "$BIN_DIR/.taskspec-meshd.tmp" "$BIN_DIR/taskspec-meshd"
+  "$BIN_DIR/taskspec-meshd" --version-json | python3 -c \
+    'import json,sys; v=json.load(sys.stdin); assert v["contract"] == "TaskMeshAPI/v1alpha1" and v["product_version"] == sys.argv[1]' \
+    "$PINNED_VERSION" || { echo "install.sh: TaskMesh helper failed its version check" >&2; return 1; }
+  echo "mesh:   $BIN_DIR/taskspec-meshd"
+  [[ -z "${mesh_tmp:-}" ]] || rm -rf "$mesh_tmp"
+}
+
+if [[ "$WITH_MESH" == true ]]; then
+  install_mesh
 fi
 
 install_skill_copy() {
@@ -244,4 +352,7 @@ if [[ "$NO_BIN" != true ]]; then
 fi
 echo "Verify: taskspec doctor"
 echo "Prove:  taskspec demo"
+if [[ "$WITH_MESH" == true ]]; then
+  echo "Mesh:   taskspec mesh doctor"
+fi
 echo "INSTALL=OK"

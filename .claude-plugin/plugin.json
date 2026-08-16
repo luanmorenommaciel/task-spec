@@ -1,6 +1,6 @@
 {
   "name": "task-spec",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "description": "Canonical atomic-task authoring, authorization, handoff, execution, and acceptance skill.",
   "author": {"name": "Luan Moreno"},
   "repository": "https://github.com/luanmorenommaciel/task-spec",

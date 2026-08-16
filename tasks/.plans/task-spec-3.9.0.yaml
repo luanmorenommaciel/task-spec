@@ -1,0 +1,323 @@
+api_version: taskspec.dev/v1
+kind: TaskPlan
+approved: true
+metadata:
+  name: task-spec-3.9.0-taskmesh
+  source: user-approved Task-Spec 3.8.1 and TaskMesh 3.9.0 release train
+units:
+  - id: T-20260816-mesh-contracts-cli
+    title: Define TaskMesh contracts and CLI boundary
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: []
+    touches_paths: [bin/taskspec, src/dispatch/agent-context.py, spec/schemas/README.md, tests/schema_contracts.py]
+    creates_paths: [src/mesh/cli.py, spec/schemas/taskmesh-api.schema.json, spec/schemas/taskmesh-run.schema.json, spec/schemas/executor-capability.schema.json, spec/schemas/dispatch-decision.schema.json, spec/schemas/run-lease.schema.json, spec/schemas/taskmesh-event.schema.json, spec/schemas/taskmesh-view.schema.json, spec/schemas/sandbox-evidence.schema.json, spec/schemas/credential-lease.schema.json, tests/test-mesh-contracts.sh]
+    source_note: user-approved TaskMesh 3.9.0 release plan
+    why: The optional control plane needs a typed, version-negotiated boundary before runtime behavior is implemented.
+    goal: Add the complete taskspec mesh namespace, v1alpha1 negotiation, stable typed errors, schemas, and a helper-version handshake without making TaskMesh core authority.
+    behaviors:
+      - id: B-1
+        given: a core-only installation
+        when: a mesh command is requested
+        then: the CLI explains how to install the optional helper and returns a stable runtime error
+      - id: B-2
+        given: TaskMesh contracts and JSON responses
+        when: schema and CLI contract tests run
+        then: every runtime identity, lease, route, event, view, sandbox, and credential object is typed and versioned
+      - id: B-3
+        given: a helper whose product version differs from Task-Spec
+        when: the CLI negotiates the local API
+        then: execution fails closed with MESH_VERSION_MISMATCH
+    evals:
+      - id: eval_1
+        description: TaskMesh schemas, help, JSON, dry-run, and version negotiation pass
+        command: bash tests/test-mesh-contracts.sh
+        verifies: [B-1, B-2, B-3]
+        terminal: true
+        expected_duration_sec: 90
+    anti_patterns:
+      - Do not let TaskMesh edit Task-Spec frontmatter or become a second authority graph.
+    do_not_touch: [fixtures/diamond-6]
+
+  - id: T-20260816-mesh-daemon-state
+    title: Implement the repository-local TaskMesh daemon and durable state
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260816-mesh-contracts-cli]
+    touches_paths: [src/mesh/cli.py, .gitignore]
+    creates_paths: [go.mod, go.sum, cmd/taskspec-meshd/main.go, internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/repository.go, internal/mesh/store.go, internal/mesh/types.go, tests/test-mesh-daemon.sh]
+    source_note: user-approved TaskMesh 3.9.0 release plan
+    why: Cockpits need one durable repository runtime that survives client exit without moving canonical authority into its database.
+    goal: Build the optional Go helper with SQLite WAL, protected repository-scoped sockets, event replay, idempotent commands, and foreground or auto-start operation.
+    behaviors:
+      - id: B-1
+        given: one resolved repository
+        when: multiple clients connect
+        then: they negotiate with one daemon identified by the canonical repository path
+      - id: B-2
+        given: a daemon restart
+        when: durable events are replayed
+        then: the same TaskMeshView is reconstructed without changing Task-Spec files
+      - id: B-3
+        given: runtime directories and sockets
+        when: they are created
+        then: directory and socket permissions are private and runtime state is ignored by Git
+    evals:
+      - id: eval_1
+        description: daemon lifecycle, SQLite WAL, permissions, idempotency, and replay pass
+        command: bash tests/test-mesh-daemon.sh
+        verifies: [B-1, B-2, B-3]
+        terminal: true
+        expected_duration_sec: 120
+    anti_patterns:
+      - Do not require a hosted service or external database.
+    do_not_touch: [tasks/done]
+
+  - id: T-20260816-mesh-leases-graph
+    title: Connect the authorized graph to leases, fencing, and recovery
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260816-mesh-daemon-state]
+    touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/graph.go, internal/mesh/lease.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
+    creates_paths: [internal/mesh/graph.go, internal/mesh/lease.go, internal/mesh/recovery.go, tests/test-mesh-leases.sh]
+    source_note: user-approved TaskMesh 3.9.0 release plan
+    why: Only authorized ready leaves may be scheduled, and stale workers must never regain authority after recovery.
+    goal: Resolve TaskGraphView, build write-disjoint waves, issue monotonically fenced leases, heartbeat them, cancel them, and recover deterministically.
+    behaviors:
+      - id: B-1
+        given: a derived graph with blocked, unsigned, node, and conflicting tasks
+        when: TaskMesh computes the frontier
+        then: only Tier-1 authorized ready leaves enter a write-disjoint wave
+      - id: B-2
+        given: simultaneous lease requests
+        when: they target one task revision
+        then: exactly one fencing token remains authoritative
+      - id: B-3
+        given: an expired lease, daemon crash, duplicate result, or late worker
+        when: processing resumes
+        then: stale results fail closed and a new fenced attempt can recover safely
+    evals:
+      - id: eval_1
+        description: graph eligibility, concurrency, fencing, crash recovery, and idempotency pass
+        command: bash tests/test-mesh-leases.sh
+        verifies: [B-1, B-2, B-3]
+        terminal: true
+        expected_duration_sec: 150
+    anti_patterns:
+      - Do not create dependencies at runtime or treat write conflicts as authorization.
+    do_not_touch: [src/graph/task_graph.py]
+
+  - id: T-20260816-mesh-routes-worktrees
+    title: Implement deterministic routing and integration worktrees
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260816-mesh-leases-graph]
+    touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/integration.go, internal/mesh/lease.go, internal/mesh/routing.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
+    creates_paths: [internal/mesh/integration.go, internal/mesh/routing.go, internal/mesh/worktree.go, tests/test-mesh-routing-integration.sh]
+    source_note: user-approved TaskMesh 3.9.0 release plan
+    why: Executors need deterministic selection and isolated branches while the user's target branch remains untouched.
+    goal: Pin target commits, create run and attempt branches, explain every candidate decision, integrate only accepted conflict-free attempts, and require a human target merge.
+    behaviors:
+      - id: B-1
+        given: executor capabilities and repository policy
+        when: a route is selected
+        then: every candidate and rejection is recorded and an advisor can only reorder eligible candidates
+      - id: B-2
+        given: a run target
+        when: attempts execute and integrate
+        then: TaskMesh owns bounded worktrees and branches while never mutating the target branch
+      - id: B-3
+        given: a conflict or target divergence
+        when: integration is requested
+        then: the attempt or run parks with one safe next action and no implicit rebase
+    evals:
+      - id: eval_1
+        description: route determinism, advisor containment, branch safety, conflicts, and target divergence pass
+        command: bash tests/test-mesh-routing-integration.sh
+        verifies: [B-1, B-2, B-3]
+        terminal: true
+        expected_duration_sec: 180
+    anti_patterns:
+      - Do not merge, push, or create a pull request on the user's target branch.
+    do_not_touch: [.github/workflows]
+
+  - id: T-20260816-mesh-supervised-adapters
+    title: Add native and OMP supervised execution adapters
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260816-mesh-routes-worktrees]
+    touches_paths: [internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
+    creates_paths: [internal/mesh/adapter.go, internal/mesh/process.go, adapters/mesh/codex-native.json, adapters/mesh/claude-native.json, adapters/mesh/grok-native.json, adapters/mesh/omp-rpc.json, tests/fixtures/mesh/fake-adapter.sh, tests/test-mesh-adapters.sh]
+    source_note: user-approved TaskMesh 3.9.0 release plan
+    why: A portable control plane must preserve one atomic handoff and observable attempt across different local harnesses.
+    goal: Probe exact adapter versions, execute one TaskHandoff per attempt, normalize bounded events, enforce timeouts and iteration limits, and support cancellation for Codex, Claude, Grok, and OMP.
+    behaviors:
+      - id: B-1
+        given: a native or OMP adapter
+        when: it probes and executes
+        then: task revision, scope, budgets, attempt identity, version, events, and receipts survive the boundary
+      - id: B-2
+        given: cancellation, timeout, excessive output, or malformed adapter output
+        when: TaskMesh handles the process
+        then: it terminates within bounds, redacts known credentials, and parks with a stable failure code
+      - id: B-3
+        given: an OMP attempt
+        when: it runs
+        then: one leaf remains one observable attempt and hidden subagent fan-out is disabled
+    evals:
+      - id: eval_1
+        description: all adapter contracts pass through a deterministic fake harness and installed probes remain honest
+        command: bash tests/test-mesh-adapters.sh
+        verifies: [B-1, B-2, B-3]
+        terminal: true
+        expected_duration_sec: 180
+    anti_patterns:
+      - Do not send signing keys, evaluator keys, private holdouts, or broad home-directory access to an adapter.
+    do_not_touch: [adapters/engines]
+
+  - id: T-20260816-mesh-autonomous-isolation
+    title: Implement autonomous OMP isolation and credential leases
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260816-mesh-supervised-adapters]
+    touches_paths: [internal/mesh/adapter.go, internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/lease.go, internal/mesh/process.go, internal/mesh/routing.go, internal/mesh/store.go, internal/mesh/types.go, src/mesh/cli.py]
+    creates_paths: [internal/mesh/credential.go, internal/mesh/sandbox.go, release/mesh/Dockerfile, release/mesh/worker-entrypoint.sh, release/mesh/image.lock, tests/test-mesh-isolation.sh]
+    source_note: user-approved TaskMesh 3.9.0 release plan
+    why: Autonomous execution is only credible when workspace, credential, host, and evidence boundaries are externally observable.
+    goal: Add explicit Docker or Podman setup, expiring attempt capabilities, locked-down OMP workers, host-signed sandbox evidence, and fail-closed assurance negotiation.
+    behaviors:
+      - id: B-1
+        given: verified container and credential boundaries
+        when: autonomous OMP execution starts
+        then: the worker receives only one writable workspace and one expiring provider capability under a fixed route
+      - id: B-2
+        given: an unavailable runtime, unverified proxy, missing image digest, or changed sandbox evidence
+        when: autonomous mode is requested
+        then: the attempt fails with a stable code and never silently downgrades
+      - id: B-3
+        given: sandbox evidence emitted by the host
+        when: canonical acceptance evaluates it
+        then: it remains bound to the revision, attempt, authorization, base commit, and observed environment
+    evals:
+      - id: eval_1
+        description: isolation fixtures, credential expiry, no-downgrade rules, and live runtime proof pass
+        command: bash tests/test-mesh-isolation.sh
+        verifies: [B-1, B-2, B-3]
+        terminal: true
+        expected_duration_sec: 240
+    anti_patterns:
+      - Do not mount the host home, Docker socket, SSH agent, signing keys, or evaluator keys into workers.
+    do_not_touch: [release/docker]
+
+  - id: T-20260816-mesh-cockpit-mcp
+    title: Deliver the durable cross-harness cockpit and MCP facade
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260816-mesh-autonomous-isolation]
+    touches_paths: [src/mesh/cli.py, src/interop/mcp_server.py, cmd/taskspec-meshd/main.go, internal/mesh/api.go, internal/mesh/daemon.go, internal/mesh/integration.go, internal/mesh/lease.go, internal/mesh/process.go, internal/mesh/store.go, internal/mesh/types.go, bin/taskspec, src/dispatch/agent-context.py, tests/test-mesh-adapters.sh]
+    creates_paths: [src/mesh/mcp_server.py, tests/test-mesh-cockpit.sh]
+    source_note: user-approved TaskMesh 3.9.0 release plan
+    why: Codex, Claude, or Grok should be able to act as a reconnectable cockpit without owning the durable runtime.
+    goal: Expose frontier, routing, start, observe, cancel, supervised accept, resume, and finish over CLI and local MCP while preserving canonical acceptance authority.
+    behaviors:
+      - id: B-1
+        given: a durable run
+        when: one cockpit closes and another connects
+        then: the second cockpit observes the same ordered history and authorized controls
+      - id: B-2
+        given: MCP tools or CLI mutations
+        when: they act on a run
+        then: they negotiate TaskMeshAPI, share typed results, honor dry-run, and cannot bypass leases or Task-Spec acceptance
+      - id: B-3
+        given: a finished integration branch
+        when: finish runs
+        then: it prints the human merge route without mutating the target branch
+    evals:
+      - id: eval_1
+        description: cross-cockpit reconnection, MCP round trips, authorization, and human finish pass
+        command: bash tests/test-mesh-cockpit.sh
+        verifies: [B-1, B-2, B-3]
+        terminal: true
+        expected_duration_sec: 180
+    anti_patterns:
+      - Do not depend on the experimental MCP Tasks extension or a specific cockpit vendor.
+    do_not_touch: [interop/UPSTREAM.lock]
+
+  - id: T-20260816-mesh-package-release
+    title: Package, document, prove, and privately publish Task-Spec 3.9.0
+    effort: L
+    profile: full
+    agent: codex
+    execution_backend: codex
+    depends_on: [T-20260816-mesh-cockpit-mcp]
+    touches_paths: [VERSION, src/lib/_lib.sh, CHANGELOG.md, package.json, install.sh, Makefile, README.md, SKILL.md, integrations/claude-code/SKILL.md, integrations/claude-code/plugin.json, integrations/claude-code/marketplace.json, .claude-plugin/plugin.json, .claude-plugin/marketplace.json, cmd/taskspec-meshd/main.go, docs, docs/readme-command-coverage.json, .github/workflows, release/evidence.json, release/quality-rubric.json, tools/build-release-archive.py, tools/build-release-report.py, tests/test-release-packaging.sh, tests/test-v36-experience.sh, tests/test-v381-experience.sh, tasks/.plans/task-spec-3.9.0.yaml]
+    creates_paths: [docs/getting-started/taskmesh.md, docs/reference/taskmesh-contracts.md, docs/trust/taskmesh-boundaries.md, release/3.9.0, tools/build-mesh-release.py, tests/test-mesh-install.sh, tests/test-mesh-conformance.sh, tests/test-mesh-demo.sh]
+    source_note: user-approved TaskMesh 3.9.0 release plan
+    why: The optional runtime must be installable and reviewable without regressing the evidence-backed core or overstating external proof.
+    goal: Ship checksummed private mesh binaries for supported platforms, --with-mesh installation, complete docs, demonstrations, retained gates, and a private v3.9.0 release only when all evidence passes.
+    behaviors:
+      - id: B-1
+        given: a core-only or mesh-enabled installation
+        when: its documented journey runs
+        then: both installation modes pass and helper mismatches fail closed
+      - id: B-2
+        given: the v3.9.0 release audit
+        when: all local, hosted, isolation, recovery, adapter, cockpit, packaging, and documentation gates run
+        then: required evidence tokens are backed by executed artifacts and the 3.8.1 score remains at least 97
+      - id: B-3
+        given: incomplete external or autonomous evidence
+        when: publication is considered
+        then: the RC remains private and no unsupported claim or final tag is emitted
+    evals:
+      - id: eval_1
+        description: full core and mesh release corridor passes with retained private evidence
+        command: make check && bash tests/test-mesh-conformance.sh && bash tests/test-mesh-demo.sh && bash tests/test-mesh-install.sh
+        verifies: [B-1, B-2, B-3]
+        terminal: true
+        expected_duration_sec: 600
+    anti_patterns:
+      - Do not publish a final tag, pull an image automatically, or claim production reliability from fixtures.
+    do_not_touch: [fixtures/diamond-6]
+
+  - id: T-20260816-taskmesh-390
+    title: Compose the complete TaskMesh 3.9.0 release
+    effort: XXL
+    profile: full
+    agent: any
+    execution_backend: none
+    depends_on: []
+    children: [T-20260816-mesh-contracts-cli, T-20260816-mesh-daemon-state, T-20260816-mesh-leases-graph, T-20260816-mesh-routes-worktrees, T-20260816-mesh-supervised-adapters, T-20260816-mesh-autonomous-isolation, T-20260816-mesh-cockpit-mcp, T-20260816-mesh-package-release]
+    touches_paths: []
+    creates_paths: []
+    source_note: user-approved TaskMesh 3.9.0 release plan
+    why: Track the complete optional control-plane program without delegating a composition node.
+    goal: Complete and accept every TaskMesh leaf while Task-Spec remains the sole canonical contract and acceptance authority.
+    behaviors:
+      - id: B-1
+        given: every authorized TaskMesh child
+        when: the complete release corridor runs
+        then: the private v3.9.0 artifacts satisfy core, mesh, recovery, isolation, cockpit, installation, and truth-boundary gates
+    evals:
+      - id: eval_1
+        description: the complete core and TaskMesh release gates pass
+        command: make check && bash tests/test-mesh-conformance.sh && bash tests/test-mesh-demo.sh && bash tests/test-mesh-install.sh
+        verifies: [B-1]
+        terminal: true
+        expected_duration_sec: 900
+    anti_patterns:
+      - Do not execute this composition node or weaken an incomplete child gate.
+    do_not_touch: [fixtures/diamond-6]

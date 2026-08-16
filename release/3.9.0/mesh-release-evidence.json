@@ -1,0 +1,45 @@
+{
+  "contract": "TaskMeshReleaseEvidence/v1",
+  "version": "3.9.0",
+  "api": "TaskMeshAPI/v1alpha1",
+  "generated_at": "2026-08-16T21:07:35Z",
+  "source": {
+    "branch": "codex/taskspec-3.9.0",
+    "commit_before_evidence_finalization": "4e64cb2b3ada9eee4b17dc7d19e83e6940fc7b54"
+  },
+  "release_status": "development",
+  "repository_visibility": "private",
+  "quality_baseline": {
+    "contract": "TaskSpecQualityScorecard/v1",
+    "release": "3.8.1",
+    "path": "release/3.8.1/scorecard.json",
+    "digest": "sha256:a0c7349db6df8593dccc6be9a72716b6377df9111f63f7fc9b8c73304866f4d9",
+    "score": 97,
+    "regression": false
+  },
+  "gates": {
+    "local_conformance": "pass",
+    "live_local_isolation": "pass",
+    "local_install_matrix": "pass",
+    "cross_cockpit_demo": "pass",
+    "hosted_ubuntu": "pending",
+    "hosted_macos": "pending",
+    "private_remote_install": "pending",
+    "private_provenance": "pending",
+    "publication": "pending"
+  },
+  "artifacts": [
+    {"path": "release/3.9.0/mesh-conformance.json", "digest": "sha256:388fad535efab561108dd51e3c33885d630ec8d993fca0708e82b03771e9d796"},
+    {"path": "release/3.9.0/reviewer-report.json", "digest": "sha256:1127d70bd813adb451b036bae057e7b4051204e42628a6284d92d0bb313c29e8"},
+    {"path": "tests/test-mesh-isolation.sh", "digest": "sha256:b9d5a221c15a9550f5eaacac239dd30c040af9923c5884ed0a790ca30ffb416c"},
+    {"path": "tests/test-mesh-install.sh", "digest": "sha256:95aebaef9112eae5c1e19cda4099486996f32e3c1e8dda035b68da22e7bf6fd4"}
+  ],
+  "claims": {
+    "hosted_control_plane": false,
+    "production_reliability": false,
+    "protocol_certification": false,
+    "tier1_from_worktrees": false,
+    "automatic_target_merge": false
+  },
+  "next_gate": "Hosted pull-request CI must execute Ubuntu, macOS, and live Docker isolation before an RC is tagged."
+}

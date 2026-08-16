@@ -104,7 +104,7 @@ TS="$BIN_DIR/taskspec"
 check "installed version" bash -c "[[ \"\$('$TS' version)\" == '$CURRENT_VERSION' ]]"
 check "installed isolated demo" bash -c "'$TS' demo | grep -q '^DEMO=READY$'"
 check "agent context JSON" bash -c "'$TS' agent-context | python3 -m json.tool"
-check "agent context covers the complete public command and schema surfaces" bash -c "'$TS' agent-context | python3 -c 'import json,sys; d=json.load(sys.stdin); commands=set(d[\"commands\"]); required=set(\"init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help\".split()); assert required <= commands and d[\"default_format_version\"] == 3; assert len(d[\"contracts\"]) == 27 and {\"task_materialization_receipt\",\"acceptance_finalized\"} <= set(d[\"contracts\"])'"
+check "agent context covers the complete public command and schema surfaces" bash -c "'$TS' agent-context | python3 -c 'import json,sys; d=json.load(sys.stdin); commands=set(d[\"commands\"]); required=set(\"init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp mesh ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help\".split()); assert required <= commands and d[\"default_format_version\"] == 3; assert len(d[\"contracts\"]) == 36 and {\"task_materialization_receipt\",\"acceptance_finalized\",\"taskmesh_api\",\"run_lease\"} <= set(d[\"contracts\"])'"
 if grep -q 'TaskHandoff/v3' "$ROOT/agents/task-architect.md" \
   && grep -q 'taskspec plan --manifest' "$ROOT/integrations/codex/AGENTS.md" \
   && grep -q 'AcceptanceRecord/v1' "$ROOT/integrations/codex/AGENTS.md" \
@@ -117,7 +117,7 @@ else
   fail "agent guidance lifecycle alignment"
 fi
 check "global JSON envelope" bash -c "'$TS' --json help | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d[\"ok\"] and d[\"command\"] == \"help\"'"
-for command in init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt dsse eval-audit identity evidence bridge mcp ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help; do
+for command in init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt dsse eval-audit identity evidence bridge mcp mesh ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help; do
   check "per-command help $command" "$TS" help "$command"
 done
 for command in "status" "transition" "migrate" "executor" "run"; do

@@ -31,6 +31,11 @@ structural schema cannot prove.
 | [`engine-matrix.schema.json`](engine-matrix.schema.json) / [`engine-matrix-result.schema.json`](engine-matrix-result.schema.json) | Frozen real-engine benchmark and immutable outcomes |
 | [`protocol-conformance-evidence.schema.json`](protocol-conformance-evidence.schema.json) | Pinned official protocol/SDK execution evidence |
 | [`environment-attestation.schema.json`](environment-attestation.schema.json) | Observed external sandbox configuration and enforcement result |
+| [`taskmesh-api.schema.json`](taskmesh-api.schema.json) / [`taskmesh-run.schema.json`](taskmesh-run.schema.json) | Optional helper negotiation and durable run identity |
+| [`executor-capability.schema.json`](executor-capability.schema.json) / [`dispatch-decision.schema.json`](dispatch-decision.schema.json) | Probed executor claims and deterministic routing evidence |
+| [`run-lease.schema.json`](run-lease.schema.json) / [`taskmesh-event.schema.json`](taskmesh-event.schema.json) | Fenced attempt authority and ordered runtime events |
+| [`taskmesh-view.schema.json`](taskmesh-view.schema.json) | Rebuildable cockpit projection |
+| [`sandbox-evidence.schema.json`](sandbox-evidence.schema.json) / [`credential-lease.schema.json`](credential-lease.schema.json) | Attempt-bound isolation evidence and secret-free expiring capability metadata |
 
 The two embedded Task-Spec schemas are also emitted through the stable CLI:
 
@@ -40,7 +45,7 @@ taskspec validate --emit-schema agent-contract
 ```
 
 Format changes update schemas, conformance fixtures, templates, validator,
-examples, and changelog together. Engine 3.8 preserves format v3 and offers
+examples, and changelog together. Engine 3.9 preserves format v3 and offers
 format v4 only when an author selects `taskspec new --format 4`.
 
 `tests/test-schema-contracts.sh` resolves every local `$ref`, rejects duplicate

@@ -1,0 +1,12 @@
+{
+  "contract": "TaskMeshWorkerImageLock/v1",
+  "release": "3.9.0",
+  "image": "taskspec/mesh-worker",
+  "base_image": "python@sha256:adafcc17694d715c905b4c7bebd96907a1fd5cf183395f0ebc4d3428bd22d92d",
+  "omp": {
+    "version": "17.3.3",
+    "source": "https://github.com/can1357/oh-my-pi/releases/download/v17.3.3/",
+    "linux_amd64_sha256": "25d642d35cf07a6b94336da94fa6d69b7a0a8b2f1b865ccf92e770ba37aaa606",
+    "linux_arm64_sha256": "b2e8ae942cbd8aee2cabea62c96166753ca9b258c1314897ab81ef8f18fd090e"
+  }
+}

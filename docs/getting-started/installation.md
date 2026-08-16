@@ -3,9 +3,7 @@
 The canonical installer writes equivalent skill content to all supported local
 harness destinations. It never stores model/provider credentials.
 
-The repository is private. Authenticate GitHub before cloning; until `v3.8.1`
-clears its evidence gate and the final tag is published, install from a
-checkout:
+The repository and release remain private. Authenticate GitHub before cloning:
 
 ```bash
 git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \
@@ -25,18 +23,20 @@ bash "$HOME/.local/share/task-spec-src/install.sh" \
   --target /path/to/repository --copy
 ```
 
-For a checksum-backed installation of the published `v3.8.0` release:
+For a checksum-backed installation of the private `v3.9.0` release, download
+the helper assets as well only when TaskMesh is wanted:
 
 ```bash
 gh auth status
 release_dir="$(mktemp -d)"
-gh release download v3.8.0 \
+gh release download v3.9.0 \
   --repo luanmorenommaciel/task-spec \
-  --pattern 'task-spec-3.8.0.tar.gz*' \
+  --pattern 'task-spec-3.9.0.tar.gz*' \
+  --pattern 'taskspec-meshd-*' \
   --dir "$release_dir"
-(cd "$release_dir" && shasum -a 256 -c task-spec-3.8.0.tar.gz.sha256)
-tar -xzf "$release_dir/task-spec-3.8.0.tar.gz" -C "$release_dir"
-bash "$release_dir/task-spec-3.8.0/install.sh" --global --copy
+(cd "$release_dir" && shasum -a 256 -c task-spec-3.9.0.tar.gz.sha256)
+tar -xzf "$release_dir/task-spec-3.9.0.tar.gz" -C "$release_dir"
+bash "$release_dir/task-spec-3.9.0/install.sh" --global --copy --with-mesh
 ```
 
 Anonymous raw-file and release-asset URLs do not work while the repository is
@@ -61,6 +61,7 @@ bash install.sh --target /path/to/repo --copy
 bash install.sh --target /path/to/repo --symlink
 bash install.sh --bin-dir "$HOME/bin"
 bash install.sh --no-bin
+bash install.sh --global --copy --with-mesh
 bash install.sh --force
 ```
 
@@ -71,6 +72,11 @@ version checks pass. The remote door downloads the release asset and published
 SHA-256, verifies the archive before extraction, reports PATH when needed, and
 points to shell completion.
 
+`--with-mesh` additionally verifies and installs the matching macOS/Linux,
+amd64/arm64 helper. Missing checksums, changed bytes, unsupported platforms,
+and CLI/helper version drift fail closed. Core-only installation never installs
+or starts TaskMesh.
+
 `--global` is an explicit user-level alias: it targets the current user's home
 directory, writes the three supported harness skill locations plus Claude's
 compatibility agent, and uses `~/.local/bin` for the launcher. It does not write
@@ -80,8 +86,8 @@ For npm/GitHub:
 
 ```bash
 gh auth setup-git
-npm install -g git+https://github.com/luanmorenommaciel/task-spec.git#v3.8.0
-taskspec-install --global
+npm install -g git+https://github.com/luanmorenommaciel/task-spec.git#v3.9.0
+taskspec-install --global --with-mesh
 ```
 
 The authenticated GitHub tag door and local package construction are covered by

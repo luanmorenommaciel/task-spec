@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/run-lease.schema.json",
+  "title": "RunLease/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "run_id", "task_id", "task_revision_digest", "attempt_id", "fencing_token", "owner", "issued_at", "expires_at", "heartbeat_at", "state"],
+  "properties": {
+    "contract": {"const": "RunLease/v1"},
+    "run_id": {"type": "string", "format": "uuid"},
+    "task_id": {"type": "string", "pattern": "^T-[0-9]{8}-[a-z0-9][a-z0-9-]*$"},
+    "task_revision_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "attempt_id": {"type": "string", "format": "uuid"},
+    "fencing_token": {"type": "integer", "minimum": 1},
+    "owner": {"type": "string", "minLength": 1},
+    "issued_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "heartbeat_at": {"type": "string", "format": "date-time"},
+    "state": {"enum": ["leased", "preparing", "running", "verifying", "awaiting_supervision", "accepted", "integrated", "rejected", "parked", "cancelled", "lost"]}
+  }
+}

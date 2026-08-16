@@ -14,7 +14,7 @@ import subprocess
 import tarfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-EXCLUDED_ROOTS = {".git", ".taskspec", ".playwright-cli", "dist", "evidence", "output", "release", "tasks"}
+EXCLUDED_ROOTS = {".git", ".taskspec", ".playwright-cli", "dist", "evidence", "output", "tasks"}
 
 
 def paths(include_worktree: bool) -> list[pathlib.Path]:
@@ -40,6 +40,8 @@ def main() -> int:
         for source in paths(args.include_worktree):
             rel = source.relative_to(ROOT)
             if rel.parts[0] in EXCLUDED_ROOTS or "__pycache__" in rel.parts:
+                continue
+            if rel.parts[0] == "release" and (len(rel.parts) < 2 or rel.parts[1] != "mesh"):
                 continue
             arcname = f"{prefix}/{rel.as_posix()}"
             st = source.lstat()
