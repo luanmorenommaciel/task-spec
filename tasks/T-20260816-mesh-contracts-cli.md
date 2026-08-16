@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-16T19:25:02Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-16T19:30:18Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:8dc89f86a3f52d59525e3320adb8fa403ed016a76037cd676e50bf9d10e0e88d
+accepted_tier: 1
+accepted_attempt_id: e4e4fa36-2ca5-42ef-af3d-e54dca45b4fd
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:8dc89f86a3f52d59525e3320adb8fa403ed016a76037cd676e50bf9d10e0e88d
+acceptance_record_digest: sha256:4bcdc29c5de4de7c976d5cfe240a1b3cd315d6234e31da9fbc00a2255e7b2187
 ---
 
 # Define TaskMesh contracts and CLI boundary

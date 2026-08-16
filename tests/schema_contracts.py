@@ -217,6 +217,67 @@ def main() -> int:
         "acceptance": {"accepted": False, "record": None, "record_matches": False, "record_error": None},
         "next_command": "taskspec rebuild-state",
     }, "task-status.schema.json")
+    run_id = "22222222-2222-4222-8222-222222222222"
+    attempt_id = "33333333-3333-4333-8333-333333333333"
+    task_id = "T-20260816-mesh-contracts-cli"
+    commit = "c" * 40
+    now = "2026-08-16T18:00:00Z"
+    mesh_run = {
+        "contract": "TaskMeshRun/v1", "run_id": run_id, "repository": str(ROOT),
+        "graph_revision_digest": digest,
+        "target": {"branch": "main", "commit": commit},
+        "integration_branch": "taskmesh/run/22222222", "mode": "supervised",
+        "max_parallel": 2, "state": "active", "created_at": now,
+    }
+    lease = {
+        "contract": "RunLease/v1", "run_id": run_id, "task_id": task_id,
+        "task_revision_digest": digest, "attempt_id": attempt_id, "fencing_token": 1,
+        "owner": "taskmesh-test", "issued_at": now, "expires_at": "2026-08-16T18:05:00Z",
+        "heartbeat_at": now, "state": "leased",
+    }
+    validate_instance({
+        "contract": "TaskMeshAPI/v1alpha1", "product_version": "3.9.0",
+        "api_version": "v1alpha1", "capabilities": ["events", "leases"],
+    }, "taskmesh-api.schema.json")
+    validate_instance(mesh_run, "taskmesh-run.schema.json")
+    validate_instance({
+        "contract": "ExecutorCapability/v1", "adapter": "codex-native", "adapter_version": "1",
+        "harness": "codex", "provider": "openai", "model": "gpt-5.6-sol", "available": True,
+        "assurance_modes": ["supervised"], "tools": ["git"], "network": "none",
+        "limits": {"max_parallel": 1, "max_output_bytes": 1048576, "timeout_sec": 1800},
+        "observed_at": now, "reason_unavailable": None,
+    }, "executor-capability.schema.json")
+    validate_instance({
+        "contract": "DispatchDecision/v1", "task_id": task_id, "task_revision_digest": digest,
+        "policy_digest": digest, "candidates": [{"adapter": "codex-native", "eligible": True,
+        "rejection_reasons": [], "static_score": 100}], "selected": "codex-native",
+        "advisor_response_digest": None, "explanation": "explicit eligible adapter", "decided_at": now,
+    }, "dispatch-decision.schema.json")
+    validate_instance(lease, "run-lease.schema.json")
+    validate_instance({
+        "contract": "TaskMeshEvent/v1", "run_id": run_id, "sequence": 1,
+        "event_id": "44444444-4444-4444-8444-444444444444", "attempt_id": attempt_id,
+        "fencing_token": 1, "type": "LEASE_ACQUIRED", "observed_at": now,
+        "payload": {"task_id": task_id}, "payload_digest": digest,
+    }, "taskmesh-event.schema.json")
+    validate_instance({
+        "contract": "TaskMeshView/v1", "run": mesh_run, "attempts": [lease],
+        "latest_sequence": 1, "generated_at": now,
+    }, "taskmesh-view.schema.json")
+    validate_instance({
+        "contract": "SandboxEvidence/v1", "subject": {"task_id": task_id,
+        "task_revision_digest": digest, "authorization_ref": "hmac-sha256-v3:12345678:" + "b" * 64,
+        "attempt_id": attempt_id, "base_commit": commit}, "runtime": "docker", "image_digest": digest,
+        "attestation": {"path": "release/3.9.0/attestation.json", "digest": digest,
+        "signature_ref": "environment-receipt.json"}, "verified": True, "observed_at": now,
+    }, "sandbox-evidence.schema.json")
+    validate_instance({
+        "contract": "CredentialLease/v1", "lease_id": "55555555-5555-4555-8555-555555555555",
+        "attempt_id": attempt_id, "provider": "openai", "model": "gpt-5.6-sol",
+        "audience": "taskmesh-credential-proxy", "scopes": ["responses.create"],
+        "issued_at": now, "expires_at": "2026-08-16T18:05:00Z", "state": "issued",
+        "broker_ref": None,
+    }, "credential-lease.schema.json")
     validate_instance({
         "contract": "AcceptanceRecord/v1",
         "subject": {"task_id": "T-20260603-stamp-then-verify", "task_revision_digest": digest, "authorization_ref": "hmac-sha256-v3:12345678:" + "b" * 64, "attempt_id": "11111111-1111-4111-8111-111111111111", "base_commit": "c" * 40},

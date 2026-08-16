@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/executor-capability.schema.json",
+  "title": "ExecutorCapability/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "adapter", "adapter_version", "harness", "available", "assurance_modes", "tools", "network", "limits", "observed_at"],
+  "properties": {
+    "contract": {"const": "ExecutorCapability/v1"},
+    "adapter": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "adapter_version": {"type": "string", "minLength": 1},
+    "harness": {"enum": ["codex", "claude", "grok", "omp", "custom"]},
+    "provider": {"type": ["string", "null"]},
+    "model": {"type": ["string", "null"]},
+    "available": {"type": "boolean"},
+    "assurance_modes": {"type": "array", "uniqueItems": true, "items": {"enum": ["supervised", "autonomous"]}},
+    "tools": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "network": {"enum": ["none", "provider-only", "unrestricted"]},
+    "limits": {
+      "type": "object", "additionalProperties": false, "required": ["max_parallel", "max_output_bytes"],
+      "properties": {"max_parallel": {"type": "integer", "minimum": 1}, "max_output_bytes": {"type": "integer", "minimum": 1}, "timeout_sec": {"type": "integer", "minimum": 1}}
+    },
+    "observed_at": {"type": "string", "format": "date-time"},
+    "reason_unavailable": {"type": ["string", "null"]}
+  }
+}

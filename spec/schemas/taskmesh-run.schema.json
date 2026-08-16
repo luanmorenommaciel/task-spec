@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/taskmesh-run.schema.json",
+  "title": "TaskMeshRun/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "run_id", "repository", "graph_revision_digest", "target", "integration_branch", "mode", "max_parallel", "state", "created_at"],
+  "properties": {
+    "contract": {"const": "TaskMeshRun/v1"},
+    "run_id": {"type": "string", "format": "uuid"},
+    "repository": {"type": "string", "minLength": 1},
+    "graph_revision_digest": {"$ref": "#/$defs/digest"},
+    "target": {
+      "type": "object", "additionalProperties": false, "required": ["branch", "commit"],
+      "properties": {"branch": {"type": "string", "minLength": 1}, "commit": {"$ref": "#/$defs/commit"}}
+    },
+    "integration_branch": {"type": "string", "pattern": "^taskmesh/run/[A-Za-z0-9._-]+$"},
+    "mode": {"enum": ["supervised", "autonomous"]},
+    "max_parallel": {"type": "integer", "minimum": 1},
+    "state": {"enum": ["active", "parked", "cancelled", "complete", "finished"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "commit": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"}
+  }
+}

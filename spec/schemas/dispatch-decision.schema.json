@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/dispatch-decision.schema.json",
+  "title": "DispatchDecision/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "task_id", "task_revision_digest", "policy_digest", "candidates", "selected", "explanation", "decided_at"],
+  "properties": {
+    "contract": {"const": "DispatchDecision/v1"},
+    "task_id": {"type": "string", "pattern": "^T-[0-9]{8}-[a-z0-9][a-z0-9-]*$"},
+    "task_revision_digest": {"$ref": "#/$defs/digest"},
+    "policy_digest": {"$ref": "#/$defs/digest"},
+    "candidates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/candidate"}},
+    "selected": {"type": ["string", "null"]},
+    "advisor_response_digest": {"anyOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]},
+    "explanation": {"type": "string", "minLength": 1},
+    "decided_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "candidate": {
+      "type": "object", "additionalProperties": false, "required": ["adapter", "eligible", "rejection_reasons", "static_score"],
+      "properties": {"adapter": {"type": "string"}, "eligible": {"type": "boolean"}, "rejection_reasons": {"type": "array", "items": {"type": "string"}}, "static_score": {"type": "number"}}
+    }
+  }
+}
