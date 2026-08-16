@@ -8,8 +8,8 @@
  * prints a structured TaskSpec record.
  *
  * Runtime: Node 18+. Third-party deps: `yaml` (parser) and `ajv` (validator),
- * pinned in docs/examples/package.json. Schemas are resolved relative
- * to this file: ../schemas/task-spec-frontmatter.schema.json.
+ * pinned in docs/examples/package.json. Schemas are resolved from the
+ * canonical `spec/schemas/` directory in this repository.
  *
  * Usage:
  *   npx ts-node consume-task-spec.ts <path/to/T-*.md>
@@ -30,7 +30,7 @@ const __filename =
     ? `${__dirname}/consume-task-spec.ts`
     : fileURLToPath(import.meta.url);
 const HERE = dirname(__filename);
-const SCHEMAS_DIR = resolve(HERE, "..", "schemas");
+const SCHEMAS_DIR = resolve(HERE, "..", "..", "spec", "schemas");
 const FRONTMATTER_SCHEMA = resolve(SCHEMAS_DIR, "task-spec-frontmatter.schema.json");
 const CONTRACT_SCHEMA = resolve(SCHEMAS_DIR, "agent-contract.schema.json");
 

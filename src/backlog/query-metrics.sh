@@ -18,9 +18,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/_lib.sh
 source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
-ts_require_bash4 "$@"
 METRICS="$TASKSPEC_BACKLOG_DIR/_metrics.jsonl"
 STATE="$TASKSPEC_BACKLOG_DIR/_state.yaml"
+ORIGINAL_ARGS=("$@")
 
 SINCE=""
 AUTHOR=""
@@ -63,6 +63,11 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+# Parse caller input before enforcing the auxiliary Bash-4 runtime floor.
+# Usage failures remain exit 2 on stock macOS; a valid metrics query still
+# fails closed with the documented runtime-floor exit when Bash 4 is absent.
+ts_require_bash4 "${ORIGINAL_ARGS[@]}"
 
 if [[ ! -f "$METRICS" ]]; then
   echo "No metrics file found at $METRICS" >&2

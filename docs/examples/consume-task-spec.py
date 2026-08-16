@@ -7,8 +7,8 @@ JSON Schema, extracts the validation_card block (agent_contract + retry_policy
 TaskSpec dataclass.
 
 Runtime: Python 3.8+. Third-party deps: PyYAML (always), jsonschema (optional;
-skipped with a warning if not installed). Schemas are resolved relative to
-this file: ../schemas/task-spec-frontmatter.schema.json.
+skipped with a warning if not installed). Schemas are resolved from the
+canonical ``spec/schemas/`` directory in this repository.
 
 Usage:
     python3 consume-task-spec.py <path/to/T-*.md>
@@ -33,7 +33,7 @@ except ImportError:
     print("ERROR: PyYAML is required. Install with: pip install pyyaml", file=sys.stderr)
     sys.exit(1)
 
-SCHEMAS_DIR = Path(__file__).resolve().parent.parent / "schemas"
+SCHEMAS_DIR = Path(__file__).resolve().parents[2] / "spec" / "schemas"
 FRONTMATTER_SCHEMA = SCHEMAS_DIR / "task-spec-frontmatter.schema.json"
 CONTRACT_SCHEMA = SCHEMAS_DIR / "agent-contract.schema.json"
 
