@@ -1,7 +1,7 @@
 ---
 id: T-20260816-mesh-daemon-state
 title: "Implement the repository-local TaskMesh daemon and durable state"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L

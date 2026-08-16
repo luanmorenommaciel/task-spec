@@ -1,7 +1,7 @@
 ---
 id: T-20260816-mesh-contracts-cli
 title: "Define TaskMesh contracts and CLI boundary"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
