@@ -322,7 +322,7 @@ type containerInspect struct {
 	} `json:"Mounts"`
 }
 
-func inspectSecurity(ctx context.Context, runtimeName, container, network, workspace, imageDigest string) (map[string]any, error) {
+func inspectSecurity(ctx context.Context, runtimeName, container, network, workspace, imageDigest, workerUser string) (map[string]any, error) {
 	raw, err := runCombined(ctx, runtimeName, "inspect", container)
 	if err != nil {
 		return nil, err
@@ -362,7 +362,7 @@ func inspectSecurity(ctx context.Context, runtimeName, container, network, works
 	require(value.HostConfig.NanoCPUs == 1_000_000_000, "CPU limit differs")
 	require(value.HostConfig.Memory == 512*1024*1024, "memory limit differs")
 	require(value.HostConfig.Tmpfs["/tmp"] != "", "bounded tmpfs is absent")
-	require(value.Config.User == "65532:65532", "worker user is not the unprivileged TaskMesh UID")
+	require(value.Config.User == workerUser && !strings.HasPrefix(workerUser, "0:"), "worker user does not match the non-root workspace owner")
 	require(value.Image == imageDigest, "worker image differs from the verified image digest")
 	writable := []string{}
 	dockerSocket := false
@@ -408,6 +408,10 @@ func inspectSecurity(ctx context.Context, runtimeName, container, network, works
 }
 
 func (store *Store) runSandbox(ctx context.Context, lease Lease, handoff, prompt, provider, model string, setup SandboxSetup) (SandboxRunResult, error) {
+	if os.Getuid() == 0 {
+		return SandboxRunResult{}, codedError{Code: "SANDBOX_UNAVAILABLE", Message: "autonomous TaskMesh requires a non-root host process"}
+	}
+	workerUser := fmt.Sprintf("%d:%d", os.Getuid(), os.Getgid())
 	gatewayURL, gatewayToken, err := gatewayConfiguration()
 	if err != nil {
 		return SandboxRunResult{}, codedError{Code: "CREDENTIAL_BOUNDARY_UNVERIFIED", Message: err.Error()}
@@ -485,6 +489,7 @@ func (store *Store) runSandbox(ctx context.Context, lease Lease, handoff, prompt
 	workerArguments := []string{
 		"create", "--name", workerName, "--network", networkName, "--read-only", "--cap-drop", "ALL",
 		"--security-opt", "no-new-privileges:true", "--pids-limit", "128", "--cpus", "1", "--memory", "512m",
+		"--user", workerUser,
 		"--tmpfs", "/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777",
 		"--mount", "type=bind,src=" + lease.Workspace + ",dst=/workspace",
 		"--mount", "type=bind,src=" + capabilityPath + ",dst=/run/taskmesh/capability,readonly",
@@ -504,7 +509,7 @@ func (store *Store) runSandbox(ctx context.Context, lease Lease, handoff, prompt
 	if output, err := runCombined(ctx, setup.Runtime, workerArguments...); err != nil {
 		return SandboxRunResult{}, codedError{Code: "SANDBOX_UNAVAILABLE", Message: strings.TrimSpace(string(output))}
 	}
-	security, err := inspectSecurity(ctx, setup.Runtime, workerName, networkName, lease.Workspace, setup.ImageDigest)
+	security, err := inspectSecurity(ctx, setup.Runtime, workerName, networkName, lease.Workspace, setup.ImageDigest, workerUser)
 	if err != nil {
 		return SandboxRunResult{}, codedError{Code: "SANDBOX_UNAVAILABLE", Message: err.Error()}
 	}

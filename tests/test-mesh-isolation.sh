@@ -175,10 +175,13 @@ done
 if [[ "$FINAL_STATE" != "integrated" ]]; then
   cat "$TMP/status.json" >&2
   cat "$REPO/.taskspec/mesh/daemon.log" >&2 || true
-  python3 - "$REPO/.taskspec/mesh/mesh.db" <<'PY' >&2 || true
-import sqlite3, sys
+  python3 - "$REPO/.taskspec/mesh/mesh.db" "$REPO/.taskspec/mesh/artifacts" <<'PY' >&2 || true
+import pathlib, sqlite3, sys
 for row in sqlite3.connect(sys.argv[1]).execute("SELECT sequence, event_type, payload_json FROM events ORDER BY sequence"):
     print(*row, sep="\t")
+for artifact in sorted(pathlib.Path(sys.argv[2]).glob("*.json")):
+    print(f"--- {artifact}")
+    print(artifact.read_text(encoding="utf-8"))
 PY
   exit 1
 fi
