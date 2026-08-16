@@ -1,0 +1,11 @@
+{
+  "contract": "TaskMeshAdapter/v1",
+  "name": "omp-rpc",
+  "harness": "omp",
+  "executable": "omp",
+  "version_args": ["--version"],
+  "command": ["--cwd", "{workspace}", "--mode", "json", "--no-session", "--no-extensions", "--no-skills", "--no-rules", "--tools", "read,bash,edit,write,grep,glob,lsp", "--approval-mode", "write", "--max-time", "{timeout}", "-p", "{prompt}"],
+  "prompt_mode": "argument",
+  "event_format": "json",
+  "assurance_modes": ["supervised", "autonomous"]
+}

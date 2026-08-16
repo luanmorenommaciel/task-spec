@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 	"time"
 )
@@ -16,6 +17,8 @@ type Daemon struct {
 	repository     Repository
 	store          *Store
 	productVersion string
+	cancelMu       sync.Mutex
+	cancels        map[string]context.CancelFunc
 }
 
 func NewDaemon(repository Repository, productVersion string) (*Daemon, error) {
@@ -27,7 +30,7 @@ func NewDaemon(repository Repository, productVersion string) (*Daemon, error) {
 		store.Close()
 		return nil, err
 	}
-	return &Daemon{repository: repository, store: store, productVersion: productVersion}, nil
+	return &Daemon{repository: repository, store: store, productVersion: productVersion, cancels: map[string]context.CancelFunc{}}, nil
 }
 
 func (daemon *Daemon) Handler() http.Handler {
@@ -64,6 +67,12 @@ func (daemon *Daemon) Handler() http.Handler {
 		if !result.OK {
 			status = http.StatusConflict
 		}
+		if result.OK && command.Command == "run" && hasOption(command.Arguments, "--execute") {
+			daemon.launchAttempts(result)
+		}
+		if result.OK && command.Command == "cancel" && len(command.Arguments) > 0 {
+			daemon.cancelAttempt(command.Arguments[0])
+		}
 		writeJSON(writer, status, result)
 	})
 	mux.HandleFunc("/v1/events", func(writer http.ResponseWriter, request *http.Request) {
@@ -75,6 +84,43 @@ func (daemon *Daemon) Handler() http.Handler {
 		writeJSON(writer, http.StatusOK, map[string]any{"contract": "TaskMeshEventLog/v1", "events": events})
 	})
 	return mux
+}
+
+func (daemon *Daemon) launchAttempts(result CommandResponse) {
+	raw, err := json.Marshal(result.Data["attempts"])
+	if err != nil {
+		return
+	}
+	var attempts []struct {
+		Lease Lease `json:"lease"`
+	}
+	if err := json.Unmarshal(raw, &attempts); err != nil {
+		return
+	}
+	for _, attempt := range attempts {
+		attemptID := attempt.Lease.AttemptID
+		ctx, cancel := context.WithCancel(context.Background())
+		daemon.cancelMu.Lock()
+		daemon.cancels[attemptID] = cancel
+		daemon.cancelMu.Unlock()
+		go func() {
+			defer func() {
+				daemon.cancelMu.Lock()
+				delete(daemon.cancels, attemptID)
+				daemon.cancelMu.Unlock()
+			}()
+			_ = daemon.store.ExecuteAttempt(ctx, attemptID)
+		}()
+	}
+}
+
+func (daemon *Daemon) cancelAttempt(attemptID string) {
+	daemon.cancelMu.Lock()
+	cancel := daemon.cancels[attemptID]
+	daemon.cancelMu.Unlock()
+	if cancel != nil {
+		cancel()
+	}
 }
 
 func (daemon *Daemon) Serve(ctx context.Context) error {

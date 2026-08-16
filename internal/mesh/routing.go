@@ -7,8 +7,6 @@ import (
 	"sort"
 )
 
-var defaultAdapterOrder = []string{"codex-native", "claude-native", "grok-native", "omp-rpc"}
-
 func adapterForBackend(backend string) string {
 	switch backend {
 	case "codex":
@@ -27,6 +25,11 @@ func adapterForBackend(backend string) string {
 func routeTask(task FrontierTask, arguments []string) (DispatchDecision, error) {
 	explicit := option(arguments, "--adapter", "")
 	backend := adapterForBackend(task.ExecutionBackend)
+	definitions, err := LoadAdapters()
+	if err != nil {
+		return DispatchDecision{}, err
+	}
+	defaultAdapterOrder := AdapterOrder(definitions)
 	order := append([]string{}, defaultAdapterOrder...)
 	advisorDigest := (*string)(nil)
 	if advisorPath := option(arguments, "--advisor-file", ""); advisorPath != "" {

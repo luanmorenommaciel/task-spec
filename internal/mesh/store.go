@@ -191,6 +191,8 @@ func (store *Store) execute(transaction *sql.Tx, request CommandRequest) Command
 		response.Code, response.Message, response.Data = "MESH_FRONTIER_READY", "authorized ready frontier resolved", map[string]any{"frontier": frontier}
 	case "run":
 		response = store.startRun(transaction, request)
+	case "adapters":
+		response = store.adaptersCommand(request)
 	case "explain":
 		frontier, err := ResolveFrontier(store.repository)
 		if err != nil {

@@ -1,0 +1,11 @@
+{
+  "contract": "TaskMeshAdapter/v1",
+  "name": "codex-native",
+  "harness": "codex",
+  "executable": "codex",
+  "version_args": ["--version"],
+  "command": ["exec", "--ephemeral", "--sandbox", "workspace-write", "--cd", "{workspace}", "--json", "-"],
+  "prompt_mode": "stdin",
+  "event_format": "jsonl",
+  "assurance_modes": ["supervised"]
+}

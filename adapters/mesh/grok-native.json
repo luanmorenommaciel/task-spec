@@ -1,0 +1,11 @@
+{
+  "contract": "TaskMeshAdapter/v1",
+  "name": "grok-native",
+  "harness": "grok",
+  "executable": "grok",
+  "version_args": ["--version"],
+  "command": ["--cwd", "{workspace}", "--no-subagents", "--no-memory", "--disable-web-search", "--output-format", "streaming-json", "--permission-mode", "acceptEdits", "-p", "{prompt}"],
+  "prompt_mode": "argument",
+  "event_format": "jsonl",
+  "assurance_modes": ["supervised"]
+}

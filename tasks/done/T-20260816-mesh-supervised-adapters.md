@@ -1,7 +1,7 @@
 ---
 id: T-20260816-mesh-supervised-adapters
 title: "Add native and OMP supervised execution adapters"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-08-16T19:59:42Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luanmorenomaciel
+accepted_at: 2026-08-16T20:07:59Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:5427f9332908cb9a211c2af6c9c8c08992dda64ee8d86337bbee462f897c9caa
+accepted_tier: 1
+accepted_attempt_id: 1b35aa9a-7ac8-4361-b476-7fa077427fd8
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:5427f9332908cb9a211c2af6c9c8c08992dda64ee8d86337bbee462f897c9caa
+acceptance_record_digest: sha256:f8fcb3cd4dabfd3810b7bf87d611e3e8079ce7eae2384594fd22c3056e1be59d
 ---
 
 # Add native and OMP supervised execution adapters
