@@ -17,6 +17,7 @@ END = "<!-- release-status:end -->"
 def label(value: str) -> str:
     return {
         "pass": "Pass",
+        "pass_ubuntu_macos": "Pass on Ubuntu and macOS",
         "pending_release_tag": "Pending release tag",
         "working": "Working release",
         "rc": "Release candidate",

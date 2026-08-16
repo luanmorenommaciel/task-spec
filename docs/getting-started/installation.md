@@ -3,11 +3,12 @@
 The canonical installer writes equivalent skill content to all supported local
 harness destinations. It never stores model/provider credentials.
 
-Until the `v3.8.1` release clears its evidence gate and the final tag is
-published, install from a checkout:
+The repository is private. Authenticate GitHub before cloning; until `v3.8.1`
+clears its evidence gate and the final tag is published, install from a
+checkout:
 
 ```bash
-git clone --depth 1 https://github.com/luanmorenomaciel/task-spec.git \
+git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \
   "$HOME/.local/share/task-spec-src"
 
 # User-level skills for Codex/Kimi, Claude Code, and Grok Build
@@ -24,14 +25,23 @@ bash "$HOME/.local/share/task-spec-src/install.sh" \
   --target /path/to/repository --copy
 ```
 
-After the tag exists and its remote-install smoke workflow passes, the pinned
-curl door is:
+For a checksum-backed installation of the published `v3.8.0` release:
 
 ```bash
-curl -fsSL \
-  https://raw.githubusercontent.com/luanmorenomaciel/task-spec/v3.8.1/install.sh \
-  | bash -s -- --global
+gh auth status
+release_dir="$(mktemp -d)"
+gh release download v3.8.0 \
+  --repo luanmorenommaciel/task-spec \
+  --pattern 'task-spec-3.8.0.tar.gz*' \
+  --dir "$release_dir"
+(cd "$release_dir" && shasum -a 256 -c task-spec-3.8.0.tar.gz.sha256)
+tar -xzf "$release_dir/task-spec-3.8.0.tar.gz" -C "$release_dir"
+bash "$release_dir/task-spec-3.8.0/install.sh" --global --copy
 ```
+
+Anonymous raw-file and release-asset URLs do not work while the repository is
+private. The release workflow authenticates the Contents and release APIs,
+then exercises the tagged installer against the published checksum assets.
 
 | Harness | User-level skill | Repository-local skill |
 |---|---|---|
@@ -65,13 +75,13 @@ credentials or modify shell startup files.
 For npm/GitHub:
 
 ```bash
-npm install -g github:luanmorenommaciel/task-spec#v3.8.1
+gh auth setup-git
+npm install -g git+https://github.com/luanmorenommaciel/task-spec.git#v3.8.0
 taskspec-install --global
 ```
 
-This GitHub tag door is also pending until the release tag and remote smoke
-workflow exist. Local package construction and installation are covered by
-`make check`.
+The authenticated GitHub tag door and local package construction are covered by
+the hosted release smoke and `make check`, respectively.
 
 For Claude marketplace:
 

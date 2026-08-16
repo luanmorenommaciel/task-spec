@@ -18,9 +18,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/_lib.sh
 source "$SCRIPT_DIR/../lib/_lib.sh"
 ts_version_flag "$@"
-ts_require_bash4 "$@"
 METRICS="$TASKSPEC_BACKLOG_DIR/_metrics.jsonl"
 STATE="$TASKSPEC_BACKLOG_DIR/_state.yaml"
+ORIGINAL_ARGS=("$@")
 
 SINCE=""
 AUTHOR=""
@@ -29,15 +29,27 @@ STATUS=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --since)
-      SINCE="${2:-}"
+      [[ $# -ge 2 ]] || {
+        echo "Usage: taskspec metrics --since YYYY-MM-DD" >&2
+        exit 2
+      }
+      SINCE="$2"
       shift 2
       ;;
     --author)
-      AUTHOR="${2:-}"
+      [[ $# -ge 2 ]] || {
+        echo "Usage: taskspec metrics --author <name>" >&2
+        exit 2
+      }
+      AUTHOR="$2"
       shift 2
       ;;
     --status)
-      STATUS="${2:-}"
+      [[ $# -ge 2 ]] || {
+        echo "Usage: taskspec metrics --status <status>" >&2
+        exit 2
+      }
+      STATUS="$2"
       shift 2
       ;;
     --help|-h)
@@ -47,10 +59,15 @@ while [[ $# -gt 0 ]]; do
     *)
       echo "Unknown option: $1" >&2
       echo "Usage: taskspec metrics [--since YYYY-MM-DD] [--author <name>] [--status <status>]" >&2
-      exit 1
+      exit 2
       ;;
   esac
 done
+
+# Parse caller input before enforcing the auxiliary Bash-4 runtime floor.
+# Usage failures remain exit 2 on stock macOS; a valid metrics query still
+# fails closed with the documented runtime-floor exit when Bash 4 is absent.
+ts_require_bash4 "${ORIGINAL_ARGS[@]}"
 
 if [[ ! -f "$METRICS" ]]; then
   echo "No metrics file found at $METRICS" >&2

@@ -8,7 +8,7 @@ TaskSpec dataclass.
 
 Runtime: Python 3.8+. Third-party deps: PyYAML (always), jsonschema (optional;
 skipped with a warning if not installed). Schemas are resolved from the
-canonical repository contract at ../../spec/schemas/.
+canonical ``spec/schemas/`` directory in this repository.
 
 Usage:
     python3 consume-task-spec.py <path/to/T-*.md>

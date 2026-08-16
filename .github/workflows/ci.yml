@@ -50,11 +50,14 @@ jobs:
           sudo install -m 0755 "/tmp/shellcheck-${ver}/shellcheck" /usr/local/bin/shellcheck
           shellcheck --version
 
-      - name: Install Python schema-fidelity dependencies
+      - name: Install schema-fidelity consumer dependencies
         # tests/test-portability-e2e.sh Step 6 runs docs/examples/consume-task-spec.py,
-        # which requires PyYAML and exercises JSON Schema when jsonschema is present.
-        # Pin both so Ubuntu and macOS validate the same contract path.
-        run: python3 -m pip install --disable-pip-version-check --quiet --break-system-packages pyyaml==6.0.2 jsonschema==4.25.1
+        # which requires PyYAML and validates with jsonschema when present.
+        # Install both explicitly so hosted proof never depends on runner-image
+        # package drift. Pinned for determinism.
+        run: >-
+          python3 -m pip install --disable-pip-version-check --quiet
+          --break-system-packages pyyaml==6.0.2 jsonschema==4.26.0
 
       - name: make check (includes isolated install-to-accept demo)
         run: make check
