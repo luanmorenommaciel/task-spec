@@ -13,8 +13,6 @@ on:
 
 permissions:
   contents: write
-  id-token: write
-  attestations: write
 
 jobs:
   release-assets:
@@ -55,11 +53,12 @@ jobs:
         run: gh release upload "$RELEASE_REF" dist/task-spec-* --clobber
 
   provenance:
-    name: GitHub artifact and SBOM attestations
+    name: private DSSE and in-toto provenance
     needs: release-assets
     runs-on: ubuntu-latest
     env:
       RELEASE_REF: ${{ github.event.release.tag_name || inputs.release_ref }}
+      RELEASE_PROVENANCE_KEY: ${{ secrets.TASKSPEC_RELEASE_PROVENANCE_KEY_PEM }}
     steps:
       - name: Checkout the exact release
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -79,16 +78,49 @@ jobs:
             --pattern "task-spec-${version}.spdx.json"
           echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
 
-      - name: Attest release archive provenance
-        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8
-        with:
-          subject-path: dist/task-spec-${{ env.RELEASE_VERSION }}.tar.gz
-
-      - name: Attest SPDX SBOM
-        uses: actions/attest-sbom@c604332985a26aa8cf1bdc465b92731239ec6b9e
-        with:
-          subject-path: dist/task-spec-${{ env.RELEASE_VERSION }}.tar.gz
-          sbom-path: dist/task-spec-${{ env.RELEASE_VERSION }}.spdx.json
+      - name: Create and independently verify private release provenance
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -n "$RELEASE_PROVENANCE_KEY" || {
+            echo "TASKSPEC_RELEASE_PROVENANCE_KEY_PEM is not configured" >&2
+            exit 1
+          }
+          umask 077
+          key="$RUNNER_TEMP/release-provenance.ed25519.pem"
+          printf '%s' "$RELEASE_PROVENANCE_KEY" > "$key"
+          started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          source_commit="$(git rev-parse HEAD)"
+          python3 tools/release-provenance.py create \
+            --release-version "$RELEASE_VERSION" \
+            --release-ref "$RELEASE_REF" \
+            --source-repository "$GITHUB_REPOSITORY" \
+            --source-commit "$source_commit" \
+            --subject "dist/task-spec-${RELEASE_VERSION}.tar.gz" \
+            --sbom "dist/task-spec-${RELEASE_VERSION}.spdx.json" \
+            --builder-id "https://github.com/${GITHUB_REPOSITORY}/actions/workflows/release-install-smoke.yml" \
+            --invocation-id "https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+            --started-at "$started_at" \
+            --finished-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --private-key "$key" \
+            --public-key release/trust/release-provenance.ed25519.pub.pem \
+            --out "dist/task-spec-${RELEASE_VERSION}.provenance.dsse.json"
+          python3 tools/release-provenance.py verify \
+            --release-version "$RELEASE_VERSION" \
+            --release-ref "$RELEASE_REF" \
+            --source-repository "$GITHUB_REPOSITORY" \
+            --source-commit "$source_commit" \
+            --subject "dist/task-spec-${RELEASE_VERSION}.tar.gz" \
+            --sbom "dist/task-spec-${RELEASE_VERSION}.spdx.json" \
+            --envelope "dist/task-spec-${RELEASE_VERSION}.provenance.dsse.json" \
+            --public-key release/trust/release-provenance.ed25519.pub.pem
+          cp release/trust/release-provenance.ed25519.pub.pem \
+            "dist/task-spec-${RELEASE_VERSION}-release-provenance.pub.pem"
+          gh release upload "$RELEASE_REF" \
+            "dist/task-spec-${RELEASE_VERSION}.provenance.dsse.json" \
+            "dist/task-spec-${RELEASE_VERSION}-release-provenance.pub.pem" \
+            --clobber
 
   install:
     name: remote install (${{ matrix.os }})

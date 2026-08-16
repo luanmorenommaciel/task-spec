@@ -1,7 +1,7 @@
 {
   "contract": "TaskSpecQualityScorecard/v1",
   "release_version": "3.8.1",
-  "rubric_digest": "sha256:a25e7971318c07fcd993ff765a92e93478f5023f5e07b7a9387342498e35cf8c",
+  "rubric_digest": "sha256:12127173866b4f7c21b063fcfeb36957dad3f7dd3f7ebeb6d171ce1d7e78fe2b",
   "generated_at": "2026-08-15T18:15:00Z",
   "dimensions": [
     {

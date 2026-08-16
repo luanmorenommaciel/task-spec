@@ -75,10 +75,13 @@ PY
 python3 - "$ROOT/.github/workflows/release-install-smoke.yml" <<'PY'
 import pathlib, sys
 text = pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")
-assert "actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8" in text
-assert "actions/attest-sbom@c604332985a26aa8cf1bdc465b92731239ec6b9e" in text
-assert "id-token: write" in text and "attestations: write" in text
+assert "TASKSPEC_RELEASE_PROVENANCE_KEY_PEM" in text
+assert "tools/release-provenance.py create" in text
+assert "tools/release-provenance.py verify" in text
+assert "actions/attest-build-provenance" not in text
+assert "actions/attest-sbom" not in text
 assert "build-release-evidence-archive.py" in text and "build-sbom.py" in text
+assert "gh api" in text and "gh auth setup-git" in text
 PY
 
 if command -v npm >/dev/null 2>&1; then

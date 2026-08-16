@@ -42,6 +42,10 @@ bash "$release_dir/task-spec-3.8.0/install.sh" --global --copy
 Anonymous raw-file and release-asset URLs do not work while the repository is
 private. The release workflow authenticates the Contents and release APIs,
 then exercises the tagged installer against the published checksum assets.
+Each private release also carries an Ed25519-signed DSSE/in-toto provenance
+statement. Its public verification key is retained at
+`release/trust/release-provenance.ed25519.pub.pem`; the private key exists only
+in the trusted GitHub Actions secret store.
 
 | Harness | User-level skill | Repository-local skill |
 |---|---|---|

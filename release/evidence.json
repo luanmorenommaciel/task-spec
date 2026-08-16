@@ -16,7 +16,7 @@
   "release_status": "blocked",
   "quality_scorecard": {
     "path": "release/3.8.1/scorecard.json",
-    "digest": "sha256:c5da6d58a06024de70b1b1a4d19552e6152246f6d15fb4a86e33f62f207f7d62"
+    "digest": "sha256:61ac54f606dba7e4dca0c805938a60e65cb7cdd40b76fb613f704fd09b6052bb"
   },
   "gates": {
     "authority_contracts": {
