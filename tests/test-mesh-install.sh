@@ -15,7 +15,7 @@ host_os="$(uname -s | tr '[:upper:]' '[:lower:]')"
 host_arch="$(uname -m)"
 case "$host_arch" in x86_64|amd64) host_arch=amd64 ;; arm64|aarch64) host_arch=arm64 ;; esac
 asset="taskspec-meshd-$host_os-$host_arch"
-mkdir -p "$WORK/assets" "$WORK/core-project" "$WORK/mesh-project" "$WORK/symlink-project"
+mkdir -p "$WORK/assets" "$WORK/core-project" "$WORK/mesh-project" "$WORK/symlink-project" "$WORK/npm-project" "$WORK/npm-bin"
 python3 "$ROOT/tools/build-mesh-release.py" --out-dir "$WORK/assets" --target "$host_os/$host_arch" >/dev/null
 
 # Core-only remains unchanged and does not install a helper.
@@ -61,6 +61,17 @@ after="$(git -C "$ROOT" status --porcelain)"
 [[ "$before" == "$after" ]]
 [[ -L "$WORK/symlink-install/$VERSION" ]]
 [[ -x "$WORK/symlink-bin/taskspec-meshd" ]]
+
+# The npm package already owns BIN_DIR/taskspec. The harness installer keeps
+# that exact package link while adding skills, the pinned engine, and TaskMesh.
+ln -s "$ROOT/bin/taskspec" "$WORK/npm-bin/taskspec"
+HOME="$WORK/npm-home" TASKSPEC_INSTALL_ROOT="$WORK/npm-install" TASKSPEC_MESH_ASSET_DIR="$WORK/assets" \
+  bash "$ROOT/install.sh" --target "$WORK/npm-project" --bin-dir "$WORK/npm-bin" --with-mesh >"$WORK/npm.log"
+grep -q '^kept: package CLI ' "$WORK/npm.log"
+grep -q '^INSTALL=OK$' "$WORK/npm.log"
+[[ -L "$WORK/npm-bin/taskspec" ]]
+[[ "$(readlink "$WORK/npm-bin/taskspec")" == "$ROOT/bin/taskspec" ]]
+[[ -x "$WORK/npm-bin/taskspec-meshd" ]]
 
 # Missing checksum, changed bytes, and a version-mismatched helper all fail closed.
 mkdir -p "$WORK/bad-missing" "$WORK/bad-tamper" "$WORK/bad-version"

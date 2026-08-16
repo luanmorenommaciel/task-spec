@@ -115,6 +115,17 @@ backup_existing() {
   fi
 }
 
+resolve_existing_file() {
+  local value="$1" directory target
+  while [[ -L "$value" ]]; do
+    directory="$(cd -P "$(dirname "$value")" >/dev/null 2>&1 && pwd)"
+    target="$(readlink "$value")"
+    if [[ "$target" == /* ]]; then value="$target"; else value="$directory/$target"; fi
+  done
+  directory="$(cd -P "$(dirname "$value")" >/dev/null 2>&1 && pwd)"
+  printf '%s/%s\n' "$directory" "$(basename "$value")"
+}
+
 INSTALL_ROOT="${TASKSPEC_INSTALL_ROOT:-${HOME}/.local/share/task-spec}"
 ENGINE_DEST="$INSTALL_ROOT/$PINNED_VERSION"
 if [[ "$MODE" == "symlink" ]]; then
@@ -311,6 +322,14 @@ if [[ "$NO_BIN" != true ]]; then
   if [[ -e "$launcher" || -L "$launcher" ]]; then
     if grep -q "task-spec launcher v$PINNED_VERSION" "$launcher" 2>/dev/null && [[ "$FORCE" != true ]]; then
       echo "kept: CLI launcher $launcher"
+    elif [[ -x "$launcher" && -x "$SOURCE_ROOT/bin/taskspec" ]] \
+      && [[ "$(resolve_existing_file "$launcher")" == "$(resolve_existing_file "$SOURCE_ROOT/bin/taskspec")" ]] \
+      && [[ "$("$launcher" version)" == "$PINNED_VERSION" ]] \
+      && [[ "$FORCE" != true ]]; then
+      # npm already placed the exact package CLI in BIN_DIR. Keep that link;
+      # taskspec-install still installs the pinned engine, skills, and optional
+      # TaskMesh helper without asking to overwrite its own package entrypoint.
+      echo "kept: package CLI $launcher"
     elif grep -qE '^# task-spec launcher v[0-9]+\.[0-9]+\.[0-9]+$' "$launcher" 2>/dev/null && [[ "$FORCE" != true ]]; then
       # This is a launcher previously managed by Task-Spec, not an arbitrary
       # user executable. A version upgrade may safely repoint it to the new
