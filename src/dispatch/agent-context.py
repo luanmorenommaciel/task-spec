@@ -11,7 +11,7 @@ commands = {
     "init": {"mutation": "creates missing tasks/ and .taskspec/config", "tokens": ["INIT=OK", "INIT=DRY_RUN"]},
     "setup": {"mutation": "none", "tokens": ["SETUP=READY"]},
     "setup signing": {"mutation": "creates or explicitly rotates the repository-private HMAC key", "tokens": []},
-    "demo": {"mutation": "creates and removes an isolated temporary repository", "tokens": ["DEMO=READY", "DEMO=DRY_RUN"]},
+    "demo": {"mutation": "creates and removes an isolated temporary repository", "tokens": ["DEMO=READY", "DEMO=DRY_RUN", "DEMO=BLOCKED"]},
     "example": {"mutation": "writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing", "tokens": ["EXAMPLE=WRITTEN", "EXAMPLE=DRY_RUN", "EXAMPLE=REFUSED"]},
     "new": {"mutation": "creates one Task-Spec scaffold and derived state", "tokens": []},
     "plan": {"mutation": "none", "tokens": ["TASK_PLAN=OK", "TASK_PLAN=INVALID"]},
@@ -46,7 +46,7 @@ commands = {
     "executor": {"mutation": "reference L2 executor; transitions, executes, accepts, or parks one supplied task", "tokens": []},
     "agent-context": {"mutation": "none", "tokens": []},
     "completion": {"mutation": "none", "tokens": []},
-    "doctor": {"mutation": "none", "tokens": ["BACKLOG_DOCTOR=READY", "BACKLOG_DOCTOR=BLOCKED"]},
+    "doctor": {"mutation": "none", "tokens": ["BACKLOG_DOCTOR=READY", "BACKLOG_DOCTOR=BLOCKED", "DOCTOR=READY", "DOCTOR=BLOCKED"]},
     "version": {"mutation": "none", "tokens": []},
     "help": {"mutation": "none", "tokens": []},
 }
