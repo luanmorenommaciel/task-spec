@@ -25,9 +25,9 @@ cmp -s "$WORK/one/task-spec-$VERSION.tar.gz.sha256" "$WORK/two/task-spec-$VERSIO
 tar -tzf "$WORK/one/task-spec-$VERSION.tar.gz" > "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/assets/taskspec-banner.png$" "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/bin/taskspec$" "$WORK/archive-files.txt"
-grep -q "^task-spec-$VERSION/cmd/taskspec-meshd/main.go$" "$WORK/archive-files.txt"
-grep -q "^task-spec-$VERSION/internal/mesh/daemon.go$" "$WORK/archive-files.txt"
-grep -q "^task-spec-$VERSION/adapters/mesh/omp-rpc.json$" "$WORK/archive-files.txt"
+grep -q "^task-spec-$VERSION/mesh/cmd/taskspec-meshd/main.go$" "$WORK/archive-files.txt"
+grep -q "^task-spec-$VERSION/mesh/internal/mesh/daemon.go$" "$WORK/archive-files.txt"
+grep -q "^task-spec-$VERSION/harness/mesh-adapters/omp-rpc.json$" "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/release/mesh/image.lock$" "$WORK/archive-files.txt"
 if grep -qE "^task-spec-$VERSION/(release/[0-9]|evidence|tasks)/" "$WORK/archive-files.txt"; then
   echo "source archive contains mutable release or backlog state" >&2
@@ -104,8 +104,8 @@ files = {row["path"] for row in json.load(open(sys.argv[1], encoding="utf-8"))[0
 assert "assets/taskspec-banner.png" in files
 assert "bin/taskspec" in files
 assert "src/evidence/environment_attestation.py" in files
-assert "cmd/taskspec-meshd/main.go" in files
-assert "internal/mesh/daemon.go" in files
+assert "mesh/cmd/taskspec-meshd/main.go" in files
+assert "mesh/internal/mesh/daemon.go" in files
 assert "release/mesh/image.lock" in files
 PY
 fi

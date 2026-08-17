@@ -45,7 +45,7 @@ PY
 "$TS" identity init --out-dir "$WORK/evidence/identity" >/dev/null
 KEY_ID="$(openssl pkey -pubin -in "$WORK/evidence/identity/identity.ed25519.pub.pem" -outform DER | openssl dgst -sha256 | awk '{print substr($2,1,16)}')"
 RUBRIC="sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-"$ROOT/integrations/research/exa/fake-adapter.sh" "portable evidence" > "$WORK/evidence/research.json"
+"$ROOT/harness/research/exa/fake-adapter.sh" "portable evidence" > "$WORK/evidence/research.json"
 RESEARCH_DIGEST="sha256:$(python3 -c 'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())' "$WORK/evidence/research.json")"
 
 cat > "$WORK/tasks/T-20260812-evidence-loop.md" <<EOF

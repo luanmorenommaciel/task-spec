@@ -5,10 +5,10 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 WORK="$(mktemp -d -t taskspec-engine-v2-XXXXXX)"
 trap 'rm -rf "$WORK"' EXIT
-MATRIX_ROOT="$WORK/evidence/3.8.1"
+MATRIX_ROOT="$WORK/release/3.8.1"
 KEY="$WORK/evaluator-signing-key"
 mkdir -p "$MATRIX_ROOT/benchmark" "$WORK/bin" "$WORK/out"
-cp -R "$ROOT/evidence/3.8.1/benchmark/snapshots" "$MATRIX_ROOT/benchmark/snapshots"
+cp -R "$ROOT/release/3.8.1/benchmark/snapshots" "$MATRIX_ROOT/benchmark/snapshots"
 printf '%s\n' 'fixture-only-engine-matrix-key' > "$KEY"
 chmod 600 "$KEY"
 

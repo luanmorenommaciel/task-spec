@@ -46,7 +46,7 @@ pathlib.Path(sys.argv[1]).write_text(json.dumps({
   "prompt_mode": "argument", "event_format": "jsonl", "assurance_modes": ["supervised"],
 }, indent=2) + "\n")
 PY
-go build -o "$HELPER" "$ROOT/cmd/taskspec-meshd"
+go build -o "$HELPER" "$ROOT/mesh/cmd/taskspec-meshd"
 
 mesh() {
   (

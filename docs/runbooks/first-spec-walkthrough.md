@@ -192,7 +192,7 @@ grep '^signed_off' tasks/T-*.md
 
 ## Step 7 — DISPATCH (or stop here for the walkthrough)
 
-A `signed_off: true` spec is ready to hand to an autonomous engine. The dispatch step depends on which engine you're using; start at the router [dispatching-a-task-spec.md](dispatching-a-task-spec.md) and jump to your engine's recipe under [../adapters/engines/](../../adapters/engines/).
+A `signed_off: true` spec is ready to hand to an autonomous engine. The dispatch step depends on which engine you're using; start at the router [dispatching-a-task-spec.md](dispatching-a-task-spec.md) and jump to your engine's recipe under [../harness/engines/](../../harness/engines/).
 
 If you got this far, **the skill is correctly installed and your first spec is signed off**. You can now:
 

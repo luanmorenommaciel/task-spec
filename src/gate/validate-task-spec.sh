@@ -1003,7 +1003,7 @@ if [[ "$SIGNED_OFF_RAW" == "true" ]]; then
 
     if [[ -z "$SIGN_KEY" ]]; then
       # TIER 2: no key (fresh clone / no env var). Structural-only. Loud + exit 0.
-      echo "WARN(Tier 2): $FILE — no signing key resolved; sign-off is structural-only (Tier 2). Supervised dispatch only; NOT eligible for unsupervised crank. Set TASKSPEC_SIGNING_KEY or run configs/setup-taskspec-signing-key.sh for Tier 1 crypto trust."
+      echo "WARN(Tier 2): $FILE — no signing key resolved; sign-off is structural-only (Tier 2). Supervised dispatch only; NOT eligible for unsupervised crank. Set TASKSPEC_SIGNING_KEY or run tools/setup-taskspec-signing-key.sh for Tier 1 crypto trust."
     elif [[ -z "$SIGNED_SIG" ]]; then
       # TIER 2: key present but no sig field (legacy v2.1.1 spec). Structural-only.
       echo "WARN(Tier 2): $FILE — signed_off_sig absent (legacy/structural-only sign-off). Re-stamp with taskspec gate --stamp under a key for Tier 1 crypto trust. Supervised dispatch only."

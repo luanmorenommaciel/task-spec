@@ -162,7 +162,7 @@ fi
 mkdir -p "$OUTDIR"
 
 SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-TEMPLATE="$SKILL_DIR/templates/task-spec.md.tpl"
+TEMPLATE="$SKILL_DIR/src/templates/task-spec.md.tpl"
 
 if [[ ! -f "$TEMPLATE" ]]; then
   echo "ERROR: template not found at $TEMPLATE" >&2

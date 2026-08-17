@@ -123,7 +123,7 @@ must "unsafe environment store was never written" bash -c "test -z \"\$(find '$O
 # remains bound to its own worktree root.
 R="$WORK/common-key"; repo "$R"; spec "$R" tasks T-20260815-common-key
 git -C "$R" add tasks; git -C "$R" commit -qm task
-(cd "$R" && "$ROOT/configs/setup-taskspec-signing-key.sh" >/dev/null)
+(cd "$R" && "$ROOT/tools/setup-taskspec-signing-key.sh" >/dev/null)
 WT="$WORK/common-key-worktree"
 git -C "$R" worktree add -q -b workspace-key-test "$WT"
 must "worktree gate resolves the common-directory key" bash -c \

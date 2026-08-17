@@ -36,7 +36,7 @@ for row in "alpha:a.txt" "bravo:b.txt" "charlie:a.txt"; do
   (cd "$REPO" && bash "$CLI" gate --stamp "tasks/$task_id.md" >/dev/null)
 done
 
-go build -o "$HELPER" "$ROOT/cmd/taskspec-meshd"
+go build -o "$HELPER" "$ROOT/mesh/cmd/taskspec-meshd"
 (
   cd "$REPO"
   TASKSPEC_MESH_HELPER="$HELPER" bash "$CLI" --json mesh frontier >"$TMP/frontier.json"

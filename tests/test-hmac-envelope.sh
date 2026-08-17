@@ -28,7 +28,7 @@ ts_version_flag "$@"
 FIXTURES="$SKILL_DIR/tests/fixtures"
 SAFE="$SKILL_DIR/src/gate/safe-to-delegate.sh"
 VALIDATE="$SKILL_DIR/src/gate/validate-task-spec.sh"
-SETUP_KEY="$SKILL_DIR/configs/setup-taskspec-signing-key.sh"
+SETUP_KEY="$SKILL_DIR/tools/setup-taskspec-signing-key.sh"
 
 PASS=0
 FAIL=0

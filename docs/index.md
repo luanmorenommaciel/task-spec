@@ -1,88 +1,130 @@
-# Task-Spec Knowledge Base
+# Task-Spec documentation
 
-> **Purpose**: KB for the `task-spec` engine — the format, methodology, and patterns.
-> **Owner repo**: the task-spec engine repo (this file lives at `docs/index.md`)
-> **Owner Agent**: `agents/task-architect.md`
-> **MCP Validated**: 2026-05-19
+The knowledge base for the `task-spec` engine — the format, the methodology, the
+patterns, and the runtime contracts. The normative contract is `../spec/` plus
+the conformance suite; everything here explains it.
 
----
+Owner agent: [`../harness/agents/task-architect.md`](../harness/agents/task-architect.md).
 
-## Concepts (≤150 lines each)
+## Start here
+
+| File | Purpose |
+|------|---------|
+| [getting-started/index.md](getting-started/index.md) | Orientation and the shortest path in |
+| [getting-started/installation.md](getting-started/installation.md) | Install the engine and the skill across harnesses |
+| [getting-started/first-task.md](getting-started/first-task.md) | Your first authored, gated, accepted task |
+| [getting-started/reviewer-route.md](getting-started/reviewer-route.md) | Review the repo in five minutes |
+| [getting-started/taskmesh.md](getting-started/taskmesh.md) | The optional multi-harness execution control plane |
+| [quick-reference.md](quick-reference.md) | One-page command cheatsheet |
+| [authoring-workflow.md](authoring-workflow.md) | The authoring doctrine shipped with the installed skill |
+| [roadmap.md](roadmap.md) | Prioritized remaining work (P0–P3) |
+
+## The format
 
 | File | Purpose |
 |------|---------|
 | [../spec/task-spec-v3.md](../spec/task-spec-v3.md) | Stable format-v3 compatibility contract |
 | [../spec/task-spec-v4.md](../spec/task-spec-v4.md) | Opt-in evidence, identity, environment, and portability policy |
+| [concepts/six-zones.md](concepts/six-zones.md) | File anatomy |
+| [concepts/profiles.md](concepts/profiles.md) | Effort-scaled profiles plus the behavior↔eval traceability rule |
+| [concepts/effort-gate.md](concepts/effort-gate.md) | XS/S/M/L leaves and XL/XXL composition rules |
+| [concepts/decomposition.md](concepts/decomposition.md) | Intent or PRD → N atoms: flat index+detail, holes-as-blockers, `depends_on`/`parent` edges |
+| [concepts/agent-contract.md](concepts/agent-contract.md) | Cross-vendor executor contract |
+| [concepts/backlog-architecture.md](concepts/backlog-architecture.md) | Five-layer state management |
+
+## Methodology
+
+| File | Purpose |
+|------|---------|
 | [concepts/eval-driven-development.md](concepts/eval-driven-development.md) | EDD methodology |
 | [concepts/edd-vs-sdd-honest-comparison.md](concepts/edd-vs-sdd-honest-comparison.md) | When to use which |
-| [concepts/six-zones.md](concepts/six-zones.md) | File anatomy |
-| [concepts/profiles.md](concepts/profiles.md) | **v3** effort-scaled profiles (lite/standard/full) + the behavior↔eval traceability rule |
-| [concepts/conformance-levels.md](concepts/conformance-levels.md) | **v3** executor conformance L0/L1/L2 + the A2A lifecycle mapping |
-| [concepts/decomposition.md](concepts/decomposition.md) | **v3** intent/PRD → N atoms: the flat index+detail shape, holes-as-blockers, profile-per-atom, `depends_on`/`parent` edges |
-| [concepts/effort-gate.md](concepts/effort-gate.md) | XS/S/M/L leaves and XL/XXL composition rules |
-| [concepts/agent-contract.md](concepts/agent-contract.md) | Cross-vendor contract |
-| [concepts/signed-off.md](concepts/signed-off.md) | **The autonomy contract** — who produces `signed_off: true`, what it asserts, why hand-stamping is forbidden |
-| [concepts/backlog-architecture.md](concepts/backlog-architecture.md) | 5-layer state management |
 | [concepts/evaluation-policy.md](concepts/evaluation-policy.md) | Deterministic, holdout, graded, and human acceptance policy |
+| [concepts/conformance-levels.md](concepts/conformance-levels.md) | Executor conformance L0/L1/L2 and the A2A lifecycle mapping |
+
+## Trust and evidence
+
+| File | Purpose |
+|------|---------|
+| [concepts/signed-off.md](concepts/signed-off.md) | The autonomy contract — who writes `signed_off: true` and why hand-stamping is forbidden |
 | [concepts/evidence-receipts.md](concepts/evidence-receipts.md) | Typed evidence and provenance contracts |
 | [concepts/environment-contract.md](concepts/environment-contract.md) | Portable runtime commitment and enforcement receipt |
-| [getting-started/taskmesh.md](getting-started/taskmesh.md) | Optional multi-harness execution control plane walkthrough |
-| [reference/taskmesh-contracts.md](reference/taskmesh-contracts.md) | TaskMesh API, runtime overlay, leases, states, and errors |
+| [trust/index.md](trust/index.md) | Trust surface overview |
+| [trust/threat-model.md](trust/threat-model.md) | What the gates do and do not defend against |
 | [trust/taskmesh-boundaries.md](trust/taskmesh-boundaries.md) | Supervised/autonomous assurance and credential boundaries |
 
-## Patterns (≤200 lines each)
+## Patterns
 
 | File | Purpose |
 |------|---------|
 | [patterns/runnable-bash-evals.md](patterns/runnable-bash-evals.md) | Writing terminal, idempotent evals |
 | [patterns/validation-card-yaml.md](patterns/validation-card-yaml.md) | The YAML contract mirror |
-| [patterns/atomic-status-transitions.md](patterns/atomic-status-transitions.md) | The 7-step transition protocol |
-| [patterns/anti-patterns-extraction.md](patterns/anti-patterns-extraction.md) | Mining Zone 3 from MCP research |
-| [patterns/do-not-touch-detection.md](patterns/do-not-touch-detection.md) | Repo-scan patterns |
+| [patterns/atomic-status-transitions.md](patterns/atomic-status-transitions.md) | The transition protocol |
+| [patterns/anti-patterns-extraction.md](patterns/anti-patterns-extraction.md) | Mining Zone 3 from research |
+| [patterns/do-not-touch-detection.md](patterns/do-not-touch-detection.md) | Repository-scan patterns |
 
-## Quick Reference
-
-| File | Purpose |
-|------|---------|
-| [quick-reference.md](quick-reference.md) | One-page cheatsheet |
-
-## Runbooks (in `../runbooks/`)
+## Guides
 
 | File | Purpose |
 |------|---------|
-| [../runbooks/first-spec-walkthrough.md](runbooks/first-spec-walkthrough.md) | **Your first 10 minutes** — install → generate → validate → gate end-to-end |
-| [../runbooks/from-fuzzy-intent.md](runbooks/from-fuzzy-intent.md) | Paragraph → Task-Spec |
-| [../runbooks/decomposing-intent.md](runbooks/decomposing-intent.md) | **Intent / PRD / set-of-calls → N linked atomic specs** — flat index + detail atoms, `depends_on` edges, holes-as-blockers |
-| [../runbooks/from-meeting-note.md](runbooks/from-meeting-note.md) | Krisp output → Task-Spec |
-| [../runbooks/from-existing-task.md](runbooks/from-existing-task.md) | Legacy → v2.1 conversion |
-| [../runbooks/validating-a-task-spec.md](runbooks/validating-a-task-spec.md) | Pre-gate structural linter walkthrough |
-| [../runbooks/dispatching-a-task-spec.md](runbooks/dispatching-a-task-spec.md) | **What to do after `safe-to-delegate.sh --stamp`** — router to per-engine recipes |
-| [../runbooks/recovering-from-crash.md](runbooks/recovering-from-crash.md) | State recovery |
-| [../runbooks/empirical-experiment-protocol.md](runbooks/empirical-experiment-protocol.md) | SDD vs EDD experiment |
+| [guides/index.md](guides/index.md) | Guide index |
+| [guides/multi-harness.md](guides/multi-harness.md) | One contract across several executors |
+| [guides/multi-engine-evidence.md](guides/multi-engine-evidence.md) | Running and retaining the engine matrix |
+| [guides/replanning-and-recovery.md](guides/replanning-and-recovery.md) | When the contract has to change |
+| [guides/repository-scan.md](guides/repository-scan.md) | Grounding a spec in real repository evidence |
+| [guides/research-providers.md](guides/research-providers.md) | Optional cited-research adapters |
 
-## Dispatch Recipes (in `../adapters/engines/`)
+## Runbooks
 
-Per-engine recipes routed from `dispatching-a-task-spec.md`. Each follows the same five-section shape: Prerequisites / Dispatch command / Status reporting / Failure modes / See also.
+| File | Purpose |
+|------|---------|
+| [runbooks/first-spec-walkthrough.md](runbooks/first-spec-walkthrough.md) | Your first ten minutes, end to end |
+| [runbooks/from-fuzzy-intent.md](runbooks/from-fuzzy-intent.md) | Paragraph → Task-Spec |
+| [runbooks/decomposing-intent.md](runbooks/decomposing-intent.md) | Intent or PRD → N linked atomic specs |
+| [runbooks/batch-sprint-compose.md](runbooks/batch-sprint-compose.md) | Composing a sprint from an approved plan |
+| [runbooks/from-meeting-note.md](runbooks/from-meeting-note.md) | Meeting output → Task-Spec |
+| [runbooks/from-existing-task.md](runbooks/from-existing-task.md) | Legacy checklist conversion |
+| [runbooks/validating-a-task-spec.md](runbooks/validating-a-task-spec.md) | Pre-gate structural linter walkthrough |
+| [runbooks/dispatching-a-task-spec.md](runbooks/dispatching-a-task-spec.md) | What to do after the PRE-gate seals a spec |
+| [runbooks/recovering-from-crash.md](runbooks/recovering-from-crash.md) | State recovery |
+| [runbooks/empirical-experiment-protocol.md](runbooks/empirical-experiment-protocol.md) | SDD vs EDD experiment protocol |
+| [runbooks/dark-factory-as-task-spec.md](runbooks/dark-factory-as-task-spec.md) | Unattended execution, honestly scoped |
+| [runbooks/skill-hardening-blueprint.md](runbooks/skill-hardening-blueprint.md) | Hardening a skill against drift |
+
+## Reference
+
+| File | Purpose |
+|------|---------|
+| [reference/index.md](reference/index.md) | Reference index |
+| [reference/cli.md](reference/cli.md) | Generated CLI table — regenerate with `python3 tools/render-cli-reference.py --write docs/reference/cli.md` |
+| [reference/contracts.md](reference/contracts.md) | Contract catalog |
+| [reference/acceptance-contracts.md](reference/acceptance-contracts.md) | Acceptance record and failure codes |
+| [reference/task-revision.md](reference/task-revision.md) | `TaskRevision/v1` authority manifest |
+| [reference/task-graph-view.md](reference/task-graph-view.md) | `TaskGraphView/v1` derived graph |
+| [reference/taskmesh-contracts.md](reference/taskmesh-contracts.md) | TaskMesh API, runtime overlay, leases, states, and errors |
+| [reference/compatibility-policy.md](reference/compatibility-policy.md) | What may change in a minor release |
+| [reference/converge-donor-map.md](reference/converge-donor-map.md) | Provenance of the extraction from converge |
+
+## Dispatch recipes
+
+Per-engine recipes routed from [runbooks/dispatching-a-task-spec.md](runbooks/dispatching-a-task-spec.md).
+Each follows the same shape: prerequisites, dispatch command, status reporting,
+failure modes, see also.
 
 | File | Engine |
 |------|--------|
-| [../adapters/engines/claude-code.md](../adapters/engines/claude-code.md) | Claude Code (Task() tool, subagent delegation) |
-| [../adapters/engines/codex.md](../adapters/engines/codex.md) | Codex CLI (`codex run --task ...`) |
-| [../adapters/engines/kimi.md](../adapters/engines/kimi.md) | Kimi CLI via the 12-stage broker pipeline |
-| [../adapters/engines/gemini.md](../adapters/engines/gemini.md) | Gemini / generic completion-API CLIs |
-| [../adapters/engines/taskship.md](../adapters/engines/taskship.md) | taskship runtime |
-| [../adapters/engines/anthive.md](../adapters/engines/anthive.md) | anthive parallel-session dispatch |
-| [../adapters/engines/custom.md](../adapters/engines/custom.md) | DIY escape hatch (v2.2 `dispatch_recipe:` field) |
+| [../harness/engines/claude-code.md](../harness/engines/claude-code.md) | Claude Code |
+| [../harness/engines/codex.md](../harness/engines/codex.md) | Codex CLI |
+| [../harness/engines/kimi.md](../harness/engines/kimi.md) | Kimi CLI |
+| [../harness/engines/gemini.md](../harness/engines/gemini.md) | Gemini and generic completion-API CLIs |
+| [../harness/engines/taskship.md](../harness/engines/taskship.md) | taskship runtime |
+| [../harness/engines/anthive.md](../harness/engines/anthive.md) | anthive parallel-session dispatch |
+| [../harness/engines/custom.md](../harness/engines/custom.md) | DIY escape hatch |
 
----
+## How to navigate
 
-## How the agent navigates this KB
-
-The `task-architect` agent reads from this folder:
-
-1. **Start with** `../spec/task-spec-v3.md` for stable tasks or `../spec/task-spec-v4.md` when evidence policy is required
-2. **Concepts** for definitional questions ("what IS an effort gate?")
-3. **Patterns** for implementation questions ("how do I write an idempotent eval?")
-4. **Runbooks** for workflow questions ("how do I convert a meeting note?")
-
-Cross-link with `[[concept-name]]` syntax. Validate against Context7 MCP at runtime.
+1. Start with `../spec/task-spec-v3.md` for stable work, or `../spec/task-spec-v4.md`
+   when independent evidence policy is required.
+2. Read **concepts** for definitional questions ("what is an effort gate?").
+3. Read **patterns** for implementation questions ("how do I write an idempotent eval?").
+4. Read **runbooks** for workflow questions ("how do I convert a meeting note?").
+5. Read **reference** for exact contract fields and CLI behavior.

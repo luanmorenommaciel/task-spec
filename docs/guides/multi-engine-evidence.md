@@ -23,11 +23,11 @@ without fabricating unavailable runs.
    deviations, and environment—not writing style.
 
 ```bash
-taskspec evidence validate evidence/3.7/engine-matrix.json
-taskspec evidence plan evidence/3.7/engine-matrix.json \
-  --handoff evidence/3.7/task-handoff.json --out-dir evidence/3.7/runs
-taskspec evidence run evidence/3.7/engine-matrix.json \
-  --handoff evidence/3.7/task-handoff.json --out-dir evidence/3.7/runs
+taskspec evidence validate release/3.7/engine-matrix.json
+taskspec evidence plan release/3.7/engine-matrix.json \
+  --handoff release/3.7/task-handoff.json --out-dir release/3.7/runs
+taskspec evidence run release/3.7/engine-matrix.json \
+  --handoff release/3.7/task-handoff.json --out-dir release/3.7/runs
 ```
 
 The checked-in release matrix is a template with disabled entries. It validates

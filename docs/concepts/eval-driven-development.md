@@ -56,7 +56,7 @@ POST-gate must accept passing work before status can become `done`.
 Markdown + YAML + bash is the universal substrate. Any agentic tool that can
 read markdown, parse YAML, and execute bash can consume a Task-Spec — any
 conformant engine (e.g. Claude, Codex, Cursor — adapters in
-../adapters/engines/), a manual human, or a future tool.
+../harness/engines/), a manual human, or a future tool.
 
 This eliminates vendor lock-in at the unit-of-work layer.
 

@@ -4,7 +4,7 @@
 
 This runbook closes the loop after stamping. Up to and including `safe-to-delegate.sh --stamp`, the author is in the driver's seat. Past `signed_off: true`, the engine is.
 
-This file is a **router**. The pre-flight checks and post-dispatch verification are common to every engine; the engine-specific dispatch command lives in a paired recipe file under `../adapters/engines/`.
+This file is a **router**. The pre-flight checks and post-dispatch verification are common to every engine; the engine-specific dispatch command lives in a paired recipe file under `../harness/engines/`.
 
 ---
 
@@ -14,12 +14,12 @@ The spec's `execution_backend:` frontmatter field names the canonical executor. 
 
 | `execution_backend` | Recipe | Best for |
 |---------------------|--------|----------|
-| `claude` | [../adapters/engines/claude-code.md](../../adapters/engines/claude-code.md) | Interactive sessions, subagent delegation via `Task()`; the orchestrator |
-| `codex` | [../adapters/engines/codex.md](../../adapters/engines/codex.md) | OpenAI Codex CLI; review + adversarial passes (different model family) |
-| `kimi` | [../adapters/engines/kimi.md](../../adapters/engines/kimi.md) | One supported harness for atomic XS/S/M/L leaves when configured |
-| `glm` | [../adapters/engines/gemini.md](../../adapters/engines/gemini.md) | Example long-horizon backend for L leaves |
-| `gemini` | [../adapters/engines/gemini.md](../../adapters/engines/gemini.md) | Generic completion-API CLIs (Gemini, llm, ollama, aichat) |
-| `any` / `custom` / unknown | [../adapters/engines/custom.md](../../adapters/engines/custom.md) | DIY escape hatch; references v2.2's deferred `dispatch_recipe:` field |
+| `claude` | [../harness/engines/claude-code.md](../../harness/engines/claude-code.md) | Interactive sessions, subagent delegation via `Task()`; the orchestrator |
+| `codex` | [../harness/engines/codex.md](../../harness/engines/codex.md) | OpenAI Codex CLI; review + adversarial passes (different model family) |
+| `kimi` | [../harness/engines/kimi.md](../../harness/engines/kimi.md) | One supported harness for atomic XS/S/M/L leaves when configured |
+| `glm` | [../harness/engines/gemini.md](../../harness/engines/gemini.md) | Example long-horizon backend for L leaves |
+| `gemini` | [../harness/engines/gemini.md](../../harness/engines/gemini.md) | Generic completion-API CLIs (Gemini, llm, ollama, aichat) |
+| `any` / `custom` / unknown | [../harness/engines/custom.md](../../harness/engines/custom.md) | DIY escape hatch; references v2.2's deferred `dispatch_recipe:` field |
 
 If `execution_backend: any`, choose an installed harness explicitly when creating the handoff.
 
@@ -78,7 +78,7 @@ The HMAC sign-off envelope (see [../concepts/signed-off.md](../concepts/signed-o
 | **Tier 2** | no key resolved, narrow HMAC v1/v2, or another explicitly downgraded gate | **NO — supervised dispatch only**. Acceptance needs supervisor identity and reason. |
 | **Tier 3** | key present but HMAC mismatch / malformed sig | **NO** — treat as tampered; re-stamp before dispatch |
 
-**Why Tier 2 is supervised-only:** Tier 2 is structurally valid but cryptographically unverified — an adversary who read this skill could run the verifier *without* the key to reach the (forgeable) Tier-2 state and try to dispatch unsupervised. The supervised-only rule removes that bypass. To promote a Tier-2 spec to Tier-1 unsupervised trust: provision a key with `configs/setup-taskspec-signing-key.sh` (or export `TASKSPEC_SIGNING_KEY`), then re-run `safe-to-delegate.sh --stamp`.
+**Why Tier 2 is supervised-only:** Tier 2 is structurally valid but cryptographically unverified — an adversary who read this skill could run the verifier *without* the key to reach the (forgeable) Tier-2 state and try to dispatch unsupervised. The supervised-only rule removes that bypass. To promote a Tier-2 spec to Tier-1 unsupervised trust: provision a key with `tools/setup-taskspec-signing-key.sh` (or export `TASKSPEC_SIGNING_KEY`), then re-run `safe-to-delegate.sh --stamp`.
 
 **Enforcing the policy in automation:** the supervised-only rule is not just prose—an automated dispatcher can enforce it mechanically.
 
@@ -143,11 +143,11 @@ If the engine reported success but `accept-task.sh` returns `VERDICT: REJECT` (`
 
 ## See also
 
-- [../adapters/engines/claude-code.md](../../adapters/engines/claude-code.md)
-- [../adapters/engines/codex.md](../../adapters/engines/codex.md)
-- [../adapters/engines/kimi.md](../../adapters/engines/kimi.md)
-- [../adapters/engines/gemini.md](../../adapters/engines/gemini.md) — also serves `glm` (generic completion-API) until a dedicated recipe lands
-- [../adapters/engines/custom.md](../../adapters/engines/custom.md)
+- [../harness/engines/claude-code.md](../../harness/engines/claude-code.md)
+- [../harness/engines/codex.md](../../harness/engines/codex.md)
+- [../harness/engines/kimi.md](../../harness/engines/kimi.md)
+- [../harness/engines/gemini.md](../../harness/engines/gemini.md) — also serves `glm` (generic completion-API) until a dedicated recipe lands
+- [../harness/engines/custom.md](../../harness/engines/custom.md)
 - [validating-a-task-spec.md](validating-a-task-spec.md) — pre-gate linter walkthrough
 - `../../src/accept/accept-task.sh` — the Phase 9 POST-execution acceptance gate (run after the engine finishes)
 - [../concepts/signed-off.md](../concepts/signed-off.md) — the autonomy contract

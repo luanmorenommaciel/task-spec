@@ -105,12 +105,12 @@ check "installed version" bash -c "[[ \"\$('$TS' version)\" == '$CURRENT_VERSION
 check "installed isolated demo" bash -c "'$TS' demo | grep -q '^DEMO=READY$'"
 check "agent context JSON" bash -c "'$TS' agent-context | python3 -m json.tool"
 check "agent context covers the complete public command and schema surfaces" bash -c "'$TS' agent-context | python3 -c 'import json,sys; d=json.load(sys.stdin); commands=set(d[\"commands\"]); required=set(\"init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp mesh ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help\".split()); assert required <= commands and d[\"default_format_version\"] == 3; assert len(d[\"contracts\"]) == 36 and {\"task_materialization_receipt\",\"acceptance_finalized\",\"taskmesh_api\",\"run_lease\"} <= set(d[\"contracts\"])'"
-if grep -q 'TaskHandoff/v3' "$ROOT/agents/task-architect.md" \
-  && grep -q 'taskspec plan --manifest' "$ROOT/integrations/codex/AGENTS.md" \
-  && grep -q 'AcceptanceRecord/v1' "$ROOT/integrations/codex/AGENTS.md" \
-  && grep -q 'taskspec handoff' "$ROOT/integrations/claude-code/SKILL.md" \
-  && grep -q 'TaskHandoff/v3' "$ROOT/integrations/claude-code/SKILL.md" \
-  && ! grep -q '3.6 contract' "$ROOT/agents/task-architect.md" \
+if grep -q 'TaskHandoff/v3' "$ROOT/harness/agents/task-architect.md" \
+  && grep -q 'taskspec plan --manifest' "$ROOT/harness/codex/AGENTS.md" \
+  && grep -q 'AcceptanceRecord/v1' "$ROOT/harness/codex/AGENTS.md" \
+  && grep -q 'taskspec handoff' "$ROOT/harness/claude-code/SKILL.md" \
+  && grep -q 'TaskHandoff/v3' "$ROOT/harness/claude-code/SKILL.md" \
+  && ! grep -q '3.6 contract' "$ROOT/harness/agents/task-architect.md" \
   && ! grep -q 'Canonical Task-Spec 3.6' "$ROOT/.claude-plugin/marketplace.json"; then
   pass "agent guidance surfaces share the 3.8 lifecycle"
 else
@@ -334,12 +334,12 @@ if NO_COLOR=1 TASKSPEC_COLOR=1 "$TS" gate --help | LC_ALL=C grep -q $'\033'; the
 echo "== research evidence =="
 for provider in firecrawl tavily exa; do
   evidence="$WORK/$provider.json"
-  "$ROOT/integrations/research/$provider/fake-adapter.sh" "atomic task" > "$evidence"
-  check "$provider evidence" python3 "$ROOT/integrations/research/validate-evidence.py" "$evidence"
+  "$ROOT/harness/research/$provider/fake-adapter.sh" "atomic task" > "$evidence"
+  check "$provider evidence" python3 "$ROOT/harness/research/validate-evidence.py" "$evidence"
 done
 failure="$WORK/failure.json"
-"$ROOT/integrations/research/tavily/fake-adapter.sh" --state rate_limited "atomic task" > "$failure"
-check "named provider failure" python3 "$ROOT/integrations/research/validate-evidence.py" "$failure"
+"$ROOT/harness/research/tavily/fake-adapter.sh" --state rate_limited "atomic task" > "$failure"
+check "named provider failure" python3 "$ROOT/harness/research/validate-evidence.py" "$failure"
 python3 - "$failure" <<'PY'
 import json, sys
 path = sys.argv[1]
@@ -347,13 +347,13 @@ data = json.load(open(path))
 data["usage"]["api_key"] = "must-not-pass"
 json.dump(data, open(path, "w"))
 PY
-if python3 "$ROOT/integrations/research/validate-evidence.py" "$failure" >/dev/null 2>&1; then
+if python3 "$ROOT/harness/research/validate-evidence.py" "$failure" >/dev/null 2>&1; then
   fail "evidence rejects credential-bearing keys"
 else
   pass "evidence rejects credential-bearing keys"
 fi
 check "composition example preview" "$TS" plan --manifest "$ROOT/docs/examples/composition-plan.yaml"
-check "checked-in evidence example" python3 "$ROOT/integrations/research/validate-evidence.py" "$ROOT/docs/examples/authoring-evidence.json"
+check "checked-in evidence example" python3 "$ROOT/harness/research/validate-evidence.py" "$ROOT/docs/examples/authoring-evidence.json"
 check "checked-in handoff example" python3 -m json.tool "$ROOT/docs/examples/task-handoff.json"
 check "README release status is generated from evidence" python3 "$ROOT/tools/render-status.py" --check "$ROOT/README.md"
 

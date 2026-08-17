@@ -14,8 +14,8 @@ Every provider output must normalize to `AuthoringEvidence/v1`:
   and `schema_drift` states.
 
 ```bash
-integrations/research/exa/fake-adapter.sh "query" > evidence.json
-python3 integrations/research/validate-evidence.py evidence.json
+harness/research/exa/fake-adapter.sh "query" > evidence.json
+python3 harness/research/validate-evidence.py evidence.json
 ```
 
 The repository currently proves only offline fake adapters. Do not describe a

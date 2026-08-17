@@ -33,19 +33,28 @@ def render() -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", metavar="MARKDOWN")
+    parser.add_argument("--write", metavar="MARKDOWN")
     args = parser.parse_args()
     expected = render()
-    if not args.check:
+    if args.check and args.write:
+        print("use either --check or --write", file=sys.stderr)
+        return 2
+    target = args.check or args.write
+    if not target:
         print(expected)
         return 0
-    path = pathlib.Path(args.check)
+    path = pathlib.Path(target)
     text = path.read_text(encoding="utf-8")
     start, end = text.find(START), text.find(END)
     if start < 0 or end < 0:
         print("CLI_REFERENCE=STALE missing markers", file=sys.stderr)
         return 1
+    if args.write:
+        path.write_text(text[:start] + expected + text[end + len(END):], encoding="utf-8")
+        print("CLI_REFERENCE=WRITTEN")
+        return 0
     if text[start:end + len(END)] != expected:
-        print("CLI_REFERENCE=STALE run: python3 tools/render-cli-reference.py", file=sys.stderr)
+        print("CLI_REFERENCE=STALE run: python3 tools/render-cli-reference.py --write " + target, file=sys.stderr)
         return 1
     print("CLI_REFERENCE=OK")
     return 0
