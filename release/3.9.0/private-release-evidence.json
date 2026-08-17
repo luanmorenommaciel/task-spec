@@ -1,25 +1,25 @@
 {
   "contract": "PrivateReleaseEvidence/v1",
   "version": "3.9.0",
-  "release_ref": "v3.9.0-rc.2",
-  "observed_at": "2026-08-16T23:59:33Z",
+  "release_ref": "v3.9.0",
+  "observed_at": "2026-08-17T00:50:44Z",
   "repository": {
     "name": "luanmorenommaciel/task-spec",
     "visibility": "private"
   },
   "source": {
-    "commit": "c7b918cab5390ced66c0816e953cbbde2b8ce038",
-    "release_url": "https://github.com/luanmorenommaciel/task-spec/releases/tag/v3.9.0-rc.2"
+    "commit": "5da13778a4af31614e630fedf8338a5b0053e1ea",
+    "release_url": "https://github.com/luanmorenommaciel/task-spec/releases/tag/v3.9.0"
   },
   "workflow": {
-    "run_id": 31980487982,
-    "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31980487982",
+    "run_id": 31982982847,
+    "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31982982847",
     "result": "pass",
     "jobs": {
-      "assets": {"id": 95246295493, "state": "pass"},
-      "provenance": {"id": 95246589829, "state": "pass"},
-      "ubuntu_install": {"id": 95246589898, "state": "pass"},
-      "macos_install": {"id": 95246589838, "state": "pass"}
+      "assets": {"id": 95252961257, "state": "pass"},
+      "provenance": {"id": 95253297690, "state": "pass"},
+      "ubuntu_install": {"id": 95253297736, "state": "pass"},
+      "macos_install": {"id": 95253297695, "state": "pass"}
     }
   },
   "authentication": {
@@ -29,11 +29,11 @@
     "anonymous_download_required": false
   },
   "assets": [
-    {"name": "task-spec-3.9.0.tar.gz", "digest": "sha256:9e543da148da1b62b2e1b11b4de92893ae9f656b73201527e9b061d5643a058b"},
-    {"name": "task-spec-3.9.0-evidence.tar.gz", "digest": "sha256:bd303344edcc2a99acd807a370b53b3c53bb1343af66b6dd80d009c540e9570b"},
-    {"name": "task-spec-3.9.0.spdx.json", "digest": "sha256:ec75bdee6fc7a53281be5f95cf193ef145b976a7025ecbe7e88eae570501ae4d"},
-    {"name": "task-spec-3.9.0.provenance.dsse.json", "digest": "sha256:43edb546dbd92478c138b04f0b18df4c6b173484d92bcf0e7a35c47748f2fd5e"},
-    {"name": "taskmesh-binaries.provenance.dsse.json", "digest": "sha256:8f3bb92c8fc54fe574fa85187ca3b35f5b2082771d188ab004f8798a45d15391"},
+    {"name": "task-spec-3.9.0.tar.gz", "digest": "sha256:fb2e45b74c9f00ee9ff12cf7bbd922fbd23f43cbc97109e25e03010ad94f60d0"},
+    {"name": "task-spec-3.9.0-evidence.tar.gz", "digest": "sha256:33471dc77726096dda9b606ead0410efc5575650046a013081f61005dc9b3352"},
+    {"name": "task-spec-3.9.0.spdx.json", "digest": "sha256:19a9abd72d6a65ddbc0569fbbc936e8b716a3b669ba36a0a8bb4915585943809"},
+    {"name": "task-spec-3.9.0.provenance.dsse.json", "digest": "sha256:07a384e02ed7b0df76dce42bb07bbad0327c9f33f733fc6bc038233970407234"},
+    {"name": "taskmesh-binaries.provenance.dsse.json", "digest": "sha256:e9c76fa414247154e8768be537228c206f2d817c30adfcafd302118d63843ac3"},
     {"name": "taskspec-meshd-darwin-amd64", "digest": "sha256:2f686351c35c9876fbe055c25df5a38713dc09a769debd9016b300351dbfc3b8"},
     {"name": "taskspec-meshd-darwin-arm64", "digest": "sha256:7472ceafe98a07a62db1e53e6a11fe560658b97e6fd28c802a096756b65a6a55"},
     {"name": "taskspec-meshd-linux-amd64", "digest": "sha256:fbb3c928279cb2ccec37e5e3b0d5968a6390b3a7688c55fcac6a7f2e59c143da"},
@@ -46,7 +46,7 @@
     "algorithm": "Ed25519",
     "key_id": "bd8d15c725da13f5",
     "builder": "https://github.com/luanmorenommaciel/task-spec/actions/workflows/release-install-smoke.yml",
-    "invocation": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31980487982",
+    "invocation": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31982982847",
     "core_verification": "pass",
     "taskmesh_verification": "pass"
   },

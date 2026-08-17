@@ -1,8 +1,8 @@
 {
   "contract": "InstallationMatrixEvidence/v1",
   "version": "3.9.0",
-  "observed_at": "2026-08-16T23:59:33Z",
-  "release_ref": "v3.9.0-rc.2",
+  "observed_at": "2026-08-17T00:50:44Z",
+  "release_ref": "v3.9.0",
   "repository_visibility": "private",
   "authentication_required": true,
   "local": {
@@ -14,18 +14,18 @@
     "version_mismatch_rejection": {"state": "pass"}
   },
   "remote": {
-    "authenticated_archive_linux_with_mesh": {"state": "pass", "job_id": 95246589898},
-    "authenticated_archive_macos_with_mesh": {"state": "pass", "job_id": 95246589838},
-    "authenticated_github_npm_linux_with_mesh": {"state": "pass", "job_id": 95246589898},
-    "authenticated_github_npm_macos_with_mesh": {"state": "pass", "job_id": 95246589838}
+    "authenticated_archive_linux_with_mesh": {"state": "pass", "job_id": 95253297736},
+    "authenticated_archive_macos_with_mesh": {"state": "pass", "job_id": 95253297695},
+    "authenticated_github_npm_linux_with_mesh": {"state": "pass", "job_id": 95253297736},
+    "authenticated_github_npm_macos_with_mesh": {"state": "pass", "job_id": 95253297695}
   },
   "remote_artifacts": [
-    {"name": "release-install-v3.9.0-rc.2-ubuntu-latest", "digest": "sha256:86552c0eb3914915fbf900949913b83dd091f495a432d3f9b2fd98c4540947ef"},
-    {"name": "release-install-v3.9.0-rc.2-macos-latest", "digest": "sha256:40a5dddca963d13a686b6258e6f4c9a48b1e7555005f5db044228b074c0deec7"}
+    {"name": "release-install-v3.9.0-ubuntu-latest", "digest": "sha256:403c05d69d824a926b512b8bee507a53b1c90d5111e482a2b835dafe27f7a59b"},
+    {"name": "release-install-v3.9.0-macos-latest", "digest": "sha256:f3f1ed5744a4cf90c479635a4d6dcbca787806590b6c69bad74f4edff3e21db1"}
   ],
   "workflow": {
-    "run_id": 31980487982,
-    "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31980487982",
+    "run_id": 31982982847,
+    "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31982982847",
     "result": "pass"
   },
   "complete": true

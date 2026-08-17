@@ -1,13 +1,20 @@
 {
   "contract": "TaskSpecReleaseReport/v1",
   "version": "3.9.0",
-  "generated_at": "2026-08-16T23:59:33Z",
+  "generated_at": "2026-08-17T00:50:44Z",
   "source": {
-    "commit_before_evidence_finalization": "c7b918cab5390ced66c0816e953cbbde2b8ce038",
+    "commit_before_evidence_finalization": "5da13778a4af31614e630fedf8338a5b0053e1ea",
     "branch": "main",
-    "release_ref": "v3.9.0-rc.2",
-    "release_url": "https://github.com/luanmorenomaciel/task-spec/releases/tag/v3.9.0-rc.2"
+    "release_ref": "v3.9.0",
+    "release_url": "https://github.com/luanmorenomaciel/task-spec/releases/tag/v3.9.0"
   },
+  "artifacts": [
+    {"name": "task-spec-3.9.0.tar.gz", "digest": "sha256:fb2e45b74c9f00ee9ff12cf7bbd922fbd23f43cbc97109e25e03010ad94f60d0"},
+    {"name": "task-spec-3.9.0-evidence.tar.gz", "digest": "sha256:33471dc77726096dda9b606ead0410efc5575650046a013081f61005dc9b3352"},
+    {"name": "task-spec-3.9.0.spdx.json", "digest": "sha256:19a9abd72d6a65ddbc0569fbbc936e8b716a3b669ba36a0a8bb4915585943809"},
+    {"name": "task-spec-3.9.0.provenance.dsse.json", "digest": "sha256:07a384e02ed7b0df76dce42bb07bbad0327c9f33f733fc6bc038233970407234"},
+    {"name": "taskmesh-binaries.provenance.dsse.json", "digest": "sha256:e9c76fa414247154e8768be537228c206f2d817c30adfcafd302118d63843ac3"}
+  ],
   "quality_baseline": {
     "contract": "TaskSpecQualityScorecard/v1",
     "release": "3.8.1",
@@ -19,27 +26,27 @@
   "hosted_ci": {
     "state": "pass",
     "path": "hosted-ci.json",
-    "digest": "sha256:765f25bb26b51fe811f864e07e3cfd10e8b3f9e781260ca45732063fb25cba30"
+    "digest": "sha256:bc6dee19018bc3289fa41dcf894d66680c926be81cef9064cb4c1fb3408dab78"
   },
   "installation": {
     "state": "pass",
     "path": "install-matrix.json",
-    "digest": "sha256:5316c9596bdfdd3e167e7ff39a956da44243ff47b73f1e86660560ff663efdde"
+    "digest": "sha256:3c1d6de934807ce2b28ee65a3fc91f97e04b7dff26c500b4dc7a24720c77379d"
   },
   "provenance_attestation": {
     "state": "pass",
     "format": "DSSE with in-toto Statement/v1 and SLSA Provenance/v1",
     "path": "private-release-evidence.json",
-    "digest": "sha256:4f589557cd2d854aa108fce37d15f1308026dd4db344cce4473cb80a73fb321e"
+    "digest": "sha256:8d73a07dc272908be1d5cc7012fc84fb14b4a598e4986b8e8befac680c790b50"
   },
   "publication": {
-    "state": "rc",
-    "release_ref": "v3.9.0-rc.2",
-    "run_id": 31980487982
+    "state": "released",
+    "release_ref": "v3.9.0",
+    "run_id": 31982982847
   },
   "limitations": [
     "The repository and release are private and require an authorized GitHub identity.",
     "The retained benchmark and release evidence do not claim production reliability, hosted control-plane operation, or protocol certification.",
-    "The immutable final v3.9.0 tag is created only after this evidence commit passes the hosted release gates."
+    "This post-tag record observes immutable release artifacts; it does not rewrite the v3.9.0 tag."
   ]
 }
