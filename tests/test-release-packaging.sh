@@ -26,7 +26,7 @@ tar -tzf "$WORK/one/task-spec-$VERSION.tar.gz" > "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/assets/taskspec-banner.png$" "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/bin/taskspec$" "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/mesh/cmd/taskspec-meshd/main.go$" "$WORK/archive-files.txt"
-grep -q "^task-spec-$VERSION/internal/mesh/daemon.go$" "$WORK/archive-files.txt"
+grep -q "^task-spec-$VERSION/mesh/internal/mesh/daemon.go$" "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/harness/mesh-adapters/omp-rpc.json$" "$WORK/archive-files.txt"
 grep -q "^task-spec-$VERSION/release/mesh/image.lock$" "$WORK/archive-files.txt"
 if grep -qE "^task-spec-$VERSION/(release/[0-9]|evidence|tasks)/" "$WORK/archive-files.txt"; then

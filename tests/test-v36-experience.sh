@@ -105,12 +105,12 @@ check "installed version" bash -c "[[ \"\$('$TS' version)\" == '$CURRENT_VERSION
 check "installed isolated demo" bash -c "'$TS' demo | grep -q '^DEMO=READY$'"
 check "agent context JSON" bash -c "'$TS' agent-context | python3 -m json.tool"
 check "agent context covers the complete public command and schema surfaces" bash -c "'$TS' agent-context | python3 -c 'import json,sys; d=json.load(sys.stdin); commands=set(d[\"commands\"]); required=set(\"init setup demo new plan batch migrate validate dod gate handoff run accept author-doctor holdout receipt eval-audit identity evidence bridge dsse mcp mesh ready graph status lint transition rebuild-state archive backup metrics conformance executor agent-context completion doctor version help\".split()); assert required <= commands and d[\"default_format_version\"] == 3; assert len(d[\"contracts\"]) == 36 and {\"task_materialization_receipt\",\"acceptance_finalized\",\"taskmesh_api\",\"run_lease\"} <= set(d[\"contracts\"])'"
-if grep -q 'TaskHandoff/v3' "$ROOT/agents/task-architect.md" \
+if grep -q 'TaskHandoff/v3' "$ROOT/harness/agents/task-architect.md" \
   && grep -q 'taskspec plan --manifest' "$ROOT/harness/codex/AGENTS.md" \
   && grep -q 'AcceptanceRecord/v1' "$ROOT/harness/codex/AGENTS.md" \
   && grep -q 'taskspec handoff' "$ROOT/harness/claude-code/SKILL.md" \
   && grep -q 'TaskHandoff/v3' "$ROOT/harness/claude-code/SKILL.md" \
-  && ! grep -q '3.6 contract' "$ROOT/agents/task-architect.md" \
+  && ! grep -q '3.6 contract' "$ROOT/harness/agents/task-architect.md" \
   && ! grep -q 'Canonical Task-Spec 3.6' "$ROOT/.claude-plugin/marketplace.json"; then
   pass "agent guidance surfaces share the 3.8 lifecycle"
 else

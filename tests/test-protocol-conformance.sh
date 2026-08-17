@@ -100,7 +100,7 @@ import json
 import pathlib
 import sys
 root = pathlib.Path(sys.argv[1])
-lock = json.loads((root / "spec/UPSTREAM.lock").read_text(encoding="utf-8"))
+lock = json.loads((root / "interop/UPSTREAM.lock").read_text(encoding="utf-8"))
 assert lock["lock_version"] == 1
 for name, expected in (("a2a", ("1.0", "1.1.2")), ("mcp", ("2026-07-28", "2.0.0"))):
     item = lock["protocols"][name]

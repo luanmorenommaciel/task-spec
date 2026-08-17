@@ -19,9 +19,8 @@ def evidence_paths(version: str) -> list[pathlib.Path]:
     candidates = [
         ROOT / "release" / "evidence.json",
         ROOT / "release" / "quality-rubric.json",
-        ROOT / "spec" / "UPSTREAM.lock",
     ]
-    for base in (ROOT / "release" / version,):
+    for base in (ROOT / "release" / version, ROOT / "interop"):
         if base.exists():
             candidates.extend(path for path in base.rglob("*") if path.is_file())
     result = []

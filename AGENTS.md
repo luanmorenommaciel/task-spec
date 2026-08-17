@@ -5,6 +5,25 @@ unit-of-work format (markdown + YAML frontmatter + runnable bash evals) plus the
 bash toolchain that authors, gates, dispatches, and accepts those tasks. It was
 extracted from `converge/skills/task-spec` at v3.3.0 and now stands alone.
 
+## Repository layout
+
+| Path | Holds |
+|---|---|
+| `bin/taskspec` | the one CLI entry point; dispatches to `src/` |
+| `spec/` | **normative**: the v3/v4 format, JSON schemas, conformance suite, `UPSTREAM.lock` |
+| `src/` | the Python + Bash engine, one directory per verb, plus `src/templates/` |
+| `mesh/` | the optional Go control plane (`mesh/cmd/`, `mesh/internal/mesh/`) |
+| `harness/` | non-normative host surfaces: engine recipes, mesh adapters, trackers, per-host skills, research and mutation packs, the `task-architect` agent |
+| `tests/` | the self-test suite, all fixtures under `tests/fixtures/`, benchmark cases in `tests/evals/` |
+| `release/` | shipped release inputs (`mesh/`, `docker/`, `trust/`, `evidence.json`, `quality-rubric.json`) and frozen per-version evidence in `release/<version>/` |
+| `docs/` | the knowledge base; start at `docs/index.md` |
+| `tools/` | repository scripts: release builders, renderers, signing-key provisioner |
+| `tasks/`, `.taskspec/` | this repo's own dogfooded backlog and acceptance receipts |
+
+Frozen artifacts under `release/<version>/`, `.taskspec/acceptance/`, and
+`tasks/done/` describe what actually shipped. Never rewrite them to match a
+later refactor.
+
 ## Build / test
 
 There is no build step — the engine is bash + markdown. The single release gate
