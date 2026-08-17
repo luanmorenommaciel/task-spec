@@ -117,7 +117,8 @@ else
   grep -q '^RELEASE_AUDIT=BLOCKED$' <<<"$PRODUCTION_OUTPUT"
 fi
 python3 "$ROOT/tools/render-status.py" --check "$ROOT/README.md" >/dev/null
-python3 "$ROOT/tests/schema_contracts.py" | grep -q '^SCHEMAS=READY'
+python3 "$ROOT/tests/schema_contracts.py" >"$TMP_ROOT/schema-contracts.out"
+grep -q '^SCHEMAS=READY' "$TMP_ROOT/schema-contracts.out"
 python3 - "$ROOT" <<'PY'
 import json
 import pathlib

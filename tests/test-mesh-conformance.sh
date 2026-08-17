@@ -3,7 +3,10 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-python3 "$ROOT/tests/schema_contracts.py" | grep -q '^SCHEMAS=READY'
+SCHEMA_OUTPUT="$(mktemp -t taskspec-mesh-conformance-XXXXXX)"
+trap 'rm -f "$SCHEMA_OUTPUT"' EXIT
+python3 "$ROOT/tests/schema_contracts.py" >"$SCHEMA_OUTPUT"
+grep -q '^SCHEMAS=READY' "$SCHEMA_OUTPUT"
 (cd "$ROOT" && go test ./... && go vet ./...)
 
 for suite in \
