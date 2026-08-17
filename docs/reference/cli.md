@@ -45,7 +45,7 @@ if the machine contract and reference diverge.
 | `taskspec init` | creates missing tasks/ and .taskspec/config | `INIT=OK`, `INIT=DRY_RUN` |
 | `taskspec setup` | none | `SETUP=READY` |
 | `taskspec setup signing` | creates or explicitly rotates the repository-private HMAC key | — |
-| `taskspec demo` | creates and removes an isolated temporary repository | `DEMO=READY`, `DEMO=DRY_RUN` |
+| `taskspec demo` | creates and removes an isolated temporary repository | `DEMO=READY`, `DEMO=DRY_RUN`, `DEMO=BLOCKED` |
 | `taskspec example` | writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing | `EXAMPLE=WRITTEN`, `EXAMPLE=DRY_RUN`, `EXAMPLE=REFUSED` |
 | `taskspec new` | creates one Task-Spec scaffold and derived state | — |
 | `taskspec plan` | none | `TASK_PLAN=OK`, `TASK_PLAN=INVALID` |
@@ -80,7 +80,7 @@ if the machine contract and reference diverge.
 | `taskspec executor` | reference L2 executor; transitions, executes, accepts, or parks one supplied task | — |
 | `taskspec agent-context` | none | — |
 | `taskspec completion` | none | — |
-| `taskspec doctor` | none | `BACKLOG_DOCTOR=READY`, `BACKLOG_DOCTOR=BLOCKED` |
+| `taskspec doctor` | none | `BACKLOG_DOCTOR=READY`, `BACKLOG_DOCTOR=BLOCKED`, `DOCTOR=READY`, `DOCTOR=BLOCKED` |
 | `taskspec version` | none | — |
 | `taskspec help` | none | — |
 <!-- agent-context:end -->
