@@ -22,7 +22,7 @@ jobs:
       RELEASE_REF: ${{ github.event.release.tag_name || inputs.release_ref }}
     steps:
       - name: Checkout the exact release
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ env.RELEASE_REF }}
           persist-credentials: false
@@ -69,7 +69,7 @@ jobs:
       RELEASE_PROVENANCE_KEY: ${{ secrets.TASKSPEC_RELEASE_PROVENANCE_KEY_PEM }}
     steps:
       - name: Checkout the exact release
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ env.RELEASE_REF }}
           persist-credentials: false
@@ -169,7 +169,7 @@ jobs:
       RELEASE_REF: ${{ github.event.release.tag_name || inputs.release_ref }}
     steps:
       - name: Checkout the exact release
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ env.RELEASE_REF }}
           persist-credentials: false
