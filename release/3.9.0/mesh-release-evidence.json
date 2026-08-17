@@ -2,12 +2,12 @@
   "contract": "TaskMeshReleaseEvidence/v1",
   "version": "3.9.0",
   "api": "TaskMeshAPI/v1alpha1",
-  "generated_at": "2026-08-16T21:07:35Z",
+  "generated_at": "2026-08-16T23:59:33Z",
   "source": {
-    "branch": "codex/taskspec-3.9.0",
-    "commit_before_evidence_finalization": "4e64cb2b3ada9eee4b17dc7d19e83e6940fc7b54"
+    "branch": "main",
+    "commit_before_evidence_finalization": "c7b918cab5390ced66c0816e953cbbde2b8ce038"
   },
-  "release_status": "development",
+  "release_status": "rc",
   "repository_visibility": "private",
   "quality_baseline": {
     "contract": "TaskSpecQualityScorecard/v1",
@@ -22,17 +22,21 @@
     "live_local_isolation": "pass",
     "local_install_matrix": "pass",
     "cross_cockpit_demo": "pass",
-    "hosted_ubuntu": "pending",
-    "hosted_macos": "pending",
-    "private_remote_install": "pending",
-    "private_provenance": "pending",
-    "publication": "pending"
+    "hosted_ubuntu": "pass",
+    "hosted_macos": "pass",
+    "hosted_live_isolation": "pass",
+    "private_remote_install": "pass",
+    "private_provenance": "pass",
+    "publication": "rc"
   },
   "artifacts": [
     {"path": "release/3.9.0/mesh-conformance.json", "digest": "sha256:388fad535efab561108dd51e3c33885d630ec8d993fca0708e82b03771e9d796"},
     {"path": "release/3.9.0/reviewer-report.json", "digest": "sha256:1127d70bd813adb451b036bae057e7b4051204e42628a6284d92d0bb313c29e8"},
-    {"path": "tests/test-mesh-isolation.sh", "digest": "sha256:b9d5a221c15a9550f5eaacac239dd30c040af9923c5884ed0a790ca30ffb416c"},
-    {"path": "tests/test-mesh-install.sh", "digest": "sha256:95aebaef9112eae5c1e19cda4099486996f32e3c1e8dda035b68da22e7bf6fd4"}
+    {"path": "tests/test-mesh-isolation.sh", "digest": "sha256:c356f09729b43d6ba20a1842d2cb49e100233ed0429cd610dd1ffe01f3b82744"},
+    {"path": "tests/test-mesh-install.sh", "digest": "sha256:1f69e5b77716641cd003c766b685bebfb3646beb8c4b7b8a13c3a55ac3539689"},
+    {"path": "release/3.9.0/hosted-ci.json", "digest": "sha256:765f25bb26b51fe811f864e07e3cfd10e8b3f9e781260ca45732063fb25cba30"},
+    {"path": "release/3.9.0/private-release-evidence.json", "digest": "sha256:4f589557cd2d854aa108fce37d15f1308026dd4db344cce4473cb80a73fb321e"},
+    {"path": "release/3.9.0/install-matrix.json", "digest": "sha256:5316c9596bdfdd3e167e7ff39a956da44243ff47b73f1e86660560ff663efdde"}
   ],
   "claims": {
     "hosted_control_plane": false,
@@ -41,5 +45,5 @@
     "tier1_from_worktrees": false,
     "automatic_target_merge": false
   },
-  "next_gate": "Hosted pull-request CI must execute Ubuntu, macOS, and live Docker isolation before an RC is tagged."
+  "next_gate": "The evidence finalization commit must pass hosted Ubuntu, macOS, and live Docker isolation before v3.9.0 is tagged."
 }

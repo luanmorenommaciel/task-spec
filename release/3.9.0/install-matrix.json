@@ -1,0 +1,32 @@
+{
+  "contract": "InstallationMatrixEvidence/v1",
+  "version": "3.9.0",
+  "observed_at": "2026-08-16T23:59:33Z",
+  "release_ref": "v3.9.0-rc.2",
+  "repository_visibility": "private",
+  "authentication_required": true,
+  "local": {
+    "core_only": {"state": "pass"},
+    "checkout_copy_with_mesh": {"state": "pass"},
+    "checkout_symlink_with_mesh": {"state": "pass"},
+    "local_npm_with_mesh": {"state": "pass"},
+    "checksum_tamper_rejection": {"state": "pass"},
+    "version_mismatch_rejection": {"state": "pass"}
+  },
+  "remote": {
+    "authenticated_archive_linux_with_mesh": {"state": "pass", "job_id": 95246589898},
+    "authenticated_archive_macos_with_mesh": {"state": "pass", "job_id": 95246589838},
+    "authenticated_github_npm_linux_with_mesh": {"state": "pass", "job_id": 95246589898},
+    "authenticated_github_npm_macos_with_mesh": {"state": "pass", "job_id": 95246589838}
+  },
+  "remote_artifacts": [
+    {"name": "release-install-v3.9.0-rc.2-ubuntu-latest", "digest": "sha256:86552c0eb3914915fbf900949913b83dd091f495a432d3f9b2fd98c4540947ef"},
+    {"name": "release-install-v3.9.0-rc.2-macos-latest", "digest": "sha256:40a5dddca963d13a686b6258e6f4c9a48b1e7555005f5db044228b074c0deec7"}
+  ],
+  "workflow": {
+    "run_id": 31980487982,
+    "run_url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/31980487982",
+    "result": "pass"
+  },
+  "complete": true
+}
