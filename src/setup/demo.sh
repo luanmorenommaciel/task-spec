@@ -7,6 +7,15 @@ if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" ]]; then
   exit 0
 fi
 
+# PRE-gate hard-requires shellcheck. Check the host floor before any redirected
+# work so a missing floor cannot exit 1 with empty stdout and empty stderr.
+if ! command -v shellcheck >/dev/null 2>&1; then
+  echo "DEMO=BLOCKED"
+  echo "BLOCKER: shellcheck is not installed (required by PRE-gate)"
+  echo "NEXT: install shellcheck, then re-run: taskspec demo"
+  exit 1
+fi
+
 ROOT="${TASKSPEC_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 CLI="$ROOT/bin/taskspec"
 WORK="$(mktemp -d -t taskspec-demo-XXXXXX)"
@@ -23,6 +32,9 @@ git -C "$PROJECT" config user.name "Task-Spec demo"
 
 (
   cd "$PROJECT"
+  # Redirected PRE-gate / CLI steps must not fail silent if a later host or
+  # contract check dies under set -e.
+  trap 'echo "DEMO=BLOCKED isolated lifecycle failed. NEXT: taskspec doctor"' ERR
   "$CLI" init >/dev/null
   "$CLI" setup signing >/dev/null
   mkdir -p tasks/.plans src
