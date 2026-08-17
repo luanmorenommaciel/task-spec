@@ -6,10 +6,14 @@ CLI="$ROOT/bin/taskspec"
 TMP="$(mktemp -d -t taskspec-mesh-contracts-XXXXXX)"
 trap 'rm -rf "$TMP"' EXIT
 
-python3 "$ROOT/tests/schema_contracts.py" >/dev/null
-bash "$CLI" mesh help | grep -q 'TaskMesh is optional'
-bash "$CLI" help mesh | grep -q 'taskspec mesh'
-bash "$CLI" completion bash | grep -q 'mesh'
+python3 "$ROOT/tests/schema_contracts.py" >"$TMP/schema.out"
+grep -q '^SCHEMAS=READY' "$TMP/schema.out"
+bash "$CLI" mesh help >"$TMP/mesh-help.out"
+grep -q 'TaskMesh is optional' "$TMP/mesh-help.out"
+bash "$CLI" help mesh >"$TMP/help-mesh.out"
+grep -q 'taskspec mesh' "$TMP/help-mesh.out"
+bash "$CLI" completion bash >"$TMP/completion-bash.out"
+grep -q 'mesh' "$TMP/completion-bash.out"
 python3 "$ROOT/src/dispatch/agent-context.py" | python3 -c '
 import json, sys
 value = json.load(sys.stdin)
@@ -38,7 +42,8 @@ assert value["data"]["contract"] == "TaskMeshError/v1"
 assert value["data"]["code"] == "MESH_NOT_INSTALLED"
 PY
 
-bash "$CLI" --dry-run mesh run --frontier | grep -q 'TASKMESH_DRY_RUN'
+bash "$CLI" --dry-run mesh run --frontier >"$TMP/dry-run.out"
+grep -q 'TASKMESH_DRY_RUN' "$TMP/dry-run.out"
 bash "$CLI" --json --dry-run mesh run --frontier | python3 -c '
 import json, sys
 value = json.load(sys.stdin)
