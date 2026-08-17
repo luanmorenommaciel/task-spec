@@ -47,9 +47,9 @@ All of the above must be green before a change is considered done.
 
 ## Boundaries
 
-- `adapters/` (engines, trackers) is **non-normative** — the contract is
+- `harness/` (engines, trackers, adapters) is **non-normative** — the contract is
   `spec/` + the conformance suite. Adapters may lag; the spec may not.
-- `fixtures/diamond-6/` are CI fixtures: never `--stamp` or otherwise mutate
+- `tests/fixtures/diamond-6/` are CI fixtures: never `--stamp` or otherwise mutate
   their frontmatter sigs in tests.
 - **No git mutations** (commit/push/reset/rebase) unless the user explicitly
   asks. Leave the working tree for review.

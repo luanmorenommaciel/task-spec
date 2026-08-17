@@ -10,8 +10,8 @@
   },
   "files": [
     "VERSION", "LICENSE", "README.md", "SKILL.md", "CHANGELOG.md", "install.sh",
-    "agents", "assets", "bin", "configs", "src", "spec", "templates", "docs", "integrations",
-    "adapters", "cmd", "internal", "go.mod", "go.sum", "release/mesh",
+    "assets", "bin", "harness", "src", "spec", "docs", "tools",
+    "mesh", "go.mod", "go.sum", "release/mesh",
     ".claude-plugin"
   ],
   "engines": {"node": ">=18"},

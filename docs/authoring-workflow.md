@@ -1,8 +1,9 @@
 # Authoring workflow — the task-spec doctrine
 
-> This is the **authoring doctrine** for Task-Spec 3.6. It is invoked via the canonical
-> root `SKILL.md`, the compatibility skill in
-> [`integrations/claude-code/`](../integrations/claude-code/SKILL.md) or by
+> This is the **authoring doctrine** for the task-spec engine. The installer ships
+> it as `references/authoring-workflow.md` inside every installed skill. It is
+> invoked via the canonical root `SKILL.md`, the compatibility skill in
+> [`harness/claude-code/`](../harness/claude-code/SKILL.md), or by
 > calling the `taskspec` CLI directly. Script references below map to
 > `bin/taskspec` subcommands (`new`, `batch`, `validate`, `gate`, `run`,
 > `accept`, `transition`, `ready`, `rebuild-state`, `archive`, `backup`,
@@ -12,7 +13,6 @@
 > **Identity:** The open, atomic unit-of-work format for autonomous agentic systems
 > **Domain:** Task PRD generation, eval-driven development, backlog management
 > **Default Threshold:** severity-scaled (0.80–0.99) — see Threshold Mapping below
-> **MCP Validated:** 2026-05-19
 
 This skill is part of the **CAW Triad** for task generation:
 - **C** (this Skill): the workflow + bundled scripts + templates
@@ -148,7 +148,7 @@ then fill in:
   the atom is too big: split it and wire `depends_on`. This is the practical
   ceiling within each runnable XS/S/M/L leaf, not a new class.
 
-**Layered policy (legacy tolerance):** `format_version` is `3` for new specs (the template's default; see `templates/task-spec.md.tpl`). Tasks created before 2026-05-27 (or explicitly marked `format_version: 0`, `1`, or `2`) are treated as legacy. The validator accepts legacy v0/v1/v2 tasks with warnings rather than hard failures, and the `migrate-legacy-task.sh` script converts legacy markdown checklists into runnable eval stubs.
+**Layered policy (legacy tolerance):** `format_version` is `3` for new specs (the template's default; see `src/templates/task-spec.md.tpl`). Tasks created before 2026-05-27 (or explicitly marked `format_version: 0`, `1`, or `2`) are treated as legacy. The validator accepts legacy v0/v1/v2 tasks with warnings rather than hard failures, and the `migrate-legacy-task.sh` script converts legacy markdown checklists into runnable eval stubs.
 
 ### Phase 6 — Validate (pre-gate structural linter)
 
@@ -210,14 +210,14 @@ The spec's frontmatter carries an `execution_backend:` field that names the cano
 executor. **It is an OPEN STRING, not a closed enum** (validator treats any single token
 as valid; see src/gate/validate-task-spec.sh): `any` (the default) defers to the author's
 choice, and any other token names a specific executor. The bundled per-engine dispatch
-adapters are the **non-normative** layer — they live in `../adapters/engines/` and
+adapters are the **non-normative** layer — they live in `../harness/engines/` and
 each carries its own dispatch command:
 
 | `execution_backend` value | Where to find the dispatch command |
 |---------------------------|------------------------------------|
 | `any` (default) | Author's choice — pick any conformant executor |
-| named token (e.g. `claude`, `codex`, `kimi`, `cursor`, `taskship`, `anthive`) | the matching recipe in `../adapters/engines/` |
-| a token with no bundled recipe | `../adapters/engines/custom.md` (DIY adapter) |
+| named token (e.g. `claude`, `codex`, `kimi`, `cursor`, `taskship`, `anthive`) | the matching recipe in `../harness/engines/` |
+| a token with no bundled recipe | `../harness/engines/custom.md` (DIY adapter) |
 
 Report to user:
 

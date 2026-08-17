@@ -37,7 +37,7 @@ def main() -> int:
         path = out_dir / name
         environment = dict(os.environ, CGO_ENABLED="0", GOOS=operating_system, GOARCH=architecture)
         subprocess.run(
-            ["go", "build", "-buildvcs=false", "-trimpath", "-ldflags=-s -w", "-o", str(path), "./cmd/taskspec-meshd"],
+            ["go", "build", "-buildvcs=false", "-trimpath", "-ldflags=-s -w", "-o", str(path), "./mesh/cmd/taskspec-meshd"],
             cwd=ROOT,
             env=environment,
             check=True,

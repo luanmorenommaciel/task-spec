@@ -20,7 +20,7 @@ touch "$REPO/README.md"
 git -C "$REPO" add README.md
 git -C "$REPO" commit -qm initial
 
-go build -o "$HELPER" "$ROOT/cmd/taskspec-meshd"
+go build -o "$HELPER" "$ROOT/mesh/cmd/taskspec-meshd"
 
 (
   cd "$REPO"

@@ -14,7 +14,7 @@ import subprocess
 import tarfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-EXCLUDED_ROOTS = {".git", ".taskspec", ".playwright-cli", "dist", "evidence", "output", "tasks"}
+EXCLUDED_ROOTS = {".git", ".taskspec", ".playwright-cli", "dist", "output", "tasks"}
 
 
 def paths(include_worktree: bool) -> list[pathlib.Path]:

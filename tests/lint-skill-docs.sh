@@ -76,8 +76,8 @@ for metadata_file in \
   "$REPO_ROOT/package.json" \
   "$REPO_ROOT/.claude-plugin/plugin.json" \
   "$REPO_ROOT/.claude-plugin/marketplace.json" \
-  "$REPO_ROOT/integrations/claude-code/plugin.json" \
-  "$REPO_ROOT/integrations/claude-code/marketplace.json"; do
+  "$REPO_ROOT/harness/claude-code/plugin.json" \
+  "$REPO_ROOT/harness/claude-code/marketplace.json"; do
   CHECKS=$((CHECKS + 1))
   META_VER=$(python3 - "$metadata_file" <<'PY'
 import json, sys
@@ -94,7 +94,7 @@ PY
   fi
 done
 
-for skill_file in "$REPO_ROOT/SKILL.md" "$REPO_ROOT/integrations/claude-code/SKILL.md"; do
+for skill_file in "$REPO_ROOT/SKILL.md" "$REPO_ROOT/harness/claude-code/SKILL.md"; do
   CHECKS=$((CHECKS + 1))
   SKILL_VER=$(awk '/^metadata:/{m=1; next} m && /^[[:space:]]+version:/{gsub(/["[:space:]]/, "", $2); print $2; exit}' "$skill_file")
   if [[ "$SKILL_VER" != "$VERSION" ]]; then

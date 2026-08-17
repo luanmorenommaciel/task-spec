@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # lint-docs.sh — markdown hygiene lint for the repo's documentation surface.
 #
-# Checks, over the curated doc set (README, AGENTS, TODO, docs/, adapters/,
-# agents/, integrations/, spec/ — NOT tests/fixtures or templates, which
+# Checks, over the curated doc set (README, AGENTS, docs/, harness/, spec/
+#   — NOT tests/fixtures or src/templates, which
 # deliberately contain broken/{{TODO}} content):
 #   1. Local relative links/images resolve to existing files (anchors stripped).
 #   2. Code fences are balanced (every ``` opens and closes).
@@ -22,8 +22,8 @@ report() {
 
 # Collect the doc set (portable; no mapfile).
 doc_files() {
-  printf '%s\n' README.md AGENTS.md TODO.md
-  find docs adapters agents integrations spec -name '*.md' -type f ! -path '*/node_modules/*' 2>/dev/null
+  printf '%s\n' README.md AGENTS.md
+  find docs harness spec -name '*.md' -type f ! -path '*/node_modules/*' 2>/dev/null
 }
 
 check_links() {

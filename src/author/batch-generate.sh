@@ -227,7 +227,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
 
   mkdir -p "$OUTDIR"
 
-  TEMPLATE="$SKILL_DIR/templates/task-spec.md.tpl"
+  TEMPLATE="$SKILL_DIR/src/templates/task-spec.md.tpl"
   if [[ ! -f "$TEMPLATE" ]]; then
     echo "ERROR: template not found at $TEMPLATE" >&2
     exit 1

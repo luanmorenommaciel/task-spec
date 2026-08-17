@@ -36,7 +36,7 @@ for row in "alpha:a.txt" "bravo:b.txt" "charlie:c.txt" "delta:d.txt"; do
     "$ROOT/tests/fixtures/T-20260603-stamp-then-verify.md" >"$REPO/tasks/$task_id.md"
   (cd "$REPO" && bash "$CLI" gate --stamp "tasks/$task_id.md" >/dev/null)
 done
-go build -o "$HELPER" "$ROOT/cmd/taskspec-meshd"
+go build -o "$HELPER" "$ROOT/mesh/cmd/taskspec-meshd"
 
 printf '{"order":["not-an-adapter","claude-native","codex-native"]}\n' >"$TMP/advisor.json"
 (

@@ -55,7 +55,7 @@ for name, command in (("fake", ["run"]), ("slow", ["--sleep"])):
     value = dict(common, name=name, command=command)
     (directory / f"{name}.json").write_text(json.dumps(value, indent=2) + "\n")
 PY
-go build -o "$HELPER" "$ROOT/cmd/taskspec-meshd"
+go build -o "$HELPER" "$ROOT/mesh/cmd/taskspec-meshd"
 
 mesh() {
   (
@@ -80,7 +80,7 @@ assert probe["adapter_version"] == "taskmesh-fake/1.0.0"
 PY
 
 # The built-in OMP definition disables extensions, skills, rules, sessions, and the task tool.
-python3 - "$ROOT/adapters/mesh/omp-rpc.json" <<'PY'
+python3 - "$ROOT/harness/mesh-adapters/omp-rpc.json" <<'PY'
 import json, pathlib, sys
 adapter = json.loads(pathlib.Path(sys.argv[1]).read_text())
 command = adapter["command"]

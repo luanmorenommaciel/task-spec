@@ -36,4 +36,4 @@ units:
     anti_patterns:
       - Do not call an external provider unless the user explicitly selects one.
     do_not_touch:
-      - configs/setup-taskspec-signing-key.sh
+      - tools/setup-taskspec-signing-key.sh

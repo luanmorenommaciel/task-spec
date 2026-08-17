@@ -9,11 +9,11 @@ on:
       handoff_path:
         description: Checked-in credential-free TaskHandoff v1/v2 JSON
         required: true
-        default: evidence/3.7/task-handoff.json
+        default: release/3.7/task-handoff.json
       matrix_path:
         description: Checked-in EngineMatrix v1 with exact enabled model ids and argv
         required: true
-        default: evidence/3.7/engine-matrix.json
+        default: release/3.7/engine-matrix.json
 
 permissions:
   contents: read

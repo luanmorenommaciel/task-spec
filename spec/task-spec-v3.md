@@ -39,7 +39,7 @@ The format has **five non-negotiable properties**:
 
 1. **Atomic** — a runnable XS/S/M/L leaf has one coherent done-condition and
    bounded write surface; XL/XXL nodes only compose child Task-Specs
-2. **Vendor-portable** — works in any conformant engine (e.g. Claude, Codex, Cursor — adapters in ../adapters/engines/) or manual execution
+2. **Vendor-portable** — works in any conformant engine (e.g. Claude, Codex, Cursor — adapters in ../harness/engines/) or manual execution
 3. **Self-verifying** — runnable bash evals declare "done" mechanically
 4. **Pickupable** — fully specified at authoring time; no further input needed
 5. **Reportable** — machine-checkable pass/fail emit

@@ -37,7 +37,7 @@ MAPPINGS = {
     "src/backlog/transition-status.sh": "scripts/transition-status.sh",
     "src/dispatch/conformance-check.sh": "scripts/conformance-check.sh",
     "src/dispatch/ref-executor.sh": "scripts/ref-executor.sh",
-    "templates/task-spec.md.tpl": "templates/task-spec.md.tpl",
+    "src/templates/task-spec.md.tpl": "templates/task-spec.md.tpl",
     "spec/schemas/task-spec-frontmatter.schema.json": "references/schemas/task-spec-frontmatter.schema.json",
     "spec/schemas/agent-contract.schema.json": "references/schemas/agent-contract.schema.json",
     "spec/schemas/task-plan.schema.json": "references/schemas/task-plan.schema.json",

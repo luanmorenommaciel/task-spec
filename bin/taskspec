@@ -231,7 +231,7 @@ _ts_dispatch() {
       if [[ "${1:-}" == "signing" ]]; then
         shift
         if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" ]]; then echo "DRY_RUN: provision repository signing key"; return 0; fi
-        bash "$TASKSPEC_HOME/configs/setup-taskspec-signing-key.sh" "$@"; return $?
+        bash "$TASKSPEC_HOME/tools/setup-taskspec-signing-key.sh" "$@"; return $?
       fi
       script="src/setup/readiness.sh"
       ;;

@@ -147,7 +147,7 @@ else
   else
     [[ ! -e "$ENGINE_DEST" ]] || backup_existing "$ENGINE_DEST"
     mkdir -p "$ENGINE_DEST"
-    for item in VERSION LICENSE README.md CHANGELOG.md SKILL.md agents assets bin configs src spec templates docs integrations adapters .claude-plugin; do
+    for item in VERSION LICENSE README.md CHANGELOG.md SKILL.md assets bin harness src spec docs tools .claude-plugin; do
       [[ -e "$SOURCE_ROOT/$item" ]] && cp -R "$SOURCE_ROOT/$item" "$ENGINE_DEST/$item"
     done
     if [[ -d "$SOURCE_ROOT/release/mesh" ]]; then
@@ -198,13 +198,13 @@ install_mesh() {
     fi
   done
 
-  if [[ -z "$asset_path" && -f "$SOURCE_ROOT/go.mod" && -d "$SOURCE_ROOT/cmd/taskspec-meshd" ]]; then
+  if [[ -z "$asset_path" && -f "$SOURCE_ROOT/go.mod" && -d "$SOURCE_ROOT/mesh/cmd/taskspec-meshd" ]]; then
     command -v go >/dev/null 2>&1 || {
       echo "install.sh: Go is required to build TaskMesh from a checkout; provide a release helper asset instead" >&2
       return 2
     }
     mesh_tmp="$(mktemp -d -t taskspec-mesh-build-XXXXXX)"
-    (cd "$SOURCE_ROOT" && CGO_ENABLED=0 go build -trimpath -ldflags='-s -w' -o "$mesh_tmp/$asset" ./cmd/taskspec-meshd)
+    (cd "$SOURCE_ROOT" && CGO_ENABLED=0 go build -trimpath -ldflags='-s -w' -o "$mesh_tmp/$asset" ./mesh/cmd/taskspec-meshd)
     asset_path="$mesh_tmp/$asset"
     checksum_path=""
   elif [[ -n "$asset_path" ]]; then
@@ -297,21 +297,21 @@ done
 # door for existing checkouts and prompts that invoke `task-architect` directly.
 architect_destination="$TARGET/.claude/agents/task-architect.md"
 if [[ "$MODE" == "symlink" ]]; then
-  if [[ -L "$architect_destination" && "$(readlink "$architect_destination")" == "$SOURCE_ROOT/agents/task-architect.md" ]]; then
+  if [[ -L "$architect_destination" && "$(readlink "$architect_destination")" == "$SOURCE_ROOT/harness/agents/task-architect.md" ]]; then
     echo "kept: $architect_destination"
   else
     [[ ! -e "$architect_destination" && ! -L "$architect_destination" ]] || backup_existing "$architect_destination"
     mkdir -p "$(dirname "$architect_destination")"
-    ln -s "$SOURCE_ROOT/agents/task-architect.md" "$architect_destination"
-    echo "agent:  $architect_destination -> $SOURCE_ROOT/agents/task-architect.md"
+    ln -s "$SOURCE_ROOT/harness/agents/task-architect.md" "$architect_destination"
+    echo "agent:  $architect_destination -> $SOURCE_ROOT/harness/agents/task-architect.md"
   fi
 else
-  if [[ -f "$architect_destination" ]] && cmp -s "$SOURCE_ROOT/agents/task-architect.md" "$architect_destination" && [[ "$FORCE" != true ]]; then
+  if [[ -f "$architect_destination" ]] && cmp -s "$SOURCE_ROOT/harness/agents/task-architect.md" "$architect_destination" && [[ "$FORCE" != true ]]; then
     echo "kept: $architect_destination"
   else
     [[ ! -e "$architect_destination" && ! -L "$architect_destination" ]] || backup_existing "$architect_destination"
     mkdir -p "$(dirname "$architect_destination")"
-    cp "$SOURCE_ROOT/agents/task-architect.md" "$architect_destination"
+    cp "$SOURCE_ROOT/harness/agents/task-architect.md" "$architect_destination"
     echo "agent:  $architect_destination"
   fi
 fi

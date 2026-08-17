@@ -7,7 +7,7 @@
 ## The contract
 
 Any agent — any conformant engine (e.g. Claude, Codex, Cursor — adapters in
-../../adapters/engines/) or a manual human — that picks up a Task-Spec is
+../../harness/engines/) or a manual human — that picks up a Task-Spec is
 hereafter called an **engine**. Engines MUST honor
 the clauses below. Keywords (MUST, MUST NOT, SHOULD, SHOULD NOT, MAY) are used
 in the sense of [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).

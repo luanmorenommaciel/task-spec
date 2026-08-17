@@ -51,7 +51,7 @@ python3 -m json.tool release/3.8.1/protocol-conformance.json
 
 The fixed rubric, scorecard, and release-evidence manifest must agree
 byte-for-byte. Protocol evidence names exact specification revisions, SDK
-commits, and package digests in `interop/UPSTREAM.lock`. The report proves
+commits, and package digests in `spec/UPSTREAM.lock`. The report proves
 compatibility with those pinned implementations—not ecosystem certification.
 
 ## 5. Recalculate release readiness
