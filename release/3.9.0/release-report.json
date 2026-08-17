@@ -1,0 +1,45 @@
+{
+  "contract": "TaskSpecReleaseReport/v1",
+  "version": "3.9.0",
+  "generated_at": "2026-08-16T23:59:33Z",
+  "source": {
+    "commit_before_evidence_finalization": "c7b918cab5390ced66c0816e953cbbde2b8ce038",
+    "branch": "main",
+    "release_ref": "v3.9.0-rc.2",
+    "release_url": "https://github.com/luanmorenomaciel/task-spec/releases/tag/v3.9.0-rc.2"
+  },
+  "quality_baseline": {
+    "contract": "TaskSpecQualityScorecard/v1",
+    "release": "3.8.1",
+    "path": "../3.8.1/scorecard.json",
+    "digest": "sha256:a0c7349db6df8593dccc6be9a72716b6377df9111f63f7fc9b8c73304866f4d9",
+    "score": 97,
+    "regression": false
+  },
+  "hosted_ci": {
+    "state": "pass",
+    "path": "hosted-ci.json",
+    "digest": "sha256:765f25bb26b51fe811f864e07e3cfd10e8b3f9e781260ca45732063fb25cba30"
+  },
+  "installation": {
+    "state": "pass",
+    "path": "install-matrix.json",
+    "digest": "sha256:5316c9596bdfdd3e167e7ff39a956da44243ff47b73f1e86660560ff663efdde"
+  },
+  "provenance_attestation": {
+    "state": "pass",
+    "format": "DSSE with in-toto Statement/v1 and SLSA Provenance/v1",
+    "path": "private-release-evidence.json",
+    "digest": "sha256:4f589557cd2d854aa108fce37d15f1308026dd4db344cce4473cb80a73fb321e"
+  },
+  "publication": {
+    "state": "rc",
+    "release_ref": "v3.9.0-rc.2",
+    "run_id": 31980487982
+  },
+  "limitations": [
+    "The repository and release are private and require an authorized GitHub identity.",
+    "The retained benchmark and release evidence do not claim production reliability, hosted control-plane operation, or protocol certification.",
+    "The immutable final v3.9.0 tag is created only after this evidence commit passes the hosted release gates."
+  ]
+}
