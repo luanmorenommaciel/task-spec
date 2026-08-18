@@ -9,7 +9,7 @@ The repository and release remain private. Authenticate GitHub before cloning:
 git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \
   "$HOME/.local/share/task-spec-src"
 
-# User-level skills for Codex/Kimi, Claude Code, and Grok Build
+# User-level skills for Codex/Kimi, Claude Code, Grok Build, and Cursor
 bash "$HOME/.local/share/task-spec-src/install.sh" --global --copy
 export PATH="$HOME/.local/bin:$PATH"
 taskspec doctor
@@ -52,6 +52,7 @@ in the trusted GitHub Actions secret store.
 | Codex and Kimi | `~/.agents/skills/task-spec/SKILL.md` | `.agents/skills/task-spec/SKILL.md` |
 | Claude Code | `~/.claude/skills/task-spec/SKILL.md` | `.claude/skills/task-spec/SKILL.md` |
 | Grok Build | `~/.grok/skills/task-spec/SKILL.md` | `.grok/skills/task-spec/SKILL.md` |
+| Cursor | `~/.cursor/skills/task-spec/SKILL.md` | `.cursor/skills/task-spec/SKILL.md` |
 
 Useful installer controls:
 
@@ -78,7 +79,7 @@ and CLI/helper version drift fail closed. Core-only installation never installs
 or starts TaskMesh.
 
 `--global` is an explicit user-level alias: it targets the current user's home
-directory, writes the three supported harness skill locations plus Claude's
+directory, writes the four supported harness skill locations plus Claude's
 compatibility agent, and uses `~/.local/bin` for the launcher. It does not write
 credentials or modify shell startup files.
 

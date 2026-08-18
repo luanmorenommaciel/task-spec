@@ -14,7 +14,7 @@ WITH_MESH=false
 usage() {
   cat <<'EOF'
 Usage: install.sh [options]
-  --global           install user-level skills for Codex/Kimi, Claude, and Grok
+  --global           install user-level skills for Codex/Kimi, Claude, Grok, and Cursor
   --target DIR       repository receiving harness skills (default: PWD)
   --copy             pinned copy installation (default)
   --symlink          checkout-development mode; source must be a local checkout
@@ -288,7 +288,8 @@ install_skill_link() {
 for destination in \
   "$TARGET/.agents/skills/task-spec" \
   "$TARGET/.claude/skills/task-spec" \
-  "$TARGET/.grok/skills/task-spec"; do
+  "$TARGET/.grok/skills/task-spec" \
+  "$TARGET/.cursor/skills/task-spec"; do
   if [[ "$MODE" == "symlink" ]]; then install_skill_link "$destination"; else install_skill_copy "$destination"; fi
 done
 
@@ -349,13 +350,13 @@ if [[ "$NO_BIN" != true ]]; then
   case ":$PATH:" in *":$BIN_DIR:"*) ;; *) echo "note: add $BIN_DIR to PATH" ;; esac
 fi
 
-for destination in "$TARGET/.agents/skills/task-spec" "$TARGET/.claude/skills/task-spec" "$TARGET/.grok/skills/task-spec"; do
+for destination in "$TARGET/.agents/skills/task-spec" "$TARGET/.claude/skills/task-spec" "$TARGET/.grok/skills/task-spec" "$TARGET/.cursor/skills/task-spec"; do
   [[ -r "$destination/SKILL.md" ]] || { echo "install.sh: missing installed skill at $destination" >&2; exit 1; }
   grep -q '^name: task-spec$' "$destination/SKILL.md" || { echo "install.sh: invalid skill at $destination" >&2; exit 1; }
 done
 [[ -x "$ENGINE_DEST/bin/taskspec" ]] || { echo "install.sh: installed engine CLI is not executable" >&2; exit 1; }
 [[ "$("$ENGINE_DEST/bin/taskspec" version)" == "$PINNED_VERSION" ]] || { echo "install.sh: installed engine failed its version check" >&2; exit 1; }
-for destination in "$TARGET/.agents/skills/task-spec" "$TARGET/.claude/skills/task-spec" "$TARGET/.grok/skills/task-spec"; do
+for destination in "$TARGET/.agents/skills/task-spec" "$TARGET/.claude/skills/task-spec" "$TARGET/.grok/skills/task-spec" "$TARGET/.cursor/skills/task-spec"; do
   cmp -s "$SOURCE_ROOT/SKILL.md" "$destination/SKILL.md" || { echo "install.sh: installed skill differs at $destination" >&2; exit 1; }
 done
 if [[ "$NO_BIN" != true ]]; then
