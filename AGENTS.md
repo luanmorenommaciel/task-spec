@@ -1,3 +1,10 @@
+# Agent entry
+
+Before any task, read [OPERATING.md](OPERATING.md).
+Do not invent a second loop.
+Do not skip the HMAC seal.
+Do not put family hops in docs/.
+
 # AGENTS.md — contributing to the task-spec engine
 
 This repo is the **task-spec engine**: an open, vendor-neutral, self-verifying
