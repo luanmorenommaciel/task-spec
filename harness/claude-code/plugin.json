@@ -2,7 +2,7 @@
   "name": "task-spec",
   "version": "3.9.0",
   "description": "Canonical atomic-task authoring, authorization, handoff, execution, and acceptance skill for Claude Code.",
-  "author": {"name": "Luan Moreno"},
+  "author": {"name": "Luan Moreno", "email": "luan.moreno@owshq.com"},
   "repository": "https://github.com/luanmorenommaciel/task-spec",
   "license": "MIT",
   "skills": ["./SKILL.md"]

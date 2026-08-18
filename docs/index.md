@@ -23,6 +23,7 @@ Owner agent: [`../harness/agents/task-architect.md`](../harness/agents/task-arch
 
 | File | Purpose |
 |------|---------|
+| [../spec/README.md](../spec/README.md) | Orientation for the normative contract and the triple-lock rule |
 | [../spec/task-spec-v3.md](../spec/task-spec-v3.md) | Stable format-v3 compatibility contract |
 | [../spec/task-spec-v4.md](../spec/task-spec-v4.md) | Opt-in evidence, identity, environment, and portability policy |
 | [concepts/six-zones.md](concepts/six-zones.md) | File anatomy |

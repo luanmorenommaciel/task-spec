@@ -1,7 +1,7 @@
 ---
 id: T-20260817-demo-doctor-host-floor
 title: "Fail loudly when the demo host floor is missing"
-status: sealed
+status: done
 format_version: 3
 profile: small
 effort: S
@@ -26,9 +26,14 @@ severity: defect
 signed_off: true
 signed_off_by: luan-moreno
 signed_off_at: "2026-08-17T19:01:00Z"
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luan-moreno
+accepted_at: 2026-08-18T17:07:49Z
+blocked_reason: (none)
+accepted_tier: 2
+accepted_attempt_id: c5772e73-839f-5556-aade-c19f797c9c72
+accepted_authorization_ref: None
+acceptance_record_digest: sha256:7f341058e9a9fbff005c7697c30736408e2136197769760eca98857c4ea64ed4
 ---
 
 # Fail loudly when the demo host floor is missing
@@ -43,6 +48,17 @@ A stock host without shellcheck must not get a silent `taskspec demo` fail. Doct
 - B-4 — GIVEN shellcheck and a signing key WHEN `taskspec demo` THEN the isolated happy path still ends `DEMO=READY`.
 
 ## Success Criteria
-eval_1: bash tests/test-demo.sh  (happy path + hidden-shellcheck loud fail)
+
+```bash
+eval_1() {
+  bash tests/test-demo.sh
+}
+```
+
+## Exit Check
+
+```bash
+eval_1
+```
 
 PRE-gate unchanged. No mesh work in this spec.

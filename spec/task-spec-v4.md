@@ -1,6 +1,6 @@
 # Task-Spec format v4 — evidence policy
 
-> **Status:** opt-in in engine 3.8.1. Format v3 remains the authoring default;
+> **Status:** opt-in in engine 3.9.0. Format v3 remains the authoring default;
 > formats v1–v4 remain readable. There is no format-v5 change.
 
 Format v4 keeps the v3 atomic task, six zones, bounded write scope, runnable

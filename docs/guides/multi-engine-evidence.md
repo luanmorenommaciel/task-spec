@@ -22,14 +22,14 @@ without fabricating unavailable runs.
 8. Compare terminal outcome, acceptance verdict, attempts, artifacts,
    deviations, and environment—not writing style.
 
+The checked-in file is only the disabled template:
+
 ```bash
 taskspec evidence validate release/3.7/engine-matrix.json
-taskspec evidence plan release/3.7/engine-matrix.json \
-  --handoff release/3.7/task-handoff.json --out-dir release/3.7/runs
-taskspec evidence run release/3.7/engine-matrix.json \
-  --handoff release/3.7/task-handoff.json --out-dir release/3.7/runs
 ```
 
-The checked-in release matrix is a template with disabled entries. It validates
-the nine-family experimental surface but makes no real-engine result claim.
-Published evidence must include the generated receipts and the source commit.
+There is no `task-handoff.json` or `runs/` under `release/3.7/`. Plan and run
+against a handoff and output directory you create; do not write those into the
+frozen `release/3.7/` tree. The template validates the nine-family experimental
+surface but makes no real-engine result claim. Published evidence must include
+the generated receipts and the source commit. See [`../../release/README.md`](../../release/README.md).

@@ -1,7 +1,7 @@
 ---
 id: T-20260818-task-spec-skills-pack
 title: "Add Task-Spec skills/ pack"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: M
@@ -33,9 +33,13 @@ execution_backend: none
 signed_off: true
 signed_off_by: luan-moreno
 signed_off_at: 2026-08-18T15:08:27Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luan-moreno
+accepted_at: 2026-08-18T17:09:46Z
+accepted_tier: 2
+accepted_attempt_id: d7460759-053c-52e4-a87e-6fff072249fc
+accepted_authorization_ref: None
+acceptance_record_digest: sha256:503ae628b8690551f6ad420bb5d87d14e8675e64ced4a632c05a0037a44492f0
 ---
 
 # Add Task-Spec skills/ pack

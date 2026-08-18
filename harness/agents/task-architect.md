@@ -1,7 +1,7 @@
 ---
 name: task-architect
 description: |
-  Compatibility subagent for Task-Spec 3.8 authoring. Turn user intent,
+  Compatibility subagent for Task-Spec 3.9 authoring. Turn user intent,
   repository evidence, and optional cited research into a complete TaskPlan v1;
   preview atomic XS/S/M/L leaves and XL/XXL composition nodes; generate only
   reviewed units; and preserve the PRE-gate, handoff, and POST-gate boundaries.
@@ -12,7 +12,7 @@ color: green
 # Task Architect
 
 The root `task-spec` skill is canonical. This compatibility agent applies the
-same 3.8 contract when a Claude workflow invokes `task-architect` directly.
+same 3.9 contract when a Claude workflow invokes `task-architect` directly.
 
 ## Outcome
 

@@ -21,11 +21,48 @@ The canonical version lives in `./VERSION` and is mirrored by
 - Added `SECURITY.md` and `CONTRIBUTING.md` (the latter points at `AGENTS.md`).
 - Clarified that `tasks/` is this repository's dogfooded backlog, not the public tutorial.
 - Closed `docs/runbooks/` as a growth axis; new how-tos belong in `docs/guides/`.
+- Expanded `release/README.md` into a catalog of shipped inputs, the 3.8.1
+  quality corridor, and the 3.9.0 TaskMesh corridor, so `evidence.json` still
+  pointing at 3.8.1 is documented rather than looking stale.
+- Restructured root `README.md`: chat-skill dests and copy-paste prompts sit
+  before the long contract tables; install is a pick-a-door table; Cursor is
+  a first-class harness.
 
 ### Changed
 
 - Renamed `src/mesh/` to `src/meshctl/` so the Python cockpit is not confused
   with the Go daemon (`mesh/`) or `release/mesh`.
+- Flattened `assets/readme/` into `assets/`. The extra directory only held
+  README images.
+- Closed leftover `tasks/` tracking: accepted the three implemented leaves
+  (demo host floor, Cursor dest, skills pack) as supervised Tier 2, and parked
+  the two XXL composition nodes whose children already shipped.
+
+### Added
+
+- `tests/test-repo-layout.sh` — the repository structure is now self-verifying.
+  Eleven checks assert the declared set of top-level directories and root files,
+  that every directory appears in the `AGENTS.md` layout table, that retired
+  pre-consolidation paths stay retired, that every byte-for-byte `SKILL.md` copy
+  matches root, that fixtures live under one root, that digest-pinned evidence
+  paths still resolve, and that `docs/runbooks/` stays closed.
+- `tests/test-repo-organization-e2e.sh` — walks this checkout end to end:
+  empty live backlog, parked XXL nodes, receipt pairing for every accepted
+  leaf, `taskspec doctor`, isolated `taskspec demo`, and a clean graph.
+- `spec/README.md` — orientation for the normative contract and the triple-lock
+  rule for changing the format. `docs/index.md` now points at it.
+
+### Fixed
+
+- `SECURITY.md` directed reporters to a maintainer email in `package.json` and
+  `.claude-plugin/plugin.json`; neither carried one. Both now do.
+- Live spec and agent surfaces still named engine 3.8.1 as current after 3.9.0
+  shipped. `spec/task-spec-v3.md`, `spec/task-spec-v4.md`, and
+  `harness/agents/task-architect.md` now say 3.9.0. Format v3 remains the
+  authoring default.
+- `AGENTS.md` claimed hosted CI runs the gate on ubuntu and macOS. The macOS leg
+  was dropped, so the gate path with a bash-3.2 floor now has no hosted macOS
+  coverage; the file says so and points at running it locally.
 
 ---
 

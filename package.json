@@ -3,6 +3,7 @@
   "version": "3.9.0",
   "description": "Canonical atomic-task contract with an optional portable multi-harness execution control plane",
   "license": "MIT",
+  "author": {"name": "Luan Moreno", "email": "luan.moreno@owshq.com"},
   "repository": {"type": "git", "url": "git+https://github.com/luanmorenommaciel/task-spec.git"},
   "bin": {
     "taskspec": "bin/taskspec",

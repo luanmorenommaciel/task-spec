@@ -1,0 +1,44 @@
+{
+  "acceptance_tier": 2,
+  "accepted_at": "2026-08-18T17:09:46Z",
+  "accepted_by": "luan-moreno",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_2",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "d7460759-053c-52e4-a87e-6fff072249fc",
+    "authorization_ref": "None",
+    "base_commit": "HEAD",
+    "task_id": "T-20260818-task-spec-skills-pack",
+    "task_revision_digest": "sha256:af0a7c4c446c7a9e4e292bc04a84a80b679dd2b2187ea377bd49d4d0d693b404"
+  },
+  "supervision": {
+    "reason": "implementation already on main (efa5349); no HMAC envelope; closing leftover tracking",
+    "supervised_by": "luan-moreno"
+  }
+}

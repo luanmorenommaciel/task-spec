@@ -116,7 +116,7 @@ if grep -q 'TaskHandoff/v3' "$ROOT/harness/agents/task-architect.md" \
   && grep -q 'TaskHandoff/v3' "$ROOT/harness/claude-code/SKILL.md" \
   && ! grep -q '3.6 contract' "$ROOT/harness/agents/task-architect.md" \
   && ! grep -q 'Canonical Task-Spec 3.6' "$ROOT/.claude-plugin/marketplace.json"; then
-  pass "agent guidance surfaces share the 3.8 lifecycle"
+  pass "agent guidance surfaces share the 3.9 lifecycle"
 else
   fail "agent guidance lifecycle alignment"
 fi

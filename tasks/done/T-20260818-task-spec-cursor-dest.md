@@ -1,7 +1,7 @@
 ---
 id: T-20260818-task-spec-cursor-dest
 title: "Install Task-Spec skill into Cursor"
-status: ready
+status: done
 format_version: 3
 profile: full
 effort: M
@@ -32,9 +32,13 @@ execution_backend: none
 signed_off: true
 signed_off_by: luan-moreno
 signed_off_at: 2026-08-18T15:08:26Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: luan-moreno
+accepted_at: 2026-08-18T17:09:45Z
+accepted_tier: 2
+accepted_attempt_id: 0e71cae2-593c-585c-81b7-eba8bc8435ba
+accepted_authorization_ref: None
+acceptance_record_digest: sha256:005dc72222d98c371d652f771a17357f84e1d35d923df52a449f07f7b6910727
 ---
 
 # Install Task-Spec skill into Cursor

@@ -28,16 +28,27 @@ extracted from `converge/skills/task-spec` at v3.3.0 and now stands alone.
 | `docs/` | the knowledge base; start at `docs/index.md`. New how-tos go in `docs/guides/`; `docs/runbooks/` is closed |
 | `tools/` | repository scripts: release builders, renderers, signing-key provisioner |
 | `tasks/`, `.taskspec/` | this repo's own dogfooded backlog and acceptance receipts — not the public tutorial; see `tasks/README.md` |
+| `skills/` | the in-repo skill pack; `skills/task-spec/SKILL.md` is a byte-for-byte copy of root `SKILL.md`, enforced by `tests/test-repo-layout.sh` |
+| `assets/` | README images only |
+| `.claude-plugin/` | marketplace source of truth for the Claude plugin |
+| `.github/` | workflows and dependabot config |
 | `CONTRIBUTING.md`, `SECURITY.md` | human entry points; agents still follow this file |
 
 Frozen artifacts under `release/<version>/`, `.taskspec/acceptance/`, and
 `tasks/done/` describe what actually shipped. Never rewrite them to match a
 later refactor.
 
+`tests/test-repo-layout.sh` enforces this table: the set of top-level
+directories and root files is declared there, and adding either one requires
+updating the test and this table in the same change. That is deliberate — it
+is what keeps the tree from drifting back into twenty-odd top-level
+directories.
+
 ## Build / test
 
 There is no build step — the engine is bash + markdown. The single release gate
-(CI runs exactly this on ubuntu + macOS):
+(hosted CI runs exactly this on ubuntu-latest; run it on macOS locally before
+touching the bash-3.2 gate path, because no hosted runner covers that any more):
 
 ```bash
 make check            # doctor + lints + all self-tests + conformance

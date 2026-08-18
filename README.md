@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Task-Spec — define one task, seal the authority, prove the work](assets/readme/task-spec-banner.webp)](https://github.com/luanmorenommaciel/task-spec)
+[![Task-Spec — define one task, seal the authority, prove the work](assets/task-spec-banner.webp)](https://github.com/luanmorenommaciel/task-spec)
 
 <h1>Task-Spec</h1>
 
@@ -13,15 +13,13 @@
 [![release gate](https://img.shields.io/badge/local%20gate-CHECK%3DREADY-3ddc97)](#verified-status)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Works with **Codex · Claude Code · Kimi · Grok Build · any conformant executor**
+Works with **Codex · Claude Code · Kimi · Grok Build · Cursor · any conformant executor**
 
 [Prove it](#prove-it-in-one-command) ·
-[Review](#review-it-in-five-minutes) ·
-[TaskMesh](#taskmesh-the-optional-execution-control-plane) ·
-[Highlights](#what-shipped-in-39) ·
-[Features](#feature-matrix) ·
+[Chat](#chat-experience) ·
 [Install](#installation) ·
 [Use it](#step-by-step-usage) ·
+[TaskMesh](#what-shipped-in-39) ·
 [Architecture](#how-it-works) ·
 [Trust](#trust-boundaries) ·
 [Docs](#documentation)
@@ -45,11 +43,10 @@ verify afterward.
 | Every harness receives a different interpretation | Every harness receives the same attempt, revision, base commit, closure, scope, and budget |
 | “Tests pass” is the final claim | Acceptance reruns proof, checks Git history and the worktree, binds receipts, and writes an auditable record |
 
-The Task-Spec core deliberately stops at this boundary. It does not host models,
-store credentials, create a sandbox, or turn a weak eval into a wise oracle.
-Version 3.9 adds **TaskMesh** as an optional runtime: it can route and execute
-already-authorized leaves, but it cannot change the contract or accept work on
-its own terms.
+The core stops at that boundary. It does not host models, store credentials,
+create a sandbox, or turn a weak eval into a wise oracle. Version 3.9 adds
+**TaskMesh** as an optional runtime: it can route and execute already-authorized
+leaves, but it cannot change the contract or accept work on its own terms.
 
 ## Prove it in one command
 
@@ -70,155 +67,92 @@ DEMO=READY
 `taskspec demo` creates an isolated Git repository, writes and validates a real
 `TaskPlan/v1`, generates one atomic leaf, seals it, emits a portable handoff,
 runs its eval, accepts the result, and removes the repository. It does not touch
-the repository from which you invoke it.
+the repository from which you invoke it. `make check` exercises that command.
 
-That command is exercised by `make check`; tagged releases also have a separate
-remote-install workflow that verifies the checksum-backed release assets and
-authenticated npm/GitHub installation on both Ubuntu and macOS.
+## Chat experience
 
-## Review it in five minutes
+The CLI is the referee. The skill is how a coding agent finds that referee.
+After `install.sh --global --copy` (or `--target` for one repo), the same
+`SKILL.md` lands in every supported harness. The in-repo pack
+[`skills/task-spec`](skills/task-spec/SKILL.md) is a byte-for-byte copy of
+root [`SKILL.md`](SKILL.md).
 
-The installed package carries its canonical TaskPlan example, so a reviewer no
-longer needs to copy a checkout-relative sample path:
+![Write, seal, prove — HMAC-SHA256 authorization and ACCEPTED=1](assets/taskspec-banner.png)
 
-```bash
-mkdir -p tasks/.plans
-taskspec agent-context
-taskspec example task-plan --out tasks/.plans/reviewer.yaml
-taskspec plan --manifest tasks/.plans/reviewer.yaml
+| Harness | User-level skill | Project-local skill | How the agent finds it |
+|---|---|---|---|
+| **Codex / Kimi** | `~/.agents/skills/task-spec/` | `.agents/skills/task-spec/` | Agents skills path |
+| **Claude Code** | `~/.claude/skills/task-spec/` | `.claude/skills/task-spec/` | Project/user skills, or the marketplace plugin |
+| **Grok Build** | `~/.grok/skills/task-spec/` | `.grok/skills/task-spec/` | Grok skills path |
+| **Cursor** | `~/.cursor/skills/task-spec/` | `.cursor/skills/task-spec/` | Cursor project/user skills |
+
+Claude marketplace (plugin, not a second contract):
+
+```text
+/plugin marketplace add luanmorenommaciel/task-spec
+/plugin install task-spec@taskspec
 ```
 
-From the corresponding tagged source checkout, verify local behavior, retained
-evidence, the generated README projection, and then the stricter release gate:
+Then talk to the agent. Paste one of these; do not skip the plan or the seal.
 
-```bash
-make check
-python3 src/evidence/release_audit.py check
-python3 tools/render-status.py --check README.md
-make release-audit
+**Plan first (read-only):**
+
+```text
+Use the task-spec skill. Inspect this repository and turn the following intent
+into a TaskPlan/v1. Show me the plan. Do not generate Task-Spec files until I
+approve it. Do not stamp signed_off or accepted by hand.
+
+Intent: add repository search with tests.
 ```
 
-During development, `make release-audit` is expected to fail with named
-`BLOCKED` tokens. Publication requires digest-backed proof for every blocking
-criterion and `QUALITY_SCORE=97`; unavailable evidence earns zero. The complete
-[reviewer route](docs/getting-started/reviewer-route.md) explains exactly what
-each evidence class proves—and what it does not.
+**Generate only after you approve the plan:**
 
-## What shipped in 3.9
-
-TaskMesh turns the safe frontier into an observable, recoverable run without
-turning runtime state into authority. The cockpit can be Codex today and Claude
-or Grok tomorrow; the daemon, lease, attempt, and evidence remain the same.
-
-```mermaid
-flowchart LR
-    Intent["Intent and repository evidence"] --> Spec["Task-Spec<br/>atomic leaves"]
-    Spec --> Gate{"HMAC v3<br/>authorized frontier"}
-    Gate --> Mesh["TaskMesh<br/>lease · route · observe · recover"]
-    Mesh --> Codex["Codex adapter"]
-    Mesh --> Claude["Claude adapter"]
-    Mesh --> Grok["Grok adapter"]
-    Mesh --> OMP["OMP adapter"]
-    Codex --> Accept["Canonical taskspec accept"]
-    Claude --> Accept
-    Grok --> Accept
-    OMP --> Accept
-    Accept --> RunBranch["Accepted run branch"]
-    RunBranch --> Human["Human merge"]
+```text
+The plan is approved. Drive the taskspec CLI: plan --manifest, then batch
+--plan. Validate and dod every leaf. Stop before gate --stamp and show me
+the generated specs.
 ```
 
-| TaskMesh capability | What happens | Hard boundary |
-|---|---|---|
-| **Durable cockpit** | One repository daemon retains ordered runs and events across Codex, Claude, Grok, or MCP clients | The cockpit is not the runtime owner |
-| **Deterministic routing** | Eligible adapters are filtered by scope, tools, mode, capacity, and policy; every rejection is recorded | An advisor may reorder only eligible candidates |
-| **Leases and fencing** | Every leaf receives one authoritative attempt and monotonically increasing fence | Exactly-once provider execution is not claimed |
-| **Worktree integration** | Accepted attempts merge into a TaskMesh run branch | The user target branch is never mutated or pushed |
-| **Supervised adapters** | Codex, Claude Code, Grok Build, and OMP receive one `TaskHandoff/v3` | Worktrees are not called security sandboxes |
-| **Autonomous OMP** | A pinned container receives one workspace and one expiring attempt capability | No silent downgrade when isolation cannot be proven |
-| **Canonical acceptance** | TaskMesh invokes the same revision-, attempt-, base-, scope-, and receipt-bound POST-gate | TaskMesh cannot hand-edit `accepted: true` |
+**Authorize one leaf, then hand it off:**
 
-TaskMesh does not depend on Omnigent, create a second graph database, decompose
-work, invent runtime dependencies, or hide OMP subagent fan-out. Read the
-[five-minute TaskMesh journey](docs/getting-started/taskmesh.md),
-[runtime contracts](docs/reference/taskmesh-contracts.md), and
-[trust boundaries](docs/trust/taskmesh-boundaries.md).
+```text
+Authorize only tasks/T-…-leaf.md with taskspec gate --stamp. Emit a
+TaskHandoff/v3 with taskspec handoff --backend <this harness> --out
+.taskspec/handoffs/attempt.json. Do not start work until that file exists.
+```
 
-## The 3.8 trust foundation
+**Accept independently (different session or different agent is fine):**
 
-Version 3.8 finishes the trust chain introduced by format v4 without creating a
-format v5. Format v3 is still the authoring default; formats v1–v4 remain
-readable. What changes is the identity of an authorized attempt: task revision,
-authorization, handoff, dependency closure, receipts, Git base, and acceptance
-now have to describe the same thing.
+```text
+Independently run taskspec accept --handoff .taskspec/handoffs/attempt.json
+--stamp tasks/T-…-leaf.md. Only then may status become done. Do not
+hand-edit accepted: true.
+```
 
-| Highlight | What it adds | Why it matters |
-|---|---|---|
-| **TaskRevision/v1** | body plus a canonical authority manifest | Unknown future fields are sealed unless explicitly operational and mutable |
-| **HMAC v3** | authorization of that exact task revision | v1/v2 stay readable but cannot silently regain Tier 1 |
-| **TaskHandoff/v3** | UUID attempt, immutable Git base, revision and dependency closure | A receipt from another attempt, rebase, or edited dependency cannot be replayed |
-| **ReceiptSubject/v1** | task, revision, authorization, attempt, and base commit | Independent evidence is bound to one execution subject |
-| **Commit-aware acceptance** | committed, staged, unstaged, and untracked changes plus symlink-safe paths | Executors cannot hide out-of-scope work in a commit or escaped path |
-| **AcceptanceRecord/v1** | atomic gate results, stable outcome codes, receipt digests, tier, acceptor, and timestamp | `status`, doctor, and transition verify the durable record instead of trusting a bare boolean or hash |
-| **TaskGraphView/v1** | recursive lifecycle scan, cycles, blockers, exact closures, collisions, frontier, and groups | Markdown and Git stay canonical while every lifecycle command shares one graph |
-| **Status and recovery** | one read-only status object, one safe next command, backlog doctor | Narrow seals, stale projections, orphan records, and interrupted writes become visible |
-| **Optional interop** | signed v2 receipts, DSSE export, digest-bound A2A v1.0/MCP bridges, provider smoke evidence | Integration grows without becoming a normative transport or trust dependency |
-
-The historical nine-family matrix remains a disabled harness—not a nine-provider
-claim. The 3.8.1 release corridor is narrower and evidence-backed: three frozen
-XS/S/M leaves each ran once through Codex CLI 0.147.0 with `gpt-5.6-sol` and
-Claude Code 2.1.233 with observed model `claude-opus-5`; all six attempts were
-independently accepted with zero write-scope violations. That synthetic result
-demonstrates these two engine families on this corridor, not production
-reliability or every provider. The retained result is
-[`EngineMatrixResult/v2`](release/3.8.1/engine-matrix-result.json).
-
-## Five reasons to use Task-Spec
-
-1. **Bound the work.** `touches_paths`, `creates_paths`, Do-Not-Touch, effort,
-   dependencies, and budgets define the executor's authorized surface.
-2. **Make proof executable.** Every behavior maps to at least one eval, every
-   eval maps back to behavior, and the Exit Check is the terminal condition.
-3. **Seal authority.** Only the PRE-gate writes `signed_off*`; changing the
-   approved body or sealed authority manifest breaks the HMAC v3 seal.
-4. **Change the player, not the contract.** Codex, Claude Code, Kimi, Grok, or a
-   conformant custom executor receives the same handoff.
-5. **Accept independently.** Only the POST-gate writes `accepted*`, after evals,
-   scope, seal integrity, and any v4 evidence policy pass.
-
-## Feature matrix
-
-| Surface | Capability | Deterministic proof |
-|---|---|---|
-| Atomic authoring | v3/v4 scaffolds, approved `TaskPlan/v1`, Task-Spec-owned `TaskMaterializationReceipt/v1` | `taskspec plan`, `batch`, `validate` |
-| Behavior contract | Given/When/Then IDs with bidirectional eval traceability | `taskspec dod` → `DOD=COMPLETE` |
-| Scope control | bounded read/write surfaces and Do-Not-Touch rules | PRE-gate validation + POST-gate blast-radius check |
-| Authorization | HMAC v3 over `TaskRevision/v1`; unknown fields sealed by default | `taskspec gate --stamp` → `TIER=1` |
-| Portable handoff | credential-free `TaskHandoff/v3` with attempt, Git base, and closure | `taskspec handoff --backend … --out …` |
-| Independent acceptance | eval rerun, repository audit, seal, closure, and receipt policy | `taskspec accept --handoff … --stamp` → `ACCEPTED=1` |
-| Eval quality | author warnings, baseline checks, mutation discrimination | `author-doctor`, `eval-audit`, `--gold-sanity` |
-| Independent evidence | holdouts, typed receipts, environment and human evidence | `holdout`, `receipt`, v4 Gate F |
-| Identity | optional Ed25519 evidence attribution and revocation | `taskspec identity verify` |
-| Derived graph | dependencies, composition, supersession, conflicts, closures, safe frontier | `taskspec graph --check`, `ready --all` |
-| Recovery and status | one lifecycle view and one safe next action | `taskspec status`, `doctor --backlog` |
-| Multi-engine experiments | isolated worktrees, exact model IDs, retained run receipts | `taskspec evidence validate|plan|run` |
-| Interoperability | optional A2A v1.0/MCP bridges and DSSE receipt export | `taskspec bridge`, `dsse`, `mcp` |
-| Agent ergonomics | one installed skill across four harness destinations | installer equivalence checks |
-| Optional execution control | durable leases, deterministic routing, multi-harness adapters, recovery, and run-branch integration | `taskspec mesh …`, TaskMesh conformance and demo corridors |
-| Automation | JSON envelope, dry-run, stable tokens, shell completion | `--json`, `--dry-run`, `agent-context` |
-| Portability | Bash 3.2 core, standard-library Python, offline by default | `make check`, conformance L0–L2 |
-| Contract consistency | Draft 2020-12 schemas with local-reference and generated-fixture validation | `tests/test-schema-contracts.sh` |
+The skill tells the agent to drive `taskspec`. It does not replace the gates.
+`AGENTS.md` is the machine contract for *this* repository. The installed skill
+is the contract for *any* repository that uses Task-Spec.
 
 ## Installation
 
-### Authenticated source checkout
+Pick one door. All of them install the same engine and the same skill.
 
-The repository and release remain private. Authenticate GitHub before cloning:
+| Door | When | Command shape |
+|---|---|---|
+| Source checkout | You already cloned the repo | `bash install.sh --global --copy` |
+| Pinned release | You want the tagged `v3.9.0` archive | `gh release download` then that `install.sh` |
+| npm | You want the package launcher | `npm install -g …#v3.9.0` then `taskspec-install` |
+| Claude plugin | You only need the Claude skill entry | `/plugin install task-spec@taskspec` (still install the CLI) |
+
+The repository and release remain private. Authenticate GitHub before cloning
+or downloading assets.
+
+### 1. Authenticated source checkout
 
 ```bash
 git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \
   "$HOME/.local/share/task-spec-src"
 
-# User-level: Codex/Kimi, Claude Code, Grok Build, Cursor, and the taskspec CLI
 bash "$HOME/.local/share/task-spec-src/install.sh" --global --copy
 export PATH="$HOME/.local/bin:$PATH"
 taskspec doctor
@@ -232,23 +166,17 @@ bash "$HOME/.local/share/task-spec-src/install.sh" --global --copy --with-mesh
 taskspec mesh doctor
 ```
 
-Use a repository-local installation when a project should carry its own skill
-copies:
+Repository-local skill copies (this project carries its own dests):
 
 ```bash
 cd /path/to/your/repository
 bash "$HOME/.local/share/task-spec-src/install.sh" --target "$PWD" --copy
 ```
 
-The installer ends with `INSTALL=OK` only after the installed engine reports the
-expected version, all harness skill copies match the canonical skill, and the
-CLI launcher resolves to that same engine.
+The installer prints `INSTALL=OK` only after the engine version, every harness
+skill copy, and the CLI launcher all agree.
 
-### Pinned private release archive
-
-Private release doors use your existing GitHub authorization rather than
-anonymous raw URLs. Download only the core archive for Task-Spec alone, or add
-the TaskMesh helper assets for the optional control plane:
+### 2. Pinned private release archive
 
 ```bash
 gh auth status
@@ -269,31 +197,9 @@ npm install -g git+https://github.com/luanmorenommaciel/task-spec.git#v3.9.0
 taskspec-install --global --with-mesh
 ```
 
-Anonymous raw-file and release-asset URLs are not installation doors while the
-repository is private. The hosted release smoke uses the same authenticated
-Contents, release-asset, and Git transports shown above.
-
-### Claude marketplace
-
-```text
-/plugin marketplace add luanmorenommaciel/task-spec
-/plugin install task-spec@taskspec
-```
-
-The shell installer gives every supported harness the same contract:
-
-| Harness | User-level destination | Repository-local destination |
-|---|---|---|
-| **Codex** | `~/.agents/skills/task-spec/` | `.agents/skills/task-spec/` |
-| **Kimi** | `~/.agents/skills/task-spec/` | `.agents/skills/task-spec/` |
-| **Claude Code** | `~/.claude/skills/task-spec/` | `.claude/skills/task-spec/` |
-| **Grok Build** | `~/.grok/skills/task-spec/` | `.grok/skills/task-spec/` |
-| **Cursor** | `~/.cursor/skills/task-spec/` | `.cursor/skills/task-spec/` |
-
-The in-repo pack is [`skills/task-spec`](skills/task-spec/SKILL.md). It matches root `SKILL.md` byte-for-byte. One product skill. Install dests are `.agents/skills/task-spec`, `.claude/skills/task-spec`, `.grok/skills/task-spec`, and `.cursor/skills/task-spec`.
-
-Claude also receives the legacy-compatible `task-architect` entrypoint. The CLI
-is installed under `~/.local/bin/taskspec` unless `--bin-dir` overrides it.
+Anonymous raw-file URLs are not installation doors while the repository is
+private. See [installation.md](docs/getting-started/installation.md) for
+`--symlink`, `--force`, `--no-bin`, and `--bin-dir`.
 
 ### Installation guarantees
 
@@ -307,11 +213,11 @@ is installed under `~/.local/bin/taskspec` unless `--bin-dir` overrides it.
 | Credential safety | No model or provider credential is installed, copied, or requested |
 | Verifiable | Engine and launcher version checks run before `INSTALL=OK` |
 | Immutable release | Remote archive SHA-256 is verified before extraction |
-| Optional runtime | `--with-mesh` verifies the platform helper checksum and exact Task-Spec version |
+| Optional runtime | `--with-mesh` verifies the platform helper checksum and exact version |
 | Prove-before-use | `taskspec demo` exercises the complete lifecycle in isolation |
 
 <details>
-<summary><b>Installer controls and requirements</b></summary>
+<summary><b>Installer flags and requirements</b></summary>
 
 ```text
 --global           install user-level skills for every supported harness
@@ -340,10 +246,10 @@ is installed under `~/.local/bin/taskspec` unless `--bin-dir` overrides it.
 ## Step-by-step usage
 
 Everything below happens inside the repository you want to change. The first
-task should be XS or S and supervised; calibrate eval quality before increasing
+task should be XS or S and supervised. Calibrate eval quality before increasing
 autonomy.
 
-![Eight explicit steps from an empty repository to one independently accepted atomic task](assets/readme/task-spec-step-by-step.svg)
+![Eight explicit steps from an empty repository to one independently accepted atomic task](assets/task-spec-step-by-step.svg)
 
 ### 1. Prepare the repository
 
@@ -353,21 +259,15 @@ taskspec setup signing
 taskspec doctor
 ```
 
-`init` creates only missing Task-Spec workspace files. The signing key lives in
-the repository's private Git common directory and never enters a handoff.
+`init` creates only missing workspace files. The signing key lives in the
+repository's private Git common directory and never enters a handoff.
 
 ### 2. Ask for a plan, not files
 
-Use the installed skill from chat:
-
-```text
-Turn “add repository search” into atomic Task-Specs. Inspect the repository,
-show me the TaskPlan first, and do not generate files until I approve it.
-```
-
-The expected boundary is a complete `TaskPlan/v1`: atomic units, dependencies,
-write surfaces, behaviors, evals, budgets, and open questions. Approval of the
-plan is separate from authorization to execute a leaf.
+Use the [chat prompts](#chat-experience). The expected boundary is a complete
+`TaskPlan/v1`: atomic units, dependencies, write surfaces, behaviors, evals,
+budgets, and open questions. Approval of the plan is separate from
+authorization to execute a leaf.
 
 ### 3. Preview, approve, and generate
 
@@ -377,11 +277,7 @@ taskspec batch --plan tasks/.plans/add-search.yaml
 ```
 
 `plan` is read-only. `batch` refuses an unapproved, malformed, cyclic, or
-credential-bearing manifest. With global `--json`, `batch` returns a
-`TaskMaterializationReceipt/v1` binding the input digest to every generated
-path and content hash; materialization never grants dispatch authority.
-An exact rerun returns `state: unchanged` and `changed: false`. A partial task
-set or any conflicting existing bytes fails closed instead of overwriting work.
+credential-bearing manifest.
 
 ### 4. Inspect the contract and its proof graph
 
@@ -392,7 +288,7 @@ taskspec author-doctor tasks/T-…-add-search.md
 ```
 
 Do not continue until structure is valid, `DOD=COMPLETE`, and every unresolved
-semantic decision has an accountable owner or a blocked status.
+semantic decision has an owner or a blocked status.
 
 ### 5. Authorize exactly one ready leaf
 
@@ -403,14 +299,13 @@ taskspec handoff tasks/T-…-add-search.md --backend codex \
 ```
 
 The gate writes the HMAC seal. The handoff is read-only, digest-bound, and
-credential-free. A v4 leaf includes public evidence and environment commitments
-without revealing private holdout commands.
+credential-free.
 
 ### 6. Execute with the chosen harness
 
-Give the handoff to Codex, Claude Code, Kimi, Grok Build, or a conformant custom
-executor. The player may change; the authorized paths, budgets, behaviors, and
-eval commands do not.
+Give the handoff to Codex, Claude Code, Kimi, Grok Build, Cursor, or a
+conformant custom executor. The player may change; the authorized paths,
+budgets, behaviors, and eval commands do not.
 
 ### 7. Accept independently
 
@@ -424,11 +319,8 @@ taskspec transition T-…-add-search done
 
 Acceptance reruns the Exit Check, compares every committed and uncommitted
 change with the handoff's immutable Git base, verifies the revision and graph
-closure, applies v4 receipt policy, and writes `AcceptanceRecord/v1` before the
-complete acceptance envelope. A task cannot transition to `done` first.
-With global `--json`, success returns `AcceptanceFinalized/v1`, binding the task
-and attempt to the exact acceptance-record path and digest for external
-schedulers such as Workhelm.
+closure, applies v4 receipt policy, and writes `AcceptanceRecord/v1`. A task
+cannot transition to `done` first.
 
 ### 8. Expose the next safe frontier
 
@@ -438,15 +330,11 @@ taskspec graph --check
 taskspec status T-…-add-search
 ```
 
-The graph is a deterministic projection of Markdown and Git: it reports
-dependency-unblocked leaves, collisions, cycles, closure drift, supersession,
-and write-disjoint groups. `status` returns exactly one safe next command.
-Task-Spec still does not choose or schedule the frontier.
+The graph is a deterministic projection of Markdown and Git. `status` returns
+exactly one safe next command. Task-Spec still does not choose or schedule the
+frontier.
 
 ### 9. Optionally execute the frontier with TaskMesh
-
-When `--with-mesh` is installed, the same authorized frontier can become a
-durable multi-harness run:
 
 ```bash
 taskspec mesh frontier
@@ -456,8 +344,32 @@ taskspec mesh watch <run-id>
 ```
 
 The daemon routes only authorized ready leaves, fences every attempt, and keeps
-the target branch untouched. Supervised work stops at `awaiting_supervision`;
-autonomous OMP additionally requires verified sandbox and credential evidence.
+the target branch untouched.
+
+## Review it in five minutes
+
+The installed package carries its canonical TaskPlan example:
+
+```bash
+mkdir -p tasks/.plans
+taskspec agent-context
+taskspec example task-plan --out tasks/.plans/reviewer.yaml
+taskspec plan --manifest tasks/.plans/reviewer.yaml
+```
+
+From the tagged source checkout:
+
+```bash
+make check
+python3 src/evidence/release_audit.py check
+python3 tools/render-status.py --check README.md
+make release-audit
+```
+
+During development, `make release-audit` is expected to fail with named
+`BLOCKED` tokens. Publication requires digest-backed proof and
+`QUALITY_SCORE=97`. The [reviewer route](docs/getting-started/reviewer-route.md)
+explains what each evidence class proves—and what it does not.
 
 ## Choose the evidence level
 
@@ -475,26 +387,11 @@ taskspec new --format 4 benchmark-search S codex
 ```
 
 Use v4 because the evidence source must be independent—not because a task looks
-important. Structural validity never replaces semantic human review.
-
-## Inside one atomic task
-
-One Task-Spec aligns four layers:
-
-| Layer | Fields and sections | What it controls |
-|---|---|---|
-| **Bounded workspace** | `touches_paths`, `creates_paths`, Do-Not-Touch | Where the executor may write and what acceptance must reject |
-| **Execution contract** | goal, context, dependencies, effort, backend, agent contract, budgets | What the unit means and how much autonomy it receives |
-| **Executable proof** | behaviors, success criteria, runnable evals, Exit Check | What observable outcome counts as success |
-| **Authorization envelope** | `TaskRevision/v1`, `signed_off*`, `hmac-sha256-v3` | Whether body and the complete sealed authority still match human sign-off |
-
-The strongest invariant is bidirectional traceability: every `B-N` behavior is
-verified by at least one eval, and every eval points back to at least one
-behavior. Neither side may dangle.
+important.
 
 ## How it works
 
-![The Task-Spec flow from evidence and planning through authorization, portable execution, and independent acceptance](assets/readme/task-spec-flow-features.svg)
+![The Task-Spec flow from evidence and planning through authorization, portable execution, and independent acceptance](assets/task-spec-flow-features.svg)
 
 ```mermaid
 flowchart LR
@@ -525,7 +422,7 @@ It adds runtime leases and observation; it never bypasses either gate.
 | Evidence | independent surfaces | typed receipts | named evaluators reported results bound to the task |
 | POST-gate | acceptance gate | record + acceptance envelope | configured proof, repository scope, revision, closure, and policy passed or failed |
 
-## Atomic leaves and composition nodes
+### Atomic leaves and composition nodes
 
 ```mermaid
 flowchart TD
@@ -549,8 +446,97 @@ flowchart TD
 | XL | Node | No writes | At least 2 children; never delegated |
 | XXL | Node | No writes | At least 3 children; never delegated |
 
-Nodes compose; leaves execute. If a leaf exceeds its coherent write surface or
-done-condition, decompose it instead of hiding more autonomy inside the prompt.
+Nodes compose; leaves execute. If a leaf exceeds its coherent write surface,
+decompose it instead of hiding more autonomy inside the prompt.
+
+One Task-Spec aligns four layers: bounded workspace (`touches_paths` /
+`creates_paths` / Do-Not-Touch), execution contract (goal, effort, backend,
+budgets), executable proof (behaviors ↔ evals ↔ Exit Check), and the
+authorization envelope (`TaskRevision/v1` + HMAC v3). Every `B-N` must have an
+eval, and every eval must point back to a behavior.
+
+## Feature matrix
+
+| Surface | Capability | Deterministic proof |
+|---|---|---|
+| Atomic authoring | v3/v4 scaffolds, approved `TaskPlan/v1`, `TaskMaterializationReceipt/v1` | `taskspec plan`, `batch`, `validate` |
+| Behavior contract | Given/When/Then IDs with bidirectional eval traceability | `taskspec dod` → `DOD=COMPLETE` |
+| Scope control | bounded read/write surfaces and Do-Not-Touch rules | PRE-gate + POST-gate blast-radius check |
+| Authorization | HMAC v3 over `TaskRevision/v1`; unknown fields sealed by default | `taskspec gate --stamp` → `TIER=1` |
+| Portable handoff | credential-free `TaskHandoff/v3` with attempt, Git base, and closure | `taskspec handoff --backend … --out …` |
+| Independent acceptance | eval rerun, repository audit, seal, closure, and receipt policy | `taskspec accept --handoff … --stamp` → `ACCEPTED=1` |
+| Eval quality | author warnings, baseline checks, mutation discrimination | `author-doctor`, `eval-audit`, `--gold-sanity` |
+| Independent evidence | holdouts, typed receipts, environment and human evidence | `holdout`, `receipt`, v4 Gate F |
+| Identity | optional Ed25519 evidence attribution and revocation | `taskspec identity verify` |
+| Derived graph | dependencies, composition, supersession, conflicts, closures, frontier | `taskspec graph --check`, `ready --all` |
+| Recovery and status | one lifecycle view and one safe next action | `taskspec status`, `doctor --backlog` |
+| Multi-engine experiments | isolated worktrees, exact model IDs, retained run receipts | `taskspec evidence validate\|plan\|run` |
+| Interoperability | optional A2A v1.0/MCP bridges and DSSE receipt export | `taskspec bridge`, `dsse`, `mcp` |
+| Agent ergonomics | one installed skill across four harness destinations | installer equivalence checks |
+| Optional execution control | durable leases, deterministic routing, adapters, recovery | `taskspec mesh …` |
+| Automation | JSON envelope, dry-run, stable tokens, shell completion | `--json`, `--dry-run`, `agent-context` |
+| Portability | Bash 3.2 core, standard-library Python, offline by default | `make check`, conformance L0–L2 |
+| Contract consistency | Draft 2020-12 schemas with local-reference validation | `tests/test-schema-contracts.sh` |
+
+## What shipped in 3.9
+
+TaskMesh turns the safe frontier into an observable, recoverable run without
+turning runtime state into authority.
+
+```mermaid
+flowchart LR
+    Intent["Intent and repository evidence"] --> Spec["Task-Spec<br/>atomic leaves"]
+    Spec --> Gate{"HMAC v3<br/>authorized frontier"}
+    Gate --> Mesh["TaskMesh<br/>lease · route · observe · recover"]
+    Mesh --> Codex["Codex adapter"]
+    Mesh --> Claude["Claude adapter"]
+    Mesh --> Grok["Grok adapter"]
+    Mesh --> OMP["OMP adapter"]
+    Codex --> Accept["Canonical taskspec accept"]
+    Claude --> Accept
+    Grok --> Accept
+    OMP --> Accept
+    Accept --> RunBranch["Accepted run branch"]
+    RunBranch --> Human["Human merge"]
+```
+
+| TaskMesh capability | What happens | Hard boundary |
+|---|---|---|
+| **Durable cockpit** | One repository daemon retains ordered runs and events across Codex, Claude, Grok, or MCP clients | The cockpit is not the runtime owner |
+| **Deterministic routing** | Eligible adapters are filtered by scope, tools, mode, capacity, and policy | An advisor may reorder only eligible candidates |
+| **Leases and fencing** | Every leaf receives one authoritative attempt and a monotonically increasing fence | Exactly-once provider execution is not claimed |
+| **Worktree integration** | Accepted attempts merge into a TaskMesh run branch | The user target branch is never mutated or pushed |
+| **Supervised adapters** | Codex, Claude Code, Grok Build, and OMP receive one `TaskHandoff/v3` | Worktrees are not called security sandboxes |
+| **Autonomous OMP** | A pinned container receives one workspace and one expiring attempt capability | No silent downgrade when isolation cannot be proven |
+| **Canonical acceptance** | TaskMesh invokes the same revision-, attempt-, base-, scope-, and receipt-bound POST-gate | TaskMesh cannot hand-edit `accepted: true` |
+
+Read the [five-minute TaskMesh journey](docs/getting-started/taskmesh.md),
+[runtime contracts](docs/reference/taskmesh-contracts.md), and
+[trust boundaries](docs/trust/taskmesh-boundaries.md).
+
+## The 3.8 trust foundation
+
+Version 3.8 finishes the trust chain introduced by format v4 without creating a
+format v5. Format v3 is still the authoring default; formats v1–v4 remain
+readable.
+
+| Highlight | What it adds | Why it matters |
+|---|---|---|
+| **TaskRevision/v1** | body plus a canonical authority manifest | Unknown future fields are sealed unless explicitly operational and mutable |
+| **HMAC v3** | authorization of that exact task revision | v1/v2 stay readable but cannot silently regain Tier 1 |
+| **TaskHandoff/v3** | UUID attempt, immutable Git base, revision and dependency closure | A receipt from another attempt, rebase, or edited dependency cannot be replayed |
+| **ReceiptSubject/v1** | task, revision, authorization, attempt, and base commit | Independent evidence is bound to one execution subject |
+| **Commit-aware acceptance** | committed, staged, unstaged, and untracked changes plus symlink-safe paths | Executors cannot hide out-of-scope work in a commit or escaped path |
+| **AcceptanceRecord/v1** | atomic gate results, stable outcome codes, receipt digests, tier, acceptor, timestamp | `status` and transition verify the durable record |
+| **TaskGraphView/v1** | recursive lifecycle scan, cycles, blockers, exact closures, collisions, frontier | Markdown and Git stay canonical |
+| **Status and recovery** | one read-only status object, one safe next command, backlog doctor | Narrow seals, stale projections, and interrupted writes become visible |
+| **Optional interop** | signed v2 receipts, DSSE export, digest-bound A2A v1.0/MCP bridges | Integration grows without becoming a normative transport |
+
+The 3.8.1 corridor is evidence-backed, not a nine-provider claim. Three frozen
+XS/S/M leaves each ran once through Codex CLI and Claude Code and were
+independently accepted with zero write-scope violations. The retained result is
+[`EngineMatrixResult/v2`](release/3.8.1/engine-matrix-result.json). See
+[`release/README.md`](release/README.md) for how that corridor relates to 3.9.0.
 
 ## Trust boundaries
 
@@ -558,14 +544,14 @@ done-condition, decompose it instead of hiding more autonomy inside the prompt.
 |---|---|
 | HMAC v3 | Tamper-evident shared-key authorization of `TaskRevision/v1`; not identity, non-repudiation, or isolation |
 | Runnable evals | Deterministic evidence when well designed; no validator can make a weak oracle wise |
-| `TaskHandoff/v3` | Revision- and attempt-bound transfer contract; optional bridge exports digest the complete handoff; it does not invoke a model or schedule workers |
+| `TaskHandoff/v3` | Revision- and attempt-bound transfer contract; it does not invoke a model or schedule workers |
 | v2 receipts | Reports bound to one revision, authorization, attempt, and base commit; not universal correctness |
 | Ed25519 receipt | Optional signer attribution and revocation; not authorization policy by itself |
 | `accepted: true` | The configured POST-gate passed; not proof of deployment or production health |
 | Conformance L0–L2 | An adapter honors format and lifecycle behavior in the suite; not fleet reliability |
-| Release smoke CI | Published checksum assets and authenticated npm/GitHub doors install and pass the isolated demo; it does not test provider credentials |
+| Release smoke CI | Published checksum assets install and pass the isolated demo; it does not test provider credentials |
 | TaskMesh supervised mode | Durable leases, bounded worktrees, adapters, and explicit human acceptance; not hostile-code isolation |
-| TaskMesh autonomous mode | Attempt-bound container, credential, and host-attestation evidence; not universal sandbox security or production reliability |
+| TaskMesh autonomous mode | Attempt-bound container, credential, and host-attestation evidence; not universal sandbox security |
 
 Legacy HMAC v1/v2 seals remain readable on their original terms but are narrowed
 to supervised Tier 2 until individually re-stamped with v3. Read
@@ -575,22 +561,35 @@ to supervised Tier 2 until individually re-stamped with v3. Read
 
 | Stage | Commands | Mutation boundary |
 |---|---|---|
-| Prove the install | `doctor`, `demo`, `conformance --self-test` | demo/conformance use disposable fixtures only |
+| Prove the install | `doctor`, `demo` | demo uses disposable fixtures only |
 | Prepare | `init`, `setup`, `setup signing` | non-clobbering workspace and private key setup |
 | Compose | `plan`, `batch --plan`, `new`, `migrate` | preview is read-only; generation is explicit |
 | Prove before work | `validate`, `dod`, `author-doctor`, `gate --stamp` | only the gate writes `signed_off*` |
 | Transfer | `handoff --backend … --out …`, `agent-context` | read-only machine contracts; never credentials |
 | Execute | `run`, any conformant harness | evals run relative to the task workspace |
-| Prove after work | `accept --handoff … --stamp`, `transition … done` | only acceptance writes the complete envelope; done requires it |
+| Prove after work | `accept --handoff … --stamp`, `transition … done` | only acceptance writes the complete envelope |
 | Strengthen evidence | `holdout`, `receipt`, `eval-audit`, `identity` | explicit evidence paths; v4 fails closed when required proof is missing |
-| Interoperate | `bridge`, `dsse`, `mcp`, `evidence` | optional exports; read-only by default; runs retain receipts |
-| Operate | `ready`, `graph`, `status`, `doctor --backlog`, `rebuild-state` | deterministic views, recovery, and one safe next action |
-| Orchestrate optionally | `mesh frontier`, `run`, `watch`, `accept`, `finish`, `mcp` | leased runtime overlay; canonical task authority and target branch remain external |
+| Interoperate | `bridge`, `dsse`, `mcp`, `evidence` | optional exports; read-only by default |
+| Operate | `ready`, `graph`, `status`, `doctor --backlog` | deterministic views and one safe next action |
+| Orchestrate optionally | `mesh frontier`, `run`, `watch`, `accept`, `finish` | leased runtime overlay; target branch remains external |
 
-Global `--json` wraps results in `TaskSpecCLIResult/v1`; global `--dry-run`
-prevents supported mutations and reports intent. `NO_COLOR` or
-`TASKSPEC_COLOR=0` disables ANSI. `taskspec agent-context` exposes the complete
-machine-readable command and token contract.
+Global `--json` wraps results in `TaskSpecCLIResult/v1`. `--dry-run` prevents
+supported mutations. `NO_COLOR` or `TASKSPEC_COLOR=0` disables ANSI.
+
+## Repository map
+
+| Path | Holds |
+|---|---|
+| `spec/` | Normative v3/v4 format, JSON Schemas, L0–L2 conformance |
+| `src/` | Python + Bash engine, one directory per verb; cockpit is `src/meshctl/` |
+| `bin/taskspec` | Single CLI entry |
+| `mesh/` | Optional Go control plane |
+| `harness/` | Non-normative host recipes and skill copies |
+| `skills/` | In-repo skill pack (byte-for-byte with root `SKILL.md`) |
+| `tests/` | Self-tests and fixtures |
+| `release/` | Shipped mesh image + frozen 3.8.1 / 3.9.0 evidence — see [`release/README.md`](release/README.md) |
+| `docs/` | Knowledge base; start at [`docs/index.md`](docs/index.md) |
+| `tasks/` | This repo's own dogfooded backlog, not the public tutorial |
 
 ## Verified status
 
@@ -639,6 +638,7 @@ evidence rather than inferred from these historical results.
 | Start here | Best for |
 |---|---|
 | [Getting Started](docs/getting-started/index.md) | installation, signing, and the first accepted task |
+| [Installation](docs/getting-started/installation.md) | every install door and harness dest |
 | [TaskMesh](docs/getting-started/taskmesh.md) | optional routing, execution, cockpit transfer, and safe integration |
 | [Guides](docs/guides/index.md) | repository scans, research evidence, multi-engine execution, and recovery |
 | [Reference](docs/reference/index.md) | CLI, contracts, schemas, TaskPlan, TaskHandoff, and AuthoringEvidence |
@@ -659,6 +659,14 @@ evidence rather than inferred from these historical results.
 No. The installed skill is markdown plus scripts. Any harness that can discover
 the skill and invoke shell commands can drive the lifecycle. The deterministic
 CLI remains the referee.
+</details>
+
+<details>
+<summary><b>What do I paste into chat after install?</b></summary>
+
+Start with the [plan-first prompt](#chat-experience). The agent should inspect
+the repo, show a `TaskPlan/v1`, and stop until you approve it. It must never
+hand-edit `signed_off` or `accepted`.
 </details>
 
 <details>

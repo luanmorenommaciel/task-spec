@@ -22,12 +22,14 @@ read or write a real `tasks/` backlog.
 | `test-hmac-envelope.sh` | Key-optional HMAC sign-off envelope: Tier-1/2/3 degrade, injection-safe field writes, `.git/info` key fallback |
 | `test-extractor-fuzz.sh` | Adversarial fuzz of the extract-and-run path (heredoc-heavy bodies; never-hang / never-leak-raw-error invariants) |
 | `test-bash-portability.sh` | bash-3.2 floor: core gate path under `src/` + conformance runner carry no bash-4-only constructs |
-| `test-portability-e2e.sh` | Fresh-install smoke test (`src/lib/install.sh`) + cross-engine equivalence (Python vs TypeScript reference consumers) + schema fidelity |
+| `test-portability-e2e.sh` | Fresh-install smoke test (`install.sh`) + cross-engine equivalence (Python vs TypeScript reference consumers) + schema fidelity |
 | `test-v3-closed-loop-e2e.sh` | v3 closed loop: author → gate → dispatch → execute → `accept-task.sh` |
 | `test-v36-experience.sh` | Installer modes, harness parity, clean-room acceptance, research contracts, and local npm package |
 | `test-v37-evidence-integrity.sh` | v4 policies, holdouts, receipts, identity, engine isolation, and A2A/MCP bridges |
 | `test-v38-hardening.sh` | HMAC v3 downgrade resistance, attempt-bound receipts, Git/path attacks, closure drift, AcceptanceRecord atomicity, and recovery |
 | `test-backlog-analysis.sh` | Recursive graph resolution, dependency frontier, cycles, composition, supersession, conflicts, and exact closure |
+| `test-repo-layout.sh` | The directory structure as a contract: declared top-level directories and root files, AGENTS.md layout-table coverage, retired-path regressions, byte-identical `SKILL.md` copies, one fixture root, digest-pinned evidence paths, and the closed `docs/runbooks/` axis |
+| `test-repo-organization-e2e.sh` | Working-state walkthrough of this checkout: empty live backlog, parked composition nodes, receipt pairing, `taskspec doctor`, isolated `taskspec demo`, and a clean graph |
 | `test-schema-contracts.sh` | Draft 2020-12 schema IDs/references plus checked-in and generated contract fixtures, stdlib-only |
 | `lint-skill-docs.sh` | Version consistency: `VERSION` == latest `CHANGELOG.md` heading == `src/lib/_lib.sh:TASKSPEC_VERSION` |
 

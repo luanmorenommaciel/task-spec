@@ -1,0 +1,44 @@
+{
+  "acceptance_tier": 2,
+  "accepted_at": "2026-08-18T17:07:49Z",
+  "accepted_by": "luan-moreno",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_2",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "c5772e73-839f-5556-aade-c19f797c9c72",
+    "authorization_ref": "None",
+    "base_commit": "HEAD",
+    "task_id": "T-20260817-demo-doctor-host-floor",
+    "task_revision_digest": "sha256:c3465baecabb8c346993923ae0d2755cfc2e7e1a63ff52f434f5461a846bc69e"
+  },
+  "supervision": {
+    "reason": "implementation already on main (a17c46d); no HMAC envelope; closing leftover tracking",
+    "supervised_by": "luan-moreno"
+  }
+}
