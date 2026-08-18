@@ -218,7 +218,7 @@ The repository and release remain private. Authenticate GitHub before cloning:
 git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \
   "$HOME/.local/share/task-spec-src"
 
-# User-level: Codex/Kimi, Claude Code, Grok Build, and the taskspec CLI
+# User-level: Codex/Kimi, Claude Code, Grok Build, Cursor, and the taskspec CLI
 bash "$HOME/.local/share/task-spec-src/install.sh" --global --copy
 export PATH="$HOME/.local/bin:$PATH"
 taskspec doctor
@@ -288,6 +288,9 @@ The shell installer gives every supported harness the same contract:
 | **Kimi** | `~/.agents/skills/task-spec/` | `.agents/skills/task-spec/` |
 | **Claude Code** | `~/.claude/skills/task-spec/` | `.claude/skills/task-spec/` |
 | **Grok Build** | `~/.grok/skills/task-spec/` | `.grok/skills/task-spec/` |
+| **Cursor** | `~/.cursor/skills/task-spec/` | `.cursor/skills/task-spec/` |
+
+The in-repo pack is [`skills/task-spec`](skills/task-spec/SKILL.md). It matches root `SKILL.md` byte-for-byte. One product skill. Install dests are `.agents/skills/task-spec`, `.claude/skills/task-spec`, `.grok/skills/task-spec`, and `.cursor/skills/task-spec`.
 
 Claude also receives the legacy-compatible `task-architect` entrypoint. The CLI
 is installed under `~/.local/bin/taskspec` unless `--bin-dir` overrides it.
