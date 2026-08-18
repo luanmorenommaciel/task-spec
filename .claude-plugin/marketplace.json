@@ -5,7 +5,7 @@
     {
       "name": "task-spec",
       "source": "./",
-      "description": "Canonical Task-Spec 3.8 skill and revision-bound CLI contract",
+      "description": "Canonical Task-Spec skill and revision-bound CLI contract",
       "version": "3.9.0"
     }
   ]

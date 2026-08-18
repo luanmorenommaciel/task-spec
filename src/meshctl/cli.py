@@ -166,7 +166,7 @@ def main(argv: list[str]) -> int:
     negotiate(helper)
     if command == "mcp":
         os.environ["TASKSPEC_MESH_HELPER"] = str(helper)
-        os.execv(sys.executable, [sys.executable, str(ROOT / "src" / "mesh" / "mcp_server.py")])
+        os.execv(sys.executable, [sys.executable, str(ROOT / "src" / "meshctl" / "mcp_server.py")])
     invocation = [str(helper), "--repository", str(repository_root())]
     if json_mode():
         invocation.append("--json")

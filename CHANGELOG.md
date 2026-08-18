@@ -6,9 +6,26 @@ All notable changes to the **task-spec** engine are documented here. Format foll
 MINOR is additive format/feature changes, and PATCH is bug fixes / doc clarifications.
 
 The canonical version lives in `./VERSION` and is mirrored by
-`src/lib/_lib.sh` (`TASKSPEC_VERSION`), `integrations/claude-code/plugin.json`, and
-`integrations/claude-code/marketplace.json`. The doc-consistency lint
+`src/lib/_lib.sh` (`TASKSPEC_VERSION`), `.claude-plugin/plugin.json`,
+`.claude-plugin/marketplace.json`, `harness/claude-code/plugin.json`, and
+`harness/claude-code/marketplace.json`. The doc-consistency lint
 (`tests/lint-skill-docs.sh`) asserts VERSION == the latest heading below == _lib.sh.
+
+---
+
+## [Unreleased]
+
+### Documentation
+
+- Documented the `harness/` and `release/` inclusion rules.
+- Added `SECURITY.md` and `CONTRIBUTING.md` (the latter points at `AGENTS.md`).
+- Clarified that `tasks/` is this repository's dogfooded backlog, not the public tutorial.
+- Closed `docs/runbooks/` as a growth axis; new how-tos belong in `docs/guides/`.
+
+### Changed
+
+- Renamed `src/mesh/` to `src/meshctl/` so the Python cockpit is not confused
+  with the Go daemon (`mesh/`) or `release/mesh`.
 
 ---
 

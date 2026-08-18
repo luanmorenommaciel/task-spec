@@ -10,15 +10,18 @@ extracted from `converge/skills/task-spec` at v3.3.0 and now stands alone.
 | Path | Holds |
 |---|---|
 | `bin/taskspec` | the one CLI entry point; dispatches to `src/` |
-| `spec/` | **normative**: the v3/v4 format, JSON schemas, conformance suite, `UPSTREAM.lock` |
+| `spec/` | **normative**: the v3/v4 format, JSON schemas, conformance suite |
+| `interop/` | `UPSTREAM.lock` — protocol version/commit/digest lock. Path is frozen by 3.8.1 evidence; do not move it |
 | `src/` | the Python + Bash engine, one directory per verb, plus `src/templates/` |
+| `src/meshctl/` | Python TaskMesh cockpit (`taskspec mesh`); not the Go daemon |
 | `mesh/` | the optional Go control plane (`mesh/cmd/`, `mesh/internal/mesh/`) |
-| `harness/` | non-normative host surfaces: engine recipes, mesh adapters, trackers, per-host skills, research and mutation packs, the `task-architect` agent |
+| `harness/` | non-normative host surfaces; see `harness/README.md` for the inclusion rule |
 | `tests/` | the self-test suite, all fixtures under `tests/fixtures/`, benchmark cases in `tests/evals/` |
-| `release/` | shipped release inputs (`mesh/`, `docker/`, `trust/`, `evidence.json`, `quality-rubric.json`) and frozen per-version evidence in `release/<version>/` |
-| `docs/` | the knowledge base; start at `docs/index.md` |
+| `release/` | shipped runtime inputs and frozen per-version evidence; see `release/README.md` |
+| `docs/` | the knowledge base; start at `docs/index.md`. New how-tos go in `docs/guides/`; `docs/runbooks/` is closed |
 | `tools/` | repository scripts: release builders, renderers, signing-key provisioner |
-| `tasks/`, `.taskspec/` | this repo's own dogfooded backlog and acceptance receipts |
+| `tasks/`, `.taskspec/` | this repo's own dogfooded backlog and acceptance receipts — not the public tutorial; see `tasks/README.md` |
+| `CONTRIBUTING.md`, `SECURITY.md` | human entry points; agents still follow this file |
 
 Frozen artifacts under `release/<version>/`, `.taskspec/acceptance/`, and
 `tasks/done/` describe what actually shipped. Never rewrite them to match a

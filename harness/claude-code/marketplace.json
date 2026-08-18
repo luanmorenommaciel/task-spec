@@ -16,6 +16,6 @@
     "autonomy-contract"
   ],
   "source": "./",
-  "install_command": "bash src/lib/install.sh --target $TARGET_REPO",
+  "install_command": "bash install.sh --target $TARGET_REPO",
   "verification_command": "bash tests/test-task-spec-skill.sh --suite fixtures"
 }

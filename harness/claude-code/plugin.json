@@ -1,33 +1,9 @@
 {
   "name": "task-spec",
   "version": "3.9.0",
-  "description": "The task-spec engine: atomic, vendor-neutral, self-verifying task units (markdown + YAML frontmatter + runnable bash evals) with dual gates (PRE seal / POST accept) and an L0/L1/L2 executor conformance suite. Works with Claude, Codex, Kimi, GLM, Gemini, or any conformant executor.",
-  "author": {
-    "name": "Luan Moreno",
-    "email": "luan.moreno@owshq.com"
-  },
+  "description": "Canonical atomic-task authoring, authorization, handoff, execution, and acceptance skill for Claude Code.",
+  "author": {"name": "Luan Moreno"},
   "repository": "https://github.com/luanmorenommaciel/task-spec",
   "license": "MIT",
-  "keywords": [
-    "task-spec",
-    "eval-driven-development",
-    "edd",
-    "agentic-tasks",
-    "vendor-portable",
-    "self-verifying"
-  ],
-  "entrypoints": {
-    "cli": "bin/taskspec",
-    "generate": "src/author/generate-task-spec.sh",
-    "validate": "src/gate/validate-task-spec.sh",
-    "gate": "src/gate/safe-to-delegate.sh",
-    "run": "src/gate/run-task-spec.sh",
-    "accept": "src/accept/accept-task.sh",
-    "install": "src/lib/install.sh"
-  },
-  "config": {
-    "backlog_dir_env": "TASKSPEC_BACKLOG_DIR",
-    "backlog_dir_default": "tasks",
-    "version_source": "VERSION"
-  }
+  "skills": ["./SKILL.md"]
 }

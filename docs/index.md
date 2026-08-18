@@ -126,5 +126,6 @@ failure modes, see also.
    when independent evidence policy is required.
 2. Read **concepts** for definitional questions ("what is an effort gate?").
 3. Read **patterns** for implementation questions ("how do I write an idempotent eval?").
-4. Read **runbooks** for workflow questions ("how do I convert a meeting note?").
+4. Read **guides** for how-to questions. Existing **runbooks** stay as historical
+   walkthroughs; that directory is closed — new how-tos belong in `guides/`.
 5. Read **reference** for exact contract fields and CLI behavior.

@@ -645,6 +645,8 @@ evidence rather than inferred from these historical results.
 | [Format v4](spec/task-spec-v4.md) | opt-in evidence, identity, and environment policy |
 | [Conformance](spec/conformance/README.md) | what an adapter must prove at L0, L1, and L2 |
 | [Changelog](CHANGELOG.md) | compatibility and engine history |
+| [Contributing](CONTRIBUTING.md) | how to change this repository (`AGENTS.md` is the full contract) |
+| [Security](SECURITY.md) | how to report a vulnerability |
 
 ## FAQ
 

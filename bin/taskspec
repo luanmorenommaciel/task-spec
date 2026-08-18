@@ -225,7 +225,7 @@ _ts_dispatch() {
       if [[ "${TASKSPEC_DRY_RUN:-0}" == "1" && "${1:-}" == "export" ]]; then echo "DRY_RUN: would run taskspec dsse $*"; return 0; fi
       python3 "$TASKSPEC_HOME/src/interop/dsse.py" "$@"; return $? ;;
     mcp) python3 "$TASKSPEC_HOME/src/interop/mcp_server.py" "$@"; return $? ;;
-    mesh) python3 "$TASKSPEC_HOME/src/mesh/cli.py" "$@"; return $? ;;
+    mesh) python3 "$TASKSPEC_HOME/src/meshctl/cli.py" "$@"; return $? ;;
     init) script="src/setup/init.sh" ;;
     setup)
       if [[ "${1:-}" == "signing" ]]; then
