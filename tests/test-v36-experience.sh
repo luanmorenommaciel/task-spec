@@ -24,7 +24,8 @@ if TASKSPEC_INSTALL_ROOT="$INSTALL_ROOT" bash "$ROOT/install.sh" --target "$TARG
 if TASKSPEC_INSTALL_ROOT="$INSTALL_ROOT" bash "$ROOT/install.sh" --target "$TARGET" --copy --bin-dir "$BIN_DIR" >"$WORK/reinstall.out" 2>&1 \
   && grep -q '^INSTALL=OK$' "$WORK/reinstall.out"; then pass "idempotent install"; else fail "idempotent install"; fi
 if [[ "$(shasum -a 256 "$TARGET/.agents/skills/task-spec/SKILL.md" | awk '{print $1}')" == "$(shasum -a 256 "$TARGET/.claude/skills/task-spec/SKILL.md" | awk '{print $1}')" \
-   && "$(shasum -a 256 "$TARGET/.agents/skills/task-spec/SKILL.md" | awk '{print $1}')" == "$(shasum -a 256 "$TARGET/.grok/skills/task-spec/SKILL.md" | awk '{print $1}')" ]]; then pass "equivalent harness skills"; else fail "equivalent harness skills"; fi
+   && "$(shasum -a 256 "$TARGET/.agents/skills/task-spec/SKILL.md" | awk '{print $1}')" == "$(shasum -a 256 "$TARGET/.grok/skills/task-spec/SKILL.md" | awk '{print $1}')" \
+   && "$(shasum -a 256 "$TARGET/.agents/skills/task-spec/SKILL.md" | awk '{print $1}')" == "$(shasum -a 256 "$TARGET/.cursor/skills/task-spec/SKILL.md" | awk '{print $1}')" ]]; then pass "equivalent harness skills"; else fail "equivalent harness skills"; fi
 
 GLOBAL_HOME="$WORK/global-home"
 GLOBAL_ROOT="$WORK/global-root"
@@ -34,10 +35,12 @@ if HOME="$GLOBAL_HOME" TASKSPEC_INSTALL_ROOT="$GLOBAL_ROOT" bash "$ROOT/install.
   && [[ -f "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" ]] \
   && [[ -f "$GLOBAL_HOME/.claude/skills/task-spec/SKILL.md" ]] \
   && [[ -f "$GLOBAL_HOME/.grok/skills/task-spec/SKILL.md" ]] \
+  && [[ -f "$GLOBAL_HOME/.cursor/skills/task-spec/SKILL.md" ]] \
   && [[ -f "$GLOBAL_HOME/.claude/agents/task-architect.md" ]] \
   && [[ "$("$GLOBAL_HOME/.local/bin/taskspec" version)" == "$CURRENT_VERSION" ]] \
   && cmp -s "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" "$GLOBAL_HOME/.claude/skills/task-spec/SKILL.md" \
-  && cmp -s "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" "$GLOBAL_HOME/.grok/skills/task-spec/SKILL.md"; then
+  && cmp -s "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" "$GLOBAL_HOME/.grok/skills/task-spec/SKILL.md" \
+  && cmp -s "$GLOBAL_HOME/.agents/skills/task-spec/SKILL.md" "$GLOBAL_HOME/.cursor/skills/task-spec/SKILL.md"; then
   pass "global user install"
 else
   fail "global user install"
@@ -51,6 +54,7 @@ if TASKSPEC_INSTALL_ROOT="$SYMLINK_ROOT" bash "$ROOT/install.sh" --target "$SYML
   && [[ -L "$SYMLINK_TARGET/.agents/skills/task-spec" ]] \
   && [[ -L "$SYMLINK_TARGET/.claude/skills/task-spec" ]] \
   && [[ -L "$SYMLINK_TARGET/.grok/skills/task-spec" ]] \
+  && [[ -L "$SYMLINK_TARGET/.cursor/skills/task-spec" ]] \
   && [[ -L "$SYMLINK_TARGET/.claude/agents/task-architect.md" ]] \
   && [[ "$($SYMLINK_BIN/taskspec version)" == "$CURRENT_VERSION" ]]; then
   pass "checkout symlink install"
