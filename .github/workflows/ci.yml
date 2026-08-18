@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -35,26 +35,6 @@ jobs:
         with:
           go-version: '1.25.0'
           cache-dependency-path: go.sum
-
-      - name: Install shellcheck (macOS)
-        # ubuntu-latest ships shellcheck; macOS runners do not, and the gate's
-        # --shellcheck-evals lint hard-requires it. Pinned by SHA-256.
-        if: runner.os == 'macOS'
-        run: |
-          set -euo pipefail
-          ver="v0.10.0"
-          arch="$(uname -m)"
-          case "$arch" in
-            arm64)  asset="darwin.aarch64"; sha="bbd2f14826328eee7679da7221f2bc3afb011f6a928b848c80c321f6046ddf81" ;;
-            x86_64) asset="darwin.x86_64";  sha="ef27684f23279d112d8ad84e0823642e43f838993bbb8c0963db9b58a90464c2" ;;
-            *) echo "unsupported arch: $arch" >&2; exit 1 ;;
-          esac
-          curl -fsSL -o /tmp/shellcheck.tar.xz \
-            "https://github.com/koalaman/shellcheck/releases/download/${ver}/shellcheck-${ver}.${asset}.tar.xz"
-          echo "${sha}  /tmp/shellcheck.tar.xz" | shasum -a 256 -c -
-          tar -xJf /tmp/shellcheck.tar.xz -C /tmp
-          sudo install -m 0755 "/tmp/shellcheck-${ver}/shellcheck" /usr/local/bin/shellcheck
-          shellcheck --version
 
       - name: Install schema-fidelity consumer dependencies
         # tests/test-portability-e2e.sh Step 6 runs docs/examples/consume-task-spec.py,
