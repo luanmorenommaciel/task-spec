@@ -1,0 +1,27 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'background': '#070A0F', 'primaryColor': '#1a2028', 'primaryTextColor': '#F5F2EA', 'primaryBorderColor': '#29313A', 'lineColor': '#F5F2EA', 'secondaryColor': '#111720', 'tertiaryColor': '#29313A', 'edgeLabelBackground': '#070A0F'}}}%%
+flowchart LR
+    subgraph PRE["PRE-GATE"]
+        Intent["Intent"] --> Plan["TaskPlan/v1"]
+        Plan --> Leaf["Atomic Leaf"]
+        Leaf --> Gate["gate --stamp<br/>HMAC v3"]
+    end
+    
+    subgraph HANDOFF["HANDOFF"]
+        Gate --> Transfer["TaskHandoff/v3"]
+        Transfer --> Executor["Executor"]
+    end
+    
+    subgraph POST["POST-GATE"]
+        Executor --> Accept["accept --stamp"]
+        Accept --> Verdict["ACCEPTED=1"]
+    end
+    
+    classDef default fill:#1a2028,stroke:#29313A,color:#F5F2EA
+    classDef pre fill:#1a2028,stroke:#F5F2EA,color:#F5F2EA
+    classDef post fill:#1a2028,stroke:#E4A51A,color:#F5F2EA
+    classDef verdict fill:#E4A51A,stroke:#E4A51A,color:#070A0F,font-weight:bold
+    
+    class Intent,Plan,Leaf,Gate pre
+    class Transfer,Executor default
+    class Accept,Verdict post
+    class Verdict verdict

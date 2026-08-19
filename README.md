@@ -1,10 +1,13 @@
 <div align="center">
 
-[![Task-Spec — define one task, seal the authority, prove the work](assets/task-spec-banner.webp)](https://github.com/luanmorenommaciel/task-spec)
+<!-- Receipt Gate hero: Factory Black lockup with Proof Gold verdict -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/task-spec-hero.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/task-spec-hero.png">
+  <img alt="TASK-SPEC: The self-verifying unit of work — Receipt Gate brand lockup showing two gate posts framing a receipt with Proof Gold verdict line" src="assets/task-spec-hero.png" width="800">
+</picture>
 
-<h1>Task-Spec</h1>
-
-<p><strong>Agents can write code. Task-Spec makes them earn <code>done</code>.</strong></p>
+<p><strong>Agents can write code. TASK-SPEC makes them earn <code>done</code>.</strong></p>
 <p>One open contract for bounded scope, executable proof, sealed authority,<br/>portable handoff, and independent acceptance.</p>
 
 [![version](https://img.shields.io/badge/version-3.9.0-68c7ff)](CHANGELOG.md)
@@ -69,6 +72,55 @@ DEMO=READY
 runs its eval, accepts the result, and removes the repository. It does not touch
 the repository from which you invoke it. `make check` exercises that command.
 
+<!-- Demo lifecycle flow: the Receipt Gate in action -->
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'background': '#070A0F', 'primaryColor': '#1a2028', 'primaryTextColor': '#F5F2EA', 'primaryBorderColor': '#29313A', 'lineColor': '#F5F2EA'}}}%%
+flowchart LR
+    PlanValid["PLAN=VALID"] --> DodComplete["DOD=COMPLETE"]
+    DodComplete --> Verdict["VERDICT=DELEGATE<br/>TIER=1"]
+    Verdict --> Handoff["HANDOFF=<br/>TaskHandoff/v3"]
+    Handoff --> EvalPass["EVAL=PASS"]
+    EvalPass --> Accepted["ACCEPTED=1"]
+    
+    classDef default fill:#1a2028,stroke:#29313A,color:#F5F2EA
+    classDef verdict fill:#1a2028,stroke:#E4A51A,color:#E4A51A
+    classDef accepted fill:#E4A51A,stroke:#E4A51A,color:#070A0F,font-weight:bold
+    class Verdict verdict
+    class Accepted accepted
+```
+
+<img alt="Demo lifecycle: PLAN=VALID to DOD=COMPLETE to VERDICT=DELEGATE TIER=1 to HANDOFF to EVAL=PASS to ACCEPTED=1 in Proof Gold" src="assets/task-spec-demo-lifecycle.png" width="800">
+
+## Visual identity
+
+TASK-SPEC uses the **Receipt Gate** mark: two gate posts (PRE / POST) framing a
+compact three-line receipt. The last line is **Proof Gold #E4A51A** — the verdict.
+
+<table>
+<tr>
+<td align="center"><strong>Icon</strong></td>
+<td align="center"><strong>Lockup (dark bg)</strong></td>
+<td align="center"><strong>Lockup (light bg)</strong></td>
+</tr>
+<tr>
+<td align="center"><img alt="TASK-SPEC Receipt Gate icon" src="assets/task-spec-icon.png" width="64"></td>
+<td align="center"><img alt="TASK-SPEC lockup for dark backgrounds" src="assets/task-spec-lockup-light.png" height="40"></td>
+<td align="center"><img alt="TASK-SPEC lockup for light backgrounds" src="assets/task-spec-lockup-dark.png" height="40"></td>
+</tr>
+</table>
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| Factory Black | `#070A0F` | Primary background |
+| Carbon | `#111720` | Card backgrounds |
+| Graphite | `#29313A` | Borders, dividers |
+| Proof Ivory | `#F5F2EA` | Primary text, gate posts, receipt lines |
+| Proof Gold | `#E4A51A` | **Verdict line, hyphen accent only** |
+| Clean White | `#FFFFFF` | High-contrast text |
+
+The hyphen in TASK-SPEC is always Proof Gold. Never use Forge Gold, Register Blue,
+Gate Ember, Ion Violet, or Keep Rose as product accents.
+
 ## Chat experience
 
 The CLI is the referee. The skill is how a coding agent finds that referee.
@@ -77,7 +129,12 @@ After `install.sh --global --copy` (or `--target` for one repo), the same
 [`skills/task-spec`](skills/task-spec/SKILL.md) is a byte-for-byte copy of
 root [`SKILL.md`](SKILL.md).
 
-![Write, seal, prove — HMAC-SHA256 authorization and ACCEPTED=1](assets/taskspec-banner.png)
+<!-- Receipt Gate identity: icon + lockup variants for light/dark modes -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/task-spec-lockup-light.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/task-spec-lockup-dark.png">
+  <img alt="TASK-SPEC lockup with Receipt Gate mark — Proof Gold hyphen" src="assets/task-spec-lockup-light.png" height="60">
+</picture>
 
 | Harness | User-level skill | Project-local skill | How the agent finds it |
 |---|---|---|---|
@@ -391,9 +448,42 @@ important.
 
 ## How it works
 
+### Authority flow
+
+The Receipt Gate: PRE-gate seals the contract, POST-gate earns `ACCEPTED=1`.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'background': '#070A0F', 'primaryColor': '#1a2028', 'primaryTextColor': '#F5F2EA', 'primaryBorderColor': '#29313A', 'lineColor': '#F5F2EA'}}}%%
+flowchart LR
+    subgraph PRE["PRE-GATE"]
+        Intent["Intent"] --> Plan["TaskPlan/v1"]
+        Plan --> Leaf["Atomic Leaf"]
+        Leaf --> Gate["gate --stamp<br/>HMAC v3"]
+    end
+    
+    subgraph HANDOFF["HANDOFF"]
+        Gate --> Transfer["TaskHandoff/v3"]
+        Transfer --> Executor["Executor"]
+    end
+    
+    subgraph POST["POST-GATE"]
+        Executor --> Accept["accept --stamp"]
+        Accept --> Verdict["ACCEPTED=1"]
+    end
+    
+    classDef default fill:#1a2028,stroke:#29313A,color:#F5F2EA
+    classDef verdict fill:#E4A51A,stroke:#E4A51A,color:#070A0F,font-weight:bold
+    class Verdict verdict
+```
+
+<img alt="Authority flow: Intent to TaskPlan to Atomic Leaf to gate --stamp (PRE-GATE), then TaskHandoff to Executor (HANDOFF), then accept --stamp to ACCEPTED=1 (POST-GATE) highlighted in Proof Gold" src="assets/task-spec-authority-flow.png" width="800">
+
+### Feature envelope
+
 ![The Task-Spec flow from evidence and planning through authorization, portable execution, and independent acceptance](assets/task-spec-flow-features.svg)
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'background': '#070A0F', 'primaryColor': '#1a2028', 'primaryTextColor': '#F5F2EA', 'primaryBorderColor': '#29313A', 'lineColor': '#F5F2EA'}}}%%
 flowchart LR
     Human["Human intent + decisions"] --> Plan["TaskPlan/v1"]
     Repo["Repository evidence"] --> Plan
@@ -408,6 +498,10 @@ flowchart LR
     Post -->|pass| Record["AcceptanceRecord/v1"]
     Record --> Accepted["complete acceptance envelope"]
     Post -->|fail closed| Repair["repair · block · park"]
+    
+    classDef default fill:#1a2028,stroke:#29313A,color:#F5F2EA
+    classDef verdict fill:#E4A51A,stroke:#E4A51A,color:#070A0F,font-weight:bold
+    class Accepted verdict
 ```
 
 TaskMesh sits between the ready handoff and the executor only when installed.
@@ -425,14 +519,15 @@ It adds runtime leases and observation; it never bypasses either gate.
 ### Atomic leaves and composition nodes
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'background': '#070A0F', 'primaryColor': '#1a2028', 'primaryTextColor': '#F5F2EA', 'primaryBorderColor': '#29313A', 'lineColor': '#F5F2EA'}}}%%
 flowchart TD
     XXL["XXL node<br/>3+ children"] --> XL["XL node<br/>2+ children"]
     XXL --> L["L leaf"]
     XXL --> M["M leaf"]
     XL --> S["S leaf"]
     XL --> XS["XS leaf"]
-    classDef node fill:#1b2630,stroke:#ffb454,color:#ffffff,stroke-width:2px;
-    classDef leaf fill:#10251e,stroke:#3ddc97,color:#ffffff,stroke-width:2px;
+    classDef node fill:#111720,stroke:#E4A51A,color:#F5F2EA,stroke-width:2px;
+    classDef leaf fill:#111720,stroke:#F5F2EA,color:#F5F2EA,stroke-width:2px;
     class XXL,XL node;
     class L,M,S,XS leaf;
 ```
@@ -484,6 +579,7 @@ TaskMesh turns the safe frontier into an observable, recoverable run without
 turning runtime state into authority.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'background': '#070A0F', 'primaryColor': '#1a2028', 'primaryTextColor': '#F5F2EA', 'primaryBorderColor': '#29313A', 'lineColor': '#F5F2EA'}}}%%
 flowchart LR
     Intent["Intent and repository evidence"] --> Spec["Task-Spec<br/>atomic leaves"]
     Spec --> Gate{"HMAC v3<br/>authorized frontier"}
@@ -498,6 +594,12 @@ flowchart LR
     OMP --> Accept
     Accept --> RunBranch["Accepted run branch"]
     RunBranch --> Human["Human merge"]
+    
+    classDef default fill:#1a2028,stroke:#29313A,color:#F5F2EA
+    classDef gate fill:#111720,stroke:#E4A51A,color:#E4A51A
+    classDef accepted fill:#E4A51A,stroke:#E4A51A,color:#070A0F,font-weight:bold
+    class Gate gate
+    class Accept accepted
 ```
 
 | TaskMesh capability | What happens | Hard boundary |

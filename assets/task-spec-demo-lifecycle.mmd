@@ -1,0 +1,17 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'background': '#070A0F', 'primaryColor': '#1a2028', 'primaryTextColor': '#F5F2EA', 'primaryBorderColor': '#29313A', 'lineColor': '#F5F2EA', 'secondaryColor': '#111720', 'tertiaryColor': '#29313A', 'edgeLabelBackground': '#070A0F'}}}%%
+flowchart LR
+    PlanValid["PLAN=VALID"] --> DodComplete["DOD=COMPLETE"]
+    DodComplete --> Verdict["VERDICT=DELEGATE<br/>TIER=1"]
+    Verdict --> Handoff["HANDOFF=<br/>TaskHandoff/v3"]
+    Handoff --> EvalPass["EVAL=PASS"]
+    EvalPass --> Accepted["ACCEPTED=1"]
+    
+    classDef default fill:#1a2028,stroke:#29313A,color:#F5F2EA
+    classDef valid fill:#1a2028,stroke:#F5F2EA,color:#F5F2EA
+    classDef verdict fill:#1a2028,stroke:#E4A51A,color:#E4A51A
+    classDef accepted fill:#E4A51A,stroke:#E4A51A,color:#070A0F,font-weight:bold
+    
+    class PlanValid,DodComplete valid
+    class Verdict verdict
+    class Handoff,EvalPass default
+    class Accepted accepted
