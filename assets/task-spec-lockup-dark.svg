@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="100" viewBox="0 0 400 100" role="img" aria-labelledby="lockup-dark-title">
+  <title id="lockup-dark-title">TASK-SPEC lockup (dark/black for light backgrounds)</title>
+  
+  <!-- Transparent background -->
+  <rect width="400" height="100" fill="none"/>
+  
+  <!-- Receipt Gate Mark -->
+  <g transform="translate(10, 15)">
+    <!-- Left gate post -->
+    <rect fill="#070A0F" x="0" y="0" width="8" height="70" rx="1"/>
+    
+    <!-- Receipt lines -->
+    <rect fill="#070A0F" x="16" y="14" width="36" height="7" rx="1"/>
+    <rect fill="#070A0F" x="16" y="31" width="28" height="7" rx="1"/>
+    <rect fill="#E4A51A" x="16" y="48" width="22" height="7" rx="1"/>
+    
+    <!-- Right gate post -->
+    <rect fill="#070A0F" x="60" y="0" width="8" height="70" rx="1"/>
+  </g>
+  
+  <!-- TASK-SPEC text -->
+  <text x="95" y="62" font-family="'JetBrains Mono', 'SF Mono', 'Menlo', 'Consolas', monospace" font-weight="700" font-size="36" letter-spacing="0.1em" fill="#070A0F">TASK<tspan fill="#E4A51A">-</tspan>SPEC</text>
+</svg>

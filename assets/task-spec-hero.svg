@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img">
+  <title>TASK-SPEC</title>
+  <desc>Receipt Gate brand lockup on Factory Black</desc>
+  <defs>
+    <style>
+      .gate-post { fill: #F5F2EA; }
+      .receipt-line { fill: #F5F2EA; }
+      .verdict-line { fill: #E4A51A; }
+    </style>
+  </defs>
+  <rect width="1280" height="640" fill="#070A0F"/>
+  <g transform="translate(280, 220)">
+    <rect class="gate-post" x="0" y="0" width="16" height="200" rx="2"/>
+    <rect class="receipt-line" x="36" y="40" width="100" height="14" rx="2"/>
+    <rect class="receipt-line" x="36" y="80" width="80" height="14" rx="2"/>
+    <rect class="verdict-line" x="36" y="120" width="60" height="14" rx="2"/>
+    <rect class="gate-post" x="156" y="0" width="16" height="200" rx="2"/>
+  </g>
+  <text x="500" y="340" font-family="monospace" font-size="72" font-weight="700" fill="#F5F2EA" letter-spacing="0.1em">TASK</text>
+  <text x="695" y="340" font-family="monospace" font-size="72" font-weight="700" fill="#E4A51A">-</text>
+  <text x="725" y="340" font-family="monospace" font-size="72" font-weight="700" fill="#F5F2EA" letter-spacing="0.1em">SPEC</text>
+  <text x="640" y="480" text-anchor="middle" font-family="monospace" font-size="18" fill="#F5F2EA" opacity="0.8" letter-spacing="0.2em">THE SELF-VERIFYING UNIT OF WORK</text>
+</svg>

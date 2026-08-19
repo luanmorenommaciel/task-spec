@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="icon-title icon-desc">
+  <title id="icon-title">TASK-SPEC Receipt Gate Icon</title>
+  <desc id="icon-desc">Receipt Gate mark: two gate posts framing a three-line receipt with the verdict line in Proof Gold.</desc>
+  
+  <!-- Factory Black background -->
+  <rect width="256" height="256" fill="#070A0F" rx="32"/>
+  
+  <!-- Receipt Gate Mark - centered -->
+  <g transform="translate(48, 48)">
+    <!-- Left gate post -->
+    <rect fill="#F5F2EA" x="0" y="0" width="20" height="160" rx="3"/>
+    
+    <!-- Receipt lines (3 lines) -->
+    <rect fill="#F5F2EA" x="40" y="32" width="80" height="16" rx="2"/>
+    <rect fill="#F5F2EA" x="40" y="72" width="64" height="16" rx="2"/>
+    <rect fill="#E4A51A" x="40" y="112" width="48" height="16" rx="2"/>
+    
+    <!-- Right gate post -->
+    <rect fill="#F5F2EA" x="140" y="0" width="20" height="160" rx="3"/>
+  </g>
+</svg>
