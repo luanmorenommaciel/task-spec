@@ -83,6 +83,8 @@ type Lease struct {
 	Branch             string `json:"-"`
 	Workspace          string `json:"-"`
 	AcceptanceRecord   string `json:"-"`
+	Model              string `json:"-"`
+	Provider           string `json:"-"`
 }
 
 type DispatchCandidate struct {

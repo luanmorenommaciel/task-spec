@@ -52,6 +52,50 @@ assert "not-an-adapter" not in {candidate["adapter"] for candidate in decision["
 assert all(candidate["adapter"] != "not-an-adapter" for candidate in decision["candidates"])
 PY
 
+mkdir -p "$REPO/tasks/.mesh"
+cp "$ROOT/tests/fixtures/mesh-roster.json" "$REPO/tasks/.mesh/roster.json"
+(
+  cd "$REPO"
+  TASKSPEC_MESH_HELPER="$HELPER" bash "$CLI" --json mesh explain --task T-20260816-alpha --adapter claude-native >"$TMP/roster-explain.json"
+)
+python3 - "$TMP/roster-explain.json" <<'PY'
+import json, pathlib, sys
+payload = json.loads(pathlib.Path(sys.argv[1]).read_text())["data"]["data"]
+route = payload["route"]
+assert payload["decision"]["selected"] == "claude-native"
+assert route["adapter"] == "claude-native"
+assert route["model"] == "claude-opus"
+assert route["source"] == "roster"
+assert route["effort"] == "S"
+PY
+(
+  cd "$REPO"
+  TASKSPEC_MESH_HELPER="$HELPER" bash "$CLI" --json mesh explain --task T-20260816-alpha --adapter claude-native --model flag-model >"$TMP/flag-explain.json"
+)
+python3 - "$TMP/flag-explain.json" <<'PY'
+import json, pathlib, sys
+route = json.loads(pathlib.Path(sys.argv[1]).read_text())["data"]["data"]["route"]
+assert route["model"] == "flag-model"
+assert route["source"] == "flag"
+PY
+printf '%s\n' '{"contract":"TaskMeshRoster/v1","require_named_model":true,"bands":{"XS":{"candidates":[{"adapter":"omp-rpc","model":"qwen2.5-coder"}]}}}' >"$REPO/tasks/.mesh/roster.json"
+set +e
+(
+  cd "$REPO"
+  TASKSPEC_MESH_HELPER="$HELPER" bash "$CLI" --json mesh explain --task T-20260816-alpha --adapter grok-native >"$TMP/empty-model.json"
+)
+empty_rc=$?
+set -e
+[[ "$empty_rc" -eq 1 ]]
+python3 - "$TMP/empty-model.json" <<'PY'
+import json, pathlib, sys
+value = json.loads(pathlib.Path(sys.argv[1]).read_text())
+assert value["ok"] is False or value["data"]["ok"] is False
+blob = json.dumps(value)
+assert "EMPTY_MODEL" in blob
+PY
+cp "$ROOT/tests/fixtures/mesh-roster.json" "$REPO/tasks/.mesh/roster.json"
+
 (
   cd "$REPO"
   TASKSPEC_MESH_HELPER="$HELPER" bash "$CLI" --json mesh run --task T-20260816-alpha --adapter codex-native >"$TMP/alpha-run.json"

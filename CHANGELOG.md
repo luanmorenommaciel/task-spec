@@ -15,6 +15,15 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ## [Unreleased]
 
+### Added
+
+- TaskMesh reads an optional `TaskMeshRoster/v1` file (`tasks/.mesh/roster.json`
+  or `.taskspec/mesh-roster.json`, override `TASKSPEC_MESH_ROSTER`) and selects
+  a named model by effort band and optional kind. `--model` still wins.
+- Roster `require_named_model: true` fails closed with `EMPTY_MODEL` instead of
+  sending OMP an empty model string.
+- Supervised adapter invocation now forwards `--model` when a route has one.
+
 ### Documentation
 
 - Documented the `harness/` and `release/` inclusion rules.

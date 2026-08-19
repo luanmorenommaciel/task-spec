@@ -27,12 +27,14 @@ Repository:
   frontier [--json]
 
 Runs:
-  run --task <id> [--adapter <name>] [--mode supervised|autonomous] [--execute]
+  run --task <id> [--adapter <name>] [--mode supervised|autonomous] [--model <id>] [--execute]
   run --frontier [--max-parallel <n>] [--mode supervised|autonomous] [--execute]
     autonomous requires --provider <id> --model <id> and verified sandbox setup
+    supervised may take --model; otherwise tasks/.mesh/roster.json names one
   status [<run-or-attempt>] [--json]
   watch <run> [--after <sequence>]
   explain --task <id>
+    prints adapter + named model from flags or the effort/kind roster
   cancel <attempt>
   resume <run-or-attempt> [--execute]
   accept <attempt> --supervised-by <identity> --reason <text>

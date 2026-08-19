@@ -190,7 +190,7 @@ func (store *Store) ExecuteAttempt(parent context.Context, attemptID string) err
 	timeout := executionTimeout()
 	ctx, cancel := context.WithTimeout(parent, timeout)
 	defer cancel()
-	executable, arguments, err := adapterCommand(definition, lease.Workspace, prompt, timeout)
+	executable, arguments, err := adapterCommand(definition, lease.Workspace, prompt, timeout, lease.Model, lease.Provider)
 	if err != nil {
 		return err
 	}

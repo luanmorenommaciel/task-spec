@@ -103,6 +103,7 @@ contract = {
         "taskmesh_view": "spec/schemas/taskmesh-view.schema.json",
         "sandbox_evidence": "spec/schemas/sandbox-evidence.schema.json",
         "credential_lease": "spec/schemas/credential-lease.schema.json",
+        "taskmesh_roster": "spec/schemas/taskmesh-roster.schema.json",
     },
     "credentials": "TaskHandoff and AgentContext never contain credentials; provider and model credentials remain external to core.",
     "taskmesh": {

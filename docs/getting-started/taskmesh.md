@@ -34,6 +34,56 @@ taskspec mesh explain --task T-…
 `frontier` is a runtime view of the canonical `TaskGraphView/v1`. Harnesses and
 models are runtime candidates, never graph nodes.
 
+## Name the model (roster)
+
+TaskMesh used to pick an adapter and leave `model` empty. OMP then used
+whatever default sat on the Pi. That is a bug. A repository may now declare
+ordered candidates by effort, with optional kind overrides:
+
+```json
+{
+  "contract": "TaskMeshRoster/v1",
+  "require_named_model": true,
+  "bands": {
+    "XS": {
+      "candidates": [
+        {"adapter": "omp-rpc", "model": "qwen2.5-coder", "provider": "omp"}
+      ]
+    },
+    "S": {
+      "candidates": [
+        {"adapter": "grok-native", "model": "grok-4.6"},
+        {"adapter": "omp-rpc", "model": "qwen2.5-coder", "provider": "omp"}
+      ]
+    },
+    "M": {
+      "candidates": [
+        {"adapter": "codex-native", "model": "gpt-5.4"},
+        {"adapter": "claude-native", "model": "claude-opus"}
+      ]
+    },
+    "L": {
+      "candidates": [
+        {"adapter": "claude-native", "model": "claude-opus"},
+        {"adapter": "codex-native", "model": "gpt-5.4"}
+      ]
+    }
+  },
+  "kinds": {
+    "design": {"prefer": ["claude-native", "grok-native"]},
+    "mechanical": {"prefer": ["omp-rpc", "grok-native"]},
+    "git": {"prefer": ["codex-native"]}
+  }
+}
+```
+
+Write that file as `tasks/.mesh/roster.json`. `taskspec mesh explain --task T-…`
+prints the selected `route.model`. `--model` on the CLI still wins. A roster
+with `require_named_model: true` refuses an empty model instead of calling OMP
+with a blank. Kind is read from the task's `kind:` field or from a `tags:`
+value of `design`, `mechanical`, or `git`. Roster mode is a preference among
+adapters; it does not silently promote a supervised run to autonomous.
+
 ## Run one supervised leaf
 
 ```bash
