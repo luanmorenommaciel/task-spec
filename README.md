@@ -242,8 +242,6 @@ Everything below happens inside the repository you want to change. The first
 task should be XS or S and supervised. Calibrate eval quality before increasing
 autonomy.
 
-![Eight explicit steps from an empty repository to one independently accepted atomic task](assets/task-spec-step-by-step.svg)
-
 ![Eight explicit steps from an empty repository to one independently accepted atomic task](assets/task-spec-step-by-step.png)
 
 ### 1. Prepare the repository
@@ -474,28 +472,6 @@ Executed proof: `tests/test-v36-experience.sh` (agent-context) and
 From a source checkout, `make check` is the single local and normal-CI
 boundary. It ends with `CHECK=READY` only when doctor, documentation lint,
 every self-test, the isolated demo, and conformance are green.
-
-## Visual identity
-
-TASK-SPEC uses the **Receipt Gate** mark: two gate posts (PRE / POST) framing a
-compact three-line receipt. The last line is Proof Gold `#E4A51A`, the verdict.
-The hyphen in TASK-SPEC is always Proof Gold. The 16:9 social lockup is `assets/task-spec-og.png`.
-
-![TASK-SPEC Receipt Gate icon](assets/task-spec-icon.png)
-![TASK-SPEC lockup for dark backgrounds](assets/task-spec-lockup-light.png)
-![TASK-SPEC lockup for light backgrounds](assets/task-spec-lockup-dark.png)
-
-| Token | Hex | Usage |
-|---|---|---|
-| Factory Black | `#070A0F` | Primary background |
-| Carbon | `#111720` | Card backgrounds |
-| Graphite | `#29313A` | Borders, dividers |
-| Proof Ivory | `#F5F2EA` | Primary text, gate posts, receipt lines |
-| Proof Gold | `#E4A51A` | Verdict line and hyphen accent only |
-| Clean White | `#FFFFFF` | High-contrast text |
-
-Never use Forge Gold, Register Blue, Gate Ember, Ion Violet, or Keep Rose as
-product accents.
 
 ## Contributing
 
