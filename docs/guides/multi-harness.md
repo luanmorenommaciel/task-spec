@@ -29,3 +29,8 @@ taskspec handoff tasks/T-…-leaf.md --backend claude --out claude.json
 Only one resulting attempt should be accepted. Task-Spec does not schedule,
 race, merge, or choose among those attempts; that orchestration belongs to a
 harness or Converge.
+
+TaskMesh may still pick a **named model** for a leased attempt. Put
+`tasks/.mesh/roster.json` (`TaskMeshRoster/v1`) in the repository so effort
+bands and optional kinds choose adapter + model out of the box. See
+[TaskMesh](../getting-started/taskmesh.md#name-the-model-roster).

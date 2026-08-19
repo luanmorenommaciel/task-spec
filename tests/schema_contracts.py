@@ -278,6 +278,10 @@ def main() -> int:
         "issued_at": now, "expires_at": "2026-08-16T18:05:00Z", "state": "issued",
         "broker_ref": None,
     }, "credential-lease.schema.json")
+    validate_instance(
+        load(ROOT / "tests" / "fixtures" / "mesh-roster.json"),
+        "taskmesh-roster.schema.json",
+    )
     validate_instance({
         "contract": "AcceptanceRecord/v1",
         "subject": {"task_id": "T-20260603-stamp-then-verify", "task_revision_digest": digest, "authorization_ref": "hmac-sha256-v3:12345678:" + "b" * 64, "attempt_id": "11111111-1111-4111-8111-111111111111", "base_commit": "c" * 40},

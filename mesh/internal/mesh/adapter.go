@@ -128,17 +128,32 @@ func ProbeAdapter(definition AdapterDefinition) AdapterProbe {
 	return probe
 }
 
-func adapterCommand(definition AdapterDefinition, workspace, prompt string, timeout time.Duration) (string, []string, error) {
+func adapterCommand(definition AdapterDefinition, workspace, prompt string, timeout time.Duration, model, provider string) (string, []string, error) {
 	executable, err := exec.LookPath(definition.Executable)
 	if err != nil {
 		return "", nil, err
 	}
-	arguments := make([]string, 0, len(definition.Command))
+	arguments := make([]string, 0, len(definition.Command)+4)
+	hasModel, hasProvider := false, false
 	for _, argument := range definition.Command {
+		if argument == "--model" || argument == "{model}" {
+			hasModel = true
+		}
+		if argument == "--provider" || argument == "{provider}" {
+			hasProvider = true
+		}
 		argument = strings.ReplaceAll(argument, "{workspace}", workspace)
 		argument = strings.ReplaceAll(argument, "{timeout}", fmt.Sprintf("%ds", int(timeout.Seconds())))
 		argument = strings.ReplaceAll(argument, "{prompt}", prompt)
+		argument = strings.ReplaceAll(argument, "{model}", model)
+		argument = strings.ReplaceAll(argument, "{provider}", provider)
 		arguments = append(arguments, argument)
+	}
+	if model != "" && !hasModel {
+		arguments = append(arguments, "--model", model)
+	}
+	if provider != "" && !hasProvider && definition.Harness != "omp" {
+		arguments = append(arguments, "--provider", provider)
 	}
 	return executable, arguments, nil
 }

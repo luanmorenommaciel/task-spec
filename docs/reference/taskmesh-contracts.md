@@ -30,6 +30,7 @@ write authority.
 | `TaskMeshView/v1` | rebuildable cockpit projection over runs, attempts, leases, routes, and events |
 | `SandboxEvidence/v1` | attempt-bound projection of the host `EnvironmentAttestation/v1` |
 | `CredentialLease/v1` | provider/model/scopes and expiry metadata; never the capability secret |
+| `TaskMeshRoster/v1` | optional repo file of effort-band adapter/model candidates; never credentials |
 
 TaskMesh reuses `TaskGraphView/v1`, `TaskHandoff/v3`, receipt v2 contracts,
 `AcceptanceRecord/v1`, `AcceptanceFailure/v1`, and

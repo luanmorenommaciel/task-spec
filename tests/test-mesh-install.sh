@@ -23,8 +23,9 @@ HOME="$WORK/core-home" TASKSPEC_INSTALL_ROOT="$WORK/core-install" \
   bash "$ROOT/install.sh" --target "$WORK/core-project" --bin-dir "$WORK/core-bin" >"$WORK/core.log"
 grep -q '^INSTALL=OK$' "$WORK/core.log"
 [[ ! -e "$WORK/core-bin/taskspec-meshd" ]]
+ISOLATED_PATH="$(python3 -c 'import os,shutil; p=os.environ["PATH"].split(":"); d=os.path.dirname(shutil.which("taskspec-meshd") or ""); print(":".join(x for x in p if x and x!=d))')"
 set +e
-(cd "$WORK/core-project" && "$WORK/core-bin/taskspec" mesh doctor >"$WORK/core-mesh.out" 2>"$WORK/core-mesh.err")
+(cd "$WORK/core-project" && PATH="$ISOLATED_PATH" "$WORK/core-bin/taskspec" mesh doctor >"$WORK/core-mesh.out" 2>"$WORK/core-mesh.err")
 core_rc=$?
 set -e
 [[ "$core_rc" -eq 3 ]]

@@ -106,6 +106,7 @@ func OpenStore(repository Repository) (*Store, error) {
 		{"events", "run_id TEXT"}, {"events", "attempt_id TEXT"}, {"events", "fencing_token INTEGER"},
 		{"runs", "integration_workspace TEXT"}, {"runs", "finished_at TEXT"}, {"leases", "adapter TEXT"}, {"leases", "branch TEXT"},
 		{"leases", "workspace TEXT"}, {"leases", "decision_json TEXT"}, {"leases", "acceptance_record TEXT"},
+		{"leases", "model TEXT"}, {"leases", "provider TEXT"},
 	} {
 		if _, err := database.Exec("ALTER TABLE " + migration.table + " ADD COLUMN " + migration.column); err != nil && !strings.Contains(err.Error(), "duplicate column") {
 			database.Close()
@@ -222,7 +223,7 @@ func (store *Store) execute(transaction *sql.Tx, request CommandRequest) Command
 		if !ok {
 			return failure("TASK_NOT_ELIGIBLE", "explain requires an authorized ready leaf")
 		}
-		response = explainRoute(task, request.Arguments)
+		response = explainRoute(store.repository, task, request.Arguments)
 	case "heartbeat":
 		response = store.heartbeat(transaction, request)
 	case "submit":

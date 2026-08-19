@@ -1,0 +1,43 @@
+{
+  "contract": "TaskMeshRoster/v1",
+  "require_named_model": true,
+  "failover": "next_eligible",
+  "bands": {
+    "XS": {
+      "mode": "autonomous",
+      "candidates": [
+        {"adapter": "omp-rpc", "model": "deepseek-v4-flash", "provider": "omp"},
+        {"adapter": "grok-native", "model": "grok-4.6"}
+      ]
+    },
+    "S": {
+      "mode": "supervised",
+      "candidates": [
+        {"adapter": "grok-native", "model": "grok-4.6"},
+        {"adapter": "claude-native", "model": "claude-opus-5"},
+        {"adapter": "codex-native", "model": "gpt-5.6"},
+        {"adapter": "omp-rpc", "model": "deepseek-v4-pro", "provider": "omp"}
+      ]
+    },
+    "M": {
+      "mode": "supervised",
+      "candidates": [
+        {"adapter": "codex-native", "model": "gpt-5.6"},
+        {"adapter": "claude-native", "model": "claude-opus-5"},
+        {"adapter": "grok-native", "model": "grok-4.6"}
+      ]
+    },
+    "L": {
+      "mode": "supervised",
+      "candidates": [
+        {"adapter": "claude-native", "model": "claude-opus-5"},
+        {"adapter": "codex-native", "model": "gpt-5.6"}
+      ]
+    }
+  },
+  "kinds": {
+    "design": {"mode": "supervised", "prefer": ["claude-native", "grok-native"]},
+    "mechanical": {"mode": "autonomous", "prefer": ["omp-rpc", "grok-native"]},
+    "git": {"mode": "supervised", "prefer": ["codex-native"]}
+  }
+}

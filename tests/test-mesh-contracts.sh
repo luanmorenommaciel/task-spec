@@ -18,19 +18,21 @@ python3 "$ROOT/src/dispatch/agent-context.py" | python3 -c '
 import json, sys
 value = json.load(sys.stdin)
 assert "mesh" in value["commands"]
-for name in ("taskmesh_api", "taskmesh_run", "executor_capability", "dispatch_decision", "run_lease", "taskmesh_event", "taskmesh_view", "sandbox_evidence", "credential_lease"):
+for name in ("taskmesh_api", "taskmesh_run", "executor_capability", "dispatch_decision", "run_lease", "taskmesh_event", "taskmesh_view", "sandbox_evidence", "credential_lease", "taskmesh_roster"):
     assert name in value["contracts"]
 '
 
+# Hide a globally installed helper so this case is MESH_NOT_INSTALLED, not a live doctor.
+ISOLATED_PATH="$(python3 -c 'import os,shutil,sys; p=os.environ["PATH"].split(":"); d=os.path.dirname(shutil.which("taskspec-meshd") or ""); print(":".join(x for x in p if x and x!=d))')"
 set +e
-TASKSPEC_MESH_HELPER="$TMP/missing" bash "$CLI" mesh doctor >"$TMP/missing.out" 2>"$TMP/missing.err"
+PATH="$ISOLATED_PATH" TASKSPEC_MESH_HELPER="$TMP/missing" bash "$CLI" mesh doctor >"$TMP/missing.out" 2>"$TMP/missing.err"
 missing_rc=$?
 set -e
 [[ "$missing_rc" -eq 3 ]]
 grep -q 'MESH_NOT_INSTALLED' "$TMP/missing.err"
 
 set +e
-TASKSPEC_MESH_HELPER="$TMP/missing" bash "$CLI" --json mesh doctor >"$TMP/missing.json"
+PATH="$ISOLATED_PATH" TASKSPEC_MESH_HELPER="$TMP/missing" bash "$CLI" --json mesh doctor >"$TMP/missing.json"
 missing_json_rc=$?
 set -e
 [[ "$missing_json_rc" -eq 3 ]]

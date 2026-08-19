@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schema/taskmesh-roster.schema.json",
+  "title": "TaskMeshRoster/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "bands"],
+  "properties": {
+    "contract": {"const": "TaskMeshRoster/v1"},
+    "require_named_model": {"type": "boolean"},
+    "failover": {"type": "string", "enum": ["next_eligible", "fail"]},
+    "bands": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/band"}
+    },
+    "kinds": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/kind"}
+    }
+  },
+  "$defs": {
+    "band": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidates"],
+      "properties": {
+        "mode": {"enum": ["supervised", "autonomous"]},
+        "candidates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/candidate"}
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter", "model"],
+      "properties": {
+        "adapter": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "provider": {"type": "string", "minLength": 1}
+      }
+    },
+    "kind": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {"enum": ["supervised", "autonomous"]},
+        "prefer": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
