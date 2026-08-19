@@ -64,7 +64,7 @@ payload = json.loads(pathlib.Path(sys.argv[1]).read_text())["data"]["data"]
 route = payload["route"]
 assert payload["decision"]["selected"] == "claude-native"
 assert route["adapter"] == "claude-native"
-assert route["model"] == "claude-opus"
+assert route["model"] == "claude-opus-5"
 assert route["source"] == "roster"
 assert route["effort"] == "S"
 PY
@@ -78,7 +78,7 @@ route = json.loads(pathlib.Path(sys.argv[1]).read_text())["data"]["data"]["route
 assert route["model"] == "flag-model"
 assert route["source"] == "flag"
 PY
-printf '%s\n' '{"contract":"TaskMeshRoster/v1","require_named_model":true,"bands":{"XS":{"candidates":[{"adapter":"omp-rpc","model":"qwen2.5-coder"}]}}}' >"$REPO/tasks/.mesh/roster.json"
+printf '%s\n' '{"contract":"TaskMeshRoster/v1","require_named_model":true,"bands":{"XS":{"candidates":[{"adapter":"omp-rpc","model":"deepseek-v4-flash"}]}}}' >"$REPO/tasks/.mesh/roster.json"
 set +e
 (
   cd "$REPO"

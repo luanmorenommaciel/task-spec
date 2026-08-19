@@ -47,25 +47,25 @@ ordered candidates by effort, with optional kind overrides:
   "bands": {
     "XS": {
       "candidates": [
-        {"adapter": "omp-rpc", "model": "qwen2.5-coder", "provider": "omp"}
+        {"adapter": "omp-rpc", "model": "deepseek-v4-flash", "provider": "omp"}
       ]
     },
     "S": {
       "candidates": [
         {"adapter": "grok-native", "model": "grok-4.6"},
-        {"adapter": "omp-rpc", "model": "qwen2.5-coder", "provider": "omp"}
+        {"adapter": "omp-rpc", "model": "deepseek-v4-pro", "provider": "omp"}
       ]
     },
     "M": {
       "candidates": [
-        {"adapter": "codex-native", "model": "gpt-5.4"},
-        {"adapter": "claude-native", "model": "claude-opus"}
+        {"adapter": "codex-native", "model": "gpt-5.6"},
+        {"adapter": "claude-native", "model": "claude-opus-5"}
       ]
     },
     "L": {
       "candidates": [
-        {"adapter": "claude-native", "model": "claude-opus"},
-        {"adapter": "codex-native", "model": "gpt-5.4"}
+        {"adapter": "claude-native", "model": "claude-opus-5"},
+        {"adapter": "codex-native", "model": "gpt-5.6"}
       ]
     }
   },

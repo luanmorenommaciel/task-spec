@@ -30,15 +30,15 @@ func TestLoadRosterAndModelFor(t *testing.T) {
 	    "XS": {
 	      "mode": "autonomous",
 	      "candidates": [
-	        {"adapter": "omp-rpc", "model": "qwen2.5-coder", "provider": "omp"},
-	        {"adapter": "grok-native", "model": "grok-4.5"}
+	        {"adapter": "omp-rpc", "model": "deepseek-v4-flash", "provider": "omp"},
+	        {"adapter": "grok-native", "model": "grok-4.6"}
 	      ]
 	    },
 	    "S": {
 	      "mode": "supervised",
 	      "candidates": [
 	        {"adapter": "grok-native", "model": "grok-4.6"},
-	        {"adapter": "omp-rpc", "model": "qwen2.5-coder", "provider": "omp"}
+	        {"adapter": "omp-rpc", "model": "deepseek-v4-pro", "provider": "omp"}
 	      ]
 	    }
 	  },
@@ -57,7 +57,7 @@ func TestLoadRosterAndModelFor(t *testing.T) {
 		t.Fatal("expected require_named_model")
 	}
 	got, ok := roster.modelFor("omp-rpc", "XS", "")
-	if !ok || got.Model != "qwen2.5-coder" || got.Provider != "omp" {
+	if !ok || got.Model != "deepseek-v4-flash" || got.Provider != "omp" {
 		t.Fatalf("xs omp: %+v ok=%v", got, ok)
 	}
 	got, ok = roster.modelFor("grok-native", "S", "design")
