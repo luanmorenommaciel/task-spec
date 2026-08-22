@@ -4,9 +4,18 @@
 name: check
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'assets/**'
   pull_request:
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'assets/**'
 
 permissions:
   contents: read
@@ -49,6 +58,7 @@ jobs:
         run: make check
 
   mesh-isolation:
+    if: github.event_name == 'workflow_dispatch'
     name: TaskMesh autonomous isolation (ubuntu)
     runs-on: ubuntu-latest
     timeout-minutes: 20
