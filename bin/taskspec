@@ -10,6 +10,12 @@ while [[ -h "$_ts_source" ]]; do
 done
 TASKSPEC_HOME="$(cd -P "$(dirname "$_ts_source")/.." >/dev/null 2>&1 && pwd)"
 export TASKSPEC_HOME
+
+# Child python3 heredocs print arrows and dashes; a cp1252 Windows console
+# cannot encode them. Set here too, since the CLI dispatches some scripts that
+# do not source src/lib/_lib.sh.
+: "${PYTHONIOENCODING:=utf-8}"
+export PYTHONIOENCODING
 unset _ts_source _ts_dir
 
 _ts_usage() {
