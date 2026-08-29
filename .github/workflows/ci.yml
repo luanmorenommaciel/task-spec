@@ -58,7 +58,8 @@ jobs:
         run: make check
 
   mesh-isolation:
-    if: github.event_name == 'workflow_dispatch'
+    # Fail-closed 3.9 isolation proof. Must run on the same hosted path as
+    # `check`. Do not park this on workflow_dispatch again.
     name: TaskMesh autonomous isolation (ubuntu)
     runs-on: ubuntu-latest
     timeout-minutes: 20

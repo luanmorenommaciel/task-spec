@@ -442,6 +442,29 @@ MESH_INSTALL as READY. Missing runtime is UNAVAILABLE, never a pass.
 - Anyone wanting TaskMesh to widen scope, rewrite a signed leaf, or merge the user branch
 - Anyone needing a live nine-engine matrix badge (not claimed)
 
+## Verified status
+
+<!-- release-status:start -->
+| Surface | Repository evidence | Status |
+|---|---|---|
+| Evidence-derived score | Only digest-matching retained artifacts earn points | **97/100**; target 97; release gate passed |
+| Contract and trust | Revision-bound authorization, compatibility, and the explicit HMAC boundary | 24/25 |
+| Lifecycle and recovery | Nested workspaces, graph recovery, atomic acceptance, and replay resistance | 25/25 |
+| Documentation and DX | Installed reviewer route, executable docs, and generated status | 20/20 |
+| Harness and packaging | All installation doors plus frozen Codex and Claude execution | 10/10 |
+| Standards interoperability | Pinned official A2A and MCP SDK conformance | 9/10 |
+| Private distribution and external proof | Hosted CI, private signed provenance, authenticated installs, and externally signed sandbox evidence | 9/10 |
+| Publication | Task-Spec 3.8.1 at `351c39908ca0` | Published |
+| Deliberately unclaimed | Semantic truth, ecosystem-wide certification, and long-running production reliability | 3 points remain unavailable by design |
+<!-- release-status:end -->
+
+The canonical status sources are the fixed
+[quality rubric](release/quality-rubric.json), retained
+[release evidence](release/evidence.json), and generated
+[scorecard](release/3.8.1/scorecard.json). Missing, pending, unavailable, or
+digest-mismatched proof earns zero. `make release-audit` recalculates the score
+and fails until every blocking criterion is supported and the total reaches 97.
+
 ## Documentation
 
 | Start here | Best for |

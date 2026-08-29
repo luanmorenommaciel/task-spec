@@ -63,6 +63,13 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ### Fixed
 
+- The 19 Aug README rewrite dropped `<!-- release-status -->` markers, so
+  `make check` printed `RELEASE_STATUS=STALE missing markers` on every hosted
+  run. Restored the generated Verified status block. Evidence stays 3.8.1.
+- Hosted CI parked TaskMesh isolation on `workflow_dispatch` after #23, so the
+  3.9 isolation claim could skip on every push and PR. The `mesh-isolation` job
+  runs on the hosted check path again with `TASKSPEC_REQUIRE_MESH_ISOLATION=1`.
+  Missing Docker fails closed. It does not exit 0 as `UNAVAILABLE`.
 - `SECURITY.md` directed reporters to a maintainer email in `package.json` and
   `.claude-plugin/plugin.json`; neither carried one. Both now do.
 - Live spec and agent surfaces still named engine 3.8.1 as current after 3.9.0
