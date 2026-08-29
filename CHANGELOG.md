@@ -63,6 +63,9 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ### Fixed
 
+- The 19 Aug README rewrite dropped `<!-- release-status -->` markers, so
+  `make check` printed `RELEASE_STATUS=STALE missing markers` on every hosted
+  run. Restored the generated Verified status block. Evidence stays 3.8.1.
 - Hosted CI parked TaskMesh isolation on `workflow_dispatch` after #23, so the
   3.9 isolation claim could skip on every push and PR. The `mesh-isolation` job
   runs on the hosted check path again with `TASKSPEC_REQUIRE_MESH_ISOLATION=1`.
