@@ -1,0 +1,6 @@
+{
+  "verified": true,
+  "release_provenance_secret_configured": true,
+  "claim": "Secret name presence only; no secret value was read and signing validity is not established.",
+  "observed_at": "2026-09-14T23:02:38.993609+00:00"
+}

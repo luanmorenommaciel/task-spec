@@ -1,19 +1,20 @@
 {
   "contract": "TaskToolkitReleaseChecklist/v1",
   "version": "3.10.0",
-  "observed_at": "2026-09-14T22:56:57.216452+00:00",
-  "source_head": "76ff7b8880c95fd583f933c69b77c8d75ad041db",
-  "source_state": "uncommitted_candidate",
+  "observed_at": "2026-09-14T23:11:20.492658+00:00",
+  "source_head": "30a0d1ce3965312b43938fdb145eb29fc66cffc2",
+  "source_state": "committed_candidate",
   "release_qualified": false,
   "pending_areas": {
     "managed_autonomy": {
-      "state": "implemented_focused_tests_pass",
+      "state": "implemented_local_and_hosted_checks_passed",
       "proof": [
-        "qualification/attested-recipes.txt"
+        "qualification/attested-recipes.txt",
+        "qualification/committed-candidate-check.json",
+        "qualification/hosted.json"
       ],
       "remaining": [
-        "full make check on settled source",
-        "hosted isolation"
+        "canonical acceptance"
       ]
     },
     "chat_and_comparative_pilot": {
@@ -38,7 +39,7 @@
       "final_chat_qualified": false
     },
     "hosted_and_provider_qualification": {
-      "state": "real_issue_preflights_observed_hosted_pending",
+      "state": "hosted_platform_passed_provider_qualification_pending",
       "preflights": [
         {
           "harness": "claude",
@@ -56,21 +57,26 @@
         }
       ],
       "remaining": [
-        "hosted macOS and Linux checks",
         "full provider comparison and chat corpus"
       ],
       "installation_check": {
         "command": "bash tests/test-toolkit-install.sh",
         "result": "passed",
         "includes": "clean install, matching runtime/helper, installed guide links, stale runtime repair, and corruption refusal"
-      }
+      },
+      "hosted_progress": "qualification/hosted-progress.json",
+      "hosted_proof": "qualification/hosted.json"
     },
     "acceptance_and_cutover": {
       "state": "pending"
     }
   },
   "publication": {
-    "main_push": null,
+    "main_push": {
+      "command": "git push origin main",
+      "source_commit": "30a0d1ce3965312b43938fdb145eb29fc66cffc2",
+      "result": "pushed and remote main verified"
+    },
     "tag": null,
     "release_url": null,
     "source_archive": "artifacts/task-spec-3.10.0.tar.gz",
@@ -94,8 +100,10 @@
   "candidate_version": "3.10.0",
   "current_gate": {
     "command": "make check",
-    "state": "running_after_generated_guide_sync",
-    "previous_failure": "qualification/check-before-guide-sync.json",
+    "state": "passed",
+    "exit_code": 0,
+    "source_commit": "30a0d1ce3965312b43938fdb145eb29fc66cffc2",
+    "report": "qualification/committed-candidate-check.json",
     "final_release_gate": false
   },
   "authorization_audit": {

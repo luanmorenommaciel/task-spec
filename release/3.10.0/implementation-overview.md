@@ -5,7 +5,7 @@
 
 TaskSpec becomes the home for decomposition, atomic contracts, execution recipes, and acceptance. TaskMesh carries out authorized work. The CLI, installed skill, and read-only MCP views expose the same durable state across coding harnesses.
 
-**Current boundary:** this describes the release candidate. Implementation and local checks are present; comparative experiments, live chat qualification, hosted checks, final acceptance, and publication remain in progress. A passing local check is not release or deployment proof.
+**Current boundary:** this describes the release candidate on main. The complete local gate, hosted macOS and Linux gates, and hosted Docker isolation passed on commit `30a0d1c`. Comparative experiments, final live-chat qualification, canonical acceptance, and publication remain incomplete. See the [local gate](qualification/committed-candidate-check.json), [hosted results](qualification/hosted.json), and [release checklist](checklist.json).
 
 ```mermaid
 flowchart LR
@@ -165,18 +165,19 @@ See the [runtime findings and proof](qualification/runtime-defects.md).
 
 ## Next action
 
-Complete the registered comparisons and observed chat journeys, qualify the settled source on hosted platforms, finish canonical acceptance and migration evidence, and publish only after the release criteria pass.
+Authorize the prepared bounded retries, complete the registered comparisons and final chat journeys, finish canonical acceptance and migration evidence, and publish only after the remaining release criteria pass.
 
 <!-- briefspec:checkpoint:v1 mode=orient -->
 ## Session Checkpoint · Orient
 
 Headline: The integrated toolkit is implemented as a candidate and is undergoing qualification.
-Current state: Setup, synthetic graph journeys, fresh installation, and the prepared runtime fixes pass locally. The initial comparative cohort is interrupted and unqualified; release qualification is still open.
+Current state: The candidate is on main. The complete local gate, hosted macOS and Linux gates, and hosted Docker isolation pass. The comparative pilot and final chat corpus remain unqualified; the prepared retries await explicit authorization.
 
 Completed:
 
 - Native decomposition, atomic recipe contracts, managed execution, SDLC evidence paths, and shared product surfaces are present.
 - The comparative corpus and 72-run schedule are registered.
+- Local and hosted platform qualification passed on commit `30a0d1c`.
 
 Decisions:
 
@@ -185,7 +186,8 @@ Decisions:
 
 Proof:
 
-- [direct/pass] [Setup matrix](pilot/setup-matrix.json).
+- [direct/pass] [Local gate](qualification/committed-candidate-check.json).
+- [direct/pass] [Hosted gates and isolation](qualification/hosted.json).
 - [direct/info] [Registered schedule](pilot/schedule.json).
 - [direct/info] [Release checklist](checklist.json).
 
@@ -195,6 +197,6 @@ Next:
 
 Open:
 
-- Comparative results, live chat qualification, hosted checks, final acceptance, cutover, and publication.
+- Retry authorization, comparative results, final live chat qualification, canonical acceptance, cutover, and publication.
 <!-- /briefspec -->
 <!-- /brief-spec -->

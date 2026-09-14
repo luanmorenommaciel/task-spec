@@ -1,0 +1,274 @@
+{
+  "qualified": true,
+  "source_commit": "30a0d1ce3965312b43938fdb145eb29fc66cffc2",
+  "runs": [
+    {
+      "id": 34906651101,
+      "conclusion": "success",
+      "headSha": "30a0d1ce3965312b43938fdb145eb29fc66cffc2",
+      "jobs": [
+        {
+          "completedAt": "2026-09-14T23:09:15Z",
+          "conclusion": "success",
+          "databaseId": 104184790923,
+          "name": "make check (macos-latest)",
+          "startedAt": "2026-09-14T22:58:29Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-09-14T22:58:31Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-09-14T22:58:30Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:36Z",
+              "conclusion": "success",
+              "name": "Checkout",
+              "number": 2,
+              "startedAt": "2026-09-14T22:58:31Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:54Z",
+              "conclusion": "success",
+              "name": "Install pinned Go toolchain for optional TaskMesh",
+              "number": 3,
+              "startedAt": "2026-09-14T22:58:36Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:58Z",
+              "conclusion": "success",
+              "name": "Install macOS gate dependency",
+              "number": 4,
+              "startedAt": "2026-09-14T22:58:54Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:59:03Z",
+              "conclusion": "success",
+              "name": "Provision private locked decomposition runtime",
+              "number": 5,
+              "startedAt": "2026-09-14T22:58:58Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:59:10Z",
+              "conclusion": "success",
+              "name": "Install schema-fidelity consumer dependencies",
+              "number": 6,
+              "startedAt": "2026-09-14T22:59:03Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:09:01Z",
+              "conclusion": "success",
+              "name": "make check (includes isolated install-to-accept demo)",
+              "number": 7,
+              "startedAt": "2026-09-14T22:59:10Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:09:09Z",
+              "conclusion": "success",
+              "name": "Post Install pinned Go toolchain for optional TaskMesh",
+              "number": 13,
+              "startedAt": "2026-09-14T23:09:01Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:09:10Z",
+              "conclusion": "success",
+              "name": "Post Checkout",
+              "number": 14,
+              "startedAt": "2026-09-14T23:09:09Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:09:12Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "startedAt": "2026-09-14T23:09:10Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/34906651101/job/104184790923"
+        },
+        {
+          "completedAt": "2026-09-14T23:04:10Z",
+          "conclusion": "success",
+          "databaseId": 104184791016,
+          "name": "make check (ubuntu-latest)",
+          "startedAt": "2026-09-14T22:58:23Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-09-14T22:58:25Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-09-14T22:58:24Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:28Z",
+              "conclusion": "success",
+              "name": "Checkout",
+              "number": 2,
+              "startedAt": "2026-09-14T22:58:25Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:34Z",
+              "conclusion": "success",
+              "name": "Install pinned Go toolchain for optional TaskMesh",
+              "number": 3,
+              "startedAt": "2026-09-14T22:58:28Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:34Z",
+              "conclusion": "skipped",
+              "name": "Install macOS gate dependency",
+              "number": 4,
+              "startedAt": "2026-09-14T22:58:34Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:38Z",
+              "conclusion": "success",
+              "name": "Provision private locked decomposition runtime",
+              "number": 5,
+              "startedAt": "2026-09-14T22:58:34Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:43Z",
+              "conclusion": "success",
+              "name": "Install schema-fidelity consumer dependencies",
+              "number": 6,
+              "startedAt": "2026-09-14T22:58:38Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:04:07Z",
+              "conclusion": "success",
+              "name": "make check (includes isolated install-to-accept demo)",
+              "number": 7,
+              "startedAt": "2026-09-14T22:58:43Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:04:08Z",
+              "conclusion": "success",
+              "name": "Post Install pinned Go toolchain for optional TaskMesh",
+              "number": 13,
+              "startedAt": "2026-09-14T23:04:07Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:04:08Z",
+              "conclusion": "success",
+              "name": "Post Checkout",
+              "number": 14,
+              "startedAt": "2026-09-14T23:04:08Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:04:08Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 15,
+              "startedAt": "2026-09-14T23:04:08Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/34906651101/job/104184791016"
+        },
+        {
+          "completedAt": "2026-09-14T23:00:11Z",
+          "conclusion": "success",
+          "databaseId": 104184791221,
+          "name": "TaskMesh autonomous isolation (ubuntu)",
+          "startedAt": "2026-09-14T22:58:25Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-09-14T22:58:27Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-09-14T22:58:25Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:30Z",
+              "conclusion": "success",
+              "name": "Checkout",
+              "number": 2,
+              "startedAt": "2026-09-14T22:58:27Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T22:58:39Z",
+              "conclusion": "success",
+              "name": "Install pinned Go toolchain",
+              "number": 3,
+              "startedAt": "2026-09-14T22:58:30Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:00:05Z",
+              "conclusion": "success",
+              "name": "Require live Docker isolation proof",
+              "number": 4,
+              "startedAt": "2026-09-14T22:58:39Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:00:08Z",
+              "conclusion": "success",
+              "name": "Post Install pinned Go toolchain",
+              "number": 7,
+              "startedAt": "2026-09-14T23:00:05Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:00:09Z",
+              "conclusion": "success",
+              "name": "Post Checkout",
+              "number": 8,
+              "startedAt": "2026-09-14T23:00:08Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-09-14T23:00:09Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 9,
+              "startedAt": "2026-09-14T23:00:09Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/34906651101/job/104184791221"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/luanmorenommaciel/task-spec/actions/runs/34906651101"
+    }
+  ],
+  "superseded_runs": [
+    {
+      "id": 34906641099,
+      "event": "push",
+      "conclusion": "cancelled",
+      "reason": "Repository concurrency policy superseded the push run when the full workflow-dispatch qualification started."
+    }
+  ],
+  "claim": "All required hosted platform jobs passed. This does not qualify the comparative pilot or live chat corpus.",
+  "observed_at": "2026-09-14T23:11:20.492658+00:00"
+}
