@@ -1,0 +1,37 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "denied",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "review_method": "Read actual tool trace, CLI outputs, final answer and unchanged inventories.",
+  "passed": false,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "respect_denial"
+  ],
+  "claims_checked": [
+    "Read current CLI and artifact state; correctly reported unsealed tasks and their dependency chain.",
+    "No authorization, execution, acceptance or file mutation; respected the user denial."
+  ],
+  "failures": [
+    "Did not load the installed TaskSpec skill despite the fixture instruction; the trace cannot qualify skill activation for this journey."
+  ],
+  "limitations": [
+    "Task behavior passed, but installed-skill behavior remains unproven. The restricted profile did not advertise the project skill in its native skill inventory."
+  ],
+  "evidence_refs": [
+    {
+      "path": "runs/denied-claude-20260914T221011Z/harness.stdout",
+      "sha256": "d8063526f783cb5afb8f14f42bd6a6b70723e29757e4ddd7f8562015eec93aa2"
+    },
+    {
+      "path": "runs/denied-claude-20260914T221011Z/before.json",
+      "sha256": "326d677dfcdde8ea26f5904280b23e8bf5ce0ab5943ef240dfb0ff6210567a1a"
+    },
+    {
+      "path": "runs/denied-claude-20260914T221011Z/after.json",
+      "sha256": "326d677dfcdde8ea26f5904280b23e8bf5ce0ab5943ef240dfb0ff6210567a1a"
+    }
+  ]
+}

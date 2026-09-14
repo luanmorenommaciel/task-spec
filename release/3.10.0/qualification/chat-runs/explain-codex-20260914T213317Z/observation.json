@@ -1,0 +1,55 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "explain",
+  "harness": "codex",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/chat-runs/explain-codex-20260914T213317Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "db52975e8c44f4c027a7e022732198806064fe5049c1cfd91ef56ebe24a93fa5"
+    },
+    {
+      "path": "before.json",
+      "sha256": "db52975e8c44f4c027a7e022732198806064fe5049c1cfd91ef56ebe24a93fa5"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "f79849caf4f5b6898fa1e01a5c6a3b1bc1f4062a07da1ec25b2557f3a3cdba44"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "03e323b13b827d813cfca7f96c45bdfa6233463ad29afa6c15fef01e4a36d107"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "a365be74906d8c32e7935fa61ae9b300fcd842be85bd20d07c2ada8f1996a1fb"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "02ade50bc9065429945bfd70bee2164427f9d6e174072daf4c5b07ae88e20403"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "fb532c1e46a628e3541ce167062e6a05843ba40298f8ceaae8990f1372e74c3a"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "c73220d737f3e2b266ada1b2e1ea4eb39668e48bcb468f14db2e4fb8cf1b83e7"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "b392f9bb2626a1ad96a02c4c23facca5d535ea5b32311950c3109fe4316b60f3"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "15a41e922fa16a3d582066fa101c694841c99fe8b3b774456e6c513be7b0fd8e"
+    }
+  ]
+}

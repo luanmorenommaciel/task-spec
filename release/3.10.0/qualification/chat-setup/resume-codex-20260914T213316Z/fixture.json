@@ -1,0 +1,7 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat 8j7m8osv",
+  "case": "resume",
+  "source_commit": "fa18b1aa7c9ed6db7b2013dcb127557be5b682fb",
+  "installed_skill_sha256": "fbe3603df503c1b0372c615b285b5ff645a84c9a86e66f15a34a33242ab23e2e",
+  "engine_version": "3.10.0"
+}

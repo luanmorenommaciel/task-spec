@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schemas/task-plan-import.schema.json",
+  "title": "TaskPlanImport/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "source",
+    "recipe_sha256",
+    "review_required",
+    "source_files",
+    "original_ids_preserved"
+  ],
+  "properties": {
+    "contract": {
+      "const": "TaskPlanImport/v1"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recipe_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "review_required": {
+      "const": true
+    },
+    "source_files": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "original_ids_preserved": {
+      "const": true
+    }
+  }
+}

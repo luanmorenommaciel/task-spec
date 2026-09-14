@@ -1,0 +1,19 @@
+{
+  "complete": true,
+  "cost_including_failures": 0.645504,
+  "cost_basis": "api_equivalent_estimate",
+  "invocations": [
+    {
+      "path": "harness.stdout",
+      "known": true,
+      "tokens": {
+        "input_tokens": 209248,
+        "cached_input_tokens": 168064,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1312
+      },
+      "usd": 0.645504,
+      "basis": "api_equivalent_estimate"
+    }
+  ]
+}

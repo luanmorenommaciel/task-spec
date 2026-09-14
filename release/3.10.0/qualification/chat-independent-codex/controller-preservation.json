@@ -1,0 +1,12 @@
+{
+  "captured_after_start": true,
+  "matches_earlier_frozen_schedule": "/tmp/taskspec-chat-effects-observations/schedule.json",
+  "controllers": {
+    "tests/evals/toolkit/chat_schedule.py": "56c04e65d31a10d500195c6ca5570aadfcf7cc30fb04f73bf241b7aa1b19a519",
+    "tests/evals/toolkit/chat_run.py": "9d513995b8c705d1f69f59a1614abc4c6aac8a575a60e4ed018c16d456755106",
+    "tests/evals/toolkit/providers.py": "93683edf32efd31b88815727169ef338b42f9bf8899e8eaebf44349323b13972",
+    "tests/evals/toolkit/record.py": "209c3a253ca5195ee05c5dfeb3d814894ddb2b78a9bc3e7bb9d424e483b5e98d",
+    "tests/evals/toolkit/claude_permission_guard.py": "75affdbe548f9d214b9261ae4482ab473349b8b3cbd10b4e4a2ea7de808db8bb"
+  },
+  "scope": "Independent Codex resume and accepted-state fixtures; not retries of a denied action."
+}

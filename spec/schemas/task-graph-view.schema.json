@@ -32,7 +32,27 @@
         "task_revision_digest": {"$ref": "#/$defs/digest"},
         "depends_on": {"type": "array", "items": {"type": "string"}}, "blocks": {"type": "array", "items": {"type": "string"}},
         "children": {"type": "array", "items": {"type": "string"}}, "supersedes": {"type": ["string", "null"]},
-        "write_surface": {"$ref": "#/$defs/writeSurface"}
+        "write_surface": {"$ref": "#/$defs/writeSurface"},
+        "shared_resources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sdlc_stages": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "plan",
+              "design",
+              "build",
+              "test",
+              "deploy",
+              "maintain"
+            ]
+          }
+        }
       }
     },
     "edge": {"type": "object", "additionalProperties": false, "required": ["type", "from", "to"], "properties": {"type": {"enum": ["depends_on", "contains", "supersedes"]}, "from": {"type": "string"}, "to": {"type": "string"}}},

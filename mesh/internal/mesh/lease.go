@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os/exec"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -71,18 +72,45 @@ func (store *Store) startRun(transaction *sql.Tx, request CommandRequest) Comman
 		}
 	}
 	selected := []FrontierTask{}
+	initiative := option(request.Arguments, "--initiative", "")
+	allowed := map[string]bool{}
+	if initiative != "" {
+		if hasOption(request.Arguments, "--task") || hasOption(request.Arguments, "--frontier") {
+			return failure("MESH_USAGE", "--initiative cannot be combined with --task or --frontier")
+		}
+		cli, cliErr := taskSpecCLI(store.repository)
+		if cliErr != nil {
+			return failure("INITIATIVE_INVALID", cliErr.Error())
+		}
+		cmd := exec.Command("python3", filepath.Join(filepath.Dir(filepath.Dir(cli)), "src", "cli", "initiative.py"), store.repository.Root, initiative)
+		cmd.Dir = store.repository.Root
+		raw, loadErr := cmd.Output()
+		var ids []string
+		if loadErr != nil || json.Unmarshal(raw, &ids) != nil {
+			return failure("INITIATIVE_INVALID", "native initiative bundle is missing, stale, or unauthenticated; inspect taskspec decompose status")
+		}
+		for _, id := range ids {
+			allowed[id] = true
+		}
+	}
 	if taskID := option(request.Arguments, "--task", ""); taskID != "" {
 		task, ok := frontier.Eligible(taskID)
 		if !ok {
 			return failure("TASK_NOT_ELIGIBLE", "task is not an authorized ready leaf")
 		}
 		selected = append(selected, task)
-	} else if hasOption(request.Arguments, "--frontier") {
-		if len(frontier.ConcurrencyGroups) > 0 {
-			for _, taskID := range frontier.ConcurrencyGroups[0] {
+	} else if hasOption(request.Arguments, "--frontier") || initiative != "" {
+		for _, group := range frontier.ConcurrencyGroups {
+			for _, taskID := range group {
+				if initiative != "" && !allowed[taskID] {
+					continue
+				}
 				if task, ok := frontier.Eligible(taskID); ok && len(selected) < maxParallel {
 					selected = append(selected, task)
 				}
+			}
+			if len(selected) > 0 {
+				break
 			}
 		}
 	} else {
@@ -170,6 +198,9 @@ func (store *Store) acquireLease(transaction *sql.Tx, requestID, runID string, t
 	if err != sql.ErrNoRows {
 		return Lease{}, err
 	}
+	if err := checkLeaseClaims(transaction, task); err != nil {
+		return Lease{}, err
+	}
 	var token int64
 	if err := transaction.QueryRow(
 		"INSERT INTO lease_fences(task_revision_digest, token) VALUES (?, 1) ON CONFLICT(task_revision_digest) DO UPDATE SET token = token + 1 RETURNING token",
@@ -190,6 +221,14 @@ func (store *Store) acquireLease(transaction *sql.Tx, requestID, runID string, t
 		lease.IssuedAt, lease.ExpiresAt, lease.HeartbeatAt, lease.State,
 	); err != nil {
 		return Lease{}, err
+	}
+	claims := map[string][]string{"marker": {"v1"}, "path": task.ClaimedPaths, "resource": task.ClaimedResources}
+	for kind, values := range claims {
+		for _, value := range values {
+			if _, err := transaction.Exec("INSERT OR IGNORE INTO lease_claims(attempt_id,kind,value) VALUES (?,?,?)", lease.AttemptID, kind, value); err != nil {
+				return Lease{}, err
+			}
+		}
 	}
 	if err := appendRunEvent(transaction, requestID, runID, lease.AttemptID, token, "LEASE_ACQUIRED", map[string]any{"lease": lease}); err != nil {
 		return Lease{}, err
@@ -212,10 +251,14 @@ func (store *Store) heartbeat(transaction *sql.Tx, request CommandRequest) Comma
 	if attemptID == "" || err != nil {
 		return failure("MESH_USAGE", "heartbeat requires --attempt-id and --fencing-token")
 	}
+	ttl, err := integerOption(request.Arguments, "--lease-ttl", 300, 1, 86400)
+	if err != nil {
+		return failure("MESH_USAGE", err.Error())
+	}
 	now := time.Now().UTC()
 	result, err := transaction.Exec(
 		"UPDATE leases SET heartbeat_at = ?, expires_at = ? WHERE attempt_id = ? AND fencing_token = ? AND state IN ('leased','preparing','running','verifying','awaiting_supervision')",
-		now.Format(time.RFC3339Nano), now.Add(5*time.Minute).Format(time.RFC3339Nano), attemptID, token,
+		now.Format(time.RFC3339Nano), now.Add(time.Duration(ttl)*time.Second).Format(time.RFC3339Nano), attemptID, token,
 	)
 	if err != nil {
 		return failure("MESH_STATE_ERROR", err.Error())
@@ -438,4 +481,39 @@ func (store *Store) statusView(transaction *sql.Tx, request CommandRequest) Comm
 		}
 	}
 	return CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true, Code: "MESH_STATUS_READY", Message: "durable run view rebuilt from events", Data: map[string]any{"contract": "TaskMeshView/v1", "run": run, "attempts": leases, "latest_sequence": latestSequence(runEvents), "generated_at": NowUTC()}}
+}
+
+// Claims are bound when a lease is acquired, so later changes to the source
+// graph cannot shrink an active attempt's exclusion surface. Recovery uses the
+// existing lease state and fencing; this is not a second scheduler.
+func checkLeaseClaims(transaction *sql.Tx, task FrontierTask) error {
+	var unknown int
+	if err := transaction.QueryRow(`SELECT count(*) FROM leases l WHERE l.state IN ('leased','preparing','running','verifying','awaiting_supervision') AND NOT EXISTS (SELECT 1 FROM lease_claims c WHERE c.attempt_id=l.attempt_id AND c.kind='marker')`).Scan(&unknown); err != nil {
+		return err
+	}
+	if unknown > 0 {
+		return fmt.Errorf("LEASE_SCOPE_UNAVAILABLE: settle or cancel active pre-upgrade leases before new work")
+	}
+	rows, err := transaction.Query(`SELECT c.kind,c.value,c.attempt_id FROM lease_claims c JOIN leases l ON l.attempt_id=c.attempt_id WHERE l.state IN ('leased','preparing','running','verifying','awaiting_supervision')`)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var kind, value, attempt string
+		if err := rows.Scan(&kind, &value, &attempt); err != nil {
+			return err
+		}
+		if kind == "resource" && contains(task.ClaimedResources, value) {
+			return fmt.Errorf("RESOURCE_LEASE_CONFLICT: %s held by %s", value, attempt)
+		}
+		if kind == "path" {
+			for _, path := range task.ClaimedPaths {
+				if scopeContains(path, []string{value}) || scopeContains(value, []string{path}) {
+					return fmt.Errorf("WRITE_LEASE_CONFLICT: %s held by %s", value, attempt)
+				}
+			}
+		}
+	}
+	return rows.Err()
 }

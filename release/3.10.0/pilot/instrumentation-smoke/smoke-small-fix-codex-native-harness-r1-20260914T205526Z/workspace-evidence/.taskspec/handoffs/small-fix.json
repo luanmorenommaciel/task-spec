@@ -1,0 +1,101 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260914-pilot-small-fix",
+  "format_version": 3,
+  "spec": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-i9nad7or/task-spec-3.9.0/tasks/T-20260914-pilot-small-fix.md",
+  "spec_digest": "sha256:5a5ffff0c442a52afe197f946989293d5e75706c38e05a9d81994a189202fc25",
+  "task_revision_digest": "sha256:ba6630980ea058272b9bef6c4f0e70bf9dc6eae1924a7f5e3fed5ef179d76fb4",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-i9nad7or/task-spec-3.9.0",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:d96ca067:fadaea0438c7aad71b34d91510f60bbcd45015aa88b91762d64ac37d5dde8d54",
+    "tier": 1,
+    "signed_by": "pilot-controller",
+    "signed_at": "2026-09-14T20:55:33Z"
+  },
+  "attempt": {
+    "id": "354152a4-7a9e-4d06-9bdd-073a7b76e645",
+    "issued_at": "2026-09-14T20:55:35Z"
+  },
+  "source": {
+    "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-i9nad7or/task-spec-3.9.0",
+    "base_commit": "788aed6a213228237c7884ebdca781fc14d2dea6"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260914-pilot-small-fix",
+    "digest": "sha256:576a645ff53d56b4b054a336bbd4df032fa1c75144f966c8c727b019d5233206",
+    "members": [
+      {
+        "task_id": "T-20260914-pilot-small-fix",
+        "task_revision_digest": "sha256:ba6630980ea058272b9bef6c4f0e70bf9dc6eae1924a7f5e3fed5ef179d76fb4"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "src/recipe/recipes.py"
+    ],
+    "creates_paths": [],
+    "do_not_touch": [
+      "tests/fixtures/toolkit/pilot-issue.json",
+      "tasks"
+    ]
+  },
+  "budgets": {
+    "iterations": 15,
+    "tokens": null,
+    "effort": "S"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code",
+      "tests"
+    ],
+    "required_tools": [
+      "git",
+      "bash",
+      "python3"
+    ],
+    "timeout_minutes": 10,
+    "sandbox_type": "host",
+    "output_artifacts": [],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-i9nad7or/task-spec-3.9.0/tasks/T-20260914-pilot-small-fix.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-i9nad7or/task-spec-3.9.0/tasks/T-20260914-pilot-small-fix.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}

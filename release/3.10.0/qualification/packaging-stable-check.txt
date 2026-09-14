@@ -1,0 +1,68 @@
++ set -euo pipefail
++++ dirname tests/test-release-packaging.sh
+++ cd tests/..
+++ pwd
++ ROOT=/Users/luanmorenomaciel/GitHub/task-spec
+++ tr -d '[:space:]'
++ VERSION=3.10.0
+++ mktemp -d /tmp/taskspec-release-package.XXXXXX
++ WORK=/tmp/taskspec-release-package.eGHfH2
++ trap 'rm -rf "$WORK"' EXIT
+++ git -C /Users/luanmorenomaciel/GitHub/task-spec show -s --format=%ct HEAD
++ EPOCH=1787396139
++ bash /Users/luanmorenomaciel/GitHub/task-spec/tests/lint-skill-docs.sh
++ [[ 0 == 1 ]]
++ mkdir -p /tmp/taskspec-release-package.eGHfH2/one /tmp/taskspec-release-package.eGHfH2/two
++ SOURCE_DATE_EPOCH=1787396139
++ python3 /Users/luanmorenomaciel/GitHub/task-spec/tools/build-release-archive.py --out-dir /tmp/taskspec-release-package.eGHfH2/one
++ SOURCE_DATE_EPOCH=1787396139
++ python3 /Users/luanmorenomaciel/GitHub/task-spec/tools/build-release-archive.py --out-dir /tmp/taskspec-release-package.eGHfH2/two
++ cmp -s /tmp/taskspec-release-package.eGHfH2/one/task-spec-3.10.0.tar.gz /tmp/taskspec-release-package.eGHfH2/two/task-spec-3.10.0.tar.gz
++ cmp -s /tmp/taskspec-release-package.eGHfH2/one/task-spec-3.10.0.tar.gz.sha256 /tmp/taskspec-release-package.eGHfH2/two/task-spec-3.10.0.tar.gz.sha256
++ tar -tzf /tmp/taskspec-release-package.eGHfH2/one/task-spec-3.10.0.tar.gz
++ grep -q '^task-spec-3.10.0/assets/taskspec-banner.png$' /tmp/taskspec-release-package.eGHfH2/archive-files.txt
++ grep -q '^task-spec-3.10.0/bin/taskspec$' /tmp/taskspec-release-package.eGHfH2/archive-files.txt
++ grep -q '^task-spec-3.10.0/mesh/cmd/taskspec-meshd/main.go$' /tmp/taskspec-release-package.eGHfH2/archive-files.txt
++ grep -q '^task-spec-3.10.0/mesh/internal/mesh/daemon.go$' /tmp/taskspec-release-package.eGHfH2/archive-files.txt
++ grep -q '^task-spec-3.10.0/harness/mesh-adapters/omp-rpc.json$' /tmp/taskspec-release-package.eGHfH2/archive-files.txt
++ grep -q '^task-spec-3.10.0/release/mesh/image.lock$' /tmp/taskspec-release-package.eGHfH2/archive-files.txt
++ grep -qE '^task-spec-3.10.0/(release/[0-9]|evidence|tasks)/' /tmp/taskspec-release-package.eGHfH2/archive-files.txt
++ python3 /Users/luanmorenomaciel/GitHub/task-spec/tools/build-sbom.py --archive /tmp/taskspec-release-package.eGHfH2/one/task-spec-3.10.0.tar.gz --epoch 1787396139 --out /tmp/taskspec-release-package.eGHfH2/one/sbom.json
++ python3 /Users/luanmorenomaciel/GitHub/task-spec/tools/build-sbom.py --archive /tmp/taskspec-release-package.eGHfH2/two/task-spec-3.10.0.tar.gz --epoch 1787396139 --out /tmp/taskspec-release-package.eGHfH2/two/sbom.json
++ cmp -s /tmp/taskspec-release-package.eGHfH2/one/sbom.json /tmp/taskspec-release-package.eGHfH2/two/sbom.json
++ python3 - /tmp/taskspec-release-package.eGHfH2/one/sbom.json 3.10.0
++ SOURCE_DATE_EPOCH=1787396139
++ python3 /Users/luanmorenomaciel/GitHub/task-spec/tools/build-release-evidence-archive.py --out-dir /tmp/taskspec-release-package.eGHfH2/one
++ SOURCE_DATE_EPOCH=1787396139
++ python3 /Users/luanmorenomaciel/GitHub/task-spec/tools/build-release-evidence-archive.py --out-dir /tmp/taskspec-release-package.eGHfH2/two
++ cmp -s /tmp/taskspec-release-package.eGHfH2/one/task-spec-3.10.0-evidence.tar.gz /tmp/taskspec-release-package.eGHfH2/two/task-spec-3.10.0-evidence.tar.gz
++ tar -tzf /tmp/taskspec-release-package.eGHfH2/one/task-spec-3.10.0-evidence.tar.gz
++ grep -q 'release/evidence.json$' /tmp/taskspec-release-package.eGHfH2/evidence-files.txt
++ grep -q 'release/3.10.0/mesh-release-evidence.json$' /tmp/taskspec-release-package.eGHfH2/evidence-files.txt
++ grep -q 'release/3.10.0/mesh-conformance.json$' /tmp/taskspec-release-package.eGHfH2/evidence-files.txt
++ for retained in mesh-release-evidence.json mesh-conformance.json reviewer-report.json
++ test -s /Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/mesh-release-evidence.json
++ for retained in mesh-release-evidence.json mesh-conformance.json reviewer-report.json
++ test -s /Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/mesh-conformance.json
++ for retained in mesh-release-evidence.json mesh-conformance.json reviewer-report.json
++ test -s /Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/reviewer-report.json
++ python3 - /Users/luanmorenomaciel/GitHub/task-spec 3.10.0
+++ uname -s
+++ tr '[:upper:]' '[:lower:]'
++ host_os=darwin
+++ uname -m
++ host_arch=arm64
++ case "$host_arch" in
++ host_arch=arm64
++ python3 /Users/luanmorenomaciel/GitHub/task-spec/tools/build-mesh-release.py --out-dir /tmp/taskspec-release-package.eGHfH2/one/mesh --target darwin/arm64
++ python3 /Users/luanmorenomaciel/GitHub/task-spec/tools/build-mesh-release.py --out-dir /tmp/taskspec-release-package.eGHfH2/two/mesh --target darwin/arm64
++ cmp -s /tmp/taskspec-release-package.eGHfH2/one/mesh/taskspec-meshd-darwin-arm64 /tmp/taskspec-release-package.eGHfH2/two/mesh/taskspec-meshd-darwin-arm64
++ cmp -s /tmp/taskspec-release-package.eGHfH2/one/mesh/taskspec-meshd-darwin-arm64.sha256 /tmp/taskspec-release-package.eGHfH2/two/mesh/taskspec-meshd-darwin-arm64.sha256
++ python3 - /Users/luanmorenomaciel/GitHub/task-spec/.github/workflows/release-install-smoke.yml
++ command -v npm
++ cd /Users/luanmorenomaciel/GitHub/task-spec
++ npm pack --dry-run --json
++ python3 - /tmp/taskspec-release-package.eGHfH2/npm-pack.json
++ echo RELEASE_PACKAGING=READY
+RELEASE_PACKAGING=READY
++ rm -rf /tmp/taskspec-release-package.eGHfH2

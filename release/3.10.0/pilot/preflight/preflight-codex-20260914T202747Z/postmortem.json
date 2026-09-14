@@ -1,0 +1,8 @@
+{
+  "observed_at": "2026-09-14T20:30:45.554259+00:00",
+  "cause": "Controller initialized .taskspec/config after the initial snapshot commit and omitted it from the authorization-base commit.",
+  "candidate_evaluator": "passed",
+  "acceptance": "correctly refused BLAST_RADIUS for .taskspec/config",
+  "correction": "Future preflights commit controller-created configuration before generating the handoff. Preserve this failed preflight; do not count it as comparative success.",
+  "patch_sha256": "0f7a6d8f3dfae6f944fbe3596394051192e8058e1dd2a8bdce399d7a7f3289c6"
+}

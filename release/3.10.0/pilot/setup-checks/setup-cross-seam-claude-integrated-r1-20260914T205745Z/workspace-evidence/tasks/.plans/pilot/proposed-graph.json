@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "status": "TASK_GRAPH=READY",
+  "plan_sha256": "689b470185ef45891a31512ee538cf3a9d44fbfaf8f1e67996dcc4cfdd8d7d70",
+  "nodes": [
+    {
+      "id": "T-20260914-pilot-overview-route",
+      "title": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes",
+      "seam_id": "SEAM-OVERVIEW-ROUTE",
+      "swimlane_id": "LANE-OVERVIEW-ROUTE",
+      "leg_id": "LEG-OVERVIEW-ROUTE",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.",
+      "touches_paths": [
+        "src/cli/guide.py"
+      ],
+      "creates_paths": []
+    },
+    {
+      "id": "T-20260914-pilot-overview-skill",
+      "title": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state",
+      "seam_id": "SEAM-OVERVIEW-SKILL",
+      "swimlane_id": "LANE-OVERVIEW-SKILL",
+      "leg_id": "LEG-OVERVIEW-SKILL",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.",
+      "touches_paths": [
+        "SKILL.md",
+        "skills/task-spec/SKILL.md"
+      ],
+      "creates_paths": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "T-20260914-pilot-overview-route",
+      "to": "T-20260914-pilot-overview-skill",
+      "kind": "depends_on"
+    }
+  ],
+  "contentions": [],
+  "critical_path": [
+    "T-20260914-pilot-overview-route",
+    "T-20260914-pilot-overview-skill"
+  ],
+  "critical_path_mermaid_sha256": "e81a99aa31fbafe1a34ac6b51c4f9884b08cf9668faf0579c0e65ab7866289da"
+}

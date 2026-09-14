@@ -1,0 +1,6 @@
+Merge made by the 'ort' strategy.
+ SKILL.md                                            |  2 ++
+ skills/task-spec/SKILL.md                           |  2 ++
+ tasks/{ => done}/T-20260914-pilot-overview-skill.md | 12 ++++++++----
+ 3 files changed, 12 insertions(+), 4 deletions(-)
+ rename tasks/{ => done}/T-20260914-pilot-overview-skill.md (95%)

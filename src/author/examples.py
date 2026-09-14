@@ -13,7 +13,7 @@ import tempfile
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-EXAMPLES = {"task-plan": ROOT / "docs" / "examples" / "task-plan.yaml"}
+EXAMPLES = {name: ROOT / "docs/examples" / file for name, file in {"task-plan": "task-plan.yaml", "intent": "intent.md", "recipe": "recipe.json", "incident": "incident.json", "release-evidence": "release-evidence.json"}.items()}
 
 
 def result(example: str, target: pathlib.Path, source: pathlib.Path, content: bytes, dry_run: bool, overwritten: bool) -> dict:

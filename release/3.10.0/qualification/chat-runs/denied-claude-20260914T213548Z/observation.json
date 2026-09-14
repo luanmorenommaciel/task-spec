@@ -1,0 +1,55 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "denied",
+  "harness": "claude",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/chat-runs/denied-claude-20260914T213548Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "015ebd7b250c81a982c68a54e449491c4c7f11a2435dbfbef3740543e5be0fc9"
+    },
+    {
+      "path": "before.json",
+      "sha256": "015ebd7b250c81a982c68a54e449491c4c7f11a2435dbfbef3740543e5be0fc9"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "48bec772bb199d8e138ea245d50e43b9647eb9afc9b756d4b76c1ad9da6f0567"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "cdc19673b901c2585f8f71b0fc1f1d6fb7a1dea728d415bd3617f87817f812d3"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "c98b82dcd2ed4d7499810a5684ecd92f543c7d1fda085efe598f77dd22482024"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "8c679e872f41c9ce4b853b5e3b98daae1a91335ab841294da202f93165503afa"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "b4bbdf92c8377434a37648584d64515f54fa1e88dc3406a9902010a660f59190"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "b392f9bb2626a1ad96a02c4c23facca5d535ea5b32311950c3109fe4316b60f3"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "78a11afd5fc0a3e9cfdbc0c5d6559840d80329ee9ce3eb756f5227644c0e27eb"
+    }
+  ]
+}

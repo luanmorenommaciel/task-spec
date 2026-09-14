@@ -1,0 +1,10 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "run",
+  "ok": true,
+  "exit_code": 0,
+  "data": null,
+  "stdout": "[pass] eval_1 (2s)\n  {\"contract\": \"TaskPilotIssueEvaluation/v1\", \"scenario\": \"small-fix\", \"passed\": true}\n[pass] eval_2 (0s)\n  {\"contract\": \"TaskPilotIssueEvaluation/v1\", \"scenario\": \"write-boundary\", \"passed\": true}\n[pass] eval_3 (1s)\n  {\"contract\": \"TaskPilotIssueEvaluation/v1\", \"scenario\": \"source-integrity\", \"passed\": true}\nExit Check: pass (2s)\n  {\"contract\": \"TaskPilotIssueEvaluation/v1\", \"scenario\": \"small-fix\", \"passed\": true}\n  {\"contract\": \"TaskPilotIssueEvaluation/v1\", \"scenario\": \"write-boundary\", \"passed\": true}\n  {\"contract\": \"TaskPilotIssueEvaluation/v1\", \"scenario\": \"source-integrity\", \"passed\": true}\n",
+  "stderr": ""
+}

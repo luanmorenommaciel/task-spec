@@ -1,0 +1,18 @@
+{
+  "accepted": true,
+  "kind": "verification_only_after_controller_setup_repair",
+  "comparative_qualified": false,
+  "provider_invocations": 0,
+  "candidate_from": "preflight-codex-20260914T202747Z",
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 9.263160167,
+    "accepted_capability_seconds": 9.263160167,
+    "censored": false,
+    "intervention_count": 0,
+    "source_events": [
+      "dcfe5f54f43ecc457e928a5a3eafa4685c8887aa3aa6863fb9d1c16b5e792ca9",
+      "4d6e49b292e56fe466c74da4d2b2990500548c2b655970ce0fffa4620e9b922e"
+    ]
+  }
+}

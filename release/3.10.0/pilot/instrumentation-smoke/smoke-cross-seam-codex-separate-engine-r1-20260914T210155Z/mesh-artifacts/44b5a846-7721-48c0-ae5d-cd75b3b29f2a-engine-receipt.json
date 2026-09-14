@@ -1,0 +1,35 @@
+{
+  "acceptance_verdict": "accepted",
+  "adapter_version": "pilot-overview/1",
+  "artifacts": [
+    {
+      "digest": "sha256:07655dd807e7a01a0515144ab9092155f9f4b0fa4a26a10057f4374d10f2d131",
+      "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-grehz6_3/task-spec-3.9.0/.taskspec/mesh/artifacts/44b5a846-7721-48c0-ae5d-cd75b3b29f2a.json"
+    },
+    {
+      "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-grehz6_3/task-spec-3.9.0/.taskspec/acceptance/T-20260914-pilot-overview-route/44b5a846-7721-48c0-ae5d-cd75b3b29f2a.json"
+    }
+  ],
+  "attempts": 1,
+  "contract": "EngineRunReceipt/v2",
+  "deviations": [
+    "supervised host worktree; not a security sandbox"
+  ],
+  "engine_version": "pilot-overview/1",
+  "environment_digest": "sha256:07655dd807e7a01a0515144ab9092155f9f4b0fa4a26a10057f4374d10f2d131",
+  "finished_at": "2026-09-14T21:02:36.479094Z",
+  "handoff_digest": "sha256:9abf9cbbf7a891abdfe0612c3036baee805a9930c290df0ef24d17b615c49a11",
+  "model_id": "adapter-selected",
+  "observed_at": "2026-09-14T21:02:36.479094Z",
+  "provider": "codex",
+  "run_id": "4175f7e9-a915-4e8c-99f4-d821a192cbe7",
+  "started_at": "2026-09-14T21:02:36.424835Z",
+  "subject": {
+    "attempt_id": "44b5a846-7721-48c0-ae5d-cd75b3b29f2a",
+    "authorization_ref": "hmac-sha256-v3:607e9815:9f9923c3c42bbc90ed2f446ab6d22ba6f8ddf54e46736a7ee33c040d11582abb",
+    "base_commit": "aababf4870a08841ba7ed491e260ec6bd20fa104",
+    "task_id": "T-20260914-pilot-overview-route",
+    "task_revision_digest": "sha256:59b71680f275c189b0b93925776910785a60968700842bb1822c154d07a80b08"
+  },
+  "terminal_outcome": "accepted"
+}

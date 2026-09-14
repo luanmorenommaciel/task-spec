@@ -1,0 +1,31 @@
+{
+  "contract": "TaskPlanLineage/v1",
+  "engine_version": "3.9.0",
+  "intent": {
+    "id": "DI-CONFORMANCE",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "delivery_plan_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "review": {
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "plan_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "reviewer": "schema-fixture",
+    "reviewed_at": "2026-09-14T00:00:00Z",
+    "fixture": true
+  },
+  "task_plan": {
+    "contract": "TaskPlan/v1",
+    "path": "tasks/.plans/conformance/task-plan.json",
+    "digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "units": {
+    "T-20260914-conformance": {
+      "unit_id": "T-20260914-conformance",
+      "intent": "DI-CONFORMANCE",
+      "seam": "SEAM-CONFORMANCE",
+      "swimlane": "LANE-CONFORMANCE",
+      "leg": "LEG-CONFORMANCE",
+      "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  }
+}

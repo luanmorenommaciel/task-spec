@@ -1,0 +1,14 @@
+{
+  "adapter": "pilot-smoke",
+  "adapter_version": "pilot-smoke/1",
+  "attempt_id": "fce59fe6-ab72-4e5a-a235-1dade4b2dfa6",
+  "contract": "TaskMeshAdapterArtifact/v1",
+  "fencing_token": 1,
+  "finished_at": "2026-09-14T20:58:29.576671Z",
+  "output": "",
+  "started_at": "2026-09-14T20:58:29.54818Z",
+  "task_id": "T-20260914-pilot-small-fix",
+  "task_revision_digest": "sha256:f616f953c2a09d1e24c8612e537fa01dccae61be751f930c0526d0eb7cc7a8b1",
+  "terminal_outcome": "success",
+  "truncated": false
+}

@@ -2,7 +2,7 @@
 # test-repo-organization-e2e.sh — walk the organized repository as a user would.
 #
 # test-repo-layout.sh is the directory-shape contract. This script is the
-# working-state walkthrough: empty live backlog, parked composition nodes,
+# working-state walkthrough: declared live backlog, parked composition nodes,
 # receipt pairing, doctor, isolated demo, and a clean graph. It runs against
 # THIS checkout, then against the disposable demo repo.
 set -euo pipefail
@@ -159,22 +159,32 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# 8. Graph is clean and the frontier is empty
+# 8. Graph is clean and runnable rows belong to the declared live backlog
 # ---------------------------------------------------------------------------
 check
 GRAPH_OUT="$(bash bin/taskspec graph --check 2>&1)" || true
 READY_OUT="$(bash bin/taskspec ready --all 2>&1)" || true
 GRAPH_BAD=""
 grep -q 'issues=0' <<<"$GRAPH_OUT" || GRAPH_BAD="$GRAPH_BAD issues"
-grep -q 'ready=0' <<<"$GRAPH_OUT" || GRAPH_BAD="$GRAPH_BAD ready"
-# ready --all prints a header even when empty; a live id would be T-YYYYMMDD-…
-if grep -qE '^T-[0-9]{8}-' <<<"$READY_OUT"; then
-  GRAPH_BAD="$GRAPH_BAD ready-table"
+if [[ -z "$LIVE" ]]; then
+  grep -q 'ready=0' <<<"$GRAPH_OUT" || GRAPH_BAD="$GRAPH_BAD ready"
+  if grep -qE '^T-[0-9]{8}-' <<<"$READY_OUT"; then
+    GRAPH_BAD="$GRAPH_BAD ready-table"
+  fi
+else
+  # Open implementation work must remain visible until canonical acceptance.
+  # A ready row may not resurrect a parked or historical done task.
+  while IFS= read -r id; do
+    [[ -n "$id" ]] || continue
+    if [[ ! -f "tasks/$id.md" ]] || [[ "$(frontmatter_field "tasks/$id.md" status)" != ready ]]; then
+      GRAPH_BAD="$GRAPH_BAD unexpected-ready:$id"
+    fi
+  done < <(printf '%s\n' "$READY_OUT" | awk '/^T-[0-9]/ {print $1}')
 fi
 if [[ -z "$GRAPH_BAD" ]]; then
-  ok "graph --check is clean and ready --all is empty"
+  ok "graph --check is clean and ready rows agree with the live backlog"
 else
-  fail "graph/ready is not a closed backlog:$GRAPH_BAD"
+  fail "graph/ready disagrees with the declared live backlog:$GRAPH_BAD"
   printf '%s\n' "$GRAPH_OUT" "$READY_OUT" | sed 's/^/    /' >&2
 fi
 

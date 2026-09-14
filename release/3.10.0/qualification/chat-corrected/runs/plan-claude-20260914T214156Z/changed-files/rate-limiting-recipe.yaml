@@ -1,0 +1,833 @@
+schema_version: 1
+
+intent:
+  id: RATE-LIMIT
+  title: Organization-scoped request rate limiting steel thread
+  summary: >-
+    Deliver the four-step rate-limiting steel thread: a versioned policy schema that
+    rejects invalid limits and windows, resolution to exactly one effective policy per
+    organization, denial of request 101 after 100 allowed requests in the same window,
+    and a stable denial reason with matching decision telemetry. Provider-owned usage
+    metering stays outside this boundary and production storage and deployment
+    infrastructure are not selected here.
+  claim: proposed
+  source:
+    uri: tests/fixtures/toolkit/blueprint.md
+    captured_at: "2026-09-14T21:43:14Z"
+    sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445
+  success:
+    - A versioned policy document with a non-positive limit or a non-positive window is rejected by schema validation with a field-identified error.
+    - Policy resolution returns exactly one effective policy for an organization, or a single explicit unresolved result, never an ambiguous set.
+    - After 100 allowed requests inside one window, request 101 for the same organization is denied.
+    - Every denial returns the same stable machine-readable reason and emits one decision telemetry record whose fields match the returned decision.
+  out_of_scope:
+    - Provider-owned usage metering, including any reimplementation, mirroring, or reconciliation of provider usage counts.
+    - Selection or provisioning of production counter storage.
+    - Deployment infrastructure, rollout sequencing, and environment configuration.
+    - Per-endpoint or per-user limit tiers beyond the organization scope of the steel thread.
+
+system_map:
+  claim: derived
+  components:
+    - Policy schema and validator for versioned rate-limit policy documents.
+    - Policy resolver that selects one effective policy for an organization.
+    - Window counter behind an injectable store interface.
+    - Limit gate that turns effective policy plus window count into an allow or deny decision.
+    - Decision reason contract and decision telemetry emitter.
+  external_dependencies:
+    - Provider-owned usage metering, read-only context and explicitly not modified by this work.
+  unknowns: []
+
+evidence:
+  - id: EV-STEEL-THREAD
+    claim: proposed
+    source:
+      uri: tests/fixtures/toolkit/blueprint.md
+      captured_at: "2026-09-14T21:43:14Z"
+      sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445
+    confidence: 0.9
+    summary: >-
+      The blueprint states the four ordered steel-thread steps: schema rejection of
+      invalid limits and windows, exactly one effective policy per organization,
+      denial of request 101 after 100 allowed in the same window, and a stable denial
+      reason with matching decision telemetry.
+  - id: EV-SCOPE-BOUNDARY
+    claim: proposed
+    source:
+      uri: tests/fixtures/toolkit/blueprint.md
+      captured_at: "2026-09-14T21:43:14Z"
+      sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445
+    confidence: 0.9
+    summary: >-
+      The blueprint places provider-owned usage metering out of scope and states that
+      production storage and deployment infrastructure are not selected here. It also
+      declares itself fixture input rather than documentation of shipped behavior, so
+      it evidences intended scope, not current code.
+  - id: EV-REPO-STATE
+    claim: current
+    source:
+      uri: .taskspec/config
+      captured_at: "2026-09-14T21:43:14Z"
+      sha256: 240ec604e0515a458ff6feddb3812f38642e0cdb5b89a9f5ae62bc72a13b3708
+    confidence: 1
+    summary: >-
+      The repository contains only TaskSpec configuration, the installed skill, and the
+      fixture. There is no limiter implementation, test suite, or storage layer to
+      extend, so every leaf below creates its surface rather than modifying one.
+
+decisions:
+  - id: DEC-METERING-BOUNDARY
+    status: accepted
+    owner: provider
+    rationale: >-
+      Usage metering remains provider-owned and out of scope per the blueprint. The
+      limiter reads no provider usage counts and writes none; its decisions are derived
+      only from its own effective policy and window counter.
+  - id: DEC-COUNTER-STORE
+    status: proposed
+    owner: unassigned
+    rationale: >-
+      Because production storage is not selected here, the window counter is defined as
+      an injectable store interface with an in-process implementation used for proof.
+      Selecting a distributed store is separate work and would require renewed review.
+  - id: DEC-DENIAL-REASON
+    status: proposed
+    owner: unassigned
+    rationale: >-
+      The single stable machine-readable denial reason constant is authored as
+      rate_limit_exceeded so telemetry and callers can match on one value. It is part
+      of the limiter's public contract and changing it requires renewed review.
+  - id: DEC-WORK-OWNER
+    status: proposed
+    owner: unassigned
+    rationale: >-
+      The intake names an owner only for usage metering, which it assigns to the
+      provider and excludes. No responsible owner is stated for the limiter work, so
+      every swimlane below carries an unresolved owner pending that decision.
+  - id: DEC-MODULE-LAYOUT
+    status: proposed
+    owner: unassigned
+    rationale: >-
+      The repository holds no implementation source, so this recipe proposes the
+      src/ratelimit modules and tests/ratelimit suite, exercised with python3 and
+      pytest. The layout is authored here rather than observed, and a different stack
+      would change every leaf's paths and eval commands.
+
+seams:
+  - id: SEAM-POLICY
+    name: Policy definition and validation
+    description: >-
+      Owns what a rate-limit policy is: a versioned document with an organization scope,
+      a request limit, and a window, and the validation that rejects limits and windows
+      that cannot be enforced.
+    evidence:
+      - EV-STEEL-THREAD
+      - EV-REPO-STATE
+    responsibility: Decide whether a policy document is well-formed and enforceable before anything depends on it.
+    consumes:
+      - authored policy document
+    produces:
+      - validated versioned policy record
+      - field-identified validation error
+    owner: unassigned pending DEC-WORK-OWNER
+    independent_proof: >-
+      Validation accepts a well-formed policy and rejects non-positive limits, non-positive
+      windows, and unknown schema versions with no resolver, counter, or gate present.
+    decision_ids:
+      - DEC-METERING-BOUNDARY
+    rejected_alternatives:
+      - alternative: Validate limits and windows inline at enforcement time.
+        reason: >-
+          An invalid policy would already be in effect before rejection, and the failure
+          would surface as a runtime decision error rather than a rejected configuration.
+      - alternative: Accept unversioned policy documents and infer the shape.
+        reason: >-
+          Inference makes later policy changes unreviewable and removes the explicit
+          rejection of unknown versions that step one of the steel thread requires.
+    swimlane:
+      id: LANE-POLICY
+      name: Policy contract
+      owner: unassigned pending DEC-WORK-OWNER
+      legs:
+        - id: LEG-POLICY-VALIDATION
+          observable_state: A versioned policy document is accepted or rejected with a field-identified reason.
+          proof: Unit tests over valid and invalid policy documents, run without any other limiter component.
+          requires: []
+          produces:
+            - validated versioned policy record
+          tasks:
+            - id: T-20260914-policy-schema
+              title: Define and validate the versioned rate-limit policy schema
+              goal: >-
+                Introduce RateLimitPolicy/v1 with organization scope, request limit, and window
+                duration, plus a validator that rejects invalid limits and windows.
+              done_condition: >-
+                A policy with a positive integer limit, a positive window, and a known schema
+                version validates; non-positive limits, non-positive or missing windows, and
+                unknown schema versions are rejected with the offending field named.
+              effort: M
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - python3
+                - pytest
+              depends_on: []
+              touches_paths: []
+              creates_paths:
+                - src/ratelimit/policy.py
+                - tests/ratelimit/test_policy_schema.py
+              behavior:
+                - id: B-1
+                  given: A policy document declaring schema version 1, an organization, a limit of 100, and a 60 second window.
+                  when: The validator runs.
+                  then: Validation succeeds and returns a policy record carrying the declared limit and window.
+                - id: B-2
+                  given: A policy document with a limit of 0 or a window of 0 seconds.
+                  when: The validator runs.
+                  then: Validation fails and the error names the offending field without raising an unhandled exception.
+              evals:
+                - id: eval_1
+                  description: A well-formed versioned policy validates and preserves its limit and window.
+                  bash: python3 -m pytest tests/ratelimit/test_policy_schema.py -k valid_policy -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Non-positive limits and windows are rejected with the offending field named.
+                  bash: python3 -m pytest tests/ratelimit/test_policy_schema.py -k invalid_limit_or_window -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: An unknown schema version is rejected rather than coerced.
+                  bash: python3 -m pytest tests/ratelimit/test_policy_schema.py -k unknown_version -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Clamping an invalid limit or window to a default instead of rejecting it.
+                  reason: Silent coercion hides misconfiguration and contradicts step one of the steel thread.
+                  instead: Return a validation error that names the offending field.
+                - action: Reading provider usage counters to decide whether a policy is sensible.
+                  reason: Usage metering is provider-owned and outside this boundary.
+                  instead: Validate the document against the schema alone.
+                - action: Adding resolution or enforcement logic to the policy module.
+                  reason: It collapses two later legs into this one and destroys independent proof.
+                  instead: Keep this leaf to schema and validation only.
+              do_not_touch:
+                - Any provider usage metering client, contract, or configuration.
+                - tests/fixtures/toolkit/blueprint.md
+              rollback: Delete the created policy module and its test file; nothing else depends on them yet.
+              observability: Validation errors carry the field name and the rejected value.
+              execution_recipe: test-first
+              sdlc_stages:
+                - design
+                - build
+                - test
+
+  - id: SEAM-RESOLUTION
+    name: Effective policy resolution
+    description: >-
+      Owns the mapping from an organization to exactly one effective policy, including the
+      precedence rule that makes the result unambiguous when several policies could apply.
+    evidence:
+      - EV-STEEL-THREAD
+    responsibility: Produce one effective policy for an organization, or one explicit unresolved result.
+    consumes:
+      - validated versioned policy record
+      - organization identifier
+    produces:
+      - effective policy for an organization
+      - explicit unresolved result
+    owner: unassigned pending DEC-WORK-OWNER
+    independent_proof: >-
+      Given a set of validated policies and an organization, resolution returns a single
+      policy or a single unresolved result, proven without any counter or gate.
+    decision_ids:
+      - DEC-METERING-BOUNDARY
+    rejected_alternatives:
+      - alternative: Return the list of matching policies and let the caller pick.
+        reason: >-
+          Ambiguity moves into every caller and the steel thread's exactly-one guarantee
+          becomes unprovable at this seam.
+      - alternative: Merge overlapping policies field by field.
+        reason: >-
+          A merged policy is traceable to no authored document, which makes a denial
+          impossible to explain from configuration.
+    swimlane:
+      id: LANE-RESOLUTION
+      name: Resolution
+      owner: unassigned pending DEC-WORK-OWNER
+      legs:
+        - id: LEG-POLICY-RESOLUTION
+          observable_state: An organization identifier maps to exactly one effective policy or one unresolved result.
+          proof: Unit tests over overlapping, exact, and absent policy sets.
+          requires:
+            - validated versioned policy record
+          produces:
+            - effective policy for an organization
+          tasks:
+            - id: T-20260914-policy-resolution
+              title: Resolve exactly one effective policy per organization
+              goal: >-
+                Implement deterministic resolution from an organization identifier and a set of
+                validated policies to a single effective policy, with an explicit precedence rule.
+              done_condition: >-
+                Resolution returns one effective policy for an organization with a matching policy,
+                one explicit unresolved result when none matches, and the same single policy on
+                repeated calls when several policies overlap.
+              effort: M
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - python3
+                - pytest
+              depends_on:
+                - T-20260914-policy-schema
+              touches_paths: []
+              creates_paths:
+                - src/ratelimit/resolution.py
+                - tests/ratelimit/test_resolution.py
+              behavior:
+                - id: B-1
+                  given: Validated policies where exactly one names the requesting organization.
+                  when: Resolution runs for that organization.
+                  then: That policy is returned as the single effective policy.
+                - id: B-2
+                  given: Validated policies where an organization-specific policy and a default policy both apply.
+                  when: Resolution runs for that organization.
+                  then: The organization-specific policy wins by the declared precedence rule and the result is stable across repeated calls.
+              evals:
+                - id: eval_1
+                  description: A single matching policy resolves to itself.
+                  bash: python3 -m pytest tests/ratelimit/test_resolution.py -k single_match -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Overlapping policies resolve deterministically by precedence.
+                  bash: python3 -m pytest tests/ratelimit/test_resolution.py -k precedence -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: No matching policy yields one explicit unresolved result rather than an empty or ambiguous set.
+                  bash: python3 -m pytest tests/ratelimit/test_resolution.py -k unresolved -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Returning a list of candidate policies.
+                  reason: The exactly-one guarantee is the entire outcome of this leg.
+                  instead: Return one effective policy or one explicit unresolved result.
+                - action: Falling back to a hardcoded default limit when nothing matches.
+                  reason: A silent default makes later denials untraceable to any authored policy.
+                  instead: Return the unresolved result and let the caller decide.
+                - action: Consulting provider usage metering to break ties.
+                  reason: Usage metering is provider-owned and outside this boundary.
+                  instead: Break ties with the declared precedence rule over authored policies.
+              do_not_touch:
+                - Any provider usage metering client, contract, or configuration.
+                - src/ratelimit/policy.py schema definitions, which are sealed by the prior leaf.
+              rollback: Delete the resolution module and its tests; the policy schema leaf remains independently proven.
+              observability: The resolved result records which policy identifier won and by which precedence rule.
+              execution_recipe: test-first
+              sdlc_stages:
+                - design
+                - build
+                - test
+
+  - id: SEAM-ENFORCEMENT
+    name: Window counting and limit enforcement
+    description: >-
+      Owns counting requests inside a window behind an injectable store and turning the
+      effective policy plus that count into an allow or deny decision at the declared limit.
+    evidence:
+      - EV-STEEL-THREAD
+      - EV-SCOPE-BOUNDARY
+    responsibility: Decide allow or deny for a request against the effective policy and the current window count.
+    consumes:
+      - effective policy for an organization
+      - request arrival
+    produces:
+      - allow or deny decision
+      - window count for the organization
+    owner: unassigned pending DEC-WORK-OWNER
+    independent_proof: >-
+      With a fixed clock and an in-process store, 100 requests are allowed and request 101
+      in the same window is denied, proven without telemetry or transport.
+    decision_ids:
+      - DEC-METERING-BOUNDARY
+    rejected_alternatives:
+      - alternative: Select a distributed counter store now and enforce against it.
+        reason: >-
+          Production storage is explicitly not selected in this scope; committing to one
+          here would bind the steel thread to infrastructure that has not been reviewed.
+      - alternative: Derive the request count from provider usage metering.
+        reason: >-
+          Usage metering is provider-owned and out of scope, and its counts answer a
+          billing question rather than the limiter's per-window enforcement question.
+    swimlane:
+      id: LANE-ENFORCEMENT
+      name: Enforcement
+      owner: unassigned pending DEC-WORK-OWNER
+      legs:
+        - id: LEG-LIMIT-ENFORCEMENT
+          observable_state: Request 101 is denied after 100 allowed requests in the same window for the same organization.
+          proof: Deterministic tests with a fixed clock and an in-process store covering the boundary and the window roll.
+          requires:
+            - effective policy for an organization
+          produces:
+            - allow or deny decision
+          tasks:
+            - id: T-20260914-window-counter
+              title: Define the window counter behind an injectable store interface
+              goal: >-
+                Provide a counter that increments and reads per-organization request counts for
+                the current window, behind a store interface with an in-process implementation.
+              done_condition: >-
+                The counter returns the number of requests recorded for an organization in the
+                current window, starts a new window when the window elapses on the injected clock,
+                and depends on no concrete storage technology.
+              effort: M
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - python3
+                - pytest
+              depends_on:
+                - T-20260914-policy-resolution
+              touches_paths: []
+              creates_paths:
+                - src/ratelimit/counter.py
+                - tests/ratelimit/test_counter.py
+              behavior:
+                - id: B-1
+                  given: An in-process store and a fixed clock inside one window.
+                  when: Requests are recorded for an organization.
+                  then: The counter reports the exact number recorded for that organization and zero for any other.
+                - id: B-2
+                  given: A recorded count and a clock advanced past the window duration.
+                  when: The count is read again.
+                  then: The count for the new window starts at zero.
+              evals:
+                - id: eval_1
+                  description: Counts are exact and isolated per organization inside one window.
+                  bash: python3 -m pytest tests/ratelimit/test_counter.py -k counts_per_organization -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Advancing the clock past the window resets the count.
+                  bash: python3 -m pytest tests/ratelimit/test_counter.py -k window_roll -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: The counter is constructed with an injected store and clock and imports no storage client.
+                  bash: python3 -m pytest tests/ratelimit/test_counter.py -k injectable_store -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Importing or configuring a concrete production store.
+                  reason: Production storage is not selected in this scope.
+                  instead: Depend on the store interface and prove against the in-process implementation.
+                - action: Reading wall-clock time directly inside the counter.
+                  reason: Window behavior becomes untestable and the boundary case turns flaky.
+                  instead: Take the clock as an injected dependency.
+                - action: Mirroring counts into provider usage metering.
+                  reason: Usage metering is provider-owned and outside this boundary.
+                  instead: Keep counts local to the limiter.
+              do_not_touch:
+                - Any provider usage metering client, contract, or configuration.
+                - Deployment, environment, and infrastructure configuration.
+              rollback: Delete the counter module and its tests; resolution and schema leaves stay proven.
+              observability: The counter exposes the current window start and count for a given organization.
+              execution_recipe: test-first
+              sdlc_stages:
+                - build
+                - test
+            - id: T-20260914-limit-gate
+              title: Deny request 101 after 100 allowed requests in a window
+              goal: >-
+                Combine the effective policy and the window counter into a gate that allows
+                requests up to the limit and denies the request that exceeds it.
+              done_condition: >-
+                With a policy limit of 100 and a fixed clock, the first 100 requests for an
+                organization are allowed and request 101 in the same window is denied; after the
+                window rolls, the next request is allowed again.
+              effort: M
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - python3
+                - pytest
+              depends_on:
+                - T-20260914-window-counter
+              touches_paths: []
+              creates_paths:
+                - src/ratelimit/gate.py
+                - tests/ratelimit/test_gate.py
+              behavior:
+                - id: B-1
+                  given: An effective policy with a limit of 100 and an empty window.
+                  when: 100 requests arrive for the organization inside that window.
+                  then: All 100 are allowed and the gate reports the count it enforced against.
+                - id: B-2
+                  given: 100 requests already allowed inside the window.
+                  when: Request 101 arrives for the same organization in the same window.
+                  then: The gate denies it, and after the clock passes the window the next request is allowed.
+              evals:
+                - id: eval_1
+                  description: The first 100 requests in a window are allowed.
+                  bash: python3 -m pytest tests/ratelimit/test_gate.py -k allows_up_to_limit -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Request 101 in the same window is denied.
+                  bash: python3 -m pytest tests/ratelimit/test_gate.py -k denies_request_101 -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: A rolled window allows requests again and organizations do not share a budget.
+                  bash: python3 -m pytest tests/ratelimit/test_gate.py -k window_roll_and_isolation -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Denying at request 100 or allowing request 101.
+                  reason: The boundary is the stated outcome of this leg and an off-by-one silently changes the contract.
+                  instead: Allow while the recorded count is below the limit and deny at the first request past it.
+                - action: Enforcing against provider usage metering counts.
+                  reason: Usage metering is provider-owned and outside this boundary.
+                  instead: Enforce against the limiter's own window counter.
+                - action: Formatting a denial message or emitting telemetry from the gate in this leaf.
+                  reason: The reason contract and telemetry are the next leg's independently assessable outcome.
+                  instead: Return a structured decision and let the next leaf attach the stable reason.
+              do_not_touch:
+                - Any provider usage metering client, contract, or configuration.
+                - src/ratelimit/counter.py internals, which are sealed by the prior leaf.
+              rollback: Delete the gate module and its tests; the counter leaf stays independently proven.
+              observability: The decision records the organization, the effective policy identifier, the enforced limit, and the observed count.
+              execution_recipe: test-first
+              shared_resources:
+                - src/ratelimit/gate.py
+              sdlc_stages:
+                - build
+                - test
+
+  - id: SEAM-EVIDENCE
+    name: Denial contract and decision evidence
+    description: >-
+      Owns what the outside world can observe and rely on: a stable machine-readable denial
+      reason, decision telemetry that matches the returned decision, and the end-to-end proof
+      that the four steel-thread steps hold together.
+    evidence:
+      - EV-STEEL-THREAD
+      - EV-SCOPE-BOUNDARY
+    responsibility: Make every limiter decision externally checkable and prove the steel thread end to end.
+    consumes:
+      - allow or deny decision
+    produces:
+      - stable denial reason
+      - decision telemetry record
+      - end-to-end steel-thread proof
+    owner: unassigned pending DEC-WORK-OWNER
+    independent_proof: >-
+      A denial returns the same reason constant across repeated runs, exactly one telemetry
+      record is emitted per decision with fields matching that decision, and a single test
+      walks configuration through denial and telemetry.
+    decision_ids:
+      - DEC-METERING-BOUNDARY
+    rejected_alternatives:
+      - alternative: Return a human-readable denial message only.
+        reason: >-
+          Callers would match on prose, so any wording change becomes a breaking change and
+          the reason cannot be called stable.
+      - alternative: Derive denial telemetry from provider usage metering events.
+        reason: >-
+          Metering is provider-owned and out of scope, and its events do not correspond to
+          individual limiter decisions.
+    swimlane:
+      id: LANE-EVIDENCE
+      name: Decision evidence
+      owner: unassigned pending DEC-WORK-OWNER
+      legs:
+        - id: LEG-DENIAL-CONTRACT
+          observable_state: Every denial carries the same stable reason and emits one matching decision telemetry record.
+          proof: Tests asserting the reason constant and field-by-field agreement between the decision and the emitted record.
+          requires:
+            - allow or deny decision
+          produces:
+            - stable denial reason
+            - decision telemetry record
+          tasks:
+            - id: T-20260914-denial-reason
+              title: Attach a stable machine-readable denial reason
+              goal: >-
+                Define the denial reason constant rate_limit_exceeded and return it on every
+                deny decision as a versioned field callers can match on.
+              done_condition: >-
+                Every deny decision carries the same reason constant, allow decisions carry no
+                denial reason, and the constant is defined in one place.
+              effort: M
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - python3
+                - pytest
+              depends_on:
+                - T-20260914-limit-gate
+              touches_paths:
+                - src/ratelimit/gate.py
+              creates_paths:
+                - src/ratelimit/reasons.py
+                - tests/ratelimit/test_denial_reason.py
+              behavior:
+                - id: B-1
+                  given: A request denied because the window limit is exceeded.
+                  when: The decision is returned.
+                  then: It carries the single defined denial reason constant.
+                - id: B-2
+                  given: Repeated denials across separate windows and organizations.
+                  when: The reasons are compared.
+                  then: They are identical, and allowed decisions carry no denial reason.
+              evals:
+                - id: eval_1
+                  description: A denial returns the defined reason constant.
+                  bash: python3 -m pytest tests/ratelimit/test_denial_reason.py -k denial_reason_constant -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: The reason is stable across windows and organizations, and absent on allow.
+                  bash: python3 -m pytest tests/ratelimit/test_denial_reason.py -k reason_stability -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: The reason constant is defined once and not duplicated as a literal.
+                  bash: python3 -m pytest tests/ratelimit/test_denial_reason.py -k single_definition -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Composing the reason from the organization, limit, or timestamp.
+                  reason: A varying string cannot be matched on and is not a stable reason.
+                  instead: Return a fixed constant and put variable context in separate fields.
+                - action: Reusing a provider metering error code as the denial reason.
+                  reason: It couples the limiter's contract to an out-of-scope provider surface.
+                  instead: Define the limiter's own reason constant.
+                - action: Changing the gate's allow and deny boundary while editing it.
+                  reason: The boundary is sealed by the prior leaf and would silently alter proven behavior.
+                  instead: Attach the reason without touching the threshold logic.
+              do_not_touch:
+                - Any provider usage metering client, contract, or configuration.
+                - The allow and deny threshold logic proven by T-20260914-limit-gate.
+              rollback: Remove the reasons module and revert the gate's reason field; enforcement behavior is unchanged.
+              observability: The denial reason constant is the stable key callers and dashboards match on.
+              execution_recipe: test-first
+              shared_resources:
+                - src/ratelimit/gate.py
+              sdlc_stages:
+                - build
+                - test
+            - id: T-20260914-decision-telemetry
+              title: Emit decision telemetry that matches the returned decision
+              goal: >-
+                Emit exactly one decision telemetry record per limiter decision, carrying the
+                organization, effective policy identifier, enforced limit, observed count,
+                outcome, and denial reason when denied.
+              done_condition: >-
+                Each decision emits one record whose fields equal the returned decision's fields,
+                a denial's record carries the stable reason, and no record is emitted when the
+                gate is not consulted.
+              effort: M
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - python3
+                - pytest
+              depends_on:
+                - T-20260914-denial-reason
+              touches_paths:
+                - src/ratelimit/gate.py
+              creates_paths:
+                - src/ratelimit/telemetry.py
+                - tests/ratelimit/test_decision_telemetry.py
+              behavior:
+                - id: B-1
+                  given: A denied request at the window boundary.
+                  when: The decision is made.
+                  then: Exactly one telemetry record is emitted and its outcome, limit, count, and reason equal the returned decision's.
+                - id: B-2
+                  given: A sequence of allowed requests followed by one denial.
+                  when: The emitted records are collected.
+                  then: There is one record per decision in order, and only the last carries a denial reason.
+              evals:
+                - id: eval_1
+                  description: A denial emits exactly one record whose fields match the decision.
+                  bash: python3 -m pytest tests/ratelimit/test_decision_telemetry.py -k denial_record_matches -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: One record is emitted per decision, in order, with reasons only on denials.
+                  bash: python3 -m pytest tests/ratelimit/test_decision_telemetry.py -k one_record_per_decision -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: Telemetry emission failure does not change the allow or deny outcome.
+                  bash: python3 -m pytest tests/ratelimit/test_decision_telemetry.py -k emitter_failure_isolated -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Emitting decision telemetry into the provider usage metering pipeline.
+                  reason: Metering is provider-owned and out of scope, and limiter decisions are not usage events.
+                  instead: Emit through the limiter's own telemetry interface.
+                - action: Letting a telemetry failure block or flip the decision.
+                  reason: Observability would become a correctness dependency of enforcement.
+                  instead: Isolate emission failures from the returned decision.
+                - action: Recomputing the count or limit inside the emitter.
+                  reason: The record could then disagree with the decision it claims to describe.
+                  instead: Emit the fields carried by the decision itself.
+              do_not_touch:
+                - Any provider usage metering client, contract, or configuration.
+                - The allow and deny threshold logic proven by T-20260914-limit-gate.
+              rollback: Remove the telemetry module and its call site; the denial reason contract stays proven.
+              observability: This leaf is the observability surface; records are emitted through an injectable sink.
+              execution_recipe: test-first
+              shared_resources:
+                - src/ratelimit/gate.py
+              sdlc_stages:
+                - build
+                - test
+        - id: LEG-STEEL-THREAD
+          observable_state: The four steel-thread steps hold together in one run, from authored policy to denial telemetry.
+          proof: One end-to-end test walking a validated policy through resolution, 100 allowed requests, denial of request 101, and the emitted record.
+          requires:
+            - stable denial reason
+            - decision telemetry record
+          produces:
+            - end-to-end steel-thread proof
+          tasks:
+            - id: T-20260914-steel-thread-proof
+              title: Prove the steel thread end to end
+              goal: >-
+                Add one integration test that exercises validation, resolution, enforcement, the
+                stable denial reason, and decision telemetry in a single run.
+              done_condition: >-
+                A single test authors a policy, resolves it for an organization, allows 100
+                requests, is denied on request 101 with the stable reason, and observes one
+                matching telemetry record; an invalid policy is rejected before enforcement.
+              effort: S
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - python3
+                - pytest
+              depends_on:
+                - T-20260914-decision-telemetry
+              touches_paths: []
+              creates_paths:
+                - tests/ratelimit/test_steel_thread.py
+              behavior:
+                - id: B-1
+                  given: A valid policy with a limit of 100, an in-process store, and a fixed clock.
+                  when: 101 requests arrive for the organization in one window.
+                  then: The first 100 are allowed, the 101st is denied with the stable reason, and one matching telemetry record exists for each decision.
+                - id: B-2
+                  given: A policy document with an invalid limit or window.
+                  when: The same end-to-end path runs.
+                  then: It is rejected at validation and no enforcement decision or telemetry record is produced.
+              evals:
+                - id: eval_1
+                  description: The full steel thread passes in one run.
+                  bash: python3 -m pytest tests/ratelimit/test_steel_thread.py -k steel_thread_end_to_end -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: An invalid policy is rejected before any enforcement decision.
+                  bash: python3 -m pytest tests/ratelimit/test_steel_thread.py -k invalid_policy_blocks_enforcement -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: The whole limiter suite passes together.
+                  bash: python3 -m pytest tests/ratelimit -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Editing a lower leaf's module or test to make the integration test pass.
+                  reason: Sealed leaf behavior would be rewritten to fit the proof rather than the proof reporting reality.
+                  instead: Report the failure against the responsible leaf.
+                - action: Stubbing the counter or telemetry sink so the test always passes.
+                  reason: The point of this leaf is that the real components compose.
+                  instead: Use the in-process implementations the lower leaves ship.
+                - action: Introducing a provider metering call to assert usage consistency.
+                  reason: Usage metering is provider-owned and outside this boundary.
+                  instead: Assert only on the limiter's own decisions and records.
+              do_not_touch:
+                - Any provider usage metering client, contract, or configuration.
+                - Modules and tests created by the preceding leaves.
+              rollback: Delete the integration test; all lower leaves remain independently proven.
+              observability: A failure identifies which steel-thread step broke by assertion name.
+              execution_recipe: plan-execute-verify
+              proves_capabilities:
+                - LEG-POLICY-VALIDATION
+                - LEG-POLICY-RESOLUTION
+                - LEG-LIMIT-ENFORCEMENT
+                - LEG-DENIAL-CONTRACT
+              sdlc_stages:
+                - test
+
+steel_thread:
+  - LEG-POLICY-VALIDATION
+  - LEG-POLICY-RESOLUTION
+  - LEG-LIMIT-ENFORCEMENT
+  - LEG-DENIAL-CONTRACT
+  - LEG-STEEL-THREAD
+
+objections:
+  - id: OBJ-NO-OWNER
+    status: OPEN
+    summary: >-
+      No responsible owner is named for the limiter work; every swimlane carries an
+      unresolved owner. This must be decided before review can bind the topology.
+    owner: unassigned
+    rationale: >-
+      The intake assigns ownership only for usage metering, to the provider, and places it
+      out of scope. Inventing an owner here would fabricate authority.
+  - id: OBJ-INPROC-STORE
+    status: ACCEPTED
+    summary: >-
+      Enforcement is proven against an in-process store, so the proof covers single-process
+      window semantics only, not concurrent or distributed counting.
+    owner: unassigned pending DEC-WORK-OWNER
+    rationale: >-
+      Production storage is explicitly not selected in this scope. Distributed counting
+      correctness is separate work that would need its own leaf and renewed authorization.
+  - id: OBJ-REASON-STRING
+    status: ACCEPTED
+    summary: >-
+      The denial reason constant is authored here as rate_limit_exceeded rather than
+      left open, so telemetry and callers have one value to match on.
+    owner: decomposition author, confirmed by the named reviewer at review
+    rationale: >-
+      Callers match on this value, so it is part of the limiter's public contract.
+      Authoring it in the recipe makes it reviewable, and changing it later is a
+      contract change requiring renewed authorization rather than a silent edit.
+  - id: OBJ-STACK-ASSUMED
+    status: ACCEPTED
+    summary: >-
+      The implementation stack and module layout are proposed by this recipe, not
+      evidenced by the repository, which contains no limiter source.
+    owner: decomposition author, confirmed by the named reviewer at review
+    rationale: >-
+      Every leaf's created paths and eval commands assume python3 and pytest under
+      src/ratelimit and tests/ratelimit. Confirming or replacing that choice changes
+      the leaves' write surfaces and proofs.
+
+contentions:
+  - between:
+      - T-20260914-denial-reason
+      - T-20260914-decision-telemetry
+    resolution: >-
+      Both leaves write src/ratelimit/gate.py. The reason constant must exist before
+      telemetry can carry it, so the writes are serialized in steel-thread order.
+    order:
+      - T-20260914-denial-reason
+      - T-20260914-decision-telemetry

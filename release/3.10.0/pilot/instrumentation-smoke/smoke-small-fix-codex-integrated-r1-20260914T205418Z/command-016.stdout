@@ -1,0 +1,16 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": false,
+  "exit_code": 1,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "ee141814-6f67-465c-b5b5-bf7836fed715",
+    "ok": false,
+    "code": "LEASE_CONFLICT",
+    "message": "another authoritative attempt already holds every selected task"
+  },
+  "stdout": "",
+  "stderr": ""
+}

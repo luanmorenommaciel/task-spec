@@ -1,0 +1,29 @@
+schema_version: 1
+status: SEAM_MAP=READY
+intent_id: DI-PILOT-CONTENTION
+source_recipe:
+  name: source-recipe.yaml
+  sha256: fd89b8c06e66c63681ba1939305279f97277e4a4241953be08cc9ab3a9e2f600
+intent_sha256: 037420e71d0fbf390d386da0a1cf691424d9085c945d81a537deac226de8e65e
+system_map_sha256: b9af0fa9077050aea960368b5345f36c89814769411215e536653b951f9e0def
+evidence_sha256: 1cfdc53d1a4c27a065190fb08f1ba0c1cd12adccd551f43940c997f8de06a74f
+decisions:
+- id: ADR-PILOT-SCOPE
+  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md
+  status: accepted
+  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75
+seams:
+- id: SEAM-CONTENTION-WORKER
+  path: tasks/.plans/pilot/seams/SEAM-CONTENTION-WORKER.md
+  owner: pilot-contention-worker
+  evidence:
+  - E-PILOT-ISSUE
+  swimlane_id: LANE-CONTENTION-WORKER
+  sha256: f91d0d75d663e602b70ec6dc6234b37bc6ba4ac3b46707c752db875355b6b914
+- id: SEAM-CONTENTION
+  path: tasks/.plans/pilot/seams/SEAM-CONTENTION.md
+  owner: pilot-contention
+  evidence:
+  - E-PILOT-ISSUE
+  swimlane_id: LANE-CONTENTION
+  sha256: 69303c8692aa7ae42840d3ecfe1af06cf689d5f0a2fbec09588fecbcd1a03827

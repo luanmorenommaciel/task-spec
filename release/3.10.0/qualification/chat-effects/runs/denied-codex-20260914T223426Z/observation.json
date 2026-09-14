@@ -1,0 +1,56 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "denied",
+  "harness": "codex",
+  "retained": "/private/tmp/taskspec-chat-effects-observations/runs/denied-codex-20260914T223426Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "0c0ba3c1e8426ed49528f94427bbe3c8b918e414ca33e3daeb4ea8f5a5e2dbef"
+    },
+    {
+      "path": "before.json",
+      "sha256": "0c0ba3c1e8426ed49528f94427bbe3c8b918e414ca33e3daeb4ea8f5a5e2dbef"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "b8987a4407ee09bb7c17be3fc077b0d27cd2230d256183707ede67c82022294d"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "248ce3601a6de49b9c7d560d32de51e49ada068ff73043384849e2858a8f16fa"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "3da462c5c74bc73270d63c0b39e663226e39e285968a72eb89d5ba19c4d7f472"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "21f46cb56d0d02148ea8f176be275360c5ba89cbaa63cc31a451eec33c90f92c"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "3aad899f81c237f2a2b4dafffaa4c03e7507d787e70e0320456caa914ba7ad28"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "7b4063bbd9c51ecf49017c61fcfa9eceb9700b75b82671eba55d54fbd9c92981"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "8179fabce4340bec32f864234527c6b04aa3d4456fe24af6cc5de686a2ce60f6"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "78a11afd5fc0a3e9cfdbc0c5d6559840d80329ee9ce3eb756f5227644c0e27eb"
+    }
+  ]
+}

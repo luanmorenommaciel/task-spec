@@ -187,6 +187,13 @@ func (store *Store) ExecuteAttempt(parent context.Context, attemptID string) err
 		_ = store.transitionAttempt("adapter-"+NewID(), attemptID, lease.FencingToken, []string{"preparing"}, "parked", "ATTEMPT_PARKED", map[string]any{"code": "HANDOFF_FAILED", "message": err.Error()})
 		return err
 	}
+	managed, recipeErr := readRecipeHandoff(handoff)
+	if recipeErr != nil {
+		return recipeErr
+	}
+	if managed.Agent.Recipe != nil {
+		return store.executeManagedRecipe(parent, lease, definition, probe, handoff, prompt, managed)
+	}
 	timeout := executionTimeout()
 	ctx, cancel := context.WithTimeout(parent, timeout)
 	defer cancel()
@@ -285,6 +292,16 @@ func (store *Store) executeAutonomousAttempt(parent context.Context, lease Lease
 	if err != nil {
 		_ = store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"preparing"}, "parked", "ATTEMPT_PARKED", map[string]any{"code": "HANDOFF_FAILED", "message": err.Error()})
 		return err
+	}
+	managed, recipeErr := readRecipeHandoff(handoff)
+	if recipeErr != nil {
+		return recipeErr
+	}
+	if managed.Agent.Recipe != nil {
+		lease.Provider, lease.Model = provider, model
+		probe.ManagedRecipeModes = []string{"autonomous"}
+		probe.ManagedRecipeCapabilities = []string{"managed_recipe_v1", "persistent_round_budget", "signed_timeout", "attested_execution"}
+		return store.executeRecipe(parent, lease, definition, probe, handoff, prompt, managed, &managedSandbox{Setup: setup, Provider: provider, Model: model})
 	}
 	if err := store.transitionAttempt("sandbox-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"preparing"}, "running", "SANDBOX_STARTED", map[string]any{"runtime": setup.Runtime, "image_digest": setup.ImageDigest}); err != nil {
 		return err
@@ -476,19 +493,41 @@ func copyNonClobbering(source, destination string) error {
 }
 
 func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, probe AdapterProbe, artifact, artifactDigest, started, finished, mode, supervisor, reason, environmentReceipt, trustRegistry, sandboxEvidence string) error {
+	return store.verifyAcceptCommitAndIntegrateWithin(context.Background(), lease, handoff, probe, artifact, artifactDigest, started, finished, mode, supervisor, reason, environmentReceipt, trustRegistry, sandboxEvidence)
+}
+
+func (store *Store) verifyAcceptCommitAndIntegrateWithin(ctx context.Context, lease Lease, handoff string, probe AdapterProbe, artifact, artifactDigest, started, finished, mode, supervisor, reason, environmentReceipt, trustRegistry, sandboxEvidence string) error {
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+	run := func(executable string, arguments ...string) (string, error) {
+		output, err := managedCommand(ctx, lease.Workspace, executable, arguments, "", append(os.Environ(), "TASKSPEC_WORKSPACE_ROOT="+lease.Workspace))
+		if ctx.Err() != nil {
+			return output, ctx.Err()
+		}
+		return output, err
+	}
 	cli, err := taskSpecCLI(store.repository)
 	if err != nil {
 		return err
 	}
-	statusCommand := exec.Command("bash", cli, "--json", "status", lease.TaskID)
-	statusCommand.Dir = lease.Workspace
-	statusCommand.Env = append(os.Environ(), "TASKSPEC_WORKSPACE_ROOT="+lease.Workspace)
-	statusOutput, err := statusCommand.Output()
+	if recipe, recipeErr := readRecipeHandoff(handoff); recipeErr != nil {
+		return recipeErr
+	} else if recipe.Agent.Recipe != nil {
+		relative, relativeErr := filepath.Rel(lease.Workspace, recipe.Spec)
+		if relativeErr != nil || strings.HasPrefix(relative, "..") {
+			return fmt.Errorf("HANDOFF_SCOPE_INVALID")
+		}
+		if output, checkErr := run("python3", filepath.Join(filepath.Dir(filepath.Dir(cli)), "src/security/verify_authorization.py"), recipe.Spec, lease.TaskRevisionDigest, "--origin", filepath.Join(store.repository.Root, relative)); checkErr != nil {
+			return fmt.Errorf("AUTHORITY_CHANGED: %s: %w", output, checkErr)
+		}
+	}
+	statusOutput, err := run("bash", cli, "--json", "status", lease.TaskID)
 	if err != nil {
 		return err
 	}
 	var statusEnvelope cliEnvelope
-	if err := json.Unmarshal(statusOutput, &statusEnvelope); err != nil {
+	if err := json.Unmarshal([]byte(statusOutput), &statusEnvelope); err != nil {
 		return err
 	}
 	var status taskStatus
@@ -502,16 +541,13 @@ func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, 
 		acceptArguments = append(acceptArguments, "--allow-tier2", "--supervised-by", supervisor, "--reason", reason)
 	}
 	acceptArguments = append(acceptArguments, status.Path)
-	accept := exec.Command("bash", append([]string{cli}, acceptArguments...)...)
-	accept.Dir = lease.Workspace
-	accept.Env = append(os.Environ(), "TASKSPEC_WORKSPACE_ROOT="+lease.Workspace)
-	acceptOutput, err := accept.Output()
+	acceptOutput, err := run("bash", append([]string{cli}, acceptArguments...)...)
 	if err != nil {
 		_ = store.transitionAttempt("verify-"+NewID(), lease.AttemptID, lease.FencingToken, []string{"verifying"}, "parked", "ATTEMPT_PARKED", map[string]any{"code": "ACCEPTANCE_FAILED", "output": redact(string(acceptOutput), nil)})
-		return fmt.Errorf("ACCEPTANCE_FAILED")
+		return fmt.Errorf("ACCEPTANCE_FAILED: %w", err)
 	}
 	var acceptEnvelope cliEnvelope
-	if err := json.Unmarshal(acceptOutput, &acceptEnvelope); err != nil {
+	if err := json.Unmarshal([]byte(acceptOutput), &acceptEnvelope); err != nil {
 		return err
 	}
 	var finalized struct {
@@ -520,27 +556,27 @@ func (store *Store) verifyAcceptCommitAndIntegrate(lease Lease, handoff string, 
 	if err := json.Unmarshal(acceptEnvelope.Data, &finalized); err != nil || finalized.AcceptanceRecord == "" {
 		return fmt.Errorf("ACCEPTANCE_FAILED: missing AcceptanceFinalized record")
 	}
-	transition := exec.Command("bash", cli, "transition", lease.TaskID, "done")
-	transition.Dir = lease.Workspace
-	transition.Env = append(os.Environ(), "TASKSPEC_WORKSPACE_ROOT="+lease.Workspace)
-	if output, err := transition.CombinedOutput(); err != nil {
-		return fmt.Errorf("transition accepted task: %s: %w", strings.TrimSpace(string(output)), err)
+	if output, err := run("bash", cli, "transition", lease.TaskID, "done"); err != nil {
+		return fmt.Errorf("transition accepted task: %s: %w", strings.TrimSpace(output), err)
 	}
-	if err := runGit(store.repository, lease.Workspace, "add", "-A"); err != nil {
+	if _, err := run("git", "add", "-A"); err != nil {
 		return err
 	}
-	if err := runGit(store.repository, lease.Workspace, "commit", "--quiet", "-m", "TaskMesh: complete "+lease.TaskID); err != nil {
+	if _, err := run("git", "commit", "--quiet", "-m", "TaskMesh: complete "+lease.TaskID); err != nil {
+		return err
+	}
+	if err := ctx.Err(); err != nil {
 		return err
 	}
 	destination := filepath.Join(store.repository.Root, ".taskspec", "acceptance", lease.TaskID, lease.AttemptID+".json")
 	if err := copyNonClobbering(finalized.AcceptanceRecord, destination); err != nil {
 		return err
 	}
-	recordResult, err := store.Process(context.Background(), CommandRequest{RequestID: "accept-" + lease.AttemptID, Command: "record-acceptance", Arguments: []string{"--attempt-id", lease.AttemptID, "--fencing-token", fmt.Sprint(lease.FencingToken), "--record", destination}})
+	recordResult, err := store.Process(ctx, CommandRequest{RequestID: "accept-" + lease.AttemptID, Command: "record-acceptance", Arguments: []string{"--attempt-id", lease.AttemptID, "--fencing-token", fmt.Sprint(lease.FencingToken), "--record", destination}})
 	if err != nil || !recordResult.OK {
 		return fmt.Errorf("ACCEPTANCE_FAILED: import canonical record")
 	}
-	integrateResult, err := store.Process(context.Background(), CommandRequest{RequestID: "integrate-" + lease.AttemptID, Command: "integrate", Arguments: []string{"--attempt-id", lease.AttemptID}})
+	integrateResult, err := store.Process(ctx, CommandRequest{RequestID: "integrate-" + lease.AttemptID, Command: "integrate", Arguments: []string{"--attempt-id", lease.AttemptID}})
 	if err != nil || !integrateResult.OK {
 		return fmt.Errorf("INTEGRATION_FAILED: %s", integrateResult.Code)
 	}

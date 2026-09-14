@@ -1,0 +1,38 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "batch",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMaterializationReceipt/v1",
+    "engine_version": "3.10.0",
+    "input": {
+      "contract": "TaskPlan/v1",
+      "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-7bbap6_y/task-spec-3.9.0/tasks/.plans/native.json",
+      "digest": "a8a2605c9346a6daf9820136eeabd941a53d6f2cf3d4118f0d323b11d412e2af",
+      "approved": true
+    },
+    "output_dir": "tasks",
+    "dry_run": false,
+    "materialized": true,
+    "changed": true,
+    "state": "created",
+    "dispatch_authorized": false,
+    "tasks": [
+      {
+        "task_id": "T-20260914-pilot-overview-route",
+        "path": "tasks/T-20260914-pilot-overview-route.md",
+        "sha256": "1f1f02a14dcfb4900009a159294ea2622901ef5da4c0ee65f2eb917b35473f27"
+      },
+      {
+        "task_id": "T-20260914-pilot-overview-skill",
+        "path": "tasks/T-20260914-pilot-overview-skill.md",
+        "sha256": "64c367edc7da0f1f889862efac698b3b8ee9a932fa470fb7ac18bf6278f53173"
+      }
+    ],
+    "warnings": []
+  },
+  "stdout": "",
+  "stderr": ""
+}

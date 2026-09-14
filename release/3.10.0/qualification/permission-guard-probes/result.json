@@ -1,0 +1,8 @@
+{
+  "synthetic_recorded_denial": true,
+  "actual_denied_action_retried": false,
+  "exit_code": 0,
+  "marker_exists": true,
+  "stop_evidence_present": false,
+  "passed": false
+}

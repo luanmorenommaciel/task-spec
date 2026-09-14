@@ -1,0 +1,11 @@
+{
+  "contract": "TaskPlanBundle/v1",
+  "initiative": "pilot",
+  "lineage_digest": "cafed1d37f621876a9e36de407513addf6e624a13b6ec535cb6068cae6e8880d",
+  "plan_digest": "d78ca5f47468f805ca776f1f568094c96731ce8a76993be19b6dbc3223d3ac67",
+  "signature": "hmac-taskplan-v1:ae1c251f:ab760ab31775d907ee3789a4ec931d735e91696d63e6f2c246b00ae4f32197b1",
+  "snapshot_digest": "ccd57d87ca28228ebdf32c8300d5934ad51f45a9bc3bbbc693a18061f49db4c9",
+  "units": {
+    "T-20260914-pilot-small-fix": "7317c9d982cddb679c911e8be36f8f5f9056cecd5abc0c4600c674a5bdefa34d"
+  }
+}

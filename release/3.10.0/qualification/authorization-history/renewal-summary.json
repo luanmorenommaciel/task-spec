@@ -1,0 +1,16 @@
+{
+  "contract": "TaskToolkitAuthorizationRenewal/v1",
+  "task": "T-20260914-toolkit-cli",
+  "prior_renewal": "failed; current old signature mismatched",
+  "current_renewal": "gate --stamp passed and current Tier 1 verified",
+  "authorization_basis": "Existing explicit implementation authorization and unchanged current TaskPlan unit scope.",
+  "task_body_changed": false,
+  "prior_implementation_certified": false,
+  "accepted": false,
+  "evidence": [
+    "cli-earlier-renewal-failed.txt",
+    "cli-contract-before-renewal.md",
+    "current-authorizations-before-cli-renewal.json",
+    "cli-current-renewal.txt"
+  ]
+}

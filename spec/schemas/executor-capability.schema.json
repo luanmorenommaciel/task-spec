@@ -15,12 +15,19 @@
     "available": {"type": "boolean"},
     "assurance_modes": {"type": "array", "uniqueItems": true, "items": {"enum": ["supervised", "autonomous"]}},
     "tools": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
-    "network": {"enum": ["none", "provider-only", "unrestricted"]},
+    "network": {"enum": ["none", "provider-only", "unrestricted", "attempt_proxy_only"]},
     "limits": {
       "type": "object", "additionalProperties": false, "required": ["max_parallel", "max_output_bytes"],
       "properties": {"max_parallel": {"type": "integer", "minimum": 1}, "max_output_bytes": {"type": "integer", "minimum": 1}, "timeout_sec": {"type": "integer", "minimum": 1}}
     },
     "observed_at": {"type": "string", "format": "date-time"},
-    "reason_unavailable": {"type": ["string", "null"]}
+    "reason_unavailable": {"type": ["string", "null"]},
+    "managed_recipe_modes": {"type": "array", "uniqueItems": true, "items": {"enum": ["supervised", "autonomous"]}},
+    "managed_recipe_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   }
 }

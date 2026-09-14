@@ -1,0 +1,77 @@
+{
+  "attempts": [
+    {
+      "adapter": "chat-fixture",
+      "branch": "taskmesh/20260914-chat-output/f1188331",
+      "decision": {
+        "candidates": [
+          {
+            "adapter": "chat-fixture",
+            "eligible": true,
+            "rejection_reasons": [],
+            "static_score": 100
+          }
+        ],
+        "contract": "DispatchDecision/v1",
+        "decided_at": "2026-09-14T21:33:48.993996Z",
+        "explanation": "selected by explicit choice, task backend, roster band, static policy, bounded advisor order, then stable tie-breaker",
+        "policy_digest": "sha256:9adc6ca4b4404f470e44b94037f7e095977c9ed864018dc5a6831b80651cd66a",
+        "selected": "chat-fixture",
+        "task_id": "T-20260914-chat-output",
+        "task_revision_digest": "sha256:fe122d4290d634a00a4a767c4dea0156b58a7d95f8fbe9eb58a5adba4b835161"
+      },
+      "lease": {
+        "attempt_id": "f1188331-6189-46e2-9fa3-4b412cca6823",
+        "contract": "RunLease/v1",
+        "expires_at": "2026-09-14T21:38:48.994265Z",
+        "fencing_token": 1,
+        "heartbeat_at": "2026-09-14T21:33:48.994265Z",
+        "issued_at": "2026-09-14T21:33:48.994265Z",
+        "owner": "5c18d440-5907-4acb-b473-428d4d89d21a",
+        "run_id": "ff346731-4d9a-4910-9bd6-08554a43a986",
+        "state": "leased",
+        "task_id": "T-20260914-chat-output",
+        "task_revision_digest": "sha256:fe122d4290d634a00a4a767c4dea0156b58a7d95f8fbe9eb58a5adba4b835161"
+      },
+      "route": {
+        "adapter": "chat-fixture",
+        "effort": "S",
+        "mode": "supervised",
+        "model": "",
+        "provider": "",
+        "source": "flag"
+      },
+      "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat 1hgqhkvl/.taskspec/mesh/workspaces/ff346731-4d9a-4910-9bd6-08554a43a986/attempts/f1188331-6189-46e2-9fa3-4b412cca6823"
+    }
+  ],
+  "leases": [
+    {
+      "attempt_id": "f1188331-6189-46e2-9fa3-4b412cca6823",
+      "contract": "RunLease/v1",
+      "expires_at": "2026-09-14T21:38:48.994265Z",
+      "fencing_token": 1,
+      "heartbeat_at": "2026-09-14T21:33:48.994265Z",
+      "issued_at": "2026-09-14T21:33:48.994265Z",
+      "owner": "5c18d440-5907-4acb-b473-428d4d89d21a",
+      "run_id": "ff346731-4d9a-4910-9bd6-08554a43a986",
+      "state": "leased",
+      "task_id": "T-20260914-chat-output",
+      "task_revision_digest": "sha256:fe122d4290d634a00a4a767c4dea0156b58a7d95f8fbe9eb58a5adba4b835161"
+    }
+  ],
+  "run": {
+    "contract": "TaskMeshRun/v1",
+    "created_at": "2026-09-14T21:33:48.271334Z",
+    "graph_revision_digest": "sha256:3d4ef3e196fac6e3c674ce0bd96c9e65e3056a5c0217ad34e5525fa94b36959f",
+    "integration_branch": "taskmesh/run/ff346731",
+    "max_parallel": 2,
+    "mode": "supervised",
+    "repository": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat 1hgqhkvl",
+    "run_id": "ff346731-4d9a-4910-9bd6-08554a43a986",
+    "state": "active",
+    "target": {
+      "branch": "main",
+      "commit": "1665b2bcf484a0ef2179db8a56312fcf8b1f0d11"
+    }
+  }
+}

@@ -19,7 +19,7 @@ extracted from `converge/skills/task-spec` at v3.3.0 and now stands alone.
 | `bin/taskspec` | the one CLI entry point; dispatches to `src/` |
 | `spec/` | **normative**: the v3/v4 format, JSON schemas, conformance suite |
 | `interop/` | `UPSTREAM.lock` — protocol version/commit/digest lock. Path is frozen by 3.8.1 evidence; do not move it |
-| `src/` | the Python + Bash engine, one directory per verb, plus `src/templates/` |
+| `src/` | Python + Bash engine, including native `decompose/`, signed `recipe/`, CLI metadata, and `src/templates/` |
 | `src/meshctl/` | Python TaskMesh cockpit (`taskspec mesh`); not the Go daemon |
 | `mesh/` | the optional Go control plane (`mesh/cmd/`, `mesh/internal/mesh/`) |
 | `harness/` | non-normative host surfaces; see `harness/README.md` for the inclusion rule |
@@ -47,8 +47,8 @@ directories.
 ## Build / test
 
 There is no build step — the engine is bash + markdown. The single release gate
-(hosted CI runs exactly this on ubuntu-latest; run it on macOS locally before
-touching the bash-3.2 gate path, because no hosted runner covers that any more):
+(hosted CI runs exactly this on Ubuntu and macOS; run it on macOS locally before
+touching the bash-3.2 gate path):
 
 ```bash
 make check            # doctor + lints + all self-tests + conformance

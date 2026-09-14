@@ -1,0 +1,14 @@
+{
+  "adapter": "pilot-smoke",
+  "adapter_version": "pilot-overview/1",
+  "attempt_id": "9c161ddf-3554-4f1f-a36c-62d1bd27a757",
+  "contract": "TaskMeshAdapterArtifact/v1",
+  "fencing_token": 1,
+  "finished_at": "2026-09-14T21:03:01.439296Z",
+  "output": "",
+  "started_at": "2026-09-14T21:03:01.35643Z",
+  "task_id": "T-20260914-pilot-overview-skill",
+  "task_revision_digest": "sha256:53720f8f6d615c5ff40a97dd4e8ffef60987c6473e07a8abc7450c175371a4e3",
+  "terminal_outcome": "success",
+  "truncated": false
+}

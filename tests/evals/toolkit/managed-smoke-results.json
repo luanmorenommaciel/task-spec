@@ -1,0 +1,131 @@
+{
+  "contract": "TaskToolkitManagedSmokeCorpus/v1",
+  "observed_at": "2026-09-14",
+  "qualification": "smoke_only",
+  "successful_runs": [
+    {
+      "contract": "TaskToolkitManagedSmoke/v1",
+      "harness": "codex-native",
+      "qualification": "single synthetic native initiative; not comparative pilot",
+      "rounds": 1,
+      "canonical_fixture_acceptance": true,
+      "user_branch_unchanged": true,
+      "round_evidence": [
+        {
+          "attempt_id": "5acba7fd-ca4c-4ab4-b150-4e6dffa4b71f",
+          "contract": "TaskRecipeRound/v1",
+          "evaluation": "{\"eval\":\"eval_1\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n{\"eval\":\"eval_2\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n{\"eval\":\"eval_3\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n{\"eval\":\"_exit_check\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n",
+          "finished_at": "2026-09-14T17:42:38.651659Z",
+          "harness": "codex-native",
+          "model": "",
+          "provider": "",
+          "round": 1,
+          "scope_digest": "46dd812a8eadf8395384f0c30f02773a7db2a179d30012b0c24a88d951ea0048",
+          "started_at": "2026-09-14T17:41:35.840234Z",
+          "strategy": "diagnose-repair-verify",
+          "strategy_version": "1.0.0",
+          "usage": {
+            "cached_input_tokens": 163456,
+            "claim": "reported_by_harness",
+            "input_tokens": 184478,
+            "output_tokens": 1458
+          }
+        }
+      ],
+      "source_digest": "94a32753944d62f2b0940c3a8ac50a91564cc68595a057554239d6e721d9e865"
+    },
+    {
+      "contract": "TaskToolkitManagedSmoke/v1",
+      "harness": "claude-native",
+      "qualification": "single synthetic native initiative; not comparative pilot",
+      "rounds": 1,
+      "canonical_fixture_acceptance": true,
+      "user_branch_unchanged": true,
+      "round_evidence": [
+        {
+          "attempt_id": "0c6a1175-1976-4a74-8402-e0d996e3cc92",
+          "contract": "TaskRecipeRound/v1",
+          "evaluation": "{\"eval\":\"eval_1\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n{\"eval\":\"eval_2\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n{\"eval\":\"eval_3\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n{\"eval\":\"_exit_check\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n",
+          "execution_identity": {
+            "model": null,
+            "provider": null,
+            "reported_models": [
+              "claude-haiku-4-5-20251001",
+              "claude-opus-5[1m]"
+            ],
+            "source": "reported_by_harness"
+          },
+          "finished_at": "2026-09-14T17:57:58.14935Z",
+          "harness": "claude-native",
+          "harness_version": "2.1.270 (Claude Code)",
+          "model": null,
+          "provider": null,
+          "round": 1,
+          "scope_digest": "46dd812a8eadf8395384f0c30f02773a7db2a179d30012b0c24a88d951ea0048",
+          "started_at": "2026-09-14T17:57:09.868815Z",
+          "strategy": "diagnose-repair-verify",
+          "strategy_version": "1.0.0",
+          "usage": {
+            "cache_creation_input_tokens": 9916,
+            "cache_read_input_tokens": 52924,
+            "claim": "reported_by_harness",
+            "input_tokens": 10,
+            "output_tokens": 2901,
+            "total_cost_usd": 0.201117
+          }
+        }
+      ],
+      "source_digest": "2412d58423b85c7498e6bbbd5975376e379325133c2c0543706e9b494e4d4645"
+    }
+  ],
+  "earlier_runs": [
+    {
+      "harness": "claude-native",
+      "sequence": 1,
+      "outcome": "parked",
+      "reason": "CLI stream-json required --verbose",
+      "accepted": false,
+      "source": "/tmp/toolkit-claude-stream-probe.log",
+      "usage": null,
+      "source_digest": "feb1740346a5db353a734dd0eed0a277c2e772aa11b7bad480afe3a0256c0d25"
+    },
+    {
+      "harness": "claude-native",
+      "sequence": 2,
+      "outcome": "operator_cancelled",
+      "reason": "Global MCP startup did not complete the fixture",
+      "accepted": false,
+      "source": "/tmp/toolkit-claude-cancel.json",
+      "usage": null,
+      "source_digest": "9f8795cf8fee70617686edbcb94e1102def0ce0575102d9afe5cffb9bdf5c605"
+    },
+    {
+      "harness": "claude-native",
+      "sequence": 3,
+      "outcome": "operator_cancelled",
+      "reason": "A user-settings sidecar remained active; fixture had not completed",
+      "accepted": false,
+      "source": "/tmp/toolkit-claude-hooks-cancel.json",
+      "usage": null,
+      "source_digest": "cdb9955cbe326c443ae08dbcd3d4baba4ebde85b5b8ae8674065077adc111511"
+    },
+    {
+      "harness": "claude-native",
+      "sequence": 4,
+      "outcome": "parked_no_progress",
+      "reason": "Two rounds failed to satisfy the output evals; no false acceptance",
+      "accepted": false,
+      "source": "/tmp/toolkit-live-claude.log",
+      "usage": null,
+      "raw_round_output_retained": false,
+      "source_digest": "ff54dee6f5fecc67b4962e2acdaec494d29788520d2837f99bb9a72e99ac377e"
+    }
+  ],
+  "limitations": [
+    "Synthetic one-leaf fixture; not the six-scenario comparative pilot.",
+    "Provider defaults were not explicitly pinned. Unreported identities remain unknown.",
+    "Failed-run usage measurements are incomplete; no aggregate cost or productivity claim.",
+    "One no-progress run retains summary/event evidence but not raw round output.",
+    "No hosted platform or attested-isolation certification."
+  ]
+}

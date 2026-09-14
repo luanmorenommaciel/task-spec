@@ -1,0 +1,253 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-incident-claude-separate-engine-r1-20260914T205956Z",
+  "scenario": "incident",
+  "harness": "claude",
+  "workflow": "separate-engine",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-vnb9kbht/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "src/evidence/operational.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "3aebe071f523cc77c09e49d9ad41572ceca15d18",
+  "setup_passed": true,
+  "accepted": false,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 14.578586291,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "930eab80d2e2fec6314697362ff33429d8fae4c5b9bef278e9ddf4711b3aa5e1",
+      "b722b45fdf15c5c93a794fd5930feb01db144708e2b1c0f38695335472d1c758"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 14.578586291,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "930eab80d2e2fec6314697362ff33429d8fae4c5b9bef278e9ddf4711b3aa5e1",
+    "b722b45fdf15c5c93a794fd5930feb01db144708e2b1c0f38695335472d1c758"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "3284e0aae552d490d6011b28f6b94aae537976f4f78eaa3ea668428e6c9ad986",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-006.stdout",
+      "sha256": "6cde95cf6342f3f17fce8f04174fc7db0974a2b0135770797aabf3ea870f7d89"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-007.stdout",
+      "sha256": "65c4faae19f796cf2f3799424b4b22814e1f9f7b71eb01f038f645bbd8b88baf"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-008.stdout",
+      "sha256": "f4d9e9717997654354268ce1e357b0d16cfc9e6c26b9143da31a86b72a32c492"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-009.stdout",
+      "sha256": "ae4b7a204a57867db61d050086162f0a42b09b45a366115359dda35abbdf7bd8"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-010.stdout",
+      "sha256": "a31fae42939b911b4aad2921c9464224dcec9fdc97d8938dd1eeb662f8ddc157"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-011.stdout",
+      "sha256": "6ffac1fa93a9612381734e283c4e15de9e779d6afef57665034d231e70c49878"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-012.stdout",
+      "sha256": "085b5e75e0b08d1c208f1eed7c523ea72b6c6e32d76e26e152a8b1e26b070cd9"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-013.stdout",
+      "sha256": "a641857c299fc6b0b16f1e5da720c0b42581ad391f30afa4530327ab401342c1"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-014.stdout",
+      "sha256": "b12cb2ef11baccacc6fb396d0012a5904820f8a1e689f38d37589c8ea479332d"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-015.stdout",
+      "sha256": "d8beff9f0eb1cd051254944e95f654c024eb4992ab93802d75017693c40c27c9"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-016.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-017.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-017.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-018.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/command-018.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/cost.json",
+      "sha256": "19c7dfd4641d8a7e85fb9c2e74642a9f3230a87937224b137e1005dda77117c7"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/events.jsonl",
+      "sha256": "7c2bd6500868f8e96dfc85c9f94b0af4058d77da02ec660f2b7c27e228a01ba2"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/prepared.json",
+      "sha256": "35891d269630c7cbf7a4998182cd76799103f56e6c54158d7398a59f57dc9463"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/registration.json",
+      "sha256": "182e6ee55f0b864a1f2b3c860d24b767377368d09a515fda41a0641c1c10c702"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "d5f456e709e136e8e5bdbb803dc1798e9a42bec0fa8600546ac2c72885ed69a7"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-separate-engine-r1-20260914T205956Z/workspace-evidence/tasks/T-20260914-pilot-incident.md",
+      "sha256": "7c2c732d60c04a0f1808535d4723153407868ab6ed7a066be39fc78904d33a00"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "batch",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMaterializationReceipt/v1",
+    "engine_version": "3.10.0",
+    "input": {
+      "contract": "TaskPlan/v1",
+      "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-x2sg4d9r/task-spec-3.9.0/tasks/.plans/native.json",
+      "digest": "83230c9c9bbbc1673fd8e453c1cee5c69413ebc686c69e9cf2d31895207a2edd",
+      "approved": true
+    },
+    "output_dir": "tasks",
+    "dry_run": false,
+    "materialized": true,
+    "changed": true,
+    "state": "created",
+    "dispatch_authorized": false,
+    "tasks": [
+      {
+        "task_id": "T-20260914-pilot-contention-worker",
+        "path": "tasks/T-20260914-pilot-contention-worker.md",
+        "sha256": "24aabe019531d78baada40f731369eaeb64b2f2f09df22d18157d357efebe20d"
+      },
+      {
+        "task_id": "T-20260914-pilot-contention",
+        "path": "tasks/T-20260914-pilot-contention.md",
+        "sha256": "e0a2a48a72499fdac6d7e298b521d577b6bea77423fd3a2e398ca24c327b69bf"
+      }
+    ],
+    "warnings": []
+  },
+  "stdout": "",
+  "stderr": ""
+}

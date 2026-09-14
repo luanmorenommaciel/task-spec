@@ -1,0 +1,48 @@
+{
+  "contract": "TaskToolkitLocalVerification/v1",
+  "release_qualified": false,
+  "head": "76ff7b8880c95fd583f933c69b77c8d75ad041db",
+  "working_tree_uncommitted": true,
+  "runs": [
+    {
+      "name": "baseline-check",
+      "command": "make check",
+      "exit_code": 2,
+      "log": "baseline-check.txt",
+      "sha256": "11392b4cf75e118f4b9a3bade6b5ee6478b7ebb00954bea270769aad0d20e10f",
+      "boundary": "Pinned original checkout; pre-existing README release marker failure"
+    },
+    {
+      "name": "pre-packaging-fix-check",
+      "command": "make check",
+      "exit_code": 0,
+      "log": "pre-packaging-fix-check.txt",
+      "sha256": "8b550bac528a303de1de68fffd4854eb11ab53a9f52822c5d3ef2cdefb84ec28",
+      "boundary": "Complete gate before the final generated-conformance-state packaging correction"
+    },
+    {
+      "name": "final-source-check",
+      "command": "make check",
+      "exit_code": 0,
+      "log": "final-check.txt",
+      "sha256": "a82d060f3f3b3d44a63928b0b4bfae30fafb1a9058ce381d96e4df0cf610aa21",
+      "boundary": "Final implementation source, including generated-state packaging correction; subsequent changes only retain evidence and update the report"
+    },
+    {
+      "name": "packaging-generated-state-regression",
+      "command": "bash tests/test-toolkit-install.sh",
+      "exit_code": 0,
+      "log": "packaging-regression.txt",
+      "sha256": "187b3901965323fd788861aa61e80db8e9ff218c1e68fcb7f5966a4f330cff39",
+      "boundary": "Generated conformance state excluded; source corruption and unexpected resources still refuse"
+    }
+  ],
+  "final_source_gate": "passed",
+  "observed_at": "2026-09-14T18:47:54.074035+00:00",
+  "platform": "macOS arm64",
+  "toolchain": {
+    "system_bash": "3.2.57",
+    "python": "3.14.6",
+    "go": "1.26.2"
+  }
+}

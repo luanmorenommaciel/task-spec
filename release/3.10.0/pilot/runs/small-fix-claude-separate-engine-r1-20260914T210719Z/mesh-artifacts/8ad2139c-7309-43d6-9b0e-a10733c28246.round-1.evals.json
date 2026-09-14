@@ -1,0 +1,34 @@
+{
+  "attempt_id": "8ad2139c-7309-43d6-9b0e-a10733c28246",
+  "contract": "TaskRecipeRound/v1",
+  "evaluation": "{\"eval\":\"eval_1\",\"status\":\"fail\",\"duration_sec\":1,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"small-fix\\\", \\\"passed\\\": false, \\\"error\\\": \\\"command ('bash', '/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-pzpsm1lk/task-spec-3.9.0/.git/taskspec-mesh/runs/52d1bd00-10ec-4c9b-a048-9fd0a5496529/attempts/8ad2139c-7309-43d6-9b0e-a10733c28246/bin/taskspec', '--json', 'recipe', 'validate', '-'): exit 1\\\\n{\\\\n  \\\\\\\"contract\\\\\\\": \\\\\\\"TaskSpecCLIResult/v1\\\\\\\",\\\\n  \\\\\\\"engine_version\\\\\\\": \\\\\\\"3.9.0\\\\\\\",\\\\n  \\\\\\\"command\\\\\\\": \\\\\\\"recipe\\\\\\\",\\\\n  \\\\\\\"ok\\\\\\\": false,\\\\n  \\\\\\\"exit_code\\\\\\\": 1,\\\\n  \\\\\\\"data\\\\\\\": null,\\\\n  \\\\\\\"stdout\\\\\\\": \\\\\\\"\\\\\\\",\\\\n  \\\\\\\"stderr\\\\\\\": \\\\\\\"RECIPE=INVALID cannot read -: [Errno 2] No such file or directory: '-'\\\\\\\\n\\\\\\\"\\\\n}\\\\n\\\\n\\\"}\",\"stderr\":\"\"}\n{\"eval\":\"eval_2\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"write-boundary\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n{\"eval\":\"eval_3\",\"status\":\"pass\",\"duration_sec\":1,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"source-integrity\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n{\"eval\":\"_exit_check\",\"status\":\"fail\",\"duration_sec\":0,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"small-fix\\\", \\\"passed\\\": false, \\\"error\\\": \\\"command ('bash', '/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-pzpsm1lk/task-spec-3.9.0/.git/taskspec-mesh/runs/52d1bd00-10ec-4c9b-a048-9fd0a5496529/attempts/8ad2139c-7309-43d6-9b0e-a10733c28246/bin/taskspec', '--json', 'recipe', 'validate', '-'): exit 1\\\\n{\\\\n  \\\\\\\"contract\\\\\\\": \\\\\\\"TaskSpecCLIResult/v1\\\\\\\",\\\\n  \\\\\\\"engine_version\\\\\\\": \\\\\\\"3.9.0\\\\\\\",\\\\n  \\\\\\\"command\\\\\\\": \\\\\\\"recipe\\\\\\\",\\\\n  \\\\\\\"ok\\\\\\\": false,\\\\n  \\\\\\\"exit_code\\\\\\\": 1,\\\\n  \\\\\\\"data\\\\\\\": null,\\\\n  \\\\\\\"stdout\\\\\\\": \\\\\\\"\\\\\\\",\\\\n  \\\\\\\"stderr\\\\\\\": \\\\\\\"RECIPE=INVALID cannot read -: [Errno 2] No such file or directory: '-'\\\\\\\\n\\\\\\\"\\\\n}\\\\n\\\\n\\\"}\",\"stderr\":\"\"}\n",
+  "evaluation_environment": "sanitized_host",
+  "execution_identity": {
+    "model": "claude-opus-5",
+    "provider": null,
+    "reported_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-opus-5"
+    ],
+    "source": "explicit_route"
+  },
+  "finished_at": "2026-09-14T21:12:10.123824Z",
+  "harness": "claude-native",
+  "harness_version": "2.1.270 (Claude Code)",
+  "model": "claude-opus-5",
+  "provider": null,
+  "round": 1,
+  "sandbox_evidence": "",
+  "scope_digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "started_at": "2026-09-14T21:07:40.693979Z",
+  "strategy": "diagnose-repair-verify",
+  "strategy_version": "1.0.0",
+  "usage": {
+    "cache_creation_input_tokens": 40509,
+    "cache_read_input_tokens": 474763,
+    "claim": "reported_by_harness",
+    "input_tokens": 36,
+    "output_tokens": 17790,
+    "total_cost_usd": 1.0904275
+  }
+}

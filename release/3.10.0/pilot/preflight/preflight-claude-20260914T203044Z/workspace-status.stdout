@@ -1,0 +1,4 @@
+ M src/recipe/recipes.py
+ M tasks/T-20260914-pilot-stdin.md
+?? .taskspec/acceptance/
+?? .taskspec/handoffs/

@@ -1,0 +1,55 @@
+{
+  "observed_at": "2026-09-14T20:20:08.610335+00:00",
+  "reproductions": [
+    {
+      "issue": "recipe-stdin",
+      "command": [
+        "taskspec",
+        "--json",
+        "recipe",
+        "validate",
+        "-"
+      ],
+      "expected": "validate a valid recipe supplied on stdin",
+      "exit_code": 1,
+      "stdout": "{\n  \"contract\": \"TaskSpecCLIResult/v1\",\n  \"engine_version\": \"3.9.0\",\n  \"command\": \"recipe\",\n  \"ok\": false,\n  \"exit_code\": 1,\n  \"data\": null,\n  \"stdout\": \"\",\n  \"stderr\": \"RECIPE=INVALID cannot read -: [Errno 2] No such file or directory: '-'\\n\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "issue": "toolkit-overview-route",
+      "command": [
+        "taskspec",
+        "--json",
+        "guide",
+        "overview"
+      ],
+      "expected": "read the installed toolkit overview",
+      "exit_code": 2,
+      "stdout": "{\n  \"contract\": \"TaskSpecCLIResult/v1\",\n  \"engine_version\": \"3.9.0\",\n  \"command\": \"guide\",\n  \"ok\": false,\n  \"exit_code\": 2,\n  \"data\": null,\n  \"stdout\": \"GUIDE=TOPICS intent, decomposition, recipes, mesh, acceptance, release, maintenance, migration, install, cli\\n\",\n  \"stderr\": \"\"\n}\n",
+      "stderr": "",
+      "existing_resource": "docs/guides/toolkit/index.md"
+    },
+    {
+      "issue": "malformed-incident-receipt",
+      "command": [
+        "taskspec",
+        "--json",
+        "receipt",
+        "operational",
+        "validate",
+        "<receipt with null attachments>"
+      ],
+      "expected": "typed actionable OPERATIONAL_INVALID diagnostic without a traceback",
+      "exit_code": 1,
+      "stdout": "{\n  \"contract\": \"TaskSpecCLIResult/v1\",\n  \"engine_version\": \"3.9.0\",\n  \"command\": \"receipt\",\n  \"ok\": false,\n  \"exit_code\": 1,\n  \"data\": null,\n  \"stdout\": \"\",\n  \"stderr\": \"Traceback (most recent call last):\\n  File \\\"/Users/luanmorenomaciel/GitHub/task-spec/src/evidence/operational.py\\\", line 79, in <module>\\n    if __name__=='__main__':raise SystemExit(main())\\n                                             ~~~~^^\\n  File \\\"/Users/luanmorenomaciel/GitHub/task-spec/src/evidence/operational.py\\\", line 51, in main\\n    refs=[{k:v for k,v in row.items() if k!='verification'} for row in document.get('attachments',[])]\\n                                                                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\\nTypeError: 'NoneType' object is not iterable\\n\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "issue": "tracked-local-settings-in-archive",
+      "method": "Unmodified archive builder copied to isolated Git repository with explicitly tracked local settings",
+      "expected": "WATCHDOG.yml excluded regardless of Git tracking state",
+      "observed_included": true,
+      "source_sha256": "0f49fa9af110ebdaf98057a828397ee550e22ef7a8154b6ca7802fa7cebcaac4"
+    }
+  ]
+}

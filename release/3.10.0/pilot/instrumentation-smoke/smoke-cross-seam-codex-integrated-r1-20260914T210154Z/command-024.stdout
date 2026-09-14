@@ -1,0 +1,93 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "2260a8da-657e-4455-b52b-1abae5642b0a",
+    "ok": true,
+    "code": "MESH_RUN_STARTED",
+    "message": "authorized TaskMesh leases acquired",
+    "data": {
+      "attempts": [
+        {
+          "adapter": "pilot-smoke",
+          "branch": "taskmesh/20260914-pilot-overview-skill/9c161ddf",
+          "decision": {
+            "candidates": [
+              {
+                "adapter": "pilot-smoke",
+                "eligible": true,
+                "rejection_reasons": [],
+                "static_score": 100
+              }
+            ],
+            "contract": "DispatchDecision/v1",
+            "decided_at": "2026-09-14T21:02:55.507723Z",
+            "explanation": "selected by explicit choice, task backend, roster band, static policy, bounded advisor order, then stable tie-breaker",
+            "policy_digest": "sha256:5f16b5710759fefc7dfd834b2a25103bf8714db0cd53711c485020ba23d1b66b",
+            "selected": "pilot-smoke",
+            "task_id": "T-20260914-pilot-overview-skill",
+            "task_revision_digest": "sha256:53720f8f6d615c5ff40a97dd4e8ffef60987c6473e07a8abc7450c175371a4e3"
+          },
+          "lease": {
+            "attempt_id": "9c161ddf-3554-4f1f-a36c-62d1bd27a757",
+            "contract": "RunLease/v1",
+            "expires_at": "2026-09-14T21:07:55.507936Z",
+            "fencing_token": 1,
+            "heartbeat_at": "2026-09-14T21:02:55.507936Z",
+            "issued_at": "2026-09-14T21:02:55.507936Z",
+            "owner": "2260a8da-657e-4455-b52b-1abae5642b0a",
+            "run_id": "09e84de5-0587-4c08-b9e0-640600b94173",
+            "state": "leased",
+            "task_id": "T-20260914-pilot-overview-skill",
+            "task_revision_digest": "sha256:53720f8f6d615c5ff40a97dd4e8ffef60987c6473e07a8abc7450c175371a4e3"
+          },
+          "route": {
+            "adapter": "pilot-smoke",
+            "effort": "S",
+            "mode": "supervised",
+            "model": "gpt-6-astra",
+            "provider": "",
+            "source": "flag"
+          },
+          "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-4m2ywwsi/task-spec-3.9.0/.git/taskspec-mesh/runs/09e84de5-0587-4c08-b9e0-640600b94173/attempts/9c161ddf-3554-4f1f-a36c-62d1bd27a757"
+        }
+      ],
+      "leases": [
+        {
+          "attempt_id": "9c161ddf-3554-4f1f-a36c-62d1bd27a757",
+          "contract": "RunLease/v1",
+          "expires_at": "2026-09-14T21:07:55.507936Z",
+          "fencing_token": 1,
+          "heartbeat_at": "2026-09-14T21:02:55.507936Z",
+          "issued_at": "2026-09-14T21:02:55.507936Z",
+          "owner": "2260a8da-657e-4455-b52b-1abae5642b0a",
+          "run_id": "09e84de5-0587-4c08-b9e0-640600b94173",
+          "state": "leased",
+          "task_id": "T-20260914-pilot-overview-skill",
+          "task_revision_digest": "sha256:53720f8f6d615c5ff40a97dd4e8ffef60987c6473e07a8abc7450c175371a4e3"
+        }
+      ],
+      "run": {
+        "contract": "TaskMeshRun/v1",
+        "created_at": "2026-09-14T21:02:54.81052Z",
+        "graph_revision_digest": "sha256:2906e32f136d7291848f8fa21b7a2777c81575c24cf8967ba531a39d98ac3955",
+        "integration_branch": "taskmesh/run/09e84de5",
+        "max_parallel": 2,
+        "mode": "supervised",
+        "repository": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-4m2ywwsi/task-spec-3.9.0",
+        "run_id": "09e84de5-0587-4c08-b9e0-640600b94173",
+        "state": "active",
+        "target": {
+          "branch": "main",
+          "commit": "5006747d4c369c7f31075384637a788a80b53f65"
+        }
+      }
+    }
+  },
+  "stdout": "",
+  "stderr": ""
+}

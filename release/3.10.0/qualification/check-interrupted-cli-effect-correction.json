@@ -1,0 +1,7 @@
+{
+  "command": "make check",
+  "exit_code": 143,
+  "state": "intentionally_interrupted",
+  "reason": "New live chat evidence showed gate eval execution and conditional Mesh initialization were misdescribed; stop to correct metadata, skill routing and dry-run side effects.",
+  "final_release_gate": false
+}

@@ -2,7 +2,7 @@
 # Install a pinned Task-Spec engine, CLI launcher, and equivalent harness skills.
 set -euo pipefail
 
-PINNED_VERSION="3.9.0"
+PINNED_VERSION="3.10.0"
 REPOSITORY="luanmorenommaciel/task-spec"
 TARGET="$PWD"
 MODE="copy"
@@ -10,6 +10,8 @@ BIN_DIR="${HOME}/.local/bin"
 NO_BIN=false
 FORCE=false
 WITH_MESH=false
+TOOLKIT=false
+DRY_RUN=false
 
 usage() {
   cat <<'EOF'
@@ -21,6 +23,8 @@ Usage: install.sh [options]
   --bin-dir DIR      CLI launcher directory (default: ~/.local/bin)
   --no-bin           install skills only
   --with-mesh        install the matching optional TaskMesh helper
+  --toolkit          install CLI, private decomposition runtime, skills, and TaskMesh
+  --dry-run          print installation destinations without writing
   --force            back up and replace existing managed destinations
 EOF
 }
@@ -40,6 +44,8 @@ while [[ $# -gt 0 ]]; do
     --bin-dir=*) BIN_DIR="${1#*=}"; shift ;;
     --no-bin) NO_BIN=true; shift ;;
     --with-mesh) WITH_MESH=true; shift ;;
+    --toolkit) TOOLKIT=true; WITH_MESH=true; shift ;;
+    --dry-run) DRY_RUN=true; shift ;;
     --force) FORCE=true; shift ;;
     --help|-h) usage; exit 0 ;;
     --version) echo "$PINNED_VERSION"; exit 0 ;;
@@ -102,6 +108,11 @@ fi
 SOURCE_VERSION="$(tr -d '[:space:]' < "$SOURCE_ROOT/VERSION")"
 [[ "$SOURCE_VERSION" == "$PINNED_VERSION" ]] || { echo "install.sh: expected v$PINNED_VERSION, source is v$SOURCE_VERSION" >&2; exit 1; }
 
+if [[ "$DRY_RUN" == true ]]; then
+  printf 'INSTALL=DRY_RUN target=%s engine=%s bin=%s toolkit=%s mesh=%s\n' "$TARGET" "${TASKSPEC_INSTALL_ROOT:-${HOME}/.local/share/task-spec}/$PINNED_VERSION" "$BIN_DIR" "$TOOLKIT" "$WITH_MESH"
+  exit 0
+fi
+
 backup_existing() {
   local path="$1"
   if [[ -e "$path" || -L "$path" ]]; then
@@ -143,6 +154,7 @@ if [[ "$MODE" == "symlink" ]]; then
   fi
 else
   if [[ -f "$ENGINE_DEST/VERSION" && "$(tr -d '[:space:]' < "$ENGINE_DEST/VERSION")" == "$PINNED_VERSION" && "$FORCE" != true ]]; then
+    python3 "$SOURCE_ROOT/tools/verify-toolkit.py" --engine "$ENGINE_DEST" --source "$SOURCE_ROOT" >/dev/null
     echo "kept: pinned engine $ENGINE_DEST"
   else
     [[ ! -e "$ENGINE_DEST" ]] || backup_existing "$ENGINE_DEST"
@@ -150,6 +162,9 @@ else
     for item in VERSION LICENSE README.md CHANGELOG.md SKILL.md assets bin harness src spec docs tools .claude-plugin; do
       [[ -e "$SOURCE_ROOT/$item" ]] && cp -R "$SOURCE_ROOT/$item" "$ENGINE_DEST/$item"
     done
+    # Conformance executions create local state; it is never a shipped resource.
+    rm -rf "$ENGINE_DEST/spec/conformance/_workdir" \
+      "$ENGINE_DEST/spec/conformance/_state.yaml" "$ENGINE_DEST/spec/conformance/results.json"
     if [[ -d "$SOURCE_ROOT/release/mesh" ]]; then
       mkdir -p "$ENGINE_DEST/release"
       cp -R "$SOURCE_ROOT/release/mesh" "$ENGINE_DEST/release/mesh"
@@ -253,12 +268,19 @@ install_mesh() {
 if [[ "$WITH_MESH" == true ]]; then
   install_mesh
 fi
+if [[ "$TOOLKIT" == true ]]; then
+  python3 "$ENGINE_DEST/src/setup/decompose.py"
+fi
 
 install_skill_copy() {
   local destination="$1"
   if [[ -e "$destination" || -L "$destination" ]]; then
     if [[ -f "$destination/.taskspec-version" && "$(cat "$destination/.taskspec-version")" == "$PINNED_VERSION" && "$FORCE" != true ]]; then
-      if cmp -s "$SOURCE_ROOT/SKILL.md" "$destination/SKILL.md"; then
+      local guides_match=true guide
+      for guide in "$SOURCE_ROOT/docs/guides/toolkit/"*.md; do
+        cmp -s "$guide" "$destination/docs/guides/toolkit/$(basename "$guide")" || guides_match=false
+      done
+      if [[ "$guides_match" == true ]] && cmp -s "$SOURCE_ROOT/SKILL.md" "$destination/SKILL.md"; then
         echo "kept: $destination"
         return 0
       fi
@@ -267,6 +289,8 @@ install_skill_copy() {
   fi
   mkdir -p "$destination/references/schemas" "$destination/references/concepts"
   cp "$SOURCE_ROOT/SKILL.md" "$destination/SKILL.md"
+  mkdir -p "$destination/docs/guides/toolkit"
+  cp "$SOURCE_ROOT/docs/guides/toolkit/"*.md "$destination/docs/guides/toolkit/"
   cp "$SOURCE_ROOT/docs/authoring-workflow.md" "$destination/references/authoring-workflow.md"
   cp "$SOURCE_ROOT/docs/quick-reference.md" "$destination/references/quick-reference.md"
   cp "$SOURCE_ROOT/docs/concepts/effort-gate.md" "$destination/references/concepts/effort-gate.md"
@@ -375,4 +399,7 @@ echo "Prove:  taskspec demo"
 if [[ "$WITH_MESH" == true ]]; then
   echo "Mesh:   taskspec mesh doctor"
 fi
+verify_args=(--engine "$ENGINE_DEST" --source "$SOURCE_ROOT" --target "$TARGET" --quiet)
+if [[ "$TOOLKIT" == true ]]; then verify_args+=(--runtime --helper "$BIN_DIR/taskspec-meshd"); fi
+python3 "$SOURCE_ROOT/tools/verify-toolkit.py" "${verify_args[@]}"
 echo "INSTALL=OK"

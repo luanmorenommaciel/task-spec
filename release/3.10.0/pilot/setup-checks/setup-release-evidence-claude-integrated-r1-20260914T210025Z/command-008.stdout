@@ -1,0 +1,19 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "decompose",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskDecompositionResult/v1",
+    "initiative": "pilot",
+    "state": "needs_review",
+    "dry_run": false,
+    "next": [
+      "taskspec decompose review pilot --accept --reviewer <name> --reason <reason>"
+    ],
+    "diagnostics": []
+  },
+  "stdout": "",
+  "stderr": ""
+}

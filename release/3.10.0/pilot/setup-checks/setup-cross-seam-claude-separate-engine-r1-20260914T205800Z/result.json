@@ -1,0 +1,267 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-cross-seam-claude-separate-engine-r1-20260914T205800Z",
+  "scenario": "cross-seam",
+  "harness": "claude",
+  "workflow": "separate-engine",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-s4po2hjf/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "src/cli/guide.py",
+    "SKILL.md",
+    "skills/task-spec/SKILL.md"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "496f14dd4049e70d7fb534ef109f8d15f9a40c98",
+  "setup_passed": true,
+  "accepted": false,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 11.656067959,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "c223adc54804fce360e3213fc8720acc9614e5311799eec15f431fbdd8e6289d",
+      "f7e1f476f9c7ec32898eb4859372944bf25e5b0bf10dddd6a50d2103c80b8f46"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 11.656067959,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "c223adc54804fce360e3213fc8720acc9614e5311799eec15f431fbdd8e6289d",
+    "f7e1f476f9c7ec32898eb4859372944bf25e5b0bf10dddd6a50d2103c80b8f46"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "f5b9f7d4f557e029329bb9e353802135aee5bcdc79783e0226d7a798eb6f323f",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-006.stdout",
+      "sha256": "2c0aeb2113eb9c39876d90e71cf5ccf74a8574418b2f96e7a865111c2274c202"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-007.stdout",
+      "sha256": "306984557288b7b742621ba98d1c39bbe854592b70e709ce224621a287ed9ffe"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-008.stdout",
+      "sha256": "e75df3a206fb06ef7575d25726a4cd9f31b1bb45acc9354b592d601812802d66"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-009.stdout",
+      "sha256": "34283d2020ad5827a04805d26ca5a35da22b5b0169bfcb3dee7fb67d114ee162"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-010.stdout",
+      "sha256": "8ad837ab8be9316b36c7b622e6688caf4301f9eb65dfafccda3f176e32387e3f"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-011.stdout",
+      "sha256": "25ea847c670f9083ff75525dcb3d82cd56822939723355bb70e563c671bb3cd7"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-012.stdout",
+      "sha256": "1e2d64cf612da96d0d3bb247728bb39b67d0293747d342eafad38d56a5bf74a2"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-013.stdout",
+      "sha256": "7262b5fb97feca79933e811e769d459260f0e5e710cc6bace340f72ab47afdf7"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-014.stdout",
+      "sha256": "9815c48892854ea8613844cc1fafcab854719e776720d25241c7144bf111cd7e"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-015.stdout",
+      "sha256": "36717a35f90409da34728e20a77d754254fe792f8a7689fcda922c4c54fa9ef0"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-016.stdout",
+      "sha256": "15a26e94e101a9079abfc1a28f26e00eca5cb5f7938a4c04fc33feacde2590d9"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-017.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-017.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-018.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-018.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-019.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/command-019.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/cost.json",
+      "sha256": "19c7dfd4641d8a7e85fb9c2e74642a9f3230a87937224b137e1005dda77117c7"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/events.jsonl",
+      "sha256": "7093869fba53f06a74b6c3e5536667e74395eec592ff98e58f6c81a5b3e48700"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/prepared.json",
+      "sha256": "aef0588148d98e42708b2ca94095b8af25bb12cfe0bd325da556a3a4e23e7e96"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/registration.json",
+      "sha256": "1bc53d372b310dbdfa91c09131de1e615366125196b6a5763baf9e82e4c9225c"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "019e7ce79c9971619b70b293be34ef8049d9274aed74065f7e154d2bd112d913"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/workspace-evidence/tasks/T-20260914-pilot-overview-route.md",
+      "sha256": "9cef80f3bd70c64cf090a725fd3e88489911e288d53f4b3bc3f6346dd74a7e45"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-separate-engine-r1-20260914T205800Z/workspace-evidence/tasks/T-20260914-pilot-overview-skill.md",
+      "sha256": "1be8b04918e22ff723de5b624e8777d3939bd90992af465a2b8115d09a08825d"
+    }
+  ]
+}

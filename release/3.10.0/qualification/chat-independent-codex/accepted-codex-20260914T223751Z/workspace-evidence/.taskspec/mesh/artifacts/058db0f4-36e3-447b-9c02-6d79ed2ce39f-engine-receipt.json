@@ -1,0 +1,35 @@
+{
+  "acceptance_verdict": "accepted",
+  "adapter_version": "chat-fixture/1",
+  "artifacts": [
+    {
+      "digest": "sha256:2ee83b5200acf470767c55d3936ef344162204f9c3cb0817b70b87f2f278c748",
+      "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat img4yapu/.taskspec/mesh/artifacts/058db0f4-36e3-447b-9c02-6d79ed2ce39f.json"
+    },
+    {
+      "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat img4yapu/.taskspec/acceptance/T-20260914-chat-output/058db0f4-36e3-447b-9c02-6d79ed2ce39f.json"
+    }
+  ],
+  "attempts": 1,
+  "contract": "EngineRunReceipt/v2",
+  "deviations": [
+    "supervised host worktree; not a security sandbox"
+  ],
+  "engine_version": "chat-fixture/1",
+  "environment_digest": "sha256:2ee83b5200acf470767c55d3936ef344162204f9c3cb0817b70b87f2f278c748",
+  "finished_at": "2026-09-14T22:38:05.266885Z",
+  "handoff_digest": "sha256:e08a9a775d3b0488b343b446fcfa4c1bf574ad4743e6f69fb1a88b80771936cf",
+  "model_id": "adapter-selected",
+  "observed_at": "2026-09-14T22:38:05.266885Z",
+  "provider": "custom",
+  "run_id": "ad2b94a5-6bdb-480d-867d-bf26c1b30f25",
+  "started_at": "2026-09-14T22:38:05.253294Z",
+  "subject": {
+    "attempt_id": "058db0f4-36e3-447b-9c02-6d79ed2ce39f",
+    "authorization_ref": "hmac-sha256-v3:22fc624e:8586d5e3197ac09d6ad7128daf895d2f5cfeef2a4bb8c1ab481b84eebb7ce748",
+    "base_commit": "b7ad0712cb15b0096ac87efdda3179205f505420",
+    "task_id": "T-20260914-chat-output",
+    "task_revision_digest": "sha256:e2eb0abd41552c12a065ee313e1e4d24f73e34d272f2e03773aacb91b616ddd1"
+  },
+  "terminal_outcome": "accepted"
+}

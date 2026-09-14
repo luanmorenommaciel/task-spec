@@ -1,0 +1,17 @@
+{
+  "contract": "TaskToolkitPilotCorpus/v1",
+  "status": "protocol_ready_real_work_inputs_required",
+  "repeats_per_cell": 2,
+  "workflows": ["separate-engine", "integrated", "native-harness"],
+  "harnesses": ["codex", "claude"],
+  "scenarios": [
+    {"id": "small-fix", "outcome": "Repair one reproducible behavior without decomposition overhead", "required_evidence": ["reproduction", "signed bounded scope", "acceptance", "regression result"]},
+    {"id": "cross-seam", "outcome": "Deliver a feature crossing independently owned responsibilities", "required_evidence": ["reviewed seams", "causal dependencies", "leaf acceptance", "capability integration proof"]},
+    {"id": "investigation", "outcome": "Resolve an ambiguous cause without inventing missing facts", "required_evidence": ["source observations", "alternative explanations", "discriminating evidence", "accepted conclusion"]},
+    {"id": "contention", "outcome": "Deliver disjoint file changes sharing an exclusive environment resource", "required_evidence": ["resource declaration", "serialized leases", "no overlap", "acceptance"]},
+    {"id": "incident", "outcome": "Turn an external observation into reviewed corrective work", "required_evidence": ["reported observation", "candidate intent", "diagnosis", "accepted successor"]},
+    {"id": "release-evidence", "outcome": "Establish release readiness without equating pipeline status with target health", "required_evidence": ["revision", "artifact", "environment", "pipeline run", "independent target observation", "human release decision"]}
+  ],
+  "required_inputs": ["repository snapshots", "matched budgets", "permission manifests", "independent evaluator definitions", "engineer active-time observations"],
+  "release_requires": ["no false acceptance", "acceptance quality nonregression", "one median time improves without worsening the other", "all workflow results including unfavorable results retained", "migration and rollback demonstrated"]
+}

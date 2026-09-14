@@ -1,0 +1,10 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-7bbap6_y/task-spec-3.9.0",
+  "specs": [
+    "tasks/T-20260914-pilot-overview-route.md",
+    "tasks/T-20260914-pilot-overview-skill.md"
+  ],
+  "plan": "tasks/.plans/native.json",
+  "leaves": 2,
+  "setup_passed": true
+}

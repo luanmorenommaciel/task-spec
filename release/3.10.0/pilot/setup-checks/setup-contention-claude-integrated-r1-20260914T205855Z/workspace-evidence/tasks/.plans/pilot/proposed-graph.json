@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "TASK_GRAPH=READY",
+  "plan_sha256": "bd618f4706afd7146f4f1e7b89ae8664f3a9edd44fc6a08d9704766e594272d6",
+  "nodes": [
+    {
+      "id": "T-20260914-pilot-contention",
+      "title": "Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation",
+      "seam_id": "SEAM-CONTENTION",
+      "swimlane_id": "LANE-CONTENTION",
+      "leg_id": "LEG-CONTENTION",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal, cancellation/reuse, and unchanged target assertions pass. Compile the helper from this repository with its VERSION; do not use an installed helper from another checkout.",
+      "touches_paths": [],
+      "creates_paths": [
+        "tests/test-toolkit-resource-contention.sh"
+      ]
+    },
+    {
+      "id": "T-20260914-pilot-contention-worker",
+      "title": "Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM",
+      "seam_id": "SEAM-CONTENTION-WORKER",
+      "swimlane_id": "LANE-CONTENTION-WORKER",
+      "leg_id": "LEG-CONTENTION-WORKER",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM. It must not change repository files or contact providers.",
+      "touches_paths": [],
+      "creates_paths": [
+        "tests/fixtures/toolkit/resource-worker.sh"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "T-20260914-pilot-contention-worker",
+      "to": "T-20260914-pilot-contention",
+      "kind": "depends_on"
+    }
+  ],
+  "contentions": [],
+  "critical_path": [
+    "T-20260914-pilot-contention-worker",
+    "T-20260914-pilot-contention"
+  ],
+  "critical_path_mermaid_sha256": "17037115d5e53451c2e25492d0cfa4497523b81703264c178fd608a2232f0d34"
+}

@@ -1,0 +1,5 @@
+{
+  "pid": 33308,
+  "signal": "SIGTERM",
+  "reason": "Completed preliminary observation; preserve durable state and stop disposable service."
+}

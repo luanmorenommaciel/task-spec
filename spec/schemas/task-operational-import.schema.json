@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schemas/task-operational-import.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "source_digest",
+    "source_content",
+    "evidence",
+    "attachments",
+    "target_health_verified",
+    "acceptance_granted"
+  ],
+  "properties": {
+    "contract": {
+      "const": "TaskOperationalImport/v1"
+    },
+    "source_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_content": {
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "task-operational-evidence.schema.json"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256",
+          "verification"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "verification": {
+            "enum": [
+              "reported",
+              "local_digest_verified"
+            ]
+          }
+        }
+      }
+    },
+    "target_health_verified": {
+      "const": false
+    },
+    "acceptance_granted": {
+      "const": false
+    }
+  }
+}

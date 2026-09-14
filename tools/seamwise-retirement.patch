@@ -1,0 +1,29 @@
+Subject: Staged Seamwise retirement notice for qualified TaskSpec cutover
+
+Unapplied companion change; apply only after toolkit qualification.
+
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,22 @@
++> **Retirement notice: native decomposition has moved to TaskSpec.**
++>
++> New authoring uses TaskSpec's `decompose` commands. No Seamwise command
++> facade is provided. This repository remains as historical source and as
++> an explicit migration input; it no longer owns new decomposition features.
++
++## Migrate an existing workspace
++
++Retain the original authored recipe and workspace. Preview the explicit import:
++
++```bash
++taskspec --dry-run decompose import <initiative> --source /path/to/workspace
++taskspec decompose import <initiative> --source /path/to/workspace
++taskspec guide migration
++```
++
++Native review is required before new materialization. Existing sealed tasks and
++acceptance records remain unchanged. Keep original artifacts for rollback.
++
+ # SEAMWISE
+ 
+ <p align="center">

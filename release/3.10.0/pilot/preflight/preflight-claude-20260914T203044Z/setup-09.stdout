@@ -1,0 +1,12 @@
+safe-to-delegate: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-real-issue-05bhpxsx/task-spec-3.9.0/tasks/T-20260914-pilot-stdin.md
+────────────────────────────────────────────────────────
+1. Structural validation + shellcheck-evals ...
+   PASS — structurally valid, shellcheck clean
+2. Eval execution (broken-logic guard) ...
+   PASS — evals execute cleanly (0 pass / 2 fail; fails are expected for unbuilt work)
+────────────────────────────────────────────────────────
+VERDICT: DELEGATE — safe to hand off blind.
+   stamped signed_off: true by pilot-supervisor at 2026-09-14T20:30:55Z
+   sealed signed_off_sig: hmac-sha256-v3 — Tier 1 crypto trust
+   sign-off: Tier 1 — HMAC v3 verified over TaskRevision/v1 (unsupervised dispatch OK)
+TIER=1

@@ -1,0 +1,251 @@
+schema_version: 1
+intent:
+  id: DI-PILOT-CROSS-SEAM
+  title: The installed toolkit overview has no CLI route or skill entry
+  summary: Expose guide overview in human and JSON modes and route a new-user skill
+    request to the installed overview, preserving root/mirror parity and links.
+  claim: proposed
+  source: &id001
+    uri: tests/fixtures/toolkit/pilot-issue.json
+    captured_at: '2026-09-14T20:20:46.550715+00:00'
+    sha256: 9cb2693bd26a714755d6a8800e2870c5a639be060372c6cb2dc0bbdde349b570
+  success:
+  - Expose guide overview in human and JSON modes and route a new-user skill request
+    to the installed overview, preserving root/mirror parity and links.
+  out_of_scope:
+  - Changes outside the registered write surface.
+  - Production deployment, policy changes, self-authorization, and independent agents.
+system_map:
+  claim: proposed
+  components:
+  - CLI guidance
+  - harness workflow
+  external_dependencies:
+  - TaskSpec CLI and the independently registered evaluator
+  unknowns: []
+evidence:
+- id: E-PILOT-ISSUE
+  claim: current
+  source: *id001
+  confidence: 1.0
+  summary: A repository issue inspected before comparative execution; source digests
+    and reproduction are retained.
+decisions:
+- id: ADR-PILOT-SCOPE
+  status: accepted
+  owner: pilot-supervisor
+  rationale: The user authorized real repository issues with prospective intervention
+    recording. This fixed corpus defines the evaluated scope before execution; it
+    does not claim a new human review occurred during each run.
+seams:
+- id: SEAM-OVERVIEW-ROUTE
+  name: overview-route
+  description: Expose guide overview in human and JSON modes using the installed toolkit
+    index, preserving existing guide routes.
+  evidence:
+  - E-PILOT-ISSUE
+  responsibility: Expose guide overview in human and JSON modes using the installed
+    toolkit index, preserving existing guide routes.
+  consumes:
+  - registered issue
+  produces:
+  - overview-route verified behavior
+  owner: pilot-overview-route
+  independent_proof: Run the registered independent overview-route evaluator.
+  decision_ids:
+  - ADR-PILOT-SCOPE
+  rejected_alternatives:
+  - alternative: Merge this responsibility into an unrelated task
+    reason: Its write surface and independently assessable outcome belong to this
+      boundary.
+  swimlane:
+    id: LANE-OVERVIEW-ROUTE
+    name: overview-route delivery
+    owner: pilot-overview-route
+    legs:
+    - id: LEG-OVERVIEW-ROUTE
+      observable_state: Expose guide overview in human and JSON modes using the installed
+        toolkit index, preserving existing guide routes.
+      proof: The declared evaluator succeeds without widening the write surface.
+      requires: []
+      produces:
+      - overview-route verified behavior
+      tasks:
+      - id: T-20260914-pilot-overview-route
+        title: Expose guide overview in human and JSON modes using the installed toolkit
+          index, preserving existing guide routes
+        goal: Expose guide overview in human and JSON modes using the installed toolkit
+          index, preserving existing guide routes.
+        done_condition: Expose guide overview in human and JSON modes using the installed
+          toolkit index, preserving existing guide routes.
+        effort: S
+        profile: standard
+        execution_backend: any
+        required_tools:
+        - git
+        - bash
+        - python3
+        depends_on: []
+        touches_paths:
+        - src/cli/guide.py
+        creates_paths: []
+        behavior:
+        - id: B-1
+          given: the registered repository issue and fixed authorized scope
+          when: the bounded implementation is independently evaluated
+          then: the declared behavior passes without modifying unrelated files or
+            promoting reported evidence
+        - id: B-2
+          given: the recorded evidence and authorization boundary
+          when: the candidate is checked
+          then: source evidence is unchanged and no unrelated write is present
+        evals:
+        - id: eval_1
+          description: Independent behavioral proof for overview-route
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            overview-route --root .
+          verifies:
+          - B-1
+        - id: eval_2
+          description: Declared write surface only
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            write-boundary --root .
+          verifies:
+          - B-2
+        - id: eval_3
+          description: Registered issue evidence is unchanged
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            source-integrity --root .
+          verifies:
+          - B-2
+        anti_patterns:
+        - action: weaken the independent evaluator
+          reason: it would invalidate the comparison
+          instead: fix the behavior within the declared surface
+        - action: expand the scope
+          reason: it breaks matched permissions
+          instead: report the missing work as a blocker
+        - action: claim success without evidence
+          reason: a plausible patch does not establish behavior
+          instead: run the independent proof and report failures
+        do_not_touch:
+        - tests/fixtures/toolkit/pilot-issue.json
+        - tasks
+        rollback: Revert only this isolated candidate change.
+        observability: Retained provider output, evaluation result, and prospective
+          event journal.
+- id: SEAM-OVERVIEW-SKILL
+  name: overview-skill
+  description: Route a new-user orientation request to taskspec guide overview, after
+    inspecting current CLI state. Preserve exact root and mirror parity and installed
+    relative links.
+  evidence:
+  - E-PILOT-ISSUE
+  responsibility: Route a new-user orientation request to taskspec guide overview,
+    after inspecting current CLI state. Preserve exact root and mirror parity and
+    installed relative links.
+  consumes:
+  - overview-route verified behavior
+  produces:
+  - overview-skill verified behavior
+  owner: pilot-overview-skill
+  independent_proof: Run the registered independent overview-skill evaluator.
+  decision_ids:
+  - ADR-PILOT-SCOPE
+  rejected_alternatives:
+  - alternative: Merge this responsibility into an unrelated task
+    reason: Its write surface and independently assessable outcome belong to this
+      boundary.
+  swimlane:
+    id: LANE-OVERVIEW-SKILL
+    name: overview-skill delivery
+    owner: pilot-overview-skill
+    legs:
+    - id: LEG-OVERVIEW-SKILL
+      observable_state: Route a new-user orientation request to taskspec guide overview,
+        after inspecting current CLI state. Preserve exact root and mirror parity
+        and installed relative links.
+      proof: The declared evaluator succeeds without widening the write surface.
+      requires:
+      - overview-route verified behavior
+      produces:
+      - overview-skill verified behavior
+      tasks:
+      - id: T-20260914-pilot-overview-skill
+        title: Route a new-user orientation request to taskspec guide overview, after
+          inspecting current CLI state
+        goal: Route a new-user orientation request to taskspec guide overview, after
+          inspecting current CLI state. Preserve exact root and mirror parity and
+          installed relative links.
+        done_condition: Route a new-user orientation request to taskspec guide overview,
+          after inspecting current CLI state. Preserve exact root and mirror parity
+          and installed relative links.
+        effort: S
+        profile: standard
+        execution_backend: any
+        required_tools:
+        - git
+        - bash
+        - python3
+        depends_on:
+        - T-20260914-pilot-overview-route
+        touches_paths:
+        - SKILL.md
+        - skills/task-spec/SKILL.md
+        creates_paths: []
+        behavior:
+        - id: B-1
+          given: the registered repository issue and fixed authorized scope
+          when: the bounded implementation is independently evaluated
+          then: the declared behavior passes without modifying unrelated files or
+            promoting reported evidence
+        - id: B-2
+          given: the recorded evidence and authorization boundary
+          when: the candidate is checked
+          then: source evidence is unchanged and no unrelated write is present
+        evals:
+        - id: eval_1
+          description: Independent behavioral proof for overview-skill
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            cross-seam --root .
+          verifies:
+          - B-1
+        - id: eval_2
+          description: Declared write surface only
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            write-boundary --root .
+          verifies:
+          - B-2
+        - id: eval_3
+          description: Registered issue evidence is unchanged
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            source-integrity --root .
+          verifies:
+          - B-2
+        anti_patterns:
+        - action: weaken the independent evaluator
+          reason: it would invalidate the comparison
+          instead: fix the behavior within the declared surface
+        - action: expand the scope
+          reason: it breaks matched permissions
+          instead: report the missing work as a blocker
+        - action: claim success without evidence
+          reason: a plausible patch does not establish behavior
+          instead: run the independent proof and report failures
+        do_not_touch:
+        - tests/fixtures/toolkit/pilot-issue.json
+        - tasks
+        rollback: Revert only this isolated candidate change.
+        observability: Retained provider output, evaluation result, and prospective
+          event journal.
+steel_thread:
+- LEG-OVERVIEW-ROUTE
+- LEG-OVERVIEW-SKILL
+objections: []
+contentions: []

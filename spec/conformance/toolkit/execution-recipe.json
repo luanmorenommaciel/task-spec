@@ -1,0 +1,38 @@
+{
+  "contract": "TaskExecutionRecipe/v1",
+  "strategy": "direct",
+  "strategy_version": "1.0.0",
+  "steps": [
+    "Read the authorized context and implement the bounded change.",
+    "Verify the declared behavior and report evidence."
+  ],
+  "context": [
+    "TaskHandoff",
+    "authorized Task-Spec",
+    "declared source evidence"
+  ],
+  "artifacts": [
+    "scoped changes",
+    "evaluation evidence",
+    "concise result"
+  ],
+  "eval_ids": [
+    "eval_1"
+  ],
+  "max_rounds": 3,
+  "no_progress_rounds": 2,
+  "stop_on": [
+    "scope_violation",
+    "authority_changed",
+    "environment_unverified",
+    "budget_exhausted",
+    "cancelled"
+  ],
+  "on_failure": "park_with_context",
+  "runner": "taskmesh",
+  "required_capabilities": [
+    "managed_recipe_v1",
+    "persistent_round_budget",
+    "signed_timeout"
+  ]
+}

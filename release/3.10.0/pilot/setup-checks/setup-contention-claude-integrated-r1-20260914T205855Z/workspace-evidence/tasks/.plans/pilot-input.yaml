@@ -1,0 +1,289 @@
+schema_version: 1
+intent:
+  id: DI-PILOT-CONTENTION
+  title: Shared-resource conflicts across independent runs lack an end-to-end regression
+    scenario
+  summary: Add an isolated end-to-end regression where disjoint file changes claim
+    one exclusive resource, a second run refuses the live conflict, and the resource
+    becomes available after cancellation. Preserve one lease authority and target
+    branch state.
+  claim: proposed
+  source: &id001
+    uri: tests/fixtures/toolkit/pilot-issue.json
+    captured_at: '2026-09-14T20:20:46.550715+00:00'
+    sha256: d3a1c617111eeccd8446a31b0a2a86a61674f7b972c8a0e5ab67c06de1a1eac8
+  success:
+  - Add an isolated end-to-end regression where disjoint file changes claim one exclusive
+    resource, a second run refuses the live conflict, and the resource becomes available
+    after cancellation. Preserve one lease authority and target branch state.
+  out_of_scope:
+  - Changes outside the registered write surface.
+  - Production deployment, policy changes, self-authorization, and independent agents.
+system_map:
+  claim: proposed
+  components:
+  - test worker fixture
+  - control-plane regression
+  external_dependencies:
+  - TaskSpec CLI and the independently registered evaluator
+  unknowns: []
+evidence:
+- id: E-PILOT-ISSUE
+  claim: current
+  source: *id001
+  confidence: 1.0
+  summary: A repository issue inspected before comparative execution; source digests
+    and reproduction are retained.
+decisions:
+- id: ADR-PILOT-SCOPE
+  status: accepted
+  owner: pilot-supervisor
+  rationale: The user authorized real repository issues with prospective intervention
+    recording. This fixed corpus defines the evaluated scope before execution; it
+    does not claim a new human review occurred during each run.
+seams:
+- id: SEAM-CONTENTION-WORKER
+  name: contention-worker
+  description: 'Provide a local test worker: --version prints resource-worker/1; normal
+    invocation remains alive until cancellation and exits cleanly on TERM. It must
+    not change repository files or contact providers.'
+  evidence:
+  - E-PILOT-ISSUE
+  responsibility: 'Provide a local test worker: --version prints resource-worker/1;
+    normal invocation remains alive until cancellation and exits cleanly on TERM.
+    It must not change repository files or contact providers.'
+  consumes:
+  - registered issue
+  produces:
+  - contention-worker verified behavior
+  owner: pilot-contention-worker
+  independent_proof: Run the registered independent contention-worker evaluator.
+  decision_ids:
+  - ADR-PILOT-SCOPE
+  rejected_alternatives:
+  - alternative: Merge this responsibility into an unrelated task
+    reason: Its write surface and independently assessable outcome belong to this
+      boundary.
+  swimlane:
+    id: LANE-CONTENTION-WORKER
+    name: contention-worker delivery
+    owner: pilot-contention-worker
+    legs:
+    - id: LEG-CONTENTION-WORKER
+      observable_state: 'Provide a local test worker: --version prints resource-worker/1;
+        normal invocation remains alive until cancellation and exits cleanly on TERM.
+        It must not change repository files or contact providers.'
+      proof: The declared evaluator succeeds without widening the write surface.
+      requires: []
+      produces:
+      - contention-worker verified behavior
+      tasks:
+      - id: T-20260914-pilot-contention-worker
+        title: 'Provide a local test worker: --version prints resource-worker/1; normal
+          invocation remains alive until cancellation and exits cleanly on TERM'
+        goal: 'Provide a local test worker: --version prints resource-worker/1; normal
+          invocation remains alive until cancellation and exits cleanly on TERM. It
+          must not change repository files or contact providers.'
+        done_condition: 'Provide a local test worker: --version prints resource-worker/1;
+          normal invocation remains alive until cancellation and exits cleanly on
+          TERM. It must not change repository files or contact providers.'
+        effort: S
+        profile: standard
+        execution_backend: claude
+        required_tools:
+        - git
+        - bash
+        - python3
+        depends_on: []
+        touches_paths: []
+        creates_paths:
+        - tests/fixtures/toolkit/resource-worker.sh
+        behavior:
+        - id: B-1
+          given: the registered repository issue and fixed authorized scope
+          when: the bounded implementation is independently evaluated
+          then: the declared behavior passes without modifying unrelated files or
+            promoting reported evidence
+        - id: B-2
+          given: the recorded evidence and authorization boundary
+          when: the candidate is checked
+          then: source evidence is unchanged and no unrelated write is present
+        evals:
+        - id: eval_1
+          description: Independent behavioral proof for contention-worker
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            contention-worker --root .
+          verifies:
+          - B-1
+        - id: eval_2
+          description: Declared write surface only
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            write-boundary --root .
+          verifies:
+          - B-2
+        - id: eval_3
+          description: Registered issue evidence is unchanged
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            source-integrity --root .
+          verifies:
+          - B-2
+        anti_patterns:
+        - action: weaken the independent evaluator
+          reason: it would invalidate the comparison
+          instead: fix the behavior within the declared surface
+        - action: expand the scope
+          reason: it breaks matched permissions
+          instead: report the missing work as a blocker
+        - action: claim success without evidence
+          reason: a plausible patch does not establish behavior
+          instead: run the independent proof and report failures
+        do_not_touch:
+        - tests/fixtures/toolkit/pilot-issue.json
+        - tasks
+        rollback: Revert only this isolated candidate change.
+        observability: Retained provider output, evaluation result, and prospective
+          event journal.
+        execution_recipe: diagnose-repair-verify
+- id: SEAM-CONTENTION
+  name: contention
+  description: Add an isolated end-to-end regression where disjoint file changes claim
+    one exclusive resource, a second run refuses the live conflict, and the resource
+    becomes available after cancellation. Preserve one lease authority and target
+    branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held attempt.
+    Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal, cancellation/reuse,
+    and unchanged target assertions pass. Compile the helper from this repository
+    with its VERSION; do not use an installed helper from another checkout.
+  evidence:
+  - E-PILOT-ISSUE
+  responsibility: Add an isolated end-to-end regression where disjoint file changes
+    claim one exclusive resource, a second run refuses the live conflict, and the
+    resource becomes available after cancellation. Preserve one lease authority and
+    target branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held
+    attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal,
+    cancellation/reuse, and unchanged target assertions pass. Compile the helper from
+    this repository with its VERSION; do not use an installed helper from another
+    checkout.
+  consumes:
+  - contention-worker verified behavior
+  produces:
+  - contention verified behavior
+  owner: pilot-contention
+  independent_proof: Run the registered independent contention evaluator.
+  decision_ids:
+  - ADR-PILOT-SCOPE
+  rejected_alternatives:
+  - alternative: Merge this responsibility into an unrelated task
+    reason: Its write surface and independently assessable outcome belong to this
+      boundary.
+  swimlane:
+    id: LANE-CONTENTION
+    name: contention delivery
+    owner: pilot-contention
+    legs:
+    - id: LEG-CONTENTION
+      observable_state: Add an isolated end-to-end regression where disjoint file
+        changes claim one exclusive resource, a second run refuses the live conflict,
+        and the resource becomes available after cancellation. Preserve one lease
+        authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh
+        for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the
+        live resource refusal, cancellation/reuse, and unchanged target assertions
+        pass. Compile the helper from this repository with its VERSION; do not use
+        an installed helper from another checkout.
+      proof: The declared evaluator succeeds without widening the write surface.
+      requires:
+      - contention-worker verified behavior
+      produces:
+      - contention verified behavior
+      tasks:
+      - id: T-20260914-pilot-contention
+        title: Add an isolated end-to-end regression where disjoint file changes claim
+          one exclusive resource, a second run refuses the live conflict, and the
+          resource becomes available after cancellation
+        goal: Add an isolated end-to-end regression where disjoint file changes claim
+          one exclusive resource, a second run refuses the live conflict, and the
+          resource becomes available after cancellation. Preserve one lease authority
+          and target branch state. Use tests/fixtures/toolkit/resource-worker.sh for
+          the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the
+          live resource refusal, cancellation/reuse, and unchanged target assertions
+          pass. Compile the helper from this repository with its VERSION; do not use
+          an installed helper from another checkout.
+        done_condition: Add an isolated end-to-end regression where disjoint file
+          changes claim one exclusive resource, a second run refuses the live conflict,
+          and the resource becomes available after cancellation. Preserve one lease
+          authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh
+          for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after
+          the live resource refusal, cancellation/reuse, and unchanged target assertions
+          pass. Compile the helper from this repository with its VERSION; do not use
+          an installed helper from another checkout.
+        effort: S
+        profile: standard
+        execution_backend: claude
+        required_tools:
+        - git
+        - bash
+        - python3
+        depends_on:
+        - T-20260914-pilot-contention-worker
+        touches_paths: []
+        creates_paths:
+        - tests/test-toolkit-resource-contention.sh
+        behavior:
+        - id: B-1
+          given: the registered repository issue and fixed authorized scope
+          when: the bounded implementation is independently evaluated
+          then: the declared behavior passes without modifying unrelated files or
+            promoting reported evidence
+        - id: B-2
+          given: the recorded evidence and authorization boundary
+          when: the candidate is checked
+          then: source evidence is unchanged and no unrelated write is present
+        evals:
+        - id: eval_1
+          description: Independent behavioral proof for contention
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            contention --root .
+          verifies:
+          - B-1
+        - id: eval_2
+          description: Declared write surface only
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            write-boundary --root .
+          verifies:
+          - B-2
+        - id: eval_3
+          description: Registered issue evidence is unchanged
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            source-integrity --root .
+          verifies:
+          - B-2
+        anti_patterns:
+        - action: weaken the independent evaluator
+          reason: it would invalidate the comparison
+          instead: fix the behavior within the declared surface
+        - action: expand the scope
+          reason: it breaks matched permissions
+          instead: report the missing work as a blocker
+        - action: claim success without evidence
+          reason: a plausible patch does not establish behavior
+          instead: run the independent proof and report failures
+        do_not_touch:
+        - tests/fixtures/toolkit/pilot-issue.json
+        - tasks
+        rollback: Revert only this isolated candidate change.
+        observability: Retained provider output, evaluation result, and prospective
+          event journal.
+        execution_recipe: diagnose-repair-verify
+        proves_capabilities:
+        - LEG-CONTENTION-WORKER
+        - LEG-CONTENTION
+steel_thread:
+- LEG-CONTENTION-WORKER
+- LEG-CONTENTION
+objections: []
+contentions: []

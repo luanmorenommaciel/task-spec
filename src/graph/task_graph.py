@@ -39,7 +39,7 @@ def task_files(backlog: pathlib.Path) -> list[pathlib.Path]:
     if not backlog.is_dir():
         return []
     return sorted(
-        {path for path in backlog.rglob("T-*.md") if path.is_file()},
+        {path for path in backlog.rglob("T-*.md") if path.is_file() and not any(part.startswith(".") for part in path.relative_to(backlog).parts[:-1])},
         key=lambda item: str(item.relative_to(backlog)),
     )
 
@@ -115,6 +115,8 @@ def build(backlog: pathlib.Path) -> dict[str, Any]:
             "blocks": sorted(set(_strings(fm.get("blocks")))),
             "children": sorted(set(_strings(fm.get("children")))),
             "supersedes": str(fm.get("supersedes")) if fm.get("supersedes") not in {None, "", "(none)"} else None,
+            "shared_resources": sorted(set(_strings(fm.get("shared_resources")))),
+            "sdlc_stages": sorted(set(_strings(fm.get("sdlc_stages")))),
             "write_surface": {"touches_paths": touches, "creates_paths": creates},
         }
 
@@ -180,6 +182,8 @@ def build(backlog: pathlib.Path) -> dict[str, Any]:
                             if _path_overlap(left_path, right_path):
                                 overlaps.append({"left": left_path, "right": right_path})
                                 dual_create = dual_create or (left_kind == "creates_paths" and right_kind == "creates_paths")
+            for resource in sorted(set(nodes[left_id]["shared_resources"]) & set(nodes[right_id]["shared_resources"])):
+                overlaps.append({"left": "resource:" + resource, "right": "resource:" + resource})
             if overlaps:
                 conflict_edges.append(
                     {"type": "write_conflict", "from": left_id, "to": right_id, "dual_create": dual_create, "overlaps": overlaps}

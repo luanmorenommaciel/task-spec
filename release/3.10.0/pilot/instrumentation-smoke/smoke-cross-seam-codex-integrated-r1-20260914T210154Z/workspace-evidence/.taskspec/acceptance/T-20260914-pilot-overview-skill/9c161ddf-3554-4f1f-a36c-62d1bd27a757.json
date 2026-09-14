@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-09-14T21:03:21Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "9c161ddf-3554-4f1f-a36c-62d1bd27a757",
+    "authorization_ref": "hmac-sha256-v3:afd77c01:8e2c6f8fb718046d0327a426b824c752c2a0cc846a2c538b98a537e236bc49eb",
+    "base_commit": "5006747d4c369c7f31075384637a788a80b53f65",
+    "task_id": "T-20260914-pilot-overview-skill",
+    "task_revision_digest": "sha256:53720f8f6d615c5ff40a97dd4e8ffef60987c6473e07a8abc7450c175371a4e3"
+  }
+}

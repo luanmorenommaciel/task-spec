@@ -1,0 +1,443 @@
+{
+  "contract": "TaskPlanSnapshot/v1",
+  "initiative": "pilot",
+  "review": {
+    "artifacts_sha256": {
+      "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "evidence.jsonl": "94dce6420f92bba4b2be3c7ddb069eedcd3b9ed3ae51842b3189e3ed9015c6c1",
+      "intent.md": "2a36889f4b87b2e4da34b47b42d8c36cf0c23423614e526899a161214bbed109",
+      "legs/LEG-OVERVIEW-ROUTE.md": "9fc5fad26efe612f27536610d44f8a818e60c80f177ff2ed8b3a133582295944",
+      "legs/LEG-OVERVIEW-SKILL.md": "724a24383b90bfa732298c5218e2c012950d1909bb4274359a82940aecbc92cd",
+      "proposed-graph.json": "7d18b9d81ae034369f6d6ceb4338d05f683abab690480621650c0993ae2fb8fe",
+      "seam-map.yaml": "7541b6145626116b470ea04ab769b6ce8b8f8202fcc28bd3d8c1c05bb1bd2e91",
+      "seams/SEAM-OVERVIEW-ROUTE.md": "244f4144a3b56619fd7401a8248cbe705f237971e76ccb81c40a5f91dc94cfed",
+      "seams/SEAM-OVERVIEW-SKILL.md": "999ad4d2fdb10942ad9e0fe75905881934da1421f89c31b3b0dbe06f287e3d35",
+      "source-recipe.yaml": "343cca6f1ae5f000576294e3a9794dae1c51cf299d43291df51ce25cde4e7692",
+      "steel-thread.md": "cc605cb0b511f00be33f9018b35e5d5739f4337f935f99ebfb478a8a45a14eb6",
+      "swimlanes/LANE-OVERVIEW-ROUTE.md": "1c5a1653512ca52167e897b2d72dee92354f001ab4c7083372d7ca1432e45ae7",
+      "swimlanes/LANE-OVERVIEW-SKILL.md": "0e0cf1ac823fa448c82c206e99a5e1b8ea8ce9467d8284d633cb3f0158dc01fc",
+      "system-map.md": "c91b825ab74b2f39c259f18df4d0f9fee56ea0758e82ffe122b768b121f7e709"
+    },
+    "disposition": "accepted",
+    "draft_sha256": "24c007f717a3425d26dff41d21f0cfc2336e5c17a8b461aa6794b46f1d162f87",
+    "fixture": false,
+    "plan_sha256": "f916ee8b80af1bf25cbf24842713c1f96b271a6b9049c76e8d82d8289a5ce569",
+    "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+    "recipe_sha256": "343cca6f1ae5f000576294e3a9794dae1c51cf299d43291df51ce25cde4e7692",
+    "reviewed_at": "2026-09-14T21:02:00.852619+00:00",
+    "reviewer": "pilot-controller",
+    "schema_version": 1,
+    "signature": "hmac-taskplan-v1:afd77c01:1c3a349c81b54c4671dff5faee53ee10be3ab3819792df7fe90c188a546df649",
+    "topology_sha256": "7d18b9d81ae034369f6d6ceb4338d05f683abab690480621650c0993ae2fb8fe"
+  },
+  "reviewed_artifacts": {
+    "decisions/ADR-PILOT-SCOPE.md": {
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "content": "---\nschema_version: 1\nkind: decision\nid: ADR-PILOT-SCOPE\nstatus: accepted\nowner: pilot-supervisor\nrationale: The user authorized real repository issues with prospective intervention recording. This fixed\n  corpus defines the evaluated scope before execution; it does not claim a new human review occurred during\n  each run.\n---\n# ADR-PILOT-SCOPE\n\nStatus: **accepted**\n\nOwner: pilot-supervisor\n\n## Rationale\n\nThe user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run.\n"
+    },
+    "evidence.jsonl": {
+      "sha256": "94dce6420f92bba4b2be3c7ddb069eedcd3b9ed3ae51842b3189e3ed9015c6c1",
+      "content": "{\"claim\":\"current\",\"confidence\":1.0,\"id\":\"E-PILOT-ISSUE\",\"source\":{\"captured_at\":\"2026-09-14T20:20:46.550715+00:00\",\"sha256\":\"9cb2693bd26a714755d6a8800e2870c5a639be060372c6cb2dc0bbdde349b570\",\"uri\":\"tests/fixtures/toolkit/pilot-issue.json\"},\"summary\":\"A repository issue inspected before comparative execution; source digests and reproduction are retained.\"}\n"
+    },
+    "intent.md": {
+      "sha256": "2a36889f4b87b2e4da34b47b42d8c36cf0c23423614e526899a161214bbed109",
+      "content": "---\nschema_version: 1\nkind: delivery-intent\nid: DI-PILOT-CROSS-SEAM\ntitle: The installed toolkit overview has no CLI route or skill entry\nclaim: proposed\nsource:\n  uri: tests/fixtures/toolkit/pilot-issue.json\n  captured_at: '2026-09-14T20:20:46.550715+00:00'\n  sha256: 9cb2693bd26a714755d6a8800e2870c5a639be060372c6cb2dc0bbdde349b570\nsuccess:\n- Expose guide overview in human and JSON modes and route a new-user skill request to the installed overview,\n  preserving root/mirror parity and links.\nout_of_scope:\n- Changes outside the registered write surface.\n- Production deployment, policy changes, self-authorization, and independent agents.\n---\n# The installed toolkit overview has no CLI route or skill entry\n\n## Delivery outcome\n\nExpose guide overview in human and JSON modes and route a new-user skill request to the installed overview, preserving root/mirror parity and links.\n\n## Evidence boundary\n\nThis artifact records a **proposed** claim. Its source, capture time,\nand content hash are recorded in frontmatter; the claim is not implementation\nevidence by itself.\n"
+    },
+    "legs/LEG-OVERVIEW-ROUTE.md": {
+      "sha256": "9fc5fad26efe612f27536610d44f8a818e60c80f177ff2ed8b3a133582295944",
+      "content": "---\nschema_version: 1\nkind: capability-leg\nclaim: derived\nid: LEG-OVERVIEW-ROUTE\nseam_id: SEAM-OVERVIEW-ROUTE\nswimlane_id: LANE-OVERVIEW-ROUTE\nobservable_state: Expose guide overview in human and JSON modes using the installed toolkit index, preserving\n  existing guide routes.\nproof: The declared evaluator succeeds without widening the write surface.\nrequires: []\nproduces:\n- overview-route verified behavior\ntasks:\n- id: T-20260914-pilot-overview-route\n  title: Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing\n    guide routes\n  goal: Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing\n    guide routes.\n  done_condition: Expose guide overview in human and JSON modes using the installed toolkit index, preserving\n    existing guide routes.\n  effort: S\n  profile: standard\n  execution_backend: any\n  required_tools:\n  - git\n  - bash\n  - python3\n  depends_on: []\n  touches_paths:\n  - src/cli/guide.py\n  creates_paths: []\n  behavior:\n  - id: B-1\n    given: the registered repository issue and fixed authorized scope\n    when: the bounded implementation is independently evaluated\n    then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n  - id: B-2\n    given: the recorded evidence and authorization boundary\n    when: the candidate is checked\n    then: source evidence is unchanged and no unrelated write is present\n  evals:\n  - id: eval_1\n    description: Independent behavioral proof for overview-route\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      overview-route --root .\n    verifies:\n    - B-1\n  - id: eval_2\n    description: Declared write surface only\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      write-boundary --root .\n    verifies:\n    - B-2\n  - id: eval_3\n    description: Registered issue evidence is unchanged\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      source-integrity --root .\n    verifies:\n    - B-2\n  anti_patterns:\n  - action: weaken the independent evaluator\n    reason: it would invalidate the comparison\n    instead: fix the behavior within the declared surface\n  - action: expand the scope\n    reason: it breaks matched permissions\n    instead: report the missing work as a blocker\n  - action: claim success without evidence\n    reason: a plausible patch does not establish behavior\n    instead: run the independent proof and report failures\n  do_not_touch:\n  - tests/fixtures/toolkit/pilot-issue.json\n  - tasks\n  rollback: Revert only this isolated candidate change.\n  observability: Retained provider output, evaluation result, and prospective event journal.\n  execution_recipe: diagnose-repair-verify\nsource_seam_sha256: 244f4144a3b56619fd7401a8248cbe705f237971e76ccb81c40a5f91dc94cfed\n---\n# Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.\n\n## Observable proof\n\nThe declared evaluator succeeds without widening the write surface.\n\n## Runnable leaves\n\n- `T-20260914-pilot-overview-route` \u2014 Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes: Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.\n\nThe leg names a capability state, not an activity. Each leaf owns one coherent,\nindependently provable done-condition.\n"
+    },
+    "legs/LEG-OVERVIEW-SKILL.md": {
+      "sha256": "724a24383b90bfa732298c5218e2c012950d1909bb4274359a82940aecbc92cd",
+      "content": "---\nschema_version: 1\nkind: capability-leg\nclaim: derived\nid: LEG-OVERVIEW-SKILL\nseam_id: SEAM-OVERVIEW-SKILL\nswimlane_id: LANE-OVERVIEW-SKILL\nobservable_state: Route a new-user orientation request to taskspec guide overview, after inspecting current\n  CLI state. Preserve exact root and mirror parity and installed relative links.\nproof: The declared evaluator succeeds without widening the write surface.\nrequires:\n- overview-route verified behavior\nproduces:\n- overview-skill verified behavior\ntasks:\n- id: T-20260914-pilot-overview-skill\n  title: Route a new-user orientation request to taskspec guide overview, after inspecting current CLI\n    state\n  goal: Route a new-user orientation request to taskspec guide overview, after inspecting current CLI\n    state. Preserve exact root and mirror parity and installed relative links.\n  done_condition: Route a new-user orientation request to taskspec guide overview, after inspecting current\n    CLI state. Preserve exact root and mirror parity and installed relative links.\n  effort: S\n  profile: standard\n  execution_backend: any\n  required_tools:\n  - git\n  - bash\n  - python3\n  depends_on:\n  - T-20260914-pilot-overview-route\n  touches_paths:\n  - SKILL.md\n  - skills/task-spec/SKILL.md\n  creates_paths: []\n  behavior:\n  - id: B-1\n    given: the registered repository issue and fixed authorized scope\n    when: the bounded implementation is independently evaluated\n    then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n  - id: B-2\n    given: the recorded evidence and authorization boundary\n    when: the candidate is checked\n    then: source evidence is unchanged and no unrelated write is present\n  evals:\n  - id: eval_1\n    description: Independent behavioral proof for overview-skill\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      cross-seam --root .\n    verifies:\n    - B-1\n  - id: eval_2\n    description: Declared write surface only\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      write-boundary --root .\n    verifies:\n    - B-2\n  - id: eval_3\n    description: Registered issue evidence is unchanged\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      source-integrity --root .\n    verifies:\n    - B-2\n  anti_patterns:\n  - action: weaken the independent evaluator\n    reason: it would invalidate the comparison\n    instead: fix the behavior within the declared surface\n  - action: expand the scope\n    reason: it breaks matched permissions\n    instead: report the missing work as a blocker\n  - action: claim success without evidence\n    reason: a plausible patch does not establish behavior\n    instead: run the independent proof and report failures\n  do_not_touch:\n  - tests/fixtures/toolkit/pilot-issue.json\n  - tasks\n  rollback: Revert only this isolated candidate change.\n  observability: Retained provider output, evaluation result, and prospective event journal.\n  execution_recipe: diagnose-repair-verify\n  proves_capabilities:\n  - LEG-OVERVIEW-ROUTE\n  - LEG-OVERVIEW-SKILL\nsource_seam_sha256: 999ad4d2fdb10942ad9e0fe75905881934da1421f89c31b3b0dbe06f287e3d35\n---\n# Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.\n\n## Observable proof\n\nThe declared evaluator succeeds without widening the write surface.\n\n## Runnable leaves\n\n- `T-20260914-pilot-overview-skill` \u2014 Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state: Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.\n\nThe leg names a capability state, not an activity. Each leaf owns one coherent,\nindependently provable done-condition.\n"
+    },
+    "proposed-graph.json": {
+      "sha256": "7d18b9d81ae034369f6d6ceb4338d05f683abab690480621650c0993ae2fb8fe",
+      "content": "{\n  \"schema_version\": 1,\n  \"status\": \"TASK_GRAPH=READY\",\n  \"plan_sha256\": \"24c007f717a3425d26dff41d21f0cfc2336e5c17a8b461aa6794b46f1d162f87\",\n  \"nodes\": [\n    {\n      \"id\": \"T-20260914-pilot-overview-route\",\n      \"title\": \"Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes\",\n      \"seam_id\": \"SEAM-OVERVIEW-ROUTE\",\n      \"swimlane_id\": \"LANE-OVERVIEW-ROUTE\",\n      \"leg_id\": \"LEG-OVERVIEW-ROUTE\",\n      \"effort\": \"S\",\n      \"profile\": \"standard\",\n      \"done_condition\": \"Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.\",\n      \"touches_paths\": [\n        \"src/cli/guide.py\"\n      ],\n      \"creates_paths\": []\n    },\n    {\n      \"id\": \"T-20260914-pilot-overview-skill\",\n      \"title\": \"Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state\",\n      \"seam_id\": \"SEAM-OVERVIEW-SKILL\",\n      \"swimlane_id\": \"LANE-OVERVIEW-SKILL\",\n      \"leg_id\": \"LEG-OVERVIEW-SKILL\",\n      \"effort\": \"S\",\n      \"profile\": \"standard\",\n      \"done_condition\": \"Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.\",\n      \"touches_paths\": [\n        \"SKILL.md\",\n        \"skills/task-spec/SKILL.md\"\n      ],\n      \"creates_paths\": []\n    }\n  ],\n  \"edges\": [\n    {\n      \"from\": \"T-20260914-pilot-overview-route\",\n      \"to\": \"T-20260914-pilot-overview-skill\",\n      \"kind\": \"depends_on\"\n    }\n  ],\n  \"contentions\": [],\n  \"critical_path\": [\n    \"T-20260914-pilot-overview-route\",\n    \"T-20260914-pilot-overview-skill\"\n  ],\n  \"critical_path_mermaid_sha256\": \"e81a99aa31fbafe1a34ac6b51c4f9884b08cf9668faf0579c0e65ab7866289da\"\n}\n"
+    },
+    "seam-map.yaml": {
+      "sha256": "7541b6145626116b470ea04ab769b6ce8b8f8202fcc28bd3d8c1c05bb1bd2e91",
+      "content": "schema_version: 1\nstatus: SEAM_MAP=READY\nintent_id: DI-PILOT-CROSS-SEAM\nsource_recipe:\n  name: source-recipe.yaml\n  sha256: 343cca6f1ae5f000576294e3a9794dae1c51cf299d43291df51ce25cde4e7692\nintent_sha256: 2a36889f4b87b2e4da34b47b42d8c36cf0c23423614e526899a161214bbed109\nsystem_map_sha256: c91b825ab74b2f39c259f18df4d0f9fee56ea0758e82ffe122b768b121f7e709\nevidence_sha256: 94dce6420f92bba4b2be3c7ddb069eedcd3b9ed3ae51842b3189e3ed9015c6c1\ndecisions:\n- id: ADR-PILOT-SCOPE\n  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md\n  status: accepted\n  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\nseams:\n- id: SEAM-OVERVIEW-ROUTE\n  path: tasks/.plans/pilot/seams/SEAM-OVERVIEW-ROUTE.md\n  owner: pilot-overview-route\n  evidence:\n  - E-PILOT-ISSUE\n  swimlane_id: LANE-OVERVIEW-ROUTE\n  sha256: 244f4144a3b56619fd7401a8248cbe705f237971e76ccb81c40a5f91dc94cfed\n- id: SEAM-OVERVIEW-SKILL\n  path: tasks/.plans/pilot/seams/SEAM-OVERVIEW-SKILL.md\n  owner: pilot-overview-skill\n  evidence:\n  - E-PILOT-ISSUE\n  swimlane_id: LANE-OVERVIEW-SKILL\n  sha256: 999ad4d2fdb10942ad9e0fe75905881934da1421f89c31b3b0dbe06f287e3d35\n"
+    },
+    "seams/SEAM-OVERVIEW-ROUTE.md": {
+      "sha256": "244f4144a3b56619fd7401a8248cbe705f237971e76ccb81c40a5f91dc94cfed",
+      "content": "---\nschema_version: 1\nkind: seam\nclaim: derived\nid: SEAM-OVERVIEW-ROUTE\nname: overview-route\ndescription: Expose guide overview in human and JSON modes using the installed toolkit index, preserving\n  existing guide routes.\nevidence:\n- E-PILOT-ISSUE\nresponsibility: Expose guide overview in human and JSON modes using the installed toolkit index, preserving\n  existing guide routes.\nconsumes:\n- registered issue\nproduces:\n- overview-route verified behavior\nowner: pilot-overview-route\nindependent_proof: Run the registered independent overview-route evaluator.\ndecision_ids:\n- ADR-PILOT-SCOPE\nrejected_alternatives:\n- alternative: Merge this responsibility into an unrelated task\n  reason: Its write surface and independently assessable outcome belong to this boundary.\nswimlane:\n  id: LANE-OVERVIEW-ROUTE\n  name: overview-route delivery\n  owner: pilot-overview-route\n  legs:\n  - id: LEG-OVERVIEW-ROUTE\n    observable_state: Expose guide overview in human and JSON modes using the installed toolkit index,\n      preserving existing guide routes.\n    proof: The declared evaluator succeeds without widening the write surface.\n    requires: []\n    produces:\n    - overview-route verified behavior\n    tasks:\n    - id: T-20260914-pilot-overview-route\n      title: Expose guide overview in human and JSON modes using the installed toolkit index, preserving\n        existing guide routes\n      goal: Expose guide overview in human and JSON modes using the installed toolkit index, preserving\n        existing guide routes.\n      done_condition: Expose guide overview in human and JSON modes using the installed toolkit index,\n        preserving existing guide routes.\n      effort: S\n      profile: standard\n      execution_backend: any\n      required_tools:\n      - git\n      - bash\n      - python3\n      depends_on: []\n      touches_paths:\n      - src/cli/guide.py\n      creates_paths: []\n      behavior:\n      - id: B-1\n        given: the registered repository issue and fixed authorized scope\n        when: the bounded implementation is independently evaluated\n        then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n      - id: B-2\n        given: the recorded evidence and authorization boundary\n        when: the candidate is checked\n        then: source evidence is unchanged and no unrelated write is present\n      evals:\n      - id: eval_1\n        description: Independent behavioral proof for overview-route\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          overview-route --root .\n        verifies:\n        - B-1\n      - id: eval_2\n        description: Declared write surface only\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          write-boundary --root .\n        verifies:\n        - B-2\n      - id: eval_3\n        description: Registered issue evidence is unchanged\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          source-integrity --root .\n        verifies:\n        - B-2\n      anti_patterns:\n      - action: weaken the independent evaluator\n        reason: it would invalidate the comparison\n        instead: fix the behavior within the declared surface\n      - action: expand the scope\n        reason: it breaks matched permissions\n        instead: report the missing work as a blocker\n      - action: claim success without evidence\n        reason: a plausible patch does not establish behavior\n        instead: run the independent proof and report failures\n      do_not_touch:\n      - tests/fixtures/toolkit/pilot-issue.json\n      - tasks\n      rollback: Revert only this isolated candidate change.\n      observability: Retained provider output, evaluation result, and prospective event journal.\n      execution_recipe: diagnose-repair-verify\n---\n# overview-route\n\nExpose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.\n\n## Responsibility\n\nExpose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.\n\n## Independent proof\n\nRun the registered independent overview-route evaluator.\n\n## Rejected alternatives\n\n- **Merge this responsibility into an unrelated task** \u2014 Its write surface and independently assessable outcome belong to this boundary.\n\nThis derived seam is ready only while its cited evidence, named owner, contract,\nand rejected alternatives remain intact.\n"
+    },
+    "seams/SEAM-OVERVIEW-SKILL.md": {
+      "sha256": "999ad4d2fdb10942ad9e0fe75905881934da1421f89c31b3b0dbe06f287e3d35",
+      "content": "---\nschema_version: 1\nkind: seam\nclaim: derived\nid: SEAM-OVERVIEW-SKILL\nname: overview-skill\ndescription: Route a new-user orientation request to taskspec guide overview, after inspecting current\n  CLI state. Preserve exact root and mirror parity and installed relative links.\nevidence:\n- E-PILOT-ISSUE\nresponsibility: Route a new-user orientation request to taskspec guide overview, after inspecting current\n  CLI state. Preserve exact root and mirror parity and installed relative links.\nconsumes:\n- overview-route verified behavior\nproduces:\n- overview-skill verified behavior\nowner: pilot-overview-skill\nindependent_proof: Run the registered independent overview-skill evaluator.\ndecision_ids:\n- ADR-PILOT-SCOPE\nrejected_alternatives:\n- alternative: Merge this responsibility into an unrelated task\n  reason: Its write surface and independently assessable outcome belong to this boundary.\nswimlane:\n  id: LANE-OVERVIEW-SKILL\n  name: overview-skill delivery\n  owner: pilot-overview-skill\n  legs:\n  - id: LEG-OVERVIEW-SKILL\n    observable_state: Route a new-user orientation request to taskspec guide overview, after inspecting\n      current CLI state. Preserve exact root and mirror parity and installed relative links.\n    proof: The declared evaluator succeeds without widening the write surface.\n    requires:\n    - overview-route verified behavior\n    produces:\n    - overview-skill verified behavior\n    tasks:\n    - id: T-20260914-pilot-overview-skill\n      title: Route a new-user orientation request to taskspec guide overview, after inspecting current\n        CLI state\n      goal: Route a new-user orientation request to taskspec guide overview, after inspecting current\n        CLI state. Preserve exact root and mirror parity and installed relative links.\n      done_condition: Route a new-user orientation request to taskspec guide overview, after inspecting\n        current CLI state. Preserve exact root and mirror parity and installed relative links.\n      effort: S\n      profile: standard\n      execution_backend: any\n      required_tools:\n      - git\n      - bash\n      - python3\n      depends_on:\n      - T-20260914-pilot-overview-route\n      touches_paths:\n      - SKILL.md\n      - skills/task-spec/SKILL.md\n      creates_paths: []\n      behavior:\n      - id: B-1\n        given: the registered repository issue and fixed authorized scope\n        when: the bounded implementation is independently evaluated\n        then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n      - id: B-2\n        given: the recorded evidence and authorization boundary\n        when: the candidate is checked\n        then: source evidence is unchanged and no unrelated write is present\n      evals:\n      - id: eval_1\n        description: Independent behavioral proof for overview-skill\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          cross-seam --root .\n        verifies:\n        - B-1\n      - id: eval_2\n        description: Declared write surface only\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          write-boundary --root .\n        verifies:\n        - B-2\n      - id: eval_3\n        description: Registered issue evidence is unchanged\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          source-integrity --root .\n        verifies:\n        - B-2\n      anti_patterns:\n      - action: weaken the independent evaluator\n        reason: it would invalidate the comparison\n        instead: fix the behavior within the declared surface\n      - action: expand the scope\n        reason: it breaks matched permissions\n        instead: report the missing work as a blocker\n      - action: claim success without evidence\n        reason: a plausible patch does not establish behavior\n        instead: run the independent proof and report failures\n      do_not_touch:\n      - tests/fixtures/toolkit/pilot-issue.json\n      - tasks\n      rollback: Revert only this isolated candidate change.\n      observability: Retained provider output, evaluation result, and prospective event journal.\n      execution_recipe: diagnose-repair-verify\n      proves_capabilities:\n      - LEG-OVERVIEW-ROUTE\n      - LEG-OVERVIEW-SKILL\n---\n# overview-skill\n\nRoute a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.\n\n## Responsibility\n\nRoute a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.\n\n## Independent proof\n\nRun the registered independent overview-skill evaluator.\n\n## Rejected alternatives\n\n- **Merge this responsibility into an unrelated task** \u2014 Its write surface and independently assessable outcome belong to this boundary.\n\nThis derived seam is ready only while its cited evidence, named owner, contract,\nand rejected alternatives remain intact.\n"
+    },
+    "source-recipe.yaml": {
+      "sha256": "343cca6f1ae5f000576294e3a9794dae1c51cf299d43291df51ce25cde4e7692",
+      "content": "schema_version: 1\nintent:\n  id: DI-PILOT-CROSS-SEAM\n  title: The installed toolkit overview has no CLI route or skill entry\n  summary: Expose guide overview in human and JSON modes and route a new-user skill\n    request to the installed overview, preserving root/mirror parity and links.\n  claim: proposed\n  source: &id001\n    uri: tests/fixtures/toolkit/pilot-issue.json\n    captured_at: '2026-09-14T20:20:46.550715+00:00'\n    sha256: 9cb2693bd26a714755d6a8800e2870c5a639be060372c6cb2dc0bbdde349b570\n  success:\n  - Expose guide overview in human and JSON modes and route a new-user skill request\n    to the installed overview, preserving root/mirror parity and links.\n  out_of_scope:\n  - Changes outside the registered write surface.\n  - Production deployment, policy changes, self-authorization, and independent agents.\nsystem_map:\n  claim: proposed\n  components:\n  - CLI guidance\n  - harness workflow\n  external_dependencies:\n  - TaskSpec CLI and the independently registered evaluator\n  unknowns: []\nevidence:\n- id: E-PILOT-ISSUE\n  claim: current\n  source: *id001\n  confidence: 1.0\n  summary: A repository issue inspected before comparative execution; source digests\n    and reproduction are retained.\ndecisions:\n- id: ADR-PILOT-SCOPE\n  status: accepted\n  owner: pilot-supervisor\n  rationale: The user authorized real repository issues with prospective intervention\n    recording. This fixed corpus defines the evaluated scope before execution; it\n    does not claim a new human review occurred during each run.\nseams:\n- id: SEAM-OVERVIEW-ROUTE\n  name: overview-route\n  description: Expose guide overview in human and JSON modes using the installed toolkit\n    index, preserving existing guide routes.\n  evidence:\n  - E-PILOT-ISSUE\n  responsibility: Expose guide overview in human and JSON modes using the installed\n    toolkit index, preserving existing guide routes.\n  consumes:\n  - registered issue\n  produces:\n  - overview-route verified behavior\n  owner: pilot-overview-route\n  independent_proof: Run the registered independent overview-route evaluator.\n  decision_ids:\n  - ADR-PILOT-SCOPE\n  rejected_alternatives:\n  - alternative: Merge this responsibility into an unrelated task\n    reason: Its write surface and independently assessable outcome belong to this\n      boundary.\n  swimlane:\n    id: LANE-OVERVIEW-ROUTE\n    name: overview-route delivery\n    owner: pilot-overview-route\n    legs:\n    - id: LEG-OVERVIEW-ROUTE\n      observable_state: Expose guide overview in human and JSON modes using the installed\n        toolkit index, preserving existing guide routes.\n      proof: The declared evaluator succeeds without widening the write surface.\n      requires: []\n      produces:\n      - overview-route verified behavior\n      tasks:\n      - id: T-20260914-pilot-overview-route\n        title: Expose guide overview in human and JSON modes using the installed toolkit\n          index, preserving existing guide routes\n        goal: Expose guide overview in human and JSON modes using the installed toolkit\n          index, preserving existing guide routes.\n        done_condition: Expose guide overview in human and JSON modes using the installed\n          toolkit index, preserving existing guide routes.\n        effort: S\n        profile: standard\n        execution_backend: any\n        required_tools:\n        - git\n        - bash\n        - python3\n        depends_on: []\n        touches_paths:\n        - src/cli/guide.py\n        creates_paths: []\n        behavior:\n        - id: B-1\n          given: the registered repository issue and fixed authorized scope\n          when: the bounded implementation is independently evaluated\n          then: the declared behavior passes without modifying unrelated files or\n            promoting reported evidence\n        - id: B-2\n          given: the recorded evidence and authorization boundary\n          when: the candidate is checked\n          then: source evidence is unchanged and no unrelated write is present\n        evals:\n        - id: eval_1\n          description: Independent behavioral proof for overview-route\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            overview-route --root .\n          verifies:\n          - B-1\n        - id: eval_2\n          description: Declared write surface only\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            write-boundary --root .\n          verifies:\n          - B-2\n        - id: eval_3\n          description: Registered issue evidence is unchanged\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            source-integrity --root .\n          verifies:\n          - B-2\n        anti_patterns:\n        - action: weaken the independent evaluator\n          reason: it would invalidate the comparison\n          instead: fix the behavior within the declared surface\n        - action: expand the scope\n          reason: it breaks matched permissions\n          instead: report the missing work as a blocker\n        - action: claim success without evidence\n          reason: a plausible patch does not establish behavior\n          instead: run the independent proof and report failures\n        do_not_touch:\n        - tests/fixtures/toolkit/pilot-issue.json\n        - tasks\n        rollback: Revert only this isolated candidate change.\n        observability: Retained provider output, evaluation result, and prospective\n          event journal.\n        execution_recipe: diagnose-repair-verify\n- id: SEAM-OVERVIEW-SKILL\n  name: overview-skill\n  description: Route a new-user orientation request to taskspec guide overview, after\n    inspecting current CLI state. Preserve exact root and mirror parity and installed\n    relative links.\n  evidence:\n  - E-PILOT-ISSUE\n  responsibility: Route a new-user orientation request to taskspec guide overview,\n    after inspecting current CLI state. Preserve exact root and mirror parity and\n    installed relative links.\n  consumes:\n  - overview-route verified behavior\n  produces:\n  - overview-skill verified behavior\n  owner: pilot-overview-skill\n  independent_proof: Run the registered independent overview-skill evaluator.\n  decision_ids:\n  - ADR-PILOT-SCOPE\n  rejected_alternatives:\n  - alternative: Merge this responsibility into an unrelated task\n    reason: Its write surface and independently assessable outcome belong to this\n      boundary.\n  swimlane:\n    id: LANE-OVERVIEW-SKILL\n    name: overview-skill delivery\n    owner: pilot-overview-skill\n    legs:\n    - id: LEG-OVERVIEW-SKILL\n      observable_state: Route a new-user orientation request to taskspec guide overview,\n        after inspecting current CLI state. Preserve exact root and mirror parity\n        and installed relative links.\n      proof: The declared evaluator succeeds without widening the write surface.\n      requires:\n      - overview-route verified behavior\n      produces:\n      - overview-skill verified behavior\n      tasks:\n      - id: T-20260914-pilot-overview-skill\n        title: Route a new-user orientation request to taskspec guide overview, after\n          inspecting current CLI state\n        goal: Route a new-user orientation request to taskspec guide overview, after\n          inspecting current CLI state. Preserve exact root and mirror parity and\n          installed relative links.\n        done_condition: Route a new-user orientation request to taskspec guide overview,\n          after inspecting current CLI state. Preserve exact root and mirror parity\n          and installed relative links.\n        effort: S\n        profile: standard\n        execution_backend: any\n        required_tools:\n        - git\n        - bash\n        - python3\n        depends_on:\n        - T-20260914-pilot-overview-route\n        touches_paths:\n        - SKILL.md\n        - skills/task-spec/SKILL.md\n        creates_paths: []\n        behavior:\n        - id: B-1\n          given: the registered repository issue and fixed authorized scope\n          when: the bounded implementation is independently evaluated\n          then: the declared behavior passes without modifying unrelated files or\n            promoting reported evidence\n        - id: B-2\n          given: the recorded evidence and authorization boundary\n          when: the candidate is checked\n          then: source evidence is unchanged and no unrelated write is present\n        evals:\n        - id: eval_1\n          description: Independent behavioral proof for overview-skill\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            cross-seam --root .\n          verifies:\n          - B-1\n        - id: eval_2\n          description: Declared write surface only\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            write-boundary --root .\n          verifies:\n          - B-2\n        - id: eval_3\n          description: Registered issue evidence is unchanged\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            source-integrity --root .\n          verifies:\n          - B-2\n        anti_patterns:\n        - action: weaken the independent evaluator\n          reason: it would invalidate the comparison\n          instead: fix the behavior within the declared surface\n        - action: expand the scope\n          reason: it breaks matched permissions\n          instead: report the missing work as a blocker\n        - action: claim success without evidence\n          reason: a plausible patch does not establish behavior\n          instead: run the independent proof and report failures\n        do_not_touch:\n        - tests/fixtures/toolkit/pilot-issue.json\n        - tasks\n        rollback: Revert only this isolated candidate change.\n        observability: Retained provider output, evaluation result, and prospective\n          event journal.\n        execution_recipe: diagnose-repair-verify\n        proves_capabilities:\n        - LEG-OVERVIEW-ROUTE\n        - LEG-OVERVIEW-SKILL\nsteel_thread:\n- LEG-OVERVIEW-ROUTE\n- LEG-OVERVIEW-SKILL\nobjections: []\ncontentions: []\n"
+    },
+    "steel-thread.md": {
+      "sha256": "cc605cb0b511f00be33f9018b35e5d5739f4337f935f99ebfb478a8a45a14eb6",
+      "content": "# Steel Thread\n\n1. [`LEG-OVERVIEW-ROUTE`](legs/LEG-OVERVIEW-ROUTE.md)\n2. [`LEG-OVERVIEW-SKILL`](legs/LEG-OVERVIEW-SKILL.md)\n\nThis is a derived critical capability path. It records ordering, not\nimplementation completion or dispatch authority.\n"
+    },
+    "swimlanes/LANE-OVERVIEW-ROUTE.md": {
+      "sha256": "1c5a1653512ca52167e897b2d72dee92354f001ab4c7083372d7ca1432e45ae7",
+      "content": "---\nschema_version: 1\nkind: swimlane\nclaim: derived\nid: LANE-OVERVIEW-ROUTE\nname: overview-route delivery\nowner: pilot-overview-route\nseam_id: SEAM-OVERVIEW-ROUTE\nsource_seam_sha256: 244f4144a3b56619fd7401a8248cbe705f237971e76ccb81c40a5f91dc94cfed\nlegs:\n- LEG-OVERVIEW-ROUTE\n---\n# overview-route delivery\n\nThis is the single owning swimlane for `SEAM-OVERVIEW-ROUTE`. Ownership is `pilot-overview-route`.\nSibling capability legs are ordered only by explicit dependencies or recorded\ncontention\u2014not by their position in this file.\n"
+    },
+    "swimlanes/LANE-OVERVIEW-SKILL.md": {
+      "sha256": "0e0cf1ac823fa448c82c206e99a5e1b8ea8ce9467d8284d633cb3f0158dc01fc",
+      "content": "---\nschema_version: 1\nkind: swimlane\nclaim: derived\nid: LANE-OVERVIEW-SKILL\nname: overview-skill delivery\nowner: pilot-overview-skill\nseam_id: SEAM-OVERVIEW-SKILL\nsource_seam_sha256: 999ad4d2fdb10942ad9e0fe75905881934da1421f89c31b3b0dbe06f287e3d35\nlegs:\n- LEG-OVERVIEW-SKILL\n---\n# overview-skill delivery\n\nThis is the single owning swimlane for `SEAM-OVERVIEW-SKILL`. Ownership is `pilot-overview-skill`.\nSibling capability legs are ordered only by explicit dependencies or recorded\ncontention\u2014not by their position in this file.\n"
+    },
+    "system-map.md": {
+      "sha256": "c91b825ab74b2f39c259f18df4d0f9fee56ea0758e82ffe122b768b121f7e709",
+      "content": "---\nschema_version: 1\nkind: system-map\nclaim: proposed\ncomponents:\n- CLI guidance\n- harness workflow\nexternal_dependencies:\n- TaskSpec CLI and the independently registered evaluator\nunknowns: []\nproposed_steel_thread:\n- LEG-OVERVIEW-ROUTE\n- LEG-OVERVIEW-SKILL\nobjections: []\ncontentions: []\n---\n# System Map\n\n## Components\n\n- CLI guidance\n- harness workflow\n\n## External dependencies\n\n- TaskSpec CLI and the independently registered evaluator\n\n## Unknowns\n\n- (none)\n\nThis is a **proposed** map. The delivery-plan transformation must\nclose or gate every material unknown; it may not reinterpret this text as\nruntime proof.\n"
+    },
+    "delivery-plan.yaml": {
+      "sha256": "f916ee8b80af1bf25cbf24842713c1f96b271a6b9049c76e8d82d8289a5ce569",
+      "content": "schema_version: 1\nstatus: DELIVERY_PLAN=READY\nseam_map_sha256: 7541b6145626116b470ea04ab769b6ce8b8f8202fcc28bd3d8c1c05bb1bd2e91\nswimlanes:\n- id: LANE-OVERVIEW-ROUTE\n  seam_id: SEAM-OVERVIEW-ROUTE\n  owner: pilot-overview-route\n  path: tasks/.plans/pilot/swimlanes/LANE-OVERVIEW-ROUTE.md\n  sha256: 1c5a1653512ca52167e897b2d72dee92354f001ab4c7083372d7ca1432e45ae7\n- id: LANE-OVERVIEW-SKILL\n  seam_id: SEAM-OVERVIEW-SKILL\n  owner: pilot-overview-skill\n  path: tasks/.plans/pilot/swimlanes/LANE-OVERVIEW-SKILL.md\n  sha256: 0e0cf1ac823fa448c82c206e99a5e1b8ea8ce9467d8284d633cb3f0158dc01fc\nlegs:\n- id: LEG-OVERVIEW-ROUTE\n  seam_id: SEAM-OVERVIEW-ROUTE\n  swimlane_id: LANE-OVERVIEW-ROUTE\n  path: tasks/.plans/pilot/legs/LEG-OVERVIEW-ROUTE.md\n  sha256: 9fc5fad26efe612f27536610d44f8a818e60c80f177ff2ed8b3a133582295944\n- id: LEG-OVERVIEW-SKILL\n  seam_id: SEAM-OVERVIEW-SKILL\n  swimlane_id: LANE-OVERVIEW-SKILL\n  path: tasks/.plans/pilot/legs/LEG-OVERVIEW-SKILL.md\n  sha256: 724a24383b90bfa732298c5218e2c012950d1909bb4274359a82940aecbc92cd\nsteel_thread:\n- LEG-OVERVIEW-ROUTE\n- LEG-OVERVIEW-SKILL\nobjections: []\ncontentions: []\nsteel_thread_path: tasks/.plans/pilot/steel-thread.md\nsteel_thread_sha256: cc605cb0b511f00be33f9018b35e5d5739f4337f935f99ebfb478a8a45a14eb6\nreview_authority_sha256: b7f7783ce35972e4aecb3a7bbffd81a10e883ea02e8a5685d400963b101631fe\n"
+    },
+    "reviews/delivery-plan-review.json": {
+      "sha256": "e5268490edd6e118d9d3623c448868e6927030e0825fed954f54a25584887eb3",
+      "content": "{\n  \"artifacts_sha256\": {\n    \"decisions/ADR-PILOT-SCOPE.md\": \"41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\",\n    \"evidence.jsonl\": \"94dce6420f92bba4b2be3c7ddb069eedcd3b9ed3ae51842b3189e3ed9015c6c1\",\n    \"intent.md\": \"2a36889f4b87b2e4da34b47b42d8c36cf0c23423614e526899a161214bbed109\",\n    \"legs/LEG-OVERVIEW-ROUTE.md\": \"9fc5fad26efe612f27536610d44f8a818e60c80f177ff2ed8b3a133582295944\",\n    \"legs/LEG-OVERVIEW-SKILL.md\": \"724a24383b90bfa732298c5218e2c012950d1909bb4274359a82940aecbc92cd\",\n    \"proposed-graph.json\": \"7d18b9d81ae034369f6d6ceb4338d05f683abab690480621650c0993ae2fb8fe\",\n    \"seam-map.yaml\": \"7541b6145626116b470ea04ab769b6ce8b8f8202fcc28bd3d8c1c05bb1bd2e91\",\n    \"seams/SEAM-OVERVIEW-ROUTE.md\": \"244f4144a3b56619fd7401a8248cbe705f237971e76ccb81c40a5f91dc94cfed\",\n    \"seams/SEAM-OVERVIEW-SKILL.md\": \"999ad4d2fdb10942ad9e0fe75905881934da1421f89c31b3b0dbe06f287e3d35\",\n    \"source-recipe.yaml\": \"343cca6f1ae5f000576294e3a9794dae1c51cf299d43291df51ce25cde4e7692\",\n    \"steel-thread.md\": \"cc605cb0b511f00be33f9018b35e5d5739f4337f935f99ebfb478a8a45a14eb6\",\n    \"swimlanes/LANE-OVERVIEW-ROUTE.md\": \"1c5a1653512ca52167e897b2d72dee92354f001ab4c7083372d7ca1432e45ae7\",\n    \"swimlanes/LANE-OVERVIEW-SKILL.md\": \"0e0cf1ac823fa448c82c206e99a5e1b8ea8ce9467d8284d633cb3f0158dc01fc\",\n    \"system-map.md\": \"c91b825ab74b2f39c259f18df4d0f9fee56ea0758e82ffe122b768b121f7e709\"\n  },\n  \"disposition\": \"accepted\",\n  \"draft_sha256\": \"24c007f717a3425d26dff41d21f0cfc2336e5c17a8b461aa6794b46f1d162f87\",\n  \"fixture\": false,\n  \"plan_sha256\": \"f916ee8b80af1bf25cbf24842713c1f96b271a6b9049c76e8d82d8289a5ce569\",\n  \"reason\": \"Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.\",\n  \"recipe_sha256\": \"343cca6f1ae5f000576294e3a9794dae1c51cf299d43291df51ce25cde4e7692\",\n  \"reviewed_at\": \"2026-09-14T21:02:00.852619+00:00\",\n  \"reviewer\": \"pilot-controller\",\n  \"schema_version\": 1,\n  \"signature\": \"hmac-taskplan-v1:afd77c01:1c3a349c81b54c4671dff5faee53ee10be3ab3819792df7fe90c188a546df649\",\n  \"topology_sha256\": \"7d18b9d81ae034369f6d6ceb4338d05f683abab690480621650c0993ae2fb8fe\"\n}\n"
+    }
+  },
+  "units": {
+    "T-20260914-pilot-overview-route": {
+      "projection_digest": "9a00d37151b30a6dba205512d102b8964c809ce6a23d2f088d171bb896432d61",
+      "projection": {
+        "unit": {
+          "agent": "any",
+          "anti_patterns": [
+            "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+            "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+            "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+          ],
+          "behaviors": [
+            {
+              "given": "the registered repository issue and fixed authorized scope",
+              "id": "B-1",
+              "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+              "when": "the bounded implementation is independently evaluated"
+            },
+            {
+              "given": "the recorded evidence and authorization boundary",
+              "id": "B-2",
+              "then": "source evidence is unchanged and no unrelated write is present",
+              "when": "the candidate is checked"
+            }
+          ],
+          "context": "Intent DI-PILOT-CROSS-SEAM; seam SEAM-OVERVIEW-ROUTE; swimlane LANE-OVERVIEW-ROUTE; capability leg LEG-OVERVIEW-ROUTE. Done condition: Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.",
+          "creates_paths": [],
+          "depends_on": [],
+          "do_not_touch": [
+            "tests/fixtures/toolkit/pilot-issue.json",
+            "tasks"
+          ],
+          "done_condition": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.",
+          "effort": "S",
+          "evals": [
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py overview-route --root .",
+              "description": "Independent behavioral proof for overview-route",
+              "expected_duration_sec": 10,
+              "id": "eval_1",
+              "terminal": false,
+              "verifies": [
+                "B-1"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+              "description": "Declared write surface only",
+              "expected_duration_sec": 10,
+              "id": "eval_2",
+              "terminal": false,
+              "verifies": [
+                "B-2"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+              "description": "Registered issue evidence is unchanged",
+              "expected_duration_sec": 10,
+              "id": "eval_3",
+              "terminal": true,
+              "verifies": [
+                "B-2"
+              ]
+            }
+          ],
+          "execution_backend": "any",
+          "execution_recipe": "diagnose-repair-verify",
+          "goal": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.",
+          "id": "T-20260914-pilot-overview-route",
+          "observability": "Retained provider output, evaluation result, and prospective event journal.",
+          "profile": "standard",
+          "required_tools": [
+            "git",
+            "bash",
+            "python3"
+          ],
+          "rollback": "Revert only this isolated candidate change.",
+          "source_note": "tasks/.plans/pilot/legs/LEG-OVERVIEW-ROUTE.md#T-20260914-pilot-overview-route",
+          "title": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes",
+          "touches_paths": [
+            "src/cli/guide.py"
+          ],
+          "why": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes."
+        },
+        "intent": {
+          "id": "DI-PILOT-CROSS-SEAM",
+          "title": "The installed toolkit overview has no CLI route or skill entry",
+          "summary": "Expose guide overview in human and JSON modes and route a new-user skill request to the installed overview, preserving root/mirror parity and links.",
+          "claim": "proposed",
+          "source": {
+            "uri": "tests/fixtures/toolkit/pilot-issue.json",
+            "captured_at": "2026-09-14T20:20:46.550715+00:00",
+            "sha256": "9cb2693bd26a714755d6a8800e2870c5a639be060372c6cb2dc0bbdde349b570"
+          },
+          "success": [
+            "Expose guide overview in human and JSON modes and route a new-user skill request to the installed overview, preserving root/mirror parity and links."
+          ],
+          "out_of_scope": [
+            "Changes outside the registered write surface.",
+            "Production deployment, policy changes, self-authorization, and independent agents."
+          ]
+        },
+        "original_intake": null,
+        "decisions": [
+          {
+            "id": "ADR-PILOT-SCOPE",
+            "status": "accepted",
+            "owner": "pilot-supervisor",
+            "rationale": "The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run."
+          }
+        ],
+        "seam": {
+          "id": "SEAM-OVERVIEW-ROUTE",
+          "name": "overview-route",
+          "description": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.",
+          "evidence": [
+            "E-PILOT-ISSUE"
+          ],
+          "responsibility": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.",
+          "consumes": [
+            "registered issue"
+          ],
+          "produces": [
+            "overview-route verified behavior"
+          ],
+          "owner": "pilot-overview-route",
+          "independent_proof": "Run the registered independent overview-route evaluator.",
+          "decision_ids": [
+            "ADR-PILOT-SCOPE"
+          ],
+          "rejected_alternatives": [
+            {
+              "alternative": "Merge this responsibility into an unrelated task",
+              "reason": "Its write surface and independently assessable outcome belong to this boundary."
+            }
+          ]
+        },
+        "lane": {
+          "id": "LANE-OVERVIEW-ROUTE",
+          "name": "overview-route delivery",
+          "owner": "pilot-overview-route"
+        },
+        "leg": {
+          "id": "LEG-OVERVIEW-ROUTE",
+          "observable_state": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes.",
+          "proof": "The declared evaluator succeeds without widening the write surface.",
+          "requires": [],
+          "produces": [
+            "overview-route verified behavior"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E-PILOT-ISSUE",
+            "claim": "current",
+            "source": {
+              "uri": "tests/fixtures/toolkit/pilot-issue.json",
+              "captured_at": "2026-09-14T20:20:46.550715+00:00",
+              "sha256": "9cb2693bd26a714755d6a8800e2870c5a639be060372c6cb2dc0bbdde349b570"
+            },
+            "confidence": 1.0,
+            "summary": "A repository issue inspected before comparative execution; source digests and reproduction are retained."
+          }
+        ]
+      }
+    },
+    "T-20260914-pilot-overview-skill": {
+      "projection_digest": "e446b061e5d1db7ca6457dabe34626349bc043befe210e8389b026ecd14545cb",
+      "projection": {
+        "unit": {
+          "agent": "any",
+          "anti_patterns": [
+            "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+            "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+            "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+          ],
+          "behaviors": [
+            {
+              "given": "the registered repository issue and fixed authorized scope",
+              "id": "B-1",
+              "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+              "when": "the bounded implementation is independently evaluated"
+            },
+            {
+              "given": "the recorded evidence and authorization boundary",
+              "id": "B-2",
+              "then": "source evidence is unchanged and no unrelated write is present",
+              "when": "the candidate is checked"
+            }
+          ],
+          "context": "Intent DI-PILOT-CROSS-SEAM; seam SEAM-OVERVIEW-SKILL; swimlane LANE-OVERVIEW-SKILL; capability leg LEG-OVERVIEW-SKILL. Done condition: Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.",
+          "creates_paths": [],
+          "depends_on": [
+            "T-20260914-pilot-overview-route"
+          ],
+          "do_not_touch": [
+            "tests/fixtures/toolkit/pilot-issue.json",
+            "tasks"
+          ],
+          "done_condition": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.",
+          "effort": "S",
+          "evals": [
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py cross-seam --root .",
+              "description": "Independent behavioral proof for overview-skill",
+              "expected_duration_sec": 10,
+              "id": "eval_1",
+              "terminal": false,
+              "verifies": [
+                "B-1"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+              "description": "Declared write surface only",
+              "expected_duration_sec": 10,
+              "id": "eval_2",
+              "terminal": false,
+              "verifies": [
+                "B-2"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+              "description": "Registered issue evidence is unchanged",
+              "expected_duration_sec": 10,
+              "id": "eval_3",
+              "terminal": true,
+              "verifies": [
+                "B-2"
+              ]
+            }
+          ],
+          "execution_backend": "any",
+          "execution_recipe": "diagnose-repair-verify",
+          "goal": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.",
+          "id": "T-20260914-pilot-overview-skill",
+          "observability": "Retained provider output, evaluation result, and prospective event journal.",
+          "profile": "standard",
+          "proves_capabilities": [
+            "LEG-OVERVIEW-ROUTE",
+            "LEG-OVERVIEW-SKILL"
+          ],
+          "required_tools": [
+            "git",
+            "bash",
+            "python3"
+          ],
+          "rollback": "Revert only this isolated candidate change.",
+          "source_note": "tasks/.plans/pilot/legs/LEG-OVERVIEW-SKILL.md#T-20260914-pilot-overview-skill",
+          "title": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state",
+          "touches_paths": [
+            "SKILL.md",
+            "skills/task-spec/SKILL.md"
+          ],
+          "why": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links."
+        },
+        "intent": {
+          "id": "DI-PILOT-CROSS-SEAM",
+          "title": "The installed toolkit overview has no CLI route or skill entry",
+          "summary": "Expose guide overview in human and JSON modes and route a new-user skill request to the installed overview, preserving root/mirror parity and links.",
+          "claim": "proposed",
+          "source": {
+            "uri": "tests/fixtures/toolkit/pilot-issue.json",
+            "captured_at": "2026-09-14T20:20:46.550715+00:00",
+            "sha256": "9cb2693bd26a714755d6a8800e2870c5a639be060372c6cb2dc0bbdde349b570"
+          },
+          "success": [
+            "Expose guide overview in human and JSON modes and route a new-user skill request to the installed overview, preserving root/mirror parity and links."
+          ],
+          "out_of_scope": [
+            "Changes outside the registered write surface.",
+            "Production deployment, policy changes, self-authorization, and independent agents."
+          ]
+        },
+        "original_intake": null,
+        "decisions": [
+          {
+            "id": "ADR-PILOT-SCOPE",
+            "status": "accepted",
+            "owner": "pilot-supervisor",
+            "rationale": "The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run."
+          }
+        ],
+        "seam": {
+          "id": "SEAM-OVERVIEW-SKILL",
+          "name": "overview-skill",
+          "description": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.",
+          "evidence": [
+            "E-PILOT-ISSUE"
+          ],
+          "responsibility": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.",
+          "consumes": [
+            "overview-route verified behavior"
+          ],
+          "produces": [
+            "overview-skill verified behavior"
+          ],
+          "owner": "pilot-overview-skill",
+          "independent_proof": "Run the registered independent overview-skill evaluator.",
+          "decision_ids": [
+            "ADR-PILOT-SCOPE"
+          ],
+          "rejected_alternatives": [
+            {
+              "alternative": "Merge this responsibility into an unrelated task",
+              "reason": "Its write surface and independently assessable outcome belong to this boundary."
+            }
+          ]
+        },
+        "lane": {
+          "id": "LANE-OVERVIEW-SKILL",
+          "name": "overview-skill delivery",
+          "owner": "pilot-overview-skill"
+        },
+        "leg": {
+          "id": "LEG-OVERVIEW-SKILL",
+          "observable_state": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state. Preserve exact root and mirror parity and installed relative links.",
+          "proof": "The declared evaluator succeeds without widening the write surface.",
+          "requires": [
+            "overview-route verified behavior"
+          ],
+          "produces": [
+            "overview-skill verified behavior"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E-PILOT-ISSUE",
+            "claim": "current",
+            "source": {
+              "uri": "tests/fixtures/toolkit/pilot-issue.json",
+              "captured_at": "2026-09-14T20:20:46.550715+00:00",
+              "sha256": "9cb2693bd26a714755d6a8800e2870c5a639be060372c6cb2dc0bbdde349b570"
+            },
+            "confidence": 1.0,
+            "summary": "A repository issue inspected before comparative execution; source digests and reproduction are retained."
+          }
+        ]
+      }
+    }
+  },
+  "signature": "hmac-taskplan-v1:afd77c01:7c8ce3ca6c36ff6d1643c2231475021887db8489ad79794825dda1e20ccf578f"
+}

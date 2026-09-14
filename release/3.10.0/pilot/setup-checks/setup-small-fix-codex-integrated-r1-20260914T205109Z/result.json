@@ -1,0 +1,39 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-small-fix-codex-integrated-r1-20260914T205109Z",
+  "scenario": "small-fix",
+  "harness": "codex",
+  "workflow": "integrated",
+  "repeat": 1,
+  "model": "gpt-6-astra",
+  "provider": "openai",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-8zqxw616/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "6735687145d8866100720726845bf0468813061903e05e93ed9b7a2c661e9570",
+  "write_scope": [
+    "src/recipe/recipes.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "setup_passed": false,
+  "accepted": false,
+  "error": "command-008 failed; inspect its retained stdout/stderr",
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 4.845177584,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "4195e064bcbc18782fc8915c02d3e3b4504014f7a64243f7f28496e9e5df25cd",
+      "9b76c8566d0e1ad9f17911e73dea19537cacf7d4f12ae2a1ffb53ee1b5516a4c"
+    ]
+  }
+}

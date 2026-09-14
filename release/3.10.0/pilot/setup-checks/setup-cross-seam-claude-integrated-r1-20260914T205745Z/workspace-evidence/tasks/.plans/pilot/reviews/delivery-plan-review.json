@@ -1,0 +1,29 @@
+{
+  "artifacts_sha256": {
+    "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+    "evidence.jsonl": "94dce6420f92bba4b2be3c7ddb069eedcd3b9ed3ae51842b3189e3ed9015c6c1",
+    "intent.md": "2a36889f4b87b2e4da34b47b42d8c36cf0c23423614e526899a161214bbed109",
+    "legs/LEG-OVERVIEW-ROUTE.md": "9da9995027cde73574b519df097af3056774508771af98e6b25e6d71d04e2105",
+    "legs/LEG-OVERVIEW-SKILL.md": "ee94657a1f91e22b66759f6cc3cbcedd246fc3d5f37e6ffc7621e4250d9b6fd3",
+    "proposed-graph.json": "bcaf02c851e30cf6a084fc9f6675dd077930d5e7d5f7c700a51e95bdd770cfd1",
+    "seam-map.yaml": "776284d16a6548bd93ad3f787c19ad431454ed7244f3f6085b07f9905b689fbe",
+    "seams/SEAM-OVERVIEW-ROUTE.md": "c32f12a3e68b4202587653520ee4766a2c9924e7278ec5ee1d72276b6cf0a07a",
+    "seams/SEAM-OVERVIEW-SKILL.md": "3ea357876546d6fb72c97407580ecd73af7b4d103baa758819784f271ff1ca5e",
+    "source-recipe.yaml": "0191d9f213adb7004669c0713f06061bf0937950cfa0b19cc4185d4b045e79b5",
+    "steel-thread.md": "cc605cb0b511f00be33f9018b35e5d5739f4337f935f99ebfb478a8a45a14eb6",
+    "swimlanes/LANE-OVERVIEW-ROUTE.md": "6433d797748fc02f36d252c68101dba4d73829bf23ca7232dd8c7f0a2b23f3b7",
+    "swimlanes/LANE-OVERVIEW-SKILL.md": "632dcccd3cd1d1d17328ad38fd9f116e1d6ab5297c86b6c1f24ddd0f19f51356",
+    "system-map.md": "c91b825ab74b2f39c259f18df4d0f9fee56ea0758e82ffe122b768b121f7e709"
+  },
+  "disposition": "accepted",
+  "draft_sha256": "689b470185ef45891a31512ee538cf3a9d44fbfaf8f1e67996dcc4cfdd8d7d70",
+  "fixture": false,
+  "plan_sha256": "53edd156bce79c25e42697f16430d35963b5d448d73eecf04c5c26df1bb99ffe",
+  "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "recipe_sha256": "0191d9f213adb7004669c0713f06061bf0937950cfa0b19cc4185d4b045e79b5",
+  "reviewed_at": "2026-09-14T20:57:50.988236+00:00",
+  "reviewer": "pilot-controller",
+  "schema_version": 1,
+  "signature": "hmac-taskplan-v1:11dd0426:ab046a69595bf9a4bea1104dd5bd270383f4eec620e3ea9aa5e2490cf9241d10",
+  "topology_sha256": "bcaf02c851e30cf6a084fc9f6675dd077930d5e7d5f7c700a51e95bdd770cfd1"
+}

@@ -1,0 +1,24 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "823b72a9-c1ec-4cf0-8a1a-5c58780654ab",
+    "ok": true,
+    "code": "MESH_DOCTOR_READY",
+    "message": "TaskMesh daemon and durable state are ready",
+    "data": {
+      "daemon_pid": 106,
+      "database": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-4qc17rt_/task-spec-3.9.0/.taskspec/mesh/mesh.db",
+      "event_count": 4,
+      "journal_mode": "wal",
+      "repository": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-4qc17rt_/task-spec-3.9.0",
+      "socket": "/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-501/taskmesh/ec8c38407a6ac592.sock"
+    }
+  },
+  "stdout": "",
+  "stderr": ""
+}

@@ -1,0 +1,22 @@
+schema_version: 1
+status: SEAM_MAP=READY
+intent_id: DI-PILOT-RELEASE-EVIDENCE
+source_recipe:
+  name: source-recipe.yaml
+  sha256: 1de13c3d0a09ea8e0da589312f7c61e00a711ea2889cd4f421982bc79c620e59
+intent_sha256: ad03803c7a9a63e33e6fc8ad02ef07073a590bdd5f14cf70a5887a6c38a8aa40
+system_map_sha256: 6cfcdb24274d49d04ab6824dc994a83727466e147bbf019e0c2b1938c5cfee0e
+evidence_sha256: 4a4e24c3c7c6ba52e2d175eda8d73d187d2721faeb98a62eb02fd9eda81563c4
+decisions:
+- id: ADR-PILOT-SCOPE
+  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md
+  status: accepted
+  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75
+seams:
+- id: SEAM-RELEASE-EVIDENCE
+  path: tasks/.plans/pilot/seams/SEAM-RELEASE-EVIDENCE.md
+  owner: pilot-release-evidence
+  evidence:
+  - E-PILOT-ISSUE
+  swimlane_id: LANE-RELEASE-EVIDENCE
+  sha256: 3aebc56dd4c9bdcdee1fbbf952e8d6ced8058feb3f563c25e1adaf2db5702ee6

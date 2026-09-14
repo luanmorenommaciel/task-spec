@@ -1,0 +1,38 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "plan",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskPlan/v1",
+    "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-4m2ywwsi/task-spec-3.9.0/tasks/.plans/pilot/task-plan.json",
+    "digest": "1b8d1ad63311a059b54b41af580893f31320def3d786dee931335c3ff0a76d4b",
+    "approved": true,
+    "valid": true,
+    "errors": [],
+    "warnings": [],
+    "units": [
+      {
+        "id": "T-20260914-pilot-overview-route",
+        "title": "Expose guide overview in human and JSON modes using the installed toolkit index, preserving existing guide routes",
+        "effort": "S",
+        "profile": "standard",
+        "execution_backend": "any",
+        "depends_on": []
+      },
+      {
+        "id": "T-20260914-pilot-overview-skill",
+        "title": "Route a new-user orientation request to taskspec guide overview, after inspecting current CLI state",
+        "effort": "S",
+        "profile": "standard",
+        "execution_backend": "any",
+        "depends_on": [
+          "T-20260914-pilot-overview-route"
+        ]
+      }
+    ]
+  },
+  "stdout": "",
+  "stderr": ""
+}

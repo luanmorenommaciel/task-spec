@@ -1,0 +1,7 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat j8oxznzh",
+  "case": "denied",
+  "source_commit": "059593209728d6b67467274623d37ee527e7a52a",
+  "installed_skill_sha256": "21419c00b6d3867c49b1174646489d3036c710fef03de5062ad074dd9385a7d7",
+  "engine_version": "3.10.0"
+}

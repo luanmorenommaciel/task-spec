@@ -1,0 +1,308 @@
+{
+  "contract": "TaskDecompositionParityFixture/v1",
+  "source_commit": "a49748ee39d04a6ca5ce54c6a22df331ee89ff11",
+  "fields": [
+    "id",
+    "title",
+    "goal",
+    "effort",
+    "profile",
+    "agent",
+    "execution_backend",
+    "depends_on",
+    "touches_paths",
+    "creates_paths",
+    "behaviors",
+    "evals",
+    "required_tools",
+    "rollback",
+    "observability"
+  ],
+  "units": [
+    {
+      "id": "T-20260802-decision-visibility",
+      "title": "Expose the denial reason and decision telemetry",
+      "goal": "Make the request 101 decision explainable without turning telemetry into authority.",
+      "effort": "S",
+      "profile": "standard",
+      "agent": "any",
+      "execution_backend": "any",
+      "depends_on": [
+        "T-20260802-request-101"
+      ],
+      "touches_paths": [],
+      "creates_paths": [
+        "src/rate_limit/decision.py",
+        "tests/test_decision_visibility.py"
+      ],
+      "behaviors": [
+        {
+          "given": "request 101 is denied",
+          "id": "B-1",
+          "then": "it exposes the stable reason organization_rate_limit_exceeded",
+          "when": "the response is created"
+        },
+        {
+          "given": "the same denial decision",
+          "id": "B-2",
+          "then": "it carries the same reason and decision identifier",
+          "when": "telemetry is emitted"
+        }
+      ],
+      "evals": [
+        {
+          "command": "pytest -q tests/test_decision_visibility.py -k response_reason",
+          "description": "The response exposes the stable denial reason",
+          "expected_duration_sec": 10,
+          "id": "eval_1",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "pytest -q tests/test_decision_visibility.py -k telemetry_reason",
+          "description": "Telemetry carries the matching reason",
+          "expected_duration_sec": 10,
+          "id": "eval_2",
+          "terminal": false,
+          "verifies": [
+            "B-2"
+          ]
+        },
+        {
+          "command": "pytest -q tests/test_decision_visibility.py -k decision_identifier",
+          "description": "Response and telemetry share a decision identifier",
+          "expected_duration_sec": 10,
+          "id": "eval_3",
+          "terminal": true,
+          "verifies": [
+            "B-1",
+            "B-2"
+          ]
+        }
+      ],
+      "required_tools": [
+        "git",
+        "bash",
+        "python3",
+        "pytest"
+      ],
+      "rollback": "Remove the additive response adapter, telemetry event, and focused tests.",
+      "observability": "response-to-telemetry correlation test pass count"
+    },
+    {
+      "id": "T-20260802-effective-policy",
+      "title": "Resolve one effective organization policy",
+      "goal": "Make policy precedence explicit before request enforcement.",
+      "effort": "S",
+      "profile": "standard",
+      "agent": "any",
+      "execution_backend": "any",
+      "depends_on": [
+        "T-20260802-policy-schema"
+      ],
+      "touches_paths": [],
+      "creates_paths": [
+        "src/rate_limit/policy.py",
+        "tests/test_policy_resolution.py"
+      ],
+      "behaviors": [
+        {
+          "given": "a valid organization override",
+          "id": "B-1",
+          "then": "the override and its provenance are returned",
+          "when": "effective policy is resolved"
+        },
+        {
+          "given": "no organization override",
+          "id": "B-2",
+          "then": "the validated default and its provenance are returned",
+          "when": "effective policy is resolved"
+        }
+      ],
+      "evals": [
+        {
+          "command": "pytest -q tests/test_policy_resolution.py -k override",
+          "description": "Organization overrides win deterministically",
+          "expected_duration_sec": 10,
+          "id": "eval_1",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "pytest -q tests/test_policy_resolution.py -k default",
+          "description": "Defaults resolve when no override exists",
+          "expected_duration_sec": 10,
+          "id": "eval_2",
+          "terminal": false,
+          "verifies": [
+            "B-2"
+          ]
+        },
+        {
+          "command": "pytest -q tests/test_policy_resolution.py -k provenance",
+          "description": "Resolution returns policy provenance",
+          "expected_duration_sec": 10,
+          "id": "eval_3",
+          "terminal": true,
+          "verifies": [
+            "B-1",
+            "B-2"
+          ]
+        }
+      ],
+      "required_tools": [
+        "git",
+        "bash",
+        "python3",
+        "pytest"
+      ],
+      "rollback": "Remove the additive resolver and focused tests.",
+      "observability": "effective policy resolution test pass count"
+    },
+    {
+      "id": "T-20260802-policy-schema",
+      "title": "Define the versioned rate-limit policy schema",
+      "goal": "Give every downstream stage one validated policy contract.",
+      "effort": "S",
+      "profile": "standard",
+      "agent": "any",
+      "execution_backend": "any",
+      "depends_on": [],
+      "touches_paths": [],
+      "creates_paths": [
+        "src/rate_limit/policy.schema.json",
+        "tests/test_policy_schema.py"
+      ],
+      "behaviors": [
+        {
+          "given": "a policy with a positive limit and window",
+          "id": "B-1",
+          "then": "schema validation succeeds",
+          "when": "the document is validated"
+        },
+        {
+          "given": "a policy with a zero limit or window",
+          "id": "B-2",
+          "then": "schema validation fails",
+          "when": "the document is validated"
+        }
+      ],
+      "evals": [
+        {
+          "command": "test -f src/rate_limit/policy.schema.json && python3 -m json.tool src/rate_limit/policy.schema.json >/dev/null",
+          "description": "The policy schema exists and parses as JSON",
+          "expected_duration_sec": 10,
+          "id": "eval_1",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "pytest -q tests/test_policy_schema.py -k valid",
+          "description": "Valid policy examples pass the schema tests",
+          "expected_duration_sec": 10,
+          "id": "eval_2",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "pytest -q tests/test_policy_schema.py -k invalid",
+          "description": "Invalid non-positive values are rejected",
+          "expected_duration_sec": 10,
+          "id": "eval_3",
+          "terminal": true,
+          "verifies": [
+            "B-2"
+          ]
+        }
+      ],
+      "required_tools": [
+        "git",
+        "bash",
+        "python3",
+        "pytest"
+      ],
+      "rollback": "Remove the additive schema and its focused tests.",
+      "observability": "policy schema test pass count"
+    },
+    {
+      "id": "T-20260802-request-101",
+      "title": "Enforce the effective limit at request 101",
+      "goal": "Apply one effective policy at the request boundary without off-by-one drift.",
+      "effort": "S",
+      "profile": "standard",
+      "agent": "any",
+      "execution_backend": "any",
+      "depends_on": [
+        "T-20260802-effective-policy"
+      ],
+      "touches_paths": [],
+      "creates_paths": [
+        "src/rate_limit/enforcement.py",
+        "tests/test_request_101.py"
+      ],
+      "behaviors": [
+        {
+          "given": "an effective limit of 100 and count 99",
+          "id": "B-1",
+          "then": "the request is allowed",
+          "when": "request 100 is evaluated"
+        },
+        {
+          "given": "an effective limit of 100 and count 100",
+          "id": "B-2",
+          "then": "the request is denied exactly once",
+          "when": "request 101 is evaluated"
+        }
+      ],
+      "evals": [
+        {
+          "command": "pytest -q tests/test_request_101.py -k request_100",
+          "description": "Request 100 remains allowed",
+          "expected_duration_sec": 10,
+          "id": "eval_1",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "pytest -q tests/test_request_101.py -k request_101",
+          "description": "Request 101 is denied",
+          "expected_duration_sec": 10,
+          "id": "eval_2",
+          "terminal": false,
+          "verifies": [
+            "B-2"
+          ]
+        },
+        {
+          "command": "pytest -q tests/test_request_101.py -k boundary",
+          "description": "The boundary has no off-by-one drift",
+          "expected_duration_sec": 10,
+          "id": "eval_3",
+          "terminal": true,
+          "verifies": [
+            "B-1",
+            "B-2"
+          ]
+        }
+      ],
+      "required_tools": [
+        "git",
+        "bash",
+        "python3",
+        "pytest"
+      ],
+      "rollback": "Remove the additive enforcement boundary and focused tests.",
+      "observability": "boundary test pass count"
+    }
+  ]
+}

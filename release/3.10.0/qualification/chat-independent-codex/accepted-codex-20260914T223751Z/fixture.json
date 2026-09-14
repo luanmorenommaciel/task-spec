@@ -1,0 +1,7 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat img4yapu",
+  "case": "accepted",
+  "source_commit": "1e087bb91dc89fd5db48e8f4ba6ba30c30900978",
+  "installed_skill_sha256": "95af19b1e47e9810250a9b98eaa922ded1f525e82db7f9b092018c2baff8e0bf",
+  "engine_version": "3.10.0"
+}

@@ -1,0 +1,108 @@
+{
+  "api_version": "taskspec.dev/v1",
+  "approved": true,
+  "kind": "TaskPlan",
+  "metadata": {
+    "delivery_plan_review_sha256": "aad02bbdf8a0cf7041ba10d113821d3befd8250d428c646c6d7181d010bfa6ff",
+    "delivery_plan_sha256": "8d0e509a15f5fde1561888acf0be56c0ac003781e16edb181cf885d9706ef323",
+    "name": "DI-PILOT-INCIDENT",
+    "native_initiative": "pilot",
+    "native_plan_status": "DELIVERY_PLAN=READY",
+    "producer": "taskspec",
+    "producer_version": "3.10.0",
+    "source": "tasks/.plans/pilot/task-plan.json"
+  },
+  "units": [
+    {
+      "agent": "any",
+      "anti_patterns": [
+        "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+        "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+        "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+      ],
+      "behaviors": [
+        {
+          "given": "the registered repository issue and fixed authorized scope",
+          "id": "B-1",
+          "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+          "when": "the bounded implementation is independently evaluated"
+        },
+        {
+          "given": "the recorded evidence and authorization boundary",
+          "id": "B-2",
+          "then": "source evidence is unchanged and no unrelated write is present",
+          "when": "the candidate is checked"
+        }
+      ],
+      "context": "Intent DI-PILOT-INCIDENT; seam SEAM-INCIDENT; swimlane LANE-INCIDENT; capability leg LEG-INCIDENT. Done condition: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\n\nApplicable intent, capability, and evidence: {\"decisions\": [{\"id\": \"ADR-PILOT-SCOPE\", \"owner\": \"pilot-supervisor\", \"rationale\": \"The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run.\", \"status\": \"accepted\"}], \"evidence\": [{\"claim\": \"current\", \"confidence\": 1.0, \"id\": \"E-PILOT-ISSUE\", \"source\": {\"captured_at\": \"2026-09-14T20:20:46.550715+00:00\", \"sha256\": \"c0183f60ddf3d93d84864cc710e3afd3447caead3920173f91a27a95ce59c610\", \"uri\": \"tests/fixtures/toolkit/pilot-issue.json\"}, \"summary\": \"A repository issue inspected before comparative execution; source digests and reproduction are retained.\"}], \"intent\": {\"claim\": \"proposed\", \"id\": \"DI-PILOT-INCIDENT\", \"out_of_scope\": [\"Changes outside the registered write surface.\", \"Production deployment, policy changes, self-authorization, and independent agents.\"], \"source\": {\"captured_at\": \"2026-09-14T20:20:46.550715+00:00\", \"sha256\": \"c0183f60ddf3d93d84864cc710e3afd3447caead3920173f91a27a95ce59c610\", \"uri\": \"tests/fixtures/toolkit/pilot-issue.json\"}, \"success\": [\"Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\"], \"summary\": \"Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\", \"title\": \"A malformed imported incident receipt raises a raw TypeError\"}, \"lane\": {\"id\": \"LANE-INCIDENT\", \"name\": \"incident delivery\", \"owner\": \"pilot-incident\"}, \"leg\": {\"id\": \"LEG-INCIDENT\", \"observable_state\": \"Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\", \"produces\": [\"incident verified behavior\"], \"proof\": \"The declared evaluator succeeds without widening the write surface.\", \"requires\": []}, \"original_intake\": null, \"seam\": {\"consumes\": [\"registered issue\"], \"decision_ids\": [\"ADR-PILOT-SCOPE\"], \"description\": \"Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\", \"evidence\": [\"E-PILOT-ISSUE\"], \"id\": \"SEAM-INCIDENT\", \"independent_proof\": \"Run the registered independent incident evaluator.\", \"name\": \"incident\", \"owner\": \"pilot-incident\", \"produces\": [\"incident verified behavior\"], \"rejected_alternatives\": [{\"alternative\": \"Merge this responsibility into an unrelated task\", \"reason\": \"Its write surface and independently assessable outcome belong to this boundary.\"}], \"responsibility\": \"Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\"}}",
+      "creates_paths": [],
+      "depends_on": [],
+      "do_not_touch": [
+        "tests/fixtures/toolkit/pilot-issue.json",
+        "tasks"
+      ],
+      "done_condition": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+      "effort": "S",
+      "evals": [
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py incident --root .",
+          "description": "Independent behavioral proof for incident",
+          "expected_duration_sec": 10,
+          "id": "eval_1",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+          "description": "Declared write surface only",
+          "expected_duration_sec": 10,
+          "id": "eval_2",
+          "terminal": false,
+          "verifies": [
+            "B-2"
+          ]
+        },
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+          "description": "Registered issue evidence is unchanged",
+          "expected_duration_sec": 10,
+          "id": "eval_3",
+          "terminal": true,
+          "verifies": [
+            "B-2"
+          ]
+        }
+      ],
+      "execution_backend": "claude",
+      "execution_recipe": "diagnose-repair-verify",
+      "goal": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+      "id": "T-20260914-pilot-incident",
+      "observability": "Retained provider output, evaluation result, and prospective event journal.",
+      "profile": "standard",
+      "provenance": {
+        "contract": "TaskPlanProvenance/v1",
+        "initiative": "pilot",
+        "projection_digest": "b88ae5388010643b5c2b0232b2b91b8f1048d959705ba94e1cb9af77cb20bf53",
+        "snapshot": "tasks/.plans/pilot/snapshots/603f7a41fc97a5825678d2c6185a47f79ec17949b4eaa25aa0d467f1b758d61a.json",
+        "snapshot_digest": "603f7a41fc97a5825678d2c6185a47f79ec17949b4eaa25aa0d467f1b758d61a"
+      },
+      "proves_capabilities": [
+        "LEG-INCIDENT"
+      ],
+      "required_tools": [
+        "git",
+        "bash",
+        "python3"
+      ],
+      "rollback": "Revert only this isolated candidate change.",
+      "source_note": "tasks/.plans/pilot/legs/LEG-INCIDENT.md#T-20260914-pilot-incident",
+      "title": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID",
+      "touches_paths": [
+        "src/evidence/operational.py"
+      ],
+      "why": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion."
+    }
+  ]
+}

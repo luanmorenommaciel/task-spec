@@ -1,0 +1,22 @@
+schema_version: 1
+status: SEAM_MAP=READY
+intent_id: DI-PILOT-INVESTIGATION
+source_recipe:
+  name: source-recipe.yaml
+  sha256: 9dab76fe2764bdc4a21e6d61d05196c5e51447a6714a30276edaa28d2160bd27
+intent_sha256: 19588b865cd9d5be7bcd008d553522ba4d281d5153e6022e13b919d33bdbe9cc
+system_map_sha256: d0556b73c1407af8ce6c61539fe9b3d51e7f939de96438164f18b9d9b4c43d1b
+evidence_sha256: 7d3ccf700aa520237b7b304ab52fd73db9ce523ee2db0a246fcba333c4e9ef9e
+decisions:
+- id: ADR-PILOT-SCOPE
+  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md
+  status: accepted
+  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75
+seams:
+- id: SEAM-INVESTIGATION
+  path: tasks/.plans/pilot/seams/SEAM-INVESTIGATION.md
+  owner: pilot-investigation
+  evidence:
+  - E-PILOT-ISSUE
+  swimlane_id: LANE-INVESTIGATION
+  sha256: 98d409c585ad4dc03b7899867365ea0ca508354a74e28f63793d4f5d7b2e8209

@@ -1,0 +1,10 @@
+{
+  "observed_at": "2026-09-14T20:42:25.171304+00:00",
+  "source_preflight": "release/3.10.0/pilot/preflight/preflight-claude-20260914T203044Z/result.json",
+  "decision": "Adopt the accepted Claude patch: preserve strict file parsing while adding stdin JSON/YAML parity and an actionable empty-input diagnostic.",
+  "source_sha256": "e879caba513daa34fe6e03f06b09c1fff9456a79a1bd6c53f7ff5bcba0dcad95",
+  "scope": [
+    "src/recipe/recipes.py"
+  ],
+  "comparison_status": "This adoption does not count as a comparative pilot result; all comparison workspaces must still use the registered original snapshot."
+}

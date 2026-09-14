@@ -1,0 +1,11 @@
+{
+  "complete": false,
+  "cost_including_failures": null,
+  "cost_basis": "api_equivalent_estimate",
+  "invocations": [
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205949Z/mesh-artifacts/1387725a-3760-4fb0-a18a-4bcad35aaf1d.round-1.json",
+      "known": false
+    }
+  ]
+}

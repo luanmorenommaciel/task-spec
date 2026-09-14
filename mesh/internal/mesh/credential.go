@@ -105,7 +105,7 @@ func (store *Store) issueCredential(lease Lease, provider, model, brokerRef stri
 }
 
 func (store *Store) setCredentialState(attemptID, state string) {
-	_, _ = store.db.Exec("UPDATE credential_leases SET state = ? WHERE attempt_id = ?", state, attemptID)
+	_, _ = store.db.Exec("UPDATE credential_leases SET state = ? WHERE attempt_id = ? AND state IN ('issued','active')", state, attemptID)
 }
 
 func writeSecretFile(repository Repository, name, value string) (string, error) {

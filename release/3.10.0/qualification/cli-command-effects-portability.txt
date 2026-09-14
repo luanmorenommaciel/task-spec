@@ -1,0 +1,45 @@
+=== (a) bash -n syntax check for every src/*/*.sh ===
+  ✓ syntax ok: accept/accept-task.sh
+  ✓ syntax ok: author/batch-generate.sh
+  ✓ syntax ok: author/generate-task-spec.sh
+  ✓ syntax ok: author/migrate-legacy-task.sh
+  ✓ syntax ok: backlog/archive.sh
+  ✓ syntax ok: backlog/backup-backlog.sh
+  ✓ syntax ok: backlog/install-hooks.sh
+  ✓ syntax ok: backlog/lint-backlog.sh
+  ✓ syntax ok: backlog/list-ready.sh
+  ✓ syntax ok: backlog/query-metrics.sh
+  ✓ syntax ok: backlog/rebuild-state.sh
+  ✓ syntax ok: backlog/transition-status.sh
+  ✓ syntax ok: decompose/launch.sh
+  ✓ syntax ok: dispatch/conformance-check.sh
+  ✓ syntax ok: dispatch/ref-executor.sh
+  ✓ syntax ok: gate/definition-of-done.sh
+  ✓ syntax ok: gate/run-task-spec.sh
+  ✓ syntax ok: gate/safe-to-delegate.sh
+  ✓ syntax ok: gate/validate-task-spec.sh
+  ✓ syntax ok: lib/_lib.sh
+  ✓ syntax ok: lib/install.sh
+  ✓ syntax ok: setup/demo.sh
+  ✓ syntax ok: setup/init.sh
+  ✓ syntax ok: setup/readiness.sh
+=== (b) core-path scripts contain no bash-4-only constructs ===
+  ✓ gate/validate-task-spec.sh has no 'declare -A'
+  ✓ gate/validate-task-spec.sh has no mapfile/readarray
+  ✓ gate/safe-to-delegate.sh has no 'declare -A'
+  ✓ gate/safe-to-delegate.sh has no mapfile/readarray
+  ✓ gate/run-task-spec.sh has no 'declare -A'
+  ✓ gate/run-task-spec.sh has no mapfile/readarray
+  ✓ lib/_lib.sh has no 'declare -A'
+  ✓ lib/_lib.sh has no mapfile/readarray
+=== (c) aux scripts call ts_require_bash4 ===
+  ✓ backlog/query-metrics.sh calls ts_require_bash4
+=== (d) conformance runner + adapters are bash-3.2-clean ===
+  ✓ syntax ok: conformance/run_conformance.sh
+  ✓ conformance/run_conformance.sh has no bash-4-only constructs
+  ✓ syntax ok: conformance/adapters/self.sh
+  ✓ conformance/adapters/self.sh has no bash-4-only constructs
+
+========================================
+Results: 37 passed, 0 failed
+========================================

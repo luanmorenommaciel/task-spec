@@ -1,0 +1,6 @@
+Signing key written: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-real-issue-ktyvgos9/task-spec-3.9.0/.git/info/taskspec-signing-key (chmod 600)
+keyid: 7d60c5c5
+
+This file is OUTSIDE version control (.git/info is never committed).
+Stamps produced by safe-to-delegate.sh --stamp will now reach Tier 1
+(full crypto trust). Verify with: taskspec validate <spec>

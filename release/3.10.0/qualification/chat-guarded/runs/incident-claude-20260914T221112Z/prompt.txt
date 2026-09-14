@@ -1,0 +1,1 @@
+Turn incident.json into corrective-work intake. Preserve the reported nature of the observation and tell me the next decision. Do not deploy, authorize, or accept corrective work.

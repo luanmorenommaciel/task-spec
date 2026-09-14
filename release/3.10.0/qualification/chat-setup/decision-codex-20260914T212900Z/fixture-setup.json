@@ -1,0 +1,93 @@
+[
+  {
+    "argv": [
+      "git",
+      "init",
+      "-q",
+      "-b",
+      "main"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "config",
+      "user.name",
+      "TaskSpec chat fixture"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "config",
+      "user.email",
+      "chat-fixture@taskspec.invalid"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "bash",
+      "/private/tmp/taskspec-chat-qualification-engines/3.10.0/bin/taskspec",
+      "--json",
+      "init"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"contract\": \"TaskSpecCLIResult/v1\",\n  \"engine_version\": \"3.10.0\",\n  \"command\": \"init\",\n  \"ok\": true,\n  \"exit_code\": 0,\n  \"data\": null,\n  \"stdout\": \"created: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat bt4fvuhu/.taskspec/config\\ncreated: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat bt4fvuhu/tasks/.gitkeep\\nINIT=OK\\n\",\n  \"stderr\": \"\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "bash",
+      "/private/tmp/taskspec-chat-qualification-engines/3.10.0/bin/taskspec",
+      "--json",
+      "decompose",
+      "prepare",
+      "rate-limit",
+      "--recipe",
+      "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat bt4fvuhu/authored.yaml"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"contract\": \"TaskSpecCLIResult/v1\",\n  \"engine_version\": \"3.10.0\",\n  \"command\": \"decompose\",\n  \"ok\": true,\n  \"exit_code\": 0,\n  \"data\": {\n    \"contract\": \"TaskDecompositionResult/v1\",\n    \"initiative\": \"rate-limit\",\n    \"state\": \"needs_review\",\n    \"dry_run\": false,\n    \"next\": [\n      \"taskspec decompose review rate-limit --accept --reviewer <name> --reason <reason>\"\n    ],\n    \"diagnostics\": []\n  },\n  \"stdout\": \"\",\n  \"stderr\": \"\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "add",
+      "."
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "commit",
+      "-qm",
+      "Record isolated chat qualification fixture"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit_code": 0,
+    "stdout": "c74c9e6a09aa043dd51bd271d0fcc201bc7b54a4\n",
+    "stderr": ""
+  }
+]

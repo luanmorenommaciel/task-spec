@@ -1,0 +1,11 @@
+{
+  "contract": "TaskPlanBundle/v1",
+  "initiative": "pilot",
+  "lineage_digest": "9597571d4a18529c94f0d0b5faa17967ad281b0fce167624090ad6bd9fa725a3",
+  "plan_digest": "e1c048b953e5f9d553cfa70f8393d71889863d749a33436ccfb65a0a36ae3bfc",
+  "signature": "hmac-taskplan-v1:c02b9f92:25e8885d9ff6a1713b032a0d38ad03bf43a47b5f02db8c0f565fc89fa1efb3df",
+  "snapshot_digest": "603f7a41fc97a5825678d2c6185a47f79ec17949b4eaa25aa0d467f1b758d61a",
+  "units": {
+    "T-20260914-pilot-incident": "b88ae5388010643b5c2b0232b2b91b8f1048d959705ba94e1cb9af77cb20bf53"
+  }
+}

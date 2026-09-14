@@ -1,0 +1,22 @@
+{
+  "contract": "TaskOperationalImport/v1",
+  "source_digest": "f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b",
+  "source_content": "{\n  \"contract\": \"TaskOperationalEvidence/v1\",\n  \"id\": \"incident-example\",\n  \"kind\": \"incident\",\n  \"claim\": \"reported\",\n  \"observed_at\": \"2026-09-14T00:00:00Z\",\n  \"source\": \"https://monitor.example.invalid/incidents/42\",\n  \"observation\": \"Elevated error rate reported after release.\",\n  \"revision\": \"0123456789abcdef0123456789abcdef01234567\",\n  \"environment\": \"staging\",\n  \"attachments\": [],\n  \"impact\": \"Checkout requests fail intermittently.\",\n  \"disposition\": \"candidate_intent\"\n}\n",
+  "evidence": {
+    "contract": "TaskOperationalEvidence/v1",
+    "id": "incident-example",
+    "kind": "incident",
+    "claim": "reported",
+    "observed_at": "2026-09-14T00:00:00Z",
+    "source": "https://monitor.example.invalid/incidents/42",
+    "observation": "Elevated error rate reported after release.",
+    "revision": "0123456789abcdef0123456789abcdef01234567",
+    "environment": "staging",
+    "attachments": [],
+    "impact": "Checkout requests fail intermittently.",
+    "disposition": "candidate_intent"
+  },
+  "attachments": [],
+  "target_health_verified": false,
+  "acceptance_granted": false
+}

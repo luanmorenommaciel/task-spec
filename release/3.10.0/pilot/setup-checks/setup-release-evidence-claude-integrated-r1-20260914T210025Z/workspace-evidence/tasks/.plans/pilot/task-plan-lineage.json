@@ -1,0 +1,31 @@
+{
+  "contract": "TaskPlanLineage/v1",
+  "delivery_plan_sha256": "fa9a8872887cd0b02b9a55f66b1ff1d32420cbaac908eebadcd6ae12a0b05f9b",
+  "engine_version": "3.10.0",
+  "intent": {
+    "id": "DI-PILOT-RELEASE-EVIDENCE",
+    "sha256": "ad03803c7a9a63e33e6fc8ad02ef07073a590bdd5f14cf70a5887a6c38a8aa40"
+  },
+  "review": {
+    "fixture": false,
+    "plan_sha256": "fa9a8872887cd0b02b9a55f66b1ff1d32420cbaac908eebadcd6ae12a0b05f9b",
+    "reviewed_at": "2026-09-14T21:00:31.697869+00:00",
+    "reviewer": "pilot-controller",
+    "sha256": "9ad78c64c91e2d6726c40b1bb9e834187e7f34214b2de389ec8661c5fbb5eac6"
+  },
+  "task_plan": {
+    "contract": "TaskPlan/v1",
+    "digest": "f6bc0206d0159b6f02040961ffc68a7765de859e13fa95bde0236ee5b8f0a812",
+    "path": "tasks/.plans/pilot/task-plan.json"
+  },
+  "units": {
+    "T-20260914-pilot-release-evidence": {
+      "intent": "DI-PILOT-RELEASE-EVIDENCE",
+      "leg": "LEG-RELEASE-EVIDENCE",
+      "seam": "SEAM-RELEASE-EVIDENCE",
+      "source_sha256": "df6349a0a2cdec5ebf15fb28d2b240c7d2f0ed6983f6739398b3be4daf2d8f2f",
+      "swimlane": "LANE-RELEASE-EVIDENCE",
+      "unit_id": "T-20260914-pilot-release-evidence"
+    }
+  }
+}

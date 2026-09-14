@@ -1,0 +1,29 @@
+{
+  "contract": "ReadmeGrounding/v1",
+  "method": "Exa MCP search followed by GitHub MCP fetch_file of primary README sources",
+  "observed_at": "2026-09-14",
+  "sources": [
+    {
+      "url": "https://github.com/cli/cli/blob/trunk/README.md",
+      "blob_sha": "c6f2ebbf9d65c45107afc3ff6b2e2dbbd125cc27",
+      "connector": "GitHub MCP fetch_file",
+      "observed_pattern": "Clear opening and direct links to installation, usage, and contributor guidance.",
+      "application": "Separate user journeys from contributor and operator detail."
+    },
+    {
+      "url": "https://github.com/astral-sh/uv/blob/main/README.md",
+      "blob_sha": "66caaf9ccc62add8c63de8e71184c9b7677377ad",
+      "connector": "GitHub MCP fetch_file",
+      "observed_pattern": "Concise highlights followed by installation and small task-oriented examples.",
+      "application": "Lead with an executable first result and link deeper workflows."
+    },
+    {
+      "url": "https://github.com/BurntSushi/ripgrep/blob/master/README.md",
+      "blob_sha": "54a7158a564faae22988da41efb1ef279e06fe5e",
+      "connector": "GitHub MCP fetch_file",
+      "observed_pattern": "Early documentation navigation, concrete examples, and explicit suitability limits.",
+      "application": "Keep evidence and limitations visible without implying universal benchmark superiority."
+    }
+  ],
+  "ranking_claim": "Curated established developer-tool examples; no universal best-README ranking is claimed."
+}

@@ -19,6 +19,11 @@ VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 sys.path.insert(0, str(LIB))
 from taskspec_data import DataError, canonical_digest, load_document, sensitive_key_paths, yaml_scalar  # noqa: E402
 
+sys.path.insert(0, str(ROOT / "src/recipe"))
+sys.path.insert(0, str(ROOT / "src/security"))
+from recipes import resolve as resolve_recipe, validate as validate_recipe
+from provenance import verify_bundle
+
 ID_RE = re.compile(r"^T-[0-9]{8}-[a-z0-9]+(?:-[a-z0-9]+)*$")
 LEAVES = {"XS": 1, "S": 2, "M": 3, "L": 5}
 NODES = {"XL": 2, "XXL": 3}
@@ -82,6 +87,11 @@ def validate_plan(plan: object) -> tuple[list[str], list[str]]:
         for field in ("depends_on", "touches_paths", "creates_paths", "evals", "children"):
             if field in unit and not isinstance(unit[field], list):
                 errors.append(f"{task_id}: {field} must be a list")
+        for field in ("shared_resources", "proves_capabilities", "sdlc_stages"):
+            if field in unit and (not isinstance(unit[field], list) or any(not isinstance(x, str) or not x.strip() for x in unit[field]) or len({str(x) for x in unit[field]}) != len(unit[field])):
+                errors.append(f"{task_id}: {field} must contain unique nonblank strings")
+        if isinstance(unit.get("sdlc_stages"), list) and any(stage not in ("plan", "design", "build", "test", "deploy", "maintain") for stage in unit["sdlc_stages"]):
+            errors.append(f"{task_id}: unknown SDLC stage")
         for field in ("title", "source_note", "why", "goal"):
             value = unit.get(field)
             if not isinstance(value, str) or not value.strip():
@@ -183,6 +193,13 @@ def validate_plan(plan: object) -> tuple[list[str], list[str]]:
             unknown = verified - behavior_ids
             if unknown:
                 errors.append(f"{task_id}: {eval_id} verifies unknown behaviors {sorted(unknown)}")
+        requested_recipe = unit.get("execution_recipe")
+        if requested_recipe is not None:
+            try:
+                resolved = resolve_recipe(requested_recipe, sorted(eval_ids), unit.get("budget_iterations", 15)) if isinstance(requested_recipe, str) else requested_recipe
+                errors.extend(f"{task_id}: {message}" for message in validate_recipe(resolved, sorted(eval_ids), unit.get("budget_iterations", 15)))
+            except (ValueError, TypeError) as error:
+                errors.append(f"{task_id}: {error}")
         if behavior_ids:
             covered = {
                 item
@@ -265,6 +282,14 @@ def _frontmatter(unit: dict) -> list[str]:
         f"agent: {unit['agent']}", f"parent: {unit.get('parent', '(none)')}",
         f"depends_on: {_tokens(unit['depends_on'])}", "supersedes: (none)",
     ]
+    if unit.get("provenance"):
+        rows.append("provenance: " + json.dumps(unit["provenance"], sort_keys=True))
+    if unit.get("proves_capabilities"):
+        rows.append("proves_capabilities: " + json.dumps(unit["proves_capabilities"]))
+    if unit.get("shared_resources"):
+        rows.append("shared_resources: " + json.dumps(unit["shared_resources"]))
+    if unit.get("sdlc_stages"):
+        rows.append("sdlc_stages: " + json.dumps(unit["sdlc_stages"]))
     if unit.get("children"):
         rows.append(f"children: {_tokens(unit['children'])}")
     rows.extend([
@@ -313,7 +338,7 @@ def render_spec(unit: dict) -> str:
         ]
     lines += [
         "retry_policy:", f"  max_iterations: {int(unit.get('budget_iterations', 15))}",
-        "  circuit_breaker_no_progress: 3", "  on_terminal_failure: park_with_context",
+        f"  circuit_breaker_no_progress: {min(3, int(unit.get('budget_iterations', 15)))}", "  on_terminal_failure: park_with_context",
         "agent_contract:", "  version: 2", "  read: [intent, behavior, contract, guardrails]",
         f"  produce: {_tokens(unit.get('produces', ['code', 'tests']))}",
         f"  required_tools: {_tokens(unit.get('required_tools', ['git', 'bash']))}",
@@ -325,6 +350,11 @@ def render_spec(unit: dict) -> str:
         "", "## Observability Hooks", "", str(unit.get("observability", "(none — no runtime observability required)")),
         "", "## Anti-Patterns", "",
     ]
+    requested_recipe = unit.get("execution_recipe")
+    if requested_recipe is not None:
+        resolved = resolve_recipe(requested_recipe, [check["id"] for check in unit["evals"]], unit.get("budget_iterations", 15)) if isinstance(requested_recipe, str) else requested_recipe
+        version_index = lines.index("  version: 2")
+        lines.insert(version_index + 1, "  execution_recipe: " + json.dumps(resolved, sort_keys=True))
     anti = unit.get("anti_patterns", ["Do not weaken or edit the eval contract after sign-off."])
     lines.extend(f"- {item}" for item in anti)
     lines += ["", "## Do-Not-Touch", ""]
@@ -361,6 +391,13 @@ def main() -> int:
     except DataError as exc:
         print(f"TASK_PLAN=INVALID\nerror: {exc}", file=sys.stderr)
         return 1
+    if isinstance(plan, dict) and (plan.get("metadata", {}).get("native_initiative") or any(u.get("provenance") for u in plan.get("units", []) if isinstance(u, dict)) or (pathlib.Path(args.manifest).name == "task-plan.json" and pathlib.Path(args.manifest).with_name("bundle.json").exists())):
+        try:
+            from workspace import resolve_workspace
+            plan = verify_bundle(resolve_workspace(pathlib.Path(args.manifest).resolve()), pathlib.Path(args.manifest))
+        except (ValueError, OSError) as exc:
+            print(f"TASK_PLAN=INVALID native provenance: {exc}", file=sys.stderr)
+            return 1
     errors, warnings = validate_plan(plan)
     units = plan.get("units", []) if isinstance(plan, dict) else []
     plan_digest = canonical_digest(plan)

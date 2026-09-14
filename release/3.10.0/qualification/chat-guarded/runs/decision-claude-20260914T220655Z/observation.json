@@ -1,0 +1,60 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "decision",
+  "harness": "claude",
+  "retained": "/private/tmp/taskspec-chat-guarded-observations/runs/decision-claude-20260914T220655Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "f4de567861ab7a474b674fa2f064dca59b44860e6f45353c7d0f04389325b7c5"
+    },
+    {
+      "path": "before.json",
+      "sha256": "f4de567861ab7a474b674fa2f064dca59b44860e6f45353c7d0f04389325b7c5"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "9390093a5cd6db8e2abfab987d8ae854eb1cb9ceecd2a2f68e542a03e250f092"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "1a1fa63ecea798879f537e62078f4f7c2993ff7801b66cb7a79ad3b496c15700"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "6f4440702d254447acaa8fb7518acf73a93cef62148d5140d3b0c7cc03dbee50"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "971f964047adf6a3794e30a56d94ee05bfe5f12c3fab641f2891507153ab7388"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "9e08f461e7c2456acd8635200240755d9696fd0e3634444f507c605da5618b6f"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "d61393ba7774001d0bbea535f124f3f082e368f982a9c5696c360449e4aff2f4"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "86308ce13797389bbf7cec5296f7cdd80cd9ffa074c20fa64b5f745cc16408a8"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "dc18c14a056543eaa3db7c72c7ee3e02d9daac8c23c534f1a0642620ba0941b9"
+    }
+  ]
+}

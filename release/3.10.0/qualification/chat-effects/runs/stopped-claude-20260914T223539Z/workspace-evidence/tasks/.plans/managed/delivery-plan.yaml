@@ -1,0 +1,27 @@
+schema_version: 1
+status: DELIVERY_PLAN=READY
+seam_map_sha256: 6bc2d5539dc999dcd8086b953f6283e4cfac8bddd2f6dc4a50bafba0b21b1a7f
+swimlanes:
+- id: LANE-POLICY-CONTRACT
+  seam_id: SEAM-POLICY-CONTRACT
+  owner: platform-contracts
+  path: tasks/.plans/managed/swimlanes/LANE-POLICY-CONTRACT.md
+  sha256: ac8cab4e6292cc4ba9a689b84bf10b0f4152cf3aee2a122b2015a7ae44c27811
+legs:
+- id: LEG-POLICY-SCHEMA-VALID
+  seam_id: SEAM-POLICY-CONTRACT
+  swimlane_id: LANE-POLICY-CONTRACT
+  path: tasks/.plans/managed/legs/LEG-POLICY-SCHEMA-VALID.md
+  sha256: 476e968fc815208decf9315db9be16731953b4a39239c9a71f2f8959ad037761
+steel_thread:
+- LEG-POLICY-SCHEMA-VALID
+objections:
+- id: OBJ-METERING-SEPARATION
+  status: FIXED
+  summary: Metering was removed from the canonical steel thread and kept external.
+  owner: example-fixture
+  rationale: The accepted boundary decision leaves metering outside the four-leg proving path.
+contentions: []
+steel_thread_path: tasks/.plans/managed/steel-thread.md
+steel_thread_sha256: a8d80d134a74e0489bf1ceada14156233f448ced5a6decb861d32f9a11764aa4
+review_authority_sha256: 8c62ad68b66bab2858f99bca25888b47387de63507bbd47e6256e018d220ed79

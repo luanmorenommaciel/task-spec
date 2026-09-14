@@ -13,7 +13,34 @@ The canonical version lives in `./VERSION` and is mirrored by
 
 ---
 
-## [Unreleased]
+## [3.10.0] - 2026-09-14
+
+Release candidate: publication remains gated on the retained qualification evidence.
+
+- Extend the existing managed recipe controller to attested OMP execution, with
+  per-round signed sandbox evidence, retained credential rotations, and the same
+  persistent round/deadline budget. Capability metadata distinguishes attested
+  execution from custom required environment contracts and hard token limits.
+- Place newly created TaskMesh source worktrees outside protected Git metadata,
+  renew daemon-owned fenced leases without resetting recipe budgets, and stop on
+  reported executor permission denials. Automatic acceptance shares the managed
+  deadline and cancels evaluator subprocesses with its execution context.
+- Repair private-runtime reuse when its dependency lock matches but its recorded
+  TaskSpec version does not. Accept recipe validation input from stdin with the
+  same strict parsing rules as file input.
+- Make uninitialized Mesh status read-only, give prepared plans the correct review
+  action, and keep scaffold comments separate from parsed frontmatter values.
+  Clarify command lifecycle effects and dependency requirements in the product skill.
+- Point Claude plugin skills at their containing directories and verify installed
+  manifest versions, skill paths, and resource integrity before installation succeeds.
+- Describe eval execution and conditional Mesh initialization in command metadata;
+  keep gate, acceptance, and Mesh-inspection dry runs free of those side effects.
+
+### Native toolkit (opt-in)
+
+- Native reviewed decomposition and lineage, explicit Seamwise import, signed execution recipes, managed TaskMesh repair rounds, and operational evidence workflows.
+- Unified CLI discovery, progressive skill guides, and isolated toolkit runtime installation. Existing atomic formats and historical receipts remain unchanged.
+
 
 ### Added
 

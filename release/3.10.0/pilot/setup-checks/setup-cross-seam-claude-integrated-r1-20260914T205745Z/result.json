@@ -1,0 +1,327 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-cross-seam-claude-integrated-r1-20260914T205745Z",
+  "scenario": "cross-seam",
+  "harness": "claude",
+  "workflow": "integrated",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-x5ignfqt/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "src/cli/guide.py",
+    "SKILL.md",
+    "skills/task-spec/SKILL.md"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "4d1baf250d34a02416cb669a4fcb629db6e695ad",
+  "setup_passed": true,
+  "accepted": false,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 14.28473975,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "e9782f087e4fb3a56b64b4bb8f9f7dc33b807b03f8dd1793293bffa594fb20ee",
+      "0bf80cc29d642e53f70a06533e91014d830de8c41a92465a1f7df610ee02d842"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 14.28473975,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "e9782f087e4fb3a56b64b4bb8f9f7dc33b807b03f8dd1793293bffa594fb20ee",
+    "0bf80cc29d642e53f70a06533e91014d830de8c41a92465a1f7df610ee02d842"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "f5b9f7d4f557e029329bb9e353802135aee5bcdc79783e0226d7a798eb6f323f",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-006.stdout",
+      "sha256": "f2c7aa3b77f8f3b0886e593044be95c3b8111a3c7b4a49c9c8725466cd72da51"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-007.stdout",
+      "sha256": "3e08bfba5bd435fdfa76c5e9f4a4281e8dfb51fc36ffb79952ac3e706051e06f"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-008.stdout",
+      "sha256": "fed30301c1aa89e8853963a93b6449c769797ccdc990758f84a9c4bc47812a0c"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-009.stdout",
+      "sha256": "03479758b417defdd581227782b189393564483e039607ed435f3a13a263610e"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-010.stdout",
+      "sha256": "862e0233a2c9d273afda17f02e932cd2acd435506876ec09a016164d255cc553"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-011.stdout",
+      "sha256": "3335042ce11e73701c6bd188377d418a2e133116bb92e8c2388ae3a9260005e1"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-012.stdout",
+      "sha256": "55ec36c29fea6896bc69af6738117d0aad2d836e9ec1783980e8ce38ba21b7bc"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-013.stdout",
+      "sha256": "e000e4da1de101545bb78e6e83fd4859242044fa0b8ce5e61abaa0454b997f13"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-014.stdout",
+      "sha256": "d1cb26dab30aa200662b965db4ed4821f7e94ca6ab0e11e61aae54e47a4a5c27"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-015.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/command-016.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/cost.json",
+      "sha256": "19c7dfd4641d8a7e85fb9c2e74642a9f3230a87937224b137e1005dda77117c7"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/events.jsonl",
+      "sha256": "53d068ac11987726cf4d0b6d1e9111db18f15f623ac00f96732c662c0ceef7bf"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/prepared.json",
+      "sha256": "5609675c7d28f12b9782e0c8de4941e8ab34c290c05d6fc7547e09cc904bddea"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/registration.json",
+      "sha256": "88975d8174c80389da7af38e416ddad428b4616c11875eb9f2bddbf07e8c16b8"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/bundle.json",
+      "sha256": "bb1e6c01248bc329ba106a5993b4a31738d681bfd7aac64eb769975e69944514"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md",
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/delivery-plan.yaml",
+      "sha256": "53edd156bce79c25e42697f16430d35963b5d448d73eecf04c5c26df1bb99ffe"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/evidence.jsonl",
+      "sha256": "94dce6420f92bba4b2be3c7ddb069eedcd3b9ed3ae51842b3189e3ed9015c6c1"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/intent.md",
+      "sha256": "2a36889f4b87b2e4da34b47b42d8c36cf0c23423614e526899a161214bbed109"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/legs/LEG-OVERVIEW-ROUTE.md",
+      "sha256": "9da9995027cde73574b519df097af3056774508771af98e6b25e6d71d04e2105"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/legs/LEG-OVERVIEW-SKILL.md",
+      "sha256": "ee94657a1f91e22b66759f6cc3cbcedd246fc3d5f37e6ffc7621e4250d9b6fd3"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/proposed-graph.json",
+      "sha256": "bcaf02c851e30cf6a084fc9f6675dd077930d5e7d5f7c700a51e95bdd770cfd1"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/reviews/delivery-plan-review.json",
+      "sha256": "8b165f0cd947f5255791fcdab9b04791d11db8f9c12216b8b5e80077e1724f6f"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/seam-map.yaml",
+      "sha256": "776284d16a6548bd93ad3f787c19ad431454ed7244f3f6085b07f9905b689fbe"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/seams/SEAM-OVERVIEW-ROUTE.md",
+      "sha256": "c32f12a3e68b4202587653520ee4766a2c9924e7278ec5ee1d72276b6cf0a07a"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/seams/SEAM-OVERVIEW-SKILL.md",
+      "sha256": "3ea357876546d6fb72c97407580ecd73af7b4d103baa758819784f271ff1ca5e"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/snapshots/cdf1ce1fafb79d505a3e888ade146078391429c13edcfba6f010048bd0b508b4.json",
+      "sha256": "7c6dc61cbddbde460ef6ef5ebeed9a56d13a8f1dbe077e77a9c9411f5a9953fe"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/source-recipe.yaml",
+      "sha256": "0191d9f213adb7004669c0713f06061bf0937950cfa0b19cc4185d4b045e79b5"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/steel-thread.md",
+      "sha256": "cc605cb0b511f00be33f9018b35e5d5739f4337f935f99ebfb478a8a45a14eb6"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/swimlanes/LANE-OVERVIEW-ROUTE.md",
+      "sha256": "6433d797748fc02f36d252c68101dba4d73829bf23ca7232dd8c7f0a2b23f3b7"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/swimlanes/LANE-OVERVIEW-SKILL.md",
+      "sha256": "632dcccd3cd1d1d17328ad38fd9f116e1d6ab5297c86b6c1f24ddd0f19f51356"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/system-map.md",
+      "sha256": "c91b825ab74b2f39c259f18df4d0f9fee56ea0758e82ffe122b768b121f7e709"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/task-plan-lineage.json",
+      "sha256": "6b0b2b1cc0f8a06de06e3dd50e42182f0b86c818c6e5b45dd8634c910129a466"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/task-plan.json",
+      "sha256": "464db0c49e8f8a9b960579d0d01f5dfe92ff8cef68f15f224d72d714bc119eb3"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot/telemetry/events.jsonl",
+      "sha256": "d001a16bf1e589fed3678f4c6e05f846ed233959d796de33e39209a91d8f3cc9"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "0191d9f213adb7004669c0713f06061bf0937950cfa0b19cc4185d4b045e79b5"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/T-20260914-pilot-overview-route.md",
+      "sha256": "aed4aed3472feed82e0676dd5b3dbc928cca44cefeec44653083c08cea4cc69a"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-integrated-r1-20260914T205745Z/workspace-evidence/tasks/T-20260914-pilot-overview-skill.md",
+      "sha256": "48c6e3586bf9f2cc581faa01ac820cb420481e2c31817fc1682b048e4656dcae"
+    }
+  ]
+}

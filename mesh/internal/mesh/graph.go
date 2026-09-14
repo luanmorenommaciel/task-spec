@@ -11,6 +11,11 @@ import (
 )
 
 type graphNode struct {
+	SharedResources []string `json:"shared_resources"`
+	WriteSurface    struct {
+		Touches []string `json:"touches_paths"`
+		Creates []string `json:"creates_paths"`
+	} `json:"write_surface"`
 	TaskID             string `json:"task_id"`
 	Path               string `json:"path"`
 	Status             string `json:"status"`
@@ -39,9 +44,10 @@ type taskStatus struct {
 	Path          string `json:"path"`
 	Lifecycle     string `json:"lifecycle"`
 	Authorization struct {
-		Tier         int    `json:"tier"`
-		Verification string `json:"verification"`
-		Stale        bool   `json:"stale"`
+		Tier               int    `json:"tier"`
+		TaskRevisionDigest string `json:"task_revision_digest"`
+		Verification       string `json:"verification"`
+		Stale              bool   `json:"stale"`
 	} `json:"authorization"`
 }
 
@@ -53,6 +59,8 @@ type cliEnvelope struct {
 }
 
 type FrontierTask struct {
+	ClaimedPaths       []string `json:"-"`
+	ClaimedResources   []string `json:"-"`
 	TaskID             string   `json:"task_id"`
 	TaskRevisionDigest string   `json:"task_revision_digest"`
 	Effort             string   `json:"effort"`
@@ -127,7 +135,7 @@ func ResolveFrontier(repository Repository) (Frontier, error) {
 	eligible := map[string]bool{}
 	for _, taskID := range graph.ReadyFrontier {
 		node, exists := nodes[taskID]
-		candidate := FrontierTask{TaskID: taskID, TaskRevisionDigest: node.TaskRevisionDigest, Effort: node.Effort, Blockers: []string{}}
+		candidate := FrontierTask{ClaimedPaths: append(append([]string{}, node.WriteSurface.Touches...), node.WriteSurface.Creates...), ClaimedResources: node.SharedResources, TaskID: taskID, TaskRevisionDigest: node.TaskRevisionDigest, Effort: node.Effort, Blockers: []string{}}
 		if !exists {
 			candidate.Blockers = append(candidate.Blockers, "GRAPH_NODE_MISSING")
 		} else if node.Effort == "XL" || node.Effort == "XXL" {
@@ -146,7 +154,7 @@ func ResolveFrontier(repository Repository) (Frontier, error) {
 				if status.Lifecycle != "ready" {
 					candidate.Blockers = append(candidate.Blockers, "NOT_READY")
 				}
-				if status.Authorization.Tier != 1 || status.Authorization.Verification != "verified" || status.Authorization.Stale {
+				if status.Authorization.TaskRevisionDigest != node.TaskRevisionDigest || status.Authorization.Tier != 1 || status.Authorization.Verification != "verified" || status.Authorization.Stale {
 					candidate.Blockers = append(candidate.Blockers, "AUTHORIZATION_NOT_TIER1")
 				}
 			}

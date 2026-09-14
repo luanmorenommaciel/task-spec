@@ -1,0 +1,77 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "run",
+  "harness": "codex",
+  "retained": "/private/tmp/taskspec-chat-native-observations/runs/run-codex-20260914T222514Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [
+    {
+      "command": "/bin/zsh -lc 'bash \"/private/tmp/taskspec-chat-native-engines/3.10.0/bin/taskspec\" mesh adapters list'",
+      "exit_code": 3,
+      "output": "TASKMESH_ERROR=MESH_DAEMON_FAILED: open /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat bjpkqq8e/.git/info/exclude: operation not permitted\n",
+      "source": "failed command output"
+    },
+    {
+      "command": "/bin/zsh -lc 'bash \"/private/tmp/taskspec-chat-native-engines/3.10.0/bin/taskspec\" mesh frontier'",
+      "exit_code": 3,
+      "output": "TASKMESH_ERROR=MESH_DAEMON_FAILED: open /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat bjpkqq8e/.git/info/exclude: operation not permitted\n",
+      "source": "failed command output"
+    }
+  ],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "adapters/chat-fixture.json",
+      "sha256": "9867e3cad05446a6c36de09d2ae67124b2e6639469fe01ef8c6b0b4dadbbbc49"
+    },
+    {
+      "path": "after.json",
+      "sha256": "d8b319519ec0182be7ac6599148c56f0eaf1c9d0ae89bc33599b0102db1fbb23"
+    },
+    {
+      "path": "before.json",
+      "sha256": "d8b319519ec0182be7ac6599148c56f0eaf1c9d0ae89bc33599b0102db1fbb23"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "2a0a0d6586139c56c9ac35d6757e7ae5bfbe13f503e04040f1665a8be9c96939"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "ab45a11ee3dcab2090a1b1fa25b28140f918dd5ed94267182bee6b541a232d58"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "c4d53f6d349b502f61a123ba25709a46ce5b4433704be94aca0b4ac8dd5ff097"
+    },
+    {
+      "path": "fixture-worker.sh",
+      "sha256": "ee099fcc473fb7934330ce08377bc5d4cef7d1d0475fc1a552548ab16bb05966"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "db7e5ca474e41753ca693dd61f2a46af2efa8c28efcf8d8022483a810b5211a7"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "960f79a7f60e0ecaea96498827d73cfe70b7d770414970f5e5ba1e3c7a9b05b2"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "4e68c00bf39927b6e928364e2f95395747706cac778175f3605aada4b13a15f1"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "c49633eb0acc2a5c3a81187f99ca2469f1d4e60134421b7778a75e53b6445f9b"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "f737ee5e6f63a98bfeb923e228ea4a4e7513ae572f98e58c8939a052cb509961"
+    }
+  ]
+}

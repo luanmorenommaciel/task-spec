@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schemas/task-operational-evidence.schema.json",
+  "type": "object",
+  "required": [
+    "contract",
+    "kind",
+    "claim",
+    "id",
+    "observed_at",
+    "source",
+    "observation",
+    "revision",
+    "environment"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pipeline_run": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_result": {
+      "type": "string",
+      "minLength": 1
+    },
+    "impact": {
+      "type": "string",
+      "minLength": 1
+    },
+    "disposition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contract": {
+      "const": "TaskOperationalEvidence/v1"
+    },
+    "kind": {
+      "enum": [
+        "deployment",
+        "incident"
+      ]
+    },
+    "claim": {
+      "const": "reported"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "deployment"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "artifact",
+          "pipeline_run",
+          "observed_result"
+        ]
+      },
+      "else": {
+        "required": [
+          "impact",
+          "disposition"
+        ],
+        "properties": {
+          "disposition": {
+            "const": "candidate_intent"
+          }
+        }
+      }
+    }
+  ]
+}

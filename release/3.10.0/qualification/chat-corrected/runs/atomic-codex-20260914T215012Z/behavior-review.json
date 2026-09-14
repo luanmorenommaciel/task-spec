@@ -1,0 +1,42 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "atomic",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "review_method": "Inspect retained actual tool trace, authored contract, state inventories, and final claims.",
+  "passed": true,
+  "false_completion": false,
+  "claims_checked": [
+    "Read installed skill, blueprint and CLI state before authoring one direct format-v3 leaf.",
+    "One policy-schema outcome, one source write path, explicit proposed schema decisions and three behavioral evals.",
+    "Structural validation and behavior-to-eval traceability passed; eval failures correctly attributed to absent implementation.",
+    "No seal, implementation or acceptance; blueprint unchanged. Final response accurately requests contract review."
+  ],
+  "failures": [],
+  "limitations": [
+    "One synthetic direct-authoring journey.",
+    "Scaffold inline comments caused an initial supersedes parsing error; the draft corrected it. The product template now has a separate regression fix."
+  ],
+  "evidence_refs": [
+    {
+      "path": "qualification/chat-corrected/runs/atomic-codex-20260914T215012Z/harness.stdout",
+      "sha256": "ba3c6b09e0478b322a6d1eaeb259d7a89dfb194025a8ce47907bffac5e65cabb"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/atomic-codex-20260914T215012Z/before.json",
+      "sha256": "ee7a2e6600a10476ed4723cb917bddc981b5b542b966a482efc255d5735fbf7a"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/atomic-codex-20260914T215012Z/after.json",
+      "sha256": "008ad3497851f03b5e622c470493e0e2a51425ed2d0cabfef06182122a9c2c91"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/atomic-codex-20260914T215012Z/changed-files/tasks/T-20260914-policy-schema.md",
+      "sha256": "e8ba879b61af219e8159d7405b0b0ab3d0a95549423768e9087342fcc7e7ee3f"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/atomic-codex-20260914T215012Z/changed-files/tasks/_state.yaml",
+      "sha256": "0b02aabf7a319ccc0510236e799311009f0412ebad904d15dd47b392f60a6889"
+    }
+  ]
+}

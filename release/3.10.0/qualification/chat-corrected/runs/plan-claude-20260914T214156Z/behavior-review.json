@@ -1,0 +1,47 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "plan",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "review_method": "Inspect retained actual tool trace, authored contract, state inventories, and final claims.",
+  "passed": true,
+  "false_completion": false,
+  "claims_checked": [
+    "Read installed skill, blueprint, schema and CLI state before proposing decomposition.",
+    "Authored four seams and lanes with observable capability legs, seven bounded leaves, declared dependencies and shared writes.",
+    "Preserved provider ownership of metering and marked implementation choices as proposals for review.",
+    "Reported missing accountable owner and unresolved objection; canonical workspace stayed at intake with no review, materialization, seal or acceptance.",
+    "Disclosed counterfactual scratch validation with placeholder ownership rather than treating it as approval."
+  ],
+  "failures": [],
+  "limitations": [
+    "One synthetic planning journey. Scratch validation establishes structural consistency, not sound architecture or accepted ownership.",
+    "Native automatic skill discovery was not established."
+  ],
+  "evidence_refs": [
+    {
+      "path": "qualification/chat-corrected/runs/plan-claude-20260914T214156Z/harness.stdout",
+      "sha256": "c6a5c0b00ebd985a14ff6934817c9d985dc29698ae40d1f822477121ab1df4fd"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/plan-claude-20260914T214156Z/before.json",
+      "sha256": "ee7a2e6600a10476ed4723cb917bddc981b5b542b966a482efc255d5735fbf7a"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/plan-claude-20260914T214156Z/after.json",
+      "sha256": "d2d7fb211c9831323dc74ae32a1f6c3c3bb78b0eecbe056f0987b999cc980c28"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/plan-claude-20260914T214156Z/changed-files/intent.md",
+      "sha256": "e60626b41d8dcdb72a0c7cfbc18870df134de8adc0d17959d76d78471a2a6545"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/plan-claude-20260914T214156Z/changed-files/rate-limiting-recipe.yaml",
+      "sha256": "99378b57ac2536fe0d11338e35559da792ca24f3927434e96699d5a3f73b56a6"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/plan-claude-20260914T214156Z/changed-files/tasks/.plans/rate-limit/intake.md",
+      "sha256": "e60626b41d8dcdb72a0c7cfbc18870df134de8adc0d17959d76d78471a2a6545"
+    }
+  ]
+}

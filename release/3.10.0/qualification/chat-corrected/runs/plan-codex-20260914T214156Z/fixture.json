@@ -1,0 +1,7 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat 442anuvz",
+  "case": "plan",
+  "source_commit": "70c689863d1a2ea2ba393792bdcd5654b89a8dad",
+  "installed_skill_sha256": "38b2999d998d837abca45feac25fa5dca26ec1c4fed8542c8ef8a84141e63e0e",
+  "engine_version": "3.10.0"
+}

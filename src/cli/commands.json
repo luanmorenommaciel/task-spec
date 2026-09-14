@@ -1,0 +1,750 @@
+{
+  "init": {
+    "mutation": "creates missing tasks/ and .taskspec/config",
+    "tokens": [
+      "INIT=OK",
+      "INIT=DRY_RUN"
+    ],
+    "usage": "Usage: taskspec init [--force]",
+    "flags": [
+      "--force"
+    ],
+    "summary": "creates missing tasks/ and .taskspec/config"
+  },
+  "setup": {
+    "mutation": "none",
+    "tokens": [
+      "SETUP=READY"
+    ],
+    "usage": "Usage: taskspec setup | taskspec setup signing [--force] | taskspec setup decompose",
+    "flags": [
+      "--force"
+    ],
+    "summary": "none"
+  },
+  "setup signing": {
+    "mutation": "creates or explicitly rotates the repository-private HMAC key",
+    "tokens": [],
+    "usage": "Usage: taskspec setup signing",
+    "flags": [],
+    "summary": "creates or explicitly rotates the repository-private HMAC key"
+  },
+  "demo": {
+    "mutation": "creates and removes an isolated temporary repository",
+    "tokens": [
+      "DEMO=READY",
+      "DEMO=DRY_RUN",
+      "DEMO=BLOCKED"
+    ],
+    "usage": "Usage: taskspec demo",
+    "flags": [],
+    "summary": "creates and removes an isolated temporary repository"
+  },
+  "example": {
+    "mutation": "writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing",
+    "tokens": [
+      "EXAMPLE=WRITTEN",
+      "EXAMPLE=DRY_RUN",
+      "EXAMPLE=REFUSED"
+    ],
+    "usage": "Usage: taskspec example task-plan --out <file> [--force]",
+    "flags": [
+      "--force",
+      "--out"
+    ],
+    "summary": "writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing\nExamples: task-plan, intent, recipe, incident, release-evidence. Use taskspec help example <kind>."
+  },
+  "new": {
+    "mutation": "creates one Task-Spec scaffold and derived state",
+    "tokens": [],
+    "usage": "Usage: taskspec new [--format 3|4] [--status ready|blocked] [--queue] <slug> <XS|S|M|L|XL|XXL> [agent] [source-note]",
+    "flags": [
+      "--format",
+      "--queue",
+      "--status"
+    ],
+    "summary": "creates one Task-Spec scaffold and derived state"
+  },
+  "plan": {
+    "mutation": "none",
+    "tokens": [
+      "TASK_PLAN=OK",
+      "TASK_PLAN=INVALID"
+    ],
+    "usage": "Usage: taskspec plan --manifest <TaskPlan.yaml>",
+    "flags": [
+      "--manifest"
+    ],
+    "summary": "none"
+  },
+  "batch": {
+    "mutation": "creates declared Task-Spec scaffolds; --dry-run writes nothing",
+    "tokens": [
+      "TASK_BATCH=OK",
+      "TASK_BATCH=DRY_RUN",
+      "TASK_BATCH=REFUSED"
+    ],
+    "usage": "Usage: taskspec batch --plan <TaskPlan.yaml> | taskspec batch --intent-file <file> --effort <size>",
+    "flags": [
+      "--effort",
+      "--intent-file",
+      "--plan"
+    ],
+    "summary": "creates declared Task-Spec scaffolds; --dry-run writes nothing"
+  },
+  "migrate": {
+    "mutation": "atomically upgrades one explicitly named legacy task under the task-state lock",
+    "tokens": [],
+    "usage": "Usage: taskspec migrate <task-spec>",
+    "flags": [],
+    "summary": "atomically upgrades one explicitly named legacy task under the task-state lock"
+  },
+  "validate": {
+    "mutation": "refreshes deterministic derived state unless --no-state",
+    "tokens": [],
+    "usage": "Usage: taskspec validate [--no-state] <task-spec>",
+    "flags": [
+      "--no-state"
+    ],
+    "summary": "refreshes deterministic derived state unless --no-state"
+  },
+  "dod": {
+    "mutation": "none",
+    "tokens": [
+      "DOD=COMPLETE",
+      "DOD=GAPS"
+    ],
+    "usage": "Usage: taskspec dod <task-spec>",
+    "flags": [],
+    "summary": "none"
+  },
+  "gate": {
+    "mutation": "executes task evals; --stamp additionally writes the sign-off envelope",
+    "tokens": [
+      "TIER=1",
+      "TIER=2"
+    ],
+    "usage": "Usage: taskspec gate [--stamp] [--require-tier1] <task-spec>",
+    "flags": [
+      "--require-tier",
+      "--stamp"
+    ],
+    "summary": "executes task evals; --stamp additionally writes the sign-off envelope"
+  },
+  "handoff": {
+    "mutation": "stdout is read-only; --out writes non-clobberingly unless --force",
+    "tokens": [
+      "HANDOFF=WRITTEN",
+      "HANDOFF=INVALID",
+      "HANDOFF=REFUSED"
+    ],
+    "usage": "Usage: taskspec handoff <task-spec> --backend <token> [--out <file>] [--attempt-id <uuid>]",
+    "flags": [
+      "--attempt-id",
+      "--backend",
+      "--out"
+    ],
+    "summary": "stdout is read-only; --out writes non-clobberingly unless --force"
+  },
+  "run": {
+    "mutation": "runs declared eval commands in the task workspace",
+    "tokens": [],
+    "usage": "Usage: taskspec run [--ci] <task-spec>",
+    "flags": [
+      "--ci"
+    ],
+    "summary": "runs declared eval commands in the task workspace"
+  },
+  "accept": {
+    "mutation": "executes acceptance evals; --stamp additionally writes AcceptanceRecord/v1 and the acceptance envelope",
+    "tokens": [
+      "ACCEPTED=1",
+      "ACCEPTED=0",
+      "ACCEPTANCE_FAILURE=<code>"
+    ],
+    "usage": "Usage: taskspec accept [--stamp] [--handoff <file>] [receipt flags] <task-spec>",
+    "flags": [
+      "--handoff",
+      "--stamp"
+    ],
+    "summary": "executes acceptance evals; --stamp additionally writes AcceptanceRecord/v1 and the acceptance envelope"
+  },
+  "author-doctor": {
+    "mutation": "none",
+    "tokens": [
+      "AUTHOR_DOCTOR=READY",
+      "AUTHOR_DOCTOR=INVALID"
+    ],
+    "usage": "Usage: taskspec author-doctor <task-spec>",
+    "flags": [],
+    "summary": "none"
+  },
+  "holdout": {
+    "mutation": "seal/run may write descriptor or receipt; verify is read-only",
+    "tokens": [
+      "HOLDOUT=SEALED",
+      "HOLDOUT=VERIFIED",
+      "HOLDOUT=INVALID"
+    ],
+    "usage": "Usage: taskspec holdout seal|verify|run ...",
+    "flags": [],
+    "summary": "seal/run may write descriptor or receipt; verify is read-only"
+  },
+  "receipt": {
+    "mutation": "creator/sign commands write explicit receipt paths; validate is read-only",
+    "tokens": [
+      "RECEIPT=WRITTEN",
+      "RECEIPT=SIGNED",
+      "RECEIPT=INVALID"
+    ],
+    "usage": "Usage: taskspec receipt validate|sign|engine|environment|evaluation|graded|human ...",
+    "flags": [],
+    "summary": "creator/sign commands write explicit receipt paths; validate is read-only"
+  },
+  "eval-audit": {
+    "mutation": "uses temporary git worktrees; optional report path",
+    "tokens": [
+      "EVAL_AUDIT=INVALID"
+    ],
+    "usage": "Usage: taskspec eval-audit <task-spec> --baseline <git-ref> [--mutations <matrix>] [--repeat N]",
+    "flags": [
+      "--baseline",
+      "--mutations",
+      "--repeat"
+    ],
+    "summary": "uses temporary git worktrees; optional report path"
+  },
+  "identity": {
+    "mutation": "init/sign/revoke write explicit files; verify is read-only",
+    "tokens": [
+      "IDENTITY=READY",
+      "IDENTITY=SIGNED",
+      "IDENTITY=VERIFIED",
+      "IDENTITY=REVOKED"
+    ],
+    "usage": "Usage: taskspec identity init|sign|verify|revoke ...",
+    "flags": [],
+    "summary": "init/sign/revoke write explicit files; verify is read-only"
+  },
+  "evidence": {
+    "mutation": "run writes an explicit evidence directory; validate/plan are read-only",
+    "tokens": [
+      "ENGINE_MATRIX=VALID",
+      "ENGINE_MATRIX=INVALID"
+    ],
+    "usage": "Usage: taskspec evidence validate|plan|run <EngineMatrix.json> ...",
+    "flags": [],
+    "summary": "run writes an explicit evidence directory; validate/plan are read-only"
+  },
+  "bridge": {
+    "mutation": "export writes only with --out; validate is read-only",
+    "tokens": [
+      "BRIDGE=VALID",
+      "BRIDGE=INVALID"
+    ],
+    "usage": "Usage: taskspec bridge export|validate ...",
+    "flags": [],
+    "summary": "export writes only with --out; validate is read-only"
+  },
+  "dsse": {
+    "mutation": "export writes only to --out; verify is read-only",
+    "tokens": [
+      "DSSE=EXPORTED",
+      "DSSE=VERIFIED",
+      "DSSE=INVALID"
+    ],
+    "usage": "Usage: taskspec dsse export|verify ...",
+    "flags": [],
+    "summary": "export writes only to --out; verify is read-only"
+  },
+  "mcp": {
+    "mutation": "read-only stdio server",
+    "tokens": [],
+    "usage": "Usage: taskspec mcp",
+    "flags": [],
+    "summary": "read-only stdio server"
+  },
+  "mesh": {
+    "mutation": "optional repository-local control plane; run/cancel/resume/accept/finish/setup mutate disposable mesh state while canonical acceptance still calls Task-Spec",
+    "tokens": [
+      "MESH_WATCH_READY",
+      "MESH_SUPERVISED_ACCEPTED",
+      "MESH_FINISHED",
+      "TASKMESH_ERROR=<code>",
+      "TASKMESH_DRY_RUN"
+    ],
+    "usage": "Usage: taskspec mesh <init|doctor|serve|frontier|run|status|watch|explain|cancel|resume|accept|finish|adapters|setup|mcp> ... | taskspec mesh run --initiative <id> [--execute]",
+    "flags": [
+      "--execute",
+      "--initiative"
+    ],
+    "summary": "optional repository-local control plane; run/cancel/resume/accept/finish/setup mutate disposable mesh state while canonical acceptance still calls Task-Spec"
+  },
+  "ready": {
+    "mutation": "none",
+    "tokens": [],
+    "usage": "Usage: taskspec ready [--all] [filters]",
+    "flags": [
+      "--all"
+    ],
+    "summary": "none"
+  },
+  "graph": {
+    "mutation": "none; TaskGraphView/v1 is derived from Markdown and Git",
+    "tokens": [
+      "GRAPH=<digest>",
+      "GRAPH=INVALID"
+    ],
+    "usage": "Usage: taskspec graph [--task <id>] [--check] [--mermaid] [--json] | taskspec graph --initiative <id> --view tasks|capabilities",
+    "flags": [
+      "--check",
+      "--initiative",
+      "--json",
+      "--mermaid",
+      "--task",
+      "--view"
+    ],
+    "summary": "none; TaskGraphView/v1 is derived from Markdown and Git"
+  },
+  "status": {
+    "mutation": "none; emits TaskStatus/v1 and exactly one safe next command",
+    "tokens": [
+      "NEXT=<command>",
+      "STATUS=INVALID"
+    ],
+    "usage": "Usage: taskspec status <task-id-or-path> [--json] | taskspec status --initiative <id>",
+    "flags": [
+      "--initiative",
+      "--json"
+    ],
+    "summary": "none; emits TaskStatus/v1 and exactly one safe next command"
+  },
+  "lint": {
+    "mutation": "none",
+    "tokens": [],
+    "usage": "Usage: taskspec lint",
+    "flags": [],
+    "summary": "none"
+  },
+  "transition": {
+    "mutation": "changes lifecycle status and derived state",
+    "tokens": [],
+    "usage": "Usage: taskspec transition <task-id> <ready|in-progress|blocked|done|parked> [reason]",
+    "flags": [],
+    "summary": "changes lifecycle status and derived state"
+  },
+  "rebuild-state": {
+    "mutation": "rewrites deterministic tasks/_state.yaml",
+    "tokens": [],
+    "usage": "Usage: taskspec rebuild-state",
+    "flags": [],
+    "summary": "rewrites deterministic tasks/_state.yaml"
+  },
+  "archive": {
+    "mutation": "moves root done/parked tasks under the task-state lock and refreshes derived state",
+    "tokens": [],
+    "usage": "Usage: taskspec archive",
+    "flags": [],
+    "summary": "moves root done/parked tasks under the task-state lock and refreshes derived state"
+  },
+  "backup": {
+    "mutation": "writes a timestamped backlog archive to the selected destination",
+    "tokens": [],
+    "usage": "Usage: taskspec backup [destination-directory]",
+    "flags": [],
+    "summary": "writes a timestamped backlog archive to the selected destination"
+  },
+  "metrics": {
+    "mutation": "none",
+    "tokens": [],
+    "usage": "Usage: taskspec metrics [--since YYYY-MM-DD] [--author <name>] [--status <status>]",
+    "flags": [
+      "--author",
+      "--since",
+      "--status"
+    ],
+    "summary": "none"
+  },
+  "conformance": {
+    "mutation": "self-test uses disposable fixtures only",
+    "tokens": [],
+    "usage": "Usage: taskspec conformance --self-test | --level L0|L1|L2 --executor <command>",
+    "flags": [
+      "--executor",
+      "--level",
+      "--self-test"
+    ],
+    "summary": "self-test uses disposable fixtures only"
+  },
+  "executor": {
+    "mutation": "reference L2 executor; transitions, executes, accepts, or parks one supplied task",
+    "tokens": [],
+    "usage": "Usage: taskspec executor <task-spec>",
+    "flags": [],
+    "summary": "reference L2 executor; transitions, executes, accepts, or parks one supplied task"
+  },
+  "agent-context": {
+    "mutation": "none",
+    "tokens": [],
+    "usage": "Usage: taskspec agent-context",
+    "flags": [],
+    "summary": "none"
+  },
+  "completion": {
+    "mutation": "none",
+    "tokens": [],
+    "usage": "Usage: taskspec completion bash|zsh|fish",
+    "flags": [],
+    "summary": "none"
+  },
+  "doctor": {
+    "mutation": "none",
+    "tokens": [
+      "BACKLOG_DOCTOR=READY",
+      "BACKLOG_DOCTOR=BLOCKED",
+      "DOCTOR=READY",
+      "DOCTOR=BLOCKED"
+    ],
+    "usage": "Usage: taskspec doctor [--backlog]",
+    "flags": [
+      "--backlog"
+    ],
+    "summary": "none"
+  },
+  "version": {
+    "mutation": "none",
+    "tokens": [],
+    "usage": "Usage: taskspec version",
+    "flags": [],
+    "summary": "none"
+  },
+  "help": {
+    "mutation": "none",
+    "tokens": [],
+    "usage": "Usage: taskspec help [command]",
+    "flags": [],
+    "summary": "none"
+  },
+  "decompose": {
+    "usage": "Usage: taskspec decompose init|prepare|review|compile|status|impact|import <initiative> [options]",
+    "summary": "Native intent decomposition, signed topology review, and TaskPlan compilation.",
+    "mutation": "Native intent decomposition, signed topology review, and TaskPlan compilation.",
+    "tokens": [],
+    "flags": []
+  },
+  "recipe": {
+    "usage": "Usage: taskspec recipe list|show <strategy>|validate <file> [--budget <n>]",
+    "summary": "Inspect and validate resolved bounded execution guidance.",
+    "mutation": "none",
+    "tokens": [],
+    "flags": [
+      "--budget"
+    ]
+  },
+  "guide": {
+    "usage": "Usage: taskspec guide <topic>",
+    "summary": "Read version-matched installed workflow guidance.",
+    "mutation": "none",
+    "tokens": [],
+    "flags": []
+  },
+  "decompose init": {
+    "usage": "Usage: taskspec decompose init <initiative> --intent-file <file|->",
+    "summary": "Create explicit intent workspace.",
+    "mutation": "Create explicit intent workspace.",
+    "tokens": [],
+    "flags": [
+      "--intent-file"
+    ]
+  },
+  "decompose prepare": {
+    "usage": "Usage: taskspec decompose prepare <initiative> --recipe <file> [--replace]",
+    "summary": "Validate and project an authored recipe; never approve it.",
+    "mutation": "Validate and project an authored recipe; never approve it.",
+    "tokens": [],
+    "flags": [
+      "--recipe",
+      "--replace"
+    ]
+  },
+  "decompose review": {
+    "usage": "Usage: taskspec decompose review <initiative> --accept --reviewer <name> --reason <text>",
+    "summary": "Authenticate explicit approval of the current topology.",
+    "mutation": "Authenticate explicit approval of the current topology.",
+    "tokens": [],
+    "flags": [
+      "--accept",
+      "--reason",
+      "--reviewer"
+    ]
+  },
+  "decompose compile": {
+    "usage": "Usage: taskspec decompose compile <initiative>",
+    "summary": "Compile reviewed topology and lineage without sealing leaves.",
+    "mutation": "Compile reviewed topology and lineage without sealing leaves.",
+    "tokens": [],
+    "flags": []
+  },
+  "decompose status": {
+    "usage": "Usage: taskspec decompose status <initiative>",
+    "summary": "Explain planning blockers and next valid action.",
+    "mutation": "none",
+    "tokens": [],
+    "flags": []
+  },
+  "decompose impact": {
+    "usage": "Usage: taskspec decompose impact <initiative> --against <bundle-or-snapshot.json>",
+    "summary": "Compare leaf projections to identify affected authorizations.",
+    "mutation": "none",
+    "tokens": [],
+    "flags": [
+      "--against"
+    ]
+  },
+  "decompose import": {
+    "usage": "Usage: taskspec decompose import <initiative> --source <workspace>",
+    "summary": "Explicitly import originals; fresh native review required.",
+    "mutation": "Explicitly import originals; fresh native review required.",
+    "tokens": [],
+    "flags": [
+      "--source"
+    ]
+  },
+  "recipe list": {
+    "usage": "Usage: taskspec recipe list ",
+    "summary": "List available pinned strategies.",
+    "mutation": "none",
+    "tokens": [],
+    "flags": []
+  },
+  "recipe show": {
+    "usage": "Usage: taskspec recipe show <strategy>",
+    "summary": "Show resolved guidance.",
+    "mutation": "none",
+    "tokens": [],
+    "flags": []
+  },
+  "recipe validate": {
+    "usage": "Usage: taskspec recipe validate <file> [--budget <n>]",
+    "summary": "Validate a resolved recipe.",
+    "mutation": "none",
+    "tokens": [],
+    "flags": [
+      "--budget"
+    ]
+  },
+  "setup decompose": {
+    "usage": "Usage: taskspec setup decompose ",
+    "summary": "Provision locked dependencies in the private runtime.",
+    "mutation": "Provision locked dependencies in the private runtime.",
+    "tokens": [],
+    "flags": []
+  },
+  "receipt operational": {
+    "usage": "Usage: taskspec receipt operational validate <file> | import <file> --out <path>",
+    "summary": "Validate or import operational evidence without upgrading its trust.",
+    "mutation": "Validate or import operational evidence without upgrading its trust.",
+    "tokens": [],
+    "flags": [
+      "--out"
+    ]
+  },
+  "mesh init": {
+    "usage": "Usage: taskspec mesh init ",
+    "summary": "Use the existing TaskMesh init operation.",
+    "mutation": "mutates TaskMesh state; never grants a TaskSpec seal",
+    "tokens": [],
+    "flags": []
+  },
+  "mesh doctor": {
+    "usage": "Usage: taskspec mesh doctor ",
+    "summary": "Use the existing TaskMesh doctor operation.",
+    "mutation": "may initialize a missing daemon and write Git metadata; does not seal or accept tasks",
+    "tokens": [],
+    "flags": []
+  },
+  "mesh serve": {
+    "usage": "Usage: taskspec mesh serve --foreground",
+    "summary": "Use the existing TaskMesh serve operation.",
+    "mutation": "mutates TaskMesh state; never grants a TaskSpec seal",
+    "tokens": [],
+    "flags": [
+      "--foreground"
+    ]
+  },
+  "mesh frontier": {
+    "usage": "Usage: taskspec mesh frontier ",
+    "summary": "Use the existing TaskMesh frontier operation.",
+    "mutation": "may initialize a missing daemon and write Git metadata; does not seal or accept tasks",
+    "tokens": [],
+    "flags": []
+  },
+  "mesh run": {
+    "usage": "Usage: taskspec mesh run --task <id>|--frontier|--initiative <id> [--adapter <name>] [--model <id>] [--provider <id>] [--mode supervised|autonomous] [--max-parallel <n>] [--execute]",
+    "summary": "Creates a run, worktree and lease; --execute starts the executor; --dry-run previews without creating them.",
+    "mutation": "mutates TaskMesh state; never grants a TaskSpec seal",
+    "tokens": [],
+    "flags": [
+      "--adapter",
+      "--execute",
+      "--frontier",
+      "--initiative",
+      "--max-parallel",
+      "--mode",
+      "--model",
+      "--provider",
+      "--task"
+    ]
+  },
+  "mesh status": {
+    "usage": "Usage: taskspec mesh status [<run-or-attempt>]",
+    "summary": "Use the existing TaskMesh status operation.",
+    "mutation": "uninitialized status is read-only; existing runtime inspection may restart its daemon",
+    "tokens": [],
+    "flags": []
+  },
+  "mesh watch": {
+    "usage": "Usage: taskspec mesh watch <run> [--after <sequence>]",
+    "summary": "Use the existing TaskMesh watch operation.",
+    "mutation": "may initialize a missing daemon and write Git metadata; does not seal or accept tasks",
+    "tokens": [],
+    "flags": [
+      "--after"
+    ]
+  },
+  "mesh explain": {
+    "usage": "Usage: taskspec mesh explain --task <id> [--adapter <name>] [--model <id>]",
+    "summary": "Use the existing TaskMesh explain operation.",
+    "mutation": "may initialize a missing daemon and write Git metadata; does not seal or accept tasks",
+    "tokens": [],
+    "flags": [
+      "--adapter",
+      "--model",
+      "--task"
+    ]
+  },
+  "mesh cancel": {
+    "usage": "Usage: taskspec mesh cancel <attempt>",
+    "summary": "Use the existing TaskMesh cancel operation.",
+    "mutation": "mutates TaskMesh state; never grants a TaskSpec seal",
+    "tokens": [],
+    "flags": []
+  },
+  "mesh resume": {
+    "usage": "Usage: taskspec mesh resume <run-or-attempt> [--execute]",
+    "summary": "Use the existing TaskMesh resume operation.",
+    "mutation": "mutates TaskMesh state; never grants a TaskSpec seal",
+    "tokens": [],
+    "flags": [
+      "--execute"
+    ]
+  },
+  "mesh accept": {
+    "usage": "Usage: taskspec mesh accept <attempt> --supervised-by <identity> --reason <text>",
+    "summary": "Use the existing TaskMesh accept operation.",
+    "mutation": "mutates TaskMesh state; never grants a TaskSpec seal",
+    "tokens": [],
+    "flags": [
+      "--reason",
+      "--supervised-by"
+    ]
+  },
+  "mesh finish": {
+    "usage": "Usage: taskspec mesh finish <run>",
+    "summary": "Use the existing TaskMesh finish operation.",
+    "mutation": "mutates TaskMesh state; never grants a TaskSpec seal",
+    "tokens": [],
+    "flags": []
+  },
+  "mesh adapters": {
+    "usage": "Usage: taskspec mesh adapters list|probe [<name>]",
+    "summary": "Use the existing TaskMesh adapters operation.",
+    "mutation": "may initialize a missing daemon and write Git metadata; does not seal or accept tasks; probe invokes adapter executables",
+    "tokens": [],
+    "flags": []
+  },
+  "mesh setup": {
+    "usage": "Usage: taskspec mesh setup sandbox",
+    "summary": "Use the existing TaskMesh setup operation.",
+    "mutation": "mutates TaskMesh state; never grants a TaskSpec seal",
+    "tokens": [],
+    "flags": []
+  },
+  "mesh mcp": {
+    "usage": "Usage: taskspec mesh mcp ",
+    "summary": "Use the existing TaskMesh mcp operation.",
+    "mutation": "none",
+    "tokens": [],
+    "flags": []
+  },
+  "example task-plan": {
+    "mutation": "writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing",
+    "tokens": [
+      "EXAMPLE=WRITTEN",
+      "EXAMPLE=DRY_RUN",
+      "EXAMPLE=REFUSED"
+    ],
+    "usage": "Usage: taskspec example task-plan --out <file> [--force]",
+    "flags": [
+      "--force",
+      "--out"
+    ],
+    "summary": "Write the installed task-plan example; existing output requires explicit --force."
+  },
+  "example intent": {
+    "mutation": "writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing",
+    "tokens": [
+      "EXAMPLE=WRITTEN",
+      "EXAMPLE=DRY_RUN",
+      "EXAMPLE=REFUSED"
+    ],
+    "usage": "Usage: taskspec example intent --out <file> [--force]",
+    "flags": [
+      "--force",
+      "--out"
+    ],
+    "summary": "Write the installed intent example; existing output requires explicit --force."
+  },
+  "example recipe": {
+    "mutation": "writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing",
+    "tokens": [
+      "EXAMPLE=WRITTEN",
+      "EXAMPLE=DRY_RUN",
+      "EXAMPLE=REFUSED"
+    ],
+    "usage": "Usage: taskspec example recipe --out <file> [--force]",
+    "flags": [
+      "--force",
+      "--out"
+    ],
+    "summary": "Write the installed recipe example; existing output requires explicit --force."
+  },
+  "example incident": {
+    "mutation": "writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing",
+    "tokens": [
+      "EXAMPLE=WRITTEN",
+      "EXAMPLE=DRY_RUN",
+      "EXAMPLE=REFUSED"
+    ],
+    "usage": "Usage: taskspec example incident --out <file> [--force]",
+    "flags": [
+      "--force",
+      "--out"
+    ],
+    "summary": "Write the installed incident example; existing output requires explicit --force."
+  },
+  "example release-evidence": {
+    "mutation": "writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing",
+    "tokens": [
+      "EXAMPLE=WRITTEN",
+      "EXAMPLE=DRY_RUN",
+      "EXAMPLE=REFUSED"
+    ],
+    "usage": "Usage: taskspec example release-evidence --out <file> [--force]",
+    "flags": [
+      "--force",
+      "--out"
+    ],
+    "summary": "Write the installed release-evidence example; existing output requires explicit --force."
+  }
+}

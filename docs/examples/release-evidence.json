@@ -1,0 +1,15 @@
+{
+  "contract": "TaskOperationalEvidence/v1",
+  "id": "release-example",
+  "kind": "deployment",
+  "claim": "reported",
+  "observed_at": "2026-09-14T00:00:00Z",
+  "source": "https://ci.example.invalid/runs/123",
+  "observation": "Pipeline reported successful deployment; target health not independently checked.",
+  "revision": "0123456789abcdef0123456789abcdef01234567",
+  "environment": "staging",
+  "artifact": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "pipeline_run": "123",
+  "observed_result": "pipeline_success",
+  "attachments": []
+}

@@ -1,0 +1,15 @@
+{
+  "contract": "TaskToolkitChatBehaviorProgress/v1",
+  "qualified": false,
+  "observations": 4,
+  "bounded_behavior_passes": 3,
+  "failed": 1,
+  "state": "paused_pending_authorization",
+  "reviews": [
+    "runs/denied-claude-20260914T223426Z/behavior-review.json",
+    "runs/denied-codex-20260914T223426Z/behavior-review.json",
+    "runs/stopped-claude-20260914T223539Z/behavior-review.json",
+    "runs/stopped-codex-20260914T223539Z/behavior-review.json"
+  ],
+  "next": "Authorize corrected qualification boundaries before retrying failed actions. Retain these original failures and costs."
+}

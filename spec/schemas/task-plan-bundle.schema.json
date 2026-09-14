@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schemas/task-plan-bundle.schema.json",
+  "title": "TaskPlanBundle/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "initiative",
+    "plan_digest",
+    "lineage_digest",
+    "snapshot_digest",
+    "units",
+    "signature"
+  ],
+  "properties": {
+    "contract": {
+      "const": "TaskPlanBundle/v1"
+    },
+    "initiative": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,79}$"
+    },
+    "plan_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lineage_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "snapshot_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "units": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^hmac-taskplan-v1:[a-f0-9]{8}:[a-f0-9]{64}$"
+    }
+  }
+}

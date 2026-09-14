@@ -1,0 +1,133 @@
+{
+  "contract": "TaskPilotSetupMatrix/v1",
+  "comparative": false,
+  "cases": [
+    {
+      "scenario": "small-fix",
+      "workflow": "integrated",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-small-fix-claude-integrated-r1-20260914T205717Z"
+    },
+    {
+      "scenario": "small-fix",
+      "workflow": "separate-engine",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-small-fix-claude-separate-engine-r1-20260914T205728Z"
+    },
+    {
+      "scenario": "small-fix",
+      "workflow": "native-harness",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-small-fix-claude-native-harness-r1-20260914T205737Z"
+    },
+    {
+      "scenario": "cross-seam",
+      "workflow": "integrated",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-cross-seam-claude-integrated-r1-20260914T205745Z"
+    },
+    {
+      "scenario": "cross-seam",
+      "workflow": "separate-engine",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-cross-seam-claude-separate-engine-r1-20260914T205800Z"
+    },
+    {
+      "scenario": "cross-seam",
+      "workflow": "native-harness",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-cross-seam-claude-native-harness-r1-20260914T205812Z"
+    },
+    {
+      "scenario": "investigation",
+      "workflow": "integrated",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-investigation-claude-integrated-r1-20260914T205823Z"
+    },
+    {
+      "scenario": "investigation",
+      "workflow": "separate-engine",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-investigation-claude-separate-engine-r1-20260914T205836Z"
+    },
+    {
+      "scenario": "investigation",
+      "workflow": "native-harness",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-investigation-claude-native-harness-r1-20260914T205847Z"
+    },
+    {
+      "scenario": "contention",
+      "workflow": "integrated",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-contention-claude-integrated-r1-20260914T205855Z"
+    },
+    {
+      "scenario": "contention",
+      "workflow": "separate-engine",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-contention-claude-separate-engine-r1-20260914T205910Z"
+    },
+    {
+      "scenario": "contention",
+      "workflow": "native-harness",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-contention-claude-native-harness-r1-20260914T205922Z"
+    },
+    {
+      "scenario": "incident",
+      "workflow": "integrated",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-incident-claude-integrated-r1-20260914T205934Z"
+    },
+    {
+      "scenario": "incident",
+      "workflow": "separate-engine",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-incident-claude-separate-engine-r1-20260914T205956Z"
+    },
+    {
+      "scenario": "incident",
+      "workflow": "native-harness",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-incident-claude-native-harness-r1-20260914T210012Z"
+    },
+    {
+      "scenario": "release-evidence",
+      "workflow": "integrated",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-release-evidence-claude-integrated-r1-20260914T210025Z"
+    },
+    {
+      "scenario": "release-evidence",
+      "workflow": "separate-engine",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-release-evidence-claude-separate-engine-r1-20260914T210039Z"
+    },
+    {
+      "scenario": "release-evidence",
+      "workflow": "native-harness",
+      "exit_code": 0,
+      "error": null,
+      "run_id": "setup-release-evidence-claude-native-harness-r1-20260914T210049Z"
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,12 @@
+{
+  "contract": "TaskToolkitHarnessProbe/v1",
+  "synthetic": true,
+  "initial_continue_only_probe_passed": false,
+  "debug_probe": "Hook ran and stopped continuation but the pending Write still executed.",
+  "corrected_deny_and_stop_passed": true,
+  "limits": [
+    "Synthetic prior-denial record; does not replay or authorize the actual denied scratch-file read.",
+    "A command-hook timeout may permit a tool in the host; this probe does not certify a general sandbox."
+  ],
+  "documentation": "https://code.claude.com/docs/en/hooks"
+}

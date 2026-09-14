@@ -1,0 +1,22 @@
+schema_version: 1
+status: SEAM_MAP=READY
+intent_id: DI-PILOT-INCIDENT
+source_recipe:
+  name: source-recipe.yaml
+  sha256: aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3
+intent_sha256: 5b72312809697198a9d90287fc9534640fc9efb8e1b7a8c18adc635cbb9c9c8c
+system_map_sha256: 1c6c5a9e6133a23caf680a0c734cce5505c2732d9ff84e6f0c7dcd820409d384
+evidence_sha256: 0cb452e61ec8cfed4fbf9a2b30206d584dfb9728ee2e82d84e84e050aad6117d
+decisions:
+- id: ADR-PILOT-SCOPE
+  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md
+  status: accepted
+  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75
+seams:
+- id: SEAM-INCIDENT
+  path: tasks/.plans/pilot/seams/SEAM-INCIDENT.md
+  owner: pilot-incident
+  evidence:
+  - E-PILOT-ISSUE
+  swimlane_id: LANE-INCIDENT
+  sha256: 4d13ca4f4eeb0b487642640f3050f78df75b1bd8b16234532060362067649f3e

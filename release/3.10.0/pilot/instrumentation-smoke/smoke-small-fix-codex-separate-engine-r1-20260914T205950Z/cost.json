@@ -1,0 +1,11 @@
+{
+  "complete": false,
+  "cost_including_failures": null,
+  "cost_basis": "api_equivalent_estimate",
+  "invocations": [
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-separate-engine-r1-20260914T205950Z/mesh-artifacts/2c3782dd-40e4-421e-811e-105dc353247b.round-1.json",
+      "known": false
+    }
+  ]
+}

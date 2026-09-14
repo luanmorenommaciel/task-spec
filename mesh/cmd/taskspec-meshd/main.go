@@ -13,7 +13,7 @@ import (
 	"github.com/luanmorenomaciel/task-spec/mesh/internal/mesh"
 )
 
-var productVersion = "3.9.0"
+var productVersion = "3.10.0"
 
 func main() {
 	os.Exit(run(os.Args[1:]))
@@ -50,6 +50,31 @@ func run(arguments []string) int {
 			return printError("MESH_DAEMON_FAILED", err.Error(), 3, jsonOutput)
 		}
 		return 0
+	}
+	// Inspecting a repository with no runtime must not initialize one or write
+	// Git metadata. Chat and MCP use status before any execution is authorized.
+	if remaining[0] == "status" {
+		if _, err := os.Lstat(repository.Database); os.IsNotExist(err) {
+			_, arguments := extractRequestID(remaining[1:])
+			response := mesh.CommandResponse{Contract: "TaskMeshCommandResult/v1", OK: true,
+				Code: "MESH_STATUS_READY", Message: "No TaskMesh runtime initialized; no recorded events",
+				Data: map[string]any{"contract": "TaskMeshRepositoryView/v1", "repository": repository.Root,
+					"events": []mesh.Event{}, "latest_sequence": 0}}
+			if len(arguments) != 0 {
+				response.OK, response.Code, response.Message = false, "MESH_RUN_NOT_FOUND", "run or attempt does not exist"
+			}
+			if jsonOutput {
+				printJSON(response)
+			} else {
+				printHuman(response)
+			}
+			if !response.OK {
+				return 1
+			}
+			return 0
+		} else if err != nil {
+			return printError("MESH_STATE_ERROR", err.Error(), 3, jsonOutput)
+		}
 	}
 	if err := ensureDaemon(repository); err != nil {
 		return printError("MESH_DAEMON_FAILED", err.Error(), 3, jsonOutput)

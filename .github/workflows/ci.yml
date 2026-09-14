@@ -28,11 +28,11 @@ jobs:
   check:
     name: make check (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 20
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -44,6 +44,13 @@ jobs:
         with:
           go-version: '1.25.0'
           cache-dependency-path: go.sum
+
+      - name: Install macOS gate dependency
+        if: runner.os == 'macOS'
+        run: brew list shellcheck >/dev/null 2>&1 || brew install shellcheck
+
+      - name: Provision private locked decomposition runtime
+        run: bash bin/taskspec setup decompose
 
       - name: Install schema-fidelity consumer dependencies
         # tests/test-portability-e2e.sh Step 6 runs docs/examples/consume-task-spec.py,
@@ -75,4 +82,6 @@ jobs:
       - name: Require live Docker isolation proof
         env:
           TASKSPEC_REQUIRE_MESH_ISOLATION: '1'
-        run: bash tests/test-mesh-isolation.sh
+        run: |
+          bash tests/test-mesh-isolation.sh
+          bash tests/test-toolkit-attested.sh

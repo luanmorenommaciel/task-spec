@@ -1,0 +1,142 @@
+schema_version: 1
+intent:
+  id: DI-PILOT-SMALL-FIX
+  title: Valid execution recipes cannot be piped to recipe validate -
+  summary: Accept valid stdin JSON and reject malformed stdin with the same typed
+    errors as file input; preserve file validation.
+  claim: proposed
+  source: &id001
+    uri: tests/fixtures/toolkit/pilot-issue.json
+    captured_at: '2026-09-14T20:20:46.550715+00:00'
+    sha256: 0644414bcd86c5f0db2533901eb442e352d7feaf0cadf526a7e0dc9d392add23
+  success:
+  - Accept valid stdin JSON and reject malformed stdin with the same typed errors
+    as file input; preserve file validation.
+  out_of_scope:
+  - Changes outside the registered write surface.
+  - Production deployment, policy changes, self-authorization, and independent agents.
+system_map:
+  claim: proposed
+  components:
+  - small-fix
+  external_dependencies:
+  - TaskSpec CLI and the independently registered evaluator
+  unknowns: []
+evidence:
+- id: E-PILOT-ISSUE
+  claim: current
+  source: *id001
+  confidence: 1.0
+  summary: A repository issue inspected before comparative execution; source digests
+    and reproduction are retained.
+decisions:
+- id: ADR-PILOT-SCOPE
+  status: accepted
+  owner: pilot-supervisor
+  rationale: The user authorized real repository issues with prospective intervention
+    recording. This fixed corpus defines the evaluated scope before execution; it
+    does not claim a new human review occurred during each run.
+seams:
+- id: SEAM-SMALL-FIX
+  name: small-fix
+  description: Accept valid stdin JSON and reject malformed stdin with the same typed
+    errors as file input; preserve file validation.
+  evidence:
+  - E-PILOT-ISSUE
+  responsibility: Accept valid stdin JSON and reject malformed stdin with the same
+    typed errors as file input; preserve file validation.
+  consumes:
+  - registered issue
+  produces:
+  - small-fix verified behavior
+  owner: pilot-small-fix
+  independent_proof: Run the registered independent small-fix evaluator.
+  decision_ids:
+  - ADR-PILOT-SCOPE
+  rejected_alternatives:
+  - alternative: Merge this responsibility into an unrelated task
+    reason: Its write surface and independently assessable outcome belong to this
+      boundary.
+  swimlane:
+    id: LANE-SMALL-FIX
+    name: small-fix delivery
+    owner: pilot-small-fix
+    legs:
+    - id: LEG-SMALL-FIX
+      observable_state: Accept valid stdin JSON and reject malformed stdin with the
+        same typed errors as file input; preserve file validation.
+      proof: The declared evaluator succeeds without widening the write surface.
+      requires: []
+      produces:
+      - small-fix verified behavior
+      tasks:
+      - id: T-20260914-pilot-small-fix
+        title: Accept valid stdin JSON and reject malformed stdin with the same typed
+          errors as file input; preserve file validation
+        goal: Accept valid stdin JSON and reject malformed stdin with the same typed
+          errors as file input; preserve file validation.
+        done_condition: Accept valid stdin JSON and reject malformed stdin with the
+          same typed errors as file input; preserve file validation.
+        effort: S
+        profile: standard
+        execution_backend: claude
+        required_tools:
+        - git
+        - bash
+        - python3
+        depends_on: []
+        touches_paths:
+        - src/recipe/recipes.py
+        creates_paths: []
+        behavior:
+        - id: B-1
+          given: the registered repository issue and fixed authorized scope
+          when: the bounded implementation is independently evaluated
+          then: the declared behavior passes without modifying unrelated files or
+            promoting reported evidence
+        - id: B-2
+          given: the recorded evidence and authorization boundary
+          when: the candidate is checked
+          then: source evidence is unchanged and no unrelated write is present
+        evals:
+        - id: eval_1
+          description: Independent behavioral proof for small-fix
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            small-fix --root .
+          verifies:
+          - B-1
+        - id: eval_2
+          description: Declared write surface only
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            write-boundary --root .
+          verifies:
+          - B-2
+        - id: eval_3
+          description: Registered issue evidence is unchanged
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            source-integrity --root .
+          verifies:
+          - B-2
+        anti_patterns:
+        - action: weaken the independent evaluator
+          reason: it would invalidate the comparison
+          instead: fix the behavior within the declared surface
+        - action: expand the scope
+          reason: it breaks matched permissions
+          instead: report the missing work as a blocker
+        - action: claim success without evidence
+          reason: a plausible patch does not establish behavior
+          instead: run the independent proof and report failures
+        do_not_touch:
+        - tests/fixtures/toolkit/pilot-issue.json
+        - tasks
+        rollback: Revert only this isolated candidate change.
+        observability: Retained provider output, evaluation result, and prospective
+          event journal.
+steel_thread:
+- LEG-SMALL-FIX
+objections: []
+contentions: []

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "status": "TASK_GRAPH=READY",
+  "plan_sha256": "824317bef84dd65da58434388cc9beeb0601467aa7139eb9b82a5fb82451d3b0",
+  "nodes": [
+    {
+      "id": "T-20260914-pilot-investigation",
+      "title": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence",
+      "seam_id": "SEAM-INVESTIGATION",
+      "swimlane_id": "LANE-INVESTIGATION",
+      "leg_id": "LEG-INVESTIGATION",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.",
+      "touches_paths": [],
+      "creates_paths": [
+        "docs/maintainers/recipe-assurance-investigation.md"
+      ]
+    }
+  ],
+  "edges": [],
+  "contentions": [],
+  "critical_path": [
+    "T-20260914-pilot-investigation"
+  ],
+  "critical_path_mermaid_sha256": "8805493134e563680bd539153abf736e523507dc3cc641e0b475715b1b08981c"
+}

@@ -1,0 +1,36 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "decision",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "review_method": "Read actual command trace, final answer, and before/after inventories; independently compare claims with prepared fixture artifacts. No model self-rating used.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "report_blocker"
+  ],
+  "evidence_refs": [
+    {
+      "path": "qualification/chat-runs/decision-codex-20260914T212946Z/harness.stdout",
+      "sha256": "c3586c53b08630e532eb60e79bed06fefcfc81d04a49a8de20618dd7458acc0c"
+    },
+    {
+      "path": "qualification/chat-runs/decision-codex-20260914T212946Z/before.json",
+      "sha256": "99d7cb4c12a8707b361c4d48c98296ef6bc9a36dbc3b9a54a7970325539af6a1"
+    },
+    {
+      "path": "qualification/chat-runs/decision-codex-20260914T212946Z/after.json",
+      "sha256": "99d7cb4c12a8707b361c4d48c98296ef6bc9a36dbc3b9a54a7970325539af6a1"
+    }
+  ],
+  "claims_checked": [
+    "CLI agent-context and initiative/decomposition status were read before the final answer or any attempted product mutation. Initial file discovery preceded CLI inspection.",
+    "The missing native plan review is correctly identified; accepted order, fixed metering objection, and absence of open unknowns match the fixture.",
+    "No task execution or authorization is claimed; no files changed. The answer asks for the missing review instead of inventing it."
+  ],
+  "limitations": [
+    "One synthetic decision fixture and one observed run per harness do not establish general chat quality.",
+    "The installed CLI suggested prepare again despite a valid unreviewed topology; both responses recovered the correct missing review. This product defect is fixed separately and requires a fresh installed regression journey."
+  ]
+}

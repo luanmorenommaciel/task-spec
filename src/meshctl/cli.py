@@ -55,6 +55,7 @@ COMMANDS = {
     "explain", "cancel", "resume", "accept", "finish", "adapters", "setup", "mcp",
 }
 MUTATING = {"init", "serve", "run", "cancel", "resume", "accept", "finish", "setup"}
+MAY_INITIALIZE = {"doctor", "frontier", "status", "watch", "explain", "adapters"}
 
 
 def json_mode() -> bool:
@@ -143,14 +144,17 @@ def main(argv: list[str]) -> int:
     command = argv[0]
     if command not in COMMANDS:
         emit_error("MESH_USAGE", f"unknown TaskMesh command: {command}", 2, next_command="taskspec mesh --help")
-    if os.environ.get("TASKSPEC_DRY_RUN") == "1" and command in MUTATING:
+    if os.environ.get("TASKSPEC_DRY_RUN") == "1" and command in MUTATING | MAY_INITIALIZE:
         payload = {
             "contract": "TaskMeshDryRun/v1",
             "api": API,
             "command": command,
             "arguments": argv[1:],
-            "would_mutate": True,
+            "would_mutate": True if command in MUTATING else None,
         }
+        if command in MAY_INITIALIZE:
+            payload["may_initialize_runtime"] = True
+            payload["explanation"] = "Inspection may initialize a missing daemon and write Git metadata; runtime state was not changed or contacted for this preview."
         if json_mode():
             print(json.dumps(payload, indent=2, ensure_ascii=False))
         else:

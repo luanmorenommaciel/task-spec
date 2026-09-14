@@ -1,0 +1,31 @@
+{
+  "contract": "TaskPlanLineage/v1",
+  "delivery_plan_sha256": "676fd350f35272a3d98ad8643ef3b52b9b29314f5425b1af6421c4b304574180",
+  "engine_version": "3.10.0",
+  "intent": {
+    "id": "DI-PILOT-INVESTIGATION",
+    "sha256": "19588b865cd9d5be7bcd008d553522ba4d281d5153e6022e13b919d33bdbe9cc"
+  },
+  "review": {
+    "fixture": false,
+    "plan_sha256": "676fd350f35272a3d98ad8643ef3b52b9b29314f5425b1af6421c4b304574180",
+    "reviewed_at": "2026-09-14T20:58:29.724237+00:00",
+    "reviewer": "pilot-controller",
+    "sha256": "34ed163193424612ecad015a9a13ee5458b1de5330b77701c2773116668dd8ea"
+  },
+  "task_plan": {
+    "contract": "TaskPlan/v1",
+    "digest": "afaa5c736ba3c7288beb05ec8bf1009e9a0181354101cda071610d5ab1e45b6b",
+    "path": "tasks/.plans/pilot/task-plan.json"
+  },
+  "units": {
+    "T-20260914-pilot-investigation": {
+      "intent": "DI-PILOT-INVESTIGATION",
+      "leg": "LEG-INVESTIGATION",
+      "seam": "SEAM-INVESTIGATION",
+      "source_sha256": "1c562b1b6c333082f2abda253b709d2aebc59861110c422a6554a7641a0b1c91",
+      "swimlane": "LANE-INVESTIGATION",
+      "unit_id": "T-20260914-pilot-investigation"
+    }
+  }
+}

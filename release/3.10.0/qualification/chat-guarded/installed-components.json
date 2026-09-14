@@ -1,0 +1,11 @@
+{
+  "contract": "TaskToolkitRetainedInstallation/v1",
+  "cohort": "chat-guarded",
+  "archive": "installed-components-darwin-arm64.tar.gz",
+  "sha256": "43f6b41742b82f97d7d3885b7a9bb4456b0910cf6d065050a05458ee71c9414e",
+  "files": 1640,
+  "registered_resource_hashes_verified": true,
+  "helper_hash_verified": true,
+  "platform": "darwin/arm64",
+  "limits": "Installed engine components and matching helper. Private Python environment omitted; provision the included locked dependencies before using decomposition. This is retained experiment tooling, not the published release source artifact."
+}

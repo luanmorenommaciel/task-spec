@@ -1,0 +1,38 @@
+{
+  "observations": [
+    {
+      "case": "denied",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "denied-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "denied",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "denied-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "run",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "run-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": true
+    },
+    {
+      "case": "run",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "run-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    }
+  ],
+  "qualified": false,
+  "state": "awaiting_behavior_review"
+}

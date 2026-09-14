@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-09-14T20:55:47Z",
+  "accepted_by": "pilot-controller",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "354152a4-7a9e-4d06-9bdd-073a7b76e645",
+    "authorization_ref": "hmac-sha256-v3:d96ca067:fadaea0438c7aad71b34d91510f60bbcd45015aa88b91762d64ac37d5dde8d54",
+    "base_commit": "788aed6a213228237c7884ebdca781fc14d2dea6",
+    "task_id": "T-20260914-pilot-small-fix",
+    "task_revision_digest": "sha256:ba6630980ea058272b9bef6c4f0e70bf9dc6eae1924a7f5e3fed5ef179d76fb4"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "contract": "TaskPlanBundle/v1",
+  "initiative": "pilot",
+  "lineage_digest": "af714e859b06e09e3469b82160cad906167f0025bdd5578c1fa570736bbd47b5",
+  "plan_digest": "1b8d1ad63311a059b54b41af580893f31320def3d786dee931335c3ff0a76d4b",
+  "signature": "hmac-taskplan-v1:afd77c01:5b17dcf3307bd3503dcabe51c3a75f12238bd0b3d54893d06efae872075199e5",
+  "snapshot_digest": "67a67aa69120c57f9d0cac85704f1f814577d60128091a796dd3ba2c0dc454c0",
+  "units": {
+    "T-20260914-pilot-overview-route": "9a00d37151b30a6dba205512d102b8964c809ce6a23d2f088d171bb896432d61",
+    "T-20260914-pilot-overview-skill": "e446b061e5d1db7ca6457dabe34626349bc043befe210e8389b026ecd14545cb"
+  }
+}

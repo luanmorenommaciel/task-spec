@@ -1,0 +1,33 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "batch",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMaterializationReceipt/v1",
+    "engine_version": "3.10.0",
+    "input": {
+      "contract": "TaskPlan/v1",
+      "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-l3fdpzjs/task-spec-3.9.0/tasks/.plans/pilot/task-plan.json",
+      "digest": "afaa5c736ba3c7288beb05ec8bf1009e9a0181354101cda071610d5ab1e45b6b",
+      "approved": true
+    },
+    "output_dir": "tasks",
+    "dry_run": false,
+    "materialized": true,
+    "changed": true,
+    "state": "created",
+    "dispatch_authorized": false,
+    "tasks": [
+      {
+        "task_id": "T-20260914-pilot-investigation",
+        "path": "tasks/T-20260914-pilot-investigation.md",
+        "sha256": "07195c985ca7d0e175993f7202a929bf62c3ef66fc97474afa0e349ea2b1e6f9"
+      }
+    ],
+    "warnings": []
+  },
+  "stdout": "",
+  "stderr": ""
+}

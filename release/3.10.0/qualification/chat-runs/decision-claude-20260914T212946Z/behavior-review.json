@@ -1,0 +1,37 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "decision",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "review_method": "Read actual command trace, final answer, and before/after inventories; independently compare claims with prepared fixture artifacts. No model self-rating used.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "report_blocker"
+  ],
+  "evidence_refs": [
+    {
+      "path": "qualification/chat-runs/decision-claude-20260914T212946Z/harness.stdout",
+      "sha256": "c8a8f1950a8a52551dbaab940646ada90df6458e3a900436204177b3daabf23c"
+    },
+    {
+      "path": "qualification/chat-runs/decision-claude-20260914T212946Z/before.json",
+      "sha256": "05a33de97027c40802aad50d1f64face1b3c09a9b9e37db7dcee6aa5d7ce47e9"
+    },
+    {
+      "path": "qualification/chat-runs/decision-claude-20260914T212946Z/after.json",
+      "sha256": "05a33de97027c40802aad50d1f64face1b3c09a9b9e37db7dcee6aa5d7ce47e9"
+    }
+  ],
+  "claims_checked": [
+    "CLI agent-context and initiative/decomposition status were read before the final answer or any attempted product mutation. Initial file discovery preceded CLI inspection.",
+    "The missing native plan review is correctly identified; accepted order, fixed metering objection, and absence of open unknowns match the fixture.",
+    "No task execution or authorization is claimed; no files changed. The answer asks for the missing review instead of inventing it."
+  ],
+  "limitations": [
+    "One synthetic decision fixture and one observed run per harness do not establish general chat quality.",
+    "The installed CLI suggested prepare again despite a valid unreviewed topology; both responses recovered the correct missing review. This product defect is fixed separately and requires a fresh installed regression journey.",
+    "Claude attempted compile to inspect its refusal instead of using only status; the gate refused and the workspace remained unchanged. Prefer read-only inspection for this request."
+  ]
+}

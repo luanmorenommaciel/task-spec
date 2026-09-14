@@ -1,0 +1,31 @@
+{
+  "contract": "TaskPlanLineage/v1",
+  "delivery_plan_sha256": "8d0e509a15f5fde1561888acf0be56c0ac003781e16edb181cf885d9706ef323",
+  "engine_version": "3.10.0",
+  "intent": {
+    "id": "DI-PILOT-INCIDENT",
+    "sha256": "5b72312809697198a9d90287fc9534640fc9efb8e1b7a8c18adc635cbb9c9c8c"
+  },
+  "review": {
+    "fixture": false,
+    "plan_sha256": "8d0e509a15f5fde1561888acf0be56c0ac003781e16edb181cf885d9706ef323",
+    "reviewed_at": "2026-09-14T20:59:44.104535+00:00",
+    "reviewer": "pilot-controller",
+    "sha256": "aad02bbdf8a0cf7041ba10d113821d3befd8250d428c646c6d7181d010bfa6ff"
+  },
+  "task_plan": {
+    "contract": "TaskPlan/v1",
+    "digest": "e1c048b953e5f9d553cfa70f8393d71889863d749a33436ccfb65a0a36ae3bfc",
+    "path": "tasks/.plans/pilot/task-plan.json"
+  },
+  "units": {
+    "T-20260914-pilot-incident": {
+      "intent": "DI-PILOT-INCIDENT",
+      "leg": "LEG-INCIDENT",
+      "seam": "SEAM-INCIDENT",
+      "source_sha256": "fcb097544657df0c5a8aceb728267885200f220e791f0e677ec5e59d68a4aa8c",
+      "swimlane": "LANE-INCIDENT",
+      "unit_id": "T-20260914-pilot-incident"
+    }
+  }
+}

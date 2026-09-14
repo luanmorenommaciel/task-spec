@@ -1,0 +1,22 @@
+schema_version: 1
+status: DELIVERY_PLAN=READY
+seam_map_sha256: 31b8cdf9883f6333c5cfcc7b581b1bd462cd3c7610685e9fe0fa134060b8e9b7
+swimlanes:
+- id: LANE-INCIDENT
+  seam_id: SEAM-INCIDENT
+  owner: pilot-incident
+  path: tasks/.plans/pilot/swimlanes/LANE-INCIDENT.md
+  sha256: 22d92f38c7438488100a177c85ff1d053f497952fb177c269bc0a55cf5fbe689
+legs:
+- id: LEG-INCIDENT
+  seam_id: SEAM-INCIDENT
+  swimlane_id: LANE-INCIDENT
+  path: tasks/.plans/pilot/legs/LEG-INCIDENT.md
+  sha256: fcb097544657df0c5a8aceb728267885200f220e791f0e677ec5e59d68a4aa8c
+steel_thread:
+- LEG-INCIDENT
+objections: []
+contentions: []
+steel_thread_path: tasks/.plans/pilot/steel-thread.md
+steel_thread_sha256: bc27b4b8d2ebeb5df6254d4b0262fa03a5d63e78626372bc80d1d9a55620334e
+review_authority_sha256: 5ee78338ce6e2e8ffebdda34a7b707f564979e9d3b687f378c40e0f9675f549d

@@ -1,0 +1,26 @@
+{
+  "artifacts_sha256": {
+    "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+    "evidence.jsonl": "0cb452e61ec8cfed4fbf9a2b30206d584dfb9728ee2e82d84e84e050aad6117d",
+    "intent.md": "5b72312809697198a9d90287fc9534640fc9efb8e1b7a8c18adc635cbb9c9c8c",
+    "legs/LEG-INCIDENT.md": "fcb097544657df0c5a8aceb728267885200f220e791f0e677ec5e59d68a4aa8c",
+    "proposed-graph.json": "0a2fc4cbbb0858cdaa19211c1b099c08ec29a75acf9d77df297d3c68dce08694",
+    "seam-map.yaml": "31b8cdf9883f6333c5cfcc7b581b1bd462cd3c7610685e9fe0fa134060b8e9b7",
+    "seams/SEAM-INCIDENT.md": "4d13ca4f4eeb0b487642640f3050f78df75b1bd8b16234532060362067649f3e",
+    "source-recipe.yaml": "aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3",
+    "steel-thread.md": "bc27b4b8d2ebeb5df6254d4b0262fa03a5d63e78626372bc80d1d9a55620334e",
+    "swimlanes/LANE-INCIDENT.md": "22d92f38c7438488100a177c85ff1d053f497952fb177c269bc0a55cf5fbe689",
+    "system-map.md": "1c6c5a9e6133a23caf680a0c734cce5505c2732d9ff84e6f0c7dcd820409d384"
+  },
+  "disposition": "accepted",
+  "draft_sha256": "228d7934f703718eea1b1af4dd28d61cbb390cf180a2636209d2b577a0ad71de",
+  "fixture": false,
+  "plan_sha256": "8d0e509a15f5fde1561888acf0be56c0ac003781e16edb181cf885d9706ef323",
+  "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "recipe_sha256": "aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3",
+  "reviewed_at": "2026-09-14T20:59:44.104535+00:00",
+  "reviewer": "pilot-controller",
+  "schema_version": 1,
+  "signature": "hmac-taskplan-v1:c02b9f92:4cb9dbeb2963600a017794cbc663d72f3b5ab871cf96049b46cbc0d469b04947",
+  "topology_sha256": "0a2fc4cbbb0858cdaa19211c1b099c08ec29a75acf9d77df297d3c68dce08694"
+}

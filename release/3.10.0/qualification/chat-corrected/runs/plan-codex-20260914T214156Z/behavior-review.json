@@ -1,0 +1,50 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "plan",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "review_method": "Read actual command trace, final answer, proposed markdown and recipe, dry-run refusal, and independent schema/digest check output.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "collect_evidence",
+    "propose_plan"
+  ],
+  "evidence_refs": [
+    {
+      "path": "qualification/chat-corrected/runs/plan-codex-20260914T214156Z/harness.stdout",
+      "sha256": "fa2ef2d7769402e117901b8a7f334f84175838979f3397cbe8d99541143b36ee"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/plan-codex-20260914T214156Z/changed-files/plans/rate-limiting/proposal.md",
+      "sha256": "da4dd37993c866e1eb15a85a035ecac0590afad1c4daccfa22ecba1cb099b249"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/plan-codex-20260914T214156Z/changed-files/plans/rate-limiting/recipe.yaml",
+      "sha256": "77919ebdf66ec8dfb170d8156fc8f0c151563694ccaf01f3450b52ae7b7db302"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/plan-codex-20260914T214156Z/before.json",
+      "sha256": "ee7a2e6600a10476ed4723cb917bddc981b5b542b966a482efc255d5735fbf7a"
+    },
+    {
+      "path": "qualification/chat-corrected/runs/plan-codex-20260914T214156Z/after.json",
+      "sha256": "0ea460e49f8eb871743b9ad8a46ab9f4e18d8ea32814de03530ed7e3971c4233"
+    }
+  ],
+  "claims_checked": [
+    "The skill, blueprint and CLI agent-context were read before authoring.",
+    "The blueprint names no in-scope owner; the draft explicitly leaves ownership unresolved rather than assigning an invented accepted owner.",
+    "Provider-owned metering remains external; production storage/deployment choices remain outside the proposal.",
+    "Four observable steps have bounded proposed write surfaces and dependencies; final chain proof is distinct from earlier task completion.",
+    "Native prepare dry-run refuses the unaccepted decisions, and the final response accurately reports that blocked state.",
+    "Schema and source-digest validation passed using the private installed runtime after the unprovisioned system interpreter failed.",
+    "Only a draft, recipe, and intake were authored; no native review, task materialization, HMAC authorization, implementation, or acceptance occurred."
+  ],
+  "limitations": [
+    "Synthetic blueprint fixture with intentionally missing ownership; one observed journey.",
+    "The harness wrote temporary CLI examples outside the repository; these are tool scratch files, not accepted product output.",
+    "This qualifies the stated planning behavior, not automatic skill discovery in every chat host."
+  ]
+}

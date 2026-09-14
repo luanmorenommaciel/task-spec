@@ -1,0 +1,64 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "incident",
+  "harness": "codex",
+  "retained": "/private/tmp/taskspec-chat-guarded-observations/runs/incident-codex-20260914T221112Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "f43dd6eb6d86bc373e39ace2e43d98f58b5d2804d74d17619c511b446d479b6d"
+    },
+    {
+      "path": "before.json",
+      "sha256": "7102885567fbc160c31c74377bfc72347f15c98e279519705d32bc751cea8290"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/.taskspec/operations/incident-example.json",
+      "sha256": "6d08d24fc6711ecaf2913051695843f50a7515da9cbe1c7a7e02f4d4409dce71"
+    },
+    {
+      "path": "changed-files/tasks/.plans/incident-example/intake.md",
+      "sha256": "f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "5c07ce0bbbeacc3041e904f31a8d9b60269a1134ccc78396332aa11fecffdf73"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "60fc53a544d1bee3d10ebfd608ba2d607d0cd600a8acb69c6a852640b39e689d"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "94d25003263a33cbfa7b264a616f734547fee7f3a851d2782d47b88a93720f0e"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "7d3c1861cb2d05ae0814d518aa1f0ea9a03565729c77d02d48691be1cd825b57"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "8cf875711f00d2471f0ec579aef046f15151ee483460d5f88ed93c3483c9710e"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "3535d49823830b8ff6df6ce6915f8cb24393d2d3d21827f0592dc73ffb6b16b2"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "86308ce13797389bbf7cec5296f7cdd80cd9ffa074c20fa64b5f745cc16408a8"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "90a864c1ab5a8a47f3e13e7841c5b1213171ff5fea333a27f4ae42f0db9bfb24"
+    }
+  ]
+}

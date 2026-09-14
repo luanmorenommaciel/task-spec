@@ -1,0 +1,45 @@
+[
+  {
+    "id": "codex@openai-codex",
+    "version": "1.0.4",
+    "scope": "user",
+    "enabled": true,
+    "installPath": "/Users/luanmorenomaciel/.claude/plugins/cache/openai-codex/codex/1.0.4",
+    "installedAt": "2026-09-10T06:10:19.408Z",
+    "lastUpdated": "2026-09-10T06:10:19.408Z"
+  },
+  {
+    "id": "gitkraken-hooks@gitkraken",
+    "version": "3.1.74",
+    "scope": "user",
+    "enabled": true,
+    "installPath": "/Users/luanmorenomaciel/.claude/plugins/cache/gitkraken/gitkraken-hooks/3.1.74",
+    "installedAt": "2026-09-10T06:10:19.408Z",
+    "lastUpdated": "2026-09-10T06:10:19.408Z"
+  },
+  {
+    "id": "kimi@luanmorenommaciel-kimi",
+    "version": "0.4.0",
+    "scope": "user",
+    "enabled": true,
+    "installPath": "/Users/luanmorenomaciel/.claude/plugins/cache/luanmorenommaciel-kimi/kimi/0.4.0",
+    "installedAt": "2026-09-10T06:10:19.408Z",
+    "lastUpdated": "2026-09-10T06:10:19.408Z"
+  },
+  {
+    "id": "visual-explainer@visual-explainer-marketplace",
+    "version": "0.8.1",
+    "scope": "user",
+    "enabled": true,
+    "installPath": "/Users/luanmorenomaciel/.claude/plugins/cache/visual-explainer-marketplace/visual-explainer/0.8.1",
+    "installedAt": "2026-09-10T06:10:19.408Z",
+    "lastUpdated": "2026-09-10T06:10:19.408Z"
+  },
+  {
+    "id": "task-spec@inline",
+    "version": "3.10.0",
+    "scope": "session",
+    "enabled": true,
+    "installPath": "/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-plugin-discovery-01d_wexy"
+  }
+]

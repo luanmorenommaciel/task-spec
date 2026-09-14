@@ -1,0 +1,10 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "init",
+  "ok": true,
+  "exit_code": 0,
+  "data": null,
+  "stdout": "created: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-8zqxw616/task-spec-3.9.0/.taskspec/config\ncreated: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-8zqxw616/task-spec-3.9.0/tasks/.gitkeep\nINIT=OK\n",
+  "stderr": ""
+}

@@ -1,0 +1,49 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "resume",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "reviewed_at": "2026-09-14T22:46:25.031571+00:00",
+  "review_method": "Read actual tool order, final claims, state inventories and retained runtime rows where present.",
+  "passed": false,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "preserve_budget",
+    "stop_on_permission_denial"
+  ],
+  "claims_checked": [
+    "Loaded the skill and read the task, current CLI state and recorded attempt.",
+    "Mesh status and watch failed; the daemon log reports Unix-socket bind operation not permitted.",
+    "The final answer accurately reports that execution was blocked before resume, with no reset, acceptance or merge."
+  ],
+  "failures": [
+    "Positive resume journey could not reach the host Mesh daemon from the sandboxed harness."
+  ],
+  "limitations": [
+    "One fresh synthetic fixture; process success alone does not qualify behavior.",
+    "The automated reported_permission_denials field is empty because the top-level CLI error omits the underlying permission phrase. The actual daemon error in the retained harness trace establishes the denial."
+  ],
+  "evidence_refs": [
+    {
+      "path": "resume-codex-20260914T223751Z/harness.stdout",
+      "sha256": "c134101fb2c014805081e6288b0014034ab5a0a9d10580fbcc05d8c1d281a398"
+    },
+    {
+      "path": "resume-codex-20260914T223751Z/before.json",
+      "sha256": "f5b1b406de6f2c597034919d2c4427cb3fe32a23d3187581ff33a970a84d5bf8"
+    },
+    {
+      "path": "resume-codex-20260914T223751Z/after.json",
+      "sha256": "f5b1b406de6f2c597034919d2c4427cb3fe32a23d3187581ff33a970a84d5bf8"
+    },
+    {
+      "path": "resume-codex-20260914T223751Z/runtime-observation.json",
+      "sha256": "a8df383b02da80ec804d16e858e6ff27f0cb4de39a5cb2b8e4de9903a7396726"
+    },
+    {
+      "path": "resume-codex-20260914T223751Z/initial-mesh-state.json",
+      "sha256": "afecf4bcf489178f3fc91b7f319c765cfe3aafb11f84fe1c95406447da6a4cdf"
+    }
+  ]
+}

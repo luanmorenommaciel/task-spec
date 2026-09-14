@@ -1,0 +1,256 @@
+{
+  "contract": "TaskPlanSnapshot/v1",
+  "initiative": "pilot",
+  "review": {
+    "artifacts_sha256": {
+      "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "evidence.jsonl": "08f02f7954d1eefc5eb61c74c2756b664733a1500c4e5ae7d640f8286e04f722",
+      "intent.md": "fdc5caec623c5ef6628d978246590e5a31be287886b1b18214fba1f960cdf8d4",
+      "legs/LEG-SMALL-FIX.md": "9b1da53e57853262e67c53c0b7c4d213244d65dbd8de33a075a8d4d107662587",
+      "proposed-graph.json": "3e954eb019df2039493b9db9ab5140c831b037b0ed3c3d77f9266b920c54a532",
+      "seam-map.yaml": "8acd164e02c0a845b92f10e9420871cd910a4d770ab43024623a9b0f1bd0ee53",
+      "seams/SEAM-SMALL-FIX.md": "71cee7de0328a4381b2598bca3f33aed11847c79930b7379bbb916964676f941",
+      "source-recipe.yaml": "8b52dc58905e6106d1779bc13f20c7b9625ec6509a0b353d9841946ee50b08b3",
+      "steel-thread.md": "4eb13fd026eb6d48b5f3daa30b89aec67fcd3e91a48400d61abb4b1483bd7fa7",
+      "swimlanes/LANE-SMALL-FIX.md": "4bcca8eb44368c880164e8465a1af6d7a758e9f25be1f8f92d94e9ced30cd86f",
+      "system-map.md": "1c42801107b87d6ba0a9feca42cc84bde631f399cf2f8496a9704a5ec58dfca4"
+    },
+    "disposition": "accepted",
+    "draft_sha256": "63816716f3f2972d00ba103550bc2a6c90d2afed9d88c5eed1b960741cb9f746",
+    "fixture": false,
+    "plan_sha256": "2a21ac073a5a961df623a064465f5d6673a31ad71b376ae84114f7ea98edd187",
+    "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+    "recipe_sha256": "8b52dc58905e6106d1779bc13f20c7b9625ec6509a0b353d9841946ee50b08b3",
+    "reviewed_at": "2026-09-14T20:58:14.961353+00:00",
+    "reviewer": "pilot-controller",
+    "schema_version": 1,
+    "signature": "hmac-taskplan-v1:971d630c:6235053d2edd7fc4be2ac16fe1d1b7f7be83ec589713d70d216ce231ebe1cd5e",
+    "topology_sha256": "3e954eb019df2039493b9db9ab5140c831b037b0ed3c3d77f9266b920c54a532"
+  },
+  "reviewed_artifacts": {
+    "decisions/ADR-PILOT-SCOPE.md": {
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "content": "---\nschema_version: 1\nkind: decision\nid: ADR-PILOT-SCOPE\nstatus: accepted\nowner: pilot-supervisor\nrationale: The user authorized real repository issues with prospective intervention recording. This fixed\n  corpus defines the evaluated scope before execution; it does not claim a new human review occurred during\n  each run.\n---\n# ADR-PILOT-SCOPE\n\nStatus: **accepted**\n\nOwner: pilot-supervisor\n\n## Rationale\n\nThe user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run.\n"
+    },
+    "evidence.jsonl": {
+      "sha256": "08f02f7954d1eefc5eb61c74c2756b664733a1500c4e5ae7d640f8286e04f722",
+      "content": "{\"claim\":\"current\",\"confidence\":1.0,\"id\":\"E-PILOT-ISSUE\",\"source\":{\"captured_at\":\"2026-09-14T20:20:46.550715+00:00\",\"sha256\":\"0644414bcd86c5f0db2533901eb442e352d7feaf0cadf526a7e0dc9d392add23\",\"uri\":\"tests/fixtures/toolkit/pilot-issue.json\"},\"summary\":\"A repository issue inspected before comparative execution; source digests and reproduction are retained.\"}\n"
+    },
+    "intent.md": {
+      "sha256": "fdc5caec623c5ef6628d978246590e5a31be287886b1b18214fba1f960cdf8d4",
+      "content": "---\nschema_version: 1\nkind: delivery-intent\nid: DI-PILOT-SMALL-FIX\ntitle: Valid execution recipes cannot be piped to recipe validate -\nclaim: proposed\nsource:\n  uri: tests/fixtures/toolkit/pilot-issue.json\n  captured_at: '2026-09-14T20:20:46.550715+00:00'\n  sha256: 0644414bcd86c5f0db2533901eb442e352d7feaf0cadf526a7e0dc9d392add23\nsuccess:\n- Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve\n  file validation.\nout_of_scope:\n- Changes outside the registered write surface.\n- Production deployment, policy changes, self-authorization, and independent agents.\n---\n# Valid execution recipes cannot be piped to recipe validate -\n\n## Delivery outcome\n\nAccept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\n\n## Evidence boundary\n\nThis artifact records a **proposed** claim. Its source, capture time,\nand content hash are recorded in frontmatter; the claim is not implementation\nevidence by itself.\n"
+    },
+    "legs/LEG-SMALL-FIX.md": {
+      "sha256": "9b1da53e57853262e67c53c0b7c4d213244d65dbd8de33a075a8d4d107662587",
+      "content": "---\nschema_version: 1\nkind: capability-leg\nclaim: derived\nid: LEG-SMALL-FIX\nseam_id: SEAM-SMALL-FIX\nswimlane_id: LANE-SMALL-FIX\nobservable_state: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file\n  input; preserve file validation.\nproof: The declared evaluator succeeds without widening the write surface.\nrequires: []\nproduces:\n- small-fix verified behavior\ntasks:\n- id: T-20260914-pilot-small-fix\n  title: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input;\n    preserve file validation\n  goal: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve\n    file validation.\n  done_condition: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file\n    input; preserve file validation.\n  effort: S\n  profile: standard\n  execution_backend: any\n  required_tools:\n  - git\n  - bash\n  - python3\n  depends_on: []\n  touches_paths:\n  - src/recipe/recipes.py\n  creates_paths: []\n  behavior:\n  - id: B-1\n    given: the registered repository issue and fixed authorized scope\n    when: the bounded implementation is independently evaluated\n    then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n  - id: B-2\n    given: the recorded evidence and authorization boundary\n    when: the candidate is checked\n    then: source evidence is unchanged and no unrelated write is present\n  evals:\n  - id: eval_1\n    description: Independent behavioral proof for small-fix\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      small-fix --root .\n    verifies:\n    - B-1\n  - id: eval_2\n    description: Declared write surface only\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      write-boundary --root .\n    verifies:\n    - B-2\n  - id: eval_3\n    description: Registered issue evidence is unchanged\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      source-integrity --root .\n    verifies:\n    - B-2\n  anti_patterns:\n  - action: weaken the independent evaluator\n    reason: it would invalidate the comparison\n    instead: fix the behavior within the declared surface\n  - action: expand the scope\n    reason: it breaks matched permissions\n    instead: report the missing work as a blocker\n  - action: claim success without evidence\n    reason: a plausible patch does not establish behavior\n    instead: run the independent proof and report failures\n  do_not_touch:\n  - tests/fixtures/toolkit/pilot-issue.json\n  - tasks\n  rollback: Revert only this isolated candidate change.\n  observability: Retained provider output, evaluation result, and prospective event journal.\n  execution_recipe: diagnose-repair-verify\n  proves_capabilities:\n  - LEG-SMALL-FIX\nsource_seam_sha256: 71cee7de0328a4381b2598bca3f33aed11847c79930b7379bbb916964676f941\n---\n# Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\n\n## Observable proof\n\nThe declared evaluator succeeds without widening the write surface.\n\n## Runnable leaves\n\n- `T-20260914-pilot-small-fix` \u2014 Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\n\nThe leg names a capability state, not an activity. Each leaf owns one coherent,\nindependently provable done-condition.\n"
+    },
+    "proposed-graph.json": {
+      "sha256": "3e954eb019df2039493b9db9ab5140c831b037b0ed3c3d77f9266b920c54a532",
+      "content": "{\n  \"schema_version\": 1,\n  \"status\": \"TASK_GRAPH=READY\",\n  \"plan_sha256\": \"63816716f3f2972d00ba103550bc2a6c90d2afed9d88c5eed1b960741cb9f746\",\n  \"nodes\": [\n    {\n      \"id\": \"T-20260914-pilot-small-fix\",\n      \"title\": \"Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation\",\n      \"seam_id\": \"SEAM-SMALL-FIX\",\n      \"swimlane_id\": \"LANE-SMALL-FIX\",\n      \"leg_id\": \"LEG-SMALL-FIX\",\n      \"effort\": \"S\",\n      \"profile\": \"standard\",\n      \"done_condition\": \"Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\",\n      \"touches_paths\": [\n        \"src/recipe/recipes.py\"\n      ],\n      \"creates_paths\": []\n    }\n  ],\n  \"edges\": [],\n  \"contentions\": [],\n  \"critical_path\": [\n    \"T-20260914-pilot-small-fix\"\n  ],\n  \"critical_path_mermaid_sha256\": \"b74c7eb7a8ec0e4abe6719a2b69f1909145e6e6480182af4134be107fdafcdfb\"\n}\n"
+    },
+    "seam-map.yaml": {
+      "sha256": "8acd164e02c0a845b92f10e9420871cd910a4d770ab43024623a9b0f1bd0ee53",
+      "content": "schema_version: 1\nstatus: SEAM_MAP=READY\nintent_id: DI-PILOT-SMALL-FIX\nsource_recipe:\n  name: source-recipe.yaml\n  sha256: 8b52dc58905e6106d1779bc13f20c7b9625ec6509a0b353d9841946ee50b08b3\nintent_sha256: fdc5caec623c5ef6628d978246590e5a31be287886b1b18214fba1f960cdf8d4\nsystem_map_sha256: 1c42801107b87d6ba0a9feca42cc84bde631f399cf2f8496a9704a5ec58dfca4\nevidence_sha256: 08f02f7954d1eefc5eb61c74c2756b664733a1500c4e5ae7d640f8286e04f722\ndecisions:\n- id: ADR-PILOT-SCOPE\n  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md\n  status: accepted\n  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\nseams:\n- id: SEAM-SMALL-FIX\n  path: tasks/.plans/pilot/seams/SEAM-SMALL-FIX.md\n  owner: pilot-small-fix\n  evidence:\n  - E-PILOT-ISSUE\n  swimlane_id: LANE-SMALL-FIX\n  sha256: 71cee7de0328a4381b2598bca3f33aed11847c79930b7379bbb916964676f941\n"
+    },
+    "seams/SEAM-SMALL-FIX.md": {
+      "sha256": "71cee7de0328a4381b2598bca3f33aed11847c79930b7379bbb916964676f941",
+      "content": "---\nschema_version: 1\nkind: seam\nclaim: derived\nid: SEAM-SMALL-FIX\nname: small-fix\ndescription: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input;\n  preserve file validation.\nevidence:\n- E-PILOT-ISSUE\nresponsibility: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file\n  input; preserve file validation.\nconsumes:\n- registered issue\nproduces:\n- small-fix verified behavior\nowner: pilot-small-fix\nindependent_proof: Run the registered independent small-fix evaluator.\ndecision_ids:\n- ADR-PILOT-SCOPE\nrejected_alternatives:\n- alternative: Merge this responsibility into an unrelated task\n  reason: Its write surface and independently assessable outcome belong to this boundary.\nswimlane:\n  id: LANE-SMALL-FIX\n  name: small-fix delivery\n  owner: pilot-small-fix\n  legs:\n  - id: LEG-SMALL-FIX\n    observable_state: Accept valid stdin JSON and reject malformed stdin with the same typed errors as\n      file input; preserve file validation.\n    proof: The declared evaluator succeeds without widening the write surface.\n    requires: []\n    produces:\n    - small-fix verified behavior\n    tasks:\n    - id: T-20260914-pilot-small-fix\n      title: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input;\n        preserve file validation\n      goal: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input;\n        preserve file validation.\n      done_condition: Accept valid stdin JSON and reject malformed stdin with the same typed errors as\n        file input; preserve file validation.\n      effort: S\n      profile: standard\n      execution_backend: any\n      required_tools:\n      - git\n      - bash\n      - python3\n      depends_on: []\n      touches_paths:\n      - src/recipe/recipes.py\n      creates_paths: []\n      behavior:\n      - id: B-1\n        given: the registered repository issue and fixed authorized scope\n        when: the bounded implementation is independently evaluated\n        then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n      - id: B-2\n        given: the recorded evidence and authorization boundary\n        when: the candidate is checked\n        then: source evidence is unchanged and no unrelated write is present\n      evals:\n      - id: eval_1\n        description: Independent behavioral proof for small-fix\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          small-fix --root .\n        verifies:\n        - B-1\n      - id: eval_2\n        description: Declared write surface only\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          write-boundary --root .\n        verifies:\n        - B-2\n      - id: eval_3\n        description: Registered issue evidence is unchanged\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          source-integrity --root .\n        verifies:\n        - B-2\n      anti_patterns:\n      - action: weaken the independent evaluator\n        reason: it would invalidate the comparison\n        instead: fix the behavior within the declared surface\n      - action: expand the scope\n        reason: it breaks matched permissions\n        instead: report the missing work as a blocker\n      - action: claim success without evidence\n        reason: a plausible patch does not establish behavior\n        instead: run the independent proof and report failures\n      do_not_touch:\n      - tests/fixtures/toolkit/pilot-issue.json\n      - tasks\n      rollback: Revert only this isolated candidate change.\n      observability: Retained provider output, evaluation result, and prospective event journal.\n      execution_recipe: diagnose-repair-verify\n      proves_capabilities:\n      - LEG-SMALL-FIX\n---\n# small-fix\n\nAccept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\n\n## Responsibility\n\nAccept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\n\n## Independent proof\n\nRun the registered independent small-fix evaluator.\n\n## Rejected alternatives\n\n- **Merge this responsibility into an unrelated task** \u2014 Its write surface and independently assessable outcome belong to this boundary.\n\nThis derived seam is ready only while its cited evidence, named owner, contract,\nand rejected alternatives remain intact.\n"
+    },
+    "source-recipe.yaml": {
+      "sha256": "8b52dc58905e6106d1779bc13f20c7b9625ec6509a0b353d9841946ee50b08b3",
+      "content": "schema_version: 1\nintent:\n  id: DI-PILOT-SMALL-FIX\n  title: Valid execution recipes cannot be piped to recipe validate -\n  summary: Accept valid stdin JSON and reject malformed stdin with the same typed\n    errors as file input; preserve file validation.\n  claim: proposed\n  source: &id001\n    uri: tests/fixtures/toolkit/pilot-issue.json\n    captured_at: '2026-09-14T20:20:46.550715+00:00'\n    sha256: 0644414bcd86c5f0db2533901eb442e352d7feaf0cadf526a7e0dc9d392add23\n  success:\n  - Accept valid stdin JSON and reject malformed stdin with the same typed errors\n    as file input; preserve file validation.\n  out_of_scope:\n  - Changes outside the registered write surface.\n  - Production deployment, policy changes, self-authorization, and independent agents.\nsystem_map:\n  claim: proposed\n  components:\n  - small-fix\n  external_dependencies:\n  - TaskSpec CLI and the independently registered evaluator\n  unknowns: []\nevidence:\n- id: E-PILOT-ISSUE\n  claim: current\n  source: *id001\n  confidence: 1.0\n  summary: A repository issue inspected before comparative execution; source digests\n    and reproduction are retained.\ndecisions:\n- id: ADR-PILOT-SCOPE\n  status: accepted\n  owner: pilot-supervisor\n  rationale: The user authorized real repository issues with prospective intervention\n    recording. This fixed corpus defines the evaluated scope before execution; it\n    does not claim a new human review occurred during each run.\nseams:\n- id: SEAM-SMALL-FIX\n  name: small-fix\n  description: Accept valid stdin JSON and reject malformed stdin with the same typed\n    errors as file input; preserve file validation.\n  evidence:\n  - E-PILOT-ISSUE\n  responsibility: Accept valid stdin JSON and reject malformed stdin with the same\n    typed errors as file input; preserve file validation.\n  consumes:\n  - registered issue\n  produces:\n  - small-fix verified behavior\n  owner: pilot-small-fix\n  independent_proof: Run the registered independent small-fix evaluator.\n  decision_ids:\n  - ADR-PILOT-SCOPE\n  rejected_alternatives:\n  - alternative: Merge this responsibility into an unrelated task\n    reason: Its write surface and independently assessable outcome belong to this\n      boundary.\n  swimlane:\n    id: LANE-SMALL-FIX\n    name: small-fix delivery\n    owner: pilot-small-fix\n    legs:\n    - id: LEG-SMALL-FIX\n      observable_state: Accept valid stdin JSON and reject malformed stdin with the\n        same typed errors as file input; preserve file validation.\n      proof: The declared evaluator succeeds without widening the write surface.\n      requires: []\n      produces:\n      - small-fix verified behavior\n      tasks:\n      - id: T-20260914-pilot-small-fix\n        title: Accept valid stdin JSON and reject malformed stdin with the same typed\n          errors as file input; preserve file validation\n        goal: Accept valid stdin JSON and reject malformed stdin with the same typed\n          errors as file input; preserve file validation.\n        done_condition: Accept valid stdin JSON and reject malformed stdin with the\n          same typed errors as file input; preserve file validation.\n        effort: S\n        profile: standard\n        execution_backend: any\n        required_tools:\n        - git\n        - bash\n        - python3\n        depends_on: []\n        touches_paths:\n        - src/recipe/recipes.py\n        creates_paths: []\n        behavior:\n        - id: B-1\n          given: the registered repository issue and fixed authorized scope\n          when: the bounded implementation is independently evaluated\n          then: the declared behavior passes without modifying unrelated files or\n            promoting reported evidence\n        - id: B-2\n          given: the recorded evidence and authorization boundary\n          when: the candidate is checked\n          then: source evidence is unchanged and no unrelated write is present\n        evals:\n        - id: eval_1\n          description: Independent behavioral proof for small-fix\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            small-fix --root .\n          verifies:\n          - B-1\n        - id: eval_2\n          description: Declared write surface only\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            write-boundary --root .\n          verifies:\n          - B-2\n        - id: eval_3\n          description: Registered issue evidence is unchanged\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            source-integrity --root .\n          verifies:\n          - B-2\n        anti_patterns:\n        - action: weaken the independent evaluator\n          reason: it would invalidate the comparison\n          instead: fix the behavior within the declared surface\n        - action: expand the scope\n          reason: it breaks matched permissions\n          instead: report the missing work as a blocker\n        - action: claim success without evidence\n          reason: a plausible patch does not establish behavior\n          instead: run the independent proof and report failures\n        do_not_touch:\n        - tests/fixtures/toolkit/pilot-issue.json\n        - tasks\n        rollback: Revert only this isolated candidate change.\n        observability: Retained provider output, evaluation result, and prospective\n          event journal.\n        execution_recipe: diagnose-repair-verify\n        proves_capabilities:\n        - LEG-SMALL-FIX\nsteel_thread:\n- LEG-SMALL-FIX\nobjections: []\ncontentions: []\n"
+    },
+    "steel-thread.md": {
+      "sha256": "4eb13fd026eb6d48b5f3daa30b89aec67fcd3e91a48400d61abb4b1483bd7fa7",
+      "content": "# Steel Thread\n\n1. [`LEG-SMALL-FIX`](legs/LEG-SMALL-FIX.md)\n\nThis is a derived critical capability path. It records ordering, not\nimplementation completion or dispatch authority.\n"
+    },
+    "swimlanes/LANE-SMALL-FIX.md": {
+      "sha256": "4bcca8eb44368c880164e8465a1af6d7a758e9f25be1f8f92d94e9ced30cd86f",
+      "content": "---\nschema_version: 1\nkind: swimlane\nclaim: derived\nid: LANE-SMALL-FIX\nname: small-fix delivery\nowner: pilot-small-fix\nseam_id: SEAM-SMALL-FIX\nsource_seam_sha256: 71cee7de0328a4381b2598bca3f33aed11847c79930b7379bbb916964676f941\nlegs:\n- LEG-SMALL-FIX\n---\n# small-fix delivery\n\nThis is the single owning swimlane for `SEAM-SMALL-FIX`. Ownership is `pilot-small-fix`.\nSibling capability legs are ordered only by explicit dependencies or recorded\ncontention\u2014not by their position in this file.\n"
+    },
+    "system-map.md": {
+      "sha256": "1c42801107b87d6ba0a9feca42cc84bde631f399cf2f8496a9704a5ec58dfca4",
+      "content": "---\nschema_version: 1\nkind: system-map\nclaim: proposed\ncomponents:\n- small-fix\nexternal_dependencies:\n- TaskSpec CLI and the independently registered evaluator\nunknowns: []\nproposed_steel_thread:\n- LEG-SMALL-FIX\nobjections: []\ncontentions: []\n---\n# System Map\n\n## Components\n\n- small-fix\n\n## External dependencies\n\n- TaskSpec CLI and the independently registered evaluator\n\n## Unknowns\n\n- (none)\n\nThis is a **proposed** map. The delivery-plan transformation must\nclose or gate every material unknown; it may not reinterpret this text as\nruntime proof.\n"
+    },
+    "delivery-plan.yaml": {
+      "sha256": "2a21ac073a5a961df623a064465f5d6673a31ad71b376ae84114f7ea98edd187",
+      "content": "schema_version: 1\nstatus: DELIVERY_PLAN=READY\nseam_map_sha256: 8acd164e02c0a845b92f10e9420871cd910a4d770ab43024623a9b0f1bd0ee53\nswimlanes:\n- id: LANE-SMALL-FIX\n  seam_id: SEAM-SMALL-FIX\n  owner: pilot-small-fix\n  path: tasks/.plans/pilot/swimlanes/LANE-SMALL-FIX.md\n  sha256: 4bcca8eb44368c880164e8465a1af6d7a758e9f25be1f8f92d94e9ced30cd86f\nlegs:\n- id: LEG-SMALL-FIX\n  seam_id: SEAM-SMALL-FIX\n  swimlane_id: LANE-SMALL-FIX\n  path: tasks/.plans/pilot/legs/LEG-SMALL-FIX.md\n  sha256: 9b1da53e57853262e67c53c0b7c4d213244d65dbd8de33a075a8d4d107662587\nsteel_thread:\n- LEG-SMALL-FIX\nobjections: []\ncontentions: []\nsteel_thread_path: tasks/.plans/pilot/steel-thread.md\nsteel_thread_sha256: 4eb13fd026eb6d48b5f3daa30b89aec67fcd3e91a48400d61abb4b1483bd7fa7\nreview_authority_sha256: f8a485a516572dacbb1ef42ce97db40b4dc54cdcbac941c60f41a8f5729007a8\n"
+    },
+    "reviews/delivery-plan-review.json": {
+      "sha256": "e860de30dc93a182ced4030d1b129b4501bc9b487b1001a6155469de8ca22545",
+      "content": "{\n  \"artifacts_sha256\": {\n    \"decisions/ADR-PILOT-SCOPE.md\": \"41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\",\n    \"evidence.jsonl\": \"08f02f7954d1eefc5eb61c74c2756b664733a1500c4e5ae7d640f8286e04f722\",\n    \"intent.md\": \"fdc5caec623c5ef6628d978246590e5a31be287886b1b18214fba1f960cdf8d4\",\n    \"legs/LEG-SMALL-FIX.md\": \"9b1da53e57853262e67c53c0b7c4d213244d65dbd8de33a075a8d4d107662587\",\n    \"proposed-graph.json\": \"3e954eb019df2039493b9db9ab5140c831b037b0ed3c3d77f9266b920c54a532\",\n    \"seam-map.yaml\": \"8acd164e02c0a845b92f10e9420871cd910a4d770ab43024623a9b0f1bd0ee53\",\n    \"seams/SEAM-SMALL-FIX.md\": \"71cee7de0328a4381b2598bca3f33aed11847c79930b7379bbb916964676f941\",\n    \"source-recipe.yaml\": \"8b52dc58905e6106d1779bc13f20c7b9625ec6509a0b353d9841946ee50b08b3\",\n    \"steel-thread.md\": \"4eb13fd026eb6d48b5f3daa30b89aec67fcd3e91a48400d61abb4b1483bd7fa7\",\n    \"swimlanes/LANE-SMALL-FIX.md\": \"4bcca8eb44368c880164e8465a1af6d7a758e9f25be1f8f92d94e9ced30cd86f\",\n    \"system-map.md\": \"1c42801107b87d6ba0a9feca42cc84bde631f399cf2f8496a9704a5ec58dfca4\"\n  },\n  \"disposition\": \"accepted\",\n  \"draft_sha256\": \"63816716f3f2972d00ba103550bc2a6c90d2afed9d88c5eed1b960741cb9f746\",\n  \"fixture\": false,\n  \"plan_sha256\": \"2a21ac073a5a961df623a064465f5d6673a31ad71b376ae84114f7ea98edd187\",\n  \"reason\": \"Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.\",\n  \"recipe_sha256\": \"8b52dc58905e6106d1779bc13f20c7b9625ec6509a0b353d9841946ee50b08b3\",\n  \"reviewed_at\": \"2026-09-14T20:58:14.961353+00:00\",\n  \"reviewer\": \"pilot-controller\",\n  \"schema_version\": 1,\n  \"signature\": \"hmac-taskplan-v1:971d630c:6235053d2edd7fc4be2ac16fe1d1b7f7be83ec589713d70d216ce231ebe1cd5e\",\n  \"topology_sha256\": \"3e954eb019df2039493b9db9ab5140c831b037b0ed3c3d77f9266b920c54a532\"\n}\n"
+    }
+  },
+  "units": {
+    "T-20260914-pilot-small-fix": {
+      "projection_digest": "08855d8c557685fe2dc711bf3e7f9594df13e674a30c6eda6456bb50265e8328",
+      "projection": {
+        "unit": {
+          "agent": "any",
+          "anti_patterns": [
+            "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+            "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+            "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+          ],
+          "behaviors": [
+            {
+              "given": "the registered repository issue and fixed authorized scope",
+              "id": "B-1",
+              "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+              "when": "the bounded implementation is independently evaluated"
+            },
+            {
+              "given": "the recorded evidence and authorization boundary",
+              "id": "B-2",
+              "then": "source evidence is unchanged and no unrelated write is present",
+              "when": "the candidate is checked"
+            }
+          ],
+          "context": "Intent DI-PILOT-SMALL-FIX; seam SEAM-SMALL-FIX; swimlane LANE-SMALL-FIX; capability leg LEG-SMALL-FIX. Done condition: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+          "creates_paths": [],
+          "depends_on": [],
+          "do_not_touch": [
+            "tests/fixtures/toolkit/pilot-issue.json",
+            "tasks"
+          ],
+          "done_condition": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+          "effort": "S",
+          "evals": [
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py small-fix --root .",
+              "description": "Independent behavioral proof for small-fix",
+              "expected_duration_sec": 10,
+              "id": "eval_1",
+              "terminal": false,
+              "verifies": [
+                "B-1"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+              "description": "Declared write surface only",
+              "expected_duration_sec": 10,
+              "id": "eval_2",
+              "terminal": false,
+              "verifies": [
+                "B-2"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+              "description": "Registered issue evidence is unchanged",
+              "expected_duration_sec": 10,
+              "id": "eval_3",
+              "terminal": true,
+              "verifies": [
+                "B-2"
+              ]
+            }
+          ],
+          "execution_backend": "any",
+          "execution_recipe": "diagnose-repair-verify",
+          "goal": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+          "id": "T-20260914-pilot-small-fix",
+          "observability": "Retained provider output, evaluation result, and prospective event journal.",
+          "profile": "standard",
+          "proves_capabilities": [
+            "LEG-SMALL-FIX"
+          ],
+          "required_tools": [
+            "git",
+            "bash",
+            "python3"
+          ],
+          "rollback": "Revert only this isolated candidate change.",
+          "source_note": "tasks/.plans/pilot/legs/LEG-SMALL-FIX.md#T-20260914-pilot-small-fix",
+          "title": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation",
+          "touches_paths": [
+            "src/recipe/recipes.py"
+          ],
+          "why": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation."
+        },
+        "intent": {
+          "id": "DI-PILOT-SMALL-FIX",
+          "title": "Valid execution recipes cannot be piped to recipe validate -",
+          "summary": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+          "claim": "proposed",
+          "source": {
+            "uri": "tests/fixtures/toolkit/pilot-issue.json",
+            "captured_at": "2026-09-14T20:20:46.550715+00:00",
+            "sha256": "0644414bcd86c5f0db2533901eb442e352d7feaf0cadf526a7e0dc9d392add23"
+          },
+          "success": [
+            "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation."
+          ],
+          "out_of_scope": [
+            "Changes outside the registered write surface.",
+            "Production deployment, policy changes, self-authorization, and independent agents."
+          ]
+        },
+        "original_intake": null,
+        "decisions": [
+          {
+            "id": "ADR-PILOT-SCOPE",
+            "status": "accepted",
+            "owner": "pilot-supervisor",
+            "rationale": "The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run."
+          }
+        ],
+        "seam": {
+          "id": "SEAM-SMALL-FIX",
+          "name": "small-fix",
+          "description": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+          "evidence": [
+            "E-PILOT-ISSUE"
+          ],
+          "responsibility": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+          "consumes": [
+            "registered issue"
+          ],
+          "produces": [
+            "small-fix verified behavior"
+          ],
+          "owner": "pilot-small-fix",
+          "independent_proof": "Run the registered independent small-fix evaluator.",
+          "decision_ids": [
+            "ADR-PILOT-SCOPE"
+          ],
+          "rejected_alternatives": [
+            {
+              "alternative": "Merge this responsibility into an unrelated task",
+              "reason": "Its write surface and independently assessable outcome belong to this boundary."
+            }
+          ]
+        },
+        "lane": {
+          "id": "LANE-SMALL-FIX",
+          "name": "small-fix delivery",
+          "owner": "pilot-small-fix"
+        },
+        "leg": {
+          "id": "LEG-SMALL-FIX",
+          "observable_state": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+          "proof": "The declared evaluator succeeds without widening the write surface.",
+          "requires": [],
+          "produces": [
+            "small-fix verified behavior"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E-PILOT-ISSUE",
+            "claim": "current",
+            "source": {
+              "uri": "tests/fixtures/toolkit/pilot-issue.json",
+              "captured_at": "2026-09-14T20:20:46.550715+00:00",
+              "sha256": "0644414bcd86c5f0db2533901eb442e352d7feaf0cadf526a7e0dc9d392add23"
+            },
+            "confidence": 1.0,
+            "summary": "A repository issue inspected before comparative execution; source digests and reproduction are retained."
+          }
+        ]
+      }
+    }
+  },
+  "signature": "hmac-taskplan-v1:971d630c:9e07d13da46f0306515287d5006ac4559d361a3d034476a7e495b987f2c5ac30"
+}

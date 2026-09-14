@@ -1,0 +1,199 @@
+{
+  "api_version": "taskspec.dev/v1",
+  "approved": true,
+  "kind": "TaskPlan",
+  "metadata": {
+    "delivery_plan_review_sha256": "810a054546087af257d9bd9182eb2875f1cf46f2251fb6895ebaccf05639dbc5",
+    "delivery_plan_sha256": "99b2f820d4f8a2d4937d749f33351caf228e9318dcddd8c29e87908024f8bbb7",
+    "name": "DI-PILOT-CONTENTION",
+    "native_initiative": "pilot",
+    "native_plan_status": "DELIVERY_PLAN=READY",
+    "producer": "taskspec",
+    "producer_version": "3.10.0",
+    "source": "tasks/.plans/pilot/task-plan.json"
+  },
+  "units": [
+    {
+      "agent": "any",
+      "anti_patterns": [
+        "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+        "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+        "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+      ],
+      "behaviors": [
+        {
+          "given": "the registered repository issue and fixed authorized scope",
+          "id": "B-1",
+          "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+          "when": "the bounded implementation is independently evaluated"
+        },
+        {
+          "given": "the recorded evidence and authorization boundary",
+          "id": "B-2",
+          "then": "source evidence is unchanged and no unrelated write is present",
+          "when": "the candidate is checked"
+        }
+      ],
+      "context": "Intent DI-PILOT-CONTENTION; seam SEAM-CONTENTION; swimlane LANE-CONTENTION; capability leg LEG-CONTENTION. Done condition: Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal, cancellation/reuse, and unchanged target assertions pass. Compile the helper from this repository with its VERSION; do not use an installed helper from another checkout.\n\nApplicable intent, capability, and evidence: {\"decisions\": [{\"id\": \"ADR-PILOT-SCOPE\", \"owner\": \"pilot-supervisor\", \"rationale\": \"The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run.\", \"status\": \"accepted\"}], \"evidence\": [{\"claim\": \"current\", \"confidence\": 1.0, \"id\": \"E-PILOT-ISSUE\", \"source\": {\"captured_at\": \"2026-09-14T20:20:46.550715+00:00\", \"sha256\": \"d3a1c617111eeccd8446a31b0a2a86a61674f7b972c8a0e5ab67c06de1a1eac8\", \"uri\": \"tests/fixtures/toolkit/pilot-issue.json\"}, \"summary\": \"A repository issue inspected before comparative execution; source digests and reproduction are retained.\"}], \"intent\": {\"claim\": \"proposed\", \"id\": \"DI-PILOT-CONTENTION\", \"out_of_scope\": [\"Changes outside the registered write surface.\", \"Production deployment, policy changes, self-authorization, and independent agents.\"], \"source\": {\"captured_at\": \"2026-09-14T20:20:46.550715+00:00\", \"sha256\": \"d3a1c617111eeccd8446a31b0a2a86a61674f7b972c8a0e5ab67c06de1a1eac8\", \"uri\": \"tests/fixtures/toolkit/pilot-issue.json\"}, \"success\": [\"Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state.\"], \"summary\": \"Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state.\", \"title\": \"Shared-resource conflicts across independent runs lack an end-to-end regression scenario\"}, \"lane\": {\"id\": \"LANE-CONTENTION\", \"name\": \"contention delivery\", \"owner\": \"pilot-contention\"}, \"leg\": {\"id\": \"LEG-CONTENTION\", \"observable_state\": \"Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal, cancellation/reuse, and unchanged target assertions pass. Compile the helper from this repository with its VERSION; do not use an installed helper from another checkout.\", \"produces\": [\"contention verified behavior\"], \"proof\": \"The declared evaluator succeeds without widening the write surface.\", \"requires\": [\"contention-worker verified behavior\"]}, \"original_intake\": null, \"seam\": {\"consumes\": [\"contention-worker verified behavior\"], \"decision_ids\": [\"ADR-PILOT-SCOPE\"], \"description\": \"Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal, cancellation/reuse, and unchanged target assertions pass. Compile the helper from this repository with its VERSION; do not use an installed helper from another checkout.\", \"evidence\": [\"E-PILOT-ISSUE\"], \"id\": \"SEAM-CONTENTION\", \"independent_proof\": \"Run the registered independent contention evaluator.\", \"name\": \"contention\", \"owner\": \"pilot-contention\", \"produces\": [\"contention verified behavior\"], \"rejected_alternatives\": [{\"alternative\": \"Merge this responsibility into an unrelated task\", \"reason\": \"Its write surface and independently assessable outcome belong to this boundary.\"}], \"responsibility\": \"Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal, cancellation/reuse, and unchanged target assertions pass. Compile the helper from this repository with its VERSION; do not use an installed helper from another checkout.\"}}",
+      "creates_paths": [
+        "tests/test-toolkit-resource-contention.sh"
+      ],
+      "depends_on": [
+        "T-20260914-pilot-contention-worker"
+      ],
+      "do_not_touch": [
+        "tests/fixtures/toolkit/pilot-issue.json",
+        "tasks"
+      ],
+      "done_condition": "Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal, cancellation/reuse, and unchanged target assertions pass. Compile the helper from this repository with its VERSION; do not use an installed helper from another checkout.",
+      "effort": "S",
+      "evals": [
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py contention --root .",
+          "description": "Independent behavioral proof for contention",
+          "expected_duration_sec": 10,
+          "id": "eval_1",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+          "description": "Declared write surface only",
+          "expected_duration_sec": 10,
+          "id": "eval_2",
+          "terminal": false,
+          "verifies": [
+            "B-2"
+          ]
+        },
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+          "description": "Registered issue evidence is unchanged",
+          "expected_duration_sec": 10,
+          "id": "eval_3",
+          "terminal": true,
+          "verifies": [
+            "B-2"
+          ]
+        }
+      ],
+      "execution_backend": "claude",
+      "execution_recipe": "diagnose-repair-verify",
+      "goal": "Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal, cancellation/reuse, and unchanged target assertions pass. Compile the helper from this repository with its VERSION; do not use an installed helper from another checkout.",
+      "id": "T-20260914-pilot-contention",
+      "observability": "Retained provider output, evaluation result, and prospective event journal.",
+      "profile": "standard",
+      "provenance": {
+        "contract": "TaskPlanProvenance/v1",
+        "initiative": "pilot",
+        "projection_digest": "8dfeec3825fe6a6f99bfb409f750052128a8140b05245ca667e2e6812388afeb",
+        "snapshot": "tasks/.plans/pilot/snapshots/8070bfc5bbb6c509ccc295dd454751f1e2752a25ce08b37093a5edcfd529fd41.json",
+        "snapshot_digest": "8070bfc5bbb6c509ccc295dd454751f1e2752a25ce08b37093a5edcfd529fd41"
+      },
+      "proves_capabilities": [
+        "LEG-CONTENTION-WORKER",
+        "LEG-CONTENTION"
+      ],
+      "required_tools": [
+        "git",
+        "bash",
+        "python3"
+      ],
+      "rollback": "Revert only this isolated candidate change.",
+      "source_note": "tasks/.plans/pilot/legs/LEG-CONTENTION.md#T-20260914-pilot-contention",
+      "title": "Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation",
+      "touches_paths": [],
+      "why": "Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state. Use tests/fixtures/toolkit/resource-worker.sh for the held attempt. Print TOOLKIT_RESOURCE_CONTENTION=PASS only after the live resource refusal, cancellation/reuse, and unchanged target assertions pass. Compile the helper from this repository with its VERSION; do not use an installed helper from another checkout."
+    },
+    {
+      "agent": "any",
+      "anti_patterns": [
+        "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+        "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+        "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+      ],
+      "behaviors": [
+        {
+          "given": "the registered repository issue and fixed authorized scope",
+          "id": "B-1",
+          "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+          "when": "the bounded implementation is independently evaluated"
+        },
+        {
+          "given": "the recorded evidence and authorization boundary",
+          "id": "B-2",
+          "then": "source evidence is unchanged and no unrelated write is present",
+          "when": "the candidate is checked"
+        }
+      ],
+      "context": "Intent DI-PILOT-CONTENTION; seam SEAM-CONTENTION-WORKER; swimlane LANE-CONTENTION-WORKER; capability leg LEG-CONTENTION-WORKER. Done condition: Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM. It must not change repository files or contact providers.\n\nApplicable intent, capability, and evidence: {\"decisions\": [{\"id\": \"ADR-PILOT-SCOPE\", \"owner\": \"pilot-supervisor\", \"rationale\": \"The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run.\", \"status\": \"accepted\"}], \"evidence\": [{\"claim\": \"current\", \"confidence\": 1.0, \"id\": \"E-PILOT-ISSUE\", \"source\": {\"captured_at\": \"2026-09-14T20:20:46.550715+00:00\", \"sha256\": \"d3a1c617111eeccd8446a31b0a2a86a61674f7b972c8a0e5ab67c06de1a1eac8\", \"uri\": \"tests/fixtures/toolkit/pilot-issue.json\"}, \"summary\": \"A repository issue inspected before comparative execution; source digests and reproduction are retained.\"}], \"intent\": {\"claim\": \"proposed\", \"id\": \"DI-PILOT-CONTENTION\", \"out_of_scope\": [\"Changes outside the registered write surface.\", \"Production deployment, policy changes, self-authorization, and independent agents.\"], \"source\": {\"captured_at\": \"2026-09-14T20:20:46.550715+00:00\", \"sha256\": \"d3a1c617111eeccd8446a31b0a2a86a61674f7b972c8a0e5ab67c06de1a1eac8\", \"uri\": \"tests/fixtures/toolkit/pilot-issue.json\"}, \"success\": [\"Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state.\"], \"summary\": \"Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state.\", \"title\": \"Shared-resource conflicts across independent runs lack an end-to-end regression scenario\"}, \"lane\": {\"id\": \"LANE-CONTENTION-WORKER\", \"name\": \"contention-worker delivery\", \"owner\": \"pilot-contention-worker\"}, \"leg\": {\"id\": \"LEG-CONTENTION-WORKER\", \"observable_state\": \"Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM. It must not change repository files or contact providers.\", \"produces\": [\"contention-worker verified behavior\"], \"proof\": \"The declared evaluator succeeds without widening the write surface.\", \"requires\": []}, \"original_intake\": null, \"seam\": {\"consumes\": [\"registered issue\"], \"decision_ids\": [\"ADR-PILOT-SCOPE\"], \"description\": \"Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM. It must not change repository files or contact providers.\", \"evidence\": [\"E-PILOT-ISSUE\"], \"id\": \"SEAM-CONTENTION-WORKER\", \"independent_proof\": \"Run the registered independent contention-worker evaluator.\", \"name\": \"contention-worker\", \"owner\": \"pilot-contention-worker\", \"produces\": [\"contention-worker verified behavior\"], \"rejected_alternatives\": [{\"alternative\": \"Merge this responsibility into an unrelated task\", \"reason\": \"Its write surface and independently assessable outcome belong to this boundary.\"}], \"responsibility\": \"Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM. It must not change repository files or contact providers.\"}}",
+      "creates_paths": [
+        "tests/fixtures/toolkit/resource-worker.sh"
+      ],
+      "depends_on": [],
+      "do_not_touch": [
+        "tests/fixtures/toolkit/pilot-issue.json",
+        "tasks"
+      ],
+      "done_condition": "Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM. It must not change repository files or contact providers.",
+      "effort": "S",
+      "evals": [
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py contention-worker --root .",
+          "description": "Independent behavioral proof for contention-worker",
+          "expected_duration_sec": 10,
+          "id": "eval_1",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+          "description": "Declared write surface only",
+          "expected_duration_sec": 10,
+          "id": "eval_2",
+          "terminal": false,
+          "verifies": [
+            "B-2"
+          ]
+        },
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+          "description": "Registered issue evidence is unchanged",
+          "expected_duration_sec": 10,
+          "id": "eval_3",
+          "terminal": true,
+          "verifies": [
+            "B-2"
+          ]
+        }
+      ],
+      "execution_backend": "claude",
+      "execution_recipe": "diagnose-repair-verify",
+      "goal": "Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM. It must not change repository files or contact providers.",
+      "id": "T-20260914-pilot-contention-worker",
+      "observability": "Retained provider output, evaluation result, and prospective event journal.",
+      "profile": "standard",
+      "provenance": {
+        "contract": "TaskPlanProvenance/v1",
+        "initiative": "pilot",
+        "projection_digest": "91fb5f88e8321b0521fe3f01c63a1e77aecd3202d5db059be9271de7a101b9ae",
+        "snapshot": "tasks/.plans/pilot/snapshots/8070bfc5bbb6c509ccc295dd454751f1e2752a25ce08b37093a5edcfd529fd41.json",
+        "snapshot_digest": "8070bfc5bbb6c509ccc295dd454751f1e2752a25ce08b37093a5edcfd529fd41"
+      },
+      "required_tools": [
+        "git",
+        "bash",
+        "python3"
+      ],
+      "rollback": "Revert only this isolated candidate change.",
+      "source_note": "tasks/.plans/pilot/legs/LEG-CONTENTION-WORKER.md#T-20260914-pilot-contention-worker",
+      "title": "Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM",
+      "touches_paths": [],
+      "why": "Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM. It must not change repository files or contact providers."
+    }
+  ]
+}

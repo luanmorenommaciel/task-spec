@@ -1,0 +1,28 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "plan",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskPlan/v1",
+    "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-w4x4vezb/task-spec-3.9.0/seamwise/task-plan.json",
+    "digest": "6943cc81816ebc6c67c23a8bb616bc0bbaf6e93bd146d940e472a26f59df301d",
+    "approved": true,
+    "valid": true,
+    "errors": [],
+    "warnings": [],
+    "units": [
+      {
+        "id": "T-20260914-pilot-investigation",
+        "title": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence",
+        "effort": "S",
+        "profile": "standard",
+        "execution_backend": "claude",
+        "depends_on": []
+      }
+    ]
+  },
+  "stdout": "",
+  "stderr": ""
+}

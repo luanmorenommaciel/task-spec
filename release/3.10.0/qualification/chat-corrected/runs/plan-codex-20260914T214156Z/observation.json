@@ -1,0 +1,68 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "plan",
+  "harness": "codex",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/chat-corrected/runs/plan-codex-20260914T214156Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "0ea460e49f8eb871743b9ad8a46ab9f4e18d8ea32814de03530ed7e3971c4233"
+    },
+    {
+      "path": "before.json",
+      "sha256": "ee7a2e6600a10476ed4723cb917bddc981b5b542b966a482efc255d5735fbf7a"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/plans/rate-limiting/proposal.md",
+      "sha256": "da4dd37993c866e1eb15a85a035ecac0590afad1c4daccfa22ecba1cb099b249"
+    },
+    {
+      "path": "changed-files/plans/rate-limiting/recipe.yaml",
+      "sha256": "77919ebdf66ec8dfb170d8156fc8f0c151563694ccaf01f3450b52ae7b7db302"
+    },
+    {
+      "path": "changed-files/tasks/.plans/rate-limiting/intake.md",
+      "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "88d8c1569ac6e5a66a714b000f03983e191446ec4b73e25ea7f69db34677b6d2"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "123760e28f5db20ca51861f701c799866e6a73f6af8a5196717cf6baf793b79c"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "a50c81907b5cb739d3d3821eb8c5555477b4a59f8e1b31043b17a56582522fbc"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "eb08ea1d0fedeafa71c7cdf15cb7c863a763d258019731e49f90396ba80fb6a1"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "ee7a67b838c216553cbade2aeb5320bf1dd9dfcba68ccbcd5263783176ca9868"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "fa2ef2d7769402e117901b8a7f334f84175838979f3397cbe8d99541143b36ee"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "384a42462a15221907e626a045347e995e416851b12ac863593eaaf69cc6d5f9"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "0e802fc01b9052477a3ca2fd2ab6040282bac3972baacf5a81725b582de4072b"
+    }
+  ]
+}

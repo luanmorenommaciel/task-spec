@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "status": "TASK_GRAPH=READY",
+  "plan_sha256": "63816716f3f2972d00ba103550bc2a6c90d2afed9d88c5eed1b960741cb9f746",
+  "nodes": [
+    {
+      "id": "T-20260914-pilot-small-fix",
+      "title": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation",
+      "seam_id": "SEAM-SMALL-FIX",
+      "swimlane_id": "LANE-SMALL-FIX",
+      "leg_id": "LEG-SMALL-FIX",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+      "touches_paths": [
+        "src/recipe/recipes.py"
+      ],
+      "creates_paths": []
+    }
+  ],
+  "edges": [],
+  "contentions": [],
+  "critical_path": [
+    "T-20260914-pilot-small-fix"
+  ],
+  "critical_path_mermaid_sha256": "b74c7eb7a8ec0e4abe6719a2b69f1909145e6e6480182af4134be107fdafcdfb"
+}

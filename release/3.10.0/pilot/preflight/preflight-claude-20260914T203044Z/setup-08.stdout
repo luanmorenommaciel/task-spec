@@ -1,0 +1,5 @@
+TaskPlan v1 · approved · digest 5ecf9c62b50c
+ID                                     KIND   SIZE BACKEND      TITLE
+T-20260914-pilot-stdin                 leaf   S    claude       Validate resolved recipes from standard input
+created: 1 Task-Spec scaffold(s) in tasks/
+TASK_BATCH=OK

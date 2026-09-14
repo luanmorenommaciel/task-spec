@@ -1,0 +1,28 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "plan",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskPlan/v1",
+    "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-u8pfal8y/task-spec-3.9.0/seamwise/task-plan.json",
+    "digest": "162839f92a8a6030701fff1649ca60cd58dd45c92906cb7bebc3ccdacff923c9",
+    "approved": true,
+    "valid": true,
+    "errors": [],
+    "warnings": [],
+    "units": [
+      {
+        "id": "T-20260914-pilot-small-fix",
+        "title": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation",
+        "effort": "S",
+        "profile": "standard",
+        "execution_backend": "any",
+        "depends_on": []
+      }
+    ]
+  },
+  "stdout": "",
+  "stderr": ""
+}

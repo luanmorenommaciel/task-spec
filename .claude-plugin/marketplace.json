@@ -1,12 +1,14 @@
 {
   "name": "taskspec",
-  "owner": {"name": "Luan Moreno"},
+  "owner": {
+    "name": "Luan Moreno"
+  },
   "plugins": [
     {
       "name": "task-spec",
       "source": "./",
       "description": "Canonical Task-Spec skill and revision-bound CLI contract",
-      "version": "3.9.0"
+      "version": "3.10.0"
     }
   ]
 }

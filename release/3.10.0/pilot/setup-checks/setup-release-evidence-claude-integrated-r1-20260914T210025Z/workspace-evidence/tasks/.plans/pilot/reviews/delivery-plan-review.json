@@ -1,0 +1,26 @@
+{
+  "artifacts_sha256": {
+    "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+    "evidence.jsonl": "4a4e24c3c7c6ba52e2d175eda8d73d187d2721faeb98a62eb02fd9eda81563c4",
+    "intent.md": "ad03803c7a9a63e33e6fc8ad02ef07073a590bdd5f14cf70a5887a6c38a8aa40",
+    "legs/LEG-RELEASE-EVIDENCE.md": "df6349a0a2cdec5ebf15fb28d2b240c7d2f0ed6983f6739398b3be4daf2d8f2f",
+    "proposed-graph.json": "c468e82eff1bce29749de6e52fa3408678fa09ab7d6769f715ee36b3a5e38db7",
+    "seam-map.yaml": "d8980744a6c1099c4cadceecc248053b267252041d12e134666bf6e5643cfce6",
+    "seams/SEAM-RELEASE-EVIDENCE.md": "3aebc56dd4c9bdcdee1fbbf952e8d6ced8058feb3f563c25e1adaf2db5702ee6",
+    "source-recipe.yaml": "1de13c3d0a09ea8e0da589312f7c61e00a711ea2889cd4f421982bc79c620e59",
+    "steel-thread.md": "932d85e15119e7c43b74c4ccee83c15bc50508e4fdf7a20254ff46dc91484f64",
+    "swimlanes/LANE-RELEASE-EVIDENCE.md": "c35fcb133df867404533a1cf05ef77db83723d5c52369a6551012ac90ec7d447",
+    "system-map.md": "6cfcdb24274d49d04ab6824dc994a83727466e147bbf019e0c2b1938c5cfee0e"
+  },
+  "disposition": "accepted",
+  "draft_sha256": "7e9dc1a97b6dcf0ce5057fae53bba2437681938e94177c982863459ce7ff859e",
+  "fixture": false,
+  "plan_sha256": "fa9a8872887cd0b02b9a55f66b1ff1d32420cbaac908eebadcd6ae12a0b05f9b",
+  "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "recipe_sha256": "1de13c3d0a09ea8e0da589312f7c61e00a711ea2889cd4f421982bc79c620e59",
+  "reviewed_at": "2026-09-14T21:00:31.697869+00:00",
+  "reviewer": "pilot-controller",
+  "schema_version": 1,
+  "signature": "hmac-taskplan-v1:5afec2c1:de0e0e4b815604c7b2c90803d13b65aaf406ce2fb648ca1a92412ccfd78695cd",
+  "topology_sha256": "c468e82eff1bce29749de6e52fa3408678fa09ab7d6769f715ee36b3a5e38db7"
+}

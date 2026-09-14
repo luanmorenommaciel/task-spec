@@ -1,0 +1,24 @@
+{
+  "attempt_id": "26c4bd3e-fa34-49af-8f1a-278d196ea69e",
+  "contract": "TaskRecipeRound/v1",
+  "evaluation": "{\"eval\":\"eval_1\",\"status\":\"pass\",\"duration_sec\":2,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"cross-seam\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n{\"eval\":\"eval_2\",\"status\":\"pass\",\"duration_sec\":1,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"write-boundary\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n{\"eval\":\"eval_3\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"source-integrity\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n{\"eval\":\"_exit_check\",\"status\":\"pass\",\"duration_sec\":3,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"cross-seam\\\", \\\"passed\\\": true}\\n{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"write-boundary\\\", \\\"passed\\\": true}\\n{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"source-integrity\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n",
+  "evaluation_environment": "sanitized_host",
+  "execution_identity": {
+    "model": "gpt-6-astra",
+    "provider": null,
+    "reported_models": [],
+    "source": "explicit_route"
+  },
+  "finished_at": "2026-09-14T21:03:09.674221Z",
+  "harness": "pilot-smoke",
+  "harness_version": "pilot-overview/1",
+  "model": "gpt-6-astra",
+  "provider": null,
+  "round": 1,
+  "sandbox_evidence": "",
+  "scope_digest": "9015345063939c1e2027feb2b9ad7cb328f03ad9418d0dcf4eb419ea9885e4fc",
+  "started_at": "2026-09-14T21:03:00.635052Z",
+  "strategy": "diagnose-repair-verify",
+  "strategy_version": "1.0.0",
+  "usage": null
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schemas/task-plan-snapshot.schema.json",
+  "title": "TaskPlanSnapshot/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "initiative",
+    "review",
+    "reviewed_artifacts",
+    "units",
+    "signature"
+  ],
+  "properties": {
+    "contract": {
+      "const": "TaskPlanSnapshot/v1"
+    },
+    "initiative": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,79}$"
+    },
+    "review": {
+      "$ref": "decompose-delivery-plan-review.schema.json"
+    },
+    "reviewed_artifacts": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sha256",
+          "content"
+        ],
+        "properties": {
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "units": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "projection_digest",
+          "projection"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "projection_digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "projection": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^hmac-taskplan-v1:[a-f0-9]{8}:[a-f0-9]{64}$"
+    }
+  }
+}

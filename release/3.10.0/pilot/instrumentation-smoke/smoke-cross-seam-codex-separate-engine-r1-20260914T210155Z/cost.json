@@ -1,0 +1,15 @@
+{
+  "complete": false,
+  "cost_including_failures": null,
+  "cost_basis": "api_equivalent_estimate",
+  "invocations": [
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/26c4bd3e-fa34-49af-8f1a-278d196ea69e.round-1.json",
+      "known": false
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/44b5a846-7721-48c0-ae5d-cd75b3b29f2a.round-1.json",
+      "known": false
+    }
+  ]
+}

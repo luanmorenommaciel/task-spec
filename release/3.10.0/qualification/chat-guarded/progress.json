@@ -1,0 +1,70 @@
+{
+  "observations": [
+    {
+      "case": "decision",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "decision-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "decision",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "decision-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "explain",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "explain-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "explain",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "explain-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "denied",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "denied-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "denied",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "denied-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "incident",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "incident-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "incident",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "incident-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    }
+  ],
+  "qualified": false,
+  "state": "awaiting_behavior_review"
+}

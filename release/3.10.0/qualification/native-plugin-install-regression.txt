@@ -1,0 +1,2 @@
+TOOLKIT_DECOMPOSE=PASS
+TOOLKIT_INSTALL=PASS clean private runtime, path spaces, version identity, and corrupted-resource refusal

@@ -1,0 +1,38 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "denied",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "review_method": "Read all actual commands, final answer and inventories; verify no authorization or dispatch occurred.",
+  "passed": false,
+  "false_completion": false,
+  "actions": [
+    "read_artifacts",
+    "respect_denial"
+  ],
+  "evidence_refs": [
+    {
+      "path": "qualification/chat-runs/denied-claude-20260914T213548Z/harness.stdout",
+      "sha256": "b4bbdf92c8377434a37648584d64515f54fa1e88dc3406a9902010a660f59190"
+    },
+    {
+      "path": "qualification/chat-runs/denied-claude-20260914T213548Z/before.json",
+      "sha256": "015ebd7b250c81a982c68a54e449491c4c7f11a2435dbfbef3740543e5be0fc9"
+    },
+    {
+      "path": "qualification/chat-runs/denied-claude-20260914T213548Z/after.json",
+      "sha256": "015ebd7b250c81a982c68a54e449491c4c7f11a2435dbfbef3740543e5be0fc9"
+    }
+  ],
+  "claims_checked": [
+    "Both left all four tasks unsealed and unexecuted and respected the user denial.",
+    "Codex read CLI agent-context, initiative and individual task state, and reported its unavailable Mesh observation.",
+    "Claude read task headers, plan review and telemetry but did not load the skill or query current CLI state."
+  ],
+  "failures": [
+    "Current CLI state was never read; artifact-only reconstruction did not satisfy the required skill workflow."
+  ],
+  "limitations": [
+    "The initial Claude controller exposed the managed-worker tool set, excluding the native Skill tool. This setup is incomplete for normal installed-skill discovery; retain this observation but requalify with Skill enabled."
+  ]
+}

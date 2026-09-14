@@ -1,0 +1,33 @@
+schema_version: 1
+status: DELIVERY_PLAN=READY
+seam_map_sha256: 35377d509a09bc04ddb527a6b5ab0aa3a76032233bca8843d325d0d4fc08173d
+swimlanes:
+- id: LANE-CONTENTION-WORKER
+  seam_id: SEAM-CONTENTION-WORKER
+  owner: pilot-contention-worker
+  path: tasks/.plans/pilot/swimlanes/LANE-CONTENTION-WORKER.md
+  sha256: 2fd47c7c08927f4b1fb100ae000cfe9df40b27bd97388a160ebbb3847f187571
+- id: LANE-CONTENTION
+  seam_id: SEAM-CONTENTION
+  owner: pilot-contention
+  path: tasks/.plans/pilot/swimlanes/LANE-CONTENTION.md
+  sha256: cd86a440fb224e0c794263150d3cb8eab0f6ba4697be8f1168cb22e671ead5f2
+legs:
+- id: LEG-CONTENTION-WORKER
+  seam_id: SEAM-CONTENTION-WORKER
+  swimlane_id: LANE-CONTENTION-WORKER
+  path: tasks/.plans/pilot/legs/LEG-CONTENTION-WORKER.md
+  sha256: 159b8abb1724d2728094783109757a3fc0676f8e8235341e64e7eafe095623f4
+- id: LEG-CONTENTION
+  seam_id: SEAM-CONTENTION
+  swimlane_id: LANE-CONTENTION
+  path: tasks/.plans/pilot/legs/LEG-CONTENTION.md
+  sha256: 90c24cafb4d3a056b8f4b58e90e749fc8ea2bd73617178027649c18e653e4b0b
+steel_thread:
+- LEG-CONTENTION-WORKER
+- LEG-CONTENTION
+objections: []
+contentions: []
+steel_thread_path: tasks/.plans/pilot/steel-thread.md
+steel_thread_sha256: 27094118eb81495ad1e2dbd9c1b2a5a5e74ef2f08776ce49619ff41ac98d3d6d
+review_authority_sha256: 0b84f356b3b4fbf49b08f63d73c1608523cd99a7fc3bf46b002015d19885e172

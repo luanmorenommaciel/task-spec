@@ -1,0 +1,2 @@
+TOOLKIT_ATTESTED=PASS two rounds, distinct revoked credentials, signed evidence, canonical acceptance
+MESH_ISOLATION=READY

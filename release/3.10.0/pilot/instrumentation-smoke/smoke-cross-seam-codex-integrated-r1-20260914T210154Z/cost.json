@@ -1,0 +1,15 @@
+{
+  "complete": false,
+  "cost_including_failures": null,
+  "cost_basis": "api_equivalent_estimate",
+  "invocations": [
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-integrated-r1-20260914T210154Z/mesh-artifacts/9c161ddf-3554-4f1f-a36c-62d1bd27a757.round-1.json",
+      "known": false
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-integrated-r1-20260914T210154Z/mesh-artifacts/9f07339c-742a-4955-a519-866a33822bd8.round-1.json",
+      "known": false
+    }
+  ]
+}

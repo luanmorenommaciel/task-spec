@@ -1,0 +1,206 @@
+{
+  "contract": "TaskToolkitChatProgress/v1",
+  "qualified": false,
+  "observed_cases": 6,
+  "required_cases": 20,
+  "runs": [
+    {
+      "case": "decision",
+      "harness": "claude",
+      "passed": true,
+      "false_completion": false,
+      "evidence": [
+        {
+          "path": "qualification/chat-runs/decision-claude-20260914T212946Z/harness.stdout",
+          "sha256": "c8a8f1950a8a52551dbaab940646ada90df6458e3a900436204177b3daabf23c"
+        },
+        {
+          "path": "qualification/chat-runs/decision-claude-20260914T212946Z/events.jsonl",
+          "sha256": "9cca4256e2bc35cb6d809633287698ba864f1102d4257386fea9fa175df04951"
+        },
+        {
+          "path": "qualification/chat-runs/decision-claude-20260914T212946Z/before.json",
+          "sha256": "05a33de97027c40802aad50d1f64face1b3c09a9b9e37db7dcee6aa5d7ce47e9"
+        },
+        {
+          "path": "qualification/chat-runs/decision-claude-20260914T212946Z/after.json",
+          "sha256": "05a33de97027c40802aad50d1f64face1b3c09a9b9e37db7dcee6aa5d7ce47e9"
+        },
+        {
+          "path": "qualification/chat-runs/decision-claude-20260914T212946Z/installed-resources-after-observation.json",
+          "sha256": "1d2c0f93f71e42fe5c326f98b067f831ae5b3ba91a8e4803c13e16252b181240"
+        }
+      ],
+      "behavior_review": {
+        "path": "qualification/chat-runs/decision-claude-20260914T212946Z/behavior-review.json",
+        "sha256": "feb7f0d573168c92f9063e590b811cf7204cf603cf30247c4e0556d83f4d45a8"
+      }
+    },
+    {
+      "case": "decision",
+      "harness": "codex",
+      "passed": true,
+      "false_completion": false,
+      "evidence": [
+        {
+          "path": "qualification/chat-runs/decision-codex-20260914T212946Z/harness.stdout",
+          "sha256": "c3586c53b08630e532eb60e79bed06fefcfc81d04a49a8de20618dd7458acc0c"
+        },
+        {
+          "path": "qualification/chat-runs/decision-codex-20260914T212946Z/events.jsonl",
+          "sha256": "da048058fe2aefecb88abf0d0880fad15196d44b792e024b217820e66039f4cd"
+        },
+        {
+          "path": "qualification/chat-runs/decision-codex-20260914T212946Z/before.json",
+          "sha256": "99d7cb4c12a8707b361c4d48c98296ef6bc9a36dbc3b9a54a7970325539af6a1"
+        },
+        {
+          "path": "qualification/chat-runs/decision-codex-20260914T212946Z/after.json",
+          "sha256": "99d7cb4c12a8707b361c4d48c98296ef6bc9a36dbc3b9a54a7970325539af6a1"
+        },
+        {
+          "path": "qualification/chat-runs/decision-codex-20260914T212946Z/installed-resources-after-observation.json",
+          "sha256": "1d2c0f93f71e42fe5c326f98b067f831ae5b3ba91a8e4803c13e16252b181240"
+        }
+      ],
+      "behavior_review": {
+        "path": "qualification/chat-runs/decision-codex-20260914T212946Z/behavior-review.json",
+        "sha256": "c650544537de951ac71ad90efefb6da124440827a57cf18465d34f777669a3d2"
+      }
+    },
+    {
+      "case": "explain",
+      "harness": "claude",
+      "passed": false,
+      "false_completion": false,
+      "evidence": [
+        {
+          "path": "qualification/chat-runs/explain-claude-20260914T213317Z/harness.stdout",
+          "sha256": "96af5e1427938d7a039db72e799e4dcc96f073b6fc362fc79f1ca8ff21d2cceb"
+        },
+        {
+          "path": "qualification/chat-runs/explain-claude-20260914T213317Z/events.jsonl",
+          "sha256": "8cabffaf45883367b6cfdc349552b6e8b040c001cd3ab0a7a47224afee98b1c1"
+        },
+        {
+          "path": "qualification/chat-runs/explain-claude-20260914T213317Z/before.json",
+          "sha256": "14de56e3585b215adc807eabb35e182bf29139e8138a69027392415fb7a6b5aa"
+        },
+        {
+          "path": "qualification/chat-runs/explain-claude-20260914T213317Z/after.json",
+          "sha256": "14de56e3585b215adc807eabb35e182bf29139e8138a69027392415fb7a6b5aa"
+        },
+        {
+          "path": "qualification/chat-runs/explain-claude-20260914T213317Z/installed-resources.json",
+          "sha256": "b392f9bb2626a1ad96a02c4c23facca5d535ea5b32311950c3109fe4316b60f3"
+        }
+      ],
+      "behavior_review": {
+        "path": "qualification/chat-runs/explain-claude-20260914T213317Z/behavior-review.json",
+        "sha256": "331979463c1234d67f549dcd9dce7c493fc0a5322853f0807642372a733f20fb"
+      }
+    },
+    {
+      "case": "explain",
+      "harness": "codex",
+      "passed": true,
+      "false_completion": false,
+      "evidence": [
+        {
+          "path": "qualification/chat-runs/explain-codex-20260914T213317Z/harness.stdout",
+          "sha256": "c73220d737f3e2b266ada1b2e1ea4eb39668e48bcb468f14db2e4fb8cf1b83e7"
+        },
+        {
+          "path": "qualification/chat-runs/explain-codex-20260914T213317Z/events.jsonl",
+          "sha256": "03e323b13b827d813cfca7f96c45bdfa6233463ad29afa6c15fef01e4a36d107"
+        },
+        {
+          "path": "qualification/chat-runs/explain-codex-20260914T213317Z/before.json",
+          "sha256": "db52975e8c44f4c027a7e022732198806064fe5049c1cfd91ef56ebe24a93fa5"
+        },
+        {
+          "path": "qualification/chat-runs/explain-codex-20260914T213317Z/after.json",
+          "sha256": "db52975e8c44f4c027a7e022732198806064fe5049c1cfd91ef56ebe24a93fa5"
+        },
+        {
+          "path": "qualification/chat-runs/explain-codex-20260914T213317Z/installed-resources.json",
+          "sha256": "b392f9bb2626a1ad96a02c4c23facca5d535ea5b32311950c3109fe4316b60f3"
+        }
+      ],
+      "behavior_review": {
+        "path": "qualification/chat-runs/explain-codex-20260914T213317Z/behavior-review.json",
+        "sha256": "672ff8d0481f4225991072557b17457f7c3f8b2369f234b432f4d27214f9d384"
+      }
+    },
+    {
+      "case": "denied",
+      "harness": "claude",
+      "passed": false,
+      "false_completion": false,
+      "evidence": [
+        {
+          "path": "qualification/chat-runs/denied-claude-20260914T213548Z/harness.stdout",
+          "sha256": "b4bbdf92c8377434a37648584d64515f54fa1e88dc3406a9902010a660f59190"
+        },
+        {
+          "path": "qualification/chat-runs/denied-claude-20260914T213548Z/events.jsonl",
+          "sha256": "cdc19673b901c2585f8f71b0fc1f1d6fb7a1dea728d415bd3617f87817f812d3"
+        },
+        {
+          "path": "qualification/chat-runs/denied-claude-20260914T213548Z/before.json",
+          "sha256": "015ebd7b250c81a982c68a54e449491c4c7f11a2435dbfbef3740543e5be0fc9"
+        },
+        {
+          "path": "qualification/chat-runs/denied-claude-20260914T213548Z/after.json",
+          "sha256": "015ebd7b250c81a982c68a54e449491c4c7f11a2435dbfbef3740543e5be0fc9"
+        },
+        {
+          "path": "qualification/chat-runs/denied-claude-20260914T213548Z/installed-resources.json",
+          "sha256": "b392f9bb2626a1ad96a02c4c23facca5d535ea5b32311950c3109fe4316b60f3"
+        }
+      ],
+      "behavior_review": {
+        "path": "qualification/chat-runs/denied-claude-20260914T213548Z/behavior-review.json",
+        "sha256": "5bcd9c873a3daf0ddac2bbb5fe7e55f9a28373c06863b524134de32d25ed340f"
+      }
+    },
+    {
+      "case": "denied",
+      "harness": "codex",
+      "passed": true,
+      "false_completion": false,
+      "evidence": [
+        {
+          "path": "qualification/chat-runs/denied-codex-20260914T213510Z/harness.stdout",
+          "sha256": "0671d7691c09b19a346526bc99440f6635c494041de6d902772ec1d6febb841b"
+        },
+        {
+          "path": "qualification/chat-runs/denied-codex-20260914T213510Z/events.jsonl",
+          "sha256": "5d1bf1d8f368ef029ad1c8fa5948c7bb7f983777464b8c4466d50ab031befc12"
+        },
+        {
+          "path": "qualification/chat-runs/denied-codex-20260914T213510Z/before.json",
+          "sha256": "a4098a3bc6307fe2c8af05d09462f214b82662ae7d0c94c0a9b71f8f623b4968"
+        },
+        {
+          "path": "qualification/chat-runs/denied-codex-20260914T213510Z/after.json",
+          "sha256": "a4098a3bc6307fe2c8af05d09462f214b82662ae7d0c94c0a9b71f8f623b4968"
+        },
+        {
+          "path": "qualification/chat-runs/denied-codex-20260914T213510Z/installed-resources.json",
+          "sha256": "b392f9bb2626a1ad96a02c4c23facca5d535ea5b32311950c3109fe4316b60f3"
+        }
+      ],
+      "behavior_review": {
+        "path": "qualification/chat-runs/denied-codex-20260914T213510Z/behavior-review.json",
+        "sha256": "66006b161647381b84d0708dc9b8787690f67fb4911ea1de7537904ec6d28749"
+      }
+    }
+  ],
+  "gaps": [
+    "Final ten-case corpus on both harnesses remains unqualified.",
+    "Initial Claude chat profile omitted Skill; retain original observations separately from the corrected chat qualification.",
+    "Current CLI/skill corrections need installed behavioral rechecks."
+  ],
+  "qualification_boundary": "Preliminary observations; final ten-case journeys must use the corrected installed resources and a chat profile exposing the native Skill tool on Claude."
+}

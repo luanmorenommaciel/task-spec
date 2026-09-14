@@ -1,0 +1,1 @@
+{"hooks": {"PreToolUse": [{"matcher": ".*", "hooks": [{"type": "command", "timeout": 10, "command": "/opt/homebrew/opt/python@3.14/bin/python3.14 /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/claude_permission_guard.py --events /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-plugin-discovery-01d_wexy/native-skill.stdout"}]}]}}

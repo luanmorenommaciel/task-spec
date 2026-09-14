@@ -424,6 +424,8 @@ func (store *Store) runSandbox(ctx context.Context, lease Lease, handoff, prompt
 	if err != nil {
 		return SandboxRunResult{}, codedError{Code: "CREDENTIAL_BOUNDARY_UNVERIFIED", Message: err.Error()}
 	}
+	// Every exit, including setup failures before worker start, closes this capability.
+	defer store.setCredentialState(lease.AttemptID, "revoked")
 	capabilityPath, err := writeSecretFile(store.repository, lease.AttemptID+".capability", capability)
 	if err != nil {
 		return SandboxRunResult{}, err
@@ -542,6 +544,10 @@ func mustTime(raw string) time.Time {
 }
 
 func (store *Store) finalizeSandboxEvidence(lease Lease, handoff, artifact, artifactDigest string, result *SandboxRunResult) error {
+	return store.finalizeSandboxEvidenceIn(context.Background(), lease, handoff, artifact, artifactDigest, result, "")
+}
+
+func (store *Store) finalizeSandboxEvidenceIn(ctx context.Context, lease Lease, handoff, artifact, artifactDigest string, result *SandboxRunResult, suffix string) error {
 	privateKey, publicKey, trustRegistry, err := privateKeyOutsideRepository(store.repository)
 	if err != nil {
 		return codedError{Code: "CREDENTIAL_BOUNDARY_UNVERIFIED", Message: err.Error()}
@@ -563,7 +569,7 @@ func (store *Store) finalizeSandboxEvidence(lease Lease, handoff, artifact, arti
 		return fmt.Errorf("handoff source is missing")
 	}
 	artifacts := filepath.Join(store.repository.StateDir, "artifacts")
-	attestationPath := filepath.Join(artifacts, lease.AttemptID+"-environment-attestation.json")
+	attestationPath := filepath.Join(artifacts, lease.AttemptID+suffix+"-environment-attestation.json")
 	attestation := map[string]any{
 		"contract": "EnvironmentAttestation/v1", "observed_at": result.FinishedAt, "result": "pass", "verified": true,
 		"runtime":      map[string]any{"name": result.Runtime, "version": runtimeVersion(result.Runtime), "kernel": runtimeKernel(result.Runtime)},
@@ -577,12 +583,12 @@ func (store *Store) finalizeSandboxEvidence(lease Lease, handoff, artifact, arti
 	if err := atomicJSON(attestationPath, attestation, 0o600); err != nil {
 		return err
 	}
-	environmentContractPath := filepath.Join(artifacts, lease.AttemptID+"-environment-contract.json")
+	environmentContractPath := filepath.Join(artifacts, lease.AttemptID+suffix+"-environment-contract.json")
 	environmentContract := map[string]any{"contract": "EnvironmentContract/v1", "runtime": map[string]any{"name": result.Runtime, "image_digest": result.ImageDigest}, "network": map[string]any{"mode": "attempt_proxy_only"}, "filesystem": map[string]any{"workspace": lease.Workspace, "writes": []string{"authorized-task-scope"}}}
 	if err := atomicJSON(environmentContractPath, environmentContract, 0o600); err != nil {
 		return err
 	}
-	credentialPath := filepath.Join(artifacts, lease.AttemptID+"-credential-lease.json")
+	credentialPath := filepath.Join(artifacts, lease.AttemptID+suffix+"-credential-lease.json")
 	credentialRecord := result.Credential
 	credentialRecord.State = "active"
 	if err := atomicJSON(credentialPath, credentialRecord, 0o600); err != nil {
@@ -592,15 +598,15 @@ func (store *Store) finalizeSandboxEvidence(lease Lease, handoff, artifact, arti
 	if err != nil {
 		return err
 	}
-	unsigned := filepath.Join(artifacts, lease.AttemptID+"-environment-receipt-unsigned.json")
-	receipt := filepath.Join(artifacts, lease.AttemptID+"-environment-receipt.json")
+	unsigned := filepath.Join(artifacts, lease.AttemptID+suffix+"-environment-receipt-unsigned.json")
+	receipt := filepath.Join(artifacts, lease.AttemptID+suffix+"-environment-receipt.json")
 	baseEnvironment, _ := sanitizedEnvironment()
-	create := exec.Command("bash", cli, "receipt", "environment", "--task-id", lease.TaskID, "--contract", environmentContractPath, "--provider", "taskmesh-"+result.Runtime+"-attestor", "--attestation", attestationPath, "--handoff", handoff, "--out", unsigned)
+	create := exec.CommandContext(ctx, "bash", cli, "receipt", "environment", "--task-id", lease.TaskID, "--contract", environmentContractPath, "--provider", "taskmesh-"+result.Runtime+"-attestor", "--attestation", attestationPath, "--handoff", handoff, "--out", unsigned)
 	create.Dir, create.Env = lease.Workspace, baseEnvironment
 	if output, err := create.CombinedOutput(); err != nil {
 		return fmt.Errorf("create environment receipt: %s: %w", strings.TrimSpace(string(output)), err)
 	}
-	sign := exec.Command("bash", cli, "receipt", "sign", unsigned, "--private-key", privateKey, "--public-key", publicKey, "--out", receipt)
+	sign := exec.CommandContext(ctx, "bash", cli, "receipt", "sign", unsigned, "--private-key", privateKey, "--public-key", publicKey, "--out", receipt)
 	sign.Dir, sign.Env = lease.Workspace, baseEnvironment
 	if output, err := sign.CombinedOutput(); err != nil {
 		return fmt.Errorf("sign environment receipt: %s: %w", strings.TrimSpace(string(output)), err)
@@ -609,14 +615,14 @@ func (store *Store) finalizeSandboxEvidence(lease Lease, handoff, artifact, arti
 	if err != nil {
 		return err
 	}
-	verify := exec.Command("python3", filepath.Join(home, "src", "evidence", "environment_attestation.py"), "verify", attestationPath, "--receipt", receipt, "--trust-registry", trustRegistry)
+	verify := exec.CommandContext(ctx, "python3", filepath.Join(home, "src", "evidence", "environment_attestation.py"), "verify", attestationPath, "--receipt", receipt, "--trust-registry", trustRegistry)
 	verify.Dir, verify.Env = lease.Workspace, baseEnvironment
 	if output, err := verify.CombinedOutput(); err != nil {
 		return fmt.Errorf("verify environment evidence: %s: %w", strings.TrimSpace(string(output)), err)
 	}
 	attestationRaw, _ := os.ReadFile(attestationPath)
 	attestationHash := sha256.Sum256(attestationRaw)
-	evidencePath := filepath.Join(artifacts, lease.AttemptID+"-sandbox-evidence.json")
+	evidencePath := filepath.Join(artifacts, lease.AttemptID+suffix+"-sandbox-evidence.json")
 	evidence := map[string]any{
 		"contract": "SandboxEvidence/v1", "subject": map[string]any{
 			"task_id": lease.TaskID, "task_revision_digest": lease.TaskRevisionDigest,

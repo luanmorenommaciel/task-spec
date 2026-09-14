@@ -1,0 +1,7 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat s9qlbvqf",
+  "case": "incident",
+  "source_commit": "ae2b7dd54dd669c2237a80ff825b13a10a6ba396",
+  "installed_skill_sha256": "21419c00b6d3867c49b1174646489d3036c710fef03de5062ad074dd9385a7d7",
+  "engine_version": "3.10.0"
+}

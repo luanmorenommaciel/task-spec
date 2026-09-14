@@ -1,0 +1,10 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "decompose",
+  "ok": false,
+  "exit_code": 3,
+  "data": null,
+  "stdout": "",
+  "stderr": "DECOMPOSE=UNAVAILABLE Python >= 3.11, PyYAML and jsonschema required. NEXT: taskspec setup decompose\n"
+}

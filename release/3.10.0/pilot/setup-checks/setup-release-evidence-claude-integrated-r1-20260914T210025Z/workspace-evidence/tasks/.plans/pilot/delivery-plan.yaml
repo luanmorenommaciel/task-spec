@@ -1,0 +1,22 @@
+schema_version: 1
+status: DELIVERY_PLAN=READY
+seam_map_sha256: d8980744a6c1099c4cadceecc248053b267252041d12e134666bf6e5643cfce6
+swimlanes:
+- id: LANE-RELEASE-EVIDENCE
+  seam_id: SEAM-RELEASE-EVIDENCE
+  owner: pilot-release-evidence
+  path: tasks/.plans/pilot/swimlanes/LANE-RELEASE-EVIDENCE.md
+  sha256: c35fcb133df867404533a1cf05ef77db83723d5c52369a6551012ac90ec7d447
+legs:
+- id: LEG-RELEASE-EVIDENCE
+  seam_id: SEAM-RELEASE-EVIDENCE
+  swimlane_id: LANE-RELEASE-EVIDENCE
+  path: tasks/.plans/pilot/legs/LEG-RELEASE-EVIDENCE.md
+  sha256: df6349a0a2cdec5ebf15fb28d2b240c7d2f0ed6983f6739398b3be4daf2d8f2f
+steel_thread:
+- LEG-RELEASE-EVIDENCE
+objections: []
+contentions: []
+steel_thread_path: tasks/.plans/pilot/steel-thread.md
+steel_thread_sha256: 932d85e15119e7c43b74c4ccee83c15bc50508e4fdf7a20254ff46dc91484f64
+review_authority_sha256: c44324cc00ccbc53e0f9c1a4251e32242fa266762e08c4c44ee6df1428e689be

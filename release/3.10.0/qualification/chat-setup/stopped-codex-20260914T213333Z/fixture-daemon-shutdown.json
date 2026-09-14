@@ -1,0 +1,5 @@
+{
+  "pid": 18552,
+  "signal": "SIGTERM",
+  "reason": "Fixture setup completed; later chat can reconstruct durable state after daemon restart."
+}

@@ -1,0 +1,266 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-contention-claude-separate-engine-r1-20260914T205910Z",
+  "scenario": "contention",
+  "harness": "claude",
+  "workflow": "separate-engine",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-wh4g6vqs/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "tests/test-toolkit-resource-contention.sh",
+    "tests/fixtures/toolkit/resource-worker.sh"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "731e6e46a0af0af6c874b2f91483c8ee81026442",
+  "setup_passed": true,
+  "accepted": false,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 10.974505875,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "9359a7e7667617a0476026cd32a70be8baacc6c563572e1605febedd3a1295e5",
+      "8c7009dfcde647d40cbbd201e30f6296f4397060971a8f14b8b42773fb20aaf8"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 10.974505875,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "9359a7e7667617a0476026cd32a70be8baacc6c563572e1605febedd3a1295e5",
+    "8c7009dfcde647d40cbbd201e30f6296f4397060971a8f14b8b42773fb20aaf8"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "48a1e15b2eec1bfb36eb4947517952b794b20ff96fedf4a250c7adfea2663e79",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-006.stdout",
+      "sha256": "8bf2df0e4f4b82d356c461db7b0e40575cfba1bafc61d7b1b431b3fd6376956e"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-007.stdout",
+      "sha256": "2307a18168d68cab5da040c37ee920eb89cb53a3852a46bd7040ccb8790da6bb"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-008.stdout",
+      "sha256": "12e852dda1cb5b5f2025686a5d4d867c8b9131dbda9dea1977cea1337fca0599"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-009.stdout",
+      "sha256": "5a4c9114878bc0c611d37ec9d9baf107af86446fa8b70e93009c4f1dd83e9397"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-010.stdout",
+      "sha256": "006a45a29d3167eb9a45942b142380e49fc96935676298aa528791d203092a0b"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-011.stdout",
+      "sha256": "0a230a11ec133b288cf0e70076f1dc512de1747d42d262e2235ffd926704a41b"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-012.stdout",
+      "sha256": "be73dc2f5cc2305d7fe21309263fc90c4b253474365a4861040de3a4c357c532"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-013.stdout",
+      "sha256": "db07d041c790a6dd73f6152df4a6e6545967e409bb2610fc0c65ee320f0c766d"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-014.stdout",
+      "sha256": "87977363c5aac93e1d6e66687130cd7e6769c0e98035c419662d23f6f1728d05"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-015.stdout",
+      "sha256": "75c09843c94105d6cdaf2a0e7917b1f64a527f74b142649a40b2267434e14fdb"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-016.stdout",
+      "sha256": "2cc2d63a2be22677d94ad3cf51c094bebc21ec3f89c764b787b98fa0cd44e691"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-017.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-017.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-018.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-018.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-019.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/command-019.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/cost.json",
+      "sha256": "19c7dfd4641d8a7e85fb9c2e74642a9f3230a87937224b137e1005dda77117c7"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/events.jsonl",
+      "sha256": "1ecd2f9b740147fcf68cfaf2763c3a83e80bf99bd8099fdbc16333a88d350769"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/prepared.json",
+      "sha256": "2f723cc00cd125c154d510919aeb7641b6a04a8f94b8b2f9ca850d62f8cc093e"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/registration.json",
+      "sha256": "84e1687af4d94a61d143d368a6815acdd73bd1f77ddddb4ffce7ed8517d8fe3d"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "74b0e0609748bbf6c342c491017cd6509d24df67130d88046ec76b709c4867d0"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/workspace-evidence/tasks/T-20260914-pilot-contention-worker.md",
+      "sha256": "c71bc89d02d49ed1de7e637e1ad1f41d0447808a687f7bdf90fb3aa981fb3f7b"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-separate-engine-r1-20260914T205910Z/workspace-evidence/tasks/T-20260914-pilot-contention.md",
+      "sha256": "e6dd1808f0975da79ed07038059fbe1f667244f4f7908bfc3c5d9e9e7b16b2a2"
+    }
+  ]
+}

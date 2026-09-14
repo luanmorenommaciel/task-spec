@@ -1,0 +1,259 @@
+{
+  "contract": "TaskPlanSnapshot/v1",
+  "initiative": "pilot",
+  "review": {
+    "artifacts_sha256": {
+      "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "evidence.jsonl": "4a4e24c3c7c6ba52e2d175eda8d73d187d2721faeb98a62eb02fd9eda81563c4",
+      "intent.md": "ad03803c7a9a63e33e6fc8ad02ef07073a590bdd5f14cf70a5887a6c38a8aa40",
+      "legs/LEG-RELEASE-EVIDENCE.md": "df6349a0a2cdec5ebf15fb28d2b240c7d2f0ed6983f6739398b3be4daf2d8f2f",
+      "proposed-graph.json": "c468e82eff1bce29749de6e52fa3408678fa09ab7d6769f715ee36b3a5e38db7",
+      "seam-map.yaml": "d8980744a6c1099c4cadceecc248053b267252041d12e134666bf6e5643cfce6",
+      "seams/SEAM-RELEASE-EVIDENCE.md": "3aebc56dd4c9bdcdee1fbbf952e8d6ced8058feb3f563c25e1adaf2db5702ee6",
+      "source-recipe.yaml": "1de13c3d0a09ea8e0da589312f7c61e00a711ea2889cd4f421982bc79c620e59",
+      "steel-thread.md": "932d85e15119e7c43b74c4ccee83c15bc50508e4fdf7a20254ff46dc91484f64",
+      "swimlanes/LANE-RELEASE-EVIDENCE.md": "c35fcb133df867404533a1cf05ef77db83723d5c52369a6551012ac90ec7d447",
+      "system-map.md": "6cfcdb24274d49d04ab6824dc994a83727466e147bbf019e0c2b1938c5cfee0e"
+    },
+    "disposition": "accepted",
+    "draft_sha256": "7e9dc1a97b6dcf0ce5057fae53bba2437681938e94177c982863459ce7ff859e",
+    "fixture": false,
+    "plan_sha256": "fa9a8872887cd0b02b9a55f66b1ff1d32420cbaac908eebadcd6ae12a0b05f9b",
+    "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+    "recipe_sha256": "1de13c3d0a09ea8e0da589312f7c61e00a711ea2889cd4f421982bc79c620e59",
+    "reviewed_at": "2026-09-14T21:00:31.697869+00:00",
+    "reviewer": "pilot-controller",
+    "schema_version": 1,
+    "signature": "hmac-taskplan-v1:5afec2c1:de0e0e4b815604c7b2c90803d13b65aaf406ce2fb648ca1a92412ccfd78695cd",
+    "topology_sha256": "c468e82eff1bce29749de6e52fa3408678fa09ab7d6769f715ee36b3a5e38db7"
+  },
+  "reviewed_artifacts": {
+    "decisions/ADR-PILOT-SCOPE.md": {
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "content": "---\nschema_version: 1\nkind: decision\nid: ADR-PILOT-SCOPE\nstatus: accepted\nowner: pilot-supervisor\nrationale: The user authorized real repository issues with prospective intervention recording. This fixed\n  corpus defines the evaluated scope before execution; it does not claim a new human review occurred during\n  each run.\n---\n# ADR-PILOT-SCOPE\n\nStatus: **accepted**\n\nOwner: pilot-supervisor\n\n## Rationale\n\nThe user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run.\n"
+    },
+    "evidence.jsonl": {
+      "sha256": "4a4e24c3c7c6ba52e2d175eda8d73d187d2721faeb98a62eb02fd9eda81563c4",
+      "content": "{\"claim\":\"current\",\"confidence\":1.0,\"id\":\"E-PILOT-ISSUE\",\"source\":{\"captured_at\":\"2026-09-14T20:20:46.550715+00:00\",\"sha256\":\"ac848dca90458bdca62cedd9413ba4f7d9ef7ba571a0fba4be7ccf0ec2f4ee0d\",\"uri\":\"tests/fixtures/toolkit/pilot-issue.json\"},\"summary\":\"A repository issue inspected before comparative execution; source digests and reproduction are retained.\"}\n"
+    },
+    "intent.md": {
+      "sha256": "ad03803c7a9a63e33e6fc8ad02ef07073a590bdd5f14cf70a5887a6c38a8aa40",
+      "content": "---\nschema_version: 1\nkind: delivery-intent\nid: DI-PILOT-RELEASE-EVIDENCE\ntitle: Archive selection depends on ignore state to exclude local advisor settings\nclaim: proposed\nsource:\n  uri: tests/fixtures/toolkit/pilot-issue.json\n  captured_at: '2026-09-14T20:20:46.550715+00:00'\n  sha256: ac848dca90458bdca62cedd9413ba4f7d9ef7ba571a0fba4be7ccf0ec2f4ee0d\nsuccess:\n- Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build\n  an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the\n  source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported\n  release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment\n  health.\nout_of_scope:\n- Changes outside the registered write surface.\n- Production deployment, policy changes, self-authorization, and independent agents.\n---\n# Archive selection depends on ignore state to exclude local advisor settings\n\n## Delivery outcome\n\nExclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.\n\n## Evidence boundary\n\nThis artifact records a **proposed** claim. Its source, capture time,\nand content hash are recorded in frontmatter; the claim is not implementation\nevidence by itself.\n"
+    },
+    "legs/LEG-RELEASE-EVIDENCE.md": {
+      "sha256": "df6349a0a2cdec5ebf15fb28d2b240c7d2f0ed6983f6739398b3be4daf2d8f2f",
+      "content": "---\nschema_version: 1\nkind: capability-leg\nclaim: derived\nid: LEG-RELEASE-EVIDENCE\nseam_id: SEAM-RELEASE-EVIDENCE\nswimlane_id: LANE-RELEASE-EVIDENCE\nobservable_state: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance\n  state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and\n  record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json\n  as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not\n  claim deployment health.\nproof: The declared evaluator succeeds without widening the write surface.\nrequires: []\nproduces:\n- release-evidence verified behavior\ntasks:\n- id: T-20260914-pilot-release-evidence\n  title: Exclude WATCHDOG\n  goal: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state.\n    Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record\n    the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as\n    reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim\n    deployment health.\n  done_condition: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance\n    state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum,\n    and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json\n    as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not\n    claim deployment health.\n  effort: M\n  profile: standard\n  execution_backend: claude\n  required_tools:\n  - git\n  - bash\n  - python3\n  depends_on: []\n  touches_paths:\n  - tools/build-release-archive.py\n  creates_paths:\n  - docs/examples/pilot-release-evidence.json\n  - docs/examples/pilot-artifacts\n  behavior:\n  - id: B-1\n    given: the registered repository issue and fixed authorized scope\n    when: the bounded implementation is independently evaluated\n    then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n  - id: B-2\n    given: the recorded evidence and authorization boundary\n    when: the candidate is checked\n    then: source evidence is unchanged and no unrelated write is present\n  evals:\n  - id: eval_1\n    description: Independent behavioral proof for release-evidence\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      release-evidence --root .\n    verifies:\n    - B-1\n  - id: eval_2\n    description: Declared write surface only\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      write-boundary --root .\n    verifies:\n    - B-2\n  - id: eval_3\n    description: Registered issue evidence is unchanged\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      source-integrity --root .\n    verifies:\n    - B-2\n  anti_patterns:\n  - action: weaken the independent evaluator\n    reason: it would invalidate the comparison\n    instead: fix the behavior within the declared surface\n  - action: expand the scope\n    reason: it breaks matched permissions\n    instead: report the missing work as a blocker\n  - action: claim success without evidence\n    reason: a plausible patch does not establish behavior\n    instead: run the independent proof and report failures\n  do_not_touch:\n  - tests/fixtures/toolkit/pilot-issue.json\n  - tasks\n  rollback: Revert only this isolated candidate change.\n  observability: Retained provider output, evaluation result, and prospective event journal.\n  execution_recipe: diagnose-repair-verify\n  proves_capabilities:\n  - LEG-RELEASE-EVIDENCE\nsource_seam_sha256: 3aebc56dd4c9bdcdee1fbbf952e8d6ced8058feb3f563c25e1adaf2db5702ee6\n---\n# Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.\n\n## Observable proof\n\nThe declared evaluator succeeds without widening the write surface.\n\n## Runnable leaves\n\n- `T-20260914-pilot-release-evidence` \u2014 Exclude WATCHDOG: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.\n\nThe leg names a capability state, not an activity. Each leaf owns one coherent,\nindependently provable done-condition.\n"
+    },
+    "proposed-graph.json": {
+      "sha256": "c468e82eff1bce29749de6e52fa3408678fa09ab7d6769f715ee36b3a5e38db7",
+      "content": "{\n  \"schema_version\": 1,\n  \"status\": \"TASK_GRAPH=READY\",\n  \"plan_sha256\": \"7e9dc1a97b6dcf0ce5057fae53bba2437681938e94177c982863459ce7ff859e\",\n  \"nodes\": [\n    {\n      \"id\": \"T-20260914-pilot-release-evidence\",\n      \"title\": \"Exclude WATCHDOG\",\n      \"seam_id\": \"SEAM-RELEASE-EVIDENCE\",\n      \"swimlane_id\": \"LANE-RELEASE-EVIDENCE\",\n      \"leg_id\": \"LEG-RELEASE-EVIDENCE\",\n      \"effort\": \"M\",\n      \"profile\": \"standard\",\n      \"done_condition\": \"Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.\",\n      \"touches_paths\": [\n        \"tools/build-release-archive.py\"\n      ],\n      \"creates_paths\": [\n        \"docs/examples/pilot-release-evidence.json\",\n        \"docs/examples/pilot-artifacts\"\n      ]\n    }\n  ],\n  \"edges\": [],\n  \"contentions\": [],\n  \"critical_path\": [\n    \"T-20260914-pilot-release-evidence\"\n  ],\n  \"critical_path_mermaid_sha256\": \"0ed7147ac22ef7020b68d333e439960b5cbc16a73b4a3119c3996cbf71880188\"\n}\n"
+    },
+    "seam-map.yaml": {
+      "sha256": "d8980744a6c1099c4cadceecc248053b267252041d12e134666bf6e5643cfce6",
+      "content": "schema_version: 1\nstatus: SEAM_MAP=READY\nintent_id: DI-PILOT-RELEASE-EVIDENCE\nsource_recipe:\n  name: source-recipe.yaml\n  sha256: 1de13c3d0a09ea8e0da589312f7c61e00a711ea2889cd4f421982bc79c620e59\nintent_sha256: ad03803c7a9a63e33e6fc8ad02ef07073a590bdd5f14cf70a5887a6c38a8aa40\nsystem_map_sha256: 6cfcdb24274d49d04ab6824dc994a83727466e147bbf019e0c2b1938c5cfee0e\nevidence_sha256: 4a4e24c3c7c6ba52e2d175eda8d73d187d2721faeb98a62eb02fd9eda81563c4\ndecisions:\n- id: ADR-PILOT-SCOPE\n  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md\n  status: accepted\n  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\nseams:\n- id: SEAM-RELEASE-EVIDENCE\n  path: tasks/.plans/pilot/seams/SEAM-RELEASE-EVIDENCE.md\n  owner: pilot-release-evidence\n  evidence:\n  - E-PILOT-ISSUE\n  swimlane_id: LANE-RELEASE-EVIDENCE\n  sha256: 3aebc56dd4c9bdcdee1fbbf952e8d6ced8058feb3f563c25e1adaf2db5702ee6\n"
+    },
+    "seams/SEAM-RELEASE-EVIDENCE.md": {
+      "sha256": "3aebc56dd4c9bdcdee1fbbf952e8d6ced8058feb3f563c25e1adaf2db5702ee6",
+      "content": "---\nschema_version: 1\nkind: seam\nclaim: derived\nid: SEAM-RELEASE-EVIDENCE\nname: release-evidence\ndescription: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state.\n  Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record\n  the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as\n  reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim\n  deployment health.\nevidence:\n- E-PILOT-ISSUE\nresponsibility: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance\n  state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and\n  record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json\n  as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not\n  claim deployment health.\nconsumes:\n- registered issue\nproduces:\n- release-evidence verified behavior\nowner: pilot-release-evidence\nindependent_proof: Run the registered independent release-evidence evaluator.\ndecision_ids:\n- ADR-PILOT-SCOPE\nrejected_alternatives:\n- alternative: Merge this responsibility into an unrelated task\n  reason: Its write surface and independently assessable outcome belong to this boundary.\nswimlane:\n  id: LANE-RELEASE-EVIDENCE\n  name: release-evidence delivery\n  owner: pilot-release-evidence\n  legs:\n  - id: LEG-RELEASE-EVIDENCE\n    observable_state: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance\n      state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum,\n      and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json\n      as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do\n      not claim deployment health.\n    proof: The declared evaluator succeeds without widening the write surface.\n    requires: []\n    produces:\n    - release-evidence verified behavior\n    tasks:\n    - id: T-20260914-pilot-release-evidence\n      title: Exclude WATCHDOG\n      goal: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state.\n        Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and\n        record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json\n        as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do\n        not claim deployment health.\n      done_condition: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance\n        state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum,\n        and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json\n        as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do\n        not claim deployment health.\n      effort: M\n      profile: standard\n      execution_backend: claude\n      required_tools:\n      - git\n      - bash\n      - python3\n      depends_on: []\n      touches_paths:\n      - tools/build-release-archive.py\n      creates_paths:\n      - docs/examples/pilot-release-evidence.json\n      - docs/examples/pilot-artifacts\n      behavior:\n      - id: B-1\n        given: the registered repository issue and fixed authorized scope\n        when: the bounded implementation is independently evaluated\n        then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n      - id: B-2\n        given: the recorded evidence and authorization boundary\n        when: the candidate is checked\n        then: source evidence is unchanged and no unrelated write is present\n      evals:\n      - id: eval_1\n        description: Independent behavioral proof for release-evidence\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          release-evidence --root .\n        verifies:\n        - B-1\n      - id: eval_2\n        description: Declared write surface only\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          write-boundary --root .\n        verifies:\n        - B-2\n      - id: eval_3\n        description: Registered issue evidence is unchanged\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          source-integrity --root .\n        verifies:\n        - B-2\n      anti_patterns:\n      - action: weaken the independent evaluator\n        reason: it would invalidate the comparison\n        instead: fix the behavior within the declared surface\n      - action: expand the scope\n        reason: it breaks matched permissions\n        instead: report the missing work as a blocker\n      - action: claim success without evidence\n        reason: a plausible patch does not establish behavior\n        instead: run the independent proof and report failures\n      do_not_touch:\n      - tests/fixtures/toolkit/pilot-issue.json\n      - tasks\n      rollback: Revert only this isolated candidate change.\n      observability: Retained provider output, evaluation result, and prospective event journal.\n      execution_recipe: diagnose-repair-verify\n      proves_capabilities:\n      - LEG-RELEASE-EVIDENCE\n---\n# release-evidence\n\nExclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.\n\n## Responsibility\n\nExclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.\n\n## Independent proof\n\nRun the registered independent release-evidence evaluator.\n\n## Rejected alternatives\n\n- **Merge this responsibility into an unrelated task** \u2014 Its write surface and independently assessable outcome belong to this boundary.\n\nThis derived seam is ready only while its cited evidence, named owner, contract,\nand rejected alternatives remain intact.\n"
+    },
+    "source-recipe.yaml": {
+      "sha256": "1de13c3d0a09ea8e0da589312f7c61e00a711ea2889cd4f421982bc79c620e59",
+      "content": "schema_version: 1\nintent:\n  id: DI-PILOT-RELEASE-EVIDENCE\n  title: Archive selection depends on ignore state to exclude local advisor settings\n  summary: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated\n    conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts,\n    verify its checksum, and record the source base revision plus exact artifact digest\n    in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly\n    disclose that candidate changes are uncommitted and do not claim deployment health.\n  claim: proposed\n  source: &id001\n    uri: tests/fixtures/toolkit/pilot-issue.json\n    captured_at: '2026-09-14T20:20:46.550715+00:00'\n    sha256: ac848dca90458bdca62cedd9413ba4f7d9ef7ba571a0fba4be7ccf0ec2f4ee0d\n  success:\n  - Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance\n    state. Build an actual candidate archive under docs/examples/pilot-artifacts,\n    verify its checksum, and record the source base revision plus exact artifact digest\n    in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly\n    disclose that candidate changes are uncommitted and do not claim deployment health.\n  out_of_scope:\n  - Changes outside the registered write surface.\n  - Production deployment, policy changes, self-authorization, and independent agents.\nsystem_map:\n  claim: proposed\n  components:\n  - release-evidence\n  external_dependencies:\n  - TaskSpec CLI and the independently registered evaluator\n  unknowns: []\nevidence:\n- id: E-PILOT-ISSUE\n  claim: current\n  source: *id001\n  confidence: 1.0\n  summary: A repository issue inspected before comparative execution; source digests\n    and reproduction are retained.\ndecisions:\n- id: ADR-PILOT-SCOPE\n  status: accepted\n  owner: pilot-supervisor\n  rationale: The user authorized real repository issues with prospective intervention\n    recording. This fixed corpus defines the evaluated scope before execution; it\n    does not claim a new human review occurred during each run.\nseams:\n- id: SEAM-RELEASE-EVIDENCE\n  name: release-evidence\n  description: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated\n    conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts,\n    verify its checksum, and record the source base revision plus exact artifact digest\n    in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly\n    disclose that candidate changes are uncommitted and do not claim deployment health.\n  evidence:\n  - E-PILOT-ISSUE\n  responsibility: Exclude WATCHDOG.yml even if tracked or force-added, and exclude\n    generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts,\n    verify its checksum, and record the source base revision plus exact artifact digest\n    in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly\n    disclose that candidate changes are uncommitted and do not claim deployment health.\n  consumes:\n  - registered issue\n  produces:\n  - release-evidence verified behavior\n  owner: pilot-release-evidence\n  independent_proof: Run the registered independent release-evidence evaluator.\n  decision_ids:\n  - ADR-PILOT-SCOPE\n  rejected_alternatives:\n  - alternative: Merge this responsibility into an unrelated task\n    reason: Its write surface and independently assessable outcome belong to this\n      boundary.\n  swimlane:\n    id: LANE-RELEASE-EVIDENCE\n    name: release-evidence delivery\n    owner: pilot-release-evidence\n    legs:\n    - id: LEG-RELEASE-EVIDENCE\n      observable_state: Exclude WATCHDOG.yml even if tracked or force-added, and exclude\n        generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts,\n        verify its checksum, and record the source base revision plus exact artifact\n        digest in docs/examples/pilot-release-evidence.json as reported release evidence.\n        Explicitly disclose that candidate changes are uncommitted and do not claim\n        deployment health.\n      proof: The declared evaluator succeeds without widening the write surface.\n      requires: []\n      produces:\n      - release-evidence verified behavior\n      tasks:\n      - id: T-20260914-pilot-release-evidence\n        title: Exclude WATCHDOG\n        goal: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated\n          conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts,\n          verify its checksum, and record the source base revision plus exact artifact\n          digest in docs/examples/pilot-release-evidence.json as reported release\n          evidence. Explicitly disclose that candidate changes are uncommitted and\n          do not claim deployment health.\n        done_condition: Exclude WATCHDOG.yml even if tracked or force-added, and exclude\n          generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts,\n          verify its checksum, and record the source base revision plus exact artifact\n          digest in docs/examples/pilot-release-evidence.json as reported release\n          evidence. Explicitly disclose that candidate changes are uncommitted and\n          do not claim deployment health.\n        effort: M\n        profile: standard\n        execution_backend: claude\n        required_tools:\n        - git\n        - bash\n        - python3\n        depends_on: []\n        touches_paths:\n        - tools/build-release-archive.py\n        creates_paths:\n        - docs/examples/pilot-release-evidence.json\n        - docs/examples/pilot-artifacts\n        behavior:\n        - id: B-1\n          given: the registered repository issue and fixed authorized scope\n          when: the bounded implementation is independently evaluated\n          then: the declared behavior passes without modifying unrelated files or\n            promoting reported evidence\n        - id: B-2\n          given: the recorded evidence and authorization boundary\n          when: the candidate is checked\n          then: source evidence is unchanged and no unrelated write is present\n        evals:\n        - id: eval_1\n          description: Independent behavioral proof for release-evidence\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            release-evidence --root .\n          verifies:\n          - B-1\n        - id: eval_2\n          description: Declared write surface only\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            write-boundary --root .\n          verifies:\n          - B-2\n        - id: eval_3\n          description: Registered issue evidence is unchanged\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            source-integrity --root .\n          verifies:\n          - B-2\n        anti_patterns:\n        - action: weaken the independent evaluator\n          reason: it would invalidate the comparison\n          instead: fix the behavior within the declared surface\n        - action: expand the scope\n          reason: it breaks matched permissions\n          instead: report the missing work as a blocker\n        - action: claim success without evidence\n          reason: a plausible patch does not establish behavior\n          instead: run the independent proof and report failures\n        do_not_touch:\n        - tests/fixtures/toolkit/pilot-issue.json\n        - tasks\n        rollback: Revert only this isolated candidate change.\n        observability: Retained provider output, evaluation result, and prospective\n          event journal.\n        execution_recipe: diagnose-repair-verify\n        proves_capabilities:\n        - LEG-RELEASE-EVIDENCE\nsteel_thread:\n- LEG-RELEASE-EVIDENCE\nobjections: []\ncontentions: []\n"
+    },
+    "steel-thread.md": {
+      "sha256": "932d85e15119e7c43b74c4ccee83c15bc50508e4fdf7a20254ff46dc91484f64",
+      "content": "# Steel Thread\n\n1. [`LEG-RELEASE-EVIDENCE`](legs/LEG-RELEASE-EVIDENCE.md)\n\nThis is a derived critical capability path. It records ordering, not\nimplementation completion or dispatch authority.\n"
+    },
+    "swimlanes/LANE-RELEASE-EVIDENCE.md": {
+      "sha256": "c35fcb133df867404533a1cf05ef77db83723d5c52369a6551012ac90ec7d447",
+      "content": "---\nschema_version: 1\nkind: swimlane\nclaim: derived\nid: LANE-RELEASE-EVIDENCE\nname: release-evidence delivery\nowner: pilot-release-evidence\nseam_id: SEAM-RELEASE-EVIDENCE\nsource_seam_sha256: 3aebc56dd4c9bdcdee1fbbf952e8d6ced8058feb3f563c25e1adaf2db5702ee6\nlegs:\n- LEG-RELEASE-EVIDENCE\n---\n# release-evidence delivery\n\nThis is the single owning swimlane for `SEAM-RELEASE-EVIDENCE`. Ownership is `pilot-release-evidence`.\nSibling capability legs are ordered only by explicit dependencies or recorded\ncontention\u2014not by their position in this file.\n"
+    },
+    "system-map.md": {
+      "sha256": "6cfcdb24274d49d04ab6824dc994a83727466e147bbf019e0c2b1938c5cfee0e",
+      "content": "---\nschema_version: 1\nkind: system-map\nclaim: proposed\ncomponents:\n- release-evidence\nexternal_dependencies:\n- TaskSpec CLI and the independently registered evaluator\nunknowns: []\nproposed_steel_thread:\n- LEG-RELEASE-EVIDENCE\nobjections: []\ncontentions: []\n---\n# System Map\n\n## Components\n\n- release-evidence\n\n## External dependencies\n\n- TaskSpec CLI and the independently registered evaluator\n\n## Unknowns\n\n- (none)\n\nThis is a **proposed** map. The delivery-plan transformation must\nclose or gate every material unknown; it may not reinterpret this text as\nruntime proof.\n"
+    },
+    "delivery-plan.yaml": {
+      "sha256": "fa9a8872887cd0b02b9a55f66b1ff1d32420cbaac908eebadcd6ae12a0b05f9b",
+      "content": "schema_version: 1\nstatus: DELIVERY_PLAN=READY\nseam_map_sha256: d8980744a6c1099c4cadceecc248053b267252041d12e134666bf6e5643cfce6\nswimlanes:\n- id: LANE-RELEASE-EVIDENCE\n  seam_id: SEAM-RELEASE-EVIDENCE\n  owner: pilot-release-evidence\n  path: tasks/.plans/pilot/swimlanes/LANE-RELEASE-EVIDENCE.md\n  sha256: c35fcb133df867404533a1cf05ef77db83723d5c52369a6551012ac90ec7d447\nlegs:\n- id: LEG-RELEASE-EVIDENCE\n  seam_id: SEAM-RELEASE-EVIDENCE\n  swimlane_id: LANE-RELEASE-EVIDENCE\n  path: tasks/.plans/pilot/legs/LEG-RELEASE-EVIDENCE.md\n  sha256: df6349a0a2cdec5ebf15fb28d2b240c7d2f0ed6983f6739398b3be4daf2d8f2f\nsteel_thread:\n- LEG-RELEASE-EVIDENCE\nobjections: []\ncontentions: []\nsteel_thread_path: tasks/.plans/pilot/steel-thread.md\nsteel_thread_sha256: 932d85e15119e7c43b74c4ccee83c15bc50508e4fdf7a20254ff46dc91484f64\nreview_authority_sha256: c44324cc00ccbc53e0f9c1a4251e32242fa266762e08c4c44ee6df1428e689be\n"
+    },
+    "reviews/delivery-plan-review.json": {
+      "sha256": "9ad78c64c91e2d6726c40b1bb9e834187e7f34214b2de389ec8661c5fbb5eac6",
+      "content": "{\n  \"artifacts_sha256\": {\n    \"decisions/ADR-PILOT-SCOPE.md\": \"41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\",\n    \"evidence.jsonl\": \"4a4e24c3c7c6ba52e2d175eda8d73d187d2721faeb98a62eb02fd9eda81563c4\",\n    \"intent.md\": \"ad03803c7a9a63e33e6fc8ad02ef07073a590bdd5f14cf70a5887a6c38a8aa40\",\n    \"legs/LEG-RELEASE-EVIDENCE.md\": \"df6349a0a2cdec5ebf15fb28d2b240c7d2f0ed6983f6739398b3be4daf2d8f2f\",\n    \"proposed-graph.json\": \"c468e82eff1bce29749de6e52fa3408678fa09ab7d6769f715ee36b3a5e38db7\",\n    \"seam-map.yaml\": \"d8980744a6c1099c4cadceecc248053b267252041d12e134666bf6e5643cfce6\",\n    \"seams/SEAM-RELEASE-EVIDENCE.md\": \"3aebc56dd4c9bdcdee1fbbf952e8d6ced8058feb3f563c25e1adaf2db5702ee6\",\n    \"source-recipe.yaml\": \"1de13c3d0a09ea8e0da589312f7c61e00a711ea2889cd4f421982bc79c620e59\",\n    \"steel-thread.md\": \"932d85e15119e7c43b74c4ccee83c15bc50508e4fdf7a20254ff46dc91484f64\",\n    \"swimlanes/LANE-RELEASE-EVIDENCE.md\": \"c35fcb133df867404533a1cf05ef77db83723d5c52369a6551012ac90ec7d447\",\n    \"system-map.md\": \"6cfcdb24274d49d04ab6824dc994a83727466e147bbf019e0c2b1938c5cfee0e\"\n  },\n  \"disposition\": \"accepted\",\n  \"draft_sha256\": \"7e9dc1a97b6dcf0ce5057fae53bba2437681938e94177c982863459ce7ff859e\",\n  \"fixture\": false,\n  \"plan_sha256\": \"fa9a8872887cd0b02b9a55f66b1ff1d32420cbaac908eebadcd6ae12a0b05f9b\",\n  \"reason\": \"Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.\",\n  \"recipe_sha256\": \"1de13c3d0a09ea8e0da589312f7c61e00a711ea2889cd4f421982bc79c620e59\",\n  \"reviewed_at\": \"2026-09-14T21:00:31.697869+00:00\",\n  \"reviewer\": \"pilot-controller\",\n  \"schema_version\": 1,\n  \"signature\": \"hmac-taskplan-v1:5afec2c1:de0e0e4b815604c7b2c90803d13b65aaf406ce2fb648ca1a92412ccfd78695cd\",\n  \"topology_sha256\": \"c468e82eff1bce29749de6e52fa3408678fa09ab7d6769f715ee36b3a5e38db7\"\n}\n"
+    }
+  },
+  "units": {
+    "T-20260914-pilot-release-evidence": {
+      "projection_digest": "faa1aa10bb5416e8fd3227a2409f716178671023ca61ac1fe5848dbb15e5a28d",
+      "projection": {
+        "unit": {
+          "agent": "any",
+          "anti_patterns": [
+            "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+            "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+            "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+          ],
+          "behaviors": [
+            {
+              "given": "the registered repository issue and fixed authorized scope",
+              "id": "B-1",
+              "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+              "when": "the bounded implementation is independently evaluated"
+            },
+            {
+              "given": "the recorded evidence and authorization boundary",
+              "id": "B-2",
+              "then": "source evidence is unchanged and no unrelated write is present",
+              "when": "the candidate is checked"
+            }
+          ],
+          "context": "Intent DI-PILOT-RELEASE-EVIDENCE; seam SEAM-RELEASE-EVIDENCE; swimlane LANE-RELEASE-EVIDENCE; capability leg LEG-RELEASE-EVIDENCE. Done condition: Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.",
+          "creates_paths": [
+            "docs/examples/pilot-release-evidence.json",
+            "docs/examples/pilot-artifacts"
+          ],
+          "depends_on": [],
+          "do_not_touch": [
+            "tests/fixtures/toolkit/pilot-issue.json",
+            "tasks"
+          ],
+          "done_condition": "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.",
+          "effort": "M",
+          "evals": [
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py release-evidence --root .",
+              "description": "Independent behavioral proof for release-evidence",
+              "expected_duration_sec": 10,
+              "id": "eval_1",
+              "terminal": false,
+              "verifies": [
+                "B-1"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+              "description": "Declared write surface only",
+              "expected_duration_sec": 10,
+              "id": "eval_2",
+              "terminal": false,
+              "verifies": [
+                "B-2"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+              "description": "Registered issue evidence is unchanged",
+              "expected_duration_sec": 10,
+              "id": "eval_3",
+              "terminal": true,
+              "verifies": [
+                "B-2"
+              ]
+            }
+          ],
+          "execution_backend": "claude",
+          "execution_recipe": "diagnose-repair-verify",
+          "goal": "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.",
+          "id": "T-20260914-pilot-release-evidence",
+          "observability": "Retained provider output, evaluation result, and prospective event journal.",
+          "profile": "standard",
+          "proves_capabilities": [
+            "LEG-RELEASE-EVIDENCE"
+          ],
+          "required_tools": [
+            "git",
+            "bash",
+            "python3"
+          ],
+          "rollback": "Revert only this isolated candidate change.",
+          "source_note": "tasks/.plans/pilot/legs/LEG-RELEASE-EVIDENCE.md#T-20260914-pilot-release-evidence",
+          "title": "Exclude WATCHDOG",
+          "touches_paths": [
+            "tools/build-release-archive.py"
+          ],
+          "why": "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health."
+        },
+        "intent": {
+          "id": "DI-PILOT-RELEASE-EVIDENCE",
+          "title": "Archive selection depends on ignore state to exclude local advisor settings",
+          "summary": "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.",
+          "claim": "proposed",
+          "source": {
+            "uri": "tests/fixtures/toolkit/pilot-issue.json",
+            "captured_at": "2026-09-14T20:20:46.550715+00:00",
+            "sha256": "ac848dca90458bdca62cedd9413ba4f7d9ef7ba571a0fba4be7ccf0ec2f4ee0d"
+          },
+          "success": [
+            "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health."
+          ],
+          "out_of_scope": [
+            "Changes outside the registered write surface.",
+            "Production deployment, policy changes, self-authorization, and independent agents."
+          ]
+        },
+        "original_intake": null,
+        "decisions": [
+          {
+            "id": "ADR-PILOT-SCOPE",
+            "status": "accepted",
+            "owner": "pilot-supervisor",
+            "rationale": "The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run."
+          }
+        ],
+        "seam": {
+          "id": "SEAM-RELEASE-EVIDENCE",
+          "name": "release-evidence",
+          "description": "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.",
+          "evidence": [
+            "E-PILOT-ISSUE"
+          ],
+          "responsibility": "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.",
+          "consumes": [
+            "registered issue"
+          ],
+          "produces": [
+            "release-evidence verified behavior"
+          ],
+          "owner": "pilot-release-evidence",
+          "independent_proof": "Run the registered independent release-evidence evaluator.",
+          "decision_ids": [
+            "ADR-PILOT-SCOPE"
+          ],
+          "rejected_alternatives": [
+            {
+              "alternative": "Merge this responsibility into an unrelated task",
+              "reason": "Its write surface and independently assessable outcome belong to this boundary."
+            }
+          ]
+        },
+        "lane": {
+          "id": "LANE-RELEASE-EVIDENCE",
+          "name": "release-evidence delivery",
+          "owner": "pilot-release-evidence"
+        },
+        "leg": {
+          "id": "LEG-RELEASE-EVIDENCE",
+          "observable_state": "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.",
+          "proof": "The declared evaluator succeeds without widening the write surface.",
+          "requires": [],
+          "produces": [
+            "release-evidence verified behavior"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E-PILOT-ISSUE",
+            "claim": "current",
+            "source": {
+              "uri": "tests/fixtures/toolkit/pilot-issue.json",
+              "captured_at": "2026-09-14T20:20:46.550715+00:00",
+              "sha256": "ac848dca90458bdca62cedd9413ba4f7d9ef7ba571a0fba4be7ccf0ec2f4ee0d"
+            },
+            "confidence": 1.0,
+            "summary": "A repository issue inspected before comparative execution; source digests and reproduction are retained."
+          }
+        ]
+      }
+    }
+  },
+  "signature": "hmac-taskplan-v1:5afec2c1:ca79007712a3b2332106a149e91a6823728dfd0f2d687e350374d4b69edd100a"
+}

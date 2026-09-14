@@ -1,6 +1,6 @@
 {
   "contract": "TaskMeshWorkerImageLock/v1",
-  "release": "3.9.0",
+  "release": "3.10.0",
   "image": "taskspec/mesh-worker",
   "base_image": "python@sha256:adafcc17694d715c905b4c7bebd96907a1fd5cf183395f0ebc4d3428bd22d92d",
   "omp": {

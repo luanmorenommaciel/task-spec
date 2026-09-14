@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "status": "TASK_GRAPH=READY",
+  "plan_sha256": "228d7934f703718eea1b1af4dd28d61cbb390cf180a2636209d2b577a0ad71de",
+  "nodes": [
+    {
+      "id": "T-20260914-pilot-incident",
+      "title": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID",
+      "seam_id": "SEAM-INCIDENT",
+      "swimlane_id": "LANE-INCIDENT",
+      "leg_id": "LEG-INCIDENT",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+      "touches_paths": [
+        "src/evidence/operational.py"
+      ],
+      "creates_paths": []
+    }
+  ],
+  "edges": [],
+  "contentions": [],
+  "critical_path": [
+    "T-20260914-pilot-incident"
+  ],
+  "critical_path_mermaid_sha256": "35e4b22b438ebe4dda6d21522cf627899d222011ed5d7ae0b85acf16dfa08c82"
+}

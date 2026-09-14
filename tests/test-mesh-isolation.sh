@@ -42,6 +42,20 @@ prepare_repo() {
   mkdir -p "$repository/tasks"
   sed -e "s/T-20260603-stamp-then-verify/$task_id/g" -e 's/README\.md/autonomous.txt/g' \
     "$ROOT/tests/fixtures/T-20260603-stamp-then-verify.md" >"$repository/tasks/$task_id.md"
+  if [[ "${TASKSPEC_ISOLATION_RECIPE:-0}" == "1" ]]; then
+    python3 - "$ROOT" "$repository/tasks/$task_id.md" <<'PYRECIPE'
+from pathlib import Path
+import json,sys
+sys.path.insert(0,str(Path(sys.argv[1])/'src/recipe'))
+from recipes import resolve
+path=Path(sys.argv[2]);text=path.read_text()
+recipe=resolve('diagnose-repair-verify',['eval_1'])
+recipe['required_capabilities'].append('attested_execution')
+text=text.replace('  version: 2','  version: 2\n  execution_recipe: '+json.dumps(recipe))
+text=text.replace("  ! grep -q 'NEVERMATCH' autonomous.txt", "  grep -qx 'completed by autonomous TaskMesh' autonomous.txt")
+path.write_text(text)
+PYRECIPE
+  fi
   (cd "$repository" && bash "$CLI" gate --stamp "tasks/$task_id.md" >/dev/null)
   git -C "$repository" add tasks
   git -C "$repository" commit -qm 'authorize autonomous fixture'
@@ -192,10 +206,12 @@ fi
 git -C "$REPO" show "$INTEGRATION_BRANCH:tasks/done/T-20260816-autonomous.md" | grep -q 'accepted_tier: 1'
 
 ARTIFACTS="$REPO/.taskspec/mesh/artifacts"
-ATTESTATION="$ARTIFACTS/$ATTEMPT-environment-attestation.json"
-RECEIPT="$ARTIFACTS/$ATTEMPT-environment-receipt.json"
-EVIDENCE="$ARTIFACTS/$ATTEMPT-sandbox-evidence.json"
-CREDENTIAL="$ARTIFACTS/$ATTEMPT-credential-lease.json"
+EVIDENCE_PREFIX="$ATTEMPT"
+if [[ "${TASKSPEC_ISOLATION_RECIPE:-0}" == "1" ]]; then EVIDENCE_PREFIX="$ATTEMPT.round-2"; fi
+ATTESTATION="$ARTIFACTS/$EVIDENCE_PREFIX-environment-attestation.json"
+RECEIPT="$ARTIFACTS/$EVIDENCE_PREFIX-environment-receipt.json"
+EVIDENCE="$ARTIFACTS/$EVIDENCE_PREFIX-sandbox-evidence.json"
+CREDENTIAL="$ARTIFACTS/$EVIDENCE_PREFIX-credential-lease.json"
 for path in "$ATTESTATION" "$RECEIPT" "$EVIDENCE" "$CREDENTIAL"; do [[ -f "$path" ]]; done
 python3 "$ROOT/src/evidence/environment_attestation.py" verify "$ATTESTATION" --receipt "$RECEIPT" --trust-registry "$TMP/trust.json" >/dev/null
 cp "$ATTESTATION" "$TMP/tampered-attestation.json"
@@ -221,6 +237,23 @@ row = sqlite3.connect(database).execute("SELECT provider, model, state, scopes_j
 assert row[:3] == ("test", "fixed-model", "revoked")
 assert "inference.create" in json.loads(row[3])
 PY
+
+if [[ "${TASKSPEC_ISOLATION_RECIPE:-0}" == "1" ]]; then
+  python3 - "$REPO/.taskspec/mesh/mesh.db" "$ARTIFACTS" "$ATTEMPT" <<'PYROUNDS'
+import json,pathlib,sqlite3,sys
+con=sqlite3.connect(sys.argv[1]);artifacts=pathlib.Path(sys.argv[2]);attempt=sys.argv[3]
+assert con.execute('SELECT used FROM recipe_budgets').fetchone()==(2,)
+rows=con.execute('SELECT lease_id,state FROM credential_leases WHERE attempt_id=?',(attempt,)).fetchall()
+assert len(rows)==2 and len({r[0] for r in rows})==2 and all(r[1]=='revoked' for r in rows),rows
+for round in (1,2):
+ prefix=artifacts/(attempt+'.round-'+str(round))
+ report=json.loads(pathlib.Path(str(prefix)+'.evals.json').read_text())
+ assert report['round']==round and report['sandbox_evidence']
+ assert pathlib.Path(report['sandbox_evidence']).is_file()
+ assert ('"status":"fail"' in report['evaluation'].replace(' ','')) == (round==1)
+print('TOOLKIT_ATTESTED=PASS two rounds, distinct revoked credentials, signed evidence, canonical acceptance')
+PYROUNDS
+fi
 
 # Neither upstream nor attempt capability may survive in repository state or retained artifacts.
 if grep -R -a -E -l 'upstream-secret-value|TASKMESH_ATTEMPT_TOKEN=' "$REPO/.taskspec/mesh" >/dev/null 2>&1; then

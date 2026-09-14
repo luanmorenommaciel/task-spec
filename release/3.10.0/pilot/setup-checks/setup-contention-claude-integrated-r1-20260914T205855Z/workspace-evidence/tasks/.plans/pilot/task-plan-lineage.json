@@ -1,0 +1,39 @@
+{
+  "contract": "TaskPlanLineage/v1",
+  "delivery_plan_sha256": "99b2f820d4f8a2d4937d749f33351caf228e9318dcddd8c29e87908024f8bbb7",
+  "engine_version": "3.10.0",
+  "intent": {
+    "id": "DI-PILOT-CONTENTION",
+    "sha256": "037420e71d0fbf390d386da0a1cf691424d9085c945d81a537deac226de8e65e"
+  },
+  "review": {
+    "fixture": false,
+    "plan_sha256": "99b2f820d4f8a2d4937d749f33351caf228e9318dcddd8c29e87908024f8bbb7",
+    "reviewed_at": "2026-09-14T20:59:02.125486+00:00",
+    "reviewer": "pilot-controller",
+    "sha256": "810a054546087af257d9bd9182eb2875f1cf46f2251fb6895ebaccf05639dbc5"
+  },
+  "task_plan": {
+    "contract": "TaskPlan/v1",
+    "digest": "1f46f3f44fb4ff8d10e91b988033e90e98255ce3a38dd55dde20dfe9779e7b1b",
+    "path": "tasks/.plans/pilot/task-plan.json"
+  },
+  "units": {
+    "T-20260914-pilot-contention": {
+      "intent": "DI-PILOT-CONTENTION",
+      "leg": "LEG-CONTENTION",
+      "seam": "SEAM-CONTENTION",
+      "source_sha256": "90c24cafb4d3a056b8f4b58e90e749fc8ea2bd73617178027649c18e653e4b0b",
+      "swimlane": "LANE-CONTENTION",
+      "unit_id": "T-20260914-pilot-contention"
+    },
+    "T-20260914-pilot-contention-worker": {
+      "intent": "DI-PILOT-CONTENTION",
+      "leg": "LEG-CONTENTION-WORKER",
+      "seam": "SEAM-CONTENTION-WORKER",
+      "source_sha256": "159b8abb1724d2728094783109757a3fc0676f8e8235341e64e7eafe095623f4",
+      "swimlane": "LANE-CONTENTION-WORKER",
+      "unit_id": "T-20260914-pilot-contention-worker"
+    }
+  }
+}

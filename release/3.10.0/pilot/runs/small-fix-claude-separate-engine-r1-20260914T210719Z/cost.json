@@ -1,0 +1,79 @@
+{
+  "complete": true,
+  "cost_including_failures": 1.7148745,
+  "cost_basis": "harness_reported",
+  "invocations": [
+    {
+      "path": "runs/small-fix-claude-separate-engine-r1-20260914T210719Z/mesh-artifacts/8ad2139c-7309-43d6-9b0e-a10733c28246.round-1.json",
+      "known": true,
+      "usd": 1.0904275,
+      "model_usage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 2931,
+          "outputTokens": 19,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.003026,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5": {
+          "inputTokens": 36,
+          "outputTokens": 17790,
+          "cacheReadInputTokens": 474763,
+          "cacheCreationInputTokens": 40509,
+          "webSearchRequests": 0,
+          "costUSD": 1.0874015000000001,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 8430,
+          "canonicalModel": "claude-opus-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "basis": "harness_reported"
+    },
+    {
+      "path": "runs/small-fix-claude-separate-engine-r1-20260914T210719Z/mesh-artifacts/8ad2139c-7309-43d6-9b0e-a10733c28246.round-2.json",
+      "known": true,
+      "usd": 0.6244470000000001,
+      "model_usage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 3838,
+          "outputTokens": 19,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.003933,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5": {
+          "inputTokens": 24,
+          "outputTokens": 10124,
+          "cacheReadInputTokens": 227948,
+          "cacheCreationInputTokens": 25332,
+          "webSearchRequests": 0,
+          "costUSD": 0.620514,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 4081,
+          "canonicalModel": "claude-opus-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "basis": "harness_reported"
+    }
+  ]
+}

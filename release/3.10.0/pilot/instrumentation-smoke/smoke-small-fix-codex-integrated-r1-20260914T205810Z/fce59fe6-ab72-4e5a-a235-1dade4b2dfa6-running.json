@@ -1,0 +1,51 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "bc468a87-b52e-4fe6-bdec-a370f1744390",
+    "ok": true,
+    "code": "MESH_STATUS_READY",
+    "message": "durable run view rebuilt from events",
+    "data": {
+      "attempts": [
+        {
+          "attempt_id": "fce59fe6-ab72-4e5a-a235-1dade4b2dfa6",
+          "contract": "RunLease/v1",
+          "expires_at": "2026-09-14T21:03:24.386911Z",
+          "fencing_token": 1,
+          "heartbeat_at": "2026-09-14T20:58:29.547829Z",
+          "issued_at": "2026-09-14T20:58:24.386911Z",
+          "owner": "c4d621ec-3fb3-46ab-93ab-c9c4a977dfbe",
+          "run_id": "c787316e-b1cf-4545-abf9-6376e1dd2dfb",
+          "state": "running",
+          "task_id": "T-20260914-pilot-small-fix",
+          "task_revision_digest": "sha256:f616f953c2a09d1e24c8612e537fa01dccae61be751f930c0526d0eb7cc7a8b1"
+        }
+      ],
+      "contract": "TaskMeshView/v1",
+      "generated_at": "2026-09-14T20:58:30.142547Z",
+      "latest_sequence": 6,
+      "run": {
+        "contract": "TaskMeshRun/v1",
+        "created_at": "2026-09-14T20:58:22.579553Z",
+        "graph_revision_digest": "sha256:f16484f2848c15e93689170ed183c9cf20938439b6c8e84425cbc4dd19ec7957",
+        "integration_branch": "taskmesh/run/c787316e",
+        "max_parallel": 2,
+        "mode": "supervised",
+        "repository": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-99fjdhlg/task-spec-3.9.0",
+        "run_id": "c787316e-b1cf-4545-abf9-6376e1dd2dfb",
+        "state": "active",
+        "target": {
+          "branch": "main",
+          "commit": "a335466974160704270cddce29f6670f5d841815"
+        }
+      }
+    }
+  },
+  "stdout": "",
+  "stderr": ""
+}

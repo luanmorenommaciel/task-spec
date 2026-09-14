@@ -1,0 +1,18 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "accept",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "acceptance_record": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-i9nad7or/task-spec-3.9.0/.taskspec/acceptance/T-20260914-pilot-small-fix/354152a4-7a9e-4d06-9bdd-073a7b76e645.json",
+    "acceptance_record_digest": "sha256:592277996d27c7b563b70141250225bc2c760519d4242710a4544bc99d8e6362",
+    "accepted": true,
+    "attempt_id": "354152a4-7a9e-4d06-9bdd-073a7b76e645",
+    "contract": "AcceptanceFinalized/v1",
+    "task_id": "T-20260914-pilot-small-fix",
+    "tier": 1
+  },
+  "stdout": "",
+  "stderr": "accept-task: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-i9nad7or/task-spec-3.9.0/tasks/T-20260914-pilot-small-fix.md\n────────────────────────────────────────────────────────\nA. Independent evaluation ...\n   PASS — Exit Check returned 0\nB. Handoff, graph, base commit, and blast radius ...\n   PASS — revision, closure, Git base, and write scope agree\nC. Authorization integrity ...\n   PASS — TaskAuthorization/v3 verifies\nE. Sealed evidence policy ...\n   PASS — required evidence matches this attempt\n────────────────────────────────────────────────────────\n   stamped — {\"acceptance_record\": \"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-i9nad7or/task-spec-3.9.0/.taskspec/acceptance/T-20260914-pilot-small-fix/354152a4-7a9e-4d06-9bdd-073a7b76e645.json\", \"acceptance_record_digest\": \"sha256:592277996d27c7b563b70141250225bc2c760519d4242710a4544bc99d8e6362\", \"accepted\": true, \"attempt_id\": \"354152a4-7a9e-4d06-9bdd-073a7b76e645\", \"contract\": \"AcceptanceFinalized/v1\", \"task_id\": \"T-20260914-pilot-small-fix\", \"tier\": 1}\nVERDICT: ACCEPT — Tier 1 evidence is bound to the authorized task attempt\nACCEPTED=1\n"
+}

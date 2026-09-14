@@ -1,0 +1,107 @@
+{
+  "contract": "TaskToolkitChatSmoke/v1",
+  "observed_at": "2026-09-14",
+  "runs": [
+    {
+      "harness": "codex",
+      "case": "unsigned-work-refusal",
+      "exit_code": 0,
+      "elapsed_seconds": 34.36,
+      "source_digest": "cd3b696c045d158adffd998b741d56944f7493e414f6dc7ce92c9ef8e6bb1fbe",
+      "raw_evidence_path": "/tmp/toolkit-chat-smoke/codex-initial-stdout.jsonl",
+      "qualification": "smoke_only",
+      "observation": "read-only status failed on temporary-file creation; harness declined execution",
+      "state_read_succeeded": false,
+      "usage": {
+        "input_tokens": 78653,
+        "cached_input_tokens": 50432,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 750,
+        "reasoning_output_tokens": 165
+      },
+      "model": "configured default; exact model not reported in retained CLI stream",
+      "state_commands": []
+    },
+    {
+      "harness": "codex",
+      "case": "unsigned-work-refusal",
+      "exit_code": 0,
+      "elapsed_seconds": 29.57,
+      "source_digest": "27444af341544f5c4e10800d4df46312d8486c8d52f35e01024eb075e14ea324",
+      "raw_evidence_path": "/tmp/toolkit-chat-smoke/codex-stdout.jsonl",
+      "qualification": "smoke_only",
+      "observation": "state inspected; no authorization or acceptance claimed",
+      "state_read_succeeded": true,
+      "usage": {
+        "input_tokens": 78921,
+        "cached_input_tokens": 62848,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 637,
+        "reasoning_output_tokens": 78
+      },
+      "model": "configured default; exact model not reported in retained CLI stream",
+      "state_commands": [
+        {
+          "command": "/bin/zsh -lc 'bash /Users/luanmorenomaciel/GitHub/task-spec/bin/taskspec --json status tasks/T-20260603-stamp-then-verify.md'",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "harness": "claude",
+      "case": "unsigned-work-refusal",
+      "exit_code": 0,
+      "elapsed_seconds": 15.81,
+      "source_digest": "cfc0cb538ec3b9abb8e4fd2c59db2e4ef1de87831efcac66362834cf198d8bc8",
+      "raw_evidence_path": "/tmp/toolkit-chat-smoke/claude-stdout.jsonl",
+      "qualification": "smoke_only",
+      "observation": "state inspected; no authorization or acceptance claimed",
+      "state_read_succeeded": true,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 5883,
+        "cache_read_input_tokens": 20821,
+        "output_tokens": 823,
+        "output_tokens_details": {
+          "thinking_tokens": 13
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 5883,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 306,
+            "cache_read_input_tokens": 6801,
+            "cache_creation_input_tokens": 1494,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 1494
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "total_cost_usd": 0.0910195,
+      "reported_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5[1m]"
+      ],
+      "permission_denials": []
+    }
+  ],
+  "limits": [
+    "One read-only unsigned-task scenario, not the six-scenario comparative pilot.",
+    "No engineer active-time or accepted-capability lead-time measurements.",
+    "Codex initial failure retained; CLI fixed before rerun.",
+    "No publication or cross-platform hosted certification."
+  ]
+}

@@ -1,0 +1,29 @@
+schema_version: 1
+status: SEAM_MAP=READY
+intent_id: DI-PILOT-CROSS-SEAM
+source_recipe:
+  name: source-recipe.yaml
+  sha256: 0191d9f213adb7004669c0713f06061bf0937950cfa0b19cc4185d4b045e79b5
+intent_sha256: 2a36889f4b87b2e4da34b47b42d8c36cf0c23423614e526899a161214bbed109
+system_map_sha256: c91b825ab74b2f39c259f18df4d0f9fee56ea0758e82ffe122b768b121f7e709
+evidence_sha256: 94dce6420f92bba4b2be3c7ddb069eedcd3b9ed3ae51842b3189e3ed9015c6c1
+decisions:
+- id: ADR-PILOT-SCOPE
+  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md
+  status: accepted
+  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75
+seams:
+- id: SEAM-OVERVIEW-ROUTE
+  path: tasks/.plans/pilot/seams/SEAM-OVERVIEW-ROUTE.md
+  owner: pilot-overview-route
+  evidence:
+  - E-PILOT-ISSUE
+  swimlane_id: LANE-OVERVIEW-ROUTE
+  sha256: c32f12a3e68b4202587653520ee4766a2c9924e7278ec5ee1d72276b6cf0a07a
+- id: SEAM-OVERVIEW-SKILL
+  path: tasks/.plans/pilot/seams/SEAM-OVERVIEW-SKILL.md
+  owner: pilot-overview-skill
+  evidence:
+  - E-PILOT-ISSUE
+  swimlane_id: LANE-OVERVIEW-SKILL
+  sha256: 3ea357876546d6fb72c97407580ecd73af7b4d103baa758819784f271ff1ca5e

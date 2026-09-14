@@ -1,0 +1,33 @@
+schema_version: 1
+status: DELIVERY_PLAN=READY
+seam_map_sha256: 776284d16a6548bd93ad3f787c19ad431454ed7244f3f6085b07f9905b689fbe
+swimlanes:
+- id: LANE-OVERVIEW-ROUTE
+  seam_id: SEAM-OVERVIEW-ROUTE
+  owner: pilot-overview-route
+  path: tasks/.plans/pilot/swimlanes/LANE-OVERVIEW-ROUTE.md
+  sha256: 6433d797748fc02f36d252c68101dba4d73829bf23ca7232dd8c7f0a2b23f3b7
+- id: LANE-OVERVIEW-SKILL
+  seam_id: SEAM-OVERVIEW-SKILL
+  owner: pilot-overview-skill
+  path: tasks/.plans/pilot/swimlanes/LANE-OVERVIEW-SKILL.md
+  sha256: 632dcccd3cd1d1d17328ad38fd9f116e1d6ab5297c86b6c1f24ddd0f19f51356
+legs:
+- id: LEG-OVERVIEW-ROUTE
+  seam_id: SEAM-OVERVIEW-ROUTE
+  swimlane_id: LANE-OVERVIEW-ROUTE
+  path: tasks/.plans/pilot/legs/LEG-OVERVIEW-ROUTE.md
+  sha256: 9da9995027cde73574b519df097af3056774508771af98e6b25e6d71d04e2105
+- id: LEG-OVERVIEW-SKILL
+  seam_id: SEAM-OVERVIEW-SKILL
+  swimlane_id: LANE-OVERVIEW-SKILL
+  path: tasks/.plans/pilot/legs/LEG-OVERVIEW-SKILL.md
+  sha256: ee94657a1f91e22b66759f6cc3cbcedd246fc3d5f37e6ffc7621e4250d9b6fd3
+steel_thread:
+- LEG-OVERVIEW-ROUTE
+- LEG-OVERVIEW-SKILL
+objections: []
+contentions: []
+steel_thread_path: tasks/.plans/pilot/steel-thread.md
+steel_thread_sha256: cc605cb0b511f00be33f9018b35e5d5739f4337f935f99ebfb478a8a45a14eb6
+review_authority_sha256: 6a63adc55b3c96951264d067d2535f85597c7a9473725d828dc2ecc0e6831c02

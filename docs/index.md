@@ -6,6 +6,21 @@ the conformance suite; everything here explains it.
 
 Owner agent: [`../harness/agents/task-architect.md`](../harness/agents/task-architect.md).
 
+## Integrated toolkit
+
+Start with the [toolkit journey](guides/toolkit/index.md) for native intent
+decomposition, bounded execution recipes, TaskMesh, and lifecycle evidence.
+Direct atomic authoring remains available for small, understood work.
+
+| Journey | Guide |
+|---|---|
+| Install and get an accepted result | [Install](guides/toolkit/install.md), [first task](getting-started/first-task.md) |
+| Turn intent into reviewed atomic contracts | [Intent](guides/toolkit/intent.md), [decomposition](guides/toolkit/decomposition.md) |
+| Execute and recover authorized work | [Recipes](guides/toolkit/recipes.md), [TaskMesh](guides/toolkit/execution.md) |
+| Establish completion and operational evidence | [Acceptance](guides/toolkit/acceptance.md), [release and maintenance](guides/toolkit/sdlc.md) |
+| Migrate existing planning work | [Migration](guides/toolkit/migration.md) |
+| Maintain this repository | [Repository map and release process](maintainers/index.md) |
+
 ## Start here
 
 | File | Purpose |

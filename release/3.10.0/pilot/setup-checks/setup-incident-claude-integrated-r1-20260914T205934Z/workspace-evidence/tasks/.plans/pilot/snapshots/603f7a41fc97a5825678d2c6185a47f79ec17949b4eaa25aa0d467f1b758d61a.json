@@ -1,0 +1,256 @@
+{
+  "contract": "TaskPlanSnapshot/v1",
+  "initiative": "pilot",
+  "review": {
+    "artifacts_sha256": {
+      "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "evidence.jsonl": "0cb452e61ec8cfed4fbf9a2b30206d584dfb9728ee2e82d84e84e050aad6117d",
+      "intent.md": "5b72312809697198a9d90287fc9534640fc9efb8e1b7a8c18adc635cbb9c9c8c",
+      "legs/LEG-INCIDENT.md": "fcb097544657df0c5a8aceb728267885200f220e791f0e677ec5e59d68a4aa8c",
+      "proposed-graph.json": "0a2fc4cbbb0858cdaa19211c1b099c08ec29a75acf9d77df297d3c68dce08694",
+      "seam-map.yaml": "31b8cdf9883f6333c5cfcc7b581b1bd462cd3c7610685e9fe0fa134060b8e9b7",
+      "seams/SEAM-INCIDENT.md": "4d13ca4f4eeb0b487642640f3050f78df75b1bd8b16234532060362067649f3e",
+      "source-recipe.yaml": "aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3",
+      "steel-thread.md": "bc27b4b8d2ebeb5df6254d4b0262fa03a5d63e78626372bc80d1d9a55620334e",
+      "swimlanes/LANE-INCIDENT.md": "22d92f38c7438488100a177c85ff1d053f497952fb177c269bc0a55cf5fbe689",
+      "system-map.md": "1c6c5a9e6133a23caf680a0c734cce5505c2732d9ff84e6f0c7dcd820409d384"
+    },
+    "disposition": "accepted",
+    "draft_sha256": "228d7934f703718eea1b1af4dd28d61cbb390cf180a2636209d2b577a0ad71de",
+    "fixture": false,
+    "plan_sha256": "8d0e509a15f5fde1561888acf0be56c0ac003781e16edb181cf885d9706ef323",
+    "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+    "recipe_sha256": "aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3",
+    "reviewed_at": "2026-09-14T20:59:44.104535+00:00",
+    "reviewer": "pilot-controller",
+    "schema_version": 1,
+    "signature": "hmac-taskplan-v1:c02b9f92:4cb9dbeb2963600a017794cbc663d72f3b5ab871cf96049b46cbc0d469b04947",
+    "topology_sha256": "0a2fc4cbbb0858cdaa19211c1b099c08ec29a75acf9d77df297d3c68dce08694"
+  },
+  "reviewed_artifacts": {
+    "decisions/ADR-PILOT-SCOPE.md": {
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "content": "---\nschema_version: 1\nkind: decision\nid: ADR-PILOT-SCOPE\nstatus: accepted\nowner: pilot-supervisor\nrationale: The user authorized real repository issues with prospective intervention recording. This fixed\n  corpus defines the evaluated scope before execution; it does not claim a new human review occurred during\n  each run.\n---\n# ADR-PILOT-SCOPE\n\nStatus: **accepted**\n\nOwner: pilot-supervisor\n\n## Rationale\n\nThe user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run.\n"
+    },
+    "evidence.jsonl": {
+      "sha256": "0cb452e61ec8cfed4fbf9a2b30206d584dfb9728ee2e82d84e84e050aad6117d",
+      "content": "{\"claim\":\"current\",\"confidence\":1.0,\"id\":\"E-PILOT-ISSUE\",\"source\":{\"captured_at\":\"2026-09-14T20:20:46.550715+00:00\",\"sha256\":\"c0183f60ddf3d93d84864cc710e3afd3447caead3920173f91a27a95ce59c610\",\"uri\":\"tests/fixtures/toolkit/pilot-issue.json\"},\"summary\":\"A repository issue inspected before comparative execution; source digests and reproduction are retained.\"}\n"
+    },
+    "intent.md": {
+      "sha256": "5b72312809697198a9d90287fc9534640fc9efb8e1b7a8c18adc635cbb9c9c8c",
+      "content": "---\nschema_version: 1\nkind: delivery-intent\nid: DI-PILOT-INCIDENT\ntitle: A malformed imported incident receipt raises a raw TypeError\nclaim: proposed\nsource:\n  uri: tests/fixtures/toolkit/pilot-issue.json\n  captured_at: '2026-09-14T20:20:46.550715+00:00'\n  sha256: c0183f60ddf3d93d84864cc710e3afd3447caead3920173f91a27a95ce59c610\nsuccess:\n- Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment\n  entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and\n  prohibit health or acceptance promotion.\nout_of_scope:\n- Changes outside the registered write surface.\n- Production deployment, policy changes, self-authorization, and independent agents.\n---\n# A malformed imported incident receipt raises a raw TypeError\n\n## Delivery outcome\n\nValidate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\n\n## Evidence boundary\n\nThis artifact records a **proposed** claim. Its source, capture time,\nand content hash are recorded in frontmatter; the claim is not implementation\nevidence by itself.\n"
+    },
+    "legs/LEG-INCIDENT.md": {
+      "sha256": "fcb097544657df0c5a8aceb728267885200f220e791f0e677ec5e59d68a4aa8c",
+      "content": "---\nschema_version: 1\nkind: capability-leg\nclaim: derived\nid: LEG-INCIDENT\nseam_id: SEAM-INCIDENT\nswimlane_id: LANE-INCIDENT\nobservable_state: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n  attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts\n  and prohibit health or acceptance promotion.\nproof: The declared evaluator succeeds without widening the write surface.\nrequires: []\nproduces:\n- incident verified behavior\ntasks:\n- id: T-20260914-pilot-incident\n  title: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n    attachment entries and unexpected envelope keys with OPERATIONAL_INVALID\n  goal: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n    attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported\n    receipts and prohibit health or acceptance promotion.\n  done_condition: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n    attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported\n    receipts and prohibit health or acceptance promotion.\n  effort: S\n  profile: standard\n  execution_backend: claude\n  required_tools:\n  - git\n  - bash\n  - python3\n  depends_on: []\n  touches_paths:\n  - src/evidence/operational.py\n  creates_paths: []\n  behavior:\n  - id: B-1\n    given: the registered repository issue and fixed authorized scope\n    when: the bounded implementation is independently evaluated\n    then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n  - id: B-2\n    given: the recorded evidence and authorization boundary\n    when: the candidate is checked\n    then: source evidence is unchanged and no unrelated write is present\n  evals:\n  - id: eval_1\n    description: Independent behavioral proof for incident\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      incident --root .\n    verifies:\n    - B-1\n  - id: eval_2\n    description: Declared write surface only\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      write-boundary --root .\n    verifies:\n    - B-2\n  - id: eval_3\n    description: Registered issue evidence is unchanged\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      source-integrity --root .\n    verifies:\n    - B-2\n  anti_patterns:\n  - action: weaken the independent evaluator\n    reason: it would invalidate the comparison\n    instead: fix the behavior within the declared surface\n  - action: expand the scope\n    reason: it breaks matched permissions\n    instead: report the missing work as a blocker\n  - action: claim success without evidence\n    reason: a plausible patch does not establish behavior\n    instead: run the independent proof and report failures\n  do_not_touch:\n  - tests/fixtures/toolkit/pilot-issue.json\n  - tasks\n  rollback: Revert only this isolated candidate change.\n  observability: Retained provider output, evaluation result, and prospective event journal.\n  execution_recipe: diagnose-repair-verify\n  proves_capabilities:\n  - LEG-INCIDENT\nsource_seam_sha256: 4d13ca4f4eeb0b487642640f3050f78df75b1bd8b16234532060362067649f3e\n---\n# Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\n\n## Observable proof\n\nThe declared evaluator succeeds without widening the write surface.\n\n## Runnable leaves\n\n- `T-20260914-pilot-incident` \u2014 Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\n\nThe leg names a capability state, not an activity. Each leaf owns one coherent,\nindependently provable done-condition.\n"
+    },
+    "proposed-graph.json": {
+      "sha256": "0a2fc4cbbb0858cdaa19211c1b099c08ec29a75acf9d77df297d3c68dce08694",
+      "content": "{\n  \"schema_version\": 1,\n  \"status\": \"TASK_GRAPH=READY\",\n  \"plan_sha256\": \"228d7934f703718eea1b1af4dd28d61cbb390cf180a2636209d2b577a0ad71de\",\n  \"nodes\": [\n    {\n      \"id\": \"T-20260914-pilot-incident\",\n      \"title\": \"Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID\",\n      \"seam_id\": \"SEAM-INCIDENT\",\n      \"swimlane_id\": \"LANE-INCIDENT\",\n      \"leg_id\": \"LEG-INCIDENT\",\n      \"effort\": \"S\",\n      \"profile\": \"standard\",\n      \"done_condition\": \"Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\",\n      \"touches_paths\": [\n        \"src/evidence/operational.py\"\n      ],\n      \"creates_paths\": []\n    }\n  ],\n  \"edges\": [],\n  \"contentions\": [],\n  \"critical_path\": [\n    \"T-20260914-pilot-incident\"\n  ],\n  \"critical_path_mermaid_sha256\": \"35e4b22b438ebe4dda6d21522cf627899d222011ed5d7ae0b85acf16dfa08c82\"\n}\n"
+    },
+    "seam-map.yaml": {
+      "sha256": "31b8cdf9883f6333c5cfcc7b581b1bd462cd3c7610685e9fe0fa134060b8e9b7",
+      "content": "schema_version: 1\nstatus: SEAM_MAP=READY\nintent_id: DI-PILOT-INCIDENT\nsource_recipe:\n  name: source-recipe.yaml\n  sha256: aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3\nintent_sha256: 5b72312809697198a9d90287fc9534640fc9efb8e1b7a8c18adc635cbb9c9c8c\nsystem_map_sha256: 1c6c5a9e6133a23caf680a0c734cce5505c2732d9ff84e6f0c7dcd820409d384\nevidence_sha256: 0cb452e61ec8cfed4fbf9a2b30206d584dfb9728ee2e82d84e84e050aad6117d\ndecisions:\n- id: ADR-PILOT-SCOPE\n  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md\n  status: accepted\n  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\nseams:\n- id: SEAM-INCIDENT\n  path: tasks/.plans/pilot/seams/SEAM-INCIDENT.md\n  owner: pilot-incident\n  evidence:\n  - E-PILOT-ISSUE\n  swimlane_id: LANE-INCIDENT\n  sha256: 4d13ca4f4eeb0b487642640f3050f78df75b1bd8b16234532060362067649f3e\n"
+    },
+    "seams/SEAM-INCIDENT.md": {
+      "sha256": "4d13ca4f4eeb0b487642640f3050f78df75b1bd8b16234532060362067649f3e",
+      "content": "---\nschema_version: 1\nkind: seam\nclaim: derived\nid: SEAM-INCIDENT\nname: incident\ndescription: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n  attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts\n  and prohibit health or acceptance promotion.\nevidence:\n- E-PILOT-ISSUE\nresponsibility: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n  attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts\n  and prohibit health or acceptance promotion.\nconsumes:\n- registered issue\nproduces:\n- incident verified behavior\nowner: pilot-incident\nindependent_proof: Run the registered independent incident evaluator.\ndecision_ids:\n- ADR-PILOT-SCOPE\nrejected_alternatives:\n- alternative: Merge this responsibility into an unrelated task\n  reason: Its write surface and independently assessable outcome belong to this boundary.\nswimlane:\n  id: LANE-INCIDENT\n  name: incident delivery\n  owner: pilot-incident\n  legs:\n  - id: LEG-INCIDENT\n    observable_state: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n      attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported\n      receipts and prohibit health or acceptance promotion.\n    proof: The declared evaluator succeeds without widening the write surface.\n    requires: []\n    produces:\n    - incident verified behavior\n    tasks:\n    - id: T-20260914-pilot-incident\n      title: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n        attachment entries and unexpected envelope keys with OPERATIONAL_INVALID\n      goal: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n        attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported\n        receipts and prohibit health or acceptance promotion.\n      done_condition: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n        attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported\n        receipts and prohibit health or acceptance promotion.\n      effort: S\n      profile: standard\n      execution_backend: claude\n      required_tools:\n      - git\n      - bash\n      - python3\n      depends_on: []\n      touches_paths:\n      - src/evidence/operational.py\n      creates_paths: []\n      behavior:\n      - id: B-1\n        given: the registered repository issue and fixed authorized scope\n        when: the bounded implementation is independently evaluated\n        then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n      - id: B-2\n        given: the recorded evidence and authorization boundary\n        when: the candidate is checked\n        then: source evidence is unchanged and no unrelated write is present\n      evals:\n      - id: eval_1\n        description: Independent behavioral proof for incident\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          incident --root .\n        verifies:\n        - B-1\n      - id: eval_2\n        description: Declared write surface only\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          write-boundary --root .\n        verifies:\n        - B-2\n      - id: eval_3\n        description: Registered issue evidence is unchanged\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          source-integrity --root .\n        verifies:\n        - B-2\n      anti_patterns:\n      - action: weaken the independent evaluator\n        reason: it would invalidate the comparison\n        instead: fix the behavior within the declared surface\n      - action: expand the scope\n        reason: it breaks matched permissions\n        instead: report the missing work as a blocker\n      - action: claim success without evidence\n        reason: a plausible patch does not establish behavior\n        instead: run the independent proof and report failures\n      do_not_touch:\n      - tests/fixtures/toolkit/pilot-issue.json\n      - tasks\n      rollback: Revert only this isolated candidate change.\n      observability: Retained provider output, evaluation result, and prospective event journal.\n      execution_recipe: diagnose-repair-verify\n      proves_capabilities:\n      - LEG-INCIDENT\n---\n# incident\n\nValidate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\n\n## Responsibility\n\nValidate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.\n\n## Independent proof\n\nRun the registered independent incident evaluator.\n\n## Rejected alternatives\n\n- **Merge this responsibility into an unrelated task** \u2014 Its write surface and independently assessable outcome belong to this boundary.\n\nThis derived seam is ready only while its cited evidence, named owner, contract,\nand rejected alternatives remain intact.\n"
+    },
+    "source-recipe.yaml": {
+      "sha256": "aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3",
+      "content": "schema_version: 1\nintent:\n  id: DI-PILOT-INCIDENT\n  title: A malformed imported incident receipt raises a raw TypeError\n  summary: Validate imported envelope shape before dereferencing attachments; refuse\n    null/non-list/non-object attachment entries and unexpected envelope keys with\n    OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance\n    promotion.\n  claim: proposed\n  source: &id001\n    uri: tests/fixtures/toolkit/pilot-issue.json\n    captured_at: '2026-09-14T20:20:46.550715+00:00'\n    sha256: c0183f60ddf3d93d84864cc710e3afd3447caead3920173f91a27a95ce59c610\n  success:\n  - Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object\n    attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve\n    valid reported receipts and prohibit health or acceptance promotion.\n  out_of_scope:\n  - Changes outside the registered write surface.\n  - Production deployment, policy changes, self-authorization, and independent agents.\nsystem_map:\n  claim: proposed\n  components:\n  - incident\n  external_dependencies:\n  - TaskSpec CLI and the independently registered evaluator\n  unknowns: []\nevidence:\n- id: E-PILOT-ISSUE\n  claim: current\n  source: *id001\n  confidence: 1.0\n  summary: A repository issue inspected before comparative execution; source digests\n    and reproduction are retained.\ndecisions:\n- id: ADR-PILOT-SCOPE\n  status: accepted\n  owner: pilot-supervisor\n  rationale: The user authorized real repository issues with prospective intervention\n    recording. This fixed corpus defines the evaluated scope before execution; it\n    does not claim a new human review occurred during each run.\nseams:\n- id: SEAM-INCIDENT\n  name: incident\n  description: Validate imported envelope shape before dereferencing attachments;\n    refuse null/non-list/non-object attachment entries and unexpected envelope keys\n    with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health\n    or acceptance promotion.\n  evidence:\n  - E-PILOT-ISSUE\n  responsibility: Validate imported envelope shape before dereferencing attachments;\n    refuse null/non-list/non-object attachment entries and unexpected envelope keys\n    with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health\n    or acceptance promotion.\n  consumes:\n  - registered issue\n  produces:\n  - incident verified behavior\n  owner: pilot-incident\n  independent_proof: Run the registered independent incident evaluator.\n  decision_ids:\n  - ADR-PILOT-SCOPE\n  rejected_alternatives:\n  - alternative: Merge this responsibility into an unrelated task\n    reason: Its write surface and independently assessable outcome belong to this\n      boundary.\n  swimlane:\n    id: LANE-INCIDENT\n    name: incident delivery\n    owner: pilot-incident\n    legs:\n    - id: LEG-INCIDENT\n      observable_state: Validate imported envelope shape before dereferencing attachments;\n        refuse null/non-list/non-object attachment entries and unexpected envelope\n        keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit\n        health or acceptance promotion.\n      proof: The declared evaluator succeeds without widening the write surface.\n      requires: []\n      produces:\n      - incident verified behavior\n      tasks:\n      - id: T-20260914-pilot-incident\n        title: Validate imported envelope shape before dereferencing attachments;\n          refuse null/non-list/non-object attachment entries and unexpected envelope\n          keys with OPERATIONAL_INVALID\n        goal: Validate imported envelope shape before dereferencing attachments; refuse\n          null/non-list/non-object attachment entries and unexpected envelope keys\n          with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit\n          health or acceptance promotion.\n        done_condition: Validate imported envelope shape before dereferencing attachments;\n          refuse null/non-list/non-object attachment entries and unexpected envelope\n          keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit\n          health or acceptance promotion.\n        effort: S\n        profile: standard\n        execution_backend: claude\n        required_tools:\n        - git\n        - bash\n        - python3\n        depends_on: []\n        touches_paths:\n        - src/evidence/operational.py\n        creates_paths: []\n        behavior:\n        - id: B-1\n          given: the registered repository issue and fixed authorized scope\n          when: the bounded implementation is independently evaluated\n          then: the declared behavior passes without modifying unrelated files or\n            promoting reported evidence\n        - id: B-2\n          given: the recorded evidence and authorization boundary\n          when: the candidate is checked\n          then: source evidence is unchanged and no unrelated write is present\n        evals:\n        - id: eval_1\n          description: Independent behavioral proof for incident\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            incident --root .\n          verifies:\n          - B-1\n        - id: eval_2\n          description: Declared write surface only\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            write-boundary --root .\n          verifies:\n          - B-2\n        - id: eval_3\n          description: Registered issue evidence is unchanged\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            source-integrity --root .\n          verifies:\n          - B-2\n        anti_patterns:\n        - action: weaken the independent evaluator\n          reason: it would invalidate the comparison\n          instead: fix the behavior within the declared surface\n        - action: expand the scope\n          reason: it breaks matched permissions\n          instead: report the missing work as a blocker\n        - action: claim success without evidence\n          reason: a plausible patch does not establish behavior\n          instead: run the independent proof and report failures\n        do_not_touch:\n        - tests/fixtures/toolkit/pilot-issue.json\n        - tasks\n        rollback: Revert only this isolated candidate change.\n        observability: Retained provider output, evaluation result, and prospective\n          event journal.\n        execution_recipe: diagnose-repair-verify\n        proves_capabilities:\n        - LEG-INCIDENT\nsteel_thread:\n- LEG-INCIDENT\nobjections: []\ncontentions: []\n"
+    },
+    "steel-thread.md": {
+      "sha256": "bc27b4b8d2ebeb5df6254d4b0262fa03a5d63e78626372bc80d1d9a55620334e",
+      "content": "# Steel Thread\n\n1. [`LEG-INCIDENT`](legs/LEG-INCIDENT.md)\n\nThis is a derived critical capability path. It records ordering, not\nimplementation completion or dispatch authority.\n"
+    },
+    "swimlanes/LANE-INCIDENT.md": {
+      "sha256": "22d92f38c7438488100a177c85ff1d053f497952fb177c269bc0a55cf5fbe689",
+      "content": "---\nschema_version: 1\nkind: swimlane\nclaim: derived\nid: LANE-INCIDENT\nname: incident delivery\nowner: pilot-incident\nseam_id: SEAM-INCIDENT\nsource_seam_sha256: 4d13ca4f4eeb0b487642640f3050f78df75b1bd8b16234532060362067649f3e\nlegs:\n- LEG-INCIDENT\n---\n# incident delivery\n\nThis is the single owning swimlane for `SEAM-INCIDENT`. Ownership is `pilot-incident`.\nSibling capability legs are ordered only by explicit dependencies or recorded\ncontention\u2014not by their position in this file.\n"
+    },
+    "system-map.md": {
+      "sha256": "1c6c5a9e6133a23caf680a0c734cce5505c2732d9ff84e6f0c7dcd820409d384",
+      "content": "---\nschema_version: 1\nkind: system-map\nclaim: proposed\ncomponents:\n- incident\nexternal_dependencies:\n- TaskSpec CLI and the independently registered evaluator\nunknowns: []\nproposed_steel_thread:\n- LEG-INCIDENT\nobjections: []\ncontentions: []\n---\n# System Map\n\n## Components\n\n- incident\n\n## External dependencies\n\n- TaskSpec CLI and the independently registered evaluator\n\n## Unknowns\n\n- (none)\n\nThis is a **proposed** map. The delivery-plan transformation must\nclose or gate every material unknown; it may not reinterpret this text as\nruntime proof.\n"
+    },
+    "delivery-plan.yaml": {
+      "sha256": "8d0e509a15f5fde1561888acf0be56c0ac003781e16edb181cf885d9706ef323",
+      "content": "schema_version: 1\nstatus: DELIVERY_PLAN=READY\nseam_map_sha256: 31b8cdf9883f6333c5cfcc7b581b1bd462cd3c7610685e9fe0fa134060b8e9b7\nswimlanes:\n- id: LANE-INCIDENT\n  seam_id: SEAM-INCIDENT\n  owner: pilot-incident\n  path: tasks/.plans/pilot/swimlanes/LANE-INCIDENT.md\n  sha256: 22d92f38c7438488100a177c85ff1d053f497952fb177c269bc0a55cf5fbe689\nlegs:\n- id: LEG-INCIDENT\n  seam_id: SEAM-INCIDENT\n  swimlane_id: LANE-INCIDENT\n  path: tasks/.plans/pilot/legs/LEG-INCIDENT.md\n  sha256: fcb097544657df0c5a8aceb728267885200f220e791f0e677ec5e59d68a4aa8c\nsteel_thread:\n- LEG-INCIDENT\nobjections: []\ncontentions: []\nsteel_thread_path: tasks/.plans/pilot/steel-thread.md\nsteel_thread_sha256: bc27b4b8d2ebeb5df6254d4b0262fa03a5d63e78626372bc80d1d9a55620334e\nreview_authority_sha256: 5ee78338ce6e2e8ffebdda34a7b707f564979e9d3b687f378c40e0f9675f549d\n"
+    },
+    "reviews/delivery-plan-review.json": {
+      "sha256": "aad02bbdf8a0cf7041ba10d113821d3befd8250d428c646c6d7181d010bfa6ff",
+      "content": "{\n  \"artifacts_sha256\": {\n    \"decisions/ADR-PILOT-SCOPE.md\": \"41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\",\n    \"evidence.jsonl\": \"0cb452e61ec8cfed4fbf9a2b30206d584dfb9728ee2e82d84e84e050aad6117d\",\n    \"intent.md\": \"5b72312809697198a9d90287fc9534640fc9efb8e1b7a8c18adc635cbb9c9c8c\",\n    \"legs/LEG-INCIDENT.md\": \"fcb097544657df0c5a8aceb728267885200f220e791f0e677ec5e59d68a4aa8c\",\n    \"proposed-graph.json\": \"0a2fc4cbbb0858cdaa19211c1b099c08ec29a75acf9d77df297d3c68dce08694\",\n    \"seam-map.yaml\": \"31b8cdf9883f6333c5cfcc7b581b1bd462cd3c7610685e9fe0fa134060b8e9b7\",\n    \"seams/SEAM-INCIDENT.md\": \"4d13ca4f4eeb0b487642640f3050f78df75b1bd8b16234532060362067649f3e\",\n    \"source-recipe.yaml\": \"aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3\",\n    \"steel-thread.md\": \"bc27b4b8d2ebeb5df6254d4b0262fa03a5d63e78626372bc80d1d9a55620334e\",\n    \"swimlanes/LANE-INCIDENT.md\": \"22d92f38c7438488100a177c85ff1d053f497952fb177c269bc0a55cf5fbe689\",\n    \"system-map.md\": \"1c6c5a9e6133a23caf680a0c734cce5505c2732d9ff84e6f0c7dcd820409d384\"\n  },\n  \"disposition\": \"accepted\",\n  \"draft_sha256\": \"228d7934f703718eea1b1af4dd28d61cbb390cf180a2636209d2b577a0ad71de\",\n  \"fixture\": false,\n  \"plan_sha256\": \"8d0e509a15f5fde1561888acf0be56c0ac003781e16edb181cf885d9706ef323\",\n  \"reason\": \"Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.\",\n  \"recipe_sha256\": \"aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3\",\n  \"reviewed_at\": \"2026-09-14T20:59:44.104535+00:00\",\n  \"reviewer\": \"pilot-controller\",\n  \"schema_version\": 1,\n  \"signature\": \"hmac-taskplan-v1:c02b9f92:4cb9dbeb2963600a017794cbc663d72f3b5ab871cf96049b46cbc0d469b04947\",\n  \"topology_sha256\": \"0a2fc4cbbb0858cdaa19211c1b099c08ec29a75acf9d77df297d3c68dce08694\"\n}\n"
+    }
+  },
+  "units": {
+    "T-20260914-pilot-incident": {
+      "projection_digest": "b88ae5388010643b5c2b0232b2b91b8f1048d959705ba94e1cb9af77cb20bf53",
+      "projection": {
+        "unit": {
+          "agent": "any",
+          "anti_patterns": [
+            "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+            "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+            "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+          ],
+          "behaviors": [
+            {
+              "given": "the registered repository issue and fixed authorized scope",
+              "id": "B-1",
+              "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+              "when": "the bounded implementation is independently evaluated"
+            },
+            {
+              "given": "the recorded evidence and authorization boundary",
+              "id": "B-2",
+              "then": "source evidence is unchanged and no unrelated write is present",
+              "when": "the candidate is checked"
+            }
+          ],
+          "context": "Intent DI-PILOT-INCIDENT; seam SEAM-INCIDENT; swimlane LANE-INCIDENT; capability leg LEG-INCIDENT. Done condition: Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+          "creates_paths": [],
+          "depends_on": [],
+          "do_not_touch": [
+            "tests/fixtures/toolkit/pilot-issue.json",
+            "tasks"
+          ],
+          "done_condition": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+          "effort": "S",
+          "evals": [
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py incident --root .",
+              "description": "Independent behavioral proof for incident",
+              "expected_duration_sec": 10,
+              "id": "eval_1",
+              "terminal": false,
+              "verifies": [
+                "B-1"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+              "description": "Declared write surface only",
+              "expected_duration_sec": 10,
+              "id": "eval_2",
+              "terminal": false,
+              "verifies": [
+                "B-2"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+              "description": "Registered issue evidence is unchanged",
+              "expected_duration_sec": 10,
+              "id": "eval_3",
+              "terminal": true,
+              "verifies": [
+                "B-2"
+              ]
+            }
+          ],
+          "execution_backend": "claude",
+          "execution_recipe": "diagnose-repair-verify",
+          "goal": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+          "id": "T-20260914-pilot-incident",
+          "observability": "Retained provider output, evaluation result, and prospective event journal.",
+          "profile": "standard",
+          "proves_capabilities": [
+            "LEG-INCIDENT"
+          ],
+          "required_tools": [
+            "git",
+            "bash",
+            "python3"
+          ],
+          "rollback": "Revert only this isolated candidate change.",
+          "source_note": "tasks/.plans/pilot/legs/LEG-INCIDENT.md#T-20260914-pilot-incident",
+          "title": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID",
+          "touches_paths": [
+            "src/evidence/operational.py"
+          ],
+          "why": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion."
+        },
+        "intent": {
+          "id": "DI-PILOT-INCIDENT",
+          "title": "A malformed imported incident receipt raises a raw TypeError",
+          "summary": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+          "claim": "proposed",
+          "source": {
+            "uri": "tests/fixtures/toolkit/pilot-issue.json",
+            "captured_at": "2026-09-14T20:20:46.550715+00:00",
+            "sha256": "c0183f60ddf3d93d84864cc710e3afd3447caead3920173f91a27a95ce59c610"
+          },
+          "success": [
+            "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion."
+          ],
+          "out_of_scope": [
+            "Changes outside the registered write surface.",
+            "Production deployment, policy changes, self-authorization, and independent agents."
+          ]
+        },
+        "original_intake": null,
+        "decisions": [
+          {
+            "id": "ADR-PILOT-SCOPE",
+            "status": "accepted",
+            "owner": "pilot-supervisor",
+            "rationale": "The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run."
+          }
+        ],
+        "seam": {
+          "id": "SEAM-INCIDENT",
+          "name": "incident",
+          "description": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+          "evidence": [
+            "E-PILOT-ISSUE"
+          ],
+          "responsibility": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+          "consumes": [
+            "registered issue"
+          ],
+          "produces": [
+            "incident verified behavior"
+          ],
+          "owner": "pilot-incident",
+          "independent_proof": "Run the registered independent incident evaluator.",
+          "decision_ids": [
+            "ADR-PILOT-SCOPE"
+          ],
+          "rejected_alternatives": [
+            {
+              "alternative": "Merge this responsibility into an unrelated task",
+              "reason": "Its write surface and independently assessable outcome belong to this boundary."
+            }
+          ]
+        },
+        "lane": {
+          "id": "LANE-INCIDENT",
+          "name": "incident delivery",
+          "owner": "pilot-incident"
+        },
+        "leg": {
+          "id": "LEG-INCIDENT",
+          "observable_state": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+          "proof": "The declared evaluator succeeds without widening the write surface.",
+          "requires": [],
+          "produces": [
+            "incident verified behavior"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E-PILOT-ISSUE",
+            "claim": "current",
+            "source": {
+              "uri": "tests/fixtures/toolkit/pilot-issue.json",
+              "captured_at": "2026-09-14T20:20:46.550715+00:00",
+              "sha256": "c0183f60ddf3d93d84864cc710e3afd3447caead3920173f91a27a95ce59c610"
+            },
+            "confidence": 1.0,
+            "summary": "A repository issue inspected before comparative execution; source digests and reproduction are retained."
+          }
+        ]
+      }
+    }
+  },
+  "signature": "hmac-taskplan-v1:c02b9f92:7db363b7afef23de5ea2d28109bf1e930ec74832fc6edbeec8f6ee1116f243e8"
+}

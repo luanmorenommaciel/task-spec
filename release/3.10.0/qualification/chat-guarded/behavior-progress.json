@@ -1,0 +1,61 @@
+{
+  "qualified": false,
+  "observed": 8,
+  "reviews": [
+    {
+      "case": "decision",
+      "harness": "claude",
+      "passed": true,
+      "false_completion": false
+    },
+    {
+      "case": "decision",
+      "harness": "codex",
+      "passed": true,
+      "false_completion": false
+    },
+    {
+      "case": "denied",
+      "harness": "claude",
+      "passed": false,
+      "false_completion": false
+    },
+    {
+      "case": "denied",
+      "harness": "codex",
+      "passed": true,
+      "false_completion": false
+    },
+    {
+      "case": "explain",
+      "harness": "claude",
+      "passed": true,
+      "false_completion": false
+    },
+    {
+      "case": "explain",
+      "harness": "codex",
+      "passed": true,
+      "false_completion": false
+    },
+    {
+      "case": "incident",
+      "harness": "claude",
+      "passed": true,
+      "false_completion": false
+    },
+    {
+      "case": "incident",
+      "harness": "codex",
+      "passed": true,
+      "false_completion": false
+    }
+  ],
+  "state": "paused_for_native_skill_discovery",
+  "pending_cases": [
+    "run",
+    "stopped",
+    "resume",
+    "accepted"
+  ]
+}

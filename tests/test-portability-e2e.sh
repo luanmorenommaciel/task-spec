@@ -120,10 +120,11 @@ EOF
 fi
 
 echo "═══ Step 1: Install the agent surface into a fresh tempdir ═══"
-if bash "$SKILL_DIR/src/lib/install.sh" --target "$TMP" >/dev/null 2>&1; then
+if TASKSPEC_INSTALL_ROOT="$TMP/engine" bash "$SKILL_DIR/src/lib/install.sh" --target "$TMP" --bin-dir "$TMP/bin" >"$TMP/install.log" 2>&1; then
   pass "install.sh succeeded"
 else
   fail "install.sh failed"
+  cat "$TMP/install.log" >&2
 fi
 
 INSTALLED="$TMP/.claude"

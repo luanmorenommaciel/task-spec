@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "intent": {
+    "id": "INTENT-RATE-LIMITING",
+    "title": "Rate-limiting steel thread proposal",
+    "summary": "Propose the four ordered fixture outcomes while keeping provider-owned usage metering out of scope. No approval or execution is authorized.",
+    "claim": "proposed",
+    "source": {
+      "uri": "tests/fixtures/toolkit/blueprint.md",
+      "captured_at": "2026-09-14T21:44:09.347956+00:00",
+      "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+    },
+    "success": [
+      "A supported policy version accepts valid positive limits and windows and rejects invalid input.",
+      "An organization resolves to exactly one validated effective policy; missing or ambiguous inputs produce an explicit error.",
+      "For one organization and effective policy, requests 1 through 100 are allowed in one controlled window and request 101 is denied.",
+      "An integration fixture traverses validation, resolution and enforcement; denial of request 101 returns a stable reason and emits matching decision telemetry."
+    ],
+    "out_of_scope": [
+      "Provider-owned usage metering, billing, usage aggregation and reconciliation.",
+      "Production storage selection and deployment infrastructure.",
+      "Approval, signing, task execution, commit, publication and installed engine changes.",
+      "Claims of shipped behavior from this synthetic fixture."
+    ]
+  },
+  "system_map": {
+    "claim": "proposed",
+    "components": [
+      "Versioned policy validator",
+      "Organization policy resolver",
+      "Request-window limiter with injected clock and in-memory fixture state",
+      "Denial response adapter and local decision-event collector"
+    ],
+    "external_dependencies": [
+      "Usage metering remains provider-owned and outside this plan; no provider integration is required for the local proof."
+    ],
+    "unknowns": [
+      "The blueprint does not identify the responsible owner for in-scope rate-limiting work.",
+      "Policy precedence and missing-policy behavior are unspecified; explicit rejection of missing or ambiguous candidates is proposed for review."
+    ]
+  },
+  "evidence": [
+    {
+      "id": "EVIDENCE-BLUEPRINT",
+      "claim": "current",
+      "source": {
+        "uri": "tests/fixtures/toolkit/blueprint.md",
+        "captured_at": "2026-09-14T21:44:09.347956+00:00",
+        "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+      },
+      "confidence": 1.0,
+      "summary": "Verified local synthetic fixture specifies the four desired outcomes and excludes provider-owned metering and production infrastructure; it is not evidence of shipped behavior."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DECISION-OWNERSHIP",
+      "status": "proposed",
+      "owner": "Unassigned: not named in the blueprint",
+      "rationale": "Record the responsible in-scope owner before native topology review; do not infer a team or transfer provider metering ownership."
+    },
+    {
+      "id": "DECISION-FIXTURE-CONTRACT",
+      "status": "proposed",
+      "owner": "Unassigned: not named in the blueprint",
+      "rationale": "Propose standard-library Python fixture paths, injected time, local in-memory state, explicit invalid/ambiguous-policy errors and correlated denial events. These are reviewable design choices, not source facts or production selections."
+    }
+  ],
+  "seams": [
+    {
+      "id": "SEAM-RATE-LIMITING",
+      "name": "Rate-limiting decision contract",
+      "description": "One proposed responsibility boundary with four sequential, independently assessable outcomes. No separate organizational owners are asserted.",
+      "evidence": [
+        "EVIDENCE-BLUEPRINT"
+      ],
+      "responsibility": "Validate and resolve policy, enforce request-window limits, and expose denial decisions. Provider-owned usage metering remains outside the boundary.",
+      "consumes": [
+        "Versioned policy inputs",
+        "Organization identity",
+        "Request and controlled clock"
+      ],
+      "produces": [
+        "Validated policy",
+        "One effective policy",
+        "Allow or deny decision",
+        "Stable denial reason and matching telemetry"
+      ],
+      "owner": "Unassigned: not named in the blueprint",
+      "independent_proof": "Controlled local integration fixture allows 100 requests, denies request 101 and compares response and event, with no provider metering calls. Downstream proof consumes all preceding outputs.",
+      "decision_ids": [
+        "DECISION-OWNERSHIP",
+        "DECISION-FIXTURE-CONTRACT"
+      ],
+      "rejected_alternatives": [
+        {
+          "alternative": "Assign separate teams to each steel-thread step",
+          "reason": "No such organizational ownership is evidenced; steps represent observable outcomes, not invented teams."
+        },
+        {
+          "alternative": "Combine limiter counters with provider usage metering",
+          "reason": "Would cross the explicit provider-owned metering boundary."
+        }
+      ],
+      "swimlane": {
+        "id": "LANE-RATE-LIMITING",
+        "name": "Rate-limiting fixture",
+        "owner": "Unassigned: not named in the blueprint",
+        "legs": [
+          {
+            "id": "LEG-POLICY-SCHEMA",
+            "observable_state": "A supported policy version accepts valid positive limits and windows and rejects invalid input.",
+            "proof": "Run the declared focused fixture checks; final denial-telemetry integration proof requires all upstream tasks.",
+            "requires": [],
+            "produces": [
+              "versioned-policy"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260914-policy-schema",
+                "title": "Versioned policy validation",
+                "goal": "A supported policy version accepts valid positive limits and windows and rejects invalid input.",
+                "done_condition": "A supported policy version accepts valid positive limits and windows and rejects invalid input. All three declared checks pass. This is proposed fixture behavior, not a claim of shipped behavior.",
+                "effort": "S",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "python3"
+                ],
+                "depends_on": [],
+                "touches_paths": [],
+                "creates_paths": [
+                  "rate_limiting/policy_schema.py",
+                  "tests/rate_limiting/test_policy_schema.py"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "a supported version and valid positive limit and window",
+                    "when": "the policy is validated",
+                    "then": "validation returns a versioned policy"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "invalid limits or windows or an unsupported version",
+                    "when": "validation is attempted",
+                    "then": "validation rejects the policy with a stable validation error"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "test valid policy",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_policy_schema.py' -k test_valid_policy",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "test invalid policy",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_policy_schema.py' -k test_invalid_policy",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "test version compatibility",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_policy_schema.py' -k test_version_compatibility",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider usage metering",
+                    "reason": "The blueprint assigns usage metering to the provider and excludes it.",
+                    "instead": "Use only request-window enforcement state and decision telemetry."
+                  },
+                  {
+                    "action": "Select production storage or deployment infrastructure",
+                    "reason": "Those choices are explicitly outside this fixture.",
+                    "instead": "Use a deterministic local fixture with an injected clock, in-memory request state and an event collector."
+                  },
+                  {
+                    "action": "Treat fixture checks as shipped or production proof",
+                    "reason": "The source explicitly disclaims shipped behavior.",
+                    "instead": "Report only the behavior exercised by the local fixture."
+                  }
+                ],
+                "do_not_touch": [
+                  "tests/fixtures/toolkit/blueprint.md",
+                  ".agents",
+                  ".codex",
+                  ".taskspec",
+                  "AGENTS.md",
+                  "provider",
+                  "metering",
+                  "infra"
+                ],
+                "rollback": "Remove only the files created by this leaf after checking downstream dependencies.",
+                "observability": "Retain test outcomes and fixture decisions without provider usage records."
+              }
+            ]
+          },
+          {
+            "id": "LEG-POLICY-RESOLUTION",
+            "observable_state": "An organization resolves to exactly one validated effective policy; missing or ambiguous inputs produce an explicit error.",
+            "proof": "Run the declared focused fixture checks; final denial-telemetry integration proof requires all upstream tasks.",
+            "requires": [
+              "versioned-policy"
+            ],
+            "produces": [
+              "effective-policy"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260914-policy-resolution",
+                "title": "One effective organization policy",
+                "goal": "An organization resolves to exactly one validated effective policy; missing or ambiguous inputs produce an explicit error.",
+                "done_condition": "An organization resolves to exactly one validated effective policy; missing or ambiguous inputs produce an explicit error. All three declared checks pass. This is proposed fixture behavior, not a claim of shipped behavior.",
+                "effort": "S",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "python3"
+                ],
+                "depends_on": [
+                  "T-20260914-policy-schema"
+                ],
+                "touches_paths": [],
+                "creates_paths": [
+                  "rate_limiting/policy_resolution.py",
+                  "tests/rate_limiting/test_policy_resolution.py"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "one validated policy associated with an organization",
+                    "when": "resolution is requested",
+                    "then": "exactly one effective policy is returned"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "missing or conflicting organization policy candidates",
+                    "when": "resolution is requested",
+                    "then": "an explicit resolution error is returned; no arbitrary policy is selected"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "test single policy",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_policy_resolution.py' -k test_single_policy",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "test missing or ambiguous policy",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_policy_resolution.py' -k test_missing_or_ambiguous_policy",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "test organization isolation",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_policy_resolution.py' -k test_organization_isolation",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider usage metering",
+                    "reason": "The blueprint assigns usage metering to the provider and excludes it.",
+                    "instead": "Use only request-window enforcement state and decision telemetry."
+                  },
+                  {
+                    "action": "Select production storage or deployment infrastructure",
+                    "reason": "Those choices are explicitly outside this fixture.",
+                    "instead": "Use a deterministic local fixture with an injected clock, in-memory request state and an event collector."
+                  },
+                  {
+                    "action": "Treat fixture checks as shipped or production proof",
+                    "reason": "The source explicitly disclaims shipped behavior.",
+                    "instead": "Report only the behavior exercised by the local fixture."
+                  }
+                ],
+                "do_not_touch": [
+                  "tests/fixtures/toolkit/blueprint.md",
+                  ".agents",
+                  ".codex",
+                  ".taskspec",
+                  "AGENTS.md",
+                  "provider",
+                  "metering",
+                  "infra"
+                ],
+                "rollback": "Remove only the files created by this leaf after checking downstream dependencies.",
+                "observability": "Retain test outcomes and fixture decisions without provider usage records."
+              }
+            ]
+          },
+          {
+            "id": "LEG-REQUEST-ENFORCEMENT",
+            "observable_state": "For one organization and effective policy, requests 1 through 100 are allowed in one controlled window and request 101 is denied.",
+            "proof": "Run the declared focused fixture checks; final denial-telemetry integration proof requires all upstream tasks.",
+            "requires": [
+              "effective-policy"
+            ],
+            "produces": [
+              "rate-limit-decision"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260914-request-enforcement",
+                "title": "Enforce the 100-request window",
+                "goal": "For one organization and effective policy, requests 1 through 100 are allowed in one controlled window and request 101 is denied.",
+                "done_condition": "For one organization and effective policy, requests 1 through 100 are allowed in one controlled window and request 101 is denied. All three declared checks pass. This is proposed fixture behavior, not a claim of shipped behavior.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "python3"
+                ],
+                "depends_on": [
+                  "T-20260914-policy-resolution"
+                ],
+                "touches_paths": [],
+                "creates_paths": [
+                  "rate_limiting/request_enforcement.py",
+                  "tests/rate_limiting/test_request_enforcement.py"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "an effective limit of 100 and an empty controlled window",
+                    "when": "101 sequential requests are evaluated",
+                    "then": "requests 1 through 100 are allowed and request 101 is denied"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "another organization or the next controlled window",
+                    "when": "a request is evaluated",
+                    "then": "capacity is isolated by organization and resets at the window boundary"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "test request 101 denied",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_request_enforcement.py' -k test_request_101_denied",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "test organization and window isolation",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_request_enforcement.py' -k test_organization_and_window_isolation",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "test no provider metering calls",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_request_enforcement.py' -k test_no_provider_metering_calls",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider usage metering",
+                    "reason": "The blueprint assigns usage metering to the provider and excludes it.",
+                    "instead": "Use only request-window enforcement state and decision telemetry."
+                  },
+                  {
+                    "action": "Select production storage or deployment infrastructure",
+                    "reason": "Those choices are explicitly outside this fixture.",
+                    "instead": "Use a deterministic local fixture with an injected clock, in-memory request state and an event collector."
+                  },
+                  {
+                    "action": "Treat fixture checks as shipped or production proof",
+                    "reason": "The source explicitly disclaims shipped behavior.",
+                    "instead": "Report only the behavior exercised by the local fixture."
+                  }
+                ],
+                "do_not_touch": [
+                  "tests/fixtures/toolkit/blueprint.md",
+                  ".agents",
+                  ".codex",
+                  ".taskspec",
+                  "AGENTS.md",
+                  "provider",
+                  "metering",
+                  "infra"
+                ],
+                "rollback": "Remove only the files created by this leaf after checking downstream dependencies.",
+                "observability": "Retain test outcomes and fixture decisions without provider usage records."
+              }
+            ]
+          },
+          {
+            "id": "LEG-DENIAL-TELEMETRY",
+            "observable_state": "An integration fixture traverses validation, resolution and enforcement; denial of request 101 returns a stable reason and emits matching decision telemetry.",
+            "proof": "Run the declared focused fixture checks; final denial-telemetry integration proof requires all upstream tasks.",
+            "requires": [
+              "versioned-policy",
+              "effective-policy",
+              "rate-limit-decision"
+            ],
+            "produces": [
+              "observable-denial"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260914-denial-telemetry",
+                "title": "Stable denial and matching telemetry",
+                "goal": "An integration fixture traverses validation, resolution and enforcement; denial of request 101 returns a stable reason and emits matching decision telemetry.",
+                "done_condition": "An integration fixture traverses validation, resolution and enforcement; denial of request 101 returns a stable reason and emits matching decision telemetry. All three declared checks pass. This is proposed fixture behavior, not a claim of shipped behavior.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "python3"
+                ],
+                "depends_on": [
+                  "T-20260914-policy-schema",
+                  "T-20260914-policy-resolution",
+                  "T-20260914-request-enforcement"
+                ],
+                "touches_paths": [],
+                "creates_paths": [
+                  "rate_limiting/denial_telemetry.py",
+                  "tests/rate_limiting/test_denial_telemetry.py"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "the policy-to-enforcement chain has allowed 100 requests in one window",
+                    "when": "request 101 is handled",
+                    "then": "the returned denial reason matches the emitted decision telemetry for that request and organization"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "the same denial condition is reproduced in a fresh controlled fixture",
+                    "when": "the denial response and event are observed",
+                    "then": "reason values are stable and response and telemetry correlate without emitting provider usage records"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "test full steel thread",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_denial_telemetry.py' -k test_full_steel_thread",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "test stable reason and correlation",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_denial_telemetry.py' -k test_stable_reason_and_correlation",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "test metering boundary",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p 'test_denial_telemetry.py' -k test_metering_boundary",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider usage metering",
+                    "reason": "The blueprint assigns usage metering to the provider and excludes it.",
+                    "instead": "Use only request-window enforcement state and decision telemetry."
+                  },
+                  {
+                    "action": "Select production storage or deployment infrastructure",
+                    "reason": "Those choices are explicitly outside this fixture.",
+                    "instead": "Use a deterministic local fixture with an injected clock, in-memory request state and an event collector."
+                  },
+                  {
+                    "action": "Treat fixture checks as shipped or production proof",
+                    "reason": "The source explicitly disclaims shipped behavior.",
+                    "instead": "Report only the behavior exercised by the local fixture."
+                  }
+                ],
+                "do_not_touch": [
+                  "tests/fixtures/toolkit/blueprint.md",
+                  ".agents",
+                  ".codex",
+                  ".taskspec",
+                  "AGENTS.md",
+                  "provider",
+                  "metering",
+                  "infra"
+                ],
+                "rollback": "Remove only the files created by this leaf after checking downstream dependencies.",
+                "observability": "Retain test outcomes and fixture decisions without provider usage records.",
+                "proves_capabilities": [
+                  "LEG-POLICY-SCHEMA",
+                  "LEG-POLICY-RESOLUTION",
+                  "LEG-REQUEST-ENFORCEMENT",
+                  "LEG-DENIAL-TELEMETRY"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "steel_thread": [
+    "LEG-POLICY-SCHEMA",
+    "LEG-POLICY-RESOLUTION",
+    "LEG-REQUEST-ENFORCEMENT",
+    "LEG-DENIAL-TELEMETRY"
+  ],
+  "objections": [
+    {
+      "id": "OBJECTION-OWNER",
+      "status": "OPEN",
+      "summary": "Responsible in-scope owner is absent from the blueprint; ownership must be supplied before review."
+    },
+    {
+      "id": "OBJECTION-CONTRACT",
+      "status": "OPEN",
+      "summary": "Fixture language and paths, resolution error behavior, window semantics and stable denial/event fields remain proposed and require design review."
+    }
+  ]
+}

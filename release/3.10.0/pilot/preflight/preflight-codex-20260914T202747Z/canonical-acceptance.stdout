@@ -1,0 +1,14 @@
+accept-task: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-real-issue-ktyvgos9/task-spec-3.9.0/tasks/T-20260914-pilot-stdin.md
+────────────────────────────────────────────────────────
+A. Independent evaluation ...
+   PASS — Exit Check returned 0
+B. Handoff, graph, base commit, and blast radius ...
+   BLOCK [BLAST_RADIUS] — changed path is outside declared scope: .taskspec/config
+C. Authorization integrity ...
+   PASS — TaskAuthorization/v3 verifies
+E. Sealed evidence policy ...
+   PASS — required evidence matches this attempt
+────────────────────────────────────────────────────────
+VERDICT: REJECT — 1 gate(s) failed
+ACCEPTANCE_FAILURE=BLAST_RADIUS
+ACCEPTED=0

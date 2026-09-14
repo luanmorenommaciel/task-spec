@@ -1,0 +1,108 @@
+{
+  "api_version": "taskspec.dev/v1",
+  "approved": true,
+  "kind": "TaskPlan",
+  "metadata": {
+    "delivery_plan_review_sha256": "5020512ae67905353958f32077ca6c0335df68dd0e0209e4138a68c5331eec36",
+    "delivery_plan_sha256": "326018a02544f264e9caf6e8e8977eb5477fc50ee78cce7e35d6f5b5a1fb595c",
+    "name": "DI-PILOT-SMALL-FIX",
+    "native_initiative": "pilot",
+    "native_plan_status": "DELIVERY_PLAN=READY",
+    "producer": "taskspec",
+    "producer_version": "3.10.0",
+    "source": "tasks/.plans/pilot/task-plan.json"
+  },
+  "units": [
+    {
+      "agent": "any",
+      "anti_patterns": [
+        "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+        "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+        "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+      ],
+      "behaviors": [
+        {
+          "given": "the registered repository issue and fixed authorized scope",
+          "id": "B-1",
+          "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+          "when": "the bounded implementation is independently evaluated"
+        },
+        {
+          "given": "the recorded evidence and authorization boundary",
+          "id": "B-2",
+          "then": "source evidence is unchanged and no unrelated write is present",
+          "when": "the candidate is checked"
+        }
+      ],
+      "context": "Intent DI-PILOT-SMALL-FIX; seam SEAM-SMALL-FIX; swimlane LANE-SMALL-FIX; capability leg LEG-SMALL-FIX. Done condition: Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\n\nApplicable intent, capability, and evidence: {\"decisions\": [{\"id\": \"ADR-PILOT-SCOPE\", \"owner\": \"pilot-supervisor\", \"rationale\": \"The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run.\", \"status\": \"accepted\"}], \"evidence\": [{\"claim\": \"current\", \"confidence\": 1.0, \"id\": \"E-PILOT-ISSUE\", \"source\": {\"captured_at\": \"2026-09-14T20:20:46.550715+00:00\", \"sha256\": \"0644414bcd86c5f0db2533901eb442e352d7feaf0cadf526a7e0dc9d392add23\", \"uri\": \"tests/fixtures/toolkit/pilot-issue.json\"}, \"summary\": \"A repository issue inspected before comparative execution; source digests and reproduction are retained.\"}], \"intent\": {\"claim\": \"proposed\", \"id\": \"DI-PILOT-SMALL-FIX\", \"out_of_scope\": [\"Changes outside the registered write surface.\", \"Production deployment, policy changes, self-authorization, and independent agents.\"], \"source\": {\"captured_at\": \"2026-09-14T20:20:46.550715+00:00\", \"sha256\": \"0644414bcd86c5f0db2533901eb442e352d7feaf0cadf526a7e0dc9d392add23\", \"uri\": \"tests/fixtures/toolkit/pilot-issue.json\"}, \"success\": [\"Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\"], \"summary\": \"Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\", \"title\": \"Valid execution recipes cannot be piped to recipe validate -\"}, \"lane\": {\"id\": \"LANE-SMALL-FIX\", \"name\": \"small-fix delivery\", \"owner\": \"pilot-small-fix\"}, \"leg\": {\"id\": \"LEG-SMALL-FIX\", \"observable_state\": \"Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\", \"produces\": [\"small-fix verified behavior\"], \"proof\": \"The declared evaluator succeeds without widening the write surface.\", \"requires\": []}, \"original_intake\": null, \"seam\": {\"consumes\": [\"registered issue\"], \"decision_ids\": [\"ADR-PILOT-SCOPE\"], \"description\": \"Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\", \"evidence\": [\"E-PILOT-ISSUE\"], \"id\": \"SEAM-SMALL-FIX\", \"independent_proof\": \"Run the registered independent small-fix evaluator.\", \"name\": \"small-fix\", \"owner\": \"pilot-small-fix\", \"produces\": [\"small-fix verified behavior\"], \"rejected_alternatives\": [{\"alternative\": \"Merge this responsibility into an unrelated task\", \"reason\": \"Its write surface and independently assessable outcome belong to this boundary.\"}], \"responsibility\": \"Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.\"}}",
+      "creates_paths": [],
+      "depends_on": [],
+      "do_not_touch": [
+        "tests/fixtures/toolkit/pilot-issue.json",
+        "tasks"
+      ],
+      "done_condition": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+      "effort": "S",
+      "evals": [
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py small-fix --root .",
+          "description": "Independent behavioral proof for small-fix",
+          "expected_duration_sec": 10,
+          "id": "eval_1",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+          "description": "Declared write surface only",
+          "expected_duration_sec": 10,
+          "id": "eval_2",
+          "terminal": false,
+          "verifies": [
+            "B-2"
+          ]
+        },
+        {
+          "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+          "description": "Registered issue evidence is unchanged",
+          "expected_duration_sec": 10,
+          "id": "eval_3",
+          "terminal": true,
+          "verifies": [
+            "B-2"
+          ]
+        }
+      ],
+      "execution_backend": "any",
+      "execution_recipe": "diagnose-repair-verify",
+      "goal": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+      "id": "T-20260914-pilot-small-fix",
+      "observability": "Retained provider output, evaluation result, and prospective event journal.",
+      "profile": "standard",
+      "provenance": {
+        "contract": "TaskPlanProvenance/v1",
+        "initiative": "pilot",
+        "projection_digest": "08855d8c557685fe2dc711bf3e7f9594df13e674a30c6eda6456bb50265e8328",
+        "snapshot": "tasks/.plans/pilot/snapshots/e9da231b7b993161ec6d31fc423646921df93c2b11c7d246ea52a3025c52df37.json",
+        "snapshot_digest": "e9da231b7b993161ec6d31fc423646921df93c2b11c7d246ea52a3025c52df37"
+      },
+      "proves_capabilities": [
+        "LEG-SMALL-FIX"
+      ],
+      "required_tools": [
+        "git",
+        "bash",
+        "python3"
+      ],
+      "rollback": "Revert only this isolated candidate change.",
+      "source_note": "tasks/.plans/pilot/legs/LEG-SMALL-FIX.md#T-20260914-pilot-small-fix",
+      "title": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation",
+      "touches_paths": [
+        "src/recipe/recipes.py"
+      ],
+      "why": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation."
+    }
+  ]
+}

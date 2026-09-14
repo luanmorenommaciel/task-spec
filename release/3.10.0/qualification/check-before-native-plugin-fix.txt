@@ -1,0 +1,1214 @@
+bash bin/taskspec doctor
+PASS  bash >= 3.2 (5.3.9(1)-release)
+PASS  git (2.50.1)
+PASS  python3 (3.14.6)
+PASS  SHA-256/HMAC provider
+PASS  shellcheck
+PASS  signing key (/Users/luanmorenomaciel/GitHub/task-spec/.git/info/taskspec-signing-key)
+DOCTOR=READY
+bash tests/lint-skill-docs.sh
+lint-skill-docs.sh (10 checks)
+════════════════════════════════════════
+OK: VERSION, CHANGELOG.md, and src/lib/_lib.sh agree at v3.10.0
+bash tests/lint-docs.sh
+CLI_REFERENCE=OK
+lint-docs: OK
+set -e; for t in tests/test-*.sh; do bash "$t"; done
+PASS — dependency-aware leaf frontier and --all behavior
+PASS — collisions, dangling edges, cycles, and concurrency are reported
+PASS — archived dependencies, supersession blocking, advisory blocks, and deterministic graph views
+PASS — recursive task resolution and active write conflicts share one graph universe
+PASS — dependency closure includes leaf dependencies and composition ancestors only
+=== (a) bash -n syntax check for every src/*/*.sh ===
+  ✓ syntax ok: accept/accept-task.sh
+  ✓ syntax ok: author/batch-generate.sh
+  ✓ syntax ok: author/generate-task-spec.sh
+  ✓ syntax ok: author/migrate-legacy-task.sh
+  ✓ syntax ok: backlog/archive.sh
+  ✓ syntax ok: backlog/backup-backlog.sh
+  ✓ syntax ok: backlog/install-hooks.sh
+  ✓ syntax ok: backlog/lint-backlog.sh
+  ✓ syntax ok: backlog/list-ready.sh
+  ✓ syntax ok: backlog/query-metrics.sh
+  ✓ syntax ok: backlog/rebuild-state.sh
+  ✓ syntax ok: backlog/transition-status.sh
+  ✓ syntax ok: decompose/launch.sh
+  ✓ syntax ok: dispatch/conformance-check.sh
+  ✓ syntax ok: dispatch/ref-executor.sh
+  ✓ syntax ok: gate/definition-of-done.sh
+  ✓ syntax ok: gate/run-task-spec.sh
+  ✓ syntax ok: gate/safe-to-delegate.sh
+  ✓ syntax ok: gate/validate-task-spec.sh
+  ✓ syntax ok: lib/_lib.sh
+  ✓ syntax ok: lib/install.sh
+  ✓ syntax ok: setup/demo.sh
+  ✓ syntax ok: setup/init.sh
+  ✓ syntax ok: setup/readiness.sh
+=== (b) core-path scripts contain no bash-4-only constructs ===
+  ✓ gate/validate-task-spec.sh has no 'declare -A'
+  ✓ gate/validate-task-spec.sh has no mapfile/readarray
+  ✓ gate/safe-to-delegate.sh has no 'declare -A'
+  ✓ gate/safe-to-delegate.sh has no mapfile/readarray
+  ✓ gate/run-task-spec.sh has no 'declare -A'
+  ✓ gate/run-task-spec.sh has no mapfile/readarray
+  ✓ lib/_lib.sh has no 'declare -A'
+  ✓ lib/_lib.sh has no mapfile/readarray
+=== (c) aux scripts call ts_require_bash4 ===
+  ✓ backlog/query-metrics.sh calls ts_require_bash4
+=== (d) conformance runner + adapters are bash-3.2-clean ===
+  ✓ syntax ok: conformance/run_conformance.sh
+  ✓ conformance/run_conformance.sh has no bash-4-only constructs
+  ✓ syntax ok: conformance/adapters/self.sh
+  ✓ conformance/adapters/self.sh has no bash-4-only constructs
+
+========================================
+Results: 37 passed, 0 failed
+========================================
+ok    new requires slug and effort
+ok    new rejects an unknown option
+ok    new requires --format value
+ok    metrics rejects an unknown option
+ok    metrics requires --since value
+CLI_USAGE=PASS checks=5
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/2to3-3.12: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/Magick++-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/MagickCore-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/MagickWand-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/SvtAv1EncApp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/__pycache__/__pycache__: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/addbuiltin: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/adig: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ahost: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/alembic: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ambiguous_words: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/animate: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/aomdec: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/aomenc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/argocd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/asn1Coding: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/asn1Decoding: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/asn1Parser: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/astro: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/atob: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/autopoint: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/aviocat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/avroappend: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/avrocat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/avromod: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/avropipe: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/aws: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/aws_completer: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/az: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/azcopy: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/baddbdir: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/bash: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/bashbug: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/bcp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/beeline: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/beeline.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/bisect-create: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/bltest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/brew: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/brotli: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/btoa: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/c_rehash: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/cairo-trace: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/certutil: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/chardetect: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/check_arm_indent.sh: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/chktest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/cjpeg: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/classifier_tester: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/clean-diff: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/cmsutil: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/cntraining: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/codex: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/combine_lang_model: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/combine_tessdata: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/compare: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/compare-cvelists.sh: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/composite: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/conflict: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/conjure: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/convert: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/convertfilestopdf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/convertfilestops: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/convertformat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/convertsegfilestopdf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/convertsegfilestops: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/converttopdf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/converttops: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/corepack: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/crlutil: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/crmftest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/crypto_bench: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/cwebp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/cws2fws: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/daff: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/daff.py: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/danetool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/databricks: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dav1d: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dawg2wordlist: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dbtest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dbtool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/deep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/derdump: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dertimetest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/diff-cover: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/diff-quality: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/digest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/direnv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dirmngr: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dirmngr-client: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/display: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/djpeg: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dltest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/docker-compose: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/docker-image-tool.sh: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/doctl: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dotenv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dotnet: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/duckdb: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/duckdb_cli: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dumpsexp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dvd2concat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/dwebp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ecperf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/enc_recon_frame_test: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/encodeinttest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/enum_options: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/envsubst: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/event_rpcgen.py: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/f2py: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/faker: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fax2ps: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fax2tiff: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fbectest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-cache: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-cat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-conflist: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-genconf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-list: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-match: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-pattern: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-query: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-scan: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fc-validate: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ffescape: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ffeval: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ffhash: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ffmpeg: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ffplay: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ffprobe: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fileinfo: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/find-spark-home: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/find-spark-home.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/find_spark_home.py: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fipstest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fonttools: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fourcc2pixfmt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/freetype-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/fribidi: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/func: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gdbus: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gdbus-codegen: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gdk-pixbuf-csource: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gdk-pixbuf-pixdata: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gdk-pixbuf-query-loaders: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gdk-pixbuf-thumbnailer: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gen-rc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/general_assembly.pl: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gettext: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gettext.sh: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gettextize: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gh: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gi-compile-repository: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gi-decompile-typelib: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gi-inspect-typelib: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gif2webp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gifbuild: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gifclrmp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/giffix: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/giftext: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/giftool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gio: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gio-querymodules: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/git-filter-repo: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/glab: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/glib-compile-resources: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/glib-compile-schemas: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/glib-genmarshal: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/glib-gettextize: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/glib-mkenums: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/glibtool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/glibtoolize: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gnupg-key-manage: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gnutls-certtool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gnutls-cli: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gnutls-cli-debug: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gnutls-serv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/go: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gobject-query: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gofmt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpg: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpg-agent: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpg-card: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpg-connect-agent: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpg-error: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpg-error-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpg-mail-tube: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpg-wks-client: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpg-wks-server: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgconf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgme-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgme-json: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgme-tool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgparsemail: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgrt-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgscm: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgsm: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgsplit: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgtar: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gpgv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gr2fonttest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/graph2dot: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gresource: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gsettings: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gtester: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/gtester-report: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/hb-info: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/hb-raster: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/hb-shape: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/hb-subset: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/hb-vector: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/hb-view: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/heif-convert: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/heif-dec: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/heif-enc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/heif-info: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/heif-thumbnailer: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/helm: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/higgs: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/higgsfield: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/hmac256: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/http: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/httpie: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/https: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/httpserv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/identify: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/idle3: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/idle3.12: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/idle3.13: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/idle3.14: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/idn2: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/imagetops: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/img2pdf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/img2pdf-gui: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/img2webp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/import: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/indent_arm_assembly.pl: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ismindex: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/isql: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/iusql: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jar: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jarsigner: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/java: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/javac: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/javadoc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/javap: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jcmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jconsole: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jdb: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jdeprscan: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jdeps: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jfr: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jhsdb: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jimage: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jinfo: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jjs: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jlink: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jmap: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jmod: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jpegtran: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jpgicc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jps: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jq: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jrunscript: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jshell: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/json_reformat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/json_verify: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jsonschema: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jstack: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jstat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/jstatd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/k9s: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/kbxutil: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/kcat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/keyring: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/keytool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/kimi: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ksba-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/kubectl: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/kubectl-ctx: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/kubectl-ns: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/kubectx: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/kubens: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lame: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/libassuan-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/libgcrypt-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/libpng-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/libpng16-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/linkicc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/listsuites: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/load-spark-env.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/load-spark-env.sh: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/loudnorm.rb: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lstmeval: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lstmtraining: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lz4: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lz4c: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lz4cat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzcat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzcmp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzdiff: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzegrep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzfgrep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzgrep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzless: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzma: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzmadec: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzmainfo: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/lzmore: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/magick: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/magick-script: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/make_chlayout_test: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/makepqg: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mako-render: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mangle: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/markdown-it: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/merge-all-source-plugins: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/merge_unicharsets: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mftraining: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/minikube: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/missing_codec_desc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mitmdump: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mitmproxy: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mitmweb: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/modutil: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mogrify: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/montage: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mpg123: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mpg123-id3dump: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mpg123-strip: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/mpicalc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgattrib: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgcat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgcmp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgcomm: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgconv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgen: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgexec: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgfilter: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgfmt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msggrep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msginit: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgmerge: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgpre: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msgunfmt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/msguniq: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/multinit: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/murge: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/nettle-hash: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/nettle-lfib-stream: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/nettle-pbkdf2: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ngettext: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/node: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/nonspr10: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/normalize.py: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/normalizer: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/npm: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/npx: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/nspr-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/nss-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/nss-policy-check: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/nssdefaults: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ocspclnt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ocspresp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ocsptool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/odbc_config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/odbcinst: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/oidcalc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/omp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/onig-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/openspec: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/openssl: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/opj_compress: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/opj_decompress: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/opj_dump: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/out123: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/p11-kit: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/p11tool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/p7content: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/p7env: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/p7sign: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/p7verify: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pack200: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pal2rgb: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pandoc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pango-list: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pango-segmentation: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pango-view: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/patcheck: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pcre2-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pcre2grep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pcre2test: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdfattach: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdfdetach: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdffonts: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdfimages: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdfinfo: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdfseparate: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdfsig: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdftocairo: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdftohtml: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdftoppm: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdftops: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdftotext: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pdfunite: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pinentry: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pinentry-curses: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pinentry-tty: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pip: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pip3: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pip3.12: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pip3.13: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pip3.14: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pk11ectest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pk11gcmtest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pk11importtest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pk11mode: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pk12util: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pk1sign: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pkcs1-conv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pkix-errcodes: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pktdumper: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/playwright: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/plotframes: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/png-fix-itxt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pngfix: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/po-fetch: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/podman: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/podman-mac-helper: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/podman-remote: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/popeye: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ppm2tiff: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/printf_gettext: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/printf_ngettext: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/probetest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/psicc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/psktool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pwdecrypt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pwsh: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/py.test: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pybabel: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pydoc3: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pydoc3.12: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pydoc3.13: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pydoc3.14: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyflakes: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyftmerge: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyftsubset: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pygmentize: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pypdfium2: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyrsa-decrypt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyrsa-encrypt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyrsa-keygen: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyrsa-priv2pub: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyrsa-sign: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyrsa-verify: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyspark: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyspark.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pyspark2.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pytest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/python3: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/python3-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/python3.12: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/python3.12-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/python3.13: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/python3.13-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/python3.14: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/python3.14-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/pzstd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/qt-faststart: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/raw2tiff: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/rdjpgcom: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/recode-sr-latin: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/remtest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/repomix: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/rmic: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/rmid: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/rmiregistry: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/rsaperf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/rsapoptst: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/run-example: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/run-example.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sam: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sbt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/scale_slice_test: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sdbthreadtst: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sdl2-config: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sdrtest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/secmodtest: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/seek_print: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/selfserv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/serialver: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/set_unicharset_properties: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sexp-conv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/shapeclustering: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/shlibsign: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sidxindex: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/signtool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/signver: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/slencheck: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/slugify: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/source2c: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-class: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-class.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-class2.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-connect-shell: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-shell: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-shell.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-shell2.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-sql: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-sql.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-sql2.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-submit: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-submit.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spark-submit2.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sparkR: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sparkR.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sparkR2.cmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/spit: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sqlcmd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sqlfluff: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/sqlformat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ssltap: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/stern: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/stream: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/strsclnt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/supabase: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/symkeyutil: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/target_dec_fate.sh: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/terraform: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/terragrunt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tesseract: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/text2image: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiff2bw: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiff2pdf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiff2ps: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiff2rgba: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiffcmp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiffcp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiffcrop: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiffdither: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiffdump: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiffinfo: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiffmedian: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiffset: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tiffsplit: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tificc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tjbench: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tmux: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tqdm: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/transicc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/trasher: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tree: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/trietool: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/trietool-0.2: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/trust: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/tstclnt: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/ttx: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/uipro: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/uncoded_frame: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/unicharset_extractor: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/unlz4: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/unlzma: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/unpack200: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/unwrap-diff: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/unxz: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/unzstd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/validation: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/vc: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/venc_data_dump: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/vercel: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/vfychain: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/vfyserv: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/vmaf: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/vwebp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/watch: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/watchgnupg: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/webpinfo: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/webpmux: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/wheel3: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/wheel3.12: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/wheel3.13: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/wheel3.14: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/wordlist2dawg: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/wrjpgcom: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/x264: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/x265: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xgettext: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xtractprotos: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xz: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xzcat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xzcmp: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xzdec: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xzdiff: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xzegrep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xzfgrep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xzgrep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xzless: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/xzmore: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/yat2m: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/zmqshell.py: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/zstd: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/zstdcat: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/zstdgrep: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/zstdless: File exists
+ln: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-hide-shellcheck-XXXXXX.VYX70xnTI0/_opt_homebrew_bin/zstdmt: File exists
+PASS — isolated demo reaches independent acceptance
+== effort sizing and composition ==
+ok    XS leaf                     
+ok    S leaf union budget         
+ok    M leaf                      
+ok    L long horizon              
+ok    L wrong backend             
+ok    S over budget warns         
+ok    leaf cannot have children   
+ok    XL needs children           
+ok    XXL needs three children    
+ok    XL composition node         
+ok    XXL composition node        
+ok    node owns no writes         
+ok    invalid child id            
+ok    unknown size                
+
+PASS — all 14 sizing rows green.
+ENGINE_MATRIX_V2=READY
+ENVIRONMENT_ATTESTATION=READY
+═══ test-extractor-fuzz.sh (adversarial extract-and-run, v3.10.0) ═══
+── (A) extraction correctness ──
+  ✓ A:arith-shift extracted
+  ✓ A:heredoc-EOF-bash extracted
+  ✓ A:heredoc-fake-fence extracted
+  ✓ A:heredoc-fake-header extracted
+  ✓ A:nested-heredoc extracted
+  ✓ A:heredoc-dquote extracted
+── (B) robustness invariant (no hang, no raw-error leak) ──
+  ✓ B:emoji-body clean (EXTRACTED)
+  ✓ B:two-evals clean (EXTRACTED)
+  ✓ B:unbalanced-brace clean (EXTRACTED)
+  ✓ B:fence-in-string clean (EXTRACTED)
+  ✓ B:header-looking-cmd clean (EXTRACTED)
+  ✓ B:backtick-cmd clean (EXTRACTED)
+  ✓ B:comment-only clean (EXTRACTED)
+  ✓ B:exit-in-eval clean (EXTRACTED)
+  ✓ B:reads-stdin clean (EXTRACTED)
+  ✓ B:many-heredocs clean (EXTRACTED)
+── (C) exit-check robustness (defense-in-depth, no hang on malformed Exit Check) ──
+  ✓ C:ec-unbalanced-quote clean (EXTRACTED)
+  ✓ C:ec-unbalanced-btick clean (EXTRACTED)
+  ✓ C:ec-heredoc-no-close clean (EXTRACTED)
+
+========================================
+Results: 19 passed, 0 failed
+========================================
+═══ test-hmac-envelope.sh (TaskAuthorization/v3 suite) ═══
+── Scenario 1: Tier 1 stamp-then-verify ──
+  ✓ S1 sealed
+  ✓ S1 sig-format
+  ✓ S1 verify-tier1
+── Scenario 2: Tier 3 tampered body ──
+  ✓ S2 pre-tamper-tier1
+  ✓ S2 tamper-caught-tier3
+── Scenario 3: Tier 3 envelope tamper / wrong key / malformed ──
+  ✓ S3 envelope-value-tamper
+  ✓ S3 wrong-key-tier3
+  ✓ S3 malformed-sig-tier3
+── Scenario 4: Tier 2 no-key degrade ──
+  ✓ S4 no-key-tier2
+  ✓ S4 legacy-nosig-tier2
+── Scenario 5: portability floor (crypto masked) ──
+  ✓ S5 provider-none
+  ✓ S5 masked-stamp-stdlib-hmac
+  ✓ S5 masked-verify-tier2
+── Scenario 6: .git/info key fallback ──
+  ✓ S6 keyfile-written
+  ✓ S6 gitinfo-stamp-sealed
+  ✓ S6 gitinfo-verify-tier1
+── Scenario 7: injection-safe --stamp-by ──
+  ✓ S7 literal-verbatim-tier1 [build|42]
+  ✓ S7 literal-verbatim-tier1 [a&b]
+  ✓ S7 literal-verbatim-tier1 [team/build]
+  ✓ S7 literal-verbatim-tier1 [X|p;s|.*|INJECTED]
+  ✓ S7 literal-verbatim-tier1 [name with space]
+── Scenario 8: --require-tier1 enforcement + TIER= line ──
+  ✓ S8 tier1-require-passes
+  ✓ S8 tier2-require-blocks
+  ✓ S8 tier2-noflag-delegates
+── Scenario 9: ts_set_frontmatter_field newline + malformed + backslash-escape ──
+  ✓ S9 newline-rejected-file-untouched
+  ✓ S9 malformed-frontmatter-hard-fails
+  ✓ S9 backslash-n-written-verbatim-no-injection
+  ✓ S9 symlink-temp-path-defused
+── Scenario 10: envelope v3 authorization boundary ──
+  ✓ S10 scope-widening-caught
+  ✓ S10 dependency-change-caught
+  ✓ S10 budget-raise-caught
+  ✓ S10 agent-change-caught
+  ✓ S10 backend-reroute-caught
+  ✓ S10 status-change-allowed
+  ✓ S10 tracker-writeback-allowed
+── Scenario 11: legacy v1 verification and re-stamp ──
+  ✓ S11 legacy-v1-tier2
+  ✓ S11 legacy-restamped-v3
+  ✓ S11 legacy-v2-tier2
+  ✓ S11 legacy-v2-restamped-v3
+── Scenario 12: re-stamp an amended spec ──
+  ✓ S12 edit-breaks-seal
+  ✓ S12 amendment-resealed
+
+========================================
+Results: 41 passed, 0 failed
+========================================
+MESH_ADAPTERS=READY
+MESH_COCKPIT=READY
+ok  	github.com/luanmorenomaciel/task-spec/mesh/cmd/taskspec-meshd	0.874s
+ok  	github.com/luanmorenomaciel/task-spec/mesh/internal/mesh	(cached)
+MESH_CONTRACTS=READY
+MESH_DAEMON=READY
+MESH_LEASES=READY
+MESH_ROUTING_INTEGRATION=READY
+MESH_ADAPTERS=READY
+MESH_COCKPIT=READY
+MESH_RECOVERY=READY
+MESH_CONFORMANCE=READY
+MESH_CONTRACTS=READY
+MESH_DAEMON=READY
+MESH_COCKPIT=READY
+MESH_DEMO=READY
+INSTALL=OK
+MESH_INSTALL=READY
+MESH_ISOLATION=READY
+MESH_LEASES=READY
+MESH_ROUTING_INTEGRATION=READY
+═══ Step 1: Install the agent surface into a fresh tempdir ═══
+  ✓ install.sh succeeded
+  ✓ installed: agents/task-architect.md
+  ✓ installed: skills/task-spec/SKILL.md
+
+═══ Step 2: --version reports task-spec v3.10.0 ═══
+  ✓ install --version → task-spec v3.10.0
+  ✓ validate-task-spec --version → task-spec v3.10.0
+  ✓ safe-to-delegate --version → task-spec v3.10.0
+  ✓ generate-task-spec --version → task-spec v3.10.0
+  ✓ list-ready --version → task-spec v3.10.0
+
+═══ Step 3: GENERATE a spec ═══
+  ✓ generator wrote a spec
+  ✓ generator stamped version 3.10.0
+  ✓ generator printed --stamp breadcrumb
+  ✓ spec file present at tasks/T-20260914-e2e-health-endpoint.md
+
+═══ Step 4: Fill stubs (synthesize a minimal valid spec) ═══
+captured spec id: T-20260914-e2e-health-endpoint
+  ✓ validate-task-spec.sh exits 0 on synthesized spec
+
+═══ Step 5: GATE (taskspec gate --stamp) ═══
+  ✓ gate reported DELEGATE
+  ✓ gate stamped signed_off:true
+  ✓ spec frontmatter signed_off: true
+  ✓ spec frontmatter signed_off_by: e2e-test
+  ✓ spec frontmatter signed_off_at is ISO-8601
+  ✓ validate accepts the stamped spec (sign-off envelope OK)
+
+═══ Step 6: Schema fidelity (Python consumer) ═══
+  ✓ copied golden fixture into tempdir
+  ✓ python consumer present at docs/examples/consume-task-spec.py
+  ✓ python consumer canonical schemas are packaged under spec/schemas
+  ✓ python consumer parsed golden fixture (exit 0)
+
+═══ Step 7: Cross-engine equivalence (Python vs TypeScript) ═══
+  ✓ node present (v24.3.0) — attempting cross-engine proof
+  ✓ typescript consumer parsed golden fixture (exit 0)
+  ✓ cross-engine equivalence: id/status/execution_backend/signed_off + ordered eval_ids + canonicalized validation_card ALL EQUAL
+      both engines: {"eval_ids": ["eval_1"], "execution_backend": "any", "id": "T-20260602-golden", "signed_off": false, "status": "ready", "validation_card": {"agent_contract": {"read": ["intent", "contract", "guardrails", "operations"]}, "retry_policy": {"circuit_breaker_no_progress": 3, "max_iterations": 15, "on_terminal_failure": "park_with_context"}, "success_criteria_keys": [{"check_type": "deterministic", "description": "synthetic", "expected_duration_sec": 1, "id": "eval_1", "runnable": "bash", "terminal": true}]}}
+
+========================================
+Results: 26 passed, 0 failed
+========================================
+OFFICIAL_PROTOCOL_SDK=UNAVAILABLE retained evidence verified
+PROTOCOL_CONFORMANCE=READY
+README_COMMANDS=READY commands=24 images=9 mermaid=4
+RELEASE_STATUS=OK
+CLI_REFERENCE=OK
+RELEASE_AUDIT_TESTS=READY
+RELEASE_EVIDENCE_CONTRACTS=READY
+RELEASE_PACKAGING=READY
+PRIVATE_PROVENANCE=READY
+test-repo-layout.sh
+════════════════════════════════════════
+  ok   top-level directories match the manifest (16 declared)
+  ok   root files match the manifest (16 declared)
+  ok   every top-level directory appears in the AGENTS.md layout table
+  ok   no undeclared single-file top-level directory
+  ok   no retired top-level or nested path reappeared
+  ok   no live file references a pre-consolidation path
+  ok   every byte-for-byte SKILL.md copy matches root SKILL.md
+  ok   fixtures live under exactly one root (tests/fixtures/)
+  ok   every digest-pinned evidence path still resolves
+  ok   docs/runbooks/ stays closed (12 of 12; new how-tos go in docs/guides/)
+  ok   every grouped directory has a README or index
+════════════════════════════════════════
+REPO_LAYOUT=OK (11 checks)
+test-repo-organization-e2e.sh
+════════════════════════════════════════
+  ok   live backlog has 15 open T-*.md file(s)
+  ok   every parked spec is a non-executable composition node (2)
+  ok   every accepted done leaf has an AcceptanceRecord (20)
+  ok   tasks/.plans/ still has the 3.8.1 and 3.9.0 TaskPlan manifests
+  ok   spec README, docs/index, and root README agree on orientation
+  ok   taskspec doctor → DOCTOR=READY
+  ok   taskspec demo walks plan → seal → handoff → accept
+  ok   graph --check is clean and ready rows agree with the live backlog
+  ok   every parked composition node still validates
+════════════════════════════════════════
+REPO_ORGANIZATION=OK (9 checks)
+SCHEMAS=READY count=58 fixtures=18
+=== 1. generate-task-spec.sh ===
+  ✓ generator created tasks/T-20260914-test-self-test-suite.md
+  ✓ id in frontmatter matches filename
+=== 2. Fill generated file with valid v2 content ===
+  ✓ wrote valid v2 task spec
+=== 3. validate-task-spec.sh (expect PASS) ===
+  ✓ validator passes on valid task
+=== 4. validate-task-spec.sh with controlled error (expect FAIL) ===
+  ✓ validator catches placeholder regression
+  ✓ pre-gate authorizes the unbuilt task
+=== 5. transition-status.sh: ready → in-progress ===
+  ✓ transition to in-progress succeeds
+  ✓ status updated to in-progress
+  ✓ file remains in tasks/ for active status
+  ✓ transition to done is blocked before acceptance
+  ✓ post-gate accepts and stamps the completed task
+=== 6. transition-status.sh: in-progress → done ===
+  ✓ transition to done succeeds
+  ✓ file moved to tasks/done/
+  ✓ file no longer in tasks/
+=== 7. rebuild-state.sh ===
+  ✓ rebuild-state succeeds
+  ✓ _state.yaml created
+  ✓ _state.yaml contains test task
+  ✓ _state.yaml reflects done status
+  ✓ rebuild-state is byte-deterministic
+=== 8. list-ready.sh ===
+  ✓ list-ready excludes done task
+=== 9. archive.sh ===
+  ✓ archive is no-op for already-archived task
+=== 10. backup-backlog.sh ===
+  ✓ backup-backlog succeeds
+  ✓ backup archive created
+=== 11. safe-to-delegate.sh (pre-delegation gate) ===
+  ✓ safe-to-delegate clears a valid spec
+  ✓ safe-to-delegate blocks a broken-eval spec
+
+========================================
+Results: 25 passed, 0 failed
+========================================
+TOOLKIT_ATTESTED=PASS two rounds, distinct revoked credentials, signed evidence, canonical acceptance
+MESH_ISOLATION=READY
+TOOLKIT_AUTHORING=PASS
+TOOLKIT_CONFORMANCE=PASS optional recipe, self-contained schemas, and complete lineage shape
+TOOLKIT_CI=CONFIGURED hosted execution not inferred
+TOOLKIT_CLI=PASS
+TOOLKIT_DECOMPOSE=PASS
+TOOLKIT_EXPERIENCE=PASS static resources and trace-oracle negatives; live chat quality not inferred
+TOOLKIT_GUIDES=PASS
+TOOLKIT_DECOMPOSE=PASS
+TOOLKIT_INSTALL=PASS clean private runtime, path spaces, version identity, and corrupted-resource refusal
+ok  	github.com/luanmorenomaciel/task-spec/mesh/internal/mesh	(cached)
+TOOLKIT_MESH=PASS
+TOOLKIT_PERMISSION_GUARD=PASS recorded denial stops continuation; ordinary eval and validation failures remain distinct
+{"state": "paused", "before_block": 1, "reason": "Review the observed permission denial.", "next": "Inspect retained runs and remove the explicit PAUSE file only when authorized to continue."}
+TOOLKIT_PILOT_RECORDING=PASS prospective intervals, censored failures, retained outputs, tamper detection, cohort pause
+TOOLKIT_RUNTIME=PASS
+TOOLKIT_SDLC=PASS
+=== Phase 1: AUTHOR a solvable v3 standard spec ===
+  ✓ spec file authored
+=== Phase 2: VALIDATE (structural + profile + traceability) ===
+  ✓ validate passes (rc=0)
+  ✓ validate reports v3 + standard profile
+  ✓ validate maps status→A2A submitted
+=== Phase 3: PRE-GATE (safe-to-delegate --stamp) ===
+  ✓ pre-gate verdict DELEGATE (rc=0)
+  ✓ pre-gate stamped signed_off: true
+  ✓ pre-gate sealed HMAC (Tier 1)
+=== Phase 4: DISPATCH (reference executor drives the work) ===
+  ✓ executor created src/feature.txt == 'done'
+  ✓ executor leaves passing work in-progress pending acceptance
+=== Phase 5: ACCEPT (post-execution gate) ===
+    accept-task: /var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/tmp.HGchI9m6YX/tasks/T-20260618-e2e-closed-loop.md
+    ────────────────────────────────────────────────────────
+    A. Independent evaluation ...
+       PASS — Exit Check returned 0
+    B. Handoff, graph, base commit, and blast radius ...
+       PASS — revision, closure, Git base, and write scope agree
+    C. Authorization integrity ...
+       PASS — TaskAuthorization/v3 verifies
+    E. Sealed evidence policy ...
+       PASS — required evidence matches this attempt
+    ────────────────────────────────────────────────────────
+       stamped — {"acceptance_record": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/tmp.HGchI9m6YX/.taskspec/acceptance/T-20260618-e2e-closed-loop/66d9ad02-5f17-42b4-8b80-1c2d9ba80166.json", "acceptance_record_digest": "sha256:40aafdd4a8a9baaa9fed9613b74acdca55db75ad5897893bd31aac8d43ff1d27", "accepted": true, "attempt_id": "66d9ad02-5f17-42b4-8b80-1c2d9ba80166", "contract": "AcceptanceFinalized/v1", "task_id": "T-20260618-e2e-closed-loop", "tier": 1}
+    VERDICT: ACCEPT — Tier 1 evidence is bound to the authorized task attempt
+    ACCEPTED=1
+  ✓ accept verdict ACCEPT (rc=0)
+  ✓ accept stamped accepted: true
+  ✓ accept emitted ACCEPTED=1
+  ✓ accept GATE A (evals pass) reported
+=== Phase 6: NEGATIVE — blast-radius breach is REJECTED ===
+  ✓ breach REJECTED (rc=1)
+  ✓ breach names the out-of-scope file
+  ✓ accepted work transitions status → done
+=== Phase 7: LOOP CLOSED — final spec validates with full envelope ===
+  ✓ final validate passes
+  ✓ final validate confirms Tier-1 HMAC
+
+========================================
+Results: 18 passed, 0 failed
+========================================
+== install ==
+  ✓ copy install
+  ✓ idempotent install
+  ✓ equivalent harness skills
+  ✓ global user install
+  ✓ checkout symlink install
+  ✓ skills-only install
+  ✓ unmanaged destination is preserved
+  ✓ forced replacement leaves a backup
+  ✓ managed launcher upgrades safely
+  ✓ installed version
+  ✓ installed isolated demo
+  ✓ agent context JSON
+  ✓ agent context covers the complete public command and schema surfaces
+  ✓ agent guidance surfaces share the 3.9 lifecycle
+  ✓ global JSON envelope
+  ✓ per-command help init
+  ✓ per-command help setup
+  ✓ per-command help demo
+  ✓ per-command help new
+  ✓ per-command help plan
+  ✓ per-command help batch
+  ✓ per-command help migrate
+  ✓ per-command help validate
+  ✓ per-command help dod
+  ✓ per-command help gate
+  ✓ per-command help handoff
+  ✓ per-command help run
+  ✓ per-command help accept
+  ✓ per-command help author-doctor
+  ✓ per-command help holdout
+  ✓ per-command help receipt
+  ✓ per-command help dsse
+  ✓ per-command help eval-audit
+  ✓ per-command help identity
+  ✓ per-command help evidence
+  ✓ per-command help bridge
+  ✓ per-command help mcp
+  ✓ per-command help mesh
+  ✓ per-command help ready
+  ✓ per-command help graph
+  ✓ per-command help status
+  ✓ per-command help lint
+  ✓ per-command help transition
+  ✓ per-command help rebuild-state
+  ✓ per-command help archive
+  ✓ per-command help backup
+  ✓ per-command help metrics
+  ✓ per-command help conformance
+  ✓ per-command help executor
+  ✓ per-command help agent-context
+  ✓ per-command help completion
+  ✓ per-command help doctor
+  ✓ per-command help version
+  ✓ per-command help help
+  ✓ usage exit 2: status
+  ✓ usage exit 2: transition
+  ✓ usage exit 2: migrate
+  ✓ usage exit 2: executor
+  ✓ usage exit 2: run
+  ✓ completion bash
+  ✓ completion zsh
+  ✓ completion fish
+== clean-room journey ==
+  ✓ install-to-accept clean room with structured materialization receipt
+  ✓ README v3 and opt-in v4 scaffold commands
+  ✓ malformed and dangling TaskPlan fails closed
+== dry-run and color ==
+  ✓ dry-run prevents init
+  ✓ NO_COLOR precedence
+== research evidence ==
+  ✓ firecrawl evidence
+  ✓ tavily evidence
+  ✓ exa evidence
+  ✓ named provider failure
+  ✓ evidence rejects credential-bearing keys
+  ✓ composition example preview
+  ✓ checked-in evidence example
+  ✓ checked-in handoff example
+  ✓ README release status is generated from evidence
+== checksum-backed release archive ==
+  ✓ checksum-backed remote install
+  ✓ tampered release archive fails closed
+== package ==
+  ✓ npm pack dry run
+  ✓ local npm package install
+
+Results: 80 passed, 0 failed
+INSTALL=OK
+ok 1 - v4 authoring is explicit and non-default
+ok 2 - v3 compatibility fixture remains valid
+ok 3 - v4 policy validates
+ok 4 - sealed authoring evidence digest rejects artifact drift
+ok 5 - author doctor finds no blockers
+ok 6 - status reports authoring-evidence freshness without making age an acceptance gate
+ok 7 - v4 handoff emitted
+ok 8 - baseline discrimination audit
+ok 9 - repeated evaluation reports stable discrimination
+ok 10 - holdout descriptor sealed
+ok 11 - holdout rotation metadata is retained
+ok 12 - expired holdout requires rotation and reauthorization
+ok 13 - tampered holdout bundle is rejected
+ok 14 - holdout executed independently
+ok 15 - environment receipt created
+ok 16 - graded receipt created
+ok 17 - human receipt created
+ok 18 - identity receipt signed
+ok 19 - identity receipt verified
+ok 20 - signed holdout receipt
+ok 21 - signed environment receipt
+ok 22 - signed graded receipt
+ok 23 - signed human receipt
+ok 24 - wrong evaluator signer fails closed
+ok 25 - all typed receipts validate
+ok 26 - portable signed evidence satisfies Tier 1 policy
+ok 27 - DSSE receipt export verifies independently
+ok 28 - credential-bearing receipt is rejected
+ok 29 - enabled engine runs in a detached worktree
+ok 30 - isolated engine receipt records a real attempt
+ok 31 - isolated engine change is captured outside the source workspace
+ok 32 - acceptance blocks when evidence is omitted
+ok 33 - acceptance passes with matching supervised evidence
+ok 34 - revoked identity no longer verifies
+ok 35 - A2A v1.0 bridge round trip
+ok 36 - MCP bridge round trip
+ok 37 - A2A bridge detects embedded handoff tampering
+ok 38 - MCP bridge detects embedded handoff tampering
+ok 39 - MCP server lists read-only tools
+ok 40 - nine-family engine matrix validates
+ok 41 - disabled engine matrix records unavailable, not fabricated passes
+ok 42 - engine matrix emits typed run receipts
+PASS: Task-Spec 3.7 evidence integrity (42 checks)
+ok 1 - post-seal v4 to v3 downgrade fails closed
+ok 2 - sealed proof policy deletion fails closed
+ok 3 - sealed environment policy deletion fails closed
+ok 4 - parent-child authority mutation fails closed
+ok 5 - unknown future authority is sealed by default
+ok 6 - lifecycle and tracker projection remain mutable
+ok 7 - duplicate YAML keys are rejected
+ok 8 - ambiguous JSON numeric constants are rejected
+ok 9 - authority mapping key order is canonical
+ok 10 - textual authoring-evidence acceptance use produces a lint warning
+ok 11 - explicit workspace supports a nested custom backlog
+ok 12 - receipt replay across attempts fails
+ok 13 - global JSON returns typed receipt replay failure
+ok 14 - pre-authorization receipt timestamp fails
+ok 15 - receipt wrong task_id fails
+ok 16 - receipt wrong task_revision_digest fails
+ok 17 - receipt wrong base_commit fails
+ok 18 - legacy structural receipt cannot silently produce Tier 1
+ok 19 - required receipt rejects structural authorization fallback
+ok 20 - matching v2 receipt accepts Tier 1
+ok 21 - committed out-of-scope change is rejected
+ok 22 - symlink-escaped creation scope is rejected
+ok 23 - absolute handoff scope fails closed
+ok 24 - traversal handoff scope fails closed
+ok 25 - handoff budget expansion fails closed
+ok 26 - non-UUID attempt cannot escape acceptance storage
+ok 27 - handoff rejects conflict with an in-progress task
+ok 28 - acceptance rechecks active write conflicts
+ok 29 - interrupted status mutation leaves the old complete frontmatter
+ok 30 - interrupted status mutation leaves no partial state or temporary
+ok 31 - base commit divergence requires a new handoff
+ok 32 - dependency-closure drift fails closed
+ok 33 - injected finalize crash leaves old complete task state
+ok 34 - crash did not partially stamp accepted state
+ok 35 - doctor reports the orphan record left by interrupted acceptance
+ok 36 - same attempt recovers despite metrics projection failure
+ok 37 - doctor reports the missing accepted metrics projection
+ok 38 - same attempt cannot change its acceptor
+ok 39 - conflicting retry leaves record and task envelope consistent
+ok 40 - same accepted attempt can be retried without duplicate metrics
+ok 41 - TaskStatus names rebuild-state as the one safe projection recovery
+ok 42 - rebuilding projection advances the one safe next command
+ok 43 - global JSON preserves the same typed TaskStatus
+ok 44 - transition to done verifies the record subject and envelope
+ok 45 - status exposes semantic acceptance-record mismatch
+ok 46 - backlog doctor fails on semantic acceptance-record mismatch
+PASS: Task-Spec hardening adversarial suite (46 checks)
+CLI_REFERENCE=OK
+QUALITY_SCORE=97 SCORECARD=VALID
+RELEASE_STATUS=OK
+V381_EXPERIENCE=READY
+ok 1 - nested handoff binds the Git workspace
+ok 2 - nested acceptance uses the configured contained store
+ok 3 - nested acceptance record is separate from Converge receipts
+ok 4 - nested backlog infers repository root
+ok 5 - conflicting explicit workspace is rejected
+ok 6 - acceptance traversal is rejected
+ok 7 - acceptance symlink escape is rejected
+ok 8 - CLI acceptance directory overrides an unsafe environment value
+ok 9 - unsafe environment store was never written
+ok 10 - worktree gate resolves the common-directory key
+PASS: Task-Spec 3.8.1 nested workspace suite (10 checks)
+bash spec/conformance/run_conformance.sh
+== self-test floor: validating 8 conformance fixtures ==
+   self-test floor: all 8 fixtures valid
+
+== running conformance (adapter: /Users/luanmorenomaciel/GitHub/task-spec/spec/conformance/adapters/self.sh) ==
+PASS   C1        T-conformance-001-status-lock
+PASS   C12       T-conformance-002-emit-enum
+PASS   C6        T-conformance-003-no-signed-off-mod
+PASS   C8        T-conformance-004-execution-backend
+PASS   C13,C16   T-conformance-005-budget-stop
+PASS   C5        T-conformance-006-do-not-touch
+PASS   C17       T-conformance-007-node-refusal
+PASS   C18       T-conformance-008-v4-policy
+
+== results written to /Users/luanmorenomaciel/GitHub/task-spec/spec/conformance/results.json ==
+== non-waived failures: 0 ==
+bash bin/taskspec conformance --self-test
+Conformance check — level L2 — executor: bash /Users/luanmorenomaciel/GitHub/task-spec/src/dispatch/ref-executor.sh
+────────────────────────────────────────────────────────
+L0. Executor drives a solvable spec to a passing Exit Check ...
+   PASS — Exit Check passes after execution (L0: reads format, runs evals)
+L1. Executor honors the status lifecycle (→ done on success) ...
+   PASS — status transitioned to 'done' (A2A: completed)
+L2. Executor parks an unsolvable spec within budget (no infinite loop) ...
+   PASS — unsolvable spec parked by the no-progress circuit breaker within the signed retry budget
+────────────────────────────────────────────────────────
+CONFORMANT at L2 — this executor honors the Task-Spec contract.
+CONFORMANCE=L2
+CHECK=READY

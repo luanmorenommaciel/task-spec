@@ -1,0 +1,31 @@
+{
+  "contract": "TaskPlanLineage/v1",
+  "delivery_plan_sha256": "326018a02544f264e9caf6e8e8977eb5477fc50ee78cce7e35d6f5b5a1fb595c",
+  "engine_version": "3.10.0",
+  "intent": {
+    "id": "DI-PILOT-SMALL-FIX",
+    "sha256": "fdc5caec623c5ef6628d978246590e5a31be287886b1b18214fba1f960cdf8d4"
+  },
+  "review": {
+    "fixture": false,
+    "plan_sha256": "326018a02544f264e9caf6e8e8977eb5477fc50ee78cce7e35d6f5b5a1fb595c",
+    "reviewed_at": "2026-09-14T20:56:15.224284+00:00",
+    "reviewer": "pilot-controller",
+    "sha256": "5020512ae67905353958f32077ca6c0335df68dd0e0209e4138a68c5331eec36"
+  },
+  "task_plan": {
+    "contract": "TaskPlan/v1",
+    "digest": "38031db084dc2a02c117b01642eed5eff8f81296982a3e8206864db5f00d983d",
+    "path": "tasks/.plans/pilot/task-plan.json"
+  },
+  "units": {
+    "T-20260914-pilot-small-fix": {
+      "intent": "DI-PILOT-SMALL-FIX",
+      "leg": "LEG-SMALL-FIX",
+      "seam": "SEAM-SMALL-FIX",
+      "source_sha256": "9b1da53e57853262e67c53c0b7c4d213244d65dbd8de33a075a8d4d107662587",
+      "swimlane": "LANE-SMALL-FIX",
+      "unit_id": "T-20260914-pilot-small-fix"
+    }
+  }
+}

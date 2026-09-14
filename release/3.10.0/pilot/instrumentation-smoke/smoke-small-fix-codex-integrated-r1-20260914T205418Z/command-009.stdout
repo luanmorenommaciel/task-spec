@@ -1,0 +1,32 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "decompose",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskDecompositionResult/v1",
+    "engine_version": "3.10.0",
+    "schema_version": 1,
+    "command": "review",
+    "ok": true,
+    "token": "DELIVERY_PLAN=READY",
+    "exit_code": 0,
+    "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-pfo77btq/task-spec-3.9.0",
+    "artifacts": [
+      "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-pfo77btq/task-spec-3.9.0/tasks/.plans/pilot/delivery-plan.yaml",
+      "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-pfo77btq/task-spec-3.9.0/tasks/.plans/pilot/reviews/delivery-plan-review.json",
+      "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-pfo77btq/task-spec-3.9.0/tasks/.plans/pilot/telemetry/events.jsonl"
+    ],
+    "diagnostics": [],
+    "next": [
+      "taskspec decompose compile pilot"
+    ],
+    "data": {
+      "fixture": false,
+      "dry_run": false
+    }
+  },
+  "stdout": "",
+  "stderr": ""
+}

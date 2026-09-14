@@ -1,0 +1,29 @@
+{
+  "artifacts_sha256": {
+    "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+    "evidence.jsonl": "1cfdc53d1a4c27a065190fb08f1ba0c1cd12adccd551f43940c997f8de06a74f",
+    "intent.md": "037420e71d0fbf390d386da0a1cf691424d9085c945d81a537deac226de8e65e",
+    "legs/LEG-CONTENTION-WORKER.md": "159b8abb1724d2728094783109757a3fc0676f8e8235341e64e7eafe095623f4",
+    "legs/LEG-CONTENTION.md": "90c24cafb4d3a056b8f4b58e90e749fc8ea2bd73617178027649c18e653e4b0b",
+    "proposed-graph.json": "39196cb52aedfbdb76d56922412b6c1fc7dda32c7c7c2b96a946dc2286673f95",
+    "seam-map.yaml": "35377d509a09bc04ddb527a6b5ab0aa3a76032233bca8843d325d0d4fc08173d",
+    "seams/SEAM-CONTENTION-WORKER.md": "f91d0d75d663e602b70ec6dc6234b37bc6ba4ac3b46707c752db875355b6b914",
+    "seams/SEAM-CONTENTION.md": "69303c8692aa7ae42840d3ecfe1af06cf689d5f0a2fbec09588fecbcd1a03827",
+    "source-recipe.yaml": "fd89b8c06e66c63681ba1939305279f97277e4a4241953be08cc9ab3a9e2f600",
+    "steel-thread.md": "27094118eb81495ad1e2dbd9c1b2a5a5e74ef2f08776ce49619ff41ac98d3d6d",
+    "swimlanes/LANE-CONTENTION-WORKER.md": "2fd47c7c08927f4b1fb100ae000cfe9df40b27bd97388a160ebbb3847f187571",
+    "swimlanes/LANE-CONTENTION.md": "cd86a440fb224e0c794263150d3cb8eab0f6ba4697be8f1168cb22e671ead5f2",
+    "system-map.md": "b9af0fa9077050aea960368b5345f36c89814769411215e536653b951f9e0def"
+  },
+  "disposition": "accepted",
+  "draft_sha256": "bd618f4706afd7146f4f1e7b89ae8664f3a9edd44fc6a08d9704766e594272d6",
+  "fixture": false,
+  "plan_sha256": "99b2f820d4f8a2d4937d749f33351caf228e9318dcddd8c29e87908024f8bbb7",
+  "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "recipe_sha256": "fd89b8c06e66c63681ba1939305279f97277e4a4241953be08cc9ab3a9e2f600",
+  "reviewed_at": "2026-09-14T20:59:02.125486+00:00",
+  "reviewer": "pilot-controller",
+  "schema_version": 1,
+  "signature": "hmac-taskplan-v1:47daf94b:e05d7d18be3c4701eca7532a5dfbd36e95d25a08afee5e270add2bc2354e6834",
+  "topology_sha256": "39196cb52aedfbdb76d56922412b6c1fc7dda32c7c7c2b96a946dc2286673f95"
+}

@@ -1,0 +1,187 @@
+{
+  "contract": "TaskToolkitAuthorizationInventory/v1",
+  "claim": "Current signed-contract verification only; mismatches are retained and are not dispatch authority.",
+  "all_verified": false,
+  "tasks": [
+    {
+      "task": "tasks/T-20260914-release-autonomy.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:f69446e1e506c959b1aaf05fee5b5b301c71fc76cfb3dc7d85616dc551a09d9e",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-release-organization.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:0314a8d5a41c75d4d52301fde4386db4fbab94aa54df8eba4ba2ce5797ba3970",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-release-publication.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:e191b34bc09caa89aba5f8b0153eb1c06390d081dfb7a7ecfd3ca8c3898eecc7",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-release-qualification.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:608e015c8224ade2587e73f27e31add12c5867142264c6f757e11a1f90cec87b",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-authoring.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:558f0f250d81c2b922069975151f111a748cb6469f5eaa5ab71e12fcee37579f",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-ci.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:9559c60e2684df1e8f6179f8ee1b07f65fc10c763428351d6d42a155cd1ce789",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-cli.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": true,
+        "task_revision_digest": "sha256:f6e1f417e2876d1927de76c992748f83c0c34e56646d3ad6037fef81a4a4a3a4",
+        "tier": 3,
+        "verification": "mismatch"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-contracts.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:54a70ef13def7b4df03efb6b2a2b6ef729a9164c427b996f2b208507a94123f9",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-decomposition.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-experience.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:ad2c142ea8c070481c9a8c758d893c9274eacf72a897479ee43883c76e53de88",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-guides.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:12e86ffaaedf5775ad7c807383a36996093ac1fa8834012d7bd1511b91a6d8bc",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-mesh.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:2c3a9f481c1a7dc0dda35549127f628c8bb6aa4b83dd485cae5fde1657568bba",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-packaging.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:b4a1ad54bd100f7e10b5cee099d6a23f647076a573fabefa68cd5073efd66cfc",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-runtime.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:6629e0bda6349598df5b02f0705381816da451222bdb5dd7dd0fe0b90c70881d",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    },
+    {
+      "task": "tasks/T-20260914-toolkit-sdlc.md",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:3fdae44623346de595c559876e4a2d9e35c358793af4dda0284e6865433a6ce5",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "lifecycle": "ready",
+      "accepted": false
+    }
+  ]
+}

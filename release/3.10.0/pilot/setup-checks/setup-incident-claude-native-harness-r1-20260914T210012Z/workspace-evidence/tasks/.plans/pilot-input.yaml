@@ -1,0 +1,156 @@
+schema_version: 1
+intent:
+  id: DI-PILOT-INCIDENT
+  title: A malformed imported incident receipt raises a raw TypeError
+  summary: Validate imported envelope shape before dereferencing attachments; refuse
+    null/non-list/non-object attachment entries and unexpected envelope keys with
+    OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance
+    promotion.
+  claim: proposed
+  source: &id001
+    uri: tests/fixtures/toolkit/pilot-issue.json
+    captured_at: '2026-09-14T20:20:46.550715+00:00'
+    sha256: c0183f60ddf3d93d84864cc710e3afd3447caead3920173f91a27a95ce59c610
+  success:
+  - Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object
+    attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve
+    valid reported receipts and prohibit health or acceptance promotion.
+  out_of_scope:
+  - Changes outside the registered write surface.
+  - Production deployment, policy changes, self-authorization, and independent agents.
+system_map:
+  claim: proposed
+  components:
+  - incident
+  external_dependencies:
+  - TaskSpec CLI and the independently registered evaluator
+  unknowns: []
+evidence:
+- id: E-PILOT-ISSUE
+  claim: current
+  source: *id001
+  confidence: 1.0
+  summary: A repository issue inspected before comparative execution; source digests
+    and reproduction are retained.
+decisions:
+- id: ADR-PILOT-SCOPE
+  status: accepted
+  owner: pilot-supervisor
+  rationale: The user authorized real repository issues with prospective intervention
+    recording. This fixed corpus defines the evaluated scope before execution; it
+    does not claim a new human review occurred during each run.
+seams:
+- id: SEAM-INCIDENT
+  name: incident
+  description: Validate imported envelope shape before dereferencing attachments;
+    refuse null/non-list/non-object attachment entries and unexpected envelope keys
+    with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health
+    or acceptance promotion.
+  evidence:
+  - E-PILOT-ISSUE
+  responsibility: Validate imported envelope shape before dereferencing attachments;
+    refuse null/non-list/non-object attachment entries and unexpected envelope keys
+    with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health
+    or acceptance promotion.
+  consumes:
+  - registered issue
+  produces:
+  - incident verified behavior
+  owner: pilot-incident
+  independent_proof: Run the registered independent incident evaluator.
+  decision_ids:
+  - ADR-PILOT-SCOPE
+  rejected_alternatives:
+  - alternative: Merge this responsibility into an unrelated task
+    reason: Its write surface and independently assessable outcome belong to this
+      boundary.
+  swimlane:
+    id: LANE-INCIDENT
+    name: incident delivery
+    owner: pilot-incident
+    legs:
+    - id: LEG-INCIDENT
+      observable_state: Validate imported envelope shape before dereferencing attachments;
+        refuse null/non-list/non-object attachment entries and unexpected envelope
+        keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit
+        health or acceptance promotion.
+      proof: The declared evaluator succeeds without widening the write surface.
+      requires: []
+      produces:
+      - incident verified behavior
+      tasks:
+      - id: T-20260914-pilot-incident
+        title: Validate imported envelope shape before dereferencing attachments;
+          refuse null/non-list/non-object attachment entries and unexpected envelope
+          keys with OPERATIONAL_INVALID
+        goal: Validate imported envelope shape before dereferencing attachments; refuse
+          null/non-list/non-object attachment entries and unexpected envelope keys
+          with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit
+          health or acceptance promotion.
+        done_condition: Validate imported envelope shape before dereferencing attachments;
+          refuse null/non-list/non-object attachment entries and unexpected envelope
+          keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit
+          health or acceptance promotion.
+        effort: S
+        profile: standard
+        execution_backend: claude
+        required_tools:
+        - git
+        - bash
+        - python3
+        depends_on: []
+        touches_paths:
+        - src/evidence/operational.py
+        creates_paths: []
+        behavior:
+        - id: B-1
+          given: the registered repository issue and fixed authorized scope
+          when: the bounded implementation is independently evaluated
+          then: the declared behavior passes without modifying unrelated files or
+            promoting reported evidence
+        - id: B-2
+          given: the recorded evidence and authorization boundary
+          when: the candidate is checked
+          then: source evidence is unchanged and no unrelated write is present
+        evals:
+        - id: eval_1
+          description: Independent behavioral proof for incident
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            incident --root .
+          verifies:
+          - B-1
+        - id: eval_2
+          description: Declared write surface only
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            write-boundary --root .
+          verifies:
+          - B-2
+        - id: eval_3
+          description: Registered issue evidence is unchanged
+          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python
+            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py
+            source-integrity --root .
+          verifies:
+          - B-2
+        anti_patterns:
+        - action: weaken the independent evaluator
+          reason: it would invalidate the comparison
+          instead: fix the behavior within the declared surface
+        - action: expand the scope
+          reason: it breaks matched permissions
+          instead: report the missing work as a blocker
+        - action: claim success without evidence
+          reason: a plausible patch does not establish behavior
+          instead: run the independent proof and report failures
+        do_not_touch:
+        - tests/fixtures/toolkit/pilot-issue.json
+        - tasks
+        rollback: Revert only this isolated candidate change.
+        observability: Retained provider output, evaluation result, and prospective
+          event journal.
+steel_thread:
+- LEG-INCIDENT
+objections: []
+contentions: []

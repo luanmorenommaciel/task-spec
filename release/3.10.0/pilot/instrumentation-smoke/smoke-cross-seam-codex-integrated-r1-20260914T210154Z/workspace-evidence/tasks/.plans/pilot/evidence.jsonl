@@ -1,0 +1,1 @@
+{"claim":"current","confidence":1.0,"id":"E-PILOT-ISSUE","source":{"captured_at":"2026-09-14T20:20:46.550715+00:00","sha256":"9cb2693bd26a714755d6a8800e2870c5a639be060372c6cb2dc0bbdde349b570","uri":"tests/fixtures/toolkit/pilot-issue.json"},"summary":"A repository issue inspected before comparative execution; source digests and reproduction are retained."}

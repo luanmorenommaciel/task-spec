@@ -109,7 +109,10 @@ root = pathlib.Path("/workspace").resolve()
 if root not in target.parents:
     raise SystemExit("authorized path escaped workspace")
 target.parent.mkdir(parents=True, exist_ok=True)
-target.write_text("completed by autonomous TaskMesh\n", encoding="utf-8")
+value = "completed by autonomous TaskMesh\n"
+if handoff.get("agent_contract", {}).get("execution_recipe") and (not target.exists() or not target.read_text()):
+    value = "repair required\n"
+target.write_text(value, encoding="utf-8")
 print(json.dumps({"type": "taskmesh.fake.completed", "path": str(target.relative_to(root)), "model": model}))
 PY
     return

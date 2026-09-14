@@ -1,0 +1,341 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "smoke-small-fix-codex-integrated-r1-20260914T205715Z",
+  "scenario": "small-fix",
+  "harness": "codex",
+  "workflow": "integrated",
+  "repeat": 1,
+  "model": "gpt-6-astra",
+  "provider": "openai",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-0g4grhg2/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "src/recipe/recipes.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "9d893c35cfcaed044dfb29a249945f48b20e1ad8",
+  "setup_passed": true,
+  "accepted": false,
+  "error": "'workspace'",
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 27.742548667,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "85050a6f42aecff4db374aa640b8395cfb4a6edf907dc7ebb562a2a137dcc437",
+      "25dc5095b3d52f558f0b2324f65892fa3bff8a0783a54023b9f508e6edbc45d6"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 27.742548667,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "85050a6f42aecff4db374aa640b8395cfb4a6edf907dc7ebb562a2a137dcc437",
+    "25dc5095b3d52f558f0b2324f65892fa3bff8a0783a54023b9f508e6edbc45d6"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "0.154.0",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "8bb4bf162cba832677d301d7462c8403ffd2c38e165ff106872cc4d19fb157f9",
+  "cost_including_failures": null,
+  "cost_basis": "api_equivalent_estimate",
+  "cost_evidence": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-006.stdout",
+      "sha256": "6c920ab7d2dd04025ae0c8784ac8e40a1bdc3bead42fe1f2be10a5f327c588ce"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-007.stdout",
+      "sha256": "ea93d981220d1fd8319e0fbfe429ce81d54ee978b21c0ffa71032cd0155e879d"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-008.stdout",
+      "sha256": "fed30301c1aa89e8853963a93b6449c769797ccdc990758f84a9c4bc47812a0c"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-009.stdout",
+      "sha256": "e3522fa52893a9c138648cf177a7adebe94410cc0fc123e875e39bee02bfc4ee"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-010.stdout",
+      "sha256": "fd8db2d06d6c7d560e8fdfadea83b3adf04247df5db3dcdec704ce0a7c622d6d"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-011.stdout",
+      "sha256": "d4eda4177a8d1aa69470c6732a70ed3986df23cfc59fbc353d3844af04399bd8"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-012.stdout",
+      "sha256": "0e0566ee534c15c86fad6aa5d518e2db4858da34c27fd188520b84f3e5c4b292"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-013.stdout",
+      "sha256": "fc0d03db84d863a768bd0674e3ed32ae5203e943d4da49fcf578805f736cd2ea"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-014.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-015.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-016.stdout",
+      "sha256": "79b9a205037ea9673fd26a3911aa29fd951f9cc33e8cf838a960f8f2d77b7ca0"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-017.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/command-017.stdout",
+      "sha256": "51f37ec355f98e8bbb471b73982b9a5bf7dc517a772b96b751e469c86c9cf6cf"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/cost.json",
+      "sha256": "4f01f50cf6b15bddfe163a2ab5d1f9ad3d067995a537d42ead45559f7babd686"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/d47d2a93-b593-406c-95af-7d67a73644c5-awaiting_supervision.json",
+      "sha256": "cb333976de309806d1bca67c972cd50ab39f91da7d40ec0c79c45a8c07315374"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/d47d2a93-b593-406c-95af-7d67a73644c5-preparing.json",
+      "sha256": "462a0dcc79c4b8b53105c63bc5dbfeabac11c7a2ec688fb3be6dc52d99098949"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/d47d2a93-b593-406c-95af-7d67a73644c5-running.json",
+      "sha256": "006cc99e234f92b231c3714a09c23eea3a0d8f9f4859d7729a827b64c017273c"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/events.jsonl",
+      "sha256": "b6266de495a831f2808f9c318a1dabfd77618fd64b95c2882f5017698d9f52c4"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/mesh-artifacts/d47d2a93-b593-406c-95af-7d67a73644c5.json",
+      "sha256": "7957bf80b8c8ac482f4419f05c8efb43592681ca85f1ac23c2ba611186d154d1"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/mesh-artifacts/d47d2a93-b593-406c-95af-7d67a73644c5.round-1.evals.json",
+      "sha256": "7c7ad96b4670ff44d3b9eb939fb6163f69997bd2f35aa7af73de9590bc0f2294"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/mesh-artifacts/d47d2a93-b593-406c-95af-7d67a73644c5.round-1.json",
+      "sha256": "7957bf80b8c8ac482f4419f05c8efb43592681ca85f1ac23c2ba611186d154d1"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/prepared.json",
+      "sha256": "b10e9d0d1b63581b1445a4e3e6b29e43cd600f06b6ff8e258afc680ef724389d"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/registration.json",
+      "sha256": "47725e53fe28267f634957a2489353c36e8b667f90fe297a18d80776d703503f"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/bundle.json",
+      "sha256": "8c112bb5441c0f07706ff0b47e4b89bc48d09968b0a7531b575136f8394ae399"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md",
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/delivery-plan.yaml",
+      "sha256": "bb2ac6d8fd1309736c190d792357696a5d51aa1c1538e1bad79eef61cbc952c5"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/evidence.jsonl",
+      "sha256": "08f02f7954d1eefc5eb61c74c2756b664733a1500c4e5ae7d640f8286e04f722"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/intent.md",
+      "sha256": "fdc5caec623c5ef6628d978246590e5a31be287886b1b18214fba1f960cdf8d4"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/legs/LEG-SMALL-FIX.md",
+      "sha256": "9b1da53e57853262e67c53c0b7c4d213244d65dbd8de33a075a8d4d107662587"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/proposed-graph.json",
+      "sha256": "3e954eb019df2039493b9db9ab5140c831b037b0ed3c3d77f9266b920c54a532"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/reviews/delivery-plan-review.json",
+      "sha256": "f23b1aa97de0f72579af4ee75bf9157c7d1ee869205cf6208102c941f5cf9ead"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/seam-map.yaml",
+      "sha256": "8acd164e02c0a845b92f10e9420871cd910a4d770ab43024623a9b0f1bd0ee53"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/seams/SEAM-SMALL-FIX.md",
+      "sha256": "71cee7de0328a4381b2598bca3f33aed11847c79930b7379bbb916964676f941"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/snapshots/a3ddfc92fbf6564f8021f9ee5efa75c5de5dcd32c6973b5ae58440db8138bba4.json",
+      "sha256": "d24ffdf792b2939d950e6be25a6f8c3bd4f388b963ca6f0bff1425ea8b077614"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/source-recipe.yaml",
+      "sha256": "8b52dc58905e6106d1779bc13f20c7b9625ec6509a0b353d9841946ee50b08b3"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/steel-thread.md",
+      "sha256": "4eb13fd026eb6d48b5f3daa30b89aec67fcd3e91a48400d61abb4b1483bd7fa7"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/swimlanes/LANE-SMALL-FIX.md",
+      "sha256": "4bcca8eb44368c880164e8465a1af6d7a758e9f25be1f8f92d94e9ced30cd86f"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/system-map.md",
+      "sha256": "1c42801107b87d6ba0a9feca42cc84bde631f399cf2f8496a9704a5ec58dfca4"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/task-plan-lineage.json",
+      "sha256": "a4156a00f00c4625c29711a3a1c3298a0772a3aaea927436daf67acb802a2211"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/task-plan.json",
+      "sha256": "9d154ec7d2fa41ffe1570970115ed625222e1a5a40f6b6d71931b5bbe5a96b10"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot/telemetry/events.jsonl",
+      "sha256": "977cd13eecba2477fc49fc17e64f86db5686871f154a0db0b7b0a6f35332bd69"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "8b52dc58905e6106d1779bc13f20c7b9625ec6509a0b353d9841946ee50b08b3"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260914T205715Z/workspace-evidence/tasks/T-20260914-pilot-small-fix.md",
+      "sha256": "cd323d8f1e50a3489e2a800f64171e94df9e86dfddd44feb5433d51344edcf1f"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "observations": [
+    {
+      "case": "plan",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "plan-codex.controller.log",
+      "review_status": "passed",
+      "needs_permission_review": false,
+      "behavior_review": "runs/plan-codex-20260914T214156Z/behavior-review.json"
+    },
+    {
+      "case": "plan",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "plan-claude.controller.log",
+      "review_status": "passed",
+      "needs_permission_review": false,
+      "behavior_review": "runs/plan-claude-20260914T214156Z/behavior-review.json"
+    },
+    {
+      "case": "atomic",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "atomic-codex.controller.log",
+      "review_status": "passed",
+      "needs_permission_review": false,
+      "behavior_review": "runs/atomic-codex-20260914T215012Z/behavior-review.json"
+    },
+    {
+      "case": "atomic",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "atomic-claude.controller.log",
+      "review_status": "failed",
+      "needs_permission_review": true,
+      "behavior_review": "runs/atomic-claude-20260914T215012Z/behavior-review.json"
+    }
+  ],
+  "qualified": false,
+  "state": "paused_after_behavior_failure"
+}

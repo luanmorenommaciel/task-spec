@@ -1,0 +1,36 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "explain",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "review_method": "Read actual tools, CLI outputs, final answer and before/after inventories.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "explain_lineage"
+  ],
+  "claims_checked": [
+    "Read current CLI and installed guide plus reviewed topology, compiled units, evidence and dependency graph.",
+    "Explained responsibility/write/proof boundaries and preserved downstream input dependencies.",
+    "Identified missing integration proof and avoided equating child completion with capability proof.",
+    "Correctly described batch as creating unsealed leaves and left the workspace unchanged."
+  ],
+  "limitations": [
+    "One fresh synthetic fixture."
+  ],
+  "evidence_refs": [
+    {
+      "path": "runs/explain-claude-20260914T220817Z/harness.stdout",
+      "sha256": "02cb3b3fe6c571d2bf56efa80337c2516a645727ffefbca0907dc670c0d2c9c6"
+    },
+    {
+      "path": "runs/explain-claude-20260914T220817Z/before.json",
+      "sha256": "f5787fb9f65b999980d4f6930e9fecb40c9651a638e5dc8ee374b1f82db50e4d"
+    },
+    {
+      "path": "runs/explain-claude-20260914T220817Z/after.json",
+      "sha256": "f5787fb9f65b999980d4f6930e9fecb40c9651a638e5dc8ee374b1f82db50e4d"
+    }
+  ]
+}

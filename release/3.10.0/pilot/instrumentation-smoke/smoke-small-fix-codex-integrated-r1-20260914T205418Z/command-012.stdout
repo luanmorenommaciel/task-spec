@@ -1,0 +1,33 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "batch",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMaterializationReceipt/v1",
+    "engine_version": "3.10.0",
+    "input": {
+      "contract": "TaskPlan/v1",
+      "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-pfo77btq/task-spec-3.9.0/tasks/.plans/pilot/task-plan.json",
+      "digest": "1b5fabdd49a448edca7d2af02a298bd559209d4947273b63afcc0e2fa2c1e990",
+      "approved": true
+    },
+    "output_dir": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-pfo77btq/task-spec-3.9.0/tasks",
+    "dry_run": false,
+    "materialized": true,
+    "changed": true,
+    "state": "created",
+    "dispatch_authorized": false,
+    "tasks": [
+      {
+        "task_id": "T-20260914-pilot-small-fix",
+        "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-pfo77btq/task-spec-3.9.0/tasks/T-20260914-pilot-small-fix.md",
+        "sha256": "0f563558610a279364ecb639e56253a1232fc02bb7d62ff05f336d3dd353df24"
+      }
+    ],
+    "warnings": []
+  },
+  "stdout": "",
+  "stderr": ""
+}

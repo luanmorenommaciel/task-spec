@@ -1,0 +1,93 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "d93a175f-8994-4910-aff0-282c20938c8a",
+    "ok": true,
+    "code": "MESH_RUN_STARTED",
+    "message": "authorized TaskMesh leases acquired",
+    "data": {
+      "attempts": [
+        {
+          "adapter": "pilot-smoke",
+          "branch": "taskmesh/20260914-pilot-overview-route/9f07339c",
+          "decision": {
+            "candidates": [
+              {
+                "adapter": "pilot-smoke",
+                "eligible": true,
+                "rejection_reasons": [],
+                "static_score": 100
+              }
+            ],
+            "contract": "DispatchDecision/v1",
+            "decided_at": "2026-09-14T21:02:31.632809Z",
+            "explanation": "selected by explicit choice, task backend, roster band, static policy, bounded advisor order, then stable tie-breaker",
+            "policy_digest": "sha256:5f16b5710759fefc7dfd834b2a25103bf8714db0cd53711c485020ba23d1b66b",
+            "selected": "pilot-smoke",
+            "task_id": "T-20260914-pilot-overview-route",
+            "task_revision_digest": "sha256:a8623f19f95ea496586b8e42b9a6cb1a1c152e8a8ec9f8b4def572a60da6b2e4"
+          },
+          "lease": {
+            "attempt_id": "9f07339c-742a-4955-a519-866a33822bd8",
+            "contract": "RunLease/v1",
+            "expires_at": "2026-09-14T21:07:31.633025Z",
+            "fencing_token": 1,
+            "heartbeat_at": "2026-09-14T21:02:31.633025Z",
+            "issued_at": "2026-09-14T21:02:31.633025Z",
+            "owner": "d93a175f-8994-4910-aff0-282c20938c8a",
+            "run_id": "0c1c0839-9b5e-4c0a-ac99-7a7a0ffcd288",
+            "state": "leased",
+            "task_id": "T-20260914-pilot-overview-route",
+            "task_revision_digest": "sha256:a8623f19f95ea496586b8e42b9a6cb1a1c152e8a8ec9f8b4def572a60da6b2e4"
+          },
+          "route": {
+            "adapter": "pilot-smoke",
+            "effort": "S",
+            "mode": "supervised",
+            "model": "gpt-6-astra",
+            "provider": "",
+            "source": "flag"
+          },
+          "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-4m2ywwsi/task-spec-3.9.0/.git/taskspec-mesh/runs/0c1c0839-9b5e-4c0a-ac99-7a7a0ffcd288/attempts/9f07339c-742a-4955-a519-866a33822bd8"
+        }
+      ],
+      "leases": [
+        {
+          "attempt_id": "9f07339c-742a-4955-a519-866a33822bd8",
+          "contract": "RunLease/v1",
+          "expires_at": "2026-09-14T21:07:31.633025Z",
+          "fencing_token": 1,
+          "heartbeat_at": "2026-09-14T21:02:31.633025Z",
+          "issued_at": "2026-09-14T21:02:31.633025Z",
+          "owner": "d93a175f-8994-4910-aff0-282c20938c8a",
+          "run_id": "0c1c0839-9b5e-4c0a-ac99-7a7a0ffcd288",
+          "state": "leased",
+          "task_id": "T-20260914-pilot-overview-route",
+          "task_revision_digest": "sha256:a8623f19f95ea496586b8e42b9a6cb1a1c152e8a8ec9f8b4def572a60da6b2e4"
+        }
+      ],
+      "run": {
+        "contract": "TaskMeshRun/v1",
+        "created_at": "2026-09-14T21:02:24.638982Z",
+        "graph_revision_digest": "sha256:2906e32f136d7291848f8fa21b7a2777c81575c24cf8967ba531a39d98ac3955",
+        "integration_branch": "taskmesh/run/0c1c0839",
+        "max_parallel": 2,
+        "mode": "supervised",
+        "repository": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-4m2ywwsi/task-spec-3.9.0",
+        "run_id": "0c1c0839-9b5e-4c0a-ac99-7a7a0ffcd288",
+        "state": "active",
+        "target": {
+          "branch": "main",
+          "commit": "ef4fcc7eca329c57a303359d4a1dddb2c17fb447"
+        }
+      }
+    }
+  },
+  "stdout": "",
+  "stderr": ""
+}

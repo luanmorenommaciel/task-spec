@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "TASK_GRAPH=READY",
+  "plan_sha256": "7e9dc1a97b6dcf0ce5057fae53bba2437681938e94177c982863459ce7ff859e",
+  "nodes": [
+    {
+      "id": "T-20260914-pilot-release-evidence",
+      "title": "Exclude WATCHDOG",
+      "seam_id": "SEAM-RELEASE-EVIDENCE",
+      "swimlane_id": "LANE-RELEASE-EVIDENCE",
+      "leg_id": "LEG-RELEASE-EVIDENCE",
+      "effort": "M",
+      "profile": "standard",
+      "done_condition": "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.",
+      "touches_paths": [
+        "tools/build-release-archive.py"
+      ],
+      "creates_paths": [
+        "docs/examples/pilot-release-evidence.json",
+        "docs/examples/pilot-artifacts"
+      ]
+    }
+  ],
+  "edges": [],
+  "contentions": [],
+  "critical_path": [
+    "T-20260914-pilot-release-evidence"
+  ],
+  "critical_path_mermaid_sha256": "0ed7147ac22ef7020b68d333e439960b5cbc16a73b4a3119c3996cbf71880188"
+}

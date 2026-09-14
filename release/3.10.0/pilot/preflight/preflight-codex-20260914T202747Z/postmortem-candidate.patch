@@ -1,0 +1,34 @@
+diff --git a/src/recipe/recipes.py b/src/recipe/recipes.py
+index 6bc846a..8b87f08 100644
+--- a/src/recipe/recipes.py
++++ b/src/recipe/recipes.py
+@@ -12,7 +12,7 @@ import sys
+ 
+ ROOT = Path(__file__).resolve().parents[2]
+ sys.path.insert(0, str(ROOT / "src/lib"))
+-from taskspec_data import DataError, load_document, parse_yaml_subset  # noqa: E402
++from taskspec_data import DataError, _json_object, _reject_json_constant, load_document, parse_yaml_subset  # noqa: E402
+ 
+ CONTRACT = "TaskExecutionRecipe/v1"
+ STRATEGIES = {
+@@ -92,7 +92,7 @@ def main() -> int:
+     sub = parser.add_subparsers(dest="action", required=True)
+     sub.add_parser("list")
+     show = sub.add_parser("show"); show.add_argument("strategy", choices=sorted(STRATEGIES))
+-    check = sub.add_parser("validate"); check.add_argument("file"); check.add_argument("--budget", type=int, default=15)
++    check = sub.add_parser("validate"); check.add_argument("file", help="recipe file, or - for JSON on stdin"); check.add_argument("--budget", type=int, default=15)
+     args = parser.parse_args()
+     try:
+         if args.action == "list":
+@@ -100,7 +100,10 @@ def main() -> int:
+         elif args.action == "show":
+             data = resolve(args.strategy, ["eval_1"])
+         else:
+-            data = load_document(args.file)
++            if args.file == "-":
++                data = json.load(sys.stdin, object_pairs_hook=_json_object, parse_constant=_reject_json_constant)
++            else:
++                data = load_document(args.file)
+             errors = validate(data, data.get("eval_ids", []) if isinstance(data, dict) else [], args.budget)
+             if errors:
+                 raise DataError("; ".join(errors))

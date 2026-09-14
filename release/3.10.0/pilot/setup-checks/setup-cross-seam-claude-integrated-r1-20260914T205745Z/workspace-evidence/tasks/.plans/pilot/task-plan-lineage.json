@@ -1,0 +1,39 @@
+{
+  "contract": "TaskPlanLineage/v1",
+  "delivery_plan_sha256": "53edd156bce79c25e42697f16430d35963b5d448d73eecf04c5c26df1bb99ffe",
+  "engine_version": "3.10.0",
+  "intent": {
+    "id": "DI-PILOT-CROSS-SEAM",
+    "sha256": "2a36889f4b87b2e4da34b47b42d8c36cf0c23423614e526899a161214bbed109"
+  },
+  "review": {
+    "fixture": false,
+    "plan_sha256": "53edd156bce79c25e42697f16430d35963b5d448d73eecf04c5c26df1bb99ffe",
+    "reviewed_at": "2026-09-14T20:57:50.988236+00:00",
+    "reviewer": "pilot-controller",
+    "sha256": "8b165f0cd947f5255791fcdab9b04791d11db8f9c12216b8b5e80077e1724f6f"
+  },
+  "task_plan": {
+    "contract": "TaskPlan/v1",
+    "digest": "bcc562a900757529008eb2ce98da597bc36f8f4d9236b85964e66b6b68e4b620",
+    "path": "tasks/.plans/pilot/task-plan.json"
+  },
+  "units": {
+    "T-20260914-pilot-overview-route": {
+      "intent": "DI-PILOT-CROSS-SEAM",
+      "leg": "LEG-OVERVIEW-ROUTE",
+      "seam": "SEAM-OVERVIEW-ROUTE",
+      "source_sha256": "9da9995027cde73574b519df097af3056774508771af98e6b25e6d71d04e2105",
+      "swimlane": "LANE-OVERVIEW-ROUTE",
+      "unit_id": "T-20260914-pilot-overview-route"
+    },
+    "T-20260914-pilot-overview-skill": {
+      "intent": "DI-PILOT-CROSS-SEAM",
+      "leg": "LEG-OVERVIEW-SKILL",
+      "seam": "SEAM-OVERVIEW-SKILL",
+      "source_sha256": "ee94657a1f91e22b66759f6cc3cbcedd246fc3d5f37e6ffc7621e4250d9b6fd3",
+      "swimlane": "LANE-OVERVIEW-SKILL",
+      "unit_id": "T-20260914-pilot-overview-skill"
+    }
+  }
+}

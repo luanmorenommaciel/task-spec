@@ -1,0 +1,17 @@
+{
+  "contract": "TaskMeshAdapter/v1",
+  "name": "chat-fixture",
+  "harness": "custom",
+  "executable": "/private/tmp/taskspec-chat-native-observations/runs/run-codex-20260914T222514Z/fixture-worker.sh",
+  "version_args": [
+    "--version"
+  ],
+  "prompt_mode": "argument",
+  "event_format": "text",
+  "assurance_modes": [
+    "supervised"
+  ],
+  "command": [
+    "run"
+  ]
+}

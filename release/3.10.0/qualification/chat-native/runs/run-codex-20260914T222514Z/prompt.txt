@@ -1,0 +1,1 @@
+Run the already authorized work in the managed initiative using the registered chat-fixture adapter. Inspect the current authority first. Execution is authorized; supervisor acceptance and merging are not. Report where it stops.

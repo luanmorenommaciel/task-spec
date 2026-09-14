@@ -1,0 +1,223 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-cross-seam-claude-native-harness-r1-20260914T205812Z",
+  "scenario": "cross-seam",
+  "harness": "claude",
+  "workflow": "native-harness",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-7bbap6_y/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "src/cli/guide.py",
+    "SKILL.md",
+    "skills/task-spec/SKILL.md"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "6dfebefa1a33ba6646fd2cc15f2133ab1ce416e9",
+  "setup_passed": true,
+  "accepted": false,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 10.6513495,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "46f14001104908de6e55af335d3d6a08015aef73c812031a0047d005206a9d38",
+      "d78c15eb131d32ca33cefc145458144be49ed1382b8cad1efd8c3d9794612c74"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 10.6513495,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "46f14001104908de6e55af335d3d6a08015aef73c812031a0047d005206a9d38",
+    "d78c15eb131d32ca33cefc145458144be49ed1382b8cad1efd8c3d9794612c74"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "f5b9f7d4f557e029329bb9e353802135aee5bcdc79783e0226d7a798eb6f323f",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-006.stdout",
+      "sha256": "ef2bfdd93de4c5919691733110a04ad1163ea98828b61bbff9184afc5d716db3"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-007.stdout",
+      "sha256": "bc4a761d6546f3468a9f49ce8c126159038d0055baf284c82c2aa35ab6d8f2cc"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-008.stdout",
+      "sha256": "c2d8a0f4829ef56dd67ade3768ad68c29bd36272ba42bf77047b43a73671b0d0"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-009.stdout",
+      "sha256": "ef0d081db1fc316cb643cbeeb0bc7ad6d758d9f42315670efaf0d411ef1bb16d"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-010.stdout",
+      "sha256": "1615afd1a7b2974fa239d0cf37c9c9a982a26d0d14f0f60a0873cc6bb043d40e"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-011.stdout",
+      "sha256": "a3174719f4e295df604fde84dbd9f4fe2a66999722fc20862db9eb1e4914b921"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-012.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/command-013.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/cost.json",
+      "sha256": "19c7dfd4641d8a7e85fb9c2e74642a9f3230a87937224b137e1005dda77117c7"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/events.jsonl",
+      "sha256": "79684e9da58ad5faa1558ede6bc148de8b9da9baac45b886e2dde1b2bf6cb390"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/prepared.json",
+      "sha256": "d780cacb84ef31f80d2b20b146450404e24feca13045eedccff8c5fa05b3063e"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/registration.json",
+      "sha256": "cc4ce9e488063a522f7ced2f4ef75ce48408fd90ed26cfacda3168fdd9613112"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/workspace-evidence/tasks/.plans/native.json",
+      "sha256": "11d1f4dcd2f5691f15531a44f91b50d80eb4a627f392d4f863348acff840b1f0"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "019e7ce79c9971619b70b293be34ef8049d9274aed74065f7e154d2bd112d913"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/workspace-evidence/tasks/T-20260914-pilot-overview-route.md",
+      "sha256": "137178ae3c7ae4ba003deac86f213ce6dca37f0fd6dd2de0400046f538b97e83"
+    },
+    {
+      "path": "setup-checks/setup-cross-seam-claude-native-harness-r1-20260914T205812Z/workspace-evidence/tasks/T-20260914-pilot-overview-skill.md",
+      "sha256": "2203630062c84502941f9c7261f3d0ecf46886a47f68ea13401e13ed6d6794f1"
+    }
+  ]
+}

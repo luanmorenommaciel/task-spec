@@ -1,0 +1,14 @@
+{
+  "adapter": "pilot-smoke",
+  "adapter_version": "pilot-overview/1",
+  "attempt_id": "44b5a846-7721-48c0-ae5d-cd75b3b29f2a",
+  "contract": "TaskMeshAdapterArtifact/v1",
+  "fencing_token": 1,
+  "finished_at": "2026-09-14T21:02:36.479094Z",
+  "output": "",
+  "started_at": "2026-09-14T21:02:36.424835Z",
+  "task_id": "T-20260914-pilot-overview-route",
+  "task_revision_digest": "sha256:59b71680f275c189b0b93925776910785a60968700842bb1822c154d07a80b08",
+  "terminal_outcome": "success",
+  "truncated": false
+}

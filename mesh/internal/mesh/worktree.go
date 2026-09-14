@@ -17,8 +17,28 @@ func runGit(repository Repository, workingDirectory string, arguments ...string)
 	return nil
 }
 
+func managedWorkspaceRoot(repository Repository, runID string) (string, error) {
+	root := filepath.Join(repository.StateDir, "workspaces", runID)
+	for path := root; path != repository.Root; path = filepath.Dir(path) {
+		if path == filepath.Dir(path) {
+			return "", fmt.Errorf("managed workspace escapes repository")
+		}
+		info, err := os.Lstat(path)
+		if err == nil && info.Mode()&os.ModeSymlink != 0 {
+			return "", fmt.Errorf("managed workspace cannot traverse a symlink: %s", path)
+		}
+		if err != nil && !os.IsNotExist(err) {
+			return "", err
+		}
+	}
+	return root, nil
+}
+
 func prepareIntegration(repository Repository, runID, branch, targetCommit string) (string, error) {
-	root := filepath.Join(repository.GitCommon, "taskspec-mesh", "runs", runID)
+	root, err := managedWorkspaceRoot(repository, runID)
+	if err != nil {
+		return "", err
+	}
 	workspace := filepath.Join(root, "integration")
 	if err := os.MkdirAll(root, 0o700); err != nil {
 		return "", err
@@ -37,7 +57,11 @@ func prepareAttempt(repository Repository, runID string, lease Lease, integratio
 	shortAttempt := strings.Split(lease.AttemptID, "-")[0]
 	taskSlug := strings.ToLower(strings.TrimPrefix(lease.TaskID, "T-"))
 	branch := "taskmesh/" + taskSlug + "/" + shortAttempt
-	workspace := filepath.Join(repository.GitCommon, "taskspec-mesh", "runs", runID, "attempts", lease.AttemptID)
+	root, err := managedWorkspaceRoot(repository, runID)
+	if err != nil {
+		return "", "", err
+	}
+	workspace := filepath.Join(root, "attempts", lease.AttemptID)
 	if err := os.MkdirAll(filepath.Dir(workspace), 0o700); err != nil {
 		return "", "", err
 	}

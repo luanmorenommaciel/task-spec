@@ -1,0 +1,56 @@
+{
+  "contract": "TaskMeshReleaseEvidence/v1",
+  "version": "3.10.0",
+  "api": "TaskMeshAPI/v1alpha1",
+  "generated_at": "2026-09-14T21:46:44.182652+00:00",
+  "source": {
+    "branch": "main",
+    "commit_before_evidence_finalization": "76ff7b8880c95fd583f933c69b77c8d75ad041db",
+    "state": "uncommitted_candidate"
+  },
+  "release_status": "candidate_unqualified",
+  "repository_visibility": "public",
+  "quality_baseline": {
+    "contract": "TaskSpecQualityScorecard/v1",
+    "release": "3.8.1",
+    "path": "release/3.8.1/scorecard.json",
+    "digest": "sha256:a0c7349db6df8593dccc6be9a72716b6377df9111f63f7fc9b8c73304866f4d9",
+    "score": 97,
+    "current_release_regression_assessment": "pending"
+  },
+  "gates": {
+    "local_mesh_conformance": "pass",
+    "live_local_synthetic_isolation": "pass",
+    "toolkit_installation": "pass",
+    "final_make_check": "pending",
+    "comparative_pilot": "interrupted_unqualified",
+    "chat_qualification": "in_progress",
+    "hosted_ubuntu": "pending",
+    "hosted_macos": "pending",
+    "hosted_live_isolation": "pending",
+    "canonical_acceptance": "pending",
+    "cutover": "pending",
+    "publication": "pending"
+  },
+  "artifacts": [
+    {
+      "path": "release/3.10.0/mesh-conformance.json",
+      "digest": "sha256:d10a3606e8b844b24c5a3161605a9b154644c5067ac72665b153ef1c84ab9afd"
+    },
+    {
+      "path": "release/3.10.0/reviewer-report.json",
+      "digest": "sha256:f3746cb320e471929e3238ee2ac0bc26a705f94b82edb0e860119c6ca7db994f"
+    },
+    {
+      "path": "release/3.10.0/qualification/runtime-defects.md",
+      "digest": "sha256:6bd6afa58556dff80a4015442653328985b998ac7b7669639ee1832541aaa2a7"
+    }
+  ],
+  "claims": {
+    "production_reliability": false,
+    "protocol_certification": false,
+    "automatic_target_merge": false,
+    "release_qualified": false
+  },
+  "next_gate": "Complete settled-source checks, qualified comparative and chat corpora, hosted proof, canonical acceptance, migration/cutover, and published-install verification."
+}

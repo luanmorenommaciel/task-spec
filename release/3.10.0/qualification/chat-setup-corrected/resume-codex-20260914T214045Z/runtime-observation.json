@@ -1,0 +1,24 @@
+{
+  "leases": [
+    {
+      "attempt_id": "05388e9c-a8e5-408a-acbe-8755566b153a",
+      "run_id": "56d9f723-168c-4e24-aadb-a00183986ab9",
+      "task_id": "T-20260914-chat-output",
+      "task_revision_digest": "sha256:a2906b90ed71df022d73c2d73d3c88dec025a4b67baf8211a12bd57113736011",
+      "fencing_token": 1,
+      "owner": "3006588a-5c31-4a49-8aa5-45e3cf8bed03",
+      "issued_at": "2026-09-14T21:41:00.653318Z",
+      "expires_at": "2026-09-14T21:46:00.653318Z",
+      "heartbeat_at": "2026-09-14T21:41:01.775008Z",
+      "state": "cancelled",
+      "adapter": "chat-fixture",
+      "branch": "taskmesh/20260914-chat-output/05388e9c",
+      "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat 3rarbyvg/.taskspec/mesh/workspaces/56d9f723-168c-4e24-aadb-a00183986ab9/attempts/05388e9c-a8e5-408a-acbe-8755566b153a",
+      "decision_json": "{\"contract\":\"DispatchDecision/v1\",\"task_id\":\"T-20260914-chat-output\",\"task_revision_digest\":\"sha256:a2906b90ed71df022d73c2d73d3c88dec025a4b67baf8211a12bd57113736011\",\"policy_digest\":\"sha256:9adc6ca4b4404f470e44b94037f7e095977c9ed864018dc5a6831b80651cd66a\",\"candidates\":[{\"adapter\":\"chat-fixture\",\"eligible\":true,\"rejection_reasons\":[],\"static_score\":100}],\"selected\":\"chat-fixture\",\"explanation\":\"selected by explicit choice, task backend, roster band, static policy, bounded advisor order, then stable tie-breaker\",\"decided_at\":\"2026-09-14T21:41:00.65277Z\"}",
+      "acceptance_record": null,
+      "model": "",
+      "provider": ""
+    }
+  ],
+  "recipe_budgets": []
+}

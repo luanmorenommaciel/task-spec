@@ -1,0 +1,201 @@
+{
+  "contract": "TaskToolkitChatCohortSummary/v1",
+  "qualified": false,
+  "cohorts": [
+    {
+      "cohort": "chat-runs",
+      "observations_reviewed": 6,
+      "bounded_behavior_passes": 4,
+      "failed": 2,
+      "false_completion_observed": 0,
+      "cost_records": 6,
+      "known_cost_sum_usd": 3.0158825,
+      "incomplete_cost_records": 0,
+      "reviews": [
+        {
+          "path": "chat-runs/decision-claude-20260914T212946Z/behavior-review.json",
+          "sha256": "feb7f0d573168c92f9063e590b811cf7204cf603cf30247c4e0556d83f4d45a8"
+        },
+        {
+          "path": "chat-runs/decision-codex-20260914T212946Z/behavior-review.json",
+          "sha256": "c650544537de951ac71ad90efefb6da124440827a57cf18465d34f777669a3d2"
+        },
+        {
+          "path": "chat-runs/denied-claude-20260914T213548Z/behavior-review.json",
+          "sha256": "5bcd9c873a3daf0ddac2bbb5fe7e55f9a28373c06863b524134de32d25ed340f"
+        },
+        {
+          "path": "chat-runs/denied-codex-20260914T213510Z/behavior-review.json",
+          "sha256": "66006b161647381b84d0708dc9b8787690f67fb4911ea1de7537904ec6d28749"
+        },
+        {
+          "path": "chat-runs/explain-claude-20260914T213317Z/behavior-review.json",
+          "sha256": "331979463c1234d67f549dcd9dce7c493fc0a5322853f0807642372a733f20fb"
+        },
+        {
+          "path": "chat-runs/explain-codex-20260914T213317Z/behavior-review.json",
+          "sha256": "672ff8d0481f4225991072557b17457f7c3f8b2369f234b432f4d27214f9d384"
+        }
+      ]
+    },
+    {
+      "cohort": "chat-corrected",
+      "observations_reviewed": 4,
+      "bounded_behavior_passes": 3,
+      "failed": 1,
+      "false_completion_observed": 0,
+      "cost_records": 4,
+      "known_cost_sum_usd": 6.952743,
+      "incomplete_cost_records": 0,
+      "reviews": [
+        {
+          "path": "chat-corrected/runs/atomic-claude-20260914T215012Z/behavior-review.json",
+          "sha256": "bacbd3b1cb5ce93376441b4d4249b9899359cb85f40938f3f3ed793f72ab826b"
+        },
+        {
+          "path": "chat-corrected/runs/atomic-codex-20260914T215012Z/behavior-review.json",
+          "sha256": "d9a714253a376c34d478426c81d81c7daadfdc9a126c0d8e549ab5928b8d2cfe"
+        },
+        {
+          "path": "chat-corrected/runs/plan-claude-20260914T214156Z/behavior-review.json",
+          "sha256": "63229fdd579fda67351de220c4ee38889239658d00e882c4ccad8fca67a4bb02"
+        },
+        {
+          "path": "chat-corrected/runs/plan-codex-20260914T214156Z/behavior-review.json",
+          "sha256": "d8f5839daccda5b26ff06b0b0d594900b1fa95068283249e1f7e657c5647f6d7"
+        }
+      ]
+    },
+    {
+      "cohort": "chat-guarded",
+      "observations_reviewed": 8,
+      "bounded_behavior_passes": 7,
+      "failed": 1,
+      "false_completion_observed": 0,
+      "cost_records": 8,
+      "known_cost_sum_usd": 3.976482,
+      "incomplete_cost_records": 0,
+      "reviews": [
+        {
+          "path": "chat-guarded/runs/decision-claude-20260914T220655Z/behavior-review.json",
+          "sha256": "158ca526e66906d04b42ec0e72434bd917f96c8744f638602d2daf634ed6dfee"
+        },
+        {
+          "path": "chat-guarded/runs/decision-codex-20260914T220655Z/behavior-review.json",
+          "sha256": "0488edc3670042e247c46e37a26db8b9abc3d1eeda3cd2727aa5e2f1d8f779f5"
+        },
+        {
+          "path": "chat-guarded/runs/denied-claude-20260914T221011Z/behavior-review.json",
+          "sha256": "087a87c09b4b89e82ff412ad8a59f601243c2a5a09cf8999152e546ef8f3ba05"
+        },
+        {
+          "path": "chat-guarded/runs/denied-codex-20260914T221011Z/behavior-review.json",
+          "sha256": "60bec1529dd91b5f09372f3c231f904f67e405cdac1d933e9c92b1eaea9b9d23"
+        },
+        {
+          "path": "chat-guarded/runs/explain-claude-20260914T220817Z/behavior-review.json",
+          "sha256": "800f11f1812505a24200dae1468fc261138337384e757b81db5dc07b8b35bbf8"
+        },
+        {
+          "path": "chat-guarded/runs/explain-codex-20260914T220817Z/behavior-review.json",
+          "sha256": "99cb6c644691edb537418b33039d332bbe023726965d1914b2d855f8ddedb2e1"
+        },
+        {
+          "path": "chat-guarded/runs/incident-claude-20260914T221112Z/behavior-review.json",
+          "sha256": "28af1b392116ee45e599b820d9f7c0d9155f4ced8834ceafddfa17baa787f053"
+        },
+        {
+          "path": "chat-guarded/runs/incident-codex-20260914T221112Z/behavior-review.json",
+          "sha256": "a0bbe343980fcfd6252d3b978d5cd2693eb9c40ee65acc6114a6dbc2466225fb"
+        }
+      ]
+    },
+    {
+      "cohort": "chat-native",
+      "observations_reviewed": 4,
+      "bounded_behavior_passes": 2,
+      "failed": 2,
+      "false_completion_observed": 0,
+      "cost_records": 4,
+      "known_cost_sum_usd": 2.3917525,
+      "incomplete_cost_records": 0,
+      "reviews": [
+        {
+          "path": "chat-native/runs/denied-claude-20260914T222345Z/behavior-review.json",
+          "sha256": "201622d771bd9325a9641aca367634a3ce2e78a65f6d73e60f9ce6f0d37d018b"
+        },
+        {
+          "path": "chat-native/runs/denied-codex-20260914T222345Z/behavior-review.json",
+          "sha256": "5a111645a04a3edc8a5291898af46568688a275dd6bd38ba57d33d9aeee5067a"
+        },
+        {
+          "path": "chat-native/runs/run-claude-20260914T222514Z/behavior-review.json",
+          "sha256": "80ea38c9003a7a639f6bb90fc4e402b19dd1f4dca1535c75085e4aab6fed461b"
+        },
+        {
+          "path": "chat-native/runs/run-codex-20260914T222514Z/behavior-review.json",
+          "sha256": "35303ec48668a042971f0f461197dcb4fe88562c59193bfbec6a7590abede4b0"
+        }
+      ]
+    },
+    {
+      "cohort": "chat-effects",
+      "observations_reviewed": 4,
+      "bounded_behavior_passes": 3,
+      "failed": 1,
+      "false_completion_observed": 0,
+      "cost_records": 4,
+      "known_cost_sum_usd": 1.4810875,
+      "incomplete_cost_records": 0,
+      "reviews": [
+        {
+          "path": "chat-effects/runs/denied-claude-20260914T223426Z/behavior-review.json",
+          "sha256": "0da4ecfed29ef0ffb8b17c52163af06890024dba5c69e17f6ab35143593a2b08"
+        },
+        {
+          "path": "chat-effects/runs/denied-codex-20260914T223426Z/behavior-review.json",
+          "sha256": "160023060426decbae05b08cdf093583c0c3dd9db39bd53a3491d0d49b4a571e"
+        },
+        {
+          "path": "chat-effects/runs/stopped-claude-20260914T223539Z/behavior-review.json",
+          "sha256": "2911a129d3e7a533bda229ca020d6d02f182b6fb89602cb694d315ee79eb86a7"
+        },
+        {
+          "path": "chat-effects/runs/stopped-codex-20260914T223539Z/behavior-review.json",
+          "sha256": "df08f188b88ace38a3b323c0ce05d695192f36901a53b3c93c6dd7901fdec177"
+        }
+      ]
+    },
+    {
+      "cohort": "chat-independent-codex",
+      "observations_reviewed": 2,
+      "bounded_behavior_passes": 1,
+      "failed": 1,
+      "false_completion_observed": 0,
+      "cost_records": 2,
+      "known_cost_sum_usd": 0.912776,
+      "incomplete_cost_records": 0,
+      "reviews": [
+        {
+          "path": "chat-independent-codex/accepted-codex-20260914T223751Z/behavior-review.json",
+          "sha256": "e690f3c48b513cb2f3158bb3e7a8cdd9263871120e42b5d4d4f928043a416d48"
+        },
+        {
+          "path": "chat-independent-codex/resume-codex-20260914T223751Z/behavior-review.json",
+          "sha256": "a45c6b1834b817b17494b77d24a44de77a5901b49ebfbcaeaa8401e00625d609"
+        }
+      ]
+    }
+  ],
+  "total_observations_reviewed": 28,
+  "limits": [
+    "Repeated observations across changed fixtures and installed versions are retained qualification history, not a matched final corpus.",
+    "Bounded behavior passes do not certify full chat quality; individual review limitations remain applicable.",
+    "Costs mix Codex API-equivalent estimates with Claude harness-reported costs; they are not billing reconciliation."
+  ],
+  "gaps": [
+    "A complete final ten-case corpus on both harnesses remains unqualified.",
+    "Corrected permission-boundary retries require explicit authorization.",
+    "Comparative delivery pilot, hosted checks and final acceptance remain separate release requirements."
+  ]
+}

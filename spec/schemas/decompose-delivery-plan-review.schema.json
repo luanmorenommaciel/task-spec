@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schemas/decompose-delivery-plan-review.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "disposition",
+    "reviewer",
+    "reason",
+    "reviewed_at",
+    "draft_sha256",
+    "plan_sha256",
+    "fixture",
+    "signature",
+    "topology_sha256",
+    "recipe_sha256",
+    "artifacts_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "disposition": {
+      "const": "accepted"
+    },
+    "reviewer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "draft_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "plan_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "fixture": {
+      "type": "boolean"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^hmac-taskplan-v1:[0-9a-f]{8}:[0-9a-f]{64}$"
+    },
+    "topology_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "recipe_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "artifacts_sha256": {
+      "type": "object",
+      "minProperties": 7,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    }
+  },
+  "title": "TaskSpec native plan review"
+}

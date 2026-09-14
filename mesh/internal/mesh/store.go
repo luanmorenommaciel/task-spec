@@ -47,6 +47,11 @@ func OpenStore(repository Repository) (*Store, error) {
             payload_json TEXT NOT NULL,
             payload_digest TEXT NOT NULL
 		)`,
+		`CREATE TABLE IF NOT EXISTS recipe_budgets (
+            task_id TEXT NOT NULL, revision TEXT NOT NULL, used INTEGER NOT NULL,
+            deadline TEXT NOT NULL, no_progress INTEGER NOT NULL,
+            last_fingerprint TEXT NOT NULL, PRIMARY KEY(task_id, revision)
+        )`,
 		`CREATE TABLE IF NOT EXISTS metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)`,
 		`CREATE TABLE IF NOT EXISTS runs (
             run_id TEXT PRIMARY KEY,
@@ -77,13 +82,18 @@ func OpenStore(repository Repository) (*Store, error) {
             decision_json TEXT,
             acceptance_record TEXT
         )`,
+		`CREATE TABLE IF NOT EXISTS lease_claims (
+            attempt_id TEXT NOT NULL REFERENCES leases(attempt_id),
+            kind TEXT NOT NULL, value TEXT NOT NULL,
+            PRIMARY KEY(attempt_id, kind, value)
+        )`,
 		`CREATE TABLE IF NOT EXISTS lease_fences (
             task_revision_digest TEXT PRIMARY KEY,
             token INTEGER NOT NULL
         )`,
 		`CREATE TABLE IF NOT EXISTS credential_leases (
             lease_id TEXT PRIMARY KEY,
-            attempt_id TEXT NOT NULL UNIQUE REFERENCES leases(attempt_id),
+            attempt_id TEXT NOT NULL REFERENCES leases(attempt_id),
             provider TEXT NOT NULL,
             model TEXT NOT NULL,
             audience TEXT NOT NULL,
@@ -101,6 +111,51 @@ func OpenStore(repository Repository) (*Store, error) {
 			database.Close()
 			return nil, fmt.Errorf("initialize TaskMesh database: %w", err)
 		}
+	}
+	// v3.9 allowed only one credential per attempt. Recipe rounds rotate
+	// capabilities while preserving every prior issuance and its terminal state.
+	var credentialSchema string
+	if err := database.QueryRow("SELECT sql FROM sqlite_master WHERE type='table' AND name='credential_leases'").Scan(&credentialSchema); err != nil {
+		database.Close()
+		return nil, err
+	}
+	if strings.Contains(strings.ToUpper(credentialSchema), "NOT NULL UNIQUE REFERENCES") {
+		tx, err := database.Begin()
+		if err != nil {
+			database.Close()
+			return nil, err
+		}
+		for _, statement := range []string{
+			"ALTER TABLE credential_leases RENAME TO credential_leases_v39",
+			`CREATE TABLE IF NOT EXISTS credential_leases (
+            lease_id TEXT PRIMARY KEY,
+            attempt_id TEXT NOT NULL REFERENCES leases(attempt_id),
+            provider TEXT NOT NULL,
+            model TEXT NOT NULL,
+            audience TEXT NOT NULL,
+            scopes_json TEXT NOT NULL,
+            issued_at TEXT NOT NULL,
+            expires_at TEXT NOT NULL,
+            state TEXT NOT NULL,
+            broker_ref TEXT
+        )`,
+			"INSERT INTO credential_leases SELECT * FROM credential_leases_v39",
+			"DROP TABLE credential_leases_v39",
+		} {
+			if _, err = tx.Exec(statement); err != nil {
+				tx.Rollback()
+				database.Close()
+				return nil, fmt.Errorf("migrate credential history: %w", err)
+			}
+		}
+		if err = tx.Commit(); err != nil {
+			database.Close()
+			return nil, err
+		}
+	}
+	if _, err := database.Exec("CREATE UNIQUE INDEX IF NOT EXISTS one_active_credential ON credential_leases(attempt_id) WHERE state IN ('issued','active')"); err != nil {
+		database.Close()
+		return nil, err
 	}
 	for _, migration := range []struct{ table, column string }{
 		{"events", "run_id TEXT"}, {"events", "attempt_id TEXT"}, {"events", "fencing_token INTEGER"},

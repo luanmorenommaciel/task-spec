@@ -1,0 +1,35 @@
+{
+  "run_id": "preflight-codex-20260914T202747Z",
+  "qualification": "instrumentation_preflight_only",
+  "scenario": "small-fix",
+  "harness": "codex",
+  "model": "gpt-6-astra",
+  "provider": "openai",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-real-issue-ktyvgos9/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "write_scope": [
+    "src/recipe/recipes.py"
+  ],
+  "evaluator_sha256": "eaf3c37a809780df4cf1780a13cb9aa4630781f56c6ff7b2b8d9fae417413b53",
+  "budget": {
+    "provider_invocations": 1,
+    "provider_timeout_seconds": 360
+  },
+  "intervention_recording_enabled": true,
+  "setup_outside_comparative_cells": true,
+  "accepted": false,
+  "error": "canonical-acceptance failed; retained command output contains details",
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 124.503225125,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "3123ca34dd38ee458048847f815984ac9a5be79ce6c1151dec7a9eef0e5b048a",
+      "6392fc3b47ec2822155ee09a12332d1da7f9c26ab207f4107d68fa06d32f4bf2"
+    ]
+  },
+  "retained_evidence": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/pilot/preflight/preflight-codex-20260914T202747Z",
+  "raw_provider_output_retained": true
+}

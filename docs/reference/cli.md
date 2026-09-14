@@ -53,10 +53,10 @@ if the machine contract and reference diverge.
 | `taskspec migrate` | atomically upgrades one explicitly named legacy task under the task-state lock | — |
 | `taskspec validate` | refreshes deterministic derived state unless --no-state | — |
 | `taskspec dod` | none | `DOD=COMPLETE`, `DOD=GAPS` |
-| `taskspec gate` | --stamp writes the sign-off envelope; otherwise none | `TIER=1`, `TIER=2` |
+| `taskspec gate` | executes task evals; --stamp additionally writes the sign-off envelope | `TIER=1`, `TIER=2` |
 | `taskspec handoff` | stdout is read-only; --out writes non-clobberingly unless --force | `HANDOFF=WRITTEN`, `HANDOFF=INVALID`, `HANDOFF=REFUSED` |
 | `taskspec run` | runs declared eval commands in the task workspace | — |
-| `taskspec accept` | --stamp atomically writes AcceptanceRecord/v1 plus the complete acceptance envelope | `ACCEPTED=1`, `ACCEPTED=0`, `ACCEPTANCE_FAILURE=<code>` |
+| `taskspec accept` | executes acceptance evals; --stamp additionally writes AcceptanceRecord/v1 and the acceptance envelope | `ACCEPTED=1`, `ACCEPTED=0`, `ACCEPTANCE_FAILURE=<code>` |
 | `taskspec author-doctor` | none | `AUTHOR_DOCTOR=READY`, `AUTHOR_DOCTOR=INVALID` |
 | `taskspec holdout` | seal/run may write descriptor or receipt; verify is read-only | `HOLDOUT=SEALED`, `HOLDOUT=VERIFIED`, `HOLDOUT=INVALID` |
 | `taskspec receipt` | creator/sign commands write explicit receipt paths; validate is read-only | `RECEIPT=WRITTEN`, `RECEIPT=SIGNED`, `RECEIPT=INVALID` |
@@ -83,6 +83,41 @@ if the machine contract and reference diverge.
 | `taskspec doctor` | none | `BACKLOG_DOCTOR=READY`, `BACKLOG_DOCTOR=BLOCKED`, `DOCTOR=READY`, `DOCTOR=BLOCKED` |
 | `taskspec version` | none | — |
 | `taskspec help` | none | — |
+| `taskspec decompose` | Native intent decomposition, signed topology review, and TaskPlan compilation. | — |
+| `taskspec recipe` | none | — |
+| `taskspec guide` | none | — |
+| `taskspec decompose init` | Create explicit intent workspace. | — |
+| `taskspec decompose prepare` | Validate and project an authored recipe; never approve it. | — |
+| `taskspec decompose review` | Authenticate explicit approval of the current topology. | — |
+| `taskspec decompose compile` | Compile reviewed topology and lineage without sealing leaves. | — |
+| `taskspec decompose status` | none | — |
+| `taskspec decompose impact` | none | — |
+| `taskspec decompose import` | Explicitly import originals; fresh native review required. | — |
+| `taskspec recipe list` | none | — |
+| `taskspec recipe show` | none | — |
+| `taskspec recipe validate` | none | — |
+| `taskspec setup decompose` | Provision locked dependencies in the private runtime. | — |
+| `taskspec receipt operational` | Validate or import operational evidence without upgrading its trust. | — |
+| `taskspec mesh init` | mutates TaskMesh state; never grants a TaskSpec seal | — |
+| `taskspec mesh doctor` | may initialize a missing daemon and write Git metadata; does not seal or accept tasks | — |
+| `taskspec mesh serve` | mutates TaskMesh state; never grants a TaskSpec seal | — |
+| `taskspec mesh frontier` | may initialize a missing daemon and write Git metadata; does not seal or accept tasks | — |
+| `taskspec mesh run` | mutates TaskMesh state; never grants a TaskSpec seal | — |
+| `taskspec mesh status` | uninitialized status is read-only; existing runtime inspection may restart its daemon | — |
+| `taskspec mesh watch` | may initialize a missing daemon and write Git metadata; does not seal or accept tasks | — |
+| `taskspec mesh explain` | may initialize a missing daemon and write Git metadata; does not seal or accept tasks | — |
+| `taskspec mesh cancel` | mutates TaskMesh state; never grants a TaskSpec seal | — |
+| `taskspec mesh resume` | mutates TaskMesh state; never grants a TaskSpec seal | — |
+| `taskspec mesh accept` | mutates TaskMesh state; never grants a TaskSpec seal | — |
+| `taskspec mesh finish` | mutates TaskMesh state; never grants a TaskSpec seal | — |
+| `taskspec mesh adapters` | may initialize a missing daemon and write Git metadata; does not seal or accept tasks; probe invokes adapter executables | — |
+| `taskspec mesh setup` | mutates TaskMesh state; never grants a TaskSpec seal | — |
+| `taskspec mesh mcp` | none | — |
+| `taskspec example task-plan` | writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing | `EXAMPLE=WRITTEN`, `EXAMPLE=DRY_RUN`, `EXAMPLE=REFUSED` |
+| `taskspec example intent` | writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing | `EXAMPLE=WRITTEN`, `EXAMPLE=DRY_RUN`, `EXAMPLE=REFUSED` |
+| `taskspec example recipe` | writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing | `EXAMPLE=WRITTEN`, `EXAMPLE=DRY_RUN`, `EXAMPLE=REFUSED` |
+| `taskspec example incident` | writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing | `EXAMPLE=WRITTEN`, `EXAMPLE=DRY_RUN`, `EXAMPLE=REFUSED` |
+| `taskspec example release-evidence` | writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing | `EXAMPLE=WRITTEN`, `EXAMPLE=DRY_RUN`, `EXAMPLE=REFUSED` |
 <!-- agent-context:end -->
 
 ## Installation proof

@@ -1,0 +1,40 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "explain",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "review_method": "Read actual commands and final answer, compare plan claims to the fixed recipe, dependency graph, native review, and workspace inventories.",
+  "passed": false,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "explain_lineage"
+  ],
+  "evidence_refs": [
+    {
+      "path": "qualification/chat-runs/explain-claude-20260914T213317Z/harness.stdout",
+      "sha256": "96af5e1427938d7a039db72e799e4dcc96f073b6fc362fc79f1ca8ff21d2cceb"
+    },
+    {
+      "path": "qualification/chat-runs/explain-claude-20260914T213317Z/before.json",
+      "sha256": "14de56e3585b215adc807eabb35e182bf29139e8138a69027392415fb7a6b5aa"
+    },
+    {
+      "path": "qualification/chat-runs/explain-claude-20260914T213317Z/after.json",
+      "sha256": "14de56e3585b215adc807eabb35e182bf29139e8138a69027392415fb7a6b5aa"
+    }
+  ],
+  "claims_checked": [
+    "Both answers identify the four seams, owners, distinct write surfaces, linear dependencies, and external metering boundary.",
+    "Both identify a reviewed compiled plan with no accepted tasks; neither dispatched or signed leaves.",
+    "Codex explicitly identifies missing integration-proof tasks and does not imply batch grants authorization."
+  ],
+  "failures": [
+    "Claude introduces batch as the command for real, signed tasks, although materialization produces unsealed tasks. Its earlier no-authorization statement does not make this next-action guidance accurate.",
+    "Claude says all four proofs can succeed without the other three tasks finished. The plan has three declared upstream dependencies; independent assessment alone does not establish independence of inputs."
+  ],
+  "limitations": [
+    "One fixture per harness; this is observed routing and explanation quality, not a general model evaluation.",
+    "Claude tried decompose review without required approval flags and an unsupported graph flag while inspecting state. Both refused; no authored or canonical files changed. Read-only mesh status created runtime state, which is excluded from the authored-source inventory."
+  ]
+}

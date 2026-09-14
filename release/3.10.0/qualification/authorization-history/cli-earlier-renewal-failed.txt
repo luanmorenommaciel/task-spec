@@ -1,0 +1,11 @@
+safe-to-delegate: tasks/T-20260914-toolkit-cli.md
+────────────────────────────────────────────────────────
+   re-sealing — the previous signature will be replaced atomically after validation
+1. Structural validation + shellcheck-evals ...
+   PASS (with warnings)
+2. Eval execution (broken-logic guard) ...
+   BLOCK — eval body has a bash-level error (broken eval, not a clean fail):
+     "stderr":"tests/test-toolkit-cli.sh: line 27: syntax error near unexpected token `cli'"
+────────────────────────────────────────────────────────
+   note: validator warnings present — review but not blocking
+VERDICT: DO NOT DELEGATE — 1 blocker(s) above. Fix the spec first.

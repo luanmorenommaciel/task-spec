@@ -25,15 +25,17 @@ type AdapterDefinition struct {
 }
 
 type AdapterProbe struct {
-	Contract       string   `json:"contract"`
-	Adapter        string   `json:"adapter"`
-	AdapterVersion string   `json:"adapter_version"`
-	Harness        string   `json:"harness"`
-	Available      bool     `json:"available"`
-	AssuranceModes []string `json:"assurance_modes"`
-	Tools          []string `json:"tools"`
-	Network        string   `json:"network"`
-	Limits         struct {
+	ManagedRecipeModes        []string `json:"managed_recipe_modes,omitempty"`
+	ManagedRecipeCapabilities []string `json:"managed_recipe_capabilities,omitempty"`
+	Contract                  string   `json:"contract"`
+	Adapter                   string   `json:"adapter"`
+	AdapterVersion            string   `json:"adapter_version"`
+	Harness                   string   `json:"harness"`
+	Available                 bool     `json:"available"`
+	AssuranceModes            []string `json:"assurance_modes"`
+	Tools                     []string `json:"tools"`
+	Network                   string   `json:"network"`
+	Limits                    struct {
 		MaxParallel    int `json:"max_parallel"`
 		MaxOutputBytes int `json:"max_output_bytes"`
 		TimeoutSec     int `json:"timeout_sec"`
@@ -110,6 +112,14 @@ func AdapterOrder(definitions map[string]AdapterDefinition) []string {
 func ProbeAdapter(definition AdapterDefinition) AdapterProbe {
 	probe := AdapterProbe{Contract: "ExecutorCapability/v1", Adapter: definition.Name, Harness: definition.Harness, AssuranceModes: definition.AssuranceModes, Tools: []string{"read", "edit", "shell"}, Network: "unrestricted", ObservedAt: NowUTC()}
 	probe.Limits.MaxParallel, probe.Limits.MaxOutputBytes, probe.Limits.TimeoutSec = 1, 1048576, 1800
+	if contains(definition.AssuranceModes, "supervised") {
+		probe.ManagedRecipeCapabilities = []string{"managed_recipe_v1", "persistent_round_budget", "signed_timeout"}
+		probe.ManagedRecipeModes = []string{"supervised"}
+		if definition.Name == "omp-rpc" && contains(definition.AssuranceModes, "autonomous") {
+			probe.ManagedRecipeModes = append(probe.ManagedRecipeModes, "autonomous")
+			probe.ManagedRecipeCapabilities = append(probe.ManagedRecipeCapabilities, "attested_execution")
+		}
+	}
 	executable, err := exec.LookPath(definition.Executable)
 	if err != nil {
 		probe.AdapterVersion, probe.ReasonUnavailable = "unavailable", err.Error()
@@ -178,6 +188,14 @@ func (store *Store) adaptersCommand(request CommandRequest) CommandResponse {
 		} else {
 			probe := AdapterProbe{Contract: "ExecutorCapability/v1", Adapter: definition.Name, AdapterVersion: "not-probed", Harness: definition.Harness, AssuranceModes: definition.AssuranceModes, Tools: []string{"read", "edit", "shell"}, Network: "unrestricted", ObservedAt: NowUTC()}
 			probe.Limits.MaxParallel, probe.Limits.MaxOutputBytes, probe.Limits.TimeoutSec = 1, 1048576, 1800
+			if contains(definition.AssuranceModes, "supervised") {
+				probe.ManagedRecipeCapabilities = []string{"managed_recipe_v1", "persistent_round_budget", "signed_timeout"}
+				probe.ManagedRecipeModes = []string{"supervised"}
+				if definition.Name == "omp-rpc" && contains(definition.AssuranceModes, "autonomous") {
+					probe.ManagedRecipeModes = append(probe.ManagedRecipeModes, "autonomous")
+					probe.ManagedRecipeCapabilities = append(probe.ManagedRecipeCapabilities, "attested_execution")
+				}
+			}
 			probes = append(probes, probe)
 		}
 	}

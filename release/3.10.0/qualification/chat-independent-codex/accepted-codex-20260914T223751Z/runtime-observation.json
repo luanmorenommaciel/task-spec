@@ -1,0 +1,33 @@
+{
+  "leases": [
+    {
+      "attempt_id": "058db0f4-36e3-447b-9c02-6d79ed2ce39f",
+      "run_id": "ad2b94a5-6bdb-480d-867d-bf26c1b30f25",
+      "task_id": "T-20260914-chat-output",
+      "task_revision_digest": "sha256:e2eb0abd41552c12a065ee313e1e4d24f73e34d272f2e03773aacb91b616ddd1",
+      "fencing_token": 1,
+      "owner": "624ac546-e60e-486d-809b-38c583471d93",
+      "issued_at": "2026-09-14T22:38:01.14764Z",
+      "expires_at": "2026-09-14T22:43:01.386319Z",
+      "heartbeat_at": "2026-09-14T22:38:12.516956Z",
+      "state": "integrated",
+      "adapter": "chat-fixture",
+      "branch": "taskmesh/20260914-chat-output/058db0f4",
+      "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat img4yapu/.taskspec/mesh/workspaces/ad2b94a5-6bdb-480d-867d-bf26c1b30f25/attempts/058db0f4-36e3-447b-9c02-6d79ed2ce39f",
+      "decision_json": "{\"contract\":\"DispatchDecision/v1\",\"task_id\":\"T-20260914-chat-output\",\"task_revision_digest\":\"sha256:e2eb0abd41552c12a065ee313e1e4d24f73e34d272f2e03773aacb91b616ddd1\",\"policy_digest\":\"sha256:9adc6ca4b4404f470e44b94037f7e095977c9ed864018dc5a6831b80651cd66a\",\"candidates\":[{\"adapter\":\"chat-fixture\",\"eligible\":true,\"rejection_reasons\":[],\"static_score\":100}],\"selected\":\"chat-fixture\",\"explanation\":\"selected by explicit choice, task backend, roster band, static policy, bounded advisor order, then stable tie-breaker\",\"decided_at\":\"2026-09-14T22:38:01.147432Z\"}",
+      "acceptance_record": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat img4yapu/.taskspec/acceptance/T-20260914-chat-output/058db0f4-36e3-447b-9c02-6d79ed2ce39f.json",
+      "model": "",
+      "provider": ""
+    }
+  ],
+  "recipe_budgets": [
+    {
+      "task_id": "T-20260914-chat-output",
+      "revision": "sha256:e2eb0abd41552c12a065ee313e1e4d24f73e34d272f2e03773aacb91b616ddd1",
+      "used": 1,
+      "deadline": "2026-09-14T23:08:03.67224Z",
+      "no_progress": 0,
+      "last_fingerprint": ""
+    }
+  ]
+}

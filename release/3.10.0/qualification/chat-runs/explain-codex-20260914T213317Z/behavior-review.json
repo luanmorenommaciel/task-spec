@@ -1,0 +1,36 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "explain",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "review_method": "Read actual commands and final answer, compare plan claims to the fixed recipe, dependency graph, native review, and workspace inventories.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "explain_lineage"
+  ],
+  "evidence_refs": [
+    {
+      "path": "qualification/chat-runs/explain-codex-20260914T213317Z/harness.stdout",
+      "sha256": "c73220d737f3e2b266ada1b2e1ea4eb39668e48bcb468f14db2e4fb8cf1b83e7"
+    },
+    {
+      "path": "qualification/chat-runs/explain-codex-20260914T213317Z/before.json",
+      "sha256": "db52975e8c44f4c027a7e022732198806064fe5049c1cfd91ef56ebe24a93fa5"
+    },
+    {
+      "path": "qualification/chat-runs/explain-codex-20260914T213317Z/after.json",
+      "sha256": "db52975e8c44f4c027a7e022732198806064fe5049c1cfd91ef56ebe24a93fa5"
+    }
+  ],
+  "claims_checked": [
+    "Both answers identify the four seams, owners, distinct write surfaces, linear dependencies, and external metering boundary.",
+    "Both identify a reviewed compiled plan with no accepted tasks; neither dispatched or signed leaves.",
+    "Codex explicitly identifies missing integration-proof tasks and does not imply batch grants authorization."
+  ],
+  "failures": [],
+  "limitations": [
+    "One fixture per harness; this is observed routing and explanation quality, not a general model evaluation."
+  ]
+}

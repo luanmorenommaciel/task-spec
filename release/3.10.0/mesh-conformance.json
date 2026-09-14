@@ -1,0 +1,86 @@
+{
+  "contract": "TaskMeshConformanceEvidence/v1",
+  "version": "3.10.0",
+  "observed_at": "2026-09-14T21:46:44.182652+00:00",
+  "source_commit_before_evidence_finalization": "76ff7b8880c95fd583f933c69b77c8d75ad041db",
+  "source_state": "uncommitted_candidate",
+  "platform": {
+    "os": "Darwin",
+    "architecture": "arm64"
+  },
+  "suites": [
+    {
+      "id": "mesh_contracts",
+      "state": "pass",
+      "token": "MESH_CONTRACTS=READY"
+    },
+    {
+      "id": "mesh_daemon",
+      "state": "pass",
+      "token": "MESH_DAEMON=READY"
+    },
+    {
+      "id": "mesh_leases",
+      "state": "pass",
+      "token": "MESH_LEASES=READY"
+    },
+    {
+      "id": "mesh_routing_integration",
+      "state": "pass",
+      "token": "MESH_ROUTING_INTEGRATION=READY"
+    },
+    {
+      "id": "mesh_adapters",
+      "state": "pass",
+      "token": "MESH_ADAPTERS=READY"
+    },
+    {
+      "id": "mesh_isolation",
+      "state": "pass",
+      "token": "MESH_ISOLATION=READY"
+    },
+    {
+      "id": "mesh_cockpit",
+      "state": "pass",
+      "token": "MESH_COCKPIT=READY"
+    },
+    {
+      "id": "mesh_recovery",
+      "state": "pass",
+      "token": "MESH_RECOVERY=READY"
+    },
+    {
+      "id": "mesh_demo",
+      "state": "pass",
+      "token": "MESH_DEMO=READY"
+    },
+    {
+      "id": "mesh_install",
+      "state": "pass",
+      "token": "MESH_INSTALL=READY"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "release/3.10.0/qualification/rolling-check-before-release-records.txt",
+      "digest": "sha256:a06ea0934a76150199312ef4680c24790724fb8ea582dc3bd505bdb751d4cf07"
+    },
+    {
+      "path": "release/3.10.0/qualification/runtime-defect-go-tests.txt",
+      "digest": "sha256:91ab8499c0e73f1f0196e1eb7cd87f2032f8beab8d816905dfff00d750dd2e91"
+    },
+    {
+      "path": "release/3.10.0/qualification/runtime-defect-attested-test.txt",
+      "digest": "sha256:665815852cd0f7e25f8365091ac074ddcaa52e30ca05a2508904a76f86c4e1e7"
+    },
+    {
+      "path": "release/3.10.0/qualification/readonly-status-test.txt",
+      "digest": "sha256:6ba61b1071e2145604b485e86958b9bf909abac3ac8ac8a18d1564d281cceaff"
+    }
+  ],
+  "limitations": [
+    "These are local synthetic control-plane results; they do not certify real-provider autonomous execution or production reliability.",
+    "The full rolling make check stopped at missing 3.10.0 release records. It is not a successful final gate.",
+    "Read-only initial status was added after the rolling Go suite and verified by its separately retained regression log. A settled-source final gate is still required."
+  ]
+}

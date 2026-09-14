@@ -1,0 +1,301 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-incident-claude-integrated-r1-20260914T205934Z",
+  "scenario": "incident",
+  "harness": "claude",
+  "workflow": "integrated",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-xrgl966w/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "src/evidence/operational.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "c4f2eaf54f966594d433a4dd7aeb74f88eedfc08",
+  "setup_passed": true,
+  "accepted": false,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 21.362255625,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "c1f32715c3bc5602f19f9f933a70345ced29503762bfb1eef0551557044dc891",
+      "f34b56c6097eeac1b21fa7d6571a3b39f0c146876df7c21d64df1664a3d99325"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 21.362255625,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "c1f32715c3bc5602f19f9f933a70345ced29503762bfb1eef0551557044dc891",
+    "f34b56c6097eeac1b21fa7d6571a3b39f0c146876df7c21d64df1664a3d99325"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "3284e0aae552d490d6011b28f6b94aae537976f4f78eaa3ea668428e6c9ad986",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-006.stdout",
+      "sha256": "57967c04f75f3b8db715bff773e45d77be14deb806f00555280c5774b99ffa31"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-007.stdout",
+      "sha256": "20ed5a0e99007ca21d155e37c32b29902c667acd4875803552f480bff979c35c"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-008.stdout",
+      "sha256": "fed30301c1aa89e8853963a93b6449c769797ccdc990758f84a9c4bc47812a0c"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-009.stdout",
+      "sha256": "65e6510b020658949fe62128574e7e03b9882a66f9b5cc2b0ef068f1d4e5a7f6"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-010.stdout",
+      "sha256": "1401b16e221c82de864338fa9d37f5dba5a04db7e71249cbbf4ddb58b96ed051"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-011.stdout",
+      "sha256": "54105e6d2f6358917a8b075c4e01754bdefcc0d9dbe3f30b31f23e5485aa6bde"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-012.stdout",
+      "sha256": "59d50a0c27d80b7b3236b60aeec61ab87a1557c38a98a49c1a4472f444d7b3e4"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-013.stdout",
+      "sha256": "56169212315e8314d3fd1a12ee198c5746f05750f292c6357c84c48cc2065c91"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-014.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/command-015.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/cost.json",
+      "sha256": "19c7dfd4641d8a7e85fb9c2e74642a9f3230a87937224b137e1005dda77117c7"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/events.jsonl",
+      "sha256": "6523d3f027187a210e270e1299b2a042f3ac6933e199c2e02503edcee476ca07"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/prepared.json",
+      "sha256": "fef2a06ed9f8d207ead37a767ee9f7393842c09b7ea2e5a24e58808747fb81d3"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/registration.json",
+      "sha256": "bd6700f3894175354908633e4a9d6225432c542a47af728c0aea846d753650d0"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/bundle.json",
+      "sha256": "ed55c708aa700cf658543753c16b36a709d7f13858e6420d945f2a42f2e0ea68"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md",
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/delivery-plan.yaml",
+      "sha256": "8d0e509a15f5fde1561888acf0be56c0ac003781e16edb181cf885d9706ef323"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/evidence.jsonl",
+      "sha256": "0cb452e61ec8cfed4fbf9a2b30206d584dfb9728ee2e82d84e84e050aad6117d"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/intent.md",
+      "sha256": "5b72312809697198a9d90287fc9534640fc9efb8e1b7a8c18adc635cbb9c9c8c"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/legs/LEG-INCIDENT.md",
+      "sha256": "fcb097544657df0c5a8aceb728267885200f220e791f0e677ec5e59d68a4aa8c"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/proposed-graph.json",
+      "sha256": "0a2fc4cbbb0858cdaa19211c1b099c08ec29a75acf9d77df297d3c68dce08694"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/reviews/delivery-plan-review.json",
+      "sha256": "aad02bbdf8a0cf7041ba10d113821d3befd8250d428c646c6d7181d010bfa6ff"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/seam-map.yaml",
+      "sha256": "31b8cdf9883f6333c5cfcc7b581b1bd462cd3c7610685e9fe0fa134060b8e9b7"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/seams/SEAM-INCIDENT.md",
+      "sha256": "4d13ca4f4eeb0b487642640f3050f78df75b1bd8b16234532060362067649f3e"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/snapshots/603f7a41fc97a5825678d2c6185a47f79ec17949b4eaa25aa0d467f1b758d61a.json",
+      "sha256": "715524ecff4626fe3a4a32dc9ca4daab4bf21a5660a56c954c992d35dd07ea0e"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/source-recipe.yaml",
+      "sha256": "aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/steel-thread.md",
+      "sha256": "bc27b4b8d2ebeb5df6254d4b0262fa03a5d63e78626372bc80d1d9a55620334e"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/swimlanes/LANE-INCIDENT.md",
+      "sha256": "22d92f38c7438488100a177c85ff1d053f497952fb177c269bc0a55cf5fbe689"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/system-map.md",
+      "sha256": "1c6c5a9e6133a23caf680a0c734cce5505c2732d9ff84e6f0c7dcd820409d384"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/task-plan-lineage.json",
+      "sha256": "44001987ea8efe5bae53592922f87d20c543c2d98db8e7d9e919d972e03054ce"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/task-plan.json",
+      "sha256": "d6e8b603af71dc013e552dbab8ca1871b78dcc1951cb805a8b5c2bccc771b3ea"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot/telemetry/events.jsonl",
+      "sha256": "e518afeb1c79c2b261aca1ba06c0fb8573729f3138d4bd5c2207ed8d8bf96d83"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "aa73432fef02d1d6567b32bd5cb2457c66c35a300c0608d1882077f379d5eab3"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-integrated-r1-20260914T205934Z/workspace-evidence/tasks/T-20260914-pilot-incident.md",
+      "sha256": "437634ee77e573126053d04d3dbf07a708725cca2af521d11ddd41f4a920c740"
+    }
+  ]
+}

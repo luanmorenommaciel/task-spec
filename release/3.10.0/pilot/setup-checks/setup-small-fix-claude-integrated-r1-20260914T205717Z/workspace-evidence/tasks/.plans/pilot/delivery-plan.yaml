@@ -1,0 +1,22 @@
+schema_version: 1
+status: DELIVERY_PLAN=READY
+seam_map_sha256: 65eae8f21530df7f0d399839dd2cf923563ca40108eb18f860b8b303edad1d36
+swimlanes:
+- id: LANE-SMALL-FIX
+  seam_id: SEAM-SMALL-FIX
+  owner: pilot-small-fix
+  path: tasks/.plans/pilot/swimlanes/LANE-SMALL-FIX.md
+  sha256: 76167b3a8a0d2d6e95a7c921709e2b4bbeb72cb8b7ffefbdf24d1b20b2f51597
+legs:
+- id: LEG-SMALL-FIX
+  seam_id: SEAM-SMALL-FIX
+  swimlane_id: LANE-SMALL-FIX
+  path: tasks/.plans/pilot/legs/LEG-SMALL-FIX.md
+  sha256: b34a9b25e0122faed9e485d24ba3d064cd1119d75c4443ef6b57ccc51a04bb65
+steel_thread:
+- LEG-SMALL-FIX
+objections: []
+contentions: []
+steel_thread_path: tasks/.plans/pilot/steel-thread.md
+steel_thread_sha256: 4eb13fd026eb6d48b5f3daa30b89aec67fcd3e91a48400d61abb4b1483bd7fa7
+review_authority_sha256: 22b2af0c4b0c479592b9c1041a35e2ea6a892c57383a07e53b69a5a7dbd889ae

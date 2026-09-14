@@ -1,0 +1,2 @@
+TOOLKIT_AUTHORING=PASS
+TOOLKIT_CONFORMANCE=PASS optional recipe, self-contained schemas, and complete lineage shape

@@ -1,0 +1,160 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "resume",
+  "harness": "codex",
+  "retained": "/private/tmp/taskspec-chat-independent-codex/resume-codex-20260914T223751Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "adapters/chat-fixture.json",
+      "sha256": "830412411799bf2f101fc4de2414308e003fb69661f13f6f58109297b32a5684"
+    },
+    {
+      "path": "after.json",
+      "sha256": "f5b1b406de6f2c597034919d2c4427cb3fe32a23d3187581ff33a970a84d5bf8"
+    },
+    {
+      "path": "before.json",
+      "sha256": "f5b1b406de6f2c597034919d2c4427cb3fe32a23d3187581ff33a970a84d5bf8"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "9749d1b802c712a974cbb8ccff0e1a05ce3f768543f36783e46bd589897b00bc"
+    },
+    {
+      "path": "daemon-cleanup.json",
+      "sha256": "cdd623ba49b8eb4d81342f411d03340de3e5238518dd9aa14bf20cb8f8d4c5f4"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "3bcead18f2e789d7c1e29d8cd0c568a23bf9b433e52c7c7968c6329f07799804"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "18c817e4fda972d5ff03ab69d46865276a2d05a3cbec6f984622b916266fff7f"
+    },
+    {
+      "path": "fixture-worker.sh",
+      "sha256": "ee099fcc473fb7934330ce08377bc5d4cef7d1d0475fc1a552548ab16bb05966"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "eb81093f270235ac3f0aa2ed909c3d01f6800070cd3b7ed2aa419f15ff4c47df"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "4f9024951cd5926ede1ad19a061d9568d5d7142bb1a9e125046e7569c54b27a5"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "c134101fb2c014805081e6288b0014034ab5a0a9d10580fbcc05d8c1d281a398"
+    },
+    {
+      "path": "initial-attempt.json",
+      "sha256": "a6f4086a1b70cc91514ac4bc434616987aef564e0e05c555fab795b020a5e468"
+    },
+    {
+      "path": "initial-mesh-state.json",
+      "sha256": "afecf4bcf489178f3fc91b7f319c765cfe3aafb11f84fe1c95406447da6a4cdf"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "8179fabce4340bec32f864234527c6b04aa3d4456fe24af6cc5de686a2ce60f6"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "93f721509fe53495296407590a399c0b506582bdede531fbc2e1453fb8616aa1"
+    },
+    {
+      "path": "runtime-observation.json",
+      "sha256": "a8df383b02da80ec804d16e858e6ff27f0cb4de39a5cb2b8e4de9903a7396726"
+    },
+    {
+      "path": "workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/bundle.json",
+      "sha256": "10c9cb0bb5e0c0ca04d29aba4bc7e4e6650d82829993f944c48fc4ce393d436f"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/decisions/ADR-RATE-LIMIT-ORDER.md",
+      "sha256": "a10ce522f4e3f8d3a0a92c86cc990345f488f06ecaf20ca3b099c005ec9d00b3"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/delivery-plan.yaml",
+      "sha256": "fc8f94690205b9554d4e4a264f01799760bdfde9cdcd0fd0b42887151057626f"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/evidence.jsonl",
+      "sha256": "955bf48075bd4c1f7517942d7e4883b9d9d315e217d05aeac6edf9d9e83c3c12"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/intent.md",
+      "sha256": "4254dde17e3a0ea801b3c85e1b28fd7a93b6485049ad6258b1bfb9ac915834ac"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/legs/LEG-POLICY-SCHEMA-VALID.md",
+      "sha256": "476e968fc815208decf9315db9be16731953b4a39239c9a71f2f8959ad037761"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/proposed-graph.json",
+      "sha256": "9a2904c72576b93bd1c83874013641f5ef05a8f6023270dea48b48e15d6630c3"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/reviews/delivery-plan-review.json",
+      "sha256": "3493b684964c98268e8bb58844cd95b1d61a033979dc76687142afce0a06ccb5"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/seam-map.yaml",
+      "sha256": "6bc2d5539dc999dcd8086b953f6283e4cfac8bddd2f6dc4a50bafba0b21b1a7f"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/seams/SEAM-POLICY-CONTRACT.md",
+      "sha256": "0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/snapshots/97de84030ca424613b5309c57617a0d48e2f981edfab829d33c5e69608fe2e52.json",
+      "sha256": "0669c58b2315378694b5f455cf73f13ee82384edfd0c50f76dc9f0624980d92c"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/source-recipe.yaml",
+      "sha256": "e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/steel-thread.md",
+      "sha256": "a8d80d134a74e0489bf1ceada14156233f448ced5a6decb861d32f9a11764aa4"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/swimlanes/LANE-POLICY-CONTRACT.md",
+      "sha256": "ac8cab4e6292cc4ba9a689b84bf10b0f4152cf3aee2a122b2015a7ae44c27811"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/system-map.md",
+      "sha256": "e340642115b62e87aceb3a578dc6949d4a408b08c203f2be5c8edae82f758fb4"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/task-plan-lineage.json",
+      "sha256": "ef7f0d375d7bbf2dc999e6460b95a93f1bc6025fa7a079dcf0258e53fa0b6dc3"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/task-plan.json",
+      "sha256": "d51e767dc612d5d097a94484b041d94663437a3e78e8025969cea8886d7a1449"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/telemetry/events.jsonl",
+      "sha256": "e5a2a89ecb30191da8985957987f10917fd335a87df1d2835ade7b6ac3a64517"
+    },
+    {
+      "path": "workspace-evidence/tasks/T-20260914-chat-output.md",
+      "sha256": "3269e6ba61e954fcb991b13ef3cbbc6630e978b783bcd9408a95a234e45651c5"
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "api_version": "taskspec.dev/v1",
+  "kind": "TaskPlan",
+  "metadata": {
+    "name": "native-toolkit-release-3.10.0"
+  },
+  "approved": true,
+  "units": [
+    {
+      "id": "T-20260914-release-organization",
+      "title": "Consolidate toolkit documentation and ground the README in verified examples",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [],
+      "touches_paths": [
+        "README.md",
+        "docs",
+        "src/cli",
+        "SKILL.md",
+        "skills",
+        "install.sh",
+        "tools/verify-toolkit.py",
+        "tests",
+        "AGENTS.md",
+        "OPERATING.md",
+        "CONTRIBUTING.md",
+        ".gitignore"
+      ],
+      "creates_paths": [],
+      "source_note": "User-authorized release goal and prospective repository-issue pilot, 2026-09-14",
+      "why": "Complete the full native toolkit release with verifiable evidence and an organized repository.",
+      "goal": "Consolidate toolkit documentation and ground the README in verified examples. Preserve established authorization and frozen historical evidence.",
+      "context": "The user explicitly authorized committing and pushing main, creating a release tag and artifact, publishing the release, completing pending capabilities, and running a prospective pilot on real repository issues. Retain historical release evidence and local WATCHDOG.yml bytes.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the approved toolkit and release objective",
+          "when": "the scoped release package is completed",
+          "then": "the package delivers its stated result with direct verification and no unsupported qualification claims"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Consolidate toolkit documentation and ground the README in verified examples",
+          "command": "bash tests/test-repo-layout.sh && bash tests/lint-docs.sh && bash tests/test-toolkit-install.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 900
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "release/3.8.1",
+        "release/3.7"
+      ]
+    },
+    {
+      "id": "T-20260914-release-autonomy",
+      "title": "Execute bounded recipes through the attested TaskMesh sandbox",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-release-organization"
+      ],
+      "touches_paths": [
+        "mesh",
+        "release/mesh",
+        "spec/schemas",
+        "tests",
+        "docs",
+        "skills"
+      ],
+      "creates_paths": [],
+      "source_note": "User-authorized release goal and prospective repository-issue pilot, 2026-09-14",
+      "why": "Complete the full native toolkit release with verifiable evidence and an organized repository.",
+      "goal": "Execute bounded recipes through the attested TaskMesh sandbox. Preserve established authorization and frozen historical evidence.",
+      "context": "The user explicitly authorized committing and pushing main, creating a release tag and artifact, publishing the release, completing pending capabilities, and running a prospective pilot on real repository issues. Retain historical release evidence and local WATCHDOG.yml bytes.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the approved toolkit and release objective",
+          "when": "the scoped release package is completed",
+          "then": "the package delivers its stated result with direct verification and no unsupported qualification claims"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Execute bounded recipes through the attested TaskMesh sandbox",
+          "command": "go test ./mesh/... && TASKSPEC_REQUIRE_MESH_ISOLATION=1 bash tests/test-mesh-isolation.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 900
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "release/3.8.1",
+        "release/3.7"
+      ]
+    },
+    {
+      "id": "T-20260914-release-qualification",
+      "title": "Qualify chat behavior and compare three real-work execution workflows",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-release-autonomy"
+      ],
+      "touches_paths": [
+        "tests/evals/toolkit",
+        "tests",
+        "docs"
+      ],
+      "creates_paths": [
+        "release/3.10.0"
+      ],
+      "source_note": "User-authorized release goal and prospective repository-issue pilot, 2026-09-14",
+      "why": "Complete the full native toolkit release with verifiable evidence and an organized repository.",
+      "goal": "Qualify chat behavior and compare three real-work execution workflows. Preserve established authorization and frozen historical evidence.",
+      "context": "The user explicitly authorized committing and pushing main, creating a release tag and artifact, publishing the release, completing pending capabilities, and running a prospective pilot on real repository issues. Retain historical release evidence and local WATCHDOG.yml bytes.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the approved toolkit and release objective",
+          "when": "the scoped release package is completed",
+          "then": "the package delivers its stated result with direct verification and no unsupported qualification claims"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Qualify chat behavior and compare three real-work execution workflows",
+          "command": "python3 tests/evals/toolkit/pilot.py validate release/3.10.0/pilot/results.json",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 900
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "release/3.8.1",
+        "release/3.7"
+      ]
+    },
+    {
+      "id": "T-20260914-release-publication",
+      "title": "Finalize versioned artifacts and publish the verified main-branch release",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-release-qualification"
+      ],
+      "touches_paths": [
+        "VERSION",
+        "CHANGELOG.md",
+        "src/lib",
+        "package.json",
+        ".claude-plugin",
+        "release",
+        "tools",
+        ".github",
+        "README.md",
+        "docs",
+        "SKILL.md",
+        "skills",
+        "tasks",
+        "tests",
+        "install.sh"
+      ],
+      "creates_paths": [],
+      "source_note": "User-authorized release goal and prospective repository-issue pilot, 2026-09-14",
+      "why": "Complete the full native toolkit release with verifiable evidence and an organized repository.",
+      "goal": "Finalize versioned artifacts and publish the verified main-branch release. Preserve established authorization and frozen historical evidence.",
+      "context": "The user explicitly authorized committing and pushing main, creating a release tag and artifact, publishing the release, completing pending capabilities, and running a prospective pilot on real repository issues. Retain historical release evidence and local WATCHDOG.yml bytes.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the approved toolkit and release objective",
+          "when": "the scoped release package is completed",
+          "then": "the package delivers its stated result with direct verification and no unsupported qualification claims"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Finalize versioned artifacts and publish the verified main-branch release",
+          "command": "python3 tools/verify-toolkit-release.py --version 3.10.0",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 900
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "release/3.8.1",
+        "release/3.7"
+      ]
+    }
+  ]
+}

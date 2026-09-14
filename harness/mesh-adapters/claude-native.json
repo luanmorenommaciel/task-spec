@@ -4,7 +4,7 @@
   "harness": "claude",
   "executable": "claude",
   "version_args": ["--version"],
-  "command": ["-p", "{prompt}", "--output-format", "stream-json", "--no-session-persistence", "--permission-mode", "acceptEdits", "--allowedTools", "Read,Edit,Write,Bash"],
+  "command": ["-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--no-session-persistence", "--permission-mode", "acceptEdits", "--permission-prompts", "none", "--allowedTools", "Read,Edit,Write,Bash"],
   "prompt_mode": "argument",
   "event_format": "jsonl",
   "assurance_modes": ["supervised"]

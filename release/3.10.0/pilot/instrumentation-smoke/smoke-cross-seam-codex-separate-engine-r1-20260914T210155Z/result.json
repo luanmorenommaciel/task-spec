@@ -1,0 +1,451 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z",
+  "scenario": "cross-seam",
+  "harness": "codex",
+  "workflow": "separate-engine",
+  "repeat": 1,
+  "model": "gpt-6-astra",
+  "provider": "openai",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-grehz6_3/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "src/cli/guide.py",
+    "SKILL.md",
+    "skills/task-spec/SKILL.md"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "aababf4870a08841ba7ed491e260ec6bd20fa104",
+  "setup_passed": true,
+  "accepted": true,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 92.049436041,
+    "accepted_capability_seconds": 92.049436041,
+    "censored": false,
+    "intervention_count": 0,
+    "source_events": [
+      "4c4dd48852b221bc61fd41a6c547c61ab59339cc37a64eca405933408ce0c17b",
+      "e5bc504b202ba1fa18407b585b47ccb50f9a3323e3bc775a300e1119f677775c"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 92.049436041,
+  "accepted_capability_seconds": 92.049436041,
+  "censored": false,
+  "intervention_count": 0,
+  "source_events": [
+    "4c4dd48852b221bc61fd41a6c547c61ab59339cc37a64eca405933408ce0c17b",
+    "e5bc504b202ba1fa18407b585b47ccb50f9a3323e3bc775a300e1119f677775c"
+  ],
+  "gold_passed": true,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "0.154.0",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "f5b9f7d4f557e029329bb9e353802135aee5bcdc79783e0226d7a798eb6f323f",
+  "cost_including_failures": null,
+  "cost_basis": "api_equivalent_estimate",
+  "cost_evidence": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/26c4bd3e-fa34-49af-8f1a-278d196ea69e-awaiting_supervision.json",
+      "sha256": "bf86a2f7b07ecce2196aa817209f59b69ba6cf5a5d55967480cb3ceaee097495"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/26c4bd3e-fa34-49af-8f1a-278d196ea69e-preparing.json",
+      "sha256": "a2a1bc71ee500d33ce5c335ff35b90f8497fe6fd74cd074a16847f662b34be43"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/26c4bd3e-fa34-49af-8f1a-278d196ea69e-running.json",
+      "sha256": "bb7fc1fbcbc08ec43ae29f3fea9bc7a5583e0cceb43d7c9e14d0d600450d2e05"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/44b5a846-7721-48c0-ae5d-cd75b3b29f2a-awaiting_supervision.json",
+      "sha256": "e8074618aa00df3d85af5184f09e75debc46abbb3c5e850a53ef643a636816b7"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/44b5a846-7721-48c0-ae5d-cd75b3b29f2a-preparing.json",
+      "sha256": "411712b3438e80fd309068cca39bd8f2f61a646d2a0177f4ca1a193282add163"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/44b5a846-7721-48c0-ae5d-cd75b3b29f2a-running.json",
+      "sha256": "a7d444ffbd1e2cceff41ed7e0943f1e4426b5913cf9c48be9639d1e3bab6e3ca"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/candidate-patch.stdout",
+      "sha256": "26003fb568383f45ff8068acac160f1b5491c5ec0d04e5c1cc544725dd935680"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-006.stdout",
+      "sha256": "b686c024f008e7c074afcf4f29d9c58e25f123d3314a49cb9dbd86349e2d4399"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-007.stdout",
+      "sha256": "0450787740c0c548e55316f6732d6e1774ec30e439448b228072c166ff86cd1b"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-008.stdout",
+      "sha256": "e2b3701072ce127903fdad0252b2b0a197dd7f0b7aeb72ee31b827d934905324"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-009.stdout",
+      "sha256": "525b9224ff649a4f8d5033913f4a8e3c931b16da26aa809c2388e30f918517bb"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-010.stdout",
+      "sha256": "8d99e45c75e6151949221c3b8c0b701035c756f413a4da181931527f6fa5862d"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-011.stdout",
+      "sha256": "6e5b83de9946e96d6bdf041d567e5e63e27c7fb73d053da21ce326ac719d1a1d"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-012.stdout",
+      "sha256": "cb241c1fc90b558291e73a87908ac61c574161663276953fffc8b3b328075728"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-013.stdout",
+      "sha256": "d9a357023adc8661a08997de8933ed74f37539edb30708b9d001501cdbaefb6c"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-014.stdout",
+      "sha256": "ec016ec1648c1a74fd8e41203835ae1fb365f8cb7e21dad0095160c9909cfe75"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-015.stdout",
+      "sha256": "e2e0e0ed2c95f11378128d850f671fe8fcbb3bcb8e6b05327374a628cd114943"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-016.stdout",
+      "sha256": "d3f9d163379aa04b3c6cfc392f5790f1f6122ce7b15733a250b17be224e8920d"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-017.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-017.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-018.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-018.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-019.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-019.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-020.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-020.stdout",
+      "sha256": "acb44b0eb7059c9c32bb3d9681667e4edad7264fdcbbda4a80d512e2a2b3aac9"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-021.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-021.stdout",
+      "sha256": "3d8ba66175a2e6a08c1221331c4606bb397c5b0ebea231e00e4c69be0a0ec986"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-022.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-022.stdout",
+      "sha256": "22d0d9bcc5dd480c11545d635acaa12ec84fb8e159026229d88879fa457a4da4"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-023.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-023.stdout",
+      "sha256": "f0e74e4b4a9fca3b309cfff6850dfa5e40ec0f3cd00c109e40ed6098ef251346"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-024.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-024.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-025.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-025.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-026.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-026.stdout",
+      "sha256": "4868c0a23bf079f878786127b25afbfdefeaffe89205a901ea8b864465020c33"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-027.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-027.stdout",
+      "sha256": "65fc34678983beb1c32d4d01dccbcc39b040b2eb44f54366645e6447481016b1"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-028.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-028.stdout",
+      "sha256": "85ce17e7bcfbf30b1bab83e8b342e6bb99451d1453212d0d5d69b516f90aa35d"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-029.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-029.stdout",
+      "sha256": "b70cea422ee1118fbc2437783006277d37c2820fa089aa4710bbc0c8b16d1751"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-030.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-030.stdout",
+      "sha256": "c0afcc68c48139f45a55804054f2c184312449c691feae604e0d93660b312ef8"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-031.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-031.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-032.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-032.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-033.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/command-033.stdout",
+      "sha256": "cdd7e3c20079d8690ad806b09b86106b48133e3c2fee6b91d42dcdf4e0773b60"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/cost.json",
+      "sha256": "17ce3561b8ad45b92a99413616392cc903c339e399e8a4f96a7cd4cf10dc9867"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/events.jsonl",
+      "sha256": "5ab445657de1b54f19d8411b81e1d330134d4e8f2870a722634a3b0d73b2b9dc"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/independent-composition-proof.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/independent-composition-proof.stdout",
+      "sha256": "4420b29f8cbf320c63fa44161f34c37817e2aa6b16ce86f8605065dfb578f53f"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/26c4bd3e-fa34-49af-8f1a-278d196ea69e-engine-receipt.json",
+      "sha256": "d0444459dcc057969292e0ace0a0feeb1cb3c55ebfcdf1bc52db90edd22afb37"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/26c4bd3e-fa34-49af-8f1a-278d196ea69e.json",
+      "sha256": "8fc65e99f4bb05410f9f2ce7d208444a6f78a69c0bab4ad8d6cb7e6d275a286c"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/26c4bd3e-fa34-49af-8f1a-278d196ea69e.round-1.evals.json",
+      "sha256": "75668a660175952f2affc3c5b171009f3690763ac5d7139bc124c9e4bc61428b"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/26c4bd3e-fa34-49af-8f1a-278d196ea69e.round-1.json",
+      "sha256": "8fc65e99f4bb05410f9f2ce7d208444a6f78a69c0bab4ad8d6cb7e6d275a286c"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/44b5a846-7721-48c0-ae5d-cd75b3b29f2a-engine-receipt.json",
+      "sha256": "853e8434474cfb99ca4c833237229b03c4e90b1d5b28523e618bdb2e4afa1f6b"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/44b5a846-7721-48c0-ae5d-cd75b3b29f2a.json",
+      "sha256": "07655dd807e7a01a0515144ab9092155f9f4b0fa4a26a10057f4374d10f2d131"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/44b5a846-7721-48c0-ae5d-cd75b3b29f2a.round-1.evals.json",
+      "sha256": "7a8324fbe38a27e16c365b8dbe434a32e58dbed8f7d48d641fe896836efc38b3"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/mesh-artifacts/44b5a846-7721-48c0-ae5d-cd75b3b29f2a.round-1.json",
+      "sha256": "07655dd807e7a01a0515144ab9092155f9f4b0fa4a26a10057f4374d10f2d131"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/prepared.json",
+      "sha256": "aa990abe5125e6937409f5af0512adecc1e0d339c6fd0473104aae52b77ee681"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/registration.json",
+      "sha256": "737cd14f0e113076ea8a89492f0f8ca870884378fd6cd3070a8564dca9d102d8"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/workspace-evidence/.taskspec/acceptance/T-20260914-pilot-overview-route/44b5a846-7721-48c0-ae5d-cd75b3b29f2a.json",
+      "sha256": "bca3c9e1ccc9697aae12d15cd858c2adc029ccb9a80cc464e9ae2aa6386a8f76"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/workspace-evidence/.taskspec/acceptance/T-20260914-pilot-overview-skill/26c4bd3e-fa34-49af-8f1a-278d196ea69e.json",
+      "sha256": "d44b0028d7e06caa04b8108a7104a0915e8d7f68244f079eb0198983839a61b8"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "47f09f2bd014512cf67ea1aef6c3accffa60b7d07197953cd3768e9bd504d9c7"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/workspace-evidence/tasks/done/T-20260914-pilot-overview-route.md",
+      "sha256": "bdb52b4ce8b810f6017860f7db055452f23bdda5f7bf99604bf41f485777b6c8"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-cross-seam-codex-separate-engine-r1-20260914T210155Z/workspace-evidence/tasks/done/T-20260914-pilot-overview-skill.md",
+      "sha256": "9a6606c5a5e6c947d5f8d8e84c262b394a44624bc7a521ddea24fda467c05ad0"
+    }
+  ]
+}

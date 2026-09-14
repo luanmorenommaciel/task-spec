@@ -1,0 +1,54 @@
+{
+  "contract": "TaskMeshReviewerReport/v1",
+  "release_version": "3.10.0",
+  "observed_at": "2026-09-14T21:46:44.182652+00:00",
+  "scope": "Local TaskMesh authority and evidence-boundary review only",
+  "result": "pass",
+  "release_qualified": false,
+  "reviewer": "root-agent",
+  "checks": [
+    {
+      "id": "authority-boundary",
+      "state": "pass",
+      "proof": "OPERATING.md and the skill preserve native plan review, leaf HMAC authorization, TaskMesh execution, canonical acceptance, and an explicit user-branch integration decision."
+    },
+    {
+      "id": "local-runtime-fixes",
+      "state": "pass",
+      "proof": "Retained Go and required Docker fixtures cover durable rounds, fresh per-round credentials, fenced lease renewal, cancellation, permission denial, and canonical acceptance."
+    },
+    {
+      "id": "assurance-language",
+      "state": "pass",
+      "proof": "Execution guidance explicitly identifies host-run evals and refuses unsupported hard token or required environment enforcement; no production or official SDK certification claim is made."
+    },
+    {
+      "id": "installation-identity",
+      "state": "pass",
+      "proof": "Fresh toolkit installation reports version 3.10.0, matching helper/runtime, installed resources, and skill parity; separate corruption and stale-version checks passed."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "OPERATING.md",
+      "digest": "sha256:6ab945d26617c35c4cbe9279295353221eeaf4e7ac9dc4adf8c83c7a2938eb2b"
+    },
+    {
+      "path": "SKILL.md",
+      "digest": "sha256:38b2999d998d837abca45feac25fa5dca26ec1c4fed8542c8ef8a84141e63e0e"
+    },
+    {
+      "path": "docs/guides/toolkit/execution.md",
+      "digest": "sha256:e601eae4a5d446ef8cd015643e3d2e254d76d25e5441db536890a45a12563a8a"
+    },
+    {
+      "path": "release/3.10.0/qualification/runtime-defects.md",
+      "digest": "sha256:6bd6afa58556dff80a4015442653328985b998ac7b7669639ee1832541aaa2a7"
+    }
+  ],
+  "limitations": [
+    "This passing bounded local review is not approval to publish.",
+    "The comparative pilot is interrupted and unqualified; the corrected workspace rerun awaits explicit authorization.",
+    "Preliminary chat failures are retained; corrected chat qualification is running. Hosted checks, final make check, canonical task acceptance, migration/cutover, and publication remain open."
+  ]
+}

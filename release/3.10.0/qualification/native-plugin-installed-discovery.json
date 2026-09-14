@@ -1,0 +1,10 @@
+{
+  "scope": "TaskSpec entry only; unrelated user plugins omitted",
+  "entry": {
+    "id": "task-spec@inline",
+    "version": "3.10.0",
+    "scope": "session",
+    "enabled": true,
+    "installPath": "/tmp/taskspec-chat-native-engines/3.10.0"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "atomic",
+  "harness": "codex",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/chat-corrected/runs/atomic-codex-20260914T215012Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "008ad3497851f03b5e622c470493e0e2a51425ed2d0cabfef06182122a9c2c91"
+    },
+    {
+      "path": "before.json",
+      "sha256": "ee7a2e6600a10476ed4723cb917bddc981b5b542b966a482efc255d5735fbf7a"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/tasks/T-20260914-policy-schema.md",
+      "sha256": "e8ba879b61af219e8159d7405b0b0ab3d0a95549423768e9087342fcc7e7ee3f"
+    },
+    {
+      "path": "changed-files/tasks/_metrics.jsonl",
+      "sha256": "a69cf354f336a200e388250512b17f74cb2914452c756fe40b91def0680ed235"
+    },
+    {
+      "path": "changed-files/tasks/_state.yaml",
+      "sha256": "0b02aabf7a319ccc0510236e799311009f0412ebad904d15dd47b392f60a6889"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "f223e4c0afc9dfb9d96e24bab05340602d30185ca6b755b1a475a37bc002bcf5"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "5a42cc75b08bcb4c72a394885d9e487f31a1462b6c450881ebfdb1dad1b54bf4"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "7e01ec8df1d97b6fbb067c482e2cd9e3690b40fbe78e05319869505b2f39aa7f"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "0a91210d6f009cc4b54e502d04d8b4308a47b15b1b08f9c242d6fe2ecd6a91cf"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "b0fec77dcff20ed4bed588e83d8bbe1571b6806afde4b294cfc28811d3a3c0d4"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "ba3c6b09e0478b322a6d1eaeb259d7a89dfb194025a8ce47907bffac5e65cabb"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "384a42462a15221907e626a045347e995e416851b12ac863593eaaf69cc6d5f9"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "43578be3106cfdb375e265e825502c0331ab560e5258832ac259ca1f38db070e"
+    }
+  ]
+}

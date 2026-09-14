@@ -1,0 +1,36 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "explain",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "review_method": "Inspect actual CLI results, source plan/lineage reads, final explanation and unchanged file inventories.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "explain_lineage"
+  ],
+  "claims_checked": [
+    "Explained four distinct responsibility and write boundaries using the reviewed source, compiled task plan and declared graph.",
+    "Separated independently assessable completion from input independence; preserved the strict dependency chain.",
+    "Accurately reported reviewed/compiled state, unmaterialized tasks, zero accepted leaves and missing integration proof.",
+    "Described batch as creating unsealed leaves; performed no mutation."
+  ],
+  "limitations": [
+    "One synthetic topology explanation."
+  ],
+  "evidence_refs": [
+    {
+      "path": "runs/explain-codex-20260914T220817Z/harness.stdout",
+      "sha256": "68ec16e584fae17fafaeb702e9e0a28932562ba20baf634b3ee3fcc3bc9236ad"
+    },
+    {
+      "path": "runs/explain-codex-20260914T220817Z/before.json",
+      "sha256": "0a0cc9d75ee50cda47a147b2ec4450b4bbd3de1baac709831173183d166f13ca"
+    },
+    {
+      "path": "runs/explain-codex-20260914T220817Z/after.json",
+      "sha256": "0a0cc9d75ee50cda47a147b2ec4450b4bbd3de1baac709831173183d166f13ca"
+    }
+  ]
+}

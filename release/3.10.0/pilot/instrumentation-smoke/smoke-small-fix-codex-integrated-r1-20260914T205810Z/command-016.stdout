@@ -1,0 +1,105 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "c4d621ec-3fb3-46ab-93ab-c9c4a977dfbe",
+    "ok": true,
+    "code": "MESH_RUN_STARTED",
+    "message": "authorized TaskMesh leases acquired",
+    "data": {
+      "attempts": [
+        {
+          "adapter": "pilot-smoke",
+          "branch": "taskmesh/20260914-pilot-small-fix/fce59fe6",
+          "decision": {
+            "candidates": [
+              {
+                "adapter": "codex-native",
+                "eligible": true,
+                "rejection_reasons": [],
+                "static_score": 100
+              },
+              {
+                "adapter": "claude-native",
+                "eligible": true,
+                "rejection_reasons": [],
+                "static_score": 99
+              },
+              {
+                "adapter": "pilot-smoke",
+                "eligible": true,
+                "rejection_reasons": [],
+                "static_score": 98
+              }
+            ],
+            "contract": "DispatchDecision/v1",
+            "decided_at": "2026-09-14T20:58:24.386679Z",
+            "explanation": "selected by explicit choice, task backend, roster band, static policy, bounded advisor order, then stable tie-breaker",
+            "policy_digest": "sha256:bf7c65fb0f926f5a94caae843b3ee680c55f6dc773fe9e2a60052c0f91248e86",
+            "selected": "pilot-smoke",
+            "task_id": "T-20260914-pilot-small-fix",
+            "task_revision_digest": "sha256:f616f953c2a09d1e24c8612e537fa01dccae61be751f930c0526d0eb7cc7a8b1"
+          },
+          "lease": {
+            "attempt_id": "fce59fe6-ab72-4e5a-a235-1dade4b2dfa6",
+            "contract": "RunLease/v1",
+            "expires_at": "2026-09-14T21:03:24.386911Z",
+            "fencing_token": 1,
+            "heartbeat_at": "2026-09-14T20:58:24.386911Z",
+            "issued_at": "2026-09-14T20:58:24.386911Z",
+            "owner": "c4d621ec-3fb3-46ab-93ab-c9c4a977dfbe",
+            "run_id": "c787316e-b1cf-4545-abf9-6376e1dd2dfb",
+            "state": "leased",
+            "task_id": "T-20260914-pilot-small-fix",
+            "task_revision_digest": "sha256:f616f953c2a09d1e24c8612e537fa01dccae61be751f930c0526d0eb7cc7a8b1"
+          },
+          "route": {
+            "adapter": "pilot-smoke",
+            "effort": "S",
+            "mode": "supervised",
+            "model": "gpt-6-astra",
+            "provider": "",
+            "source": "flag"
+          },
+          "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-99fjdhlg/task-spec-3.9.0/.git/taskspec-mesh/runs/c787316e-b1cf-4545-abf9-6376e1dd2dfb/attempts/fce59fe6-ab72-4e5a-a235-1dade4b2dfa6"
+        }
+      ],
+      "leases": [
+        {
+          "attempt_id": "fce59fe6-ab72-4e5a-a235-1dade4b2dfa6",
+          "contract": "RunLease/v1",
+          "expires_at": "2026-09-14T21:03:24.386911Z",
+          "fencing_token": 1,
+          "heartbeat_at": "2026-09-14T20:58:24.386911Z",
+          "issued_at": "2026-09-14T20:58:24.386911Z",
+          "owner": "c4d621ec-3fb3-46ab-93ab-c9c4a977dfbe",
+          "run_id": "c787316e-b1cf-4545-abf9-6376e1dd2dfb",
+          "state": "leased",
+          "task_id": "T-20260914-pilot-small-fix",
+          "task_revision_digest": "sha256:f616f953c2a09d1e24c8612e537fa01dccae61be751f930c0526d0eb7cc7a8b1"
+        }
+      ],
+      "run": {
+        "contract": "TaskMeshRun/v1",
+        "created_at": "2026-09-14T20:58:22.579553Z",
+        "graph_revision_digest": "sha256:f16484f2848c15e93689170ed183c9cf20938439b6c8e84425cbc4dd19ec7957",
+        "integration_branch": "taskmesh/run/c787316e",
+        "max_parallel": 2,
+        "mode": "supervised",
+        "repository": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-99fjdhlg/task-spec-3.9.0",
+        "run_id": "c787316e-b1cf-4545-abf9-6376e1dd2dfb",
+        "state": "active",
+        "target": {
+          "branch": "main",
+          "commit": "a335466974160704270cddce29f6670f5d841815"
+        }
+      }
+    }
+  },
+  "stdout": "",
+  "stderr": ""
+}

@@ -1,0 +1,54 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "ea1e8115-9586-4213-8ca5-0eab910d544a",
+    "ok": true,
+    "code": "MESH_FINISHED",
+    "message": "integration branch is ready for a human-owned merge",
+    "data": {
+      "merge_route": {
+        "commands": [
+          [
+            "git",
+            "checkout",
+            "main"
+          ],
+          [
+            "git",
+            "merge",
+            "--no-ff",
+            "taskmesh/run/5de99ded"
+          ]
+        ],
+        "integration_branch": "taskmesh/run/5de99ded",
+        "target_branch": "main",
+        "target_commit": "51178a71b1d9de9445f1c127b23a289ce904e027",
+        "target_unchanged": true
+      },
+      "run": {
+        "contract": "TaskMeshRun/v1",
+        "created_at": "2026-09-14T21:00:06.356543Z",
+        "finished_at": "2026-09-14T21:00:41.90245Z",
+        "graph_revision_digest": "sha256:061705e5f0a05c3a1a7986754f2010a67aa0b852362a819ff6ea943582ac410c",
+        "integration_branch": "taskmesh/run/5de99ded",
+        "max_parallel": 2,
+        "mode": "supervised",
+        "repository": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-fyalxrkh/task-spec-3.9.0",
+        "run_id": "5de99ded-7274-4052-bbf0-1163d4a9313d",
+        "state": "finished",
+        "target": {
+          "branch": "main",
+          "commit": "51178a71b1d9de9445f1c127b23a289ce904e027"
+        }
+      }
+    },
+    "next_command": "git checkout 'main' && git merge --no-ff 'taskmesh/run/5de99ded'"
+  },
+  "stdout": "",
+  "stderr": ""
+}

@@ -1,0 +1,256 @@
+{
+  "contract": "TaskPlanSnapshot/v1",
+  "initiative": "pilot",
+  "review": {
+    "artifacts_sha256": {
+      "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "evidence.jsonl": "7d3ccf700aa520237b7b304ab52fd73db9ce523ee2db0a246fcba333c4e9ef9e",
+      "intent.md": "19588b865cd9d5be7bcd008d553522ba4d281d5153e6022e13b919d33bdbe9cc",
+      "legs/LEG-INVESTIGATION.md": "1c562b1b6c333082f2abda253b709d2aebc59861110c422a6554a7641a0b1c91",
+      "proposed-graph.json": "a5665d35282c4fa1e59df31e23c0a9f8b64d27837db155370d3a403c9af9885c",
+      "seam-map.yaml": "8254f68736b48291962a252b7aab06a8e356317e2e0cdf720e3cb57a0913e00e",
+      "seams/SEAM-INVESTIGATION.md": "98d409c585ad4dc03b7899867365ea0ca508354a74e28f63793d4f5d7b2e8209",
+      "source-recipe.yaml": "9dab76fe2764bdc4a21e6d61d05196c5e51447a6714a30276edaa28d2160bd27",
+      "steel-thread.md": "55b25d9330663731026a9710612cd8680d867d2d9784e8688e847d3a107116e0",
+      "swimlanes/LANE-INVESTIGATION.md": "f20803278ed314b15ad4dce3a9ac3f04f8a4b28ce7f2eb275e74866e59967fdd",
+      "system-map.md": "d0556b73c1407af8ce6c61539fe9b3d51e7f939de96438164f18b9d9b4c43d1b"
+    },
+    "disposition": "accepted",
+    "draft_sha256": "824317bef84dd65da58434388cc9beeb0601467aa7139eb9b82a5fb82451d3b0",
+    "fixture": false,
+    "plan_sha256": "676fd350f35272a3d98ad8643ef3b52b9b29314f5425b1af6421c4b304574180",
+    "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+    "recipe_sha256": "9dab76fe2764bdc4a21e6d61d05196c5e51447a6714a30276edaa28d2160bd27",
+    "reviewed_at": "2026-09-14T20:58:29.724237+00:00",
+    "reviewer": "pilot-controller",
+    "schema_version": 1,
+    "signature": "hmac-taskplan-v1:e1ddd95b:8a0e93d62c2b3ac994f6b931b25c6721eea8f225ce9448bb0f9b2918952faa48",
+    "topology_sha256": "a5665d35282c4fa1e59df31e23c0a9f8b64d27837db155370d3a403c9af9885c"
+  },
+  "reviewed_artifacts": {
+    "decisions/ADR-PILOT-SCOPE.md": {
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+      "content": "---\nschema_version: 1\nkind: decision\nid: ADR-PILOT-SCOPE\nstatus: accepted\nowner: pilot-supervisor\nrationale: The user authorized real repository issues with prospective intervention recording. This fixed\n  corpus defines the evaluated scope before execution; it does not claim a new human review occurred during\n  each run.\n---\n# ADR-PILOT-SCOPE\n\nStatus: **accepted**\n\nOwner: pilot-supervisor\n\n## Rationale\n\nThe user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run.\n"
+    },
+    "evidence.jsonl": {
+      "sha256": "7d3ccf700aa520237b7b304ab52fd73db9ce523ee2db0a246fcba333c4e9ef9e",
+      "content": "{\"claim\":\"current\",\"confidence\":1.0,\"id\":\"E-PILOT-ISSUE\",\"source\":{\"captured_at\":\"2026-09-14T20:20:46.550715+00:00\",\"sha256\":\"012fe2fe2fb9b07a56783345d04a5caeebf5aba7deea5ad419986828bbc4f39c\",\"uri\":\"tests/fixtures/toolkit/pilot-issue.json\"},\"summary\":\"A repository issue inspected before comparative execution; source digests and reproduction are retained.\"}\n"
+    },
+    "intent.md": {
+      "sha256": "19588b865cd9d5be7bcd008d553522ba4d281d5153e6022e13b919d33bdbe9cc",
+      "content": "---\nschema_version: 1\nkind: delivery-intent\nid: DI-PILOT-INVESTIGATION\ntitle: Execution attestation could be mistaken for evaluator isolation\nclaim: proposed\nsource:\n  uri: tests/fixtures/toolkit/pilot-issue.json\n  captured_at: '2026-09-14T20:20:46.550715+00:00'\n  sha256: 012fe2fe2fb9b07a56783345d04a5caeebf5aba7deea5ad419986828bbc4f39c\nsuccess:\n- Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the\n  exact trust boundary, unsupported required environments, and claims not established by Docker smoke\n  evidence. Cite verified source symbols and state remaining uncertainty.\nout_of_scope:\n- Changes outside the registered write surface.\n- Production deployment, policy changes, self-authorization, and independent agents.\n---\n# Execution attestation could be mistaken for evaluator isolation\n\n## Delivery outcome\n\nProduce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.\n\n## Evidence boundary\n\nThis artifact records a **proposed** claim. Its source, capture time,\nand content hash are recorded in frontmatter; the claim is not implementation\nevidence by itself.\n"
+    },
+    "legs/LEG-INVESTIGATION.md": {
+      "sha256": "1c562b1b6c333082f2abda253b709d2aebc59861110c422a6554a7641a0b1c91",
+      "content": "---\nschema_version: 1\nkind: capability-leg\nclaim: derived\nid: LEG-INVESTIGATION\nseam_id: SEAM-INVESTIGATION\nswimlane_id: LANE-INVESTIGATION\nobservable_state: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments,\n  the exact trust boundary, unsupported required environments, and claims not established by Docker smoke\n  evidence. Cite verified source symbols and state remaining uncertainty.\nproof: The declared evaluator succeeds without widening the write surface.\nrequires: []\nproduces:\n- investigation verified behavior\ntasks:\n- id: T-20260914-pilot-investigation\n  title: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments,\n    the exact trust boundary, unsupported required environments, and claims not established by Docker\n    smoke evidence\n  goal: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments,\n    the exact trust boundary, unsupported required environments, and claims not established by Docker\n    smoke evidence. Cite verified source symbols and state remaining uncertainty.\n  done_condition: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments,\n    the exact trust boundary, unsupported required environments, and claims not established by Docker\n    smoke evidence. Cite verified source symbols and state remaining uncertainty.\n  effort: S\n  profile: standard\n  execution_backend: claude\n  required_tools:\n  - git\n  - bash\n  - python3\n  depends_on: []\n  touches_paths: []\n  creates_paths:\n  - docs/maintainers/recipe-assurance-investigation.md\n  behavior:\n  - id: B-1\n    given: the registered repository issue and fixed authorized scope\n    when: the bounded implementation is independently evaluated\n    then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n  - id: B-2\n    given: the recorded evidence and authorization boundary\n    when: the candidate is checked\n    then: source evidence is unchanged and no unrelated write is present\n  evals:\n  - id: eval_1\n    description: Independent behavioral proof for investigation\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      investigation --root .\n    verifies:\n    - B-1\n  - id: eval_2\n    description: Declared write surface only\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      write-boundary --root .\n    verifies:\n    - B-2\n  - id: eval_3\n    description: Registered issue evidence is unchanged\n    bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n      source-integrity --root .\n    verifies:\n    - B-2\n  anti_patterns:\n  - action: weaken the independent evaluator\n    reason: it would invalidate the comparison\n    instead: fix the behavior within the declared surface\n  - action: expand the scope\n    reason: it breaks matched permissions\n    instead: report the missing work as a blocker\n  - action: claim success without evidence\n    reason: a plausible patch does not establish behavior\n    instead: run the independent proof and report failures\n  do_not_touch:\n  - tests/fixtures/toolkit/pilot-issue.json\n  - tasks\n  rollback: Revert only this isolated candidate change.\n  observability: Retained provider output, evaluation result, and prospective event journal.\n  execution_recipe: research-synthesize-verify\n  proves_capabilities:\n  - LEG-INVESTIGATION\nsource_seam_sha256: 98d409c585ad4dc03b7899867365ea0ca508354a74e28f63793d4f5d7b2e8209\n---\n# Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.\n\n## Observable proof\n\nThe declared evaluator succeeds without widening the write surface.\n\n## Runnable leaves\n\n- `T-20260914-pilot-investigation` \u2014 Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.\n\nThe leg names a capability state, not an activity. Each leaf owns one coherent,\nindependently provable done-condition.\n"
+    },
+    "proposed-graph.json": {
+      "sha256": "a5665d35282c4fa1e59df31e23c0a9f8b64d27837db155370d3a403c9af9885c",
+      "content": "{\n  \"schema_version\": 1,\n  \"status\": \"TASK_GRAPH=READY\",\n  \"plan_sha256\": \"824317bef84dd65da58434388cc9beeb0601467aa7139eb9b82a5fb82451d3b0\",\n  \"nodes\": [\n    {\n      \"id\": \"T-20260914-pilot-investigation\",\n      \"title\": \"Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence\",\n      \"seam_id\": \"SEAM-INVESTIGATION\",\n      \"swimlane_id\": \"LANE-INVESTIGATION\",\n      \"leg_id\": \"LEG-INVESTIGATION\",\n      \"effort\": \"S\",\n      \"profile\": \"standard\",\n      \"done_condition\": \"Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.\",\n      \"touches_paths\": [],\n      \"creates_paths\": [\n        \"docs/maintainers/recipe-assurance-investigation.md\"\n      ]\n    }\n  ],\n  \"edges\": [],\n  \"contentions\": [],\n  \"critical_path\": [\n    \"T-20260914-pilot-investigation\"\n  ],\n  \"critical_path_mermaid_sha256\": \"8805493134e563680bd539153abf736e523507dc3cc641e0b475715b1b08981c\"\n}\n"
+    },
+    "seam-map.yaml": {
+      "sha256": "8254f68736b48291962a252b7aab06a8e356317e2e0cdf720e3cb57a0913e00e",
+      "content": "schema_version: 1\nstatus: SEAM_MAP=READY\nintent_id: DI-PILOT-INVESTIGATION\nsource_recipe:\n  name: source-recipe.yaml\n  sha256: 9dab76fe2764bdc4a21e6d61d05196c5e51447a6714a30276edaa28d2160bd27\nintent_sha256: 19588b865cd9d5be7bcd008d553522ba4d281d5153e6022e13b919d33bdbe9cc\nsystem_map_sha256: d0556b73c1407af8ce6c61539fe9b3d51e7f939de96438164f18b9d9b4c43d1b\nevidence_sha256: 7d3ccf700aa520237b7b304ab52fd73db9ce523ee2db0a246fcba333c4e9ef9e\ndecisions:\n- id: ADR-PILOT-SCOPE\n  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md\n  status: accepted\n  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\nseams:\n- id: SEAM-INVESTIGATION\n  path: tasks/.plans/pilot/seams/SEAM-INVESTIGATION.md\n  owner: pilot-investigation\n  evidence:\n  - E-PILOT-ISSUE\n  swimlane_id: LANE-INVESTIGATION\n  sha256: 98d409c585ad4dc03b7899867365ea0ca508354a74e28f63793d4f5d7b2e8209\n"
+    },
+    "seams/SEAM-INVESTIGATION.md": {
+      "sha256": "98d409c585ad4dc03b7899867365ea0ca508354a74e28f63793d4f5d7b2e8209",
+      "content": "---\nschema_version: 1\nkind: seam\nclaim: derived\nid: SEAM-INVESTIGATION\nname: investigation\ndescription: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments,\n  the exact trust boundary, unsupported required environments, and claims not established by Docker smoke\n  evidence. Cite verified source symbols and state remaining uncertainty.\nevidence:\n- E-PILOT-ISSUE\nresponsibility: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments,\n  the exact trust boundary, unsupported required environments, and claims not established by Docker smoke\n  evidence. Cite verified source symbols and state remaining uncertainty.\nconsumes:\n- registered issue\nproduces:\n- investigation verified behavior\nowner: pilot-investigation\nindependent_proof: Run the registered independent investigation evaluator.\ndecision_ids:\n- ADR-PILOT-SCOPE\nrejected_alternatives:\n- alternative: Merge this responsibility into an unrelated task\n  reason: Its write surface and independently assessable outcome belong to this boundary.\nswimlane:\n  id: LANE-INVESTIGATION\n  name: investigation delivery\n  owner: pilot-investigation\n  legs:\n  - id: LEG-INVESTIGATION\n    observable_state: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n      environments, the exact trust boundary, unsupported required environments, and claims not established\n      by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.\n    proof: The declared evaluator succeeds without widening the write surface.\n    requires: []\n    produces:\n    - investigation verified behavior\n    tasks:\n    - id: T-20260914-pilot-investigation\n      title: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments,\n        the exact trust boundary, unsupported required environments, and claims not established by Docker\n        smoke evidence\n      goal: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments,\n        the exact trust boundary, unsupported required environments, and claims not established by Docker\n        smoke evidence. Cite verified source symbols and state remaining uncertainty.\n      done_condition: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n        environments, the exact trust boundary, unsupported required environments, and claims not established\n        by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.\n      effort: S\n      profile: standard\n      execution_backend: claude\n      required_tools:\n      - git\n      - bash\n      - python3\n      depends_on: []\n      touches_paths: []\n      creates_paths:\n      - docs/maintainers/recipe-assurance-investigation.md\n      behavior:\n      - id: B-1\n        given: the registered repository issue and fixed authorized scope\n        when: the bounded implementation is independently evaluated\n        then: the declared behavior passes without modifying unrelated files or promoting reported evidence\n      - id: B-2\n        given: the recorded evidence and authorization boundary\n        when: the candidate is checked\n        then: source evidence is unchanged and no unrelated write is present\n      evals:\n      - id: eval_1\n        description: Independent behavioral proof for investigation\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          investigation --root .\n        verifies:\n        - B-1\n      - id: eval_2\n        description: Declared write surface only\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          write-boundary --root .\n        verifies:\n        - B-2\n      - id: eval_3\n        description: Registered issue evidence is unchanged\n        bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n          source-integrity --root .\n        verifies:\n        - B-2\n      anti_patterns:\n      - action: weaken the independent evaluator\n        reason: it would invalidate the comparison\n        instead: fix the behavior within the declared surface\n      - action: expand the scope\n        reason: it breaks matched permissions\n        instead: report the missing work as a blocker\n      - action: claim success without evidence\n        reason: a plausible patch does not establish behavior\n        instead: run the independent proof and report failures\n      do_not_touch:\n      - tests/fixtures/toolkit/pilot-issue.json\n      - tasks\n      rollback: Revert only this isolated candidate change.\n      observability: Retained provider output, evaluation result, and prospective event journal.\n      execution_recipe: research-synthesize-verify\n      proves_capabilities:\n      - LEG-INVESTIGATION\n---\n# investigation\n\nProduce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.\n\n## Responsibility\n\nProduce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.\n\n## Independent proof\n\nRun the registered independent investigation evaluator.\n\n## Rejected alternatives\n\n- **Merge this responsibility into an unrelated task** \u2014 Its write surface and independently assessable outcome belong to this boundary.\n\nThis derived seam is ready only while its cited evidence, named owner, contract,\nand rejected alternatives remain intact.\n"
+    },
+    "source-recipe.yaml": {
+      "sha256": "9dab76fe2764bdc4a21e6d61d05196c5e51447a6714a30276edaa28d2160bd27",
+      "content": "schema_version: 1\nintent:\n  id: DI-PILOT-INVESTIGATION\n  title: Execution attestation could be mistaken for evaluator isolation\n  summary: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n    environments, the exact trust boundary, unsupported required environments, and\n    claims not established by Docker smoke evidence. Cite verified source symbols\n    and state remaining uncertainty.\n  claim: proposed\n  source: &id001\n    uri: tests/fixtures/toolkit/pilot-issue.json\n    captured_at: '2026-09-14T20:20:46.550715+00:00'\n    sha256: 012fe2fe2fb9b07a56783345d04a5caeebf5aba7deea5ad419986828bbc4f39c\n  success:\n  - Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n    environments, the exact trust boundary, unsupported required environments, and\n    claims not established by Docker smoke evidence. Cite verified source symbols\n    and state remaining uncertainty.\n  out_of_scope:\n  - Changes outside the registered write surface.\n  - Production deployment, policy changes, self-authorization, and independent agents.\nsystem_map:\n  claim: proposed\n  components:\n  - investigation\n  external_dependencies:\n  - TaskSpec CLI and the independently registered evaluator\n  unknowns: []\nevidence:\n- id: E-PILOT-ISSUE\n  claim: current\n  source: *id001\n  confidence: 1.0\n  summary: A repository issue inspected before comparative execution; source digests\n    and reproduction are retained.\ndecisions:\n- id: ADR-PILOT-SCOPE\n  status: accepted\n  owner: pilot-supervisor\n  rationale: The user authorized real repository issues with prospective intervention\n    recording. This fixed corpus defines the evaluated scope before execution; it\n    does not claim a new human review occurred during each run.\nseams:\n- id: SEAM-INVESTIGATION\n  name: investigation\n  description: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n    environments, the exact trust boundary, unsupported required environments, and\n    claims not established by Docker smoke evidence. Cite verified source symbols\n    and state remaining uncertainty.\n  evidence:\n  - E-PILOT-ISSUE\n  responsibility: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n    environments, the exact trust boundary, unsupported required environments, and\n    claims not established by Docker smoke evidence. Cite verified source symbols\n    and state remaining uncertainty.\n  consumes:\n  - registered issue\n  produces:\n  - investigation verified behavior\n  owner: pilot-investigation\n  independent_proof: Run the registered independent investigation evaluator.\n  decision_ids:\n  - ADR-PILOT-SCOPE\n  rejected_alternatives:\n  - alternative: Merge this responsibility into an unrelated task\n    reason: Its write surface and independently assessable outcome belong to this\n      boundary.\n  swimlane:\n    id: LANE-INVESTIGATION\n    name: investigation delivery\n    owner: pilot-investigation\n    legs:\n    - id: LEG-INVESTIGATION\n      observable_state: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n        environments, the exact trust boundary, unsupported required environments,\n        and claims not established by Docker smoke evidence. Cite verified source\n        symbols and state remaining uncertainty.\n      proof: The declared evaluator succeeds without widening the write surface.\n      requires: []\n      produces:\n      - investigation verified behavior\n      tasks:\n      - id: T-20260914-pilot-investigation\n        title: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n          environments, the exact trust boundary, unsupported required environments,\n          and claims not established by Docker smoke evidence\n        goal: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n          environments, the exact trust boundary, unsupported required environments,\n          and claims not established by Docker smoke evidence. Cite verified source\n          symbols and state remaining uncertainty.\n        done_condition: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance\n          environments, the exact trust boundary, unsupported required environments,\n          and claims not established by Docker smoke evidence. Cite verified source\n          symbols and state remaining uncertainty.\n        effort: S\n        profile: standard\n        execution_backend: claude\n        required_tools:\n        - git\n        - bash\n        - python3\n        depends_on: []\n        touches_paths: []\n        creates_paths:\n        - docs/maintainers/recipe-assurance-investigation.md\n        behavior:\n        - id: B-1\n          given: the registered repository issue and fixed authorized scope\n          when: the bounded implementation is independently evaluated\n          then: the declared behavior passes without modifying unrelated files or\n            promoting reported evidence\n        - id: B-2\n          given: the recorded evidence and authorization boundary\n          when: the candidate is checked\n          then: source evidence is unchanged and no unrelated write is present\n        evals:\n        - id: eval_1\n          description: Independent behavioral proof for investigation\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            investigation --root .\n          verifies:\n          - B-1\n        - id: eval_2\n          description: Declared write surface only\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            write-boundary --root .\n          verifies:\n          - B-2\n        - id: eval_3\n          description: Registered issue evidence is unchanged\n          bash: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python\n            /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py\n            source-integrity --root .\n          verifies:\n          - B-2\n        anti_patterns:\n        - action: weaken the independent evaluator\n          reason: it would invalidate the comparison\n          instead: fix the behavior within the declared surface\n        - action: expand the scope\n          reason: it breaks matched permissions\n          instead: report the missing work as a blocker\n        - action: claim success without evidence\n          reason: a plausible patch does not establish behavior\n          instead: run the independent proof and report failures\n        do_not_touch:\n        - tests/fixtures/toolkit/pilot-issue.json\n        - tasks\n        rollback: Revert only this isolated candidate change.\n        observability: Retained provider output, evaluation result, and prospective\n          event journal.\n        execution_recipe: research-synthesize-verify\n        proves_capabilities:\n        - LEG-INVESTIGATION\nsteel_thread:\n- LEG-INVESTIGATION\nobjections: []\ncontentions: []\n"
+    },
+    "steel-thread.md": {
+      "sha256": "55b25d9330663731026a9710612cd8680d867d2d9784e8688e847d3a107116e0",
+      "content": "# Steel Thread\n\n1. [`LEG-INVESTIGATION`](legs/LEG-INVESTIGATION.md)\n\nThis is a derived critical capability path. It records ordering, not\nimplementation completion or dispatch authority.\n"
+    },
+    "swimlanes/LANE-INVESTIGATION.md": {
+      "sha256": "f20803278ed314b15ad4dce3a9ac3f04f8a4b28ce7f2eb275e74866e59967fdd",
+      "content": "---\nschema_version: 1\nkind: swimlane\nclaim: derived\nid: LANE-INVESTIGATION\nname: investigation delivery\nowner: pilot-investigation\nseam_id: SEAM-INVESTIGATION\nsource_seam_sha256: 98d409c585ad4dc03b7899867365ea0ca508354a74e28f63793d4f5d7b2e8209\nlegs:\n- LEG-INVESTIGATION\n---\n# investigation delivery\n\nThis is the single owning swimlane for `SEAM-INVESTIGATION`. Ownership is `pilot-investigation`.\nSibling capability legs are ordered only by explicit dependencies or recorded\ncontention\u2014not by their position in this file.\n"
+    },
+    "system-map.md": {
+      "sha256": "d0556b73c1407af8ce6c61539fe9b3d51e7f939de96438164f18b9d9b4c43d1b",
+      "content": "---\nschema_version: 1\nkind: system-map\nclaim: proposed\ncomponents:\n- investigation\nexternal_dependencies:\n- TaskSpec CLI and the independently registered evaluator\nunknowns: []\nproposed_steel_thread:\n- LEG-INVESTIGATION\nobjections: []\ncontentions: []\n---\n# System Map\n\n## Components\n\n- investigation\n\n## External dependencies\n\n- TaskSpec CLI and the independently registered evaluator\n\n## Unknowns\n\n- (none)\n\nThis is a **proposed** map. The delivery-plan transformation must\nclose or gate every material unknown; it may not reinterpret this text as\nruntime proof.\n"
+    },
+    "delivery-plan.yaml": {
+      "sha256": "676fd350f35272a3d98ad8643ef3b52b9b29314f5425b1af6421c4b304574180",
+      "content": "schema_version: 1\nstatus: DELIVERY_PLAN=READY\nseam_map_sha256: 8254f68736b48291962a252b7aab06a8e356317e2e0cdf720e3cb57a0913e00e\nswimlanes:\n- id: LANE-INVESTIGATION\n  seam_id: SEAM-INVESTIGATION\n  owner: pilot-investigation\n  path: tasks/.plans/pilot/swimlanes/LANE-INVESTIGATION.md\n  sha256: f20803278ed314b15ad4dce3a9ac3f04f8a4b28ce7f2eb275e74866e59967fdd\nlegs:\n- id: LEG-INVESTIGATION\n  seam_id: SEAM-INVESTIGATION\n  swimlane_id: LANE-INVESTIGATION\n  path: tasks/.plans/pilot/legs/LEG-INVESTIGATION.md\n  sha256: 1c562b1b6c333082f2abda253b709d2aebc59861110c422a6554a7641a0b1c91\nsteel_thread:\n- LEG-INVESTIGATION\nobjections: []\ncontentions: []\nsteel_thread_path: tasks/.plans/pilot/steel-thread.md\nsteel_thread_sha256: 55b25d9330663731026a9710612cd8680d867d2d9784e8688e847d3a107116e0\nreview_authority_sha256: 6b15ac492f85f4fe61a867d1b0192d162cea6309c810f42e934d0b3ab865e92a\n"
+    },
+    "reviews/delivery-plan-review.json": {
+      "sha256": "34ed163193424612ecad015a9a13ee5458b1de5330b77701c2773116668dd8ea",
+      "content": "{\n  \"artifacts_sha256\": {\n    \"decisions/ADR-PILOT-SCOPE.md\": \"41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75\",\n    \"evidence.jsonl\": \"7d3ccf700aa520237b7b304ab52fd73db9ce523ee2db0a246fcba333c4e9ef9e\",\n    \"intent.md\": \"19588b865cd9d5be7bcd008d553522ba4d281d5153e6022e13b919d33bdbe9cc\",\n    \"legs/LEG-INVESTIGATION.md\": \"1c562b1b6c333082f2abda253b709d2aebc59861110c422a6554a7641a0b1c91\",\n    \"proposed-graph.json\": \"a5665d35282c4fa1e59df31e23c0a9f8b64d27837db155370d3a403c9af9885c\",\n    \"seam-map.yaml\": \"8254f68736b48291962a252b7aab06a8e356317e2e0cdf720e3cb57a0913e00e\",\n    \"seams/SEAM-INVESTIGATION.md\": \"98d409c585ad4dc03b7899867365ea0ca508354a74e28f63793d4f5d7b2e8209\",\n    \"source-recipe.yaml\": \"9dab76fe2764bdc4a21e6d61d05196c5e51447a6714a30276edaa28d2160bd27\",\n    \"steel-thread.md\": \"55b25d9330663731026a9710612cd8680d867d2d9784e8688e847d3a107116e0\",\n    \"swimlanes/LANE-INVESTIGATION.md\": \"f20803278ed314b15ad4dce3a9ac3f04f8a4b28ce7f2eb275e74866e59967fdd\",\n    \"system-map.md\": \"d0556b73c1407af8ce6c61539fe9b3d51e7f939de96438164f18b9d9b4c43d1b\"\n  },\n  \"disposition\": \"accepted\",\n  \"draft_sha256\": \"824317bef84dd65da58434388cc9beeb0601467aa7139eb9b82a5fb82451d3b0\",\n  \"fixture\": false,\n  \"plan_sha256\": \"676fd350f35272a3d98ad8643ef3b52b9b29314f5425b1af6421c4b304574180\",\n  \"reason\": \"Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.\",\n  \"recipe_sha256\": \"9dab76fe2764bdc4a21e6d61d05196c5e51447a6714a30276edaa28d2160bd27\",\n  \"reviewed_at\": \"2026-09-14T20:58:29.724237+00:00\",\n  \"reviewer\": \"pilot-controller\",\n  \"schema_version\": 1,\n  \"signature\": \"hmac-taskplan-v1:e1ddd95b:8a0e93d62c2b3ac994f6b931b25c6721eea8f225ce9448bb0f9b2918952faa48\",\n  \"topology_sha256\": \"a5665d35282c4fa1e59df31e23c0a9f8b64d27837db155370d3a403c9af9885c\"\n}\n"
+    }
+  },
+  "units": {
+    "T-20260914-pilot-investigation": {
+      "projection_digest": "3b395d3352592b04a4729c543b43894990565b002ac8f211aa5b246901bed022",
+      "projection": {
+        "unit": {
+          "agent": "any",
+          "anti_patterns": [
+            "Do not weaken the independent evaluator: it would invalidate the comparison; instead fix the behavior within the declared surface.",
+            "Do not expand the scope: it breaks matched permissions; instead report the missing work as a blocker.",
+            "Do not claim success without evidence: a plausible patch does not establish behavior; instead run the independent proof and report failures."
+          ],
+          "behaviors": [
+            {
+              "given": "the registered repository issue and fixed authorized scope",
+              "id": "B-1",
+              "then": "the declared behavior passes without modifying unrelated files or promoting reported evidence",
+              "when": "the bounded implementation is independently evaluated"
+            },
+            {
+              "given": "the recorded evidence and authorization boundary",
+              "id": "B-2",
+              "then": "source evidence is unchanged and no unrelated write is present",
+              "when": "the candidate is checked"
+            }
+          ],
+          "context": "Intent DI-PILOT-INVESTIGATION; seam SEAM-INVESTIGATION; swimlane LANE-INVESTIGATION; capability leg LEG-INVESTIGATION. Done condition: Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.",
+          "creates_paths": [
+            "docs/maintainers/recipe-assurance-investigation.md"
+          ],
+          "depends_on": [],
+          "do_not_touch": [
+            "tests/fixtures/toolkit/pilot-issue.json",
+            "tasks"
+          ],
+          "done_condition": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.",
+          "effort": "S",
+          "evals": [
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py investigation --root .",
+              "description": "Independent behavioral proof for investigation",
+              "expected_duration_sec": 10,
+              "id": "eval_1",
+              "terminal": false,
+              "verifies": [
+                "B-1"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py write-boundary --root .",
+              "description": "Declared write surface only",
+              "expected_duration_sec": 10,
+              "id": "eval_2",
+              "terminal": false,
+              "verifies": [
+                "B-2"
+              ]
+            },
+            {
+              "command": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python /Users/luanmorenomaciel/GitHub/task-spec/tests/evals/toolkit/evaluate_issue.py source-integrity --root .",
+              "description": "Registered issue evidence is unchanged",
+              "expected_duration_sec": 10,
+              "id": "eval_3",
+              "terminal": true,
+              "verifies": [
+                "B-2"
+              ]
+            }
+          ],
+          "execution_backend": "claude",
+          "execution_recipe": "research-synthesize-verify",
+          "goal": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.",
+          "id": "T-20260914-pilot-investigation",
+          "observability": "Retained provider output, evaluation result, and prospective event journal.",
+          "profile": "standard",
+          "proves_capabilities": [
+            "LEG-INVESTIGATION"
+          ],
+          "required_tools": [
+            "git",
+            "bash",
+            "python3"
+          ],
+          "rollback": "Revert only this isolated candidate change.",
+          "source_note": "tasks/.plans/pilot/legs/LEG-INVESTIGATION.md#T-20260914-pilot-investigation",
+          "title": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence",
+          "touches_paths": [],
+          "why": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty."
+        },
+        "intent": {
+          "id": "DI-PILOT-INVESTIGATION",
+          "title": "Execution attestation could be mistaken for evaluator isolation",
+          "summary": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.",
+          "claim": "proposed",
+          "source": {
+            "uri": "tests/fixtures/toolkit/pilot-issue.json",
+            "captured_at": "2026-09-14T20:20:46.550715+00:00",
+            "sha256": "012fe2fe2fb9b07a56783345d04a5caeebf5aba7deea5ad419986828bbc4f39c"
+          },
+          "success": [
+            "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty."
+          ],
+          "out_of_scope": [
+            "Changes outside the registered write surface.",
+            "Production deployment, policy changes, self-authorization, and independent agents."
+          ]
+        },
+        "original_intake": null,
+        "decisions": [
+          {
+            "id": "ADR-PILOT-SCOPE",
+            "status": "accepted",
+            "owner": "pilot-supervisor",
+            "rationale": "The user authorized real repository issues with prospective intervention recording. This fixed corpus defines the evaluated scope before execution; it does not claim a new human review occurred during each run."
+          }
+        ],
+        "seam": {
+          "id": "SEAM-INVESTIGATION",
+          "name": "investigation",
+          "description": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.",
+          "evidence": [
+            "E-PILOT-ISSUE"
+          ],
+          "responsibility": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.",
+          "consumes": [
+            "registered issue"
+          ],
+          "produces": [
+            "investigation verified behavior"
+          ],
+          "owner": "pilot-investigation",
+          "independent_proof": "Run the registered independent investigation evaluator.",
+          "decision_ids": [
+            "ADR-PILOT-SCOPE"
+          ],
+          "rejected_alternatives": [
+            {
+              "alternative": "Merge this responsibility into an unrelated task",
+              "reason": "Its write surface and independently assessable outcome belong to this boundary."
+            }
+          ]
+        },
+        "lane": {
+          "id": "LANE-INVESTIGATION",
+          "name": "investigation delivery",
+          "owner": "pilot-investigation"
+        },
+        "leg": {
+          "id": "LEG-INVESTIGATION",
+          "observable_state": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.",
+          "proof": "The declared evaluator succeeds without widening the write surface.",
+          "requires": [],
+          "produces": [
+            "investigation verified behavior"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E-PILOT-ISSUE",
+            "claim": "current",
+            "source": {
+              "uri": "tests/fixtures/toolkit/pilot-issue.json",
+              "captured_at": "2026-09-14T20:20:46.550715+00:00",
+              "sha256": "012fe2fe2fb9b07a56783345d04a5caeebf5aba7deea5ad419986828bbc4f39c"
+            },
+            "confidence": 1.0,
+            "summary": "A repository issue inspected before comparative execution; source digests and reproduction are retained."
+          }
+        ]
+      }
+    }
+  },
+  "signature": "hmac-taskplan-v1:e1ddd95b:6b6e5d4a3c042b03101b9e2ad831cff5884671323d7120cf0386adb58db8978b"
+}

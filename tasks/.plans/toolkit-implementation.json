@@ -1,0 +1,545 @@
+{
+  "api_version": "taskspec.dev/v1",
+  "kind": "TaskPlan",
+  "metadata": {
+    "name": "native-agentic-toolkit"
+  },
+  "approved": true,
+  "units": [
+    {
+      "id": "T-20260914-toolkit-contracts",
+      "title": "Define native toolkit contracts and preserve existing task formats",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [],
+      "touches_paths": [
+        "OPERATING.md",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "spec/schemas",
+        "spec/conformance"
+      ],
+      "creates_paths": [],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Define native toolkit contracts and preserve existing task formats. Preserve established interfaces and prove the requested behavior with the named regression check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Define native toolkit contracts and preserve existing task formats",
+          "command": "bash spec/conformance/run_conformance.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-decomposition",
+      "title": "Compile reviewed native decomposition and import legacy workspaces",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-contracts"
+      ],
+      "touches_paths": [
+        "bin/taskspec"
+      ],
+      "creates_paths": [
+        "src/decompose",
+        "tests/test-toolkit-decompose.sh",
+        "tests/fixtures/toolkit"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Compile reviewed native decomposition and import legacy workspaces. Preserve established interfaces and prove the requested behavior with the named regression check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Compile reviewed native decomposition and import legacy workspaces",
+          "command": "bash tests/test-toolkit-decompose.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-authoring",
+      "title": "Bind native lineage and resolved execution recipes to atomic tasks",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-decomposition"
+      ],
+      "touches_paths": [
+        "src/author",
+        "src/security",
+        "src/dispatch/handoff.py"
+      ],
+      "creates_paths": [
+        "src/recipe",
+        "tests/test-toolkit-authoring.sh"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Bind native lineage and resolved execution recipes to atomic tasks. Preserve established interfaces and prove the requested behavior with the named regression check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Bind native lineage and resolved execution recipes to atomic tasks",
+          "command": "bash tests/test-toolkit-authoring.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-mesh",
+      "title": "Enforce bounded recipe rounds and persistent graph execution budgets",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-authoring"
+      ],
+      "touches_paths": [
+        "mesh/internal/mesh",
+        "src/meshctl",
+        "src/graph"
+      ],
+      "creates_paths": [
+        "tests/test-toolkit-mesh.sh"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Enforce bounded recipe rounds and persistent graph execution budgets. Preserve established interfaces and prove the requested behavior with the named regression check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Enforce bounded recipe rounds and persistent graph execution budgets",
+          "command": "bash tests/test-toolkit-mesh.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-sdlc",
+      "title": "Validate operational evidence and expose read-only initiative inspection",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-mesh"
+      ],
+      "touches_paths": [
+        "src/interop",
+        "src/evidence",
+        "docs/examples"
+      ],
+      "creates_paths": [
+        "tests/test-toolkit-sdlc.sh"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Validate operational evidence and expose read-only initiative inspection. Preserve established interfaces and prove the requested behavior with the named regression check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Validate operational evidence and expose read-only initiative inspection",
+          "command": "bash tests/test-toolkit-sdlc.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-cli",
+      "title": "Expose coherent discoverable toolkit CLI commands and metadata",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-sdlc"
+      ],
+      "touches_paths": [
+        "bin/taskspec",
+        "src/dispatch",
+        "tests/test-v36-experience.sh"
+      ],
+      "creates_paths": [
+        "src/cli",
+        "tests/test-toolkit-cli.sh"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Expose coherent discoverable toolkit CLI commands and metadata. Preserve established interfaces and prove the requested behavior with the named regression check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Expose coherent discoverable toolkit CLI commands and metadata",
+          "command": "bash tests/test-toolkit-cli.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-experience",
+      "title": "Provide consistent harness chat skills and installed workflow guides",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-cli"
+      ],
+      "touches_paths": [
+        "SKILL.md",
+        "skills",
+        "harness",
+        "README.md"
+      ],
+      "creates_paths": [
+        "tests/test-toolkit-experience.sh"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Provide consistent harness chat skills and installed workflow guides. Preserve established interfaces and prove the requested behavior with the named regression check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Provide consistent harness chat skills and installed workflow guides",
+          "command": "bash tests/test-toolkit-experience.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-packaging",
+      "title": "Install and verify native toolkit components with migration and pilot tooling",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-experience"
+      ],
+      "touches_paths": [
+        "install.sh",
+        "src/setup",
+        "tools",
+        "tests/test-portability-e2e.sh"
+      ],
+      "creates_paths": [
+        "tests/test-toolkit-install.sh",
+        "tests/evals/toolkit"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Install and verify native toolkit components with migration and pilot tooling. Preserve established interfaces and prove the requested behavior with the named regression check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Install and verify native toolkit components with migration and pilot tooling",
+          "command": "bash tests/test-toolkit-install.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-runtime",
+      "title": "Validate signed managed recipe limits and forbid unsafe execution modes",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-packaging"
+      ],
+      "touches_paths": [
+        "src/gate/validate-runtime.py"
+      ],
+      "creates_paths": [
+        "tests/test-toolkit-runtime.sh"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Validate signed managed recipe limits and forbid unsafe execution modes. Preserve current task semantics and verify with the package check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Validate signed managed recipe limits and forbid unsafe execution modes",
+          "command": "bash tests/test-toolkit-runtime.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-guides",
+      "title": "Document native toolkit workflows and current dogfooded backlog",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-runtime"
+      ],
+      "touches_paths": [
+        "docs/guides",
+        "docs/index.md",
+        "tasks/README.md",
+        "docs/reference/cli.md",
+        "tests/test-repo-organization-e2e.sh"
+      ],
+      "creates_paths": [
+        "tests/test-toolkit-guides.sh"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Document native toolkit workflows and current dogfooded backlog. Preserve current task semantics and verify with the package check.",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "Document native toolkit workflows and current dogfooded backlog",
+          "command": "bash tests/test-toolkit-guides.sh",
+          "verifies": [
+            "B-1"
+          ],
+          "terminal": true,
+          "expected_duration_sec": 120
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    },
+    {
+      "id": "T-20260914-toolkit-ci",
+      "title": "Provision the private toolkit runtime in CI",
+      "effort": "L",
+      "profile": "standard",
+      "agent": "codex",
+      "execution_backend": "codex",
+      "depends_on": [
+        "T-20260914-toolkit-packaging"
+      ],
+      "touches_paths": [
+        ".github/workflows/ci.yml"
+      ],
+      "creates_paths": [
+        "tests/test-toolkit-ci.sh"
+      ],
+      "source_note": "User-approved integrated toolkit implementation plan, 2026-09-14",
+      "why": "Deliver the explicitly approved native TaskSpec toolkit while preserving authorization and acceptance.",
+      "goal": "Provision the private toolkit runtime in CI",
+      "context": "Implementation is explicitly authorized by the user. Leave Git history unchanged. Historical release and accepted-task evidence and WATCHDOG.yml are outside scope.",
+      "behaviors": [
+        {
+          "id": "B-1",
+          "given": "the current TaskSpec checkout and approved toolkit design",
+          "when": "the bounded package is implemented",
+          "then": "the package check demonstrates its behavior and compatibility"
+        }
+      ],
+      "evals": [
+        {
+          "id": "eval_1",
+          "description": "CI private runtime and platform configuration",
+          "command": "bash tests/test-toolkit-ci.sh"
+        }
+      ],
+      "do_not_touch": [
+        "WATCHDOG.yml",
+        "release/3.9.0",
+        "tasks/done",
+        ".taskspec/acceptance"
+      ]
+    }
+  ]
+}

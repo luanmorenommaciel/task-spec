@@ -1,0 +1,4 @@
+error: The following untracked working tree files would be overwritten by merge:
+	.taskspec/acceptance/T-20260914-pilot-small-fix/fce59fe6-ab72-4e5a-a235-1dade4b2dfa6.json
+Please move or remove them before you merge.
+Aborting

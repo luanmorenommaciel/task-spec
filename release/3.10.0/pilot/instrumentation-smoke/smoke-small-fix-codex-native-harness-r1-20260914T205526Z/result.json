@@ -1,0 +1,276 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "smoke-small-fix-codex-native-harness-r1-20260914T205526Z",
+  "scenario": "small-fix",
+  "harness": "codex",
+  "workflow": "native-harness",
+  "repeat": 1,
+  "model": "gpt-6-astra",
+  "provider": "openai",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-i9nad7or/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "src/recipe/recipes.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "setup_passed": true,
+  "accepted": true,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 22.784256625,
+    "accepted_capability_seconds": 22.784256625,
+    "censored": false,
+    "intervention_count": 0,
+    "source_events": [
+      "e500bb5930b991c5b6cde62674db4dff68c5a4b7fc97bc348c10c79815c87a3d",
+      "ab095347130650171e81ddce39d1cc322ba320a3daaeb2d71a226c70fd0f195f"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 22.784256625,
+  "accepted_capability_seconds": 22.784256625,
+  "censored": false,
+  "intervention_count": 0,
+  "source_events": [
+    "e500bb5930b991c5b6cde62674db4dff68c5a4b7fc97bc348c10c79815c87a3d",
+    "ab095347130650171e81ddce39d1cc322ba320a3daaeb2d71a226c70fd0f195f"
+  ],
+  "gold_passed": true,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "0.154.0",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "8bb4bf162cba832677d301d7462c8403ffd2c38e165ff106872cc4d19fb157f9",
+  "cost_including_failures": null,
+  "cost_basis": "api_equivalent_estimate",
+  "cost_evidence": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/candidate-patch.stdout",
+      "sha256": "067fe47e9b4aaa61d2f6970fca80aa784a9de46797de11bbd46c2e2536d6d9ca"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-006.stdout",
+      "sha256": "5fd14e5893faf5d538ca059f60525953255384dbf8d7983d12a73b2643b7f417"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-007.stdout",
+      "sha256": "c9e1ba237d0efec3f719a0ab09c73288850174fe6ce63eb65a16ea3e5faaa98a"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-008.stdout",
+      "sha256": "5d37bdc51ddfc161cae04012514490adc4b5bf67480739ffcf01753090849e86"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-009.stdout",
+      "sha256": "ee65a28ab7c81aa80b071ce84940f92ccd2a48cd1c78eff41657d46db4e5f915"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-010.stdout",
+      "sha256": "66e2a24da7d486652464d351b49d0c7f05501f90513a2e61bb9358eb806d4d66"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-011.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-012.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-013.stdout",
+      "sha256": "a1e6af520a57b8bcb269fad1a36810f5e34d37208041b2a835b15c84e7a0fa3f"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-016.stdout",
+      "sha256": "422a80361920c5ef329cff21113451ece5d48dc3906d91a117de063e3350931f"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-017.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-017.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-018.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/command-018.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/cost.json",
+      "sha256": "94d16a1292837656c5a8a5ddaf7385d2098e17d2b35ed211e146a5820e19fdde"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/events.jsonl",
+      "sha256": "d64f5a931cc53476e8182f1a01041670008ea97efc67d88d760c9a21ae2b3274"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/independent-composition-proof.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/independent-composition-proof.stdout",
+      "sha256": "3b4ad043726a08ebbbe8d2f46ae610c921f18816c2bb254d2bbd9fc50c125bb7"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/prepared.json",
+      "sha256": "fb50154ff079711b4d14379a8ac0234b9d918b13065591b3bc4a67acdbddf14b"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/registration.json",
+      "sha256": "bd1111865fdb9f6306f1e526a5f2d3935b5d7073b830f6b92587e1234e9cbbc8"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/small-fix-eval-1.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/small-fix-eval-1.stdout",
+      "sha256": "4fb085ccbc4d13f52d330e140ccd03ce9d879ff954e413e4ef0ee22d12b60a0a"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/small-fix-provider-1.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/small-fix-provider-1.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/workspace-evidence/.taskspec/acceptance/T-20260914-pilot-small-fix/354152a4-7a9e-4d06-9bdd-073a7b76e645.json",
+      "sha256": "592277996d27c7b563b70141250225bc2c760519d4242710a4544bc99d8e6362"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/workspace-evidence/.taskspec/handoffs/small-fix.json",
+      "sha256": "0dd9d0c1faa5de853106e949aac0c1b07125484be01db57784cd43908504f7cd"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/workspace-evidence/tasks/.plans/native.json",
+      "sha256": "7da4f8ae1c18695182dca4ad8fec9782f282e379e84feefca41a5289cbaea016"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "75da679ddfea422a9d565e0c5b85f41808202593b7bdc373253b267fb7cf3f9e"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/workspace-evidence/tasks/T-20260914-pilot-small-fix.md",
+      "sha256": "d58ce349fc9f6e10e741d509c384ecdbe6dda69268c1c8b3bb651c655fb772fd"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260914T205526Z/workspace-evidence/tasks/_metrics.jsonl",
+      "sha256": "73765aa76e8fc6a319095173937cf32414d5421e23f9a1fc2143340bf6ea07b2"
+    }
+  ]
+}

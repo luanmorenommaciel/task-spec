@@ -1,0 +1,1 @@
+Pause after the active case to inspect native skill discovery. Claude respected denial and read CLI state but did not load the installed task-spec skill in the denied case. Retain this limitation rather than treating every run as proof of skill use.

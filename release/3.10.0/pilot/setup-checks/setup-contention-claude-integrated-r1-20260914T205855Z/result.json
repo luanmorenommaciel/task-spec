@@ -1,0 +1,326 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-contention-claude-integrated-r1-20260914T205855Z",
+  "scenario": "contention",
+  "harness": "claude",
+  "workflow": "integrated",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-1qz2810b/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "tests/test-toolkit-resource-contention.sh",
+    "tests/fixtures/toolkit/resource-worker.sh"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "0247efdf07e2e2cd945bce32e36ecd597a4be220",
+  "setup_passed": true,
+  "accepted": false,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 14.349733375,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "cb7a5eff0900d52b53df7e5e176b57b0289b1e3da52e12b10e0b679fe1c29df8",
+      "b0905715d33e616cdb0e52db182486a818365b1a90a1fc554d4b031144811e27"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 14.349733375,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "cb7a5eff0900d52b53df7e5e176b57b0289b1e3da52e12b10e0b679fe1c29df8",
+    "b0905715d33e616cdb0e52db182486a818365b1a90a1fc554d4b031144811e27"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "48a1e15b2eec1bfb36eb4947517952b794b20ff96fedf4a250c7adfea2663e79",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-006.stdout",
+      "sha256": "139bdd178a033b2b6674c80b758d66e3825f65d653a3f2195c3525ed98643db0"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-007.stdout",
+      "sha256": "8fa4739f63aa09018f4a4970e5a14f10de0c101450e351368c6f216f6313fdc6"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-008.stdout",
+      "sha256": "fed30301c1aa89e8853963a93b6449c769797ccdc990758f84a9c4bc47812a0c"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-009.stdout",
+      "sha256": "ef782ead3d31de1c8e2f992e83f6d4991638d956d53f95ba5af8ae3b793845f9"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-010.stdout",
+      "sha256": "20c399b2fc2380529f57287e92b068f2892f61177051df9bc1153ae52be42ab8"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-011.stdout",
+      "sha256": "0cce0e1007b3379e4eaa67a381d2f3450c998f1bcfde215c48a3bc9dc94d909c"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-012.stdout",
+      "sha256": "116742dac29a80236c25b69ab4712088ddab313e7a0ff4ad54647a85ceb60d44"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-013.stdout",
+      "sha256": "39c05d4791504bc0ee7d77b2d90cc1b3c2770cd9dfbec0b816f806a39458c09a"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-014.stdout",
+      "sha256": "5fb38fd814d0d68ab7def37be7a06976dae5d7baccf8105186f9c913fda7abcb"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-015.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/command-016.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/cost.json",
+      "sha256": "19c7dfd4641d8a7e85fb9c2e74642a9f3230a87937224b137e1005dda77117c7"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/events.jsonl",
+      "sha256": "df12f9aa81423ced3ccedba42d3cf5f44360370eb126bdce61e7669479f42a0a"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/prepared.json",
+      "sha256": "78adac235effa96038a4bcf6e666e85c53291eaf02ee3cd9792564f0280c273d"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/registration.json",
+      "sha256": "35d1e6b720ce768f4392c7676167dd003ff55e41cebc2fe916f05b29d116b563"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/bundle.json",
+      "sha256": "ced5bd1e24bad9e3686fdc43d370443f58c10cc0f73a111f826e9edc582900a7"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md",
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/delivery-plan.yaml",
+      "sha256": "99b2f820d4f8a2d4937d749f33351caf228e9318dcddd8c29e87908024f8bbb7"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/evidence.jsonl",
+      "sha256": "1cfdc53d1a4c27a065190fb08f1ba0c1cd12adccd551f43940c997f8de06a74f"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/intent.md",
+      "sha256": "037420e71d0fbf390d386da0a1cf691424d9085c945d81a537deac226de8e65e"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/legs/LEG-CONTENTION-WORKER.md",
+      "sha256": "159b8abb1724d2728094783109757a3fc0676f8e8235341e64e7eafe095623f4"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/legs/LEG-CONTENTION.md",
+      "sha256": "90c24cafb4d3a056b8f4b58e90e749fc8ea2bd73617178027649c18e653e4b0b"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/proposed-graph.json",
+      "sha256": "39196cb52aedfbdb76d56922412b6c1fc7dda32c7c7c2b96a946dc2286673f95"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/reviews/delivery-plan-review.json",
+      "sha256": "810a054546087af257d9bd9182eb2875f1cf46f2251fb6895ebaccf05639dbc5"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/seam-map.yaml",
+      "sha256": "35377d509a09bc04ddb527a6b5ab0aa3a76032233bca8843d325d0d4fc08173d"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/seams/SEAM-CONTENTION-WORKER.md",
+      "sha256": "f91d0d75d663e602b70ec6dc6234b37bc6ba4ac3b46707c752db875355b6b914"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/seams/SEAM-CONTENTION.md",
+      "sha256": "69303c8692aa7ae42840d3ecfe1af06cf689d5f0a2fbec09588fecbcd1a03827"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/snapshots/8070bfc5bbb6c509ccc295dd454751f1e2752a25ce08b37093a5edcfd529fd41.json",
+      "sha256": "547891df2b96007fd32d0ede312c00c10e632cee3daf3fa3a395efe474af9e98"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/source-recipe.yaml",
+      "sha256": "fd89b8c06e66c63681ba1939305279f97277e4a4241953be08cc9ab3a9e2f600"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/steel-thread.md",
+      "sha256": "27094118eb81495ad1e2dbd9c1b2a5a5e74ef2f08776ce49619ff41ac98d3d6d"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/swimlanes/LANE-CONTENTION-WORKER.md",
+      "sha256": "2fd47c7c08927f4b1fb100ae000cfe9df40b27bd97388a160ebbb3847f187571"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/swimlanes/LANE-CONTENTION.md",
+      "sha256": "cd86a440fb224e0c794263150d3cb8eab0f6ba4697be8f1168cb22e671ead5f2"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/system-map.md",
+      "sha256": "b9af0fa9077050aea960368b5345f36c89814769411215e536653b951f9e0def"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/task-plan-lineage.json",
+      "sha256": "3c9d397a1054169dc9969f77854e304da632789e44f9e6cb985a3ece110dd1fe"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/task-plan.json",
+      "sha256": "fc51aa565f95c015611ad29d055a192ac44c01131c6cc765a05d82ffafa707d6"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot/telemetry/events.jsonl",
+      "sha256": "7fb1ce4f83bdb305299156cf270647c8df4d56c6113ea063c3ad44274bab77ef"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "fd89b8c06e66c63681ba1939305279f97277e4a4241953be08cc9ab3a9e2f600"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/T-20260914-pilot-contention-worker.md",
+      "sha256": "385fd918cf84b1578c9af387ce3f09e489b951e8a7089f9b392c6e5db5f01f37"
+    },
+    {
+      "path": "setup-checks/setup-contention-claude-integrated-r1-20260914T205855Z/workspace-evidence/tasks/T-20260914-pilot-contention.md",
+      "sha256": "fa04b201e9499e935d393ffdedc94f19606975c4ddeeff42178d1e7a3e4cbd99"
+    }
+  ]
+}

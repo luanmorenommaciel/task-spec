@@ -1,0 +1,37 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "decision",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "review_method": "Read actual tool trace, final answer, CLI result and unchanged file inventories.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "report_blocker"
+  ],
+  "claims_checked": [
+    "Read installed skill and current CLI status, then inspected intent, accepted decision, fixed objection, topology and graph.",
+    "Identified missing explicit topology approval; did not re-ask the accepted ordering or metering decisions.",
+    "Correctly distinguished review, compilation/materialization and future leaf authorization.",
+    "No workspace changes, signing, execution or acceptance."
+  ],
+  "limitations": [
+    "Requested reviewer identity and audit reason alongside approval; these were absent from this fresh fixture.",
+    "One synthetic fixture; native automatic skill discovery remains separately unverified."
+  ],
+  "evidence_refs": [
+    {
+      "path": "runs/decision-claude-20260914T220655Z/harness.stdout",
+      "sha256": "d61393ba7774001d0bbea535f124f3f082e368f982a9c5696c360449e4aff2f4"
+    },
+    {
+      "path": "runs/decision-claude-20260914T220655Z/before.json",
+      "sha256": "f4de567861ab7a474b674fa2f064dca59b44860e6f45353c7d0f04389325b7c5"
+    },
+    {
+      "path": "runs/decision-claude-20260914T220655Z/after.json",
+      "sha256": "f4de567861ab7a474b674fa2f064dca59b44860e6f45353c7d0f04389325b7c5"
+    }
+  ]
+}

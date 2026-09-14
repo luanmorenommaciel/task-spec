@@ -1,0 +1,38 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "plan",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskPlan/v1",
+    "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-wh4g6vqs/task-spec-3.9.0/seamwise/task-plan.json",
+    "digest": "fae28af77f041b974bfa2f300a42f24fa69d8db9388c3da117996d290287262a",
+    "approved": true,
+    "valid": true,
+    "errors": [],
+    "warnings": [],
+    "units": [
+      {
+        "id": "T-20260914-pilot-contention",
+        "title": "Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation",
+        "effort": "S",
+        "profile": "standard",
+        "execution_backend": "claude",
+        "depends_on": [
+          "T-20260914-pilot-contention-worker"
+        ]
+      },
+      {
+        "id": "T-20260914-pilot-contention-worker",
+        "title": "Provide a local test worker: --version prints resource-worker/1; normal invocation remains alive until cancellation and exits cleanly on TERM",
+        "effort": "S",
+        "profile": "standard",
+        "execution_backend": "claude",
+        "depends_on": []
+      }
+    ]
+  },
+  "stdout": "",
+  "stderr": ""
+}

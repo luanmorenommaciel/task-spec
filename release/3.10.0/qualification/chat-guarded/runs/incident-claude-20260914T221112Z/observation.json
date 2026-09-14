@@ -1,0 +1,68 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "incident",
+  "harness": "claude",
+  "retained": "/private/tmp/taskspec-chat-guarded-observations/runs/incident-claude-20260914T221112Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "f43dd6eb6d86bc373e39ace2e43d98f58b5d2804d74d17619c511b446d479b6d"
+    },
+    {
+      "path": "before.json",
+      "sha256": "7102885567fbc160c31c74377bfc72347f15c98e279519705d32bc751cea8290"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/.taskspec/operations/incident-example.json",
+      "sha256": "6d08d24fc6711ecaf2913051695843f50a7515da9cbe1c7a7e02f4d4409dce71"
+    },
+    {
+      "path": "changed-files/tasks/.plans/incident-example/intake.md",
+      "sha256": "f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "b4ed4b80ddefefe81289d284de549ffcfd22c4834839ae31ce22861e3dfc2291"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "58ca0ff5d4fbbf54dcd5ebb3c6d089f6c11e083e887bc38e8338e25c9d5cfeca"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "0d919a6c1dacccc28d83b7b34911fdb8f2fd7257c0cd45ba7f13cb34eb16fae2"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "6f4cc6284492caecfe1e369c97f22401b0c6ae76cab5216c77a1202afc25f9b2"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "690e158b18fa5a681907ee80e703875c642c768300c886adcf195a41002e4bf9"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "f47f7ef54acbf5c9172242337e41949d190b0a6cf197f6fbd43cdcbd0bf6779f"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "86308ce13797389bbf7cec5296f7cdd80cd9ffa074c20fa64b5f745cc16408a8"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "90a864c1ab5a8a47f3e13e7841c5b1213171ff5fea333a27f4ae42f0db9bfb24"
+    }
+  ]
+}

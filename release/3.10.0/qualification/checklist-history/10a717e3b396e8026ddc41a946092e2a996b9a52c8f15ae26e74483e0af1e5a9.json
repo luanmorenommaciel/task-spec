@@ -1,0 +1,85 @@
+{
+  "contract": "TaskToolkitReleaseChecklist/v1",
+  "version": "3.10.0",
+  "observed_at": "2026-09-14T21:12:23.839900+00:00",
+  "source_head": "76ff7b8880c95fd583f933c69b77c8d75ad041db",
+  "source_state": "uncommitted_candidate",
+  "release_qualified": false,
+  "pending_areas": {
+    "managed_autonomy": {
+      "state": "implemented_focused_tests_pass",
+      "proof": [
+        "qualification/attested-recipes.txt"
+      ],
+      "remaining": [
+        "full make check on settled source",
+        "hosted isolation"
+      ]
+    },
+    "chat_and_comparative_pilot": {
+      "state": "comparative_pilot_running",
+      "corpus_decision": "real repository issues; interventions recorded prospectively",
+      "progress": [
+        "six repository issues identified",
+        "behavioral evaluators drafted",
+        "prospective recorder tested",
+        "Codex and Claude real-issue preflights retained separately from comparative cells"
+      ],
+      "setup_matrix": "pilot/setup-matrix.json",
+      "registered_schedule": "pilot/schedule.json",
+      "registered_runs": 72
+    },
+    "hosted_and_provider_qualification": {
+      "state": "real_issue_preflights_observed_hosted_pending",
+      "preflights": [
+        {
+          "harness": "claude",
+          "result": "pilot/preflight/preflight-claude-20260914T203044Z/result.json",
+          "accepted_in_original_attempt": true,
+          "comparative_qualified": false
+        },
+        {
+          "harness": "codex",
+          "result": "pilot/preflight/preflight-codex-20260914T202747Z/result.json",
+          "accepted_in_original_attempt": false,
+          "comparative_qualified": false,
+          "verification_only_recovery": "pilot/preflight/preflight-codex-20260914T202747Z/verification-recovery-2/result.json",
+          "accepted_after_setup_repair": true
+        }
+      ],
+      "remaining": [
+        "hosted macOS and Linux checks",
+        "full provider comparison and chat corpus"
+      ],
+      "installation_check": {
+        "command": "bash tests/test-toolkit-install.sh",
+        "result": "passed",
+        "includes": "clean install, matching runtime/helper, installed guide links, stale runtime repair, and corruption refusal"
+      }
+    },
+    "acceptance_and_cutover": {
+      "state": "pending"
+    }
+  },
+  "publication": {
+    "main_push": null,
+    "tag": null,
+    "release_url": null,
+    "source_archive": null
+  },
+  "evidence": [
+    {
+      "path": "qualification/attested-recipes.txt",
+      "sha256": "665815852cd0f7e25f8365091ac074ddcaa52e30ca05a2508904a76f86c4e1e7",
+      "claim": "synthetic Docker two-round repair with separate signed execution evidence, revoked credentials, canonical acceptance, and unchanged target branch"
+    }
+  ],
+  "candidate_gate": {
+    "command": "make check",
+    "exit_code": 0,
+    "log": "qualification/candidate-check.txt",
+    "sha256": "d8397154575dfaf602db6120fc023292add8de05954b34049a06e32f45c58d5c",
+    "boundary": "Unreleased working-tree candidate at VERSION 3.9.0. Final gate must run after version and pilot-derived changes settle."
+  },
+  "candidate_version": "3.10.0"
+}

@@ -1,0 +1,10 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "gate",
+  "ok": true,
+  "exit_code": 0,
+  "data": null,
+  "stdout": "safe-to-delegate: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-x2sg4d9r/task-spec-3.9.0/tasks/T-20260914-pilot-contention-worker.md\n────────────────────────────────────────────────────────\n1. Structural validation + shellcheck-evals ...\n   PASS — structurally valid, shellcheck clean\n2. Eval execution (broken-logic guard) ...\n   PASS — evals execute cleanly (2 pass / 2 fail; fails are expected for unbuilt work)\n────────────────────────────────────────────────────────\nVERDICT: DELEGATE — safe to hand off blind.\n   stamped signed_off: true by pilot-controller at 2026-09-14T20:59:28Z\n   sealed signed_off_sig: hmac-sha256-v3 — Tier 1 crypto trust\n   sign-off: Tier 1 — HMAC v3 verified over TaskRevision/v1 (unsupervised dispatch OK)\nTIER=1\n",
+  "stderr": ""
+}

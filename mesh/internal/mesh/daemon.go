@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net"
 	"net/http"
 	"os"
@@ -19,6 +20,7 @@ type Daemon struct {
 	productVersion string
 	cancelMu       sync.Mutex
 	cancels        map[string]context.CancelFunc
+	attempts       sync.WaitGroup
 }
 
 func NewDaemon(repository Repository, productVersion string) (*Daemon, error) {
@@ -70,7 +72,7 @@ func (daemon *Daemon) Handler() http.Handler {
 		if result.OK && (command.Command == "run" || command.Command == "resume") && hasOption(command.Arguments, "--execute") {
 			daemon.launchAttempts(result)
 		}
-		if result.OK && command.Command == "cancel" && len(command.Arguments) > 0 {
+		if command.Command == "cancel" && len(command.Arguments) > 0 {
 			daemon.cancelAttempt(command.Arguments[0])
 		}
 		writeJSON(writer, status, result)
@@ -98,19 +100,76 @@ func (daemon *Daemon) launchAttempts(result CommandResponse) {
 		return
 	}
 	for _, attempt := range attempts {
+		lease := attempt.Lease
 		attemptID := attempt.Lease.AttemptID
 		ctx, cancel := context.WithCancel(context.Background())
 		daemon.cancelMu.Lock()
 		daemon.cancels[attemptID] = cancel
 		daemon.cancelMu.Unlock()
+		daemon.attempts.Add(1)
 		go func() {
+			defer daemon.attempts.Done()
+			defer cancel()
 			defer func() {
 				daemon.cancelMu.Lock()
 				delete(daemon.cancels, attemptID)
 				daemon.cancelMu.Unlock()
 			}()
+			go daemon.renewExecutingLease(ctx, lease, cancel)
 			_ = daemon.store.ExecuteAttempt(ctx, attemptID)
 		}()
+	}
+}
+
+// The daemon renews only attempts it is actively executing. A stopped daemon
+// cannot keep a lease alive, and workers never receive renewal authority.
+func (daemon *Daemon) renewExecutingLease(ctx context.Context, lease Lease, cancel context.CancelFunc) {
+	issued, issuedErr := time.Parse(time.RFC3339Nano, lease.IssuedAt)
+	expires, expiresErr := time.Parse(time.RFC3339Nano, lease.ExpiresAt)
+	if issuedErr != nil || expiresErr != nil || !expires.After(issued) {
+		cancel()
+		return
+	}
+	ttl := int(expires.Sub(issued).Seconds())
+	if ttl < 1 {
+		ttl = 1
+	}
+	interval := time.Duration(ttl) * time.Second / 3
+	if interval > time.Minute {
+		interval = time.Minute
+	}
+	ticker := time.NewTicker(interval)
+	defer ticker.Stop()
+	for {
+		if ctx.Err() != nil {
+			return
+		}
+		result, err := daemon.store.Process(ctx, CommandRequest{RequestID: "renew-" + NewID(), Command: "heartbeat", Arguments: []string{"--attempt-id", lease.AttemptID, "--fencing-token", fmt.Sprint(lease.FencingToken), "--lease-ttl", fmt.Sprint(ttl)}})
+		if err != nil || !result.OK {
+			current, loadErr := daemon.store.loadAttempt(lease.AttemptID)
+			if loadErr == nil && current.FencingToken == lease.FencingToken && contains([]string{"accepted", "integrated"}, current.State) {
+				return
+			}
+			cancel()
+			return
+		}
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+		}
+	}
+}
+
+func (daemon *Daemon) cancelExecutions() {
+	daemon.cancelMu.Lock()
+	cancels := make([]context.CancelFunc, 0, len(daemon.cancels))
+	for _, cancel := range daemon.cancels {
+		cancels = append(cancels, cancel)
+	}
+	daemon.cancelMu.Unlock()
+	for _, cancel := range cancels {
+		cancel()
 	}
 }
 
@@ -125,6 +184,15 @@ func (daemon *Daemon) cancelAttempt(attemptID string) {
 
 func (daemon *Daemon) Serve(ctx context.Context) error {
 	defer daemon.store.Close()
+	defer func() {
+		daemon.cancelExecutions()
+		done := make(chan struct{})
+		go func() { daemon.attempts.Wait(); close(done) }()
+		select {
+		case <-done:
+		case <-time.After(6 * time.Second):
+		}
+	}()
 	if err := daemon.repository.Prepare(); err != nil {
 		return err
 	}
@@ -153,6 +221,7 @@ func (daemon *Daemon) Serve(ctx context.Context) error {
 		case <-ctx.Done():
 		case <-shutdown:
 		}
+		daemon.cancelExecutions()
 		deadline, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 		server.Shutdown(deadline)

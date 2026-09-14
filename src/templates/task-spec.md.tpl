@@ -3,13 +3,17 @@ id: {{ID}}
 title: {{TITLE}}
 status: {{STATUS}}
 format_version: {{FORMAT_VERSION}}
-profile: {{PROFILE}}  # lite | standard | full — scales required zones to effort/blast-radius (see docs/concepts/profiles.md)
-effort: {{EFFORT}}  # LEAF: XS|S|M|L. NODE: XL|XXL (must declare children; never delegated directly).
+# lite | standard | full — scales required zones to effort/blast-radius (see docs/concepts/profiles.md)
+profile: {{PROFILE}}
+# LEAF: XS|S|M|L. NODE: XL|XXL (must declare children; never delegated directly).
+effort: {{EFFORT}}
 budget_iterations: {{BUDGET_ITERATIONS}}
 agent: {{AGENT}}
-parent: (none)  # FEATURE-altitude PRD/SDD this task decomposes from (path or url); the task DISTILLS it, never embeds it
+# FEATURE-altitude PRD/SDD this task decomposes from (path or url); the task DISTILLS it, never embeds it
+parent: (none)
 depends_on: {{DEPENDS_ON}}
-supersedes: (none)  # explicit replanning only; downstream dependencies are never rewritten automatically
+# explicit replanning only; downstream dependencies are never rewritten automatically
+supersedes: (none)
 {{CHILDREN_FIELD}}
 {{TOUCHES_PATHS_FIELD}}
 creates_paths: []
@@ -18,18 +22,25 @@ created: {{CREATED}}
 tags: {{TAGS}}
 owner: (none)
 priority: {{TODO_PRIORITY}}
-severity: {{TODO_SEVERITY}}  # cosmetic | refactor | feature | bugfix | security | financial-critical
+# cosmetic | refactor | feature | bugfix | security | financial-critical
+severity: {{TODO_SEVERITY}}
 due_date: {{TODO_DUE_DATE}}
 precondition: (none)
 blocked_reason: (none)
 security_class: (none)
 source_action_item: (none)
-tracker_ref: (none)  # optional vendor-neutral backlink: <tracker>:<reference>
-execution_backend: any  # OPEN STRING naming the executor. L must use a backend listed in TASKSPEC_LONG_HORIZON_BACKENDS.
-signed_off: false  # flipped true by safe-to-delegate.sh — the autonomy contract; nothing runs unattended without it
-signed_off_by: (none)  # who/what signed off (e.g. luan, safe-to-delegate.sh)
-signed_off_at: (none)  # ISO-8601 timestamp of sign-off
-accepted: false  # flipped true by accept-task.sh AFTER execution — closes the loop (evals re-run from clean checkout + blast-radius + envelope)
+# optional vendor-neutral backlink: <tracker>:<reference>
+tracker_ref: (none)
+# OPEN STRING naming the executor. L must use a backend listed in TASKSPEC_LONG_HORIZON_BACKENDS.
+execution_backend: any
+# flipped true by safe-to-delegate.sh — the autonomy contract; nothing runs unattended without it
+signed_off: false
+# who/what signed off (e.g. luan, safe-to-delegate.sh)
+signed_off_by: (none)
+# ISO-8601 timestamp of sign-off
+signed_off_at: (none)
+# flipped true by accept-task.sh AFTER execution — closes the loop (evals re-run from clean checkout + blast-radius + envelope)
+accepted: false
 accepted_by: (none)
 accepted_at: (none)
 evidence_refs: []

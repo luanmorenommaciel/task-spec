@@ -1,0 +1,9 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-4qc17rt_/task-spec-3.9.0",
+  "specs": [
+    "tasks/T-20260914-pilot-small-fix.md"
+  ],
+  "plan": "seamwise/task-plan.json",
+  "leaves": 1,
+  "setup_passed": true
+}

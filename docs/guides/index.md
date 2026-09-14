@@ -1,5 +1,7 @@
 # Guides
 
+- [Integrated toolkit: intent through acceptance and maintenance](toolkit/index.md)
+
 - [From fuzzy intent](../runbooks/from-fuzzy-intent.md)
 - [Repository scan before authoring](repository-scan.md)
 - [Decomposing intent](../runbooks/decomposing-intent.md)

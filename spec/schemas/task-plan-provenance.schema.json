@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taskspec.dev/schemas/task-plan-provenance.schema.json",
+  "title": "TaskPlanProvenance/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "initiative",
+    "snapshot",
+    "snapshot_digest",
+    "projection_digest"
+  ],
+  "properties": {
+    "contract": {
+      "const": "TaskPlanProvenance/v1"
+    },
+    "initiative": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,79}$"
+    },
+    "snapshot": {
+      "type": "string",
+      "pattern": "^tasks/\\.plans/[a-z0-9-]+/snapshots/[a-f0-9]{64}\\.json$"
+    },
+    "snapshot_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "projection_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

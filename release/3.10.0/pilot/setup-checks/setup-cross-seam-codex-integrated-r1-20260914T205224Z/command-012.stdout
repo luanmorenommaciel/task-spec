@@ -1,0 +1,38 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "batch",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMaterializationReceipt/v1",
+    "engine_version": "3.10.0",
+    "input": {
+      "contract": "TaskPlan/v1",
+      "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-sn0xb4dy/task-spec-3.9.0/tasks/.plans/pilot/task-plan.json",
+      "digest": "9e4190a70938e8baa571b72f85ba68d43df3c48099fdccef22a7c59422c90bbe",
+      "approved": true
+    },
+    "output_dir": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-sn0xb4dy/task-spec-3.9.0/tasks",
+    "dry_run": false,
+    "materialized": true,
+    "changed": true,
+    "state": "created",
+    "dispatch_authorized": false,
+    "tasks": [
+      {
+        "task_id": "T-20260914-pilot-overview-route",
+        "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-sn0xb4dy/task-spec-3.9.0/tasks/T-20260914-pilot-overview-route.md",
+        "sha256": "dbed47326b5b5953f402a1675526d027ff536751c94b64929566f7f0290743b9"
+      },
+      {
+        "task_id": "T-20260914-pilot-overview-skill",
+        "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-sn0xb4dy/task-spec-3.9.0/tasks/T-20260914-pilot-overview-skill.md",
+        "sha256": "a81a3bb4f99398bca4ce86cb744ac5504afa054aa28cd85e122dae10db35b8a1"
+      }
+    ],
+    "warnings": []
+  },
+  "stdout": "",
+  "stderr": ""
+}

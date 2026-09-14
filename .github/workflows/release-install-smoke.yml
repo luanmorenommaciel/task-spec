@@ -40,8 +40,14 @@ jobs:
             *) echo "release ref $RELEASE_REF does not carry Task-Spec $version" >&2; exit 1 ;;
           esac
           echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
-          epoch="$(git show -s --format=%ct HEAD)"
+          # Source payloads remain reproducible across evidence-only commits.
+          # Observation and publication timestamps live in the signed reports.
+          epoch=0
           SOURCE_DATE_EPOCH="$epoch" python3 tools/build-release-archive.py --out-dir dist
+          retained="release/$version/artifacts/task-spec-$version.tar.gz"
+          if [[ -f "$retained" ]]; then
+            cmp "$retained" "dist/task-spec-$version.tar.gz"
+          fi
           python3 tools/build-mesh-release.py --out-dir dist
           python3 tools/build-sbom.py \
             --archive "dist/task-spec-$(cat VERSION).tar.gz" \

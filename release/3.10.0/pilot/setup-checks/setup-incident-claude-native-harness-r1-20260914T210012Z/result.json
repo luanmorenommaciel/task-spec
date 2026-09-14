@@ -1,0 +1,209 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-incident-claude-native-harness-r1-20260914T210012Z",
+  "scenario": "incident",
+  "harness": "claude",
+  "workflow": "native-harness",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-uyvye908/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "b9992a0593defe1e858ac62b3576e8aefe85a0e0b4dce3d5002292edbbacbbf1",
+  "write_scope": [
+    "src/evidence/operational.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "fa3633f1cf41a80bab9b1a8845a4ae3e5c3dd29a",
+  "setup_passed": true,
+  "accepted": false,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 12.084975,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "90d663268684aafdea8877ec214bdbf9a80f31029a9f6122085f336069f96066",
+      "dfea87e2d3778db48616d79b8eb0b8ece64467474e0b9322ec76c40438380f41"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 12.084975,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "90d663268684aafdea8877ec214bdbf9a80f31029a9f6122085f336069f96066",
+    "dfea87e2d3778db48616d79b8eb0b8ece64467474e0b9322ec76c40438380f41"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "3284e0aae552d490d6011b28f6b94aae537976f4f78eaa3ea668428e6c9ad986",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/events.jsonl",
+  "evidence_refs": [
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-006.stdout",
+      "sha256": "56f543b84d7b2dad586c1ff022decffb0b9e4da43ffcd59b17ad012863ac6a54"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-007.stdout",
+      "sha256": "cae47342ad589cf174f3ab6cb61e97ac7e704cd7ed3154c379a71d40c3cb8eb4"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-008.stdout",
+      "sha256": "bbf62f0b5ccd31eaecf74f7c7dac39c295fa403b97590bddcb4f347ba2548a66"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-009.stdout",
+      "sha256": "edb6eaef301a6928f791dc44176cf219a4d7ac17f33b2d80e97ea27aaba9bc40"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-010.stdout",
+      "sha256": "da2b24ef3ed1dede4408a55844540a74f755c90a0452353fc069c269a5563470"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-011.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/command-012.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/cost.json",
+      "sha256": "19c7dfd4641d8a7e85fb9c2e74642a9f3230a87937224b137e1005dda77117c7"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/events.jsonl",
+      "sha256": "b115b7244d6d12dd8dc87194e9db7a4af0717290962859002920f4642fba7b6f"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/prepared.json",
+      "sha256": "32fa50537debb6b534ca2363f0384fd3a557ddf6003459610f5cdf394c06b2cc"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/registration.json",
+      "sha256": "8078a95c032b3a79e3acb3be756690081527f1cc8dbd86c39cf65a486002ccce"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/workspace-evidence/tasks/.plans/native.json",
+      "sha256": "042d9219b03c857e7be77eb2f211fcf048a71ada014521a6ecc0a16ba2f9409a"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "d5f456e709e136e8e5bdbb803dc1798e9a42bec0fa8600546ac2c72885ed69a7"
+    },
+    {
+      "path": "setup-checks/setup-incident-claude-native-harness-r1-20260914T210012Z/workspace-evidence/tasks/T-20260914-pilot-incident.md",
+      "sha256": "7163dac21b4775ad7de10338a1d79c228f8c5aada136e1d83c23fa1faf2a62e3"
+    }
+  ]
+}

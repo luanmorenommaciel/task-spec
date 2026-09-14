@@ -10,7 +10,7 @@
 <p><strong>Agents can write code. TASK-SPEC makes them earn <code>done</code>.</strong></p>
 <p>One open contract for bounded scope, executable proof, sealed authority,<br/>portable handoff, and independent acceptance.</p>
 
-[![version](https://img.shields.io/badge/version-3.9.0-68c7ff)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-3.10.0-68c7ff)](CHANGELOG.md)
 [![format](https://img.shields.io/badge/format-v3%20stable%20%7C%20v4%20opt--in-ffb454)](spec/task-spec-v4.md)
 [![bash](https://img.shields.io/badge/bash-3.2%2B-4EAA25?logo=gnubash&logoColor=white)](#requirements)
 [![release gate](https://img.shields.io/badge/local%20gate-CHECK%3DREADY-3ddc97)](#trust-boundaries)
@@ -19,7 +19,7 @@
 Works with **Codex · Claude Code · Kimi · Grok Build · Cursor · any conformant executor**
 
 [Prove it](#prove-it-in-one-command) · [Chat](#chat-experience) · [Install](#installation) · [Use it](#step-by-step-usage) ·
-[TaskMesh](#what-shipped-in-39) · [How it works](#how-it-works) · [Trust](#trust-boundaries) · [Docs](#documentation)
+[Toolkit](#integrated-toolkit) · [TaskMesh](#taskmesh-execution) · [How it works](#how-it-works) · [Trust](#trust-boundaries) · [Docs](#documentation)
 
 </div>
 
@@ -40,10 +40,14 @@ verify afterward.
 | Every harness receives a different interpretation | Every harness receives the same attempt, revision, base commit, closure, scope, and budget |
 | "Tests pass" is the final claim | Acceptance reruns proof, checks Git history and the worktree, binds receipts, and writes an auditable record |
 
-The core stops at that boundary. It does not host models, store credentials,
-create a sandbox, or turn a weak eval into a wise oracle. Version 3.9 adds
-**TaskMesh** as an optional runtime: it can route and execute already-authorized
-leaves, but it cannot change the contract or accept work on its own terms.
+TaskSpec owns decomposition, atomic contracts, authorization, and acceptance.
+TaskMesh owns managed execution, attempts, and graph coordination. Your coding
+harness performs the work. The integrated toolkit brings these capabilities into
+one install, with artifacts that a fresh chat can inspect and continue.
+
+Native toolkit features are currently opt-in while release qualification is in
+progress. The [release process](docs/maintainers/release-process.md) distinguishes
+local validation, provider qualification, acceptance, and publication.
 
 ## Prove it in one command
 
@@ -147,9 +151,9 @@ hand-edit accepted: true.
 
 ## Installation
 
-This repository and its releases are **private**. Authenticate to GitHub before
-cloning or downloading assets. Anonymous raw-file URLs are not installation
-doors.
+This repository is public. Start from a source checkout, or use a tagged archive
+and verify its checksum. Install the CLI and the skill together so chat and
+terminal commands use the same version.
 
 Pick one door. All of them install the same engine and the same skill.
 
@@ -160,7 +164,7 @@ Pick one door. All of them install the same engine and the same skill.
 | npm | You want the package launcher | `npm install -g …#v3.9.0` then `taskspec-install` |
 | Claude plugin | You only need the Claude skill entry | `/plugin install task-spec@taskspec` (still install the CLI) |
 
-### 1. Authenticated source checkout
+### 1. Source checkout
 
 ```bash
 git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \
@@ -175,10 +179,10 @@ taskspec demo
 Executed proof for `doctor` and `demo`: `tests/test-v36-experience.sh` and
 `tests/test-demo.sh`.
 
-Optional TaskMesh, when this checkout has Go available:
+Complete toolkit, with Python 3.11+ and Go available:
 
 ```bash
-bash "$HOME/.local/share/task-spec-src/install.sh" --global --copy --with-mesh
+bash "$HOME/.local/share/task-spec-src/install.sh" --global --copy --toolkit
 taskspec mesh doctor
 ```
 
@@ -190,7 +194,7 @@ Repository-local skill copies use `--target DIR --copy` (see installation docs).
 The installer prints `INSTALL=OK` only after the engine version, every harness
 skill copy, and the CLI launcher all agree.
 
-### 2. Pinned private release archive
+### 2. Pinned release archive
 
 ```bash
 gh auth status
@@ -379,7 +383,91 @@ flowchart LR
 
 TaskMesh sits between the ready handoff and the executor only when installed.
 
-## What shipped in 3.9
+## Integrated toolkit
+
+### Decomposition: intent to atomic contracts
+
+A **seam** defines a system responsibility. Its owning **swimlane** organizes
+delivery; each **capability leg** names an observable state. Atomic leaves carry
+independently assessable done-conditions, bounded writes, dependencies, and proof.
+Models propose the structure. Deterministic validation and human review establish
+the accepted plan.
+
+```mermaid
+flowchart LR
+  I[Intent and source evidence] --> S[Seams and swimlanes]
+  S --> L[Observable capability legs]
+  L --> R[Reviewed topology]
+  R --> P[TaskPlan and lineage]
+  P --> A[Atomic contracts]
+  A --> H[HMAC authorization]
+```
+
+```bash
+taskspec example intent --out intent.md
+taskspec decompose init search --intent-file intent.md
+taskspec decompose status search
+```
+
+Author a repository-grounded recipe, then prepare, review, and compile it using
+[the decomposition guide](docs/guides/toolkit/decomposition.md). Compilation
+preserves reviewed source references and relevant constraints in each leaf;
+materialization does not authorize execution. Existing Seamwise workspaces use
+an explicit importer and a fresh native review.
+Executed proof: `tests/test-toolkit-decompose.sh` and
+`tests/test-toolkit-authoring.sh`.
+
+### Recipes: bounded work inside one task
+
+A recipe resolves a versioned strategy into the contract before authorization.
+Its sequential steps can plan, diagnose, implement, evaluate, and repair within
+one outcome and one write boundary. Work needing independent ownership or
+acceptance becomes another leaf.
+
+```mermaid
+flowchart LR
+  A[Authorized recipe] --> X[Execute one round]
+  X --> E[Evaluate declared proof]
+  E -->|Pass| V[Canonical acceptance]
+  E -->|Repairable failure| B{Budget and progress}
+  B -->|Remaining| X
+  B -->|Exhausted or stalled| P[Park with evidence]
+  X -->|Authority or scope failure| P
+```
+
+```bash
+taskspec recipe list
+taskspec recipe show diagnose-repair-verify
+taskspec guide recipes
+```
+
+Strategies include direct, plan-execute-verify, diagnose-repair-verify, test-first,
+and research-synthesize-verify. Defaults are three execution rounds and a
+two-round no-progress breaker, capped by the task's signed budget. Resume retains
+consumed rounds and the total deadline. Ordinary tasks can still use direct
+handoffs. Executed proof: `tests/test-toolkit-mesh.sh` and
+`tests/test-toolkit-runtime.sh`.
+
+### Lifecycle: evidence from planning through maintenance
+
+SDLC concerns attach to the affected work. An API swimlane may contain design,
+build, test, rollout, and maintenance work without becoming separate mandatory
+organizational lanes.
+
+| Area | TaskSpec records | Completion boundary |
+|---|---|---|
+| Plan and design | Intent, evidence, constraints, alternatives, reviewed topology | Reviewed artifacts and validated plans |
+| Build and test | Signed task, recipe, attempt, eval results, acceptance | Canonical task acceptance and explicit integration proof |
+| Deploy | Revision, artifact, environment, pipeline, observed result | Release decision and imported external evidence |
+| Maintain | Incident or observation, impact, disposition, successor intent | Reviewed corrective work and subsequent acceptance |
+
+Capability completion requires integration proof; all children being done is
+insufficient. Imported pipeline success remains a reported operational claim.
+It does not establish service health. Follow the
+[release and maintenance guide](docs/guides/toolkit/sdlc.md).
+Executed proof: `tests/test-toolkit-sdlc.sh`.
+
+## TaskMesh execution
 
 TaskMesh is the optional portable execution control plane for authorized atomic
 tasks. It cannot widen task authority, rewrite dependencies, or merge the
@@ -446,6 +534,7 @@ MESH_INSTALL as READY. Missing runtime is UNAVAILABLE, never a pass.
 
 | Start here | Best for |
 |---|---|
+| [Integrated toolkit](docs/guides/toolkit/index.md) | native decomposition, recipes, execution, release evidence, and migration |
 | [Getting Started](docs/getting-started/index.md) | installation, signing, and the first accepted task |
 | [Installation](docs/getting-started/installation.md) | every install door and harness dest |
 | [First task](docs/getting-started/first-task.md) | one authored, gated, accepted leaf |
@@ -482,9 +571,19 @@ make check
 ```
 
 Format changes are triple-locked: schema, conformance fixture, and changelog.
-Hosted CI runs `make check` on `ubuntu-latest` only; run the bash-3.2 floor
-locally. Do not rewrite frozen artifacts. Extracted from Converge at v3.3.0
+The configured CI matrix runs `make check` on Ubuntu and macOS; retain the
+actual run results before claiming hosted qualification. Do not rewrite frozen artifacts. Extracted from Converge at v3.3.0
 (`converge@f78f077`).
+
+## README design references
+
+This entry point applies patterns reviewed through Exa and GitHub MCP: direct
+navigation from [GitHub CLI](https://github.com/cli/cli/blob/trunk/README.md),
+a fast first result from [uv](https://github.com/astral-sh/uv/blob/main/README.md),
+and visible use cases and limits from
+[ripgrep](https://github.com/BurntSushi/ripgrep/blob/master/README.md).
+The [grounding record](docs/maintainers/readme-grounding.json) retains source
+identities and the exact design choices; these are curated examples, not a ranking.
 
 ## Maintainers
 
@@ -495,3 +594,21 @@ not in a public issue. Use GitHub private vulnerability reporting, or email
 ## License
 
 [MIT](LICENSE) Copyright (c) 2026 Luan Moreno Medeiros Maciel.
+
+## Retained release evidence
+
+The following describes the retained earlier release, not this unreleased toolkit.
+
+<!-- release-status:start -->
+| Surface | Repository evidence | Status |
+|---|---|---|
+| Evidence-derived score | Only digest-matching retained artifacts earn points | **97/100**; target 97; release gate passed |
+| Contract and trust | Revision-bound authorization, compatibility, and the explicit HMAC boundary | 24/25 |
+| Lifecycle and recovery | Nested workspaces, graph recovery, atomic acceptance, and replay resistance | 25/25 |
+| Documentation and DX | Installed reviewer route, executable docs, and generated status | 20/20 |
+| Harness and packaging | All installation doors plus frozen Codex and Claude execution | 10/10 |
+| Standards interoperability | Pinned official A2A and MCP SDK conformance | 9/10 |
+| Private distribution and external proof | Hosted CI, private signed provenance, authenticated installs, and externally signed sandbox evidence | 9/10 |
+| Publication | Task-Spec 3.8.1 at `351c39908ca0` | Published |
+| Deliberately unclaimed | Semantic truth, ecosystem-wide certification, and long-running production reliability | 3 points remain unavailable by design |
+<!-- release-status:end -->
