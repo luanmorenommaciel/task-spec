@@ -57,5 +57,15 @@ with tempfile.TemporaryDirectory(prefix='pilot journal ') as temp:
   assert dispatch.call_count==2, 'a later block ran after the reported denial'
  assert (cohort/'PAUSE').exists()
  assert not (cohort/'results.json').exists()
+ # Stop an existing invocation on a native tool denial even if it ignores TERM
+ # and never emits the final provider result. Do not classify eval failures so.
+ event=json.dumps({'type':'user','message':{'content':[{'type':'tool_result','is_error':True,'content':'--restricted confines the file tools to the working directory'}]}})
+ marker=root/'fallback'
+ script='import signal,time; from pathlib import Path; signal.signal(signal.SIGTERM,signal.SIG_IGN); print('+repr(event)+',flush=True); time.sleep(2); Path('+repr(str(marker))+').write_text("fallback")'
+ stopped=run_command(root/'guard-events.jsonl','guard','denial',[sys.executable,'-c',script],root,root/'guard-output',5,stop_on_denial=True)
+ assert stopped['data']['reported_permission_denial'] and stopped['data']['exit_code']!=0
+ assert not marker.exists(), 'fallback executed after native permission denial'
+ ordinary=run_command(root/'guard-events.jsonl','guard','eval',[sys.executable,'-c','print("AssertionError: expected behavior"); raise SystemExit(1)'],root,root/'guard-output',5,stop_on_denial=True)
+ assert ordinary['data']['exit_code']==1 and not ordinary['data']['reported_permission_denial']
 print('TOOLKIT_PILOT_RECORDING=PASS prospective intervals, censored failures, retained outputs, tamper detection, cohort pause')
 PY

@@ -43,3 +43,25 @@ outputs also require retained review of their actual claims.
 The `pilot.py validate` CLI checks retained file hashes, prospective timing, and
 cost-evidence declarations in addition to the metric comparison. Calling its
 pure arithmetic function in a unit test does not qualify a release.
+
+## Permission-boundary qualification
+
+Every comparison arm receives identical public evaluator files under
+`tests/fixtures/toolkit/public-evaluator/` before the source snapshot is committed.
+Signed eval commands check the script and input digests; the controller checks
+those digests again before acceptance and uses its external evaluator for the
+independent assessment. A failed managed attempt is assessed in its candidate
+workspace, without granting acceptance.
+
+The native comparison recorder observes each output stream during the existing
+invocation and terminates the process group on recognized denial events. The
+supervised TaskMesh recipe runner applies the same rule while consuming native
+JSONL. Both observers bound each event at 2 MiB. This cannot prevent an already
+in-flight action or detect a denial the harness does not report. Truncated native
+output still retains the TaskMesh denial code. Missing final usage after a stop
+remains unknown; it must not become a zero-cost observation.
+
+After a denial, preserve the cohort and pause before another block. Correct the
+fixture or implementation, obtain authorization for the changed boundary, and
+register a fresh cohort. Never replace failed cells or combine changed controller
+versions into a matched comparison.

@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -137,7 +138,9 @@ func (store *Store) recordRecipeFailure(lease Lease, fingerprint string) (int, e
 	return count, tx.Commit()
 }
 
-func managedCommand(ctx context.Context, workspace, executable string, args []string, prompt string, env []string) (string, error) {
+func managedCommand(ctx context.Context, workspace, executable string, args []string, prompt string, env []string, stopOnDenial ...bool) (string, error) {
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
 	cmd := exec.CommandContext(ctx, executable, args...)
 	cmd.Dir = workspace
 	cmd.Env = env
@@ -147,15 +150,29 @@ func managedCommand(ctx context.Context, workspace, executable string, args []st
 	out := &boundedBuffer{remaining: 1024 * 1024}
 	cmd.Stdout = out
 	cmd.Stderr = out
+	var monitor *denialOutput
+	if len(stopOnDenial) > 0 && stopOnDenial[0] {
+		monitor = &denialOutput{output: out, cancel: cancel}
+		cmd.Stdout, cmd.Stderr = monitor, monitor
+	}
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 	cmd.Cancel = func() error {
 		if cmd.Process == nil {
 			return nil
 		}
+		if monitor != nil && monitor.Denied() {
+			return syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL)
+		}
 		return syscall.Kill(-cmd.Process.Pid, syscall.SIGTERM)
 	}
 	cmd.WaitDelay = 5 * time.Second
 	err := cmd.Run()
+	if monitor != nil {
+		monitor.Finish()
+	}
+	if monitor != nil && monitor.Denied() {
+		return out.String(), errExecutorPermissionDenied
+	}
 	return out.String(), err
 }
 
@@ -164,7 +181,14 @@ func reportedExecutionDenial(output string) bool {
 		var event struct {
 			Type    string            `json:"type"`
 			Denials []json.RawMessage `json:"permission_denials"`
-			Item    struct {
+			Message struct {
+				Content []struct {
+					Type    string          `json:"type"`
+					IsError bool            `json:"is_error"`
+					Content json.RawMessage `json:"content"`
+				} `json:"content"`
+			} `json:"message"`
+			Item struct {
 				Type     string `json:"type"`
 				ExitCode *int   `json:"exit_code"`
 				Output   string `json:"aggregated_output"`
@@ -175,6 +199,19 @@ func reportedExecutionDenial(output string) bool {
 		}
 		if event.Type == "result" && len(event.Denials) > 0 {
 			return true
+		}
+		if event.Type == "user" {
+			for _, item := range event.Message.Content {
+				if item.Type != "tool_result" || !item.IsError {
+					continue
+				}
+				content := strings.ToLower(string(item.Content))
+				for _, term := range []string{"permission denied", "permission was denied", "--restricted confines", "requires explicit approval"} {
+					if strings.Contains(content, term) {
+						return true
+					}
+				}
+			}
 		}
 		if event.Type == "item.completed" && event.Item.Type == "command_execution" && event.Item.ExitCode != nil && *event.Item.ExitCode != 0 {
 			output := strings.ToLower(event.Item.Output)
@@ -380,7 +417,7 @@ func (store *Store) executeRecipe(parent context.Context, lease Lease, definitio
 			if definition.PromptMode == "stdin" {
 				input = roundPrompt
 			}
-			output, runErr = managedCommand(ctx, lease.Workspace, executable, args, input, env)
+			output, runErr = managedCommand(ctx, lease.Workspace, executable, args, input, env, true)
 		}
 		artifact, artifactDigest, artifactErr := store.writeExecutionArtifact(lease, definition, probe, started, NowUTC(), redact(output, secrets), len(output) >= 1024*1024, runErr)
 		if artifactErr != nil {
@@ -391,13 +428,13 @@ func (store *Store) executeRecipe(parent context.Context, lease Lease, definitio
 			cancel()
 			return park(err)
 		}
+		if errors.Is(runErr, errExecutorPermissionDenied) || reportedExecutionDenial(output) {
+			cancel()
+			return park(errExecutorPermissionDenied)
+		}
 		if runErr != nil {
 			cancel()
 			return park(fmt.Errorf("EXECUTION_FAILED: %w", runErr))
-		}
-		if reportedExecutionDenial(output) {
-			cancel()
-			return park(fmt.Errorf("EXECUTOR_PERMISSION_DENIED: the harness reported a blocked tool call; inspect the retained artifact before retrying"))
 		}
 		if err = verifyHandoff(); err != nil {
 			cancel()

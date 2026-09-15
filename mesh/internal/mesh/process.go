@@ -455,6 +455,10 @@ func (store *Store) writeExecutionArtifact(lease Lease, definition AdapterDefini
 		"adapter_version": probe.AdapterVersion, "started_at": started, "finished_at": finished,
 		"terminal_outcome": outcome, "output": output, "truncated": truncated,
 	}
+	if runErr == errExecutorPermissionDenied {
+		// Retain the observed stop reason even when native output was truncated.
+		artifact["error_code"] = "EXECUTOR_PERMISSION_DENIED"
+	}
 	raw, err := json.MarshalIndent(artifact, "", "  ")
 	if err != nil {
 		return "", "", err

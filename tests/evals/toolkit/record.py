@@ -11,6 +11,9 @@ from pathlib import Path
 import signal
 import subprocess
 import time
+import threading
+
+from providers import permission_denials
 
 
 def canonical(value):
@@ -86,16 +89,48 @@ def measurement(events, run_id):
             'source_events':[starts[0]['sha256'],ends[0]['sha256']]}
 
 
-def run_command(journal, run_id, phase, command, cwd, output_dir, timeout, prompt=None):
+def run_command(journal, run_id, phase, command, cwd, output_dir, timeout, prompt=None, stop_on_denial=False):
     """Execute one observed command. Workflow scheduling remains in TaskMesh."""
     output_dir=Path(output_dir);output_dir.mkdir(parents=True,exist_ok=True)
     stdout=output_dir/(phase+'.stdout');stderr=output_dir/(phase+'.stderr')
     if stdout.exists() or stderr.exists(): raise ValueError('command output already exists; assign a new phase identity')
     append_event(journal,run_id,'command_started',{'phase':phase,'command':command,'cwd':str(cwd),'timeout_seconds':timeout})
     started=time.monotonic_ns(); timed_out=False
+    stop_observer=threading.Event(); observed_denial=threading.Event()
     with stdout.open('xb') as out, stderr.open('xb') as err:
         process=subprocess.Popen(command,cwd=cwd,stdin=subprocess.PIPE if prompt is not None else subprocess.DEVNULL,
                                  stdout=out,stderr=err,start_new_session=True)
+        def observe():
+            # This observes the existing invocation; it never schedules work.
+            # Read each stream independently and bound a partial JSONL event.
+            with stdout.open('rb') as output, stderr.open('rb') as errors:
+                pending = [b'', b'']; discarding = [False, False]
+                while True:
+                    final = stop_observer.is_set()
+                    for index, stream in enumerate((output, errors)):
+                        while chunk := stream.read(65536):
+                            pieces = chunk.split(b'\n')
+                            for part_index, part in enumerate(pieces):
+                                if len(pending[index]) + len(part) > 2 * 1024 * 1024:
+                                    pending[index] = b''; discarding[index] = True
+                                if not discarding[index]: pending[index] += part
+                                if part_index < len(pieces) - 1:
+                                    if not discarding[index] and permission_denials(pending[index].decode('utf-8', errors='replace')):
+                                        observed_denial.set()
+                                        try: os.killpg(process.pid, signal.SIGKILL)
+                                        except ProcessLookupError: pass
+                                        return
+                                    pending[index] = b''; discarding[index] = False
+                        if final and not discarding[index] and permission_denials(pending[index].decode('utf-8', errors='replace')):
+                            observed_denial.set()
+                    if observed_denial.is_set():
+                        try: os.killpg(process.pid, signal.SIGKILL)
+                        except ProcessLookupError: pass
+                        return
+                    if final: return
+                    stop_observer.wait(0.01)
+        observer = threading.Thread(target=observe, daemon=True) if stop_on_denial else None
+        if observer: observer.start()
         try:
             process.communicate(prompt.encode() if prompt is not None else None,timeout=timeout)
         except subprocess.TimeoutExpired:
@@ -109,10 +144,13 @@ def run_command(journal, run_id, phase, command, cwd, output_dir, timeout, promp
             process.wait(timeout=10)
             append_event(journal,run_id,'command_interrupted',{'phase':phase,'exit_code':process.returncode})
             raise
+        finally:
+            stop_observer.set()
+            if observer: observer.join()
     duration=(time.monotonic_ns()-started)/1e9
     evidence=[{'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in (stdout,stderr)]
     row=append_event(journal,run_id,'command_finished',{'phase':phase,'exit_code':process.returncode,
-                     'timed_out':timed_out,'duration_seconds':duration,'evidence':evidence})
+                     'timed_out':timed_out,'reported_permission_denial':observed_denial.is_set(),'duration_seconds':duration,'evidence':evidence})
     return row
 
 

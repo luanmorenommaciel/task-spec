@@ -25,8 +25,11 @@ New source worktrees live under `.taskspec/mesh/workspaces/<run>/`, outside Git'
 metadata directory. Existing recorded workspace paths remain valid. The daemon
 renews the fenced lease while it owns an active executor; renewal does not extend
 the signed deadline or refund rounds. If renewal loses authority, execution stops.
-Recognized harness permission-denial results park immediately instead of entering
-another repair round. Resolve the reported permission boundary before resuming;
+For supervised managed recipes, recognized native JSONL permission denials stop
+the active invocation and park the attempt. The observer handles complete events
+up to 2 MiB; adapters that do not report a recognized event cannot provide this
+early stop. Attested managed recipes check recognized results after invocation.
+A reported denial never enters another repair round. Resolve the reported permission boundary before resuming;
 an eval failure and a denied tool action need different recovery decisions.
 
 Use `mesh accept <attempt> --supervised-by <identity> --reason <text>` only with

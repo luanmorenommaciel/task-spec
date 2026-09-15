@@ -25,6 +25,7 @@ import yaml
 from corpus import recipe,leaves,direct_plan
 from providers import argv as provider_argv, usage, permission_denials
 from record import append_event,measurement,read_events,run_command
+from public_evaluator import install as install_evaluator, verify as verify_evaluator
 
 ROOT=Path(__file__).resolve().parents[3]
 PILOT=ROOT/'release/3.10.0/pilot'
@@ -48,15 +49,18 @@ def setup(args):
     document=json.loads((PILOT/'issues.json').read_text())
     issue=copy.deepcopy(next(i for i in document['issues'] if i['id']==args.scenario));issue['registered_at']=document['registered_at']
     write(work/'tests/fixtures/toolkit/pilot-issue.json',issue)
+    evaluator_manifest=install_evaluator(tooling,work)
     model='gpt-6-astra' if args.harness=='codex' else 'claude-opus-5'
-    registration={'contract':'TaskToolkitComparisonRun/v1','run_id':run_id,'scenario':args.scenario,'harness':args.harness,'workflow':args.workflow,'repeat':args.repeat,'model':model,'provider':'openai' if args.harness=='codex' else 'anthropic','workspace':str(work),'repository_snapshot':digest(bundle),'tooling':str(tooling),'evaluator_digest':digest(evaluator),'write_scope':issue['write_scope'],'budget':{'max_provider_invocations_per_leaf':3,'total_execution_seconds_per_leaf':600,'no_progress_rounds':2},'intervention_recording_enabled':True,'comparative':not (args.setup_only or args.smoke),'review_authority':'Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.'}
+    registration={'contract':'TaskToolkitComparisonRun/v1','run_id':run_id,'scenario':args.scenario,'harness':args.harness,'workflow':args.workflow,'repeat':args.repeat,'model':model,'provider':'openai' if args.harness=='codex' else 'anthropic','workspace':str(work),'repository_snapshot':digest(bundle),'tooling':str(tooling),'evaluator_digest':digest(evaluator),'public_evaluator_manifest':evaluator_manifest,'write_scope':issue['write_scope'],'budget':{'max_provider_invocations_per_leaf':3,'total_execution_seconds_per_leaf':600,'no_progress_rounds':2},'intervention_recording_enabled':True,'comparative':not (args.setup_only or args.smoke),'review_authority':'Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.'}
     write(retained/'registration.json',registration);append_event(journal,run_id,'run_started',registration)
-    seq=0
+    seq=0;denial_evidence=[]
     env=['env','-u','TASKSPEC_WORKSPACE_ROOT','-u','TASKSPEC_BACKLOG_DIR','-u','TASKSPEC_SIGNING_KEY','TASKSPEC_HOME='+str(tooling),'TASKSPEC_DECOMPOSE_PYTHON='+str(args.python.absolute()),'TASKSPEC_MESH_HELPER='+str(args.helper.resolve()),'TASKSPEC_MESH_ADAPTER_DIR='+str(args.adapters.resolve())]
-    def command(argv,phase=None,timeout=120,prompt=None,required=True):
+    def command(argv,phase=None,timeout=120,prompt=None,required=True,stop_on_denial=False):
         nonlocal seq
         seq+=1;phase=phase or f'command-{seq:03d}'
-        row=run_command(journal,run_id,phase,argv,work,retained,timeout,prompt)
+        row=run_command(journal,run_id,phase,argv,work,retained,timeout,prompt,stop_on_denial=stop_on_denial)
+        if row['data'].get('reported_permission_denial'):
+            denial_evidence.append({'source':'command stream observer','phase':phase})
         if required and row['data']['exit_code']!=0:raise RuntimeError(f'{phase} failed; inspect its retained stdout/stderr')
         return row
     def ts(*argv,phase=None,required=True,timeout=180):
@@ -72,7 +76,7 @@ def setup(args):
     try:
         for argv in [('init','-q','-b','main'),('config','user.name','TaskSpec pilot controller'),('config','user.email','pilot@taskspec.invalid'),('add','.'),('commit','-qm','Fixed repository issue snapshot')]:git(*argv)
         ts('init');ts('setup','signing')
-        authored=recipe(issue,work,evaluator,'any' if args.smoke else args.harness)
+        authored=recipe(issue,work,evaluator_manifest,'any' if args.smoke else args.harness)
         if args.workflow=='integrated':
             for seam in authored['seams']:
                 for leg in seam['swimlane']['legs']:
@@ -126,12 +130,12 @@ def setup(args):
                     deadline=time.monotonic()+600;feedback='';previous=None;stalled=0;leaf_pass=False
                     for round_number in range(1,4):
                         prompt=f'Implement the already HMAC-authorized atomic task at {spec}. Read {handoff} and the registered issue evidence first. Modify only the declared write surface. Do not modify contracts, authorize work, commit, self-accept, or spawn agents. Use evidence-based diagnosis, implement, and run all declared evals. Report actual failures. This is invocation {round_number} of at most 3 within one 10-minute task budget. '+feedback
-                        if args.smoke:command([str(args.smoke.absolute())],phase=f'{slug}-provider-{round_number}',timeout=max(1,deadline-time.monotonic()),required=False)
+                        if args.smoke:invocation=command([str(args.smoke.absolute())],phase=f'{slug}-provider-{round_number}',timeout=max(1,deadline-time.monotonic()),required=False)
                         else:
                             argv,prompt_stdin=provider_argv(args.harness,work,prompt)
-                            command(argv,phase=f'{slug}-provider-{round_number}',timeout=max(1,deadline-time.monotonic()),prompt=prompt_stdin,required=False)
+                            invocation=command(argv,phase=f'{slug}-provider-{round_number}',timeout=max(1,deadline-time.monotonic()),prompt=prompt_stdin,required=False,stop_on_denial=True)
                         path=retained/f'{slug}-provider-{round_number}.stdout';provider_outputs.append((str(path.relative_to(PILOT)),path.read_text()))
-                        if permission_denials(path.read_text()):
+                        if invocation['data'].get('reported_permission_denial') or permission_denials(path.read_text()):
                             raise RuntimeError('harness permission denial; no repair retry is authorized')
                         verdict=ts('run',spec,phase=f'{slug}-eval-{round_number}',required=False,timeout=max(1,deadline-time.monotonic()))
                         if verdict.get('ok'):leaf_pass=True;break
@@ -144,6 +148,7 @@ def setup(args):
                 else:
                     started=ts('mesh','run','--task',spec.stem,'--adapter','pilot-smoke' if args.smoke else args.harness+'-native','--model',model,'--execute')['data']['data']
                     attempt=started['attempts'][0]['lease']['attempt_id'];attempts.append(attempt)
+                    candidate=Path(started['attempts'][0]['workspace'])
                     daemon_pid=ts('mesh','doctor')['data']['data']['daemon_pid']
                     deadline=time.monotonic()+660;prior_state=None;current={}
                     while time.monotonic()<deadline:
@@ -156,7 +161,7 @@ def setup(args):
                     if prior_state!='awaiting_supervision':
                         ts('mesh','cancel',attempt,required=False)
                         raise RuntimeError('managed attempt stopped: '+str(prior_state))
-                    candidate=Path(started['attempts'][0]['workspace'])
+                verify_evaluator(candidate,evaluator_manifest)
                 if args.scenario=='investigation':
                     report=candidate/'docs/maintainers/recipe-assurance-investigation.md'
                     request={'document':str(report),'sha256':digest(report),'source_root':str(candidate),'required':'Review actual claims against recipe.go, sandbox.go and process.go; structural checks alone are insufficient.'}
@@ -209,6 +214,8 @@ def setup(args):
         shutil.copytree(artifacts,retained/'mesh-artifacts',dirs_exist_ok=True)
         for path in sorted((retained/'mesh-artifacts').glob('*.json')):
             item=json.loads(path.read_text())
+            if item.get('error_code')=='EXECUTOR_PERMISSION_DENIED':
+                denial_evidence.append({'source':'TaskMesh stream observer','artifact':str(path.relative_to(PILOT))})
             if item.get('contract')=='TaskMeshAdapterArtifact/v1' and '.round-' in path.name:provider_outputs.append((str(path.relative_to(PILOT)),item.get('output','')))
     for name in ['tasks','.taskspec/acceptance','.taskspec/handoffs']:
         if (work/name).exists():shutil.copytree(work/name,retained/'workspace-evidence'/name,dirs_exist_ok=True)
@@ -218,7 +225,7 @@ def setup(args):
     result={**registration,'setup_passed':(retained/'prepared.json').is_file(),'accepted':accepted,'error':error,'measurement':measurement(read_events(journal),run_id)}
     observed=result['measurement'];cost=usage(args.harness,provider_outputs);write(retained/'cost.json',cost)
     result.update(observed);result.update(accepted=accepted,gold_passed=gold_passed,integration_failures=integration_failures,replanning_churn=0,false_acceptances=int(accepted and gold_passed is False),acceptance_correctness=int(accepted==gold_passed) if type(gold_passed) is bool else None,failed_attempts_retained=True,harness_version='0.154.0' if args.harness=='codex' else '2.1.270',strategy_version='1.0.0',permissions_digest=hashlib.sha256(json.dumps(issue['write_scope'],sort_keys=True).encode()).hexdigest(),cost_including_failures=cost['cost_including_failures'],cost_basis=cost['cost_basis'],cost_evidence=str((retained/'cost.json').relative_to(PILOT)),semantic_review_ref=semantic_ref,journal=str(journal.relative_to(PILOT)))
-    result['reported_permission_denials']=[denial for _,output in provider_outputs for denial in permission_denials(output)]
+    result['reported_permission_denials']=denial_evidence+[denial for _,output in provider_outputs for denial in permission_denials(output)]
     result['evidence_refs']=[{'path':str(p.relative_to(PILOT)),'sha256':digest(p)} for p in sorted(retained.rglob('*')) if p.is_file() and p.name!='result.json']
     write(retained/'result.json',result);print(json.dumps(result,indent=2))
     return 0 if error is None else 1

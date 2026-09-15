@@ -51,14 +51,23 @@ def permission_denials(text):
             continue
         if not isinstance(row, dict):
             continue
-        if row.get('type') == 'result' and row.get('permission_denials'):
+        if row.get('type') == 'result' and isinstance(row.get('permission_denials'), list):
             found.extend(row['permission_denials'])
+        if row.get('type') == 'user':
+            message = row.get('message', {})
+            content = message.get('content', []) if isinstance(message, dict) else []
+            for result in content if isinstance(content, list) else []:
+                if not isinstance(result, dict) or result.get('type') != 'tool_result' or result.get('is_error') is not True:
+                    continue
+                output = json.dumps(result.get('content', '')).lower()
+                if any(term in output for term in ('permission denied', 'permission was denied', '--restricted confines', 'requires explicit approval')):
+                    found.append({'source':'failed native tool result', 'tool_use_id':result.get('tool_use_id'), 'output':result.get('content')})
         item = row.get('item', {})
         if not isinstance(item, dict):
             continue
         if item.get('type') == 'command_execution' and item.get('exit_code') not in (0, None):
             output = item.get('aggregated_output', '')
-            if any(term in output.lower() for term in ('permission denied', 'operation not permitted')):
+            if isinstance(output, str) and any(term in output.lower() for term in ('permission denied', 'operation not permitted')):
                 found.append({'command':item.get('command'), 'exit_code':item['exit_code'],
                               'output':output, 'source':'failed command output'})
     return found

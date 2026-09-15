@@ -13,6 +13,9 @@ assert permission_denials(json.dumps({'type':'item.completed','item':{'type':'co
 assert not permission_denials(json.dumps({'type':'item.completed','item':{'type':'command_execution','exit_code':0,'aggregated_output':'Documentation: permission denied'}}))
 assert not permission_denials(json.dumps({'type':'item.completed','item':{'type':'command_execution','exit_code':1,'aggregated_output':'AssertionError: expected behavior'}}))
 assert not permission_denials('{"type":"item.completed","item":null}\ninvalid json')
+malformed='{"type":"result","permission_denials":1}\n{"type":"item.completed","item":{"type":"command_execution","exit_code":1,"aggregated_output":null}}\n'
+assert not permission_denials(malformed)
+assert permission_denials(malformed+json.dumps({'type':'user','message':{'content':[{'type':'tool_result','is_error':True,'content':'--restricted confines the file tools to the working directory'}]}}))
 def error(message):return {'type':'user','message':{'content':[{'type':'tool_result','is_error':True,'content':message}]}}
 assert denied([error('/fixture/outside is outside /fixture/work; --restricted confines the file tools to the working directory.')])
 assert denied([{'type':'result','permission_denials':[{'tool_name':'Read'}]}])
