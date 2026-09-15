@@ -42,6 +42,17 @@ Use `mesh resume <run-or-attempt> --execute` only after resolving the recorded b
 Resuming does not refund recipe rounds or restart its total deadline. Exhaustion
 requires reviewed successor work, not silent budget expansion.
 
+For a stop explanation, distinguish unused rounds from time remaining. Compare
+the recorded deadline with current UTC and report the check time. Recommend a
+successor for exhausted time only when that comparison establishes exhaustion;
+an executor failure alone does not mean the deadline is nearly gone.
+
+For inspection-only requests, prefer read-only CLI views and existing artifacts.
+If database inspection is necessary, use a read-only connection to existing state.
+Never delete or reuse a fixed scratch directory to inspect a live database.
+Any necessary scratch space must be uniquely created within the permitted boundary,
+and cleanup must be limited to files created by that inspection.
+
 Ordinary tasks retain direct `taskspec handoff`. Managed recipes require TaskMesh.
 Supervised adapters and the attested OMP sandbox use the same round controller.
 Autonomous OMP requires the pinned sandbox, fixed provider/model, external host
