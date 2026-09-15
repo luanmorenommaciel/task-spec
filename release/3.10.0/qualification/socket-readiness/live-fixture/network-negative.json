@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "codex",
+    "sandbox",
+    "-P",
+    "taskspec_chat",
+    "-C",
+    "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a",
+    "-c",
+    "default_permissions=\"taskspec_chat\"",
+    "-c",
+    "permissions={taskspec_chat={extends=\":workspace\",filesystem={\"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a/.git\"=\"read\",\"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a/.agents\"=\"read\",\"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a/.claude\"=\"read\"},network={enabled=true,domains={},allow_local_binding=false,allow_upstream_proxy=false,dangerously_allow_non_loopback_proxy=false,dangerously_allow_all_unix_sockets=false,unix_sockets={\"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-501/taskmesh/4acc1929d66121a4.sock\"=\"allow\"}}}}",
+    "-c",
+    "features.network_proxy=true",
+    "-c",
+    "approval_policy=\"never\"",
+    "--",
+    "python3",
+    "-c",
+    "import socket,os,json,urllib.request,urllib.error\nout={}\ns=socket.socket();s.settimeout(2)\ntry:s.connect(('127.0.0.1',56195));out['direct_tcp']='connected'\nexcept OSError as e:out['direct_tcp']=str(e)\ntry:urllib.request.urlopen('http://example.invalid',timeout=4);out['proxy_egress']='connected'\nexcept Exception as e:out['proxy_egress']=str(e)\nprint(json.dumps(out))"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"direct_tcp\": \"[Errno 1] Operation not permitted\", \"proxy_egress\": \"HTTP Error 403: Forbidden\"}\n",
+  "stderr": ""
+}

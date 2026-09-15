@@ -1,0 +1,17 @@
+{
+  "contract": "TaskToolkitGateObservation/v1",
+  "completed_at": "2026-09-15T11:35:28.167367+00:00",
+  "command": "make check",
+  "exit_code": 0,
+  "conformance": "L2",
+  "check": "READY",
+  "source_commit": "649884a9d1880178eec216ddcce0e9afd0e7b76a",
+  "source_archive": "release/3.10.0/qualification/source-candidates/649884a/task-spec-3.10.0.tar.gz",
+  "source_archive_sha256": "58baffa962a4e8650153bc1a7ae47d68d16ef88c243eb10aa5dc9fa0f099efd9",
+  "evidence": {
+    "path": "qualification/check-649884a.txt",
+    "sha256": "ebc0274bde26d898ba88e5d5baecbfd58cded391ed8a966f9d3bd5f549f51851"
+  },
+  "final_release_gate": false,
+  "limitations": "Local macOS source gate; chat behavior, comparison, acceptance and publication remain separately gated."
+}

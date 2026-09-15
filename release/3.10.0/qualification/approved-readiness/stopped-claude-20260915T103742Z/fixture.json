@@ -1,0 +1,9 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat x4bk8ejj",
+  "case": "stopped",
+  "source_commit": "eeb71983e4dab75f2d5dde8e0fd94b5391392411",
+  "installed_skill_sha256": "95af19b1e47e9810250a9b98eaa922ded1f525e82db7f9b092018c2baff8e0bf",
+  "engine_version": "3.10.0",
+  "path_cli": "/private/tmp/taskspec-retry-engines/3.10.0/bin/taskspec",
+  "native_plugin": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat x4bk8ejj/.agents/skills/task-spec"
+}

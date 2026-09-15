@@ -1,0 +1,14 @@
+{
+  "adapter": "chat-fixture",
+  "adapter_version": "chat-fixture/1",
+  "attempt_id": "ca6a3d94-8a9c-4b95-a868-3d4157e69092",
+  "contract": "TaskMeshAdapterArtifact/v1",
+  "fencing_token": 2,
+  "finished_at": "2026-09-15T11:25:16.501591Z",
+  "output": "",
+  "started_at": "2026-09-15T11:25:16.484929Z",
+  "task_id": "T-20260914-chat-output",
+  "task_revision_digest": "sha256:e2e57992cbe593abdbee58286502121dc784a8f6eebb49c90e4393c4763ad930",
+  "terminal_outcome": "success",
+  "truncated": false
+}

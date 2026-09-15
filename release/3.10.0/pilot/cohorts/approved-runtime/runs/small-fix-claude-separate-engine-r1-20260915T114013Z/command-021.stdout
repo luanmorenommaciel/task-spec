@@ -1,0 +1,20 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "2e9f7081-dda9-401d-a737-00875ff88d1e",
+    "ok": true,
+    "code": "MESH_SUPERVISED_ACCEPTED",
+    "message": "explicit supervision completed canonical Task-Spec acceptance and integration",
+    "data": {
+      "attempt_id": "812bdbd3-c589-4309-85e3-a7630e349194",
+      "supervised_by": "pilot-controller"
+    }
+  },
+  "stdout": "",
+  "stderr": ""
+}

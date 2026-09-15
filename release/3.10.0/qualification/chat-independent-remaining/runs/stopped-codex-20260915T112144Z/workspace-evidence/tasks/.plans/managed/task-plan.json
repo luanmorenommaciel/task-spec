@@ -1,0 +1,102 @@
+{
+  "api_version": "taskspec.dev/v1",
+  "approved": true,
+  "kind": "TaskPlan",
+  "metadata": {
+    "delivery_plan_review_sha256": "c74d8d24824e663d08b7294c6bb82528f88b4a337b058d733c79cbfe331a756c",
+    "delivery_plan_sha256": "138a3a2be8dfb2969d7b6c485b5a323cae86b50f95b4b1373e5a2b1cdbe14ddb",
+    "name": "DI-RATE-LIMIT",
+    "native_initiative": "managed",
+    "native_plan_status": "DELIVERY_PLAN=READY",
+    "producer": "taskspec",
+    "producer_version": "3.10.0",
+    "source": "tasks/.plans/managed/task-plan.json"
+  },
+  "units": [
+    {
+      "agent": "any",
+      "anti_patterns": [
+        "Do not encode limits only in handler constants: downstream resolution would have no versioned contract; instead validate one explicit schema before resolution.",
+        "Do not accept zero or negative windows: enforcement semantics would be undefined; instead reject non-positive values at the contract boundary.",
+        "Do not couple the schema to one storage provider: policy shape and persistence are separate decisions; instead keep the schema provider-neutral."
+      ],
+      "behaviors": [
+        {
+          "given": "a policy with a positive limit and window",
+          "id": "B-1",
+          "then": "schema validation succeeds",
+          "when": "the document is validated"
+        },
+        {
+          "given": "a policy with a zero limit or window",
+          "id": "B-2",
+          "then": "schema validation fails",
+          "when": "the document is validated"
+        }
+      ],
+      "context": "Intent DI-RATE-LIMIT; seam SEAM-POLICY-CONTRACT; swimlane LANE-POLICY-CONTRACT; capability leg LEG-POLICY-SCHEMA-VALID. Done condition: a.txt contains completed and b.txt remains empty.\n\nApplicable intent, capability, and evidence: {\"decisions\": [{\"id\": \"ADR-RATE-LIMIT-ORDER\", \"owner\": \"example-fixture\", \"rationale\": \"The fixture follows the blueprint order: schema, effective policy, request 101 enforcement, then visible reason and decision telemetry.\", \"status\": \"accepted\"}], \"evidence\": [{\"claim\": \"external\", \"confidence\": 1.0, \"id\": \"E-BLUEPRINT\", \"source\": {\"captured_at\": \"2026-08-02T00:00:00Z\", \"sha256\": \"f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445\", \"uri\": \"tests/fixtures/toolkit/blueprint.md\"}, \"summary\": \"Synthetic blueprint fixture describing the rate-limiting steel thread.\"}], \"intent\": {\"claim\": \"proposed\", \"id\": \"DI-RATE-LIMIT\", \"out_of_scope\": [\"Replacing provider-owned usage metering.\", \"Choosing production storage or deployment infrastructure.\"], \"source\": {\"captured_at\": \"2026-08-02T00:00:00Z\", \"sha256\": \"f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445\", \"uri\": \"tests/fixtures/toolkit/blueprint.md\"}, \"success\": [\"a.txt contains completed and b.txt remains empty\"], \"summary\": \"Produce an exact completion artifact while preserving the sibling file.\", \"title\": \"Enforce organization-level request limits with visible decisions\"}, \"lane\": {\"id\": \"LANE-POLICY-CONTRACT\", \"name\": \"Policy contract lane\", \"owner\": \"platform-contracts\"}, \"leg\": {\"id\": \"LEG-POLICY-SCHEMA-VALID\", \"observable_state\": \"The completion artifact contains its accepted value\", \"produces\": [\"completed artifact\"], \"proof\": \"Exact output and untouched sibling checks pass.\", \"requires\": []}, \"original_intake\": null, \"seam\": {\"consumes\": [\"authored organization policy\"], \"decision_ids\": [\"ADR-RATE-LIMIT-ORDER\"], \"description\": \"Separates accepted policy shape from resolution and enforcement.\", \"evidence\": [\"E-BLUEPRINT\"], \"id\": \"SEAM-POLICY-CONTRACT\", \"independent_proof\": \"Read the artifact and independently check its exact bytes.\", \"name\": \"Policy contract\", \"owner\": \"platform-contracts\", \"produces\": [\"completed artifact\"], \"rejected_alternatives\": [{\"alternative\": \"Treat the API handler as the policy boundary\", \"reason\": \"Handler ownership would mix contract, resolution, and enforcement concerns.\"}], \"responsibility\": \"Own the completion artifact\"}}",
+      "creates_paths": [],
+      "depends_on": [],
+      "do_not_touch": [
+        "tests/fixtures/toolkit/blueprint.md"
+      ],
+      "done_condition": "a.txt contains completed and b.txt remains empty.",
+      "effort": "S",
+      "evals": [
+        {
+          "command": "test \"$(cat a.txt)\" = completed",
+          "description": "The policy schema exists and parses as JSON",
+          "expected_duration_sec": 10,
+          "id": "eval_1",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "test \"$(wc -c < a.txt | tr -d ' ')\" = 9",
+          "description": "Valid policy examples pass the schema tests",
+          "expected_duration_sec": 10,
+          "id": "eval_2",
+          "terminal": false,
+          "verifies": [
+            "B-1"
+          ]
+        },
+        {
+          "command": "test ! -s b.txt",
+          "description": "Invalid non-positive values are rejected",
+          "expected_duration_sec": 10,
+          "id": "eval_3",
+          "terminal": true,
+          "verifies": [
+            "B-2"
+          ]
+        }
+      ],
+      "execution_backend": "any",
+      "execution_recipe": "diagnose-repair-verify",
+      "goal": "Write the accepted completion value inside one file.",
+      "id": "T-20260914-chat-output",
+      "observability": "policy schema test pass count",
+      "profile": "standard",
+      "provenance": {
+        "contract": "TaskPlanProvenance/v1",
+        "initiative": "managed",
+        "projection_digest": "f6ca2e1c3872483d7455cfc9a0870d2fddfe3b20b786a26f995a11f6ba9b968e",
+        "snapshot": "tasks/.plans/managed/snapshots/c154470829fc54fca47be3c37e79916a9587f371c3156cb68fec03fa9254e6a7.json",
+        "snapshot_digest": "c154470829fc54fca47be3c37e79916a9587f371c3156cb68fec03fa9254e6a7"
+      },
+      "required_tools": [
+        "bash"
+      ],
+      "rollback": "Remove the additive schema and its focused tests.",
+      "source_note": "tasks/.plans/managed/legs/LEG-POLICY-SCHEMA-VALID.md#T-20260914-chat-output",
+      "title": "Complete the output artifact",
+      "touches_paths": [
+        "a.txt"
+      ],
+      "why": "Write the accepted completion value inside one file."
+    }
+  ]
+}

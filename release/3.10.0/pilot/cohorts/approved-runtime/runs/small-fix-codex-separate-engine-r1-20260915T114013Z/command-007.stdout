@@ -1,0 +1,10 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "setup",
+  "ok": true,
+  "exit_code": 0,
+  "data": null,
+  "stdout": "Signing key written: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-1dmspdag/task-spec-3.9.0/.git/info/taskspec-signing-key (chmod 600)\nkeyid: ee4ce507\n\nThis file is OUTSIDE version control (.git/info is never committed).\nStamps produced by safe-to-delegate.sh --stamp will now reach Tier 1\n(full crypto trust). Verify with: taskspec validate <spec>\n",
+  "stderr": ""
+}

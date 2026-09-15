@@ -1,0 +1,10 @@
+{
+  "contract": "TaskToolkitPilotReadiness/v1",
+  "observed_at": "2026-09-15T10:42:16.269583+00:00",
+  "source_and_resource_digests_verified": true,
+  "source_worktree_smoke": "smoke-small-fix-claude-separate-engine-r1-20260915T103754Z",
+  "canonical_synthetic_acceptance": true,
+  "real_provider_comparison_completed": false,
+  "ready_to_freeze": true,
+  "scope": "Retained smoke establishes instrumentation and workspace readiness only."
+}

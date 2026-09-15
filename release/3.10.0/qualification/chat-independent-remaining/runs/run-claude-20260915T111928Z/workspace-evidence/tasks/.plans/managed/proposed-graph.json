@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "status": "TASK_GRAPH=READY",
+  "plan_sha256": "897ac803dd9db6bf4bb391b3a40d65f173725867731f26289b6ad45f1f7c2d04",
+  "nodes": [
+    {
+      "id": "T-20260914-chat-output",
+      "title": "Complete the output artifact",
+      "seam_id": "SEAM-POLICY-CONTRACT",
+      "swimlane_id": "LANE-POLICY-CONTRACT",
+      "leg_id": "LEG-POLICY-SCHEMA-VALID",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "a.txt contains completed and b.txt remains empty.",
+      "touches_paths": [
+        "a.txt"
+      ],
+      "creates_paths": []
+    }
+  ],
+  "edges": [],
+  "contentions": [],
+  "critical_path": [
+    "T-20260914-chat-output"
+  ],
+  "critical_path_mermaid_sha256": "495b9cc86e8f4369664fe267fda4575e71117e7cdb00c10f8aa32a2474696697"
+}

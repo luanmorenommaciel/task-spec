@@ -1,0 +1,72 @@
+{
+  "contract": "TaskToolkitReadinessReview/v1",
+  "observed_at": "2026-09-15T12:04:22.676727+00:00",
+  "synthetic": true,
+  "provider_qualification": false,
+  "denial_case": {
+    "result": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/result.json",
+    "sha256": "9cecac75327de6a016d8999eb874468a36b8c17d6186ef34c194657fd3d89fc0",
+    "passed": true,
+    "checks": [
+      "one round consumed",
+      "attempt parked",
+      "TaskMesh denial code retained",
+      "no fallback marker in candidate workspaces",
+      "acceptance false"
+    ]
+  },
+  "setup_cases": [
+    {
+      "workflow": "integrated",
+      "passed": true,
+      "path": "setup-checks/setup-small-fix-claude-integrated-r1-20260915T120021Z/result.json",
+      "sha256": "650345e9a24799f4e80e5bbc5f95165d33cfd97c7a2fb8f4b3452113c3caf0aa"
+    },
+    {
+      "workflow": "native-harness",
+      "passed": true,
+      "path": "setup-checks/setup-small-fix-claude-native-harness-r1-20260915T120021Z/result.json",
+      "sha256": "36dcc1a9309beb958d6249fe7c8f2384f3ccd093fa46ef46e8ca7aed6608bbe3"
+    },
+    {
+      "workflow": "separate-engine",
+      "passed": true,
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/result.json",
+      "sha256": "d32223c68232b451856188dce847590f8e8a2dd17e3da478507d0730bd4a9858"
+    }
+  ],
+  "positive_managed_case": {
+    "passed": true,
+    "path": "instrumentation-smoke/smoke-small-fix-codex-integrated-r1-20260915T120305Z/result.json",
+    "sha256": "82394aecc520623ccdcde76a8761f36b2e8ff9d8bf2985de5d6b532592a21814",
+    "checks": [
+      "workspace-local evaluator loads registered fixtures",
+      "HMAC-authorized task evaluated in actual TaskMesh worktree",
+      "canonical supervised acceptance",
+      "independent external evaluator passes"
+    ],
+    "limitation": "Synthetic worker copies a known patch; this proves instrumentation, not model quality."
+  },
+  "full_gate": {
+    "passed": true,
+    "path": "../check-8bde0ea.json",
+    "sha256": "5791dfee276b0214cf022c17cb57d662e3931fcb76922b831f8609aed95ab313"
+  },
+  "source_archive": {
+    "path": "../source-candidates/8bde0ea/task-spec-3.10.0.tar.gz",
+    "sha256": "ab64e23604eace256dcdb4af98ed08fb245d1cb3c05ccbaba9f54fdbe8a8aaf9",
+    "claim": "Unpublished source archive for correction commit 8bde0ea829ee4df6eccedf923866eb1117a71d41"
+  },
+  "final_installation": {
+    "ready": true,
+    "path": "final-install-verification.json",
+    "sha256": "133d28aa05366e45326813f8f01a1b2e65a5997de66c1ba2790654b9ceab09fb",
+    "helper_sha256": "705e8a26a44d0fdb1bbcdf5d682c6f294f61a130581aabdf8f08f68407d044bb",
+    "same_helper_as_synthetic_lifecycle": true,
+    "change_since_smoke": "Clarified documentation to distinguish supervised early stopping from post-invocation attested checks; implementation bytes unchanged."
+  },
+  "post_smoke_changes": [
+    "Documentation distinguishes supervised early interruption from attested post-invocation checks.",
+    "Pilot parser ignores malformed native-event fields without crashing; focused permission and recorder tests rerun."
+  ]
+}

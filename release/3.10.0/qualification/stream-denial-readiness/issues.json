@@ -1,0 +1,132 @@
+{
+  "contract": "TaskToolkitRepositoryIssues/v1",
+  "registered_at": "2026-09-14T20:20:46.550715+00:00",
+  "status": "registered_before_comparative_execution",
+  "issues": [
+    {
+      "id": "small-fix",
+      "issue": "Valid execution recipes cannot be piped to recipe validate -",
+      "source": [
+        "src/recipe/recipes.py"
+      ],
+      "reproduction": "reproductions.json#recipe-stdin",
+      "expected": "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.",
+      "write_scope": [
+        "src/recipe/recipes.py"
+      ],
+      "kind": "bug",
+      "source_digests": {
+        "src/recipe/recipes.py": "536583cf7b279d0c18f655bcf4e8fd5d5b9e89123e485372684f05b3187b28e5"
+      }
+    },
+    {
+      "id": "cross-seam",
+      "issue": "The installed toolkit overview has no CLI route or skill entry",
+      "source": [
+        "src/cli/guide.py",
+        "docs/guides/toolkit/index.md",
+        "SKILL.md"
+      ],
+      "reproduction": "reproductions.json#toolkit-overview-route",
+      "expected": "Expose guide overview in human and JSON modes and route a new-user skill request to the installed overview, preserving root/mirror parity and links.",
+      "write_scope": [
+        "src/cli/guide.py",
+        "SKILL.md",
+        "skills/task-spec/SKILL.md"
+      ],
+      "kind": "feature",
+      "seams": [
+        "CLI guidance",
+        "harness workflow"
+      ],
+      "source_digests": {
+        "src/cli/guide.py": "8346aad0a57d494f3b58e04b27c69601f812379f157db8ff07f44f82472f6d33",
+        "docs/guides/toolkit/index.md": "a1107908b55c73920187cc5f42f7fb9b77ddc6e2c41a4d5f912c8c562f446509",
+        "SKILL.md": "4841b5e774c640098f11fbbfe9a5eb7d59672bc9f5cb788376c0f33bb7ac646d"
+      }
+    },
+    {
+      "id": "investigation",
+      "issue": "Execution attestation could be mistaken for evaluator isolation",
+      "source": [
+        "mesh/internal/mesh/recipe.go",
+        "mesh/internal/mesh/sandbox.go",
+        "mesh/internal/mesh/process.go",
+        "docs/guides/toolkit/execution.md"
+      ],
+      "expected": "Produce an evidence-grounded maintainer note showing executor/evaluator/acceptance environments, the exact trust boundary, unsupported required environments, and claims not established by Docker smoke evidence. Cite verified source symbols and state remaining uncertainty.",
+      "write_scope": [
+        "docs/maintainers/recipe-assurance-investigation.md"
+      ],
+      "kind": "investigation",
+      "source_digests": {
+        "mesh/internal/mesh/recipe.go": "26d751de1267583080f840234fe25b9fea3bc85856a09c7db7a475da3a4aa377",
+        "mesh/internal/mesh/sandbox.go": "f3ead74556a65a8df1632d86abb130acc774730750a1927522c64b1e18bc335f",
+        "mesh/internal/mesh/process.go": "4c6621cdb60e18b1b87308469b0c0a1b4b0bfe4aa1e681f7a18d93aae2e40455",
+        "docs/guides/toolkit/execution.md": "eae699f3ecbb54651b526a706e8dddf0ce57520b83a96d64a0d9c3747cce362b"
+      }
+    },
+    {
+      "id": "contention",
+      "issue": "Shared-resource conflicts across independent runs lack an end-to-end regression scenario",
+      "source": [
+        "tests/test-toolkit-mesh.sh",
+        "mesh/internal/mesh/recipe_test.go",
+        "mesh/internal/mesh/lease.go"
+      ],
+      "expected": "Add an isolated end-to-end regression where disjoint file changes claim one exclusive resource, a second run refuses the live conflict, and the resource becomes available after cancellation. Preserve one lease authority and target branch state.",
+      "write_scope": [
+        "tests/test-toolkit-resource-contention.sh",
+        "tests/fixtures/toolkit/resource-worker.sh"
+      ],
+      "kind": "coverage_gap",
+      "shared_resource": "pilot-resource-database",
+      "seams": [
+        "test worker fixture",
+        "control-plane regression"
+      ],
+      "source_digests": {
+        "tests/test-toolkit-mesh.sh": "8b1e49377fb2c362e9ce0e710287f1ad54c635ef4930b577f2c4fd67a5ce9f45",
+        "mesh/internal/mesh/recipe_test.go": "808b2abe0f7eb7ea39b6eb2f3d8a9a6d620b1f8c386d4f11bde2e99ecbef9757",
+        "mesh/internal/mesh/lease.go": "a31ca70bef5bf22906aac0bab15e25d6a525e1bb6e48408564f46169b514dccc"
+      }
+    },
+    {
+      "id": "incident",
+      "issue": "A malformed imported incident receipt raises a raw TypeError",
+      "source": [
+        "src/evidence/operational.py"
+      ],
+      "reproduction": "reproductions.json#malformed-incident-receipt",
+      "expected": "Validate imported envelope shape before dereferencing attachments; refuse null/non-list/non-object attachment entries and unexpected envelope keys with OPERATIONAL_INVALID. Preserve valid reported receipts and prohibit health or acceptance promotion.",
+      "write_scope": [
+        "src/evidence/operational.py"
+      ],
+      "kind": "incident_successor",
+      "source_digests": {
+        "src/evidence/operational.py": "ea0c6a3b3cf1dbcb0312f950534cc7ffd40f7da367f08d92bd85d19f8fb4036c"
+      }
+    },
+    {
+      "id": "release-evidence",
+      "issue": "Archive selection depends on ignore state to exclude local advisor settings",
+      "source": [
+        "tools/build-release-archive.py",
+        ".gitignore",
+        "docs/maintainers/repository-map.md"
+      ],
+      "expected": "Exclude WATCHDOG.yml even if tracked or force-added, and exclude generated conformance state. Build an actual candidate archive under docs/examples/pilot-artifacts, verify its checksum, and record the source base revision plus exact artifact digest in docs/examples/pilot-release-evidence.json as reported release evidence. Explicitly disclose that candidate changes are uncommitted and do not claim deployment health.",
+      "write_scope": [
+        "tools/build-release-archive.py",
+        "docs/examples/pilot-release-evidence.json",
+        "docs/examples/pilot-artifacts"
+      ],
+      "kind": "release_hardening",
+      "source_digests": {
+        "tools/build-release-archive.py": "0f49fa9af110ebdaf98057a828397ee550e22ef7a8154b6ca7802fa7cebcaac4",
+        ".gitignore": "7d0dff3272caf8d627eece66a6226ec9d8343a2f4266bc01f7535035edb22545",
+        "docs/maintainers/repository-map.md": "b241f5c33065b8e88d2bfc6adb1cdfd6d44c0b64d7495339134f645e16843660"
+      }
+    }
+  ]
+}

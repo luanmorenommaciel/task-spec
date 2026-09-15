@@ -1,0 +1,33 @@
+{
+  "leases": [
+    {
+      "attempt_id": "61608921-7d83-4fbe-aa7e-52e10c6e1abe",
+      "run_id": "d8457b3c-2bff-4d7f-8308-c6d5543313c9",
+      "task_id": "T-20260914-chat-output",
+      "task_revision_digest": "sha256:70121249e5e6be1db47166f4956933d840cca469df0a0ccb9ce8405d4cdbacf5",
+      "fencing_token": 1,
+      "owner": "adbe45db-e045-49a6-8e5a-7cbd9c956595",
+      "issued_at": "2026-09-15T11:30:03.217003Z",
+      "expires_at": "2026-09-15T11:35:03.445825Z",
+      "heartbeat_at": "2026-09-15T11:30:17.419288Z",
+      "state": "integrated",
+      "adapter": "chat-fixture",
+      "branch": "taskmesh/20260914-chat-output/61608921",
+      "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat 87v5141n/.taskspec/mesh/workspaces/d8457b3c-2bff-4d7f-8308-c6d5543313c9/attempts/61608921-7d83-4fbe-aa7e-52e10c6e1abe",
+      "decision_json": "{\"contract\":\"DispatchDecision/v1\",\"task_id\":\"T-20260914-chat-output\",\"task_revision_digest\":\"sha256:70121249e5e6be1db47166f4956933d840cca469df0a0ccb9ce8405d4cdbacf5\",\"policy_digest\":\"sha256:9adc6ca4b4404f470e44b94037f7e095977c9ed864018dc5a6831b80651cd66a\",\"candidates\":[{\"adapter\":\"chat-fixture\",\"eligible\":true,\"rejection_reasons\":[],\"static_score\":100}],\"selected\":\"chat-fixture\",\"explanation\":\"selected by explicit choice, task backend, roster band, static policy, bounded advisor order, then stable tie-breaker\",\"decided_at\":\"2026-09-15T11:30:03.216794Z\"}",
+      "acceptance_record": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat 87v5141n/.taskspec/acceptance/T-20260914-chat-output/61608921-7d83-4fbe-aa7e-52e10c6e1abe.json",
+      "model": "",
+      "provider": ""
+    }
+  ],
+  "recipe_budgets": [
+    {
+      "task_id": "T-20260914-chat-output",
+      "revision": "sha256:70121249e5e6be1db47166f4956933d840cca469df0a0ccb9ce8405d4cdbacf5",
+      "used": 1,
+      "deadline": "2026-09-15T12:00:06.06109Z",
+      "no_progress": 0,
+      "last_fingerprint": ""
+    }
+  ]
+}

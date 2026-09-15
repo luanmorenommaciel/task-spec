@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "stdout": "{\n  \"contract\": \"TaskSpecCLIResult/v1\",\n  \"engine_version\": \"3.10.0\",\n  \"command\": \"mesh\",\n  \"ok\": true,\n  \"exit_code\": 0,\n  \"data\": {\n    \"contract\": \"TaskMeshCommandResult/v1\",\n    \"request_id\": \"c4fa830f-65c7-49cf-89d9-0a25e98f0cd2\",\n    \"ok\": true,\n    \"code\": \"MESH_DOCTOR_READY\",\n    \"message\": \"TaskMesh daemon and durable state are ready\",\n    \"data\": {\n      \"daemon_pid\": 35385,\n      \"database\": \"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat bvuya33t/.taskspec/mesh/mesh.db\",\n      \"event_count\": 11,\n      \"journal_mode\": \"wal\",\n      \"repository\": \"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat bvuya33t\",\n      \"socket\": \"/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-501/taskmesh/1b7e9357aa7d2d7f.sock\"\n    }\n  },\n  \"stdout\": \"\",\n  \"stderr\": \"\"\n}\n",
+  "stderr": "",
+  "reason": "End isolated observation; preserve durable state."
+}

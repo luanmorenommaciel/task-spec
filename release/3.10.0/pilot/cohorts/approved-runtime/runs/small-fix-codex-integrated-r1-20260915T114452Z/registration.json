@@ -1,0 +1,25 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "small-fix-codex-integrated-r1-20260915T114452Z",
+  "scenario": "small-fix",
+  "harness": "codex",
+  "workflow": "integrated",
+  "repeat": 1,
+  "model": "gpt-6-astra",
+  "provider": "openai",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-k0rcd7hm/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/pilot/approved-tooling/task-spec-3.10.0",
+  "evaluator_digest": "5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca",
+  "write_scope": [
+    "src/recipe/recipes.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": true,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention."
+}

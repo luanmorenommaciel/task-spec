@@ -1,0 +1,142 @@
+---
+id: T-20260914-pilot-small-fix
+title: "Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation"
+status: ready
+format_version: 3
+profile: standard
+effort: S
+budget_iterations: 15
+agent: any
+parent: (none)
+depends_on: []
+supersedes: (none)
+touches_paths: [src/recipe/recipes.py]
+creates_paths: []
+source_note: "tests/fixtures/toolkit/pilot-issue.json"
+created: "2026-09-14T00:00:00Z"
+tags: []
+owner: (none)
+priority: P2
+severity: feature
+due_date: (none)
+precondition: (none)
+blocked_reason: (none)
+security_class: (none)
+source_action_item: (none)
+tracker_ref: (none)
+execution_backend: claude
+signed_off: true
+signed_off_by: pilot-controller
+signed_off_at: 2026-09-15T12:00:32Z
+accepted: false
+accepted_by: (none)
+accepted_at: (none)
+signed_off_sig: hmac-sha256-v3:aafb5593:b9b4b611f47427a211c8a0bd8ab7544b3d89d87b1690265656d6db407e8bca6d
+---
+
+# Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation
+
+> **Why:** Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.
+
+## Goal
+
+Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.
+
+## Context
+
+Accept valid stdin JSON and reject malformed stdin with the same typed errors as file input; preserve file validation.
+
+## Behavior
+
+- **B-1** — GIVEN the registered repository issue and fixed authorized scope WHEN the bounded implementation is independently evaluated THEN the declared behavior passes without modifying unrelated files or promoting reported evidence
+- **B-2** — GIVEN the recorded evidence and authorization boundary WHEN the candidate is checked THEN source evidence is unchanged and no unrelated write is present
+
+## Success Criteria
+
+```bash
+# eval_1: Independent behavioral proof for small-fix
+eval_1() {
+  /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python -c 'import hashlib,pathlib,sys; manifest={'"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"': '"'"'5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca'"'"', '"'"'tests/fixtures/toolkit/public-evaluator/spec/conformance/toolkit/execution-recipe.json'"'"': '"'"'ccf680057d987028e116666849c720ec8ba5ad30216e347ff58c3db40b5fae59'"'"', '"'"'tests/fixtures/toolkit/public-evaluator/docs/examples/incident.json'"'"': '"'"'f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b'"'"'}; contents={p:pathlib.Path(p).read_bytes() for p in manifest}; valid=all(not pathlib.Path(p).is_symlink() and hashlib.sha256(contents[p]).hexdigest()==h for p,h in manifest.items()); sys.exit("public evaluator integrity check failed") if not valid else None; sys.argv=['"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"','"'"'small-fix'"'"',"--root","."]; exec(compile(contents['"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"'],'"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"',"exec"),{"__name__":"__main__","__file__":'"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"'})'
+}
+
+# eval_2: Declared write surface only
+eval_2() {
+  /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python -c 'import hashlib,pathlib,sys; manifest={'"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"': '"'"'5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca'"'"', '"'"'tests/fixtures/toolkit/public-evaluator/spec/conformance/toolkit/execution-recipe.json'"'"': '"'"'ccf680057d987028e116666849c720ec8ba5ad30216e347ff58c3db40b5fae59'"'"', '"'"'tests/fixtures/toolkit/public-evaluator/docs/examples/incident.json'"'"': '"'"'f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b'"'"'}; contents={p:pathlib.Path(p).read_bytes() for p in manifest}; valid=all(not pathlib.Path(p).is_symlink() and hashlib.sha256(contents[p]).hexdigest()==h for p,h in manifest.items()); sys.exit("public evaluator integrity check failed") if not valid else None; sys.argv=['"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"','"'"'write-boundary'"'"',"--root","."]; exec(compile(contents['"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"'],'"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"',"exec"),{"__name__":"__main__","__file__":'"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"'})'
+}
+
+# eval_3: Registered issue evidence is unchanged
+eval_3() {
+  /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/runtime/decompose/bin/python -c 'import hashlib,pathlib,sys; manifest={'"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"': '"'"'5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca'"'"', '"'"'tests/fixtures/toolkit/public-evaluator/spec/conformance/toolkit/execution-recipe.json'"'"': '"'"'ccf680057d987028e116666849c720ec8ba5ad30216e347ff58c3db40b5fae59'"'"', '"'"'tests/fixtures/toolkit/public-evaluator/docs/examples/incident.json'"'"': '"'"'f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b'"'"'}; contents={p:pathlib.Path(p).read_bytes() for p in manifest}; valid=all(not pathlib.Path(p).is_symlink() and hashlib.sha256(contents[p]).hexdigest()==h for p,h in manifest.items()); sys.exit("public evaluator integrity check failed") if not valid else None; sys.argv=['"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"','"'"'source-integrity'"'"',"--root","."]; exec(compile(contents['"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"'],'"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"',"exec"),{"__name__":"__main__","__file__":'"'"'tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py'"'"'})'
+}
+
+```
+
+## Validation Card
+
+```yaml
+success_criteria:
+  - id: eval_1
+    description: "Independent behavioral proof for small-fix"
+    runnable: bash
+    check_type: deterministic
+    verifies: [B-1]
+    terminal: true
+    expected_duration_sec: 120
+  - id: eval_2
+    description: "Declared write surface only"
+    runnable: bash
+    check_type: deterministic
+    verifies: [B-2]
+    terminal: true
+    expected_duration_sec: 120
+  - id: eval_3
+    description: "Registered issue evidence is unchanged"
+    runnable: bash
+    check_type: deterministic
+    verifies: [B-2]
+    terminal: true
+    expected_duration_sec: 120
+retry_policy:
+  max_iterations: 15
+  circuit_breaker_no_progress: 3
+  on_terminal_failure: park_with_context
+agent_contract:
+  version: 2
+  read: [intent, behavior, contract, guardrails]
+  produce: [code, tests]
+  required_tools: [git, bash, python3]
+  timeout_minutes: 10
+  sandbox_type: host
+  output_artifacts: []
+  mcp_dependencies: []
+  emit: [pass, fail, retry_with_reason, parked_with_context]
+  backend_metadata: {}
+```
+
+## Exit Check
+
+```bash
+eval_1 && eval_2 && eval_3
+```
+
+## Rollback Plan
+
+Revert only this isolated candidate change.
+
+## Observability Hooks
+
+Retained provider output, evaluation result, and prospective event journal.
+
+## Anti-Patterns
+
+- Do not modify the evaluator or authorize additional work.
+
+## Do-Not-Touch
+
+- `tests/fixtures/toolkit/pilot-issue.json`
+- `tests/fixtures/toolkit/public-evaluator`
+- `tasks`
+
+## Open Questions
+
+(none — this task is fully specified)

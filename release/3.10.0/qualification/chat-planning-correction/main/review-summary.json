@@ -1,0 +1,17 @@
+{
+  "contract": "TaskToolkitChatReviewSummary/v1",
+  "observations": 2,
+  "passed": 1,
+  "failed": 1,
+  "qualified": false,
+  "state": "stopped_after_permission_denial",
+  "unrun_cases": [
+    "denied",
+    "incident",
+    "run",
+    "stopped",
+    "resume",
+    "accepted"
+  ],
+  "failure": "Claude planning removed unresolved decision references, then attempted an external engine read and a blocked alternate-tool fallback."
+}

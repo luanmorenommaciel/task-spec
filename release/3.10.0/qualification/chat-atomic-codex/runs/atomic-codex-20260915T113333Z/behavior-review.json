@@ -1,0 +1,53 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "atomic",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "reviewed_at": "2026-09-15T11:39:32.935129+00:00",
+  "review_method": "Read actual authoring actions, draft contract and eval-discrimination results; independently rerun structural and traceability validators.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "author_leaf"
+  ],
+  "claims_checked": [
+    "Read installed skill, atomic guidance, current CLI and blueprint.",
+    "Authored one bounded S-sized schema task with three actual behavioral evals and one future output path.",
+    "Kept field names, numeric domain and API as explicit proposals; task remains blocked, unsigned and unaccepted.",
+    "Structural validation and behavior-to-eval traceability pass independently.",
+    "Authoring controls reject missing, accept-all, reject-all and no-op implementations using unique workspace-local temporary paths; scratch removed.",
+    "No product implementation, authorization, acceptance or blueprint mutation was performed."
+  ],
+  "failures": [],
+  "limitations": [
+    "No conforming positive implementation control was authored; feasibility and implementation acceptance remain unproven.",
+    "Scope is a synthetic fixture schema proposal, not the full rate-limiting capability."
+  ],
+  "evidence_refs": [
+    {
+      "path": "harness.stdout",
+      "sha256": "6aff952be9215c2dc0c76bcc7d4df8418bff8bce4e50253d57f67ebe8b2908b2"
+    },
+    {
+      "path": "observation.json",
+      "sha256": "784cf9711f41339a69b8a04b0de7b8a3f36b19766075b7dd21e280b18a2d5753"
+    },
+    {
+      "path": "before.json",
+      "sha256": "e9a24607df0e806dc0d5ff7726a1a9d4841268c02a3703e9e5b36ce84e478a40"
+    },
+    {
+      "path": "after.json",
+      "sha256": "46600808a912ccbbdb7ddc6fc999fdd67cb883fa8b70364ffdebe084806f8202"
+    },
+    {
+      "path": "independent-validation.json",
+      "sha256": "01ffab43c1a5033ca635a9c6428a4b2fee0c655df167391952dddce9d5fdf19d"
+    },
+    {
+      "path": "changed-files/tasks/T-20260915-policy-schema.md",
+      "sha256": "f6eb40e851338421255c81e28200018d2a5585da0e33f4419e81a75510556ca6"
+    }
+  ]
+}

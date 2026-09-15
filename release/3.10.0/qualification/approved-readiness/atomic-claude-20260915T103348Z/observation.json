@@ -1,0 +1,93 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "atomic",
+  "harness": "claude",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/approved-readiness/atomic-claude-20260915T103348Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [
+    {
+      "tool_name": "Write",
+      "tool_use_id": "toolu_017rPSTfmNJd1hmgUJ78cPbE",
+      "tool_input": {
+        "file_path": "/tmp/ts-eval-discrimination/harness.py",
+        "content": "#!/usr/bin/env python3\n\"\"\"Discrimination check for the sealed evals in policy-schema.json.\n\nRuns each eval command in a scratch tree against a reference implementation and\nagainst stubs, to confirm the evals separate real behavior from fakes. Nothing\nhere is written into the task repository.\n\"\"\"\n\nimport json\nimport pathlib\nimport shutil\nimport subprocess\nimport sys\nimport tempfile\n\nPLAN = pathlib.Path(sys.argv[1])\ncommands = [\n    (e[\"id\"], e[\"command\"])\n    for e in json.loads(PLAN.read_text())[\"units\"][0][\"evals\"]\n]\n\nREFERENCE = '''\nSCHEMA_VERSION = 1\nMAX_LIMIT = 1_000_000\nMAX_WINDOW_SECONDS = 86_400\n\n\nclass PolicyValidationError(ValueError):\n    def __init__(self, field, code, message=\"\"):\n        super().__init__(message or f\"{field}: {code}\")\n        self.field = field\n        self.code = code\n\n\ndef _positive_int(value, field, maximum):\n    if isinstance(value, bool) or not isinstance(value, int):\n        raise PolicyValidationError(field, f\"{field}_not_integer\")\n    if value < 1:\n        raise PolicyValidationError(field, f\"{field}_not_positive\")\n    if value > maximum:\n        raise PolicyValidationError(field, f\"{field}_above_max\")\n    return value\n\n\ndef parse_policy(mapping):\n    version = mapping.get(\"schema_version\")\n    if version != SCHEMA_VERSION:\n        raise PolicyValidationError(\"schema_version\", \"unsupported_schema_version\")\n    org_id = mapping.get(\"org_id\")\n    if not isinstance(org_id, str) or not org_id:\n        raise PolicyValidationError(\"org_id\", \"org_id_empty\")\n    return {\n        \"schema_version\": SCHEMA_VERSION,\n        \"org_id\": org_id,\n        \"limit\": _positive_int(mapping.get(\"limit\"), \"limit\", MAX_LIMIT),\n        \"window_seconds\": _positive_int(\n            mapping.get(\"window_seconds\"), \"window_seconds\", MAX_WINDOW_SECONDS\n        ),\n    }\n'''\n\nACCEPT_ALL = '''\nSCHEMA_VERSION = 1\n\n\nclass PolicyValidationError(ValueError):\n    def __init__(self, field=\"\", code=\"\", message=\"\"):\n        super().__init__(message)\n        self.field = field\n        self.code = code\n\n\ndef parse_policy(mapping):\n    return dict(mapping)\n'''\n\nREJECT_ALL = '''\nSCHEMA_VERSION = 1\n\n\nclass PolicyValidationError(ValueError):\n    def __init__(self, field=\"\", code=\"\", message=\"\"):\n        super().__init__(message)\n        self.field = field\n        self.code = code\n\n\ndef parse_policy(mapping):\n    raise PolicyValidationError(\"limit\", \"invalid\")\n'''\n\nBLANKET_CODE = REFERENCE.replace('f\"{field}_not_integer\"', '\"invalid\"').replace(\n    'f\"{field}_not_positive\"', '\"invalid\"'\n).replace('f\"{field}_above_max\"', '\"invalid\"')\n\nVARIANTS = {\n    \"reference implementation\": (REFERENCE, \"all pass\"),\n    \"stub: accepts everything\": (ACCEPT_ALL, \"eval_2 + eval_3 fail\"),\n    \"stub: rejects everything\": (REJECT_ALL, \"all fail\"),\n    \"stub: one blanket error code\": (BLANKET_CODE, \"eval_2 + eval_3 fail\"),\n}\n\nfailures = 0\nfor name, (source, expectation) in VARIANTS.items():\n    root = pathlib.Path(tempfile.mkdtemp(prefix=\"ts-disc-\"))\n    pkg = root / \"src\" / \"ratelimit\"\n    pkg.mkdir(parents=True)\n    (pkg / \"__init__.py\").write_text(\"\")\n    (pkg / \"policy_schema.py\").write_text(source)\n    results = {}\n    for eval_id, command in commands:\n        proc = subprocess.run(\n            [\"bash\", \"-c\", command], cwd=root, capture_output=True, text=True\n        )\n        results[eval_id] = \"pass\" if proc.returncode == 0 else \"fail\"\n    shutil.rmtree(root)\n    line = \"  \".join(f\"{k}={v}\" for k, v in results.items())\n    print(f\"{name:34} {line}   (expected: {expectation})\")\n    passed = [k for k, v in results.items() if v == \"pass\"]\n    if name == \"reference implementation\" and len(passed) != len(commands):\n        failures += 1\n    if name != \"reference implementation\" and len(passed) == len(commands):\n        failures += 1\n\nprint(\"DISCRIMINATION=OK\" if failures == 0 else f\"DISCRIMINATION=FAILED ({failures})\")\nsys.exit(1 if failures else 0)\n"
+      }
+    },
+    {
+      "tool_name": "Write",
+      "tool_use_id": "toolu_01V3F2EwtgpwVdhPWcQJwpjy",
+      "tool_input": {
+        "file_path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat l_gvvxrq/tasks/.plans/check_eval_discrimination.py",
+        "content": "#!/usr/bin/env python3\n\"\"\"Discrimination check for the evals in policy-schema.json.\n\nRuns each eval command against a reference implementation and against stubs, to\nconfirm the evals separate real behavior from a fake. Scratch trees are created\nunder tasks/.plans/.scratch/ and removed afterwards; nothing is written to the\ntask's declared write surface (src/ratelimit/), so this proves the evals without\nimplementing the task.\n\n    python3 tasks/.plans/check_eval_discrimination.py tasks/.plans/policy-schema.json\n\"\"\"\n\nimport json\nimport pathlib\nimport shutil\nimport subprocess\nimport sys\n\nPLAN = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else \"tasks/.plans/policy-schema.json\")\nSCRATCH = pathlib.Path(__file__).resolve().parent / \".scratch\"\n\ncommands = [\n    (e[\"id\"], e[\"command\"]) for e in json.loads(PLAN.read_text())[\"units\"][0][\"evals\"]\n]\n\nREFERENCE = '''\nSCHEMA_VERSION = 1\nMAX_LIMIT = 1_000_000\nMAX_WINDOW_SECONDS = 86_400\n\n\nclass PolicyValidationError(ValueError):\n    def __init__(self, field, code, message=\"\"):\n        super().__init__(message or f\"{field}: {code}\")\n        self.field = field\n        self.code = code\n\n\ndef _bounded_int(value, field, maximum):\n    if isinstance(value, bool) or not isinstance(value, int):\n        raise PolicyValidationError(field, f\"{field}_not_integer\")\n    if value < 1:\n        raise PolicyValidationError(field, f\"{field}_not_positive\")\n    if value > maximum:\n        raise PolicyValidationError(field, f\"{field}_above_max\")\n    return value\n\n\ndef parse_policy(mapping):\n    if mapping.get(\"schema_version\") != SCHEMA_VERSION:\n        raise PolicyValidationError(\"schema_version\", \"unsupported_schema_version\")\n    org_id = mapping.get(\"org_id\")\n    if not isinstance(org_id, str) or not org_id:\n        raise PolicyValidationError(\"org_id\", \"org_id_empty\")\n    return {\n        \"schema_version\": SCHEMA_VERSION,\n        \"org_id\": org_id,\n        \"limit\": _bounded_int(mapping.get(\"limit\"), \"limit\", MAX_LIMIT),\n        \"window_seconds\": _bounded_int(\n            mapping.get(\"window_seconds\"), \"window_seconds\", MAX_WINDOW_SECONDS\n        ),\n    }\n'''\n\nSTUB_HEADER = '''\nSCHEMA_VERSION = 1\n\n\nclass PolicyValidationError(ValueError):\n    def __init__(self, field=\"\", code=\"\", message=\"\"):\n        super().__init__(message)\n        self.field = field\n        self.code = code\n\n'''\n\nACCEPT_ALL = STUB_HEADER + '''\ndef parse_policy(mapping):\n    return dict(mapping)\n'''\n\nREJECT_ALL = STUB_HEADER + '''\ndef parse_policy(mapping):\n    raise PolicyValidationError(\"limit\", \"invalid\")\n'''\n\nBLANKET_CODE = (\n    REFERENCE.replace('f\"{field}_not_integer\"', '\"invalid\"')\n    .replace('f\"{field}_not_positive\"', '\"invalid\"')\n    .replace('f\"{field}_above_max\"', '\"invalid\"')\n)\n\n# Passes the happy path but never enforces the upper bound.\nNO_MAX = REFERENCE.replace(\"MAX_LIMIT = 1_000_000\", \"MAX_LIMIT = 10_000_000\").replace(\n    \"MAX_WINDOW_SECONDS = 86_400\", \"MAX_WINDOW_SECONDS = 604_800\"\n)\n\nVARIANTS = {\n    \"reference implementation\": (REFERENCE, True),\n    \"stub: accepts everything\": (ACCEPT_ALL, False),\n    \"stub: rejects everything\": (REJECT_ALL, False),\n    \"stub: one blanket error code\": (BLANKET_CODE, False),\n    \"stub: no upper bound enforced\": (NO_MAX, False),\n}\n\nfailures = []\nfor name, (source, should_pass_all) in VARIANTS.items():\n    root = SCRATCH / name.replace(\":\", \"\").replace(\" \", \"-\")\n    pkg = root / \"src\" / \"ratelimit\"\n    shutil.rmtree(root, ignore_errors=True)\n    pkg.mkdir(parents=True)\n    (pkg / \"__init__.py\").write_text(\"\")\n    (pkg / \"policy_schema.py\").write_text(source)\n\n    results = {}\n    for eval_id, command in commands:\n        proc = subprocess.run(\n            [\"bash\", \"-c\", command], cwd=root, capture_output=True, text=True\n        )\n        results[eval_id] = \"pass\" if proc.returncode == 0 else \"fail\"\n\n    all_passed = all(v == \"pass\" for v in results.values())\n    if all_passed != should_pass_all:\n        failures.append(name)\n    verdict = \"OK\" if all_passed == should_pass_all else \"UNEXPECTED\"\n    detail = \"  \".join(f\"{k}={v}\" for k, v in results.items())\n    print(f\"{name:32} {detail}   [{verdict}]\")\n\nshutil.rmtree(SCRATCH, ignore_errors=True)\nprint(\"DISCRIMINATION=OK\" if not failures else f\"DISCRIMINATION=FAILED {failures}\")\nsys.exit(1 if failures else 0)\n"
+      }
+    }
+  ],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "8dce39395428a501e680d156b96e7dc99cd3bb343bacb84a080ff067446e40c3"
+    },
+    {
+      "path": "before.json",
+      "sha256": "565df049b0f3f71b7403e89fa960a190a18adc4e4ebfd5df93614e310b53de2c"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/tasks/.plans/build_policy_schema_plan.py",
+      "sha256": "b68bc9d517d16e98fea568dc84270d29c976c030621d4b321c1d50eb50a39e9d"
+    },
+    {
+      "path": "changed-files/tasks/.plans/policy-schema.json",
+      "sha256": "31e649824d57c9b62babe2a8f38827635e9961dd96fe7c26e4fb159bf7602dfd"
+    },
+    {
+      "path": "changed-files/tasks/T-20260915-policy-schema-versioned.md",
+      "sha256": "f8ee72d3a90ee7a6aa062bd0b25eb80ca3b2d18179eb6a08461bc032cad61b9e"
+    },
+    {
+      "path": "changed-files/tasks/_state.yaml",
+      "sha256": "fabf4ec8a8ae2b4dae24cafddde8bf321c291ed11fe6bcae5d43769a1f241fdf"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "b51dccd5240a784705c62e17070e99c0cb97aa1591c304a9dcfda6615b895fec"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "808f23b0bb8d3b6e254d916814d62e4ca8f8ada328c2183f0264724f1a0a99b8"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "936d4d8d19ebd675cb0659fc485ac523565cfb8156bd6ab8dbb213b92b9e78fa"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "73f53a07544a6bd2e380700b7d00335be549705f9e3e2119b098b56fbfa317ff"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "c31d66e6783dcf91b2d780a268e0bf993b782d102905b6746b6c32cee9aff04f"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "8f1fe1fb713eda2e972600792f5b9cab957b57a4ea763c1445ea79de27ab09cf"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "b99b091e4f572d96db4fc6f51047e7e3e379c3de0381eb05b926bd4dfd3c4350"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "43578be3106cfdb375e265e825502c0331ab560e5258832ac259ca1f38db070e"
+    }
+  ]
+}

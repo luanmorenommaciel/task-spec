@@ -1,0 +1,15 @@
+{
+  "adapter": "pilot-smoke",
+  "adapter_version": "synthetic-denial/1",
+  "attempt_id": "b21eb476-354d-476f-bb29-637badf49393",
+  "contract": "TaskMeshAdapterArtifact/v1",
+  "error_code": "EXECUTOR_PERMISSION_DENIED",
+  "fencing_token": 1,
+  "finished_at": "2026-09-15T12:03:31.514716Z",
+  "output": "{\"type\":\"user\",\"message\":{\"content\":[{\"type\":\"tool_result\",\"is_error\":true,\"content\":\"--restricted confines the file tools to the working directory\"}]}}\n",
+  "started_at": "2026-09-15T12:03:29.49353Z",
+  "task_id": "T-20260914-pilot-small-fix",
+  "task_revision_digest": "sha256:f3a31e82501b9f5b9c8e0f5b70b2c9245b73dd5f00bf35f0ccea3f15a01f3e18",
+  "terminal_outcome": "failed",
+  "truncated": false
+}

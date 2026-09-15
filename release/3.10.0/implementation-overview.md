@@ -5,7 +5,7 @@
 
 TaskSpec becomes the home for decomposition, atomic contracts, execution recipes, and acceptance. TaskMesh carries out authorized work. The CLI, installed skill, and read-only MCP views expose the same durable state across coding harnesses.
 
-**Current boundary:** this describes the release candidate on main. The complete local gate, hosted macOS and Linux gates, and hosted Docker isolation passed on commit `30a0d1c`. Comparative experiments, final live-chat qualification, canonical acceptance, and publication remain incomplete. See the [local gate](qualification/committed-candidate-check.json), [hosted results](qualification/hosted.json), and [release checklist](checklist.json).
+**Current boundary:** correction source `8bde0ea` passes the local `make check` gate, L2 conformance, synthetic lifecycle checks, and clean installation. Matching hosted checks are pending; prior hosted macOS/Linux gates and Linux isolation passed on `79ec514`. Chat coverage is 18/20; Claude planning and atomic retries remain held after tool denials. The latest comparative cohort is paused at 4/72 observations: three accepted runs and one denied run. There is no comparative quality or productivity conclusion. Canonical acceptance, final qualification, cutover, and publication remain incomplete. See the [hosted evidence](qualification/hosted-79ec514.json), [chat coverage](qualification/chat-results.json), [pilot summary](pilot/cohorts/approved-runtime/partial-summary.json), and [release checklist](checklist.json).
 
 ```mermaid
 flowchart LR
@@ -159,25 +159,29 @@ Failed delivery retains censored elapsed time. Controller activity is not human 
 source edit was denied because the worktree was inside protected `.git/` metadata,
 and its lease later expired. Both observations and their costs remain retained.
 The prepared worktree, lease-renewal, denial-handling, and cancellation fixes pass
-local runtime checks. A corrected cohort still requires authorization and a fresh
-run; no comparative quality or productivity conclusion is established.
+local runtime checks. The approved corrected cohort then stopped at four observations: three accepted
+runs and one Claude integrated run with a new external-evaluator read denial.
+New stream-interruption and workspace-local evaluator corrections pass synthetic
+lifecycle checks. A further real-provider cohort awaits explicit authorization;
+no comparative quality or productivity conclusion is established.
 See the [runtime findings and proof](qualification/runtime-defects.md).
 
 ## Next action
 
-Authorize the prepared bounded retries, complete the registered comparisons and final chat journeys, finish canonical acceptance and migration evidence, and publish only after the remaining release criteria pass.
+Resolve the [consolidated retry proposal](qualification/stream-denial-retry-proposal.md). After authorized qualification passes, complete canonical acceptance, final source qualification, and publication.
 
 <!-- briefspec:checkpoint:v1 mode=orient -->
 ## Session Checkpoint · Orient
 
 Headline: The integrated toolkit is implemented as a candidate and is undergoing qualification.
-Current state: The candidate is on main. The complete local gate, hosted macOS and Linux gates, and hosted Docker isolation pass. The comparative pilot and final chat corpus remain unqualified; the prepared retries await explicit authorization.
+Current state: Correction source `8bde0ea` passes the local gate and synthetic lifecycle checks; matching hosted qualification is pending. The pilot is paused at 4/72 observations. Chat coverage is 18/20, with two Claude retries held.
 
 Completed:
 
 - Native decomposition, atomic recipe contracts, managed execution, SDLC evidence paths, and shared product surfaces are present.
 - The comparative corpus and 72-run schedule are registered.
-- Local and hosted platform qualification passed on commit `30a0d1c`.
+- Hosted platform and isolation qualification passed on commit `79ec514`.
+- New denial-stop and local-evaluator corrections passed the full local gate, synthetic TaskMesh lifecycle, and installation checks.
 
 Decisions:
 
@@ -186,9 +190,9 @@ Decisions:
 
 Proof:
 
-- [direct/pass] [Local gate](qualification/committed-candidate-check.json).
-- [direct/pass] [Hosted gates and isolation](qualification/hosted.json).
-- [direct/info] [Registered schedule](pilot/schedule.json).
+- [direct/pass] [Local gate](qualification/check-8bde0ea.json).
+- [direct/pass] [Hosted gates and isolation](qualification/hosted-79ec514.json).
+- [direct/info] [Registered schedule](pilot/cohorts/approved-runtime/schedule.json).
 - [direct/info] [Release checklist](checklist.json).
 
 Next:
@@ -197,6 +201,7 @@ Next:
 
 Open:
 
-- Retry authorization, comparative results, final live chat qualification, canonical acceptance, cutover, and publication.
+- Approval for one fresh comparative cohort and the two held Claude cases.
+- Comparative results, final source qualification, canonical acceptance, cutover, and publication.
 <!-- /briefspec -->
 <!-- /brief-spec -->

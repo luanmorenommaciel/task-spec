@@ -1,0 +1,38 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "decision",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "reviewed_at": "2026-09-15T11:07:22.865107+00:00",
+  "review_method": "Read actual tool actions, final claims and corresponding persisted state; compared before/after inventories.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "report_blocker"
+  ],
+  "claims_checked": [
+    "Read current CLI state and persisted accepted order, fixed metering objection and missing review.",
+    "Asked only for the missing topology review, preserving existing decisions.",
+    "Distinguished plan review from execution sealing; no workspace files changed.",
+    "Identified absent repository signing setup as a mechanical prerequisite rather than a new product decision."
+  ],
+  "failures": [],
+  "limitations": [
+    "Fresh synthetic fixture; no claim of general architecture or production reliability."
+  ],
+  "evidence_refs": [
+    {
+      "path": "harness.stdout",
+      "sha256": "6609da759f25b2df4fcd68bc346541fee69a2ee48208ba521fbcbf5b76e86af8"
+    },
+    {
+      "path": "before.json",
+      "sha256": "2bb9c8e60a677f50958bf1e695ea68a192843687ccfa75d2c0a93d722fdacb78"
+    },
+    {
+      "path": "after.json",
+      "sha256": "2bb9c8e60a677f50958bf1e695ea68a192843687ccfa75d2c0a93d722fdacb78"
+    }
+  ]
+}

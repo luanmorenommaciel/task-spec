@@ -1,0 +1,60 @@
+diff --git a/SKILL.md b/SKILL.md
+index 8fff884..c733124 100644
+--- a/SKILL.md
++++ b/SKILL.md
+@@ -23,8 +23,10 @@ read the command's mutation contract before using them in a read-only request.
+   [intent guide](docs/guides/toolkit/intent.md) and
+   [decomposition guide](docs/guides/toolkit/decomposition.md). Research and author
+   the recipe; deterministic validation does not discover architecture for you.
++  Preserve unresolved decisions as blockers, even when they prevent preparation.
+ - “Make this atomic”: read [atomic recipes](docs/guides/toolkit/recipes.md) and
+   [acceptance](docs/guides/toolkit/acceptance.md). Preserve direct one-task authoring.
++  Check the harness write boundary before choosing scratch paths.
+ - “Run”, “resume”, or “why did it stop?”: read
+   [execution and recovery](docs/guides/toolkit/execution.md), inspect Mesh status,
+   and use the existing attempt lifecycle. Do not invent another execution loop.
+diff --git a/docs/guides/toolkit/decomposition.md b/docs/guides/toolkit/decomposition.md
+index 4aec7e4..d581710 100644
+--- a/docs/guides/toolkit/decomposition.md
++++ b/docs/guides/toolkit/decomposition.md
+@@ -6,6 +6,17 @@ Each accepted seam owns one swimlane; each capability leg names an observable
+ state and proof; executable leaves own coherent done-conditions and bounded writes.
+ SDLC stages are concerns on the work, not mandatory lanes.
+ 
++A blocked proposal is a valid planning outcome. Preserve `OPEN` objections and
++`system_map.unknowns` when ownership, evidence, or product decisions are missing.
++Keep the authored proposal and report the smallest unresolved decision; do not
++clear unknowns or mark objections `ACCEPTED` or `FIXED` merely to make preparation
++pass. Preserve references to applicable unresolved decisions as well; deleting
++`decision_ids` does not resolve the decisions they name. Record resolution or
++accepted risk only from an explicit applicable decision.
++The reviewer's identity authenticates review; it does not assign seam or swimlane
++ownership. Record actual owners in the recipe and prepare the corrected topology
++before requesting review.
++
+ Read `tasks/.plans/<id>/delivery-plan.yaml`, proposed leg artifacts, and graph
+ before recording explicit human review:
+ 
+diff --git a/docs/guides/toolkit/recipes.md b/docs/guides/toolkit/recipes.md
+index f490975..0d66d90 100644
+--- a/docs/guides/toolkit/recipes.md
++++ b/docs/guides/toolkit/recipes.md
+@@ -5,6 +5,18 @@ a resolved example; `recipe validate <file> --budget <n>` validates a resolved
+ recipe. TaskPlan units accept either a strategy name or a resolved recipe mapping.
+ Native authored decomposition recipes accept strategy names.
+ 
++Bind acceptance checks to the source requirements and recorded decisions. If a
++limit, threshold, or edge-case behavior is unspecified, label a proposed choice
++and keep it open for review; do not encode it as an already agreed requirement.
++
++During authoring, choose scratch paths before running eval-discrimination checks.
++If the harness confines file tools to the workspace, create a unique scratch
++subdirectory under the initiative's planning workspace and remove only the scratch
++files created by that check. A system temporary directory is not automatically
++within the permitted write surface. Once execution is sealed, scratch writes must
++also fit the signed task scope. A denied write stops the session; this guidance
++never authorizes moving that denied action to another path.
++
+ For a directly authored TaskPlan with multiline shell evals, use a JSON manifest
+ and encode each command as a JSON string with `\n` escapes. The portable YAML
+ manifest reader supports a restricted subset and does not accept `|` or `>` block

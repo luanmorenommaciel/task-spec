@@ -1,0 +1,16 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": false,
+  "exit_code": 1,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "e2e9ee73-8e86-4cf0-9447-23de7d6eda8a",
+    "ok": false,
+    "code": "ATTEMPT_STALE",
+    "message": "attempt is no longer cancellable"
+  },
+  "stdout": "",
+  "stderr": ""
+}

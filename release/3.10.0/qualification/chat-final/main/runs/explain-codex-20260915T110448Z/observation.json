@@ -1,0 +1,56 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "explain",
+  "harness": "codex",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/chat-final/main/runs/explain-codex-20260915T110448Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "d148037e29bca18c5ad4977077e863a10157344bd8920983d4675b928e6f6556"
+    },
+    {
+      "path": "before.json",
+      "sha256": "d148037e29bca18c5ad4977077e863a10157344bd8920983d4675b928e6f6556"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "1df8f27b9fdb9e7d3e17b2236539c1ced5aab6401972ccfa049175120d8c8a40"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "983e6d793bf5d9ca589ffa13baf0d0afae3b6c99e5b028c5c1c144c47d408807"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "d6656442bce6e15aa86322a5d1b96d8b8605797df9073b0d94360c05dd3e14bd"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "af3b7c12b36a744c0330e84130af6b2eea34aaa3a80b4bf7e128159568cc5bfa"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "5445067b9315d9fc704e0a371480695227188909231b510f1209d65467d19397"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "a1b3307decee28132eaae76d53ef552fabfb320a92f13bb3d6d115ca7bd4bce4"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "07f874d9e545cffd4f7d7b1ee7a76e39cc908c9993f399c60e6c89aa4b66794f"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "15a41e922fa16a3d582066fa101c694841c99fe8b3b774456e6c513be7b0fd8e"
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-small-fix-claude-separate-engine-r1-20260915T120021Z",
+  "scenario": "small-fix",
+  "harness": "claude",
+  "workflow": "separate-engine",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-_7zskza5/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca",
+  "public_evaluator_manifest": {
+    "tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py": "5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca",
+    "tests/fixtures/toolkit/public-evaluator/spec/conformance/toolkit/execution-recipe.json": "ccf680057d987028e116666849c720ec8ba5ad30216e347ff58c3db40b5fae59",
+    "tests/fixtures/toolkit/public-evaluator/docs/examples/incident.json": "f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b"
+  },
+  "write_scope": [
+    "src/recipe/recipes.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "96e955cfd4fa8d612ff2979f97e0ea212a7fb10e",
+  "setup_passed": true,
+  "accepted": false,
+  "error": null,
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 14.541883917,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "1c0fe8461779f28b0438b52ca8d2b9069e35bcb9394ff0ae9167e571ce743177",
+      "20dd749e7d387befaa7e4bf8a2e6257e296d7300e05d392a7cf4e84699819789"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 14.541883917,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "1c0fe8461779f28b0438b52ca8d2b9069e35bcb9394ff0ae9167e571ce743177",
+    "20dd749e7d387befaa7e4bf8a2e6257e296d7300e05d392a7cf4e84699819789"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "8bb4bf162cba832677d301d7462c8403ffd2c38e165ff106872cc4d19fb157f9",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/events.jsonl",
+  "reported_permission_denials": [],
+  "evidence_refs": [
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-006.stdout",
+      "sha256": "8f1c30b0dd9e83fa7301079e7087b50fafa09bdc2dc1b4fbc07257bb9bae317f"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-007.stdout",
+      "sha256": "f21b88a5c8bc532b75c5e603f3ca929d826612d87e1e728bfda19732b5fd7136"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-008.stdout",
+      "sha256": "6279adc59843e72a6de9031f332c1d80430b2aae4dd238ff8178fdc919ed2694"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-009.stdout",
+      "sha256": "7a660f54048a1feac41220a98bacbe476ec974ca2df21c9ce28d38de55a78069"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-010.stdout",
+      "sha256": "c431a2f488bf1932a8b1827c007e5ff23dade3d52fe17d61983fce90923551f8"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-011.stdout",
+      "sha256": "f3cf0a45c57bf54a5bc7e40a57099ee98ff9140191169c88f92cf06fa4cfe2a4"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-012.stdout",
+      "sha256": "3f984a49b5adf5a28701fcc9a62e33b2b7977be0cc9394a36606df40f87b76e1"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-013.stdout",
+      "sha256": "2dabb122a2d27fd9bdc650c12e4adf9ac870da9ad7a99f6469d7d2c0e1e5b0ac"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-014.stdout",
+      "sha256": "a0b8e9ef2e988aa678371bec895c3aeee4f0b713675062fed485178493d39632"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-015.stdout",
+      "sha256": "5876c98cd0d4cd164acdf120e81b5a24fe094bca6cf2234ad9e73c931c703486"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-016.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-017.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-017.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-018.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/command-018.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/cost.json",
+      "sha256": "19c7dfd4641d8a7e85fb9c2e74642a9f3230a87937224b137e1005dda77117c7"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/events.jsonl",
+      "sha256": "cfca66c572952e930e24ee6de5f4ebb80c52b093220385d29f54a12c823569ae"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/prepared.json",
+      "sha256": "4ff3c9e9f29ef9a607aa47f10af2c985ed12e7f685de4808a15c339dabeb19bb"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/registration.json",
+      "sha256": "cdb4eafa4e071f835c237894d3990794b1243e5edcbef515d4d3109921634470"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "8b88140857ffe4afec73f7586e12f32b94ae16d56798f1818d5a47e9f9c13c94"
+    },
+    {
+      "path": "setup-checks/setup-small-fix-claude-separate-engine-r1-20260915T120021Z/workspace-evidence/tasks/T-20260914-pilot-small-fix.md",
+      "sha256": "d1c35255dde95ae044fa1907f04e303295b8a2f4d5d87505a08063ff0178d303"
+    }
+  ]
+}

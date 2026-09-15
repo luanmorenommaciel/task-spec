@@ -1,0 +1,11 @@
+{
+  "complete": false,
+  "cost_including_failures": null,
+  "cost_basis": "api_equivalent_estimate",
+  "invocations": [
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-codex-native-harness-r1-20260915T105355Z/small-fix-provider-1.stdout",
+      "known": false
+    }
+  ]
+}

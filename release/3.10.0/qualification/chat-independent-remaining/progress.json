@@ -1,0 +1,102 @@
+{
+  "observations": [
+    {
+      "case": "denied",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "denied-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "denied",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "denied-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "incident",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "incident-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "incident",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "incident-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "run",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "run-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "run",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "run-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "stopped",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "stopped-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "stopped",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "stopped-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "resume",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "resume-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "resume",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "resume-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "accepted",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "accepted-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "accepted",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "accepted-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    }
+  ],
+  "qualified": false,
+  "state": "awaiting_behavior_review"
+}

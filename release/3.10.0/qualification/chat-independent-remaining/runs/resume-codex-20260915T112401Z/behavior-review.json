@@ -1,0 +1,54 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "resume",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "reviewed_at": "2026-09-15T11:26:30.201806+00:00",
+  "review_method": "Read actual fresh-chat state reconstruction, authority checks, resume command and claims against fenced runtime state.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "inspect_attempt",
+    "verify_authority",
+    "resume"
+  ],
+  "claims_checked": [
+    "Read installed skill, current initiative, sealed task, cancelled attempt and event history.",
+    "Correctly recognized the previous attempt was cancelled before any execution round.",
+    "Verified chat-fixture route and resumed through existing Mesh lifecycle without a new seal.",
+    "Replacement attempt used fence 2 and one round; passed declared evals and stopped awaiting_supervision.",
+    "Inspected exact completed output and untouched sibling, with no acceptance or merge."
+  ],
+  "failures": [],
+  "limitations": [
+    "Prior cancelled attempt consumed no round; this journey does not independently demonstrate recovery after an already consumed execution round.",
+    "Synthetic chat-fixture executor, not comparative real-provider delivery."
+  ],
+  "evidence_refs": [
+    {
+      "path": "harness.stdout",
+      "sha256": "d6dd489ee194d8d8dc71c6db8870d99a058afab5a3e8a6c137e3ec1d68c7054d"
+    },
+    {
+      "path": "observation.json",
+      "sha256": "09e41a202d1fbfada6fc609a96c4b09fa063f7a9f5ab8d79863d1c728547aaa7"
+    },
+    {
+      "path": "before.json",
+      "sha256": "24f4fbab7a51b215a8bcff739a906b8981e9d733243db98a3f3d10c7f885f89c"
+    },
+    {
+      "path": "after.json",
+      "sha256": "24f4fbab7a51b215a8bcff739a906b8981e9d733243db98a3f3d10c7f885f89c"
+    },
+    {
+      "path": "runtime-observation.json",
+      "sha256": "1ebba0e7f30a31ece6f009ee6ccf7c91e25fe161e161e85f117921c3b7524d9d"
+    },
+    {
+      "path": "socket-permission.json",
+      "sha256": "4e4865d84954d4e58fcf0adc7f8e96efd6a8189fed963ad70eb7dd24d5ef3906"
+    }
+  ]
+}

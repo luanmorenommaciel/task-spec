@@ -1,0 +1,35 @@
+{
+  "acceptance_verdict": "accepted",
+  "adapter_version": "chat-fixture/1",
+  "artifacts": [
+    {
+      "digest": "sha256:767dc9f68c14ec4ebdebfb277faf5577f30e487dd1b61d6bcef7ccb1cd8f5aec",
+      "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat m2cpf3su/.taskspec/mesh/artifacts/05d5c3d6-20bf-41f7-97ba-2a971a00a963.json"
+    },
+    {
+      "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat m2cpf3su/.taskspec/acceptance/T-20260914-chat-output/05d5c3d6-20bf-41f7-97ba-2a971a00a963.json"
+    }
+  ],
+  "attempts": 1,
+  "contract": "EngineRunReceipt/v2",
+  "deviations": [
+    "supervised host worktree; not a security sandbox"
+  ],
+  "engine_version": "chat-fixture/1",
+  "environment_digest": "sha256:767dc9f68c14ec4ebdebfb277faf5577f30e487dd1b61d6bcef7ccb1cd8f5aec",
+  "finished_at": "2026-09-15T11:30:08.535954Z",
+  "handoff_digest": "sha256:db50ea5cfe9a4040fbc4895a9b979a9e62def61fb4661bec56b8d8477645f342",
+  "model_id": "adapter-selected",
+  "observed_at": "2026-09-15T11:30:08.535954Z",
+  "provider": "custom",
+  "run_id": "c76ab256-38b8-4407-971d-0b90f101e702",
+  "started_at": "2026-09-15T11:30:08.521226Z",
+  "subject": {
+    "attempt_id": "05d5c3d6-20bf-41f7-97ba-2a971a00a963",
+    "authorization_ref": "hmac-sha256-v3:13f4f67c:40f7c8c81ec73057da35f83d5fc726a5f67f87a7722d928dfd3925b169df653d",
+    "base_commit": "3082bf60a510886e5af5462ab827dddc459c4fd3",
+    "task_id": "T-20260914-chat-output",
+    "task_revision_digest": "sha256:f05fe427d767c41126c7d872b72bfcb8ebfb95b02483638d61e5fde4dd775f67"
+  },
+  "terminal_outcome": "accepted"
+}

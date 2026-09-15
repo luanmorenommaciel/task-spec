@@ -1,0 +1,11 @@
+{
+  "complete": false,
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "invocations": [
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-separate-engine-r1-20260915T103754Z/mesh-artifacts/47b83adb-86a7-4aa0-9237-ed292306f303.round-1.json",
+      "known": false
+    }
+  ]
+}

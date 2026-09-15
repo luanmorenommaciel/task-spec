@@ -1,0 +1,21 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "decompose",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskDecompositionResult/v1",
+    "initiative": "pilot",
+    "state": "compiled",
+    "plan": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-oj8okcff/task-spec-3.9.0/tasks/.plans/pilot/task-plan.json",
+    "snapshot": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-oj8okcff/task-spec-3.9.0/tasks/.plans/pilot/snapshots/83fc5f3957d481a2cbfe1b540e1e6ac55f50cb4bba48266f35940be68a102647.json",
+    "dispatch_authorized": false,
+    "next": [
+      "taskspec plan --manifest tasks/.plans/pilot/task-plan.json",
+      "taskspec batch --plan tasks/.plans/pilot/task-plan.json"
+    ]
+  },
+  "stdout": "",
+  "stderr": ""
+}

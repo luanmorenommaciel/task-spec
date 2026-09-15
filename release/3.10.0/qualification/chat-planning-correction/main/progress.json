@@ -1,0 +1,22 @@
+{
+  "observations": [
+    {
+      "case": "plan",
+      "harness": "codex",
+      "exit_code": 0,
+      "controller_log": "plan-codex.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": false
+    },
+    {
+      "case": "plan",
+      "harness": "claude",
+      "exit_code": 0,
+      "controller_log": "plan-claude.controller.log",
+      "review_status": "pending",
+      "needs_permission_review": true
+    }
+  ],
+  "qualified": false,
+  "state": "awaiting_behavior_review"
+}

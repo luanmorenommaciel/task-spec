@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "status": "TASK_GRAPH=READY",
+  "plan_sha256": "a83058e6d176fbbab39874edd00187276ed83a69382a3f4a8fa755bbd7b036c9",
+  "nodes": [
+    {
+      "id": "T-20260915-admission-decision",
+      "title": "Allow the first 100 requests and deny request 101",
+      "seam_id": "SEAM-ENFORCEMENT",
+      "swimlane_id": "LANE-ENFORCEMENT",
+      "leg_id": "LEG-ADMISSION-DECISION",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "The limiter returns an allow decision for requests 1 through 100 and a deny decision for request 101 against a limit of 100 in one window, denies without incrementing the admitted count, handles the typed no-policy result explicitly, and its tests pass.",
+      "touches_paths": [],
+      "creates_paths": [
+        "src/rate_limiting/limiter.py",
+        "tests/rate_limiting/test_admission_decision.py"
+      ]
+    },
+    {
+      "id": "T-20260915-decision-telemetry",
+      "title": "Decision telemetry matching the returned decision",
+      "seam_id": "SEAM-DECISION-SIGNAL",
+      "swimlane_id": "LANE-SIGNAL",
+      "leg_id": "LEG-DECISION-TELEMETRY",
+      "effort": "M",
+      "profile": "standard",
+      "done_condition": "Every allow and deny decision emits exactly one telemetry record through an injected sink whose organization, outcome, and reason fields equal the returned decision's, a sink failure does not change the decision, and the telemetry tests pass.",
+      "touches_paths": [
+        "src/rate_limiting/limiter.py"
+      ],
+      "creates_paths": [
+        "src/rate_limiting/telemetry.py",
+        "tests/rate_limiting/test_decision_telemetry.py"
+      ]
+    },
+    {
+      "id": "T-20260915-denial-reason",
+      "title": "Stable enumerated denial reason",
+      "seam_id": "SEAM-DECISION-SIGNAL",
+      "swimlane_id": "LANE-SIGNAL",
+      "leg_id": "LEG-DENIAL-REASON",
+      "effort": "M",
+      "profile": "standard",
+      "done_condition": "Denials carry a stable enumerated reason code, the reason value is asserted by tests, a golden snapshot test fails if the enumeration changes, and the module tests pass.",
+      "touches_paths": [
+        "src/rate_limiting/limiter.py"
+      ],
+      "creates_paths": [
+        "src/rate_limiting/reasons.py",
+        "tests/rate_limiting/test_denial_reason.py"
+      ]
+    },
+    {
+      "id": "T-20260915-policy-resolution",
+      "title": "Resolve exactly one effective policy per organization",
+      "seam_id": "SEAM-POLICY",
+      "swimlane_id": "LANE-POLICY",
+      "leg_id": "LEG-POLICY-RESOLUTION",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "The resolver returns exactly one effective policy for an organization under single, overlapping, and duplicate-precedence policy sets, returns a typed no-policy result when none applies, is deterministic under input reordering, and its tests pass.",
+      "touches_paths": [],
+      "creates_paths": [
+        "src/rate_limiting/policy_resolver.py",
+        "tests/rate_limiting/test_policy_resolver.py"
+      ]
+    },
+    {
+      "id": "T-20260915-policy-schema",
+      "title": "Versioned rate-limit policy schema with validation",
+      "seam_id": "SEAM-POLICY",
+      "swimlane_id": "LANE-POLICY",
+      "leg_id": "LEG-POLICY-SCHEMA",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "A policy schema module validates a versioned policy document, rejecting non-positive or non-integer limits, non-positive or unknown window durations, and unsupported schema versions, each with a typed validation error; schema tests cover valid and invalid cases and pass.",
+      "touches_paths": [],
+      "creates_paths": [
+        "src/rate_limiting/policy_schema.py",
+        "tests/rate_limiting/test_policy_schema.py"
+      ]
+    },
+    {
+      "id": "T-20260915-steel-thread-proof",
+      "title": "End-to-end steel thread proof in source order",
+      "seam_id": "SEAM-THREAD-PROOF",
+      "swimlane_id": "LANE-THREAD-PROOF",
+      "leg_id": "LEG-THREAD-PROOF",
+      "effort": "S",
+      "profile": "standard",
+      "done_condition": "One integration test rejects an invalid policy, resolves exactly one effective policy for an organization, allows 100 requests and denies request 101 in the same window, and asserts the stable reason with a matching telemetry record; it passes and no production module is modified by this leaf.",
+      "touches_paths": [],
+      "creates_paths": [
+        "tests/rate_limiting/test_steel_thread.py"
+      ]
+    },
+    {
+      "id": "T-20260915-window-counter",
+      "title": "Window counter behind a storage port",
+      "seam_id": "SEAM-ENFORCEMENT",
+      "swimlane_id": "LANE-ENFORCEMENT",
+      "leg_id": "LEG-WINDOW-COUNTER",
+      "effort": "M",
+      "profile": "standard",
+      "done_condition": "A counter port interface and in-memory adapter increment and read counts keyed by organization and window start, reset when the injected clock crosses a window boundary, keep organizations isolated, and their tests pass; no production storage dependency is added.",
+      "touches_paths": [],
+      "creates_paths": [
+        "src/rate_limiting/counter_port.py",
+        "src/rate_limiting/memory_counter.py",
+        "tests/rate_limiting/test_window_counter.py"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "T-20260915-admission-decision",
+      "to": "T-20260915-denial-reason",
+      "kind": "depends_on"
+    },
+    {
+      "from": "T-20260915-decision-telemetry",
+      "to": "T-20260915-steel-thread-proof",
+      "kind": "depends_on"
+    },
+    {
+      "from": "T-20260915-denial-reason",
+      "to": "T-20260915-decision-telemetry",
+      "kind": "contention_order"
+    },
+    {
+      "from": "T-20260915-denial-reason",
+      "to": "T-20260915-decision-telemetry",
+      "kind": "depends_on"
+    },
+    {
+      "from": "T-20260915-policy-resolution",
+      "to": "T-20260915-window-counter",
+      "kind": "depends_on"
+    },
+    {
+      "from": "T-20260915-policy-schema",
+      "to": "T-20260915-policy-resolution",
+      "kind": "depends_on"
+    },
+    {
+      "from": "T-20260915-window-counter",
+      "to": "T-20260915-admission-decision",
+      "kind": "depends_on"
+    }
+  ],
+  "contentions": [
+    {
+      "between": [
+        "T-20260915-denial-reason",
+        "T-20260915-decision-telemetry"
+      ],
+      "resolution": "Both leaves edit src/rate_limiting/limiter.py, so they are serialized on that file; the reason enumeration must exist before telemetry can emit a matching reason field.",
+      "order": [
+        "T-20260915-denial-reason",
+        "T-20260915-decision-telemetry"
+      ]
+    }
+  ],
+  "critical_path": [
+    "T-20260915-policy-schema",
+    "T-20260915-policy-resolution",
+    "T-20260915-window-counter",
+    "T-20260915-admission-decision",
+    "T-20260915-denial-reason",
+    "T-20260915-decision-telemetry",
+    "T-20260915-steel-thread-proof"
+  ],
+  "critical_path_mermaid_sha256": "5a024fb8000dbfa281f46e8fd5c4fc69269794e340241d953f95c022981ac713"
+}

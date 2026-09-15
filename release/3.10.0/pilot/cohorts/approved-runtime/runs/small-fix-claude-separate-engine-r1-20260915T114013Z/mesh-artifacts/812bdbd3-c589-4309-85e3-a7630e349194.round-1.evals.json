@@ -1,0 +1,34 @@
+{
+  "attempt_id": "812bdbd3-c589-4309-85e3-a7630e349194",
+  "contract": "TaskRecipeRound/v1",
+  "evaluation": "{\"eval\":\"eval_1\",\"status\":\"pass\",\"duration_sec\":2,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"small-fix\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n{\"eval\":\"eval_2\",\"status\":\"pass\",\"duration_sec\":1,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"write-boundary\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n{\"eval\":\"eval_3\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"source-integrity\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n{\"eval\":\"_exit_check\",\"status\":\"pass\",\"duration_sec\":2,\"stdout\":\"{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"small-fix\\\", \\\"passed\\\": true}\\n{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"write-boundary\\\", \\\"passed\\\": true}\\n{\\\"contract\\\": \\\"TaskPilotIssueEvaluation/v1\\\", \\\"scenario\\\": \\\"source-integrity\\\", \\\"passed\\\": true}\",\"stderr\":\"\"}\n",
+  "evaluation_environment": "sanitized_host",
+  "execution_identity": {
+    "model": "claude-opus-5",
+    "provider": null,
+    "reported_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-opus-5"
+    ],
+    "source": "explicit_route"
+  },
+  "finished_at": "2026-09-15T11:44:36.300212Z",
+  "harness": "claude-native",
+  "harness_version": "2.1.272 (Claude Code)",
+  "model": "claude-opus-5",
+  "provider": null,
+  "round": 1,
+  "sandbox_evidence": "",
+  "scope_digest": "c3a823e77540d5163ae2042921b1a0933961352aac0aab3218bba4fee04f2288",
+  "started_at": "2026-09-15T11:40:32.062174Z",
+  "strategy": "diagnose-repair-verify",
+  "strategy_version": "1.0.0",
+  "usage": {
+    "cache_creation_input_tokens": 37492,
+    "cache_read_input_tokens": 602552,
+    "claim": "reported_by_harness",
+    "input_tokens": 46,
+    "output_tokens": 14022,
+    "total_cost_usd": 1.029944
+  }
+}

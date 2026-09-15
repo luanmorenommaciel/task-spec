@@ -1,0 +1,101 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "mesh",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMeshCommandResult/v1",
+    "request_id": "e3d807ef-8e99-43d3-bcf1-1fa2e5223807",
+    "ok": true,
+    "code": "MESH_RUN_STARTED",
+    "message": "authorized TaskMesh leases acquired",
+    "data": {
+      "attempts": [
+        {
+          "adapter": "claude-native",
+          "branch": "taskmesh/20260914-pilot-small-fix/812bdbd3",
+          "decision": {
+            "candidates": [
+              {
+                "adapter": "codex-native",
+                "eligible": false,
+                "rejection_reasons": [
+                  "TASK_BACKEND_CONSTRAINT"
+                ],
+                "static_score": 100
+              },
+              {
+                "adapter": "claude-native",
+                "eligible": true,
+                "rejection_reasons": [],
+                "static_score": 99
+              }
+            ],
+            "contract": "DispatchDecision/v1",
+            "decided_at": "2026-09-15T11:40:28.45887Z",
+            "explanation": "selected by explicit choice, task backend, roster band, static policy, bounded advisor order, then stable tie-breaker",
+            "policy_digest": "sha256:846c9fa667dafc7258f70f8320424700cd2e88bfed2bcfb6479fd5904a5bac3c",
+            "selected": "claude-native",
+            "task_id": "T-20260914-pilot-small-fix",
+            "task_revision_digest": "sha256:fbcb836eb5ed638fdb47fd12d70974ddcb6f5f38ee87f46de843189b08a1e0e8"
+          },
+          "lease": {
+            "attempt_id": "812bdbd3-c589-4309-85e3-a7630e349194",
+            "contract": "RunLease/v1",
+            "expires_at": "2026-09-15T11:45:28.459091Z",
+            "fencing_token": 1,
+            "heartbeat_at": "2026-09-15T11:40:28.459091Z",
+            "issued_at": "2026-09-15T11:40:28.459091Z",
+            "owner": "e3d807ef-8e99-43d3-bcf1-1fa2e5223807",
+            "run_id": "9f779543-ea10-4981-813c-bfcecca4701b",
+            "state": "leased",
+            "task_id": "T-20260914-pilot-small-fix",
+            "task_revision_digest": "sha256:fbcb836eb5ed638fdb47fd12d70974ddcb6f5f38ee87f46de843189b08a1e0e8"
+          },
+          "route": {
+            "adapter": "claude-native",
+            "effort": "S",
+            "mode": "supervised",
+            "model": "claude-opus-5",
+            "provider": "",
+            "source": "flag"
+          },
+          "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-5dvrb_id/task-spec-3.9.0/.taskspec/mesh/workspaces/9f779543-ea10-4981-813c-bfcecca4701b/attempts/812bdbd3-c589-4309-85e3-a7630e349194"
+        }
+      ],
+      "leases": [
+        {
+          "attempt_id": "812bdbd3-c589-4309-85e3-a7630e349194",
+          "contract": "RunLease/v1",
+          "expires_at": "2026-09-15T11:45:28.459091Z",
+          "fencing_token": 1,
+          "heartbeat_at": "2026-09-15T11:40:28.459091Z",
+          "issued_at": "2026-09-15T11:40:28.459091Z",
+          "owner": "e3d807ef-8e99-43d3-bcf1-1fa2e5223807",
+          "run_id": "9f779543-ea10-4981-813c-bfcecca4701b",
+          "state": "leased",
+          "task_id": "T-20260914-pilot-small-fix",
+          "task_revision_digest": "sha256:fbcb836eb5ed638fdb47fd12d70974ddcb6f5f38ee87f46de843189b08a1e0e8"
+        }
+      ],
+      "run": {
+        "contract": "TaskMeshRun/v1",
+        "created_at": "2026-09-15T11:40:25.998631Z",
+        "graph_revision_digest": "sha256:b3e0d2bef0338af182dd3fc4ea51514456e3bb6d4daabe83db8570ef8572458c",
+        "integration_branch": "taskmesh/run/9f779543",
+        "max_parallel": 2,
+        "mode": "supervised",
+        "repository": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-5dvrb_id/task-spec-3.9.0",
+        "run_id": "9f779543-ea10-4981-813c-bfcecca4701b",
+        "state": "active",
+        "target": {
+          "branch": "main",
+          "commit": "afb8bafed08f3d2618f2be9367659b1f665ae4f3"
+        }
+      }
+    }
+  },
+  "stdout": "",
+  "stderr": ""
+}

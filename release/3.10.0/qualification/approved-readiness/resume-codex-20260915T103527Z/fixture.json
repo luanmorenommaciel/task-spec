@@ -1,0 +1,9 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat cegv8vet",
+  "case": "resume",
+  "source_commit": "e2207854dc6faf3bcb002766b3db5cfcf86334e1",
+  "installed_skill_sha256": "95af19b1e47e9810250a9b98eaa922ded1f525e82db7f9b092018c2baff8e0bf",
+  "engine_version": "3.10.0",
+  "path_cli": "/private/tmp/taskspec-retry-engines/3.10.0/bin/taskspec",
+  "native_plugin": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat cegv8vet/.agents/skills/task-spec"
+}

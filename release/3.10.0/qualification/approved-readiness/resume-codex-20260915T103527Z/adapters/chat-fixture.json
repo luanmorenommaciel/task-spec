@@ -1,0 +1,17 @@
+{
+  "contract": "TaskMeshAdapter/v1",
+  "name": "chat-fixture",
+  "harness": "custom",
+  "executable": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/approved-readiness/resume-codex-20260915T103527Z/fixture-worker.sh",
+  "version_args": [
+    "--version"
+  ],
+  "prompt_mode": "argument",
+  "event_format": "text",
+  "assurance_modes": [
+    "supervised"
+  ],
+  "command": [
+    "run"
+  ]
+}

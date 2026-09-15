@@ -1,0 +1,19 @@
+{
+  "contract": "TaskToolkitPilotSourceImpact/v1",
+  "observed_at": "2026-09-15T11:40:12.738794+00:00",
+  "release_source_commit": "79ec514387fed8c941dbd9ffb3e6d3ededfc85f3",
+  "registered_runtime_unchanged": true,
+  "controllers_match_registration": true,
+  "changed_files": [
+    "SKILL.md",
+    "docs/guides/toolkit/decomposition.md",
+    "docs/guides/toolkit/execution.md",
+    "docs/guides/toolkit/recipes.md",
+    "skills/task-spec/SKILL.md",
+    "skills/task-spec/docs/guides/toolkit/decomposition.md",
+    "skills/task-spec/docs/guides/toolkit/execution.md",
+    "skills/task-spec/docs/guides/toolkit/recipes.md"
+  ],
+  "interpretation": "Only chat guidance differs from the registered runtime. Fixed authored execution contracts and comparative engine code are unchanged; chat authoring qualification is separate.",
+  "qualified": false
+}

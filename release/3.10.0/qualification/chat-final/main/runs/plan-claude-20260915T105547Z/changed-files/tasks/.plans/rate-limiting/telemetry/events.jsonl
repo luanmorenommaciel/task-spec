@@ -1,0 +1,2 @@
+{"attributes":{"source":{"name":"source-recipe.yaml","sha256":"247c7cd1db882f7348d401d4d2cda1f15411cd80b4ee95aca087b8f20d87a244"}},"authorization":false,"event":"taskspec.decompose.map","schema_version":1,"time":"2026-09-15T11:03:06.708463+00:00","token":"SEAM_MAP=READY"}
+{"attributes":{"lanes":4,"legs":7},"authorization":false,"event":"taskspec.decompose.plan","schema_version":1,"time":"2026-09-15T11:03:06.824022+00:00","token":"DELIVERY_PLAN=NEEDS_REVIEW"}

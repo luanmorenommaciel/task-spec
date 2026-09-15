@@ -1,0 +1,1 @@
+Turn the problem in tests/fixtures/toolkit/blueprint.md into a proposed plan. Preserve the stated ownership and metering boundary. Do not approve or execute it.

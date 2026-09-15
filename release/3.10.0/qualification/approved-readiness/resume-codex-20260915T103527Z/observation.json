@@ -1,0 +1,176 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "resume",
+  "harness": "codex",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/approved-readiness/resume-codex-20260915T103527Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "adapters/chat-fixture.json",
+      "sha256": "106fc9e5f7dedd492dd89d5a1bc30869275a8307589a01264ffb075caed744be"
+    },
+    {
+      "path": "after.json",
+      "sha256": "ab4531d780453795dfda53ce9cc7052ef01f7a368efdd31754fc98997d30da60"
+    },
+    {
+      "path": "before.json",
+      "sha256": "ab4531d780453795dfda53ce9cc7052ef01f7a368efdd31754fc98997d30da60"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "c4d658b91cb0f4dfbc9d840fe0f3b019525948f8b656187fcf6dbc8e2d2a37e3"
+    },
+    {
+      "path": "daemon-cleanup.json",
+      "sha256": "e32a277152e65ee3929b895799c893e4e85a2be1c007de465c2120d692b27737"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "f7a44c7a8ee7af66a13dc0d8576f63f856223e77f95cff6dd929b4f8e64deb6c"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "ef001c517352d900fe22767cfdcdd25a13a6cecead9fdc853c9c87fd111daf9b"
+    },
+    {
+      "path": "fixture-worker.sh",
+      "sha256": "ee099fcc473fb7934330ce08377bc5d4cef7d1d0475fc1a552548ab16bb05966"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "18beee22f2ee10de870f6105ab96c6e7fbb507cf59aeec68ee607bfe0684fad4"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "a2358e3fb54f40a7d94d2638e7f9fc75ebea145934c0211f84749b66d036a665"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "a9f6c6f912861f99c81129c8024cb85694b129d57562d5d680f6ba0d4cfd6b88"
+    },
+    {
+      "path": "initial-attempt.json",
+      "sha256": "5f72031a06e62480cc0a48c0f4e8c995595b4e08d7cd544058286904d26a1efd"
+    },
+    {
+      "path": "initial-mesh-state.json",
+      "sha256": "0f862df313ef336483868263d4ce81d4023fe94a1e43dc34973071735ef31d71"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "b99b091e4f572d96db4fc6f51047e7e3e379c3de0381eb05b926bd4dfd3c4350"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "93f721509fe53495296407590a399c0b506582bdede531fbc2e1453fb8616aa1"
+    },
+    {
+      "path": "runtime-observation.json",
+      "sha256": "88c129d5fdb97ff617a807e75a6abb62c33949e1f86274cbdcd535bc3695a299"
+    },
+    {
+      "path": "socket-permission.json",
+      "sha256": "0e21fcb3c099aa63cf2b55fb2faaa69bab071318883807c4be34f579fdafa4f0"
+    },
+    {
+      "path": "workspace-evidence/.taskspec/mesh/artifacts/0b61e34b-3a85-486b-b857-511d12b0c427.json",
+      "sha256": "59ab612ac53d80f64825d2a3f0d5e44a112b7a11fa52a024e92ceff4d9dbbaff"
+    },
+    {
+      "path": "workspace-evidence/.taskspec/mesh/artifacts/0b61e34b-3a85-486b-b857-511d12b0c427.round-1.evals.json",
+      "sha256": "96b093febf4386312acfcafdde9e9dbd866905dfa4bf67f1c3e4d2e962b71162"
+    },
+    {
+      "path": "workspace-evidence/.taskspec/mesh/artifacts/0b61e34b-3a85-486b-b857-511d12b0c427.round-1.json",
+      "sha256": "59ab612ac53d80f64825d2a3f0d5e44a112b7a11fa52a024e92ceff4d9dbbaff"
+    },
+    {
+      "path": "workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/bundle.json",
+      "sha256": "70a7a79c8817477bc3a28fc9be5c3db9e2c3c676a76be166dab6de92c097cf79"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/decisions/ADR-RATE-LIMIT-ORDER.md",
+      "sha256": "a10ce522f4e3f8d3a0a92c86cc990345f488f06ecaf20ca3b099c005ec9d00b3"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/delivery-plan.yaml",
+      "sha256": "2d6ed9a9b1796971bcd4906430537611ada4797e6d19752177b0ac6effd5f4d6"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/evidence.jsonl",
+      "sha256": "955bf48075bd4c1f7517942d7e4883b9d9d315e217d05aeac6edf9d9e83c3c12"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/intent.md",
+      "sha256": "4254dde17e3a0ea801b3c85e1b28fd7a93b6485049ad6258b1bfb9ac915834ac"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/legs/LEG-POLICY-SCHEMA-VALID.md",
+      "sha256": "476e968fc815208decf9315db9be16731953b4a39239c9a71f2f8959ad037761"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/proposed-graph.json",
+      "sha256": "9a2904c72576b93bd1c83874013641f5ef05a8f6023270dea48b48e15d6630c3"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/reviews/delivery-plan-review.json",
+      "sha256": "7a420b11af8d4aa48be00a5735ce81dcee24b4ad81cfb8ce87b632ff67e7b2da"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/seam-map.yaml",
+      "sha256": "6bc2d5539dc999dcd8086b953f6283e4cfac8bddd2f6dc4a50bafba0b21b1a7f"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/seams/SEAM-POLICY-CONTRACT.md",
+      "sha256": "0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/snapshots/681d40b08e1b0a37af132e052eab5400e016d12affe50fc64ac4a78a109ccea7.json",
+      "sha256": "199412678766d86d6becae1e758a655f3b0d6d1a6fd362860e929eb51ad640aa"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/source-recipe.yaml",
+      "sha256": "e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/steel-thread.md",
+      "sha256": "a8d80d134a74e0489bf1ceada14156233f448ced5a6decb861d32f9a11764aa4"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/swimlanes/LANE-POLICY-CONTRACT.md",
+      "sha256": "ac8cab4e6292cc4ba9a689b84bf10b0f4152cf3aee2a122b2015a7ae44c27811"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/system-map.md",
+      "sha256": "e340642115b62e87aceb3a578dc6949d4a408b08c203f2be5c8edae82f758fb4"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/task-plan-lineage.json",
+      "sha256": "88129630f2a2295923b58facc5ffd1bbee8e8a7f81c3932b5aae5654d63b128f"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/task-plan.json",
+      "sha256": "f50bb987be17e9ecf2594b8da48168c97335db0594cbb64cad3a19128fd1074a"
+    },
+    {
+      "path": "workspace-evidence/tasks/.plans/managed/telemetry/events.jsonl",
+      "sha256": "06e535f123c22db39ab663d6364a3311604adf6927ab9ee76ac78fb2adf08017"
+    },
+    {
+      "path": "workspace-evidence/tasks/T-20260914-chat-output.md",
+      "sha256": "697d093301980e2851efa2f082b64a81dfd466f3cfc7c36dfc55b94d3ccd53c3"
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "contract": "TaskPlanSnapshot/v1",
+  "initiative": "managed",
+  "review": {
+    "artifacts_sha256": {
+      "decisions/ADR-RATE-LIMIT-ORDER.md": "a10ce522f4e3f8d3a0a92c86cc990345f488f06ecaf20ca3b099c005ec9d00b3",
+      "evidence.jsonl": "955bf48075bd4c1f7517942d7e4883b9d9d315e217d05aeac6edf9d9e83c3c12",
+      "intent.md": "4254dde17e3a0ea801b3c85e1b28fd7a93b6485049ad6258b1bfb9ac915834ac",
+      "legs/LEG-POLICY-SCHEMA-VALID.md": "476e968fc815208decf9315db9be16731953b4a39239c9a71f2f8959ad037761",
+      "proposed-graph.json": "9a2904c72576b93bd1c83874013641f5ef05a8f6023270dea48b48e15d6630c3",
+      "seam-map.yaml": "6bc2d5539dc999dcd8086b953f6283e4cfac8bddd2f6dc4a50bafba0b21b1a7f",
+      "seams/SEAM-POLICY-CONTRACT.md": "0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4",
+      "source-recipe.yaml": "e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766",
+      "steel-thread.md": "a8d80d134a74e0489bf1ceada14156233f448ced5a6decb861d32f9a11764aa4",
+      "swimlanes/LANE-POLICY-CONTRACT.md": "ac8cab4e6292cc4ba9a689b84bf10b0f4152cf3aee2a122b2015a7ae44c27811",
+      "system-map.md": "e340642115b62e87aceb3a578dc6949d4a408b08c203f2be5c8edae82f758fb4"
+    },
+    "disposition": "accepted",
+    "draft_sha256": "897ac803dd9db6bf4bb391b3a40d65f173725867731f26289b6ad45f1f7c2d04",
+    "fixture": false,
+    "plan_sha256": "d3880e37c7bcdef6f3411bc7f4527a71d283b92748ecaa34875a683abb228bb5",
+    "reason": "Explicit synthetic fixture under the authorized chat qualification scope.",
+    "recipe_sha256": "e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766",
+    "reviewed_at": "2026-09-15T11:29:56.799992+00:00",
+    "reviewer": "fixture-controller",
+    "schema_version": 1,
+    "signature": "hmac-taskplan-v1:13f4f67c:6e70861e360734ccf2a63e8cb20278ff60122ed9d7f564ef3d3a49ffe657da46",
+    "topology_sha256": "9a2904c72576b93bd1c83874013641f5ef05a8f6023270dea48b48e15d6630c3"
+  },
+  "reviewed_artifacts": {
+    "decisions/ADR-RATE-LIMIT-ORDER.md": {
+      "sha256": "a10ce522f4e3f8d3a0a92c86cc990345f488f06ecaf20ca3b099c005ec9d00b3",
+      "content": "---\nschema_version: 1\nkind: decision\nid: ADR-RATE-LIMIT-ORDER\nstatus: accepted\nowner: example-fixture\nrationale: 'The fixture follows the blueprint order: schema, effective policy, request 101 enforcement,\n  then visible reason and decision telemetry.'\n---\n# ADR-RATE-LIMIT-ORDER\n\nStatus: **accepted**\n\nOwner: example-fixture\n\n## Rationale\n\nThe fixture follows the blueprint order: schema, effective policy, request 101 enforcement, then visible reason and decision telemetry.\n"
+    },
+    "evidence.jsonl": {
+      "sha256": "955bf48075bd4c1f7517942d7e4883b9d9d315e217d05aeac6edf9d9e83c3c12",
+      "content": "{\"claim\":\"external\",\"confidence\":1.0,\"id\":\"E-BLUEPRINT\",\"source\":{\"captured_at\":\"2026-08-02T00:00:00Z\",\"sha256\":\"f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445\",\"uri\":\"tests/fixtures/toolkit/blueprint.md\"},\"summary\":\"Synthetic blueprint fixture describing the rate-limiting steel thread.\"}\n"
+    },
+    "intent.md": {
+      "sha256": "4254dde17e3a0ea801b3c85e1b28fd7a93b6485049ad6258b1bfb9ac915834ac",
+      "content": "---\nschema_version: 1\nkind: delivery-intent\nid: DI-RATE-LIMIT\ntitle: Enforce organization-level request limits with visible decisions\nclaim: proposed\nsource:\n  uri: tests/fixtures/toolkit/blueprint.md\n  captured_at: '2026-08-02T00:00:00Z'\n  sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445\nsuccess:\n- a.txt contains completed and b.txt remains empty\nout_of_scope:\n- Replacing provider-owned usage metering.\n- Choosing production storage or deployment infrastructure.\n---\n# Enforce organization-level request limits with visible decisions\n\n## Delivery outcome\n\nProduce an exact completion artifact while preserving the sibling file.\n\n## Evidence boundary\n\nThis artifact records a **proposed** claim. Its source, capture time,\nand content hash are recorded in frontmatter; the claim is not implementation\nevidence by itself.\n"
+    },
+    "legs/LEG-POLICY-SCHEMA-VALID.md": {
+      "sha256": "476e968fc815208decf9315db9be16731953b4a39239c9a71f2f8959ad037761",
+      "content": "---\nschema_version: 1\nkind: capability-leg\nclaim: derived\nid: LEG-POLICY-SCHEMA-VALID\nseam_id: SEAM-POLICY-CONTRACT\nswimlane_id: LANE-POLICY-CONTRACT\nobservable_state: The completion artifact contains its accepted value\nproof: Exact output and untouched sibling checks pass.\nrequires: []\nproduces:\n- completed artifact\ntasks:\n- id: T-20260914-chat-output\n  title: Complete the output artifact\n  goal: Write the accepted completion value inside one file.\n  done_condition: a.txt contains completed and b.txt remains empty.\n  effort: S\n  profile: standard\n  execution_backend: any\n  required_tools:\n  - bash\n  depends_on: []\n  touches_paths:\n  - a.txt\n  creates_paths: []\n  behavior:\n  - id: B-1\n    given: a policy with a positive limit and window\n    when: the document is validated\n    then: schema validation succeeds\n  - id: B-2\n    given: a policy with a zero limit or window\n    when: the document is validated\n    then: schema validation fails\n  evals:\n  - id: eval_1\n    description: The policy schema exists and parses as JSON\n    bash: test \"$(cat a.txt)\" = completed\n    verifies:\n    - B-1\n  - id: eval_2\n    description: Valid policy examples pass the schema tests\n    bash: test \"$(wc -c < a.txt | tr -d ' ')\" = 9\n    verifies:\n    - B-1\n  - id: eval_3\n    description: Invalid non-positive values are rejected\n    bash: test ! -s b.txt\n    verifies:\n    - B-2\n  anti_patterns:\n  - action: encode limits only in handler constants\n    reason: downstream resolution would have no versioned contract\n    instead: validate one explicit schema before resolution\n  - action: accept zero or negative windows\n    reason: enforcement semantics would be undefined\n    instead: reject non-positive values at the contract boundary\n  - action: couple the schema to one storage provider\n    reason: policy shape and persistence are separate decisions\n    instead: keep the schema provider-neutral\n  do_not_touch:\n  - tests/fixtures/toolkit/blueprint.md\n  rollback: Remove the additive schema and its focused tests.\n  observability: policy schema test pass count\n  execution_recipe: diagnose-repair-verify\nsource_seam_sha256: 0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4\n---\n# The completion artifact contains its accepted value\n\n## Observable proof\n\nExact output and untouched sibling checks pass.\n\n## Runnable leaves\n\n- `T-20260914-chat-output` \u2014 Complete the output artifact: a.txt contains completed and b.txt remains empty.\n\nThe leg names a capability state, not an activity. Each leaf owns one coherent,\nindependently provable done-condition.\n"
+    },
+    "proposed-graph.json": {
+      "sha256": "9a2904c72576b93bd1c83874013641f5ef05a8f6023270dea48b48e15d6630c3",
+      "content": "{\n  \"schema_version\": 1,\n  \"status\": \"TASK_GRAPH=READY\",\n  \"plan_sha256\": \"897ac803dd9db6bf4bb391b3a40d65f173725867731f26289b6ad45f1f7c2d04\",\n  \"nodes\": [\n    {\n      \"id\": \"T-20260914-chat-output\",\n      \"title\": \"Complete the output artifact\",\n      \"seam_id\": \"SEAM-POLICY-CONTRACT\",\n      \"swimlane_id\": \"LANE-POLICY-CONTRACT\",\n      \"leg_id\": \"LEG-POLICY-SCHEMA-VALID\",\n      \"effort\": \"S\",\n      \"profile\": \"standard\",\n      \"done_condition\": \"a.txt contains completed and b.txt remains empty.\",\n      \"touches_paths\": [\n        \"a.txt\"\n      ],\n      \"creates_paths\": []\n    }\n  ],\n  \"edges\": [],\n  \"contentions\": [],\n  \"critical_path\": [\n    \"T-20260914-chat-output\"\n  ],\n  \"critical_path_mermaid_sha256\": \"495b9cc86e8f4369664fe267fda4575e71117e7cdb00c10f8aa32a2474696697\"\n}\n"
+    },
+    "seam-map.yaml": {
+      "sha256": "6bc2d5539dc999dcd8086b953f6283e4cfac8bddd2f6dc4a50bafba0b21b1a7f",
+      "content": "schema_version: 1\nstatus: SEAM_MAP=READY\nintent_id: DI-RATE-LIMIT\nsource_recipe:\n  name: source-recipe.yaml\n  sha256: e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766\nintent_sha256: 4254dde17e3a0ea801b3c85e1b28fd7a93b6485049ad6258b1bfb9ac915834ac\nsystem_map_sha256: e340642115b62e87aceb3a578dc6949d4a408b08c203f2be5c8edae82f758fb4\nevidence_sha256: 955bf48075bd4c1f7517942d7e4883b9d9d315e217d05aeac6edf9d9e83c3c12\ndecisions:\n- id: ADR-RATE-LIMIT-ORDER\n  path: tasks/.plans/managed/decisions/ADR-RATE-LIMIT-ORDER.md\n  status: accepted\n  sha256: a10ce522f4e3f8d3a0a92c86cc990345f488f06ecaf20ca3b099c005ec9d00b3\nseams:\n- id: SEAM-POLICY-CONTRACT\n  path: tasks/.plans/managed/seams/SEAM-POLICY-CONTRACT.md\n  owner: platform-contracts\n  evidence:\n  - E-BLUEPRINT\n  swimlane_id: LANE-POLICY-CONTRACT\n  sha256: 0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4\n"
+    },
+    "seams/SEAM-POLICY-CONTRACT.md": {
+      "sha256": "0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4",
+      "content": "---\nschema_version: 1\nkind: seam\nclaim: derived\nid: SEAM-POLICY-CONTRACT\nname: Policy contract\ndescription: Separates accepted policy shape from resolution and enforcement.\nevidence:\n- E-BLUEPRINT\nresponsibility: Own the completion artifact\nconsumes:\n- authored organization policy\nproduces:\n- completed artifact\nowner: platform-contracts\nindependent_proof: Read the artifact and independently check its exact bytes.\ndecision_ids:\n- ADR-RATE-LIMIT-ORDER\nrejected_alternatives:\n- alternative: Treat the API handler as the policy boundary\n  reason: Handler ownership would mix contract, resolution, and enforcement concerns.\nswimlane:\n  id: LANE-POLICY-CONTRACT\n  name: Policy contract lane\n  owner: platform-contracts\n  legs:\n  - id: LEG-POLICY-SCHEMA-VALID\n    observable_state: The completion artifact contains its accepted value\n    proof: Exact output and untouched sibling checks pass.\n    requires: []\n    produces:\n    - completed artifact\n    tasks:\n    - id: T-20260914-chat-output\n      title: Complete the output artifact\n      goal: Write the accepted completion value inside one file.\n      done_condition: a.txt contains completed and b.txt remains empty.\n      effort: S\n      profile: standard\n      execution_backend: any\n      required_tools:\n      - bash\n      depends_on: []\n      touches_paths:\n      - a.txt\n      creates_paths: []\n      behavior:\n      - id: B-1\n        given: a policy with a positive limit and window\n        when: the document is validated\n        then: schema validation succeeds\n      - id: B-2\n        given: a policy with a zero limit or window\n        when: the document is validated\n        then: schema validation fails\n      evals:\n      - id: eval_1\n        description: The policy schema exists and parses as JSON\n        bash: test \"$(cat a.txt)\" = completed\n        verifies:\n        - B-1\n      - id: eval_2\n        description: Valid policy examples pass the schema tests\n        bash: test \"$(wc -c < a.txt | tr -d ' ')\" = 9\n        verifies:\n        - B-1\n      - id: eval_3\n        description: Invalid non-positive values are rejected\n        bash: test ! -s b.txt\n        verifies:\n        - B-2\n      anti_patterns:\n      - action: encode limits only in handler constants\n        reason: downstream resolution would have no versioned contract\n        instead: validate one explicit schema before resolution\n      - action: accept zero or negative windows\n        reason: enforcement semantics would be undefined\n        instead: reject non-positive values at the contract boundary\n      - action: couple the schema to one storage provider\n        reason: policy shape and persistence are separate decisions\n        instead: keep the schema provider-neutral\n      do_not_touch:\n      - tests/fixtures/toolkit/blueprint.md\n      rollback: Remove the additive schema and its focused tests.\n      observability: policy schema test pass count\n      execution_recipe: diagnose-repair-verify\n---\n# Policy contract\n\nSeparates accepted policy shape from resolution and enforcement.\n\n## Responsibility\n\nOwn the completion artifact\n\n## Independent proof\n\nRead the artifact and independently check its exact bytes.\n\n## Rejected alternatives\n\n- **Treat the API handler as the policy boundary** \u2014 Handler ownership would mix contract, resolution, and enforcement concerns.\n\nThis derived seam is ready only while its cited evidence, named owner, contract,\nand rejected alternatives remain intact.\n"
+    },
+    "source-recipe.yaml": {
+      "sha256": "e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766",
+      "content": "schema_version: 1\nintent:\n  id: DI-RATE-LIMIT\n  title: Enforce organization-level request limits with visible decisions\n  summary: Produce an exact completion artifact while preserving the sibling file.\n  claim: proposed\n  source:\n    uri: tests/fixtures/toolkit/blueprint.md\n    captured_at: '2026-08-02T00:00:00Z'\n    sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445\n  success:\n  - a.txt contains completed and b.txt remains empty\n  out_of_scope:\n  - Replacing provider-owned usage metering.\n  - Choosing production storage or deployment infrastructure.\nsystem_map:\n  claim: proposed\n  components:\n  - Policy contract boundary\n  - Effective policy resolver\n  - Request enforcement boundary\n  - Decision response and telemetry boundary\n  external_dependencies:\n  - Organization identity supplied by the host application\n  - Time-window and counter state supplied by an implementation-selected adapter\n  unknowns: []\nevidence:\n- id: E-BLUEPRINT\n  claim: external\n  source:\n    uri: tests/fixtures/toolkit/blueprint.md\n    captured_at: '2026-08-02T00:00:00Z'\n    sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445\n  confidence: 1.0\n  summary: Synthetic blueprint fixture describing the rate-limiting steel thread.\ndecisions:\n- id: ADR-RATE-LIMIT-ORDER\n  status: accepted\n  owner: example-fixture\n  rationale: 'The fixture follows the blueprint order: schema, effective policy, request\n    101 enforcement, then visible reason and decision telemetry.'\nseams:\n- id: SEAM-POLICY-CONTRACT\n  name: Policy contract\n  description: Separates accepted policy shape from resolution and enforcement.\n  evidence:\n  - E-BLUEPRINT\n  responsibility: Own the completion artifact\n  consumes:\n  - authored organization policy\n  produces:\n  - completed artifact\n  owner: platform-contracts\n  independent_proof: Read the artifact and independently check its exact bytes.\n  decision_ids:\n  - ADR-RATE-LIMIT-ORDER\n  rejected_alternatives:\n  - alternative: Treat the API handler as the policy boundary\n    reason: Handler ownership would mix contract, resolution, and enforcement concerns.\n  swimlane:\n    id: LANE-POLICY-CONTRACT\n    name: Policy contract lane\n    owner: platform-contracts\n    legs:\n    - id: LEG-POLICY-SCHEMA-VALID\n      observable_state: The completion artifact contains its accepted value\n      proof: Exact output and untouched sibling checks pass.\n      requires: []\n      produces:\n      - completed artifact\n      tasks:\n      - id: T-20260914-chat-output\n        title: Complete the output artifact\n        goal: Write the accepted completion value inside one file.\n        done_condition: a.txt contains completed and b.txt remains empty.\n        effort: S\n        profile: standard\n        execution_backend: any\n        required_tools:\n        - bash\n        depends_on: []\n        touches_paths:\n        - a.txt\n        creates_paths: []\n        behavior:\n        - id: B-1\n          given: a policy with a positive limit and window\n          when: the document is validated\n          then: schema validation succeeds\n        - id: B-2\n          given: a policy with a zero limit or window\n          when: the document is validated\n          then: schema validation fails\n        evals:\n        - id: eval_1\n          description: The policy schema exists and parses as JSON\n          bash: test \"$(cat a.txt)\" = completed\n          verifies:\n          - B-1\n        - id: eval_2\n          description: Valid policy examples pass the schema tests\n          bash: test \"$(wc -c < a.txt | tr -d ' ')\" = 9\n          verifies:\n          - B-1\n        - id: eval_3\n          description: Invalid non-positive values are rejected\n          bash: test ! -s b.txt\n          verifies:\n          - B-2\n        anti_patterns:\n        - action: encode limits only in handler constants\n          reason: downstream resolution would have no versioned contract\n          instead: validate one explicit schema before resolution\n        - action: accept zero or negative windows\n          reason: enforcement semantics would be undefined\n          instead: reject non-positive values at the contract boundary\n        - action: couple the schema to one storage provider\n          reason: policy shape and persistence are separate decisions\n          instead: keep the schema provider-neutral\n        do_not_touch:\n        - tests/fixtures/toolkit/blueprint.md\n        rollback: Remove the additive schema and its focused tests.\n        observability: policy schema test pass count\n        execution_recipe: diagnose-repair-verify\nsteel_thread:\n- LEG-POLICY-SCHEMA-VALID\nobjections:\n- id: OBJ-METERING-SEPARATION\n  status: FIXED\n  summary: Metering was removed from the canonical steel thread and kept external.\n  owner: example-fixture\n  rationale: The accepted boundary decision leaves metering outside the four-leg proving\n    path.\ncontentions: []\n"
+    },
+    "steel-thread.md": {
+      "sha256": "a8d80d134a74e0489bf1ceada14156233f448ced5a6decb861d32f9a11764aa4",
+      "content": "# Steel Thread\n\n1. [`LEG-POLICY-SCHEMA-VALID`](legs/LEG-POLICY-SCHEMA-VALID.md)\n\nThis is a derived critical capability path. It records ordering, not\nimplementation completion or dispatch authority.\n"
+    },
+    "swimlanes/LANE-POLICY-CONTRACT.md": {
+      "sha256": "ac8cab4e6292cc4ba9a689b84bf10b0f4152cf3aee2a122b2015a7ae44c27811",
+      "content": "---\nschema_version: 1\nkind: swimlane\nclaim: derived\nid: LANE-POLICY-CONTRACT\nname: Policy contract lane\nowner: platform-contracts\nseam_id: SEAM-POLICY-CONTRACT\nsource_seam_sha256: 0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4\nlegs:\n- LEG-POLICY-SCHEMA-VALID\n---\n# Policy contract lane\n\nThis is the single owning swimlane for `SEAM-POLICY-CONTRACT`. Ownership is `platform-contracts`.\nSibling capability legs are ordered only by explicit dependencies or recorded\ncontention\u2014not by their position in this file.\n"
+    },
+    "system-map.md": {
+      "sha256": "e340642115b62e87aceb3a578dc6949d4a408b08c203f2be5c8edae82f758fb4",
+      "content": "---\nschema_version: 1\nkind: system-map\nclaim: proposed\ncomponents:\n- Policy contract boundary\n- Effective policy resolver\n- Request enforcement boundary\n- Decision response and telemetry boundary\nexternal_dependencies:\n- Organization identity supplied by the host application\n- Time-window and counter state supplied by an implementation-selected adapter\nunknowns: []\nproposed_steel_thread:\n- LEG-POLICY-SCHEMA-VALID\nobjections:\n- id: OBJ-METERING-SEPARATION\n  status: FIXED\n  summary: Metering was removed from the canonical steel thread and kept external.\n  owner: example-fixture\n  rationale: The accepted boundary decision leaves metering outside the four-leg proving path.\ncontentions: []\n---\n# System Map\n\n## Components\n\n- Policy contract boundary\n- Effective policy resolver\n- Request enforcement boundary\n- Decision response and telemetry boundary\n\n## External dependencies\n\n- Organization identity supplied by the host application\n- Time-window and counter state supplied by an implementation-selected adapter\n\n## Unknowns\n\n- (none)\n\nThis is a **proposed** map. The delivery-plan transformation must\nclose or gate every material unknown; it may not reinterpret this text as\nruntime proof.\n"
+    },
+    "delivery-plan.yaml": {
+      "sha256": "d3880e37c7bcdef6f3411bc7f4527a71d283b92748ecaa34875a683abb228bb5",
+      "content": "schema_version: 1\nstatus: DELIVERY_PLAN=READY\nseam_map_sha256: 6bc2d5539dc999dcd8086b953f6283e4cfac8bddd2f6dc4a50bafba0b21b1a7f\nswimlanes:\n- id: LANE-POLICY-CONTRACT\n  seam_id: SEAM-POLICY-CONTRACT\n  owner: platform-contracts\n  path: tasks/.plans/managed/swimlanes/LANE-POLICY-CONTRACT.md\n  sha256: ac8cab4e6292cc4ba9a689b84bf10b0f4152cf3aee2a122b2015a7ae44c27811\nlegs:\n- id: LEG-POLICY-SCHEMA-VALID\n  seam_id: SEAM-POLICY-CONTRACT\n  swimlane_id: LANE-POLICY-CONTRACT\n  path: tasks/.plans/managed/legs/LEG-POLICY-SCHEMA-VALID.md\n  sha256: 476e968fc815208decf9315db9be16731953b4a39239c9a71f2f8959ad037761\nsteel_thread:\n- LEG-POLICY-SCHEMA-VALID\nobjections:\n- id: OBJ-METERING-SEPARATION\n  status: FIXED\n  summary: Metering was removed from the canonical steel thread and kept external.\n  owner: example-fixture\n  rationale: The accepted boundary decision leaves metering outside the four-leg proving path.\ncontentions: []\nsteel_thread_path: tasks/.plans/managed/steel-thread.md\nsteel_thread_sha256: a8d80d134a74e0489bf1ceada14156233f448ced5a6decb861d32f9a11764aa4\nreview_authority_sha256: 06b0dd32b8cc8dae1bb30bb8ac10d6ffff765daf9ac229333e4b118f1285edd0\n"
+    },
+    "reviews/delivery-plan-review.json": {
+      "sha256": "a04c801837428fd5f1e038e18cebed0e030ca1e143c361a0696639a88b922b4c",
+      "content": "{\n  \"artifacts_sha256\": {\n    \"decisions/ADR-RATE-LIMIT-ORDER.md\": \"a10ce522f4e3f8d3a0a92c86cc990345f488f06ecaf20ca3b099c005ec9d00b3\",\n    \"evidence.jsonl\": \"955bf48075bd4c1f7517942d7e4883b9d9d315e217d05aeac6edf9d9e83c3c12\",\n    \"intent.md\": \"4254dde17e3a0ea801b3c85e1b28fd7a93b6485049ad6258b1bfb9ac915834ac\",\n    \"legs/LEG-POLICY-SCHEMA-VALID.md\": \"476e968fc815208decf9315db9be16731953b4a39239c9a71f2f8959ad037761\",\n    \"proposed-graph.json\": \"9a2904c72576b93bd1c83874013641f5ef05a8f6023270dea48b48e15d6630c3\",\n    \"seam-map.yaml\": \"6bc2d5539dc999dcd8086b953f6283e4cfac8bddd2f6dc4a50bafba0b21b1a7f\",\n    \"seams/SEAM-POLICY-CONTRACT.md\": \"0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4\",\n    \"source-recipe.yaml\": \"e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766\",\n    \"steel-thread.md\": \"a8d80d134a74e0489bf1ceada14156233f448ced5a6decb861d32f9a11764aa4\",\n    \"swimlanes/LANE-POLICY-CONTRACT.md\": \"ac8cab4e6292cc4ba9a689b84bf10b0f4152cf3aee2a122b2015a7ae44c27811\",\n    \"system-map.md\": \"e340642115b62e87aceb3a578dc6949d4a408b08c203f2be5c8edae82f758fb4\"\n  },\n  \"disposition\": \"accepted\",\n  \"draft_sha256\": \"897ac803dd9db6bf4bb391b3a40d65f173725867731f26289b6ad45f1f7c2d04\",\n  \"fixture\": false,\n  \"plan_sha256\": \"d3880e37c7bcdef6f3411bc7f4527a71d283b92748ecaa34875a683abb228bb5\",\n  \"reason\": \"Explicit synthetic fixture under the authorized chat qualification scope.\",\n  \"recipe_sha256\": \"e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766\",\n  \"reviewed_at\": \"2026-09-15T11:29:56.799992+00:00\",\n  \"reviewer\": \"fixture-controller\",\n  \"schema_version\": 1,\n  \"signature\": \"hmac-taskplan-v1:13f4f67c:6e70861e360734ccf2a63e8cb20278ff60122ed9d7f564ef3d3a49ffe657da46\",\n  \"topology_sha256\": \"9a2904c72576b93bd1c83874013641f5ef05a8f6023270dea48b48e15d6630c3\"\n}\n"
+    }
+  },
+  "units": {
+    "T-20260914-chat-output": {
+      "projection_digest": "f6ca2e1c3872483d7455cfc9a0870d2fddfe3b20b786a26f995a11f6ba9b968e",
+      "projection": {
+        "unit": {
+          "agent": "any",
+          "anti_patterns": [
+            "Do not encode limits only in handler constants: downstream resolution would have no versioned contract; instead validate one explicit schema before resolution.",
+            "Do not accept zero or negative windows: enforcement semantics would be undefined; instead reject non-positive values at the contract boundary.",
+            "Do not couple the schema to one storage provider: policy shape and persistence are separate decisions; instead keep the schema provider-neutral."
+          ],
+          "behaviors": [
+            {
+              "given": "a policy with a positive limit and window",
+              "id": "B-1",
+              "then": "schema validation succeeds",
+              "when": "the document is validated"
+            },
+            {
+              "given": "a policy with a zero limit or window",
+              "id": "B-2",
+              "then": "schema validation fails",
+              "when": "the document is validated"
+            }
+          ],
+          "context": "Intent DI-RATE-LIMIT; seam SEAM-POLICY-CONTRACT; swimlane LANE-POLICY-CONTRACT; capability leg LEG-POLICY-SCHEMA-VALID. Done condition: a.txt contains completed and b.txt remains empty.",
+          "creates_paths": [],
+          "depends_on": [],
+          "do_not_touch": [
+            "tests/fixtures/toolkit/blueprint.md"
+          ],
+          "done_condition": "a.txt contains completed and b.txt remains empty.",
+          "effort": "S",
+          "evals": [
+            {
+              "command": "test \"$(cat a.txt)\" = completed",
+              "description": "The policy schema exists and parses as JSON",
+              "expected_duration_sec": 10,
+              "id": "eval_1",
+              "terminal": false,
+              "verifies": [
+                "B-1"
+              ]
+            },
+            {
+              "command": "test \"$(wc -c < a.txt | tr -d ' ')\" = 9",
+              "description": "Valid policy examples pass the schema tests",
+              "expected_duration_sec": 10,
+              "id": "eval_2",
+              "terminal": false,
+              "verifies": [
+                "B-1"
+              ]
+            },
+            {
+              "command": "test ! -s b.txt",
+              "description": "Invalid non-positive values are rejected",
+              "expected_duration_sec": 10,
+              "id": "eval_3",
+              "terminal": true,
+              "verifies": [
+                "B-2"
+              ]
+            }
+          ],
+          "execution_backend": "any",
+          "execution_recipe": "diagnose-repair-verify",
+          "goal": "Write the accepted completion value inside one file.",
+          "id": "T-20260914-chat-output",
+          "observability": "policy schema test pass count",
+          "profile": "standard",
+          "required_tools": [
+            "bash"
+          ],
+          "rollback": "Remove the additive schema and its focused tests.",
+          "source_note": "tasks/.plans/managed/legs/LEG-POLICY-SCHEMA-VALID.md#T-20260914-chat-output",
+          "title": "Complete the output artifact",
+          "touches_paths": [
+            "a.txt"
+          ],
+          "why": "Write the accepted completion value inside one file."
+        },
+        "intent": {
+          "id": "DI-RATE-LIMIT",
+          "title": "Enforce organization-level request limits with visible decisions",
+          "summary": "Produce an exact completion artifact while preserving the sibling file.",
+          "claim": "proposed",
+          "source": {
+            "uri": "tests/fixtures/toolkit/blueprint.md",
+            "captured_at": "2026-08-02T00:00:00Z",
+            "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+          },
+          "success": [
+            "a.txt contains completed and b.txt remains empty"
+          ],
+          "out_of_scope": [
+            "Replacing provider-owned usage metering.",
+            "Choosing production storage or deployment infrastructure."
+          ]
+        },
+        "original_intake": null,
+        "decisions": [
+          {
+            "id": "ADR-RATE-LIMIT-ORDER",
+            "status": "accepted",
+            "owner": "example-fixture",
+            "rationale": "The fixture follows the blueprint order: schema, effective policy, request 101 enforcement, then visible reason and decision telemetry."
+          }
+        ],
+        "seam": {
+          "id": "SEAM-POLICY-CONTRACT",
+          "name": "Policy contract",
+          "description": "Separates accepted policy shape from resolution and enforcement.",
+          "evidence": [
+            "E-BLUEPRINT"
+          ],
+          "responsibility": "Own the completion artifact",
+          "consumes": [
+            "authored organization policy"
+          ],
+          "produces": [
+            "completed artifact"
+          ],
+          "owner": "platform-contracts",
+          "independent_proof": "Read the artifact and independently check its exact bytes.",
+          "decision_ids": [
+            "ADR-RATE-LIMIT-ORDER"
+          ],
+          "rejected_alternatives": [
+            {
+              "alternative": "Treat the API handler as the policy boundary",
+              "reason": "Handler ownership would mix contract, resolution, and enforcement concerns."
+            }
+          ]
+        },
+        "lane": {
+          "id": "LANE-POLICY-CONTRACT",
+          "name": "Policy contract lane",
+          "owner": "platform-contracts"
+        },
+        "leg": {
+          "id": "LEG-POLICY-SCHEMA-VALID",
+          "observable_state": "The completion artifact contains its accepted value",
+          "proof": "Exact output and untouched sibling checks pass.",
+          "requires": [],
+          "produces": [
+            "completed artifact"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E-BLUEPRINT",
+            "claim": "external",
+            "source": {
+              "uri": "tests/fixtures/toolkit/blueprint.md",
+              "captured_at": "2026-08-02T00:00:00Z",
+              "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+            },
+            "confidence": 1.0,
+            "summary": "Synthetic blueprint fixture describing the rate-limiting steel thread."
+          }
+        ]
+      }
+    }
+  },
+  "signature": "hmac-taskplan-v1:13f4f67c:57aeb4a73570cd86a072c539dd146f167d20c3d3a47fd412089c8aee510138a1"
+}

@@ -1,0 +1,34 @@
+{
+  "contract": "TaskToolkitChatCorrection/v1",
+  "recorded_at": "2026-09-15T11:10:44.319376+00:00",
+  "reason": "Claude planning converted unresolved objections to ACCEPTED and cleared unknowns to bypass preparation blockers.",
+  "source_archive": "inputs/task-spec-3.10.0.tar.gz",
+  "source_archive_sha256": "fd4dc9639a95174453b460a1265474a073c5fd9e1577c5cd568e26053d8487c9",
+  "changes": [
+    "Preserve OPEN objections and system_map.unknowns until applicable explicit decisions resolve them.",
+    "A blocked authored proposal is an acceptable planning outcome.",
+    "Reviewer identity does not assign seam or swimlane ownership."
+  ],
+  "coverage": {
+    "retest": [
+      "plan"
+    ],
+    "new_cases": [
+      "denied",
+      "incident",
+      "run",
+      "stopped",
+      "resume",
+      "accepted"
+    ],
+    "unchanged_prior_cases": [
+      "decision",
+      "explain"
+    ],
+    "held": [
+      "atomic"
+    ]
+  },
+  "prior_cohort": "../chat-final/main",
+  "qualification": "Source versions remain separately identified; failed observations are retained. Process exit is not behavioral acceptance."
+}

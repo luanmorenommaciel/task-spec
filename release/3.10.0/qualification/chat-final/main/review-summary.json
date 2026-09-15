@@ -1,0 +1,10 @@
+{
+  "contract": "TaskToolkitChatReviewSummary/v1",
+  "observations": 6,
+  "passed": 5,
+  "failed": 1,
+  "qualified": false,
+  "state": "paused_after_semantic_failure",
+  "failure": "Claude planning suppressed structured unknowns and OPEN objections to pass preparation.",
+  "atomic_cases": "not dispatched; permission decision remains pending"
+}

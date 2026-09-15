@@ -1,0 +1,59 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "atomic",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "reviewed_at": "2026-09-15T10:40:38.220949+00:00",
+  "review_method": "Read actual native Skill invocation, authored files, tool errors, guard events, and result.",
+  "passed": false,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "author_leaf",
+    "permission_denied",
+    "stop"
+  ],
+  "claims_checked": [
+    "Loaded native task-spec skill and current CLI state.",
+    "Materialized one unsealed TaskSpec for the policy-schema change.",
+    "Authored executable evals and observed expected missing-module failures.",
+    "Attempted an external /tmp discrimination helper; restricted Write denied it.",
+    "Attempted a workspace fallback after denial; the hook denied the pending Write and stopped the turn.",
+    "No subsequent tool ran successfully and no success explanation was returned."
+  ],
+  "failures": [
+    "Authoring journey ended at a denied scratch write without a complete user-facing handoff.",
+    "The model proposed a path fallback after denial; deterministic guard prevented execution.",
+    "The draft encoded upper bounds of 1000000 requests and 86400 seconds without labeling them as proposals; the blueprint supplied neither limit."
+  ],
+  "limitations": [
+    "Single readiness run, excluded from comparative delivery metrics.",
+    "A draft task exists; that does not establish complete authoring qualification."
+  ],
+  "evidence_refs": [
+    {
+      "path": "harness.stdout",
+      "sha256": "8f1fe1fb713eda2e972600792f5b9cab957b57a4ea763c1445ea79de27ab09cf"
+    },
+    {
+      "path": "observation.json",
+      "sha256": "626f8281c1ae54b4ef25d496b021ca6d2a36b8459e13db95869571feaca0de91"
+    },
+    {
+      "path": "before.json",
+      "sha256": "565df049b0f3f71b7403e89fa960a190a18adc4e4ebfd5df93614e310b53de2c"
+    },
+    {
+      "path": "after.json",
+      "sha256": "8dce39395428a501e680d156b96e7dc99cd3bb343bacb84a080ff067446e40c3"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "c31d66e6783dcf91b2d780a268e0bf993b782d102905b6746b6c32cee9aff04f"
+    },
+    {
+      "path": "changed-files/tasks/T-20260915-policy-schema-versioned.md",
+      "sha256": "f8ee72d3a90ee7a6aa062bd0b25eb80ca3b2d18179eb6a08461bc032cad61b9e"
+    }
+  ]
+}

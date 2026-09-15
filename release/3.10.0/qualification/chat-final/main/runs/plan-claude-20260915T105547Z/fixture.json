@@ -1,0 +1,9 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat s9gcd_51",
+  "case": "plan",
+  "source_commit": "0e80dbe506c75842ae0dcb2a29cd4103439572f6",
+  "installed_skill_sha256": "ed6bf5d0b620939eab4332b29895d8be5c90fa90f7d124527237729e62de011e",
+  "engine_version": "3.10.0",
+  "path_cli": "/private/tmp/taskspec-qualified-engines/3.10.0/bin/taskspec",
+  "native_plugin": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat s9gcd_51/.agents/skills/task-spec"
+}

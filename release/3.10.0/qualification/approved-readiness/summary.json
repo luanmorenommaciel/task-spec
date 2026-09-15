@@ -1,0 +1,36 @@
+{
+  "contract": "TaskToolkitReadinessSummary/v1",
+  "observed_at": "2026-09-15T10:43:11.435313+00:00",
+  "observations": [
+    {
+      "case": "atomic",
+      "harness": "claude",
+      "passed": false,
+      "review": "atomic-claude-20260915T103348Z/behavior-review.json",
+      "review_sha256": "54ee4ac198b82e793081edb4045b3e729fa0d5cb6ce8f2a85fbbe33ed755dbd4",
+      "cost_usd": 1.720321,
+      "cost_basis": "harness_reported"
+    },
+    {
+      "case": "resume",
+      "harness": "codex",
+      "passed": true,
+      "review": "resume-codex-20260915T103527Z/behavior-review.json",
+      "review_sha256": "fda17e6091699b16ee47df904fb395e580ab721c0bb96b13e0e1fb44984bc0c9",
+      "cost_usd": 0.84386,
+      "cost_basis": "api_equivalent_estimate"
+    },
+    {
+      "case": "stopped",
+      "harness": "claude",
+      "passed": true,
+      "review": "stopped-claude-20260915T103742Z/behavior-review.json",
+      "review_sha256": "6e9012ca2cb745e83ab198fc47b14c75230b06a5f831b1d0b50c113348584b29",
+      "cost_usd": 0.6297524999999999,
+      "cost_basis": "harness_reported"
+    }
+  ],
+  "full_chat_qualified": false,
+  "scope": "Three fresh chat readiness observations, not the final matched 20-case corpus. Source-worktree smoke and socket negative checks are retained separately.",
+  "new_decision": "One corrected atomic-authoring retry pending user approval."
+}

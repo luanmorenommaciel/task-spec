@@ -1,0 +1,2 @@
+ok  	github.com/luanmorenomaciel/task-spec/mesh/cmd/taskspec-meshd	0.939s
+ok  	github.com/luanmorenomaciel/task-spec/mesh/internal/mesh	7.437s

@@ -1,0 +1,59 @@
+{
+  "contract": "TaskToolkitProspectiveProtocol/v1",
+  "created_at": "2026-09-14T20:18:22.882926+00:00",
+  "status": "frozen",
+  "authorization": "User requested real repository issues and prospective intervention recording. Fixed scopes and evaluator definitions must be registered before starting comparison.",
+  "repeats_per_cell": 2,
+  "workflows": [
+    "separate-engine",
+    "integrated",
+    "native-harness"
+  ],
+  "harnesses": {
+    "codex": {
+      "model": "gpt-6-astra",
+      "provider": "openai",
+      "version": "0.154.0"
+    },
+    "claude": {
+      "model": "claude-opus-5",
+      "provider": "anthropic",
+      "version": "2.1.270"
+    }
+  },
+  "measurements": {
+    "engineer_active_seconds": "Sum of explicitly recorded human intervention intervals during each run. Automated controller work is recorded separately. No elapsed user reading time is inferred.",
+    "accepted_capability_seconds": "Monotonic elapsed time from intent intake until independent evaluator and applicable canonical acceptance both finish. Failed or timed-out delivery remains unaccepted and retains censored duration.",
+    "cost_including_failures": "Retain harness-reported costs where available. Codex API-equivalent cost is derived from reported usage and a pinned public rate card, labeled as an estimate rather than a subscription invoice. Missing usage stays unknown.",
+    "replanning_churn": "Observed revisions to the authored scope/dependencies/proof after initial accepted plan.",
+    "integration_failures": "Observed failures when accepted leaves compose under the integration evaluator."
+  },
+  "fairness": [
+    "Same snapshot, scope, evaluator, per-leaf execution rounds, timeout, model, tool permissions, and resource constraints within each scenario/harness.",
+    "Register the run schedule before execution and rotate workflow order across repeats.",
+    "Separate engine baseline invokes the pinned Seamwise source, with its real review/compile/materialization handoff.",
+    "Integrated uses native decomposition and the same TaskMesh lifecycle.",
+    "Native harness uses the same authorized scope and independent evaluator; it is allowed practical native planning and repair within the same budget.",
+    "Record all attempts and interventions. Never remove a losing run or backfill observations from remembered durations."
+  ],
+  "release_rule": "All planned cells must complete and satisfy the original quality and productivity criteria; an unfavorable result remains a release gap.",
+  "interpretation_limits": [
+    "The same supervisor-authored issue decomposition and independent evaluator are available to all arms. This measures delivery of understood issues; it does not evaluate architectural discovery.",
+    "Native harness retains a minimal HMAC authorization and canonical acceptance envelope, with direct harness execution and bounded experimental evaluation feedback. It does not use TaskMesh or the production managed-recipe runner.",
+    "Two harnesses execute concurrently per fixed workflow block. Their repository snapshots and daemons are isolated; host CPU and provider variability remain limitations.",
+    "Controller setup, inspection, and acceptance are automation, not a new human intervention. Zero observed human intervals do not measure the human effort that originally designed the corpus.",
+    "Reported release evidence identifies a source base commit and exact candidate artifact, explicitly disclosing uncommitted candidate changes. It does not establish a deployment."
+  ],
+  "supersedes_cohort_for_comparison": "initial interrupted cohort; observations remain separately reported",
+  "parent_schedule_sha256": "ad3431b81485f71aa9c6dbaf6a6395de309d225af9725700b5a862fd71f3d4d8",
+  "cohort_rules": [
+    "A new complete schedule is frozen only after the corrected workspace infrastructure is authorized and checked.",
+    "Keep the original issue snapshot, corpus, budgets, model pins, evaluators, and comparison criteria.",
+    "Retain the initial two observations and their cost separately; do not pool incomplete old cells into the corrected matched comparison.",
+    "Record PAUSE between blocks instead of killing the scheduler to prevent further dispatch.",
+    "No permission bypass flags or tool-denial retries without the applicable authorization.",
+    "Native-harness execution stops after a reported tool permission denial; the schedule pauses after a block containing any reported denial. Failures and their costs are retained."
+  ],
+  "authorization_record": "../../../qualification/retry-approval.json",
+  "frozen_at": "2026-09-15T10:55:15.643496+00:00"
+}

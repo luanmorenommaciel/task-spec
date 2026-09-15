@@ -1,0 +1,9 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat q4oz49cs",
+  "case": "incident",
+  "source_commit": "f9853959c540adaad1e0031a5b61d7ebae4a0123",
+  "installed_skill_sha256": "706926600f628808f40f3ffd5851d261b3ebcc3caf943d88d1da6ae9c9521bd9",
+  "engine_version": "3.10.0",
+  "path_cli": "/private/tmp/taskspec-planning-fix-engines/3.10.0/bin/taskspec",
+  "native_plugin": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat q4oz49cs/.agents/skills/task-spec"
+}

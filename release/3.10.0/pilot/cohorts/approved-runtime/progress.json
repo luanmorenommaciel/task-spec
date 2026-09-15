@@ -1,0 +1,48 @@
+{
+  "contract": "TaskPilotScheduleProgress/v1",
+  "observed_at": "2026-09-15T11:48:41.817045+00:00",
+  "completed_blocks": 2,
+  "planned_blocks": 36,
+  "observations": [
+    {
+      "id": "small-fix-codex-separate-engine-r1",
+      "exit_code": 0,
+      "run_id": "small-fix-codex-separate-engine-r1-20260915T114013Z",
+      "accepted": true,
+      "error": null,
+      "elapsed_seconds": 166.430905917,
+      "cost_usd": 0.821488,
+      "permission_denied": false
+    },
+    {
+      "id": "small-fix-claude-separate-engine-r1",
+      "exit_code": 0,
+      "run_id": "small-fix-claude-separate-engine-r1-20260915T114013Z",
+      "accepted": true,
+      "error": null,
+      "elapsed_seconds": 278.897022583,
+      "cost_usd": 1.029944,
+      "permission_denied": false
+    },
+    {
+      "id": "small-fix-codex-integrated-r1",
+      "exit_code": 0,
+      "run_id": "small-fix-codex-integrated-r1-20260915T114452Z",
+      "accepted": true,
+      "error": null,
+      "elapsed_seconds": 147.524918084,
+      "cost_usd": 0.783178,
+      "permission_denied": false
+    },
+    {
+      "id": "small-fix-claude-integrated-r1",
+      "exit_code": 1,
+      "run_id": "small-fix-claude-integrated-r1-20260915T114452Z",
+      "accepted": false,
+      "error": "managed attempt stopped: parked",
+      "elapsed_seconds": 228.696648833,
+      "cost_usd": 1.0395075,
+      "permission_denied": true
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "contract": "TaskToolkitCheckEvidence/v1",
+  "observed_at": "2026-09-15T12:15:56.068716+00:00",
+  "source_commit": "8bde0ea829ee4df6eccedf923866eb1117a71d41",
+  "command": "make check",
+  "exit_code": 0,
+  "result": "CHECK=READY",
+  "conformance": "L2",
+  "log": "check-8bde0ea.txt",
+  "sha256": "6e559dbb55be6e99d195983573e03607e5e573b9e37818a98bfed90e4ae3bec8",
+  "source_archive": "source-candidates/8bde0ea/task-spec-3.10.0.tar.gz",
+  "source_archive_sha256": "ab64e23604eace256dcdb4af98ed08fb245d1cb3c05ccbaba9f54fdbe8a8aaf9",
+  "supplemental_checks": [
+    "stream-denial-readiness/final-permission-guard-tests.txt",
+    "stream-denial-readiness/final-recording-tests.txt",
+    "stream-denial-readiness/documentation-check.txt"
+  ],
+  "boundary": "Local macOS candidate gate plus focused parser and documentation checks; real-provider qualification and matching hosted checks remain pending.",
+  "final_release_gate": false
+}

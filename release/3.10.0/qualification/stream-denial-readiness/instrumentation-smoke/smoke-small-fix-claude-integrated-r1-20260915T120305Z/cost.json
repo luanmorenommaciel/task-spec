@@ -1,0 +1,11 @@
+{
+  "complete": false,
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "invocations": [
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/mesh-artifacts/b21eb476-354d-476f-bb29-637badf49393.round-1.json",
+      "known": false
+    }
+  ]
+}

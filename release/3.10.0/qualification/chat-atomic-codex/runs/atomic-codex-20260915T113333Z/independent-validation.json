@@ -1,0 +1,17 @@
+{
+  "contract": "TaskToolkitChatIndependentValidation/v1",
+  "checks": [
+    {
+      "command": "validate",
+      "exit_code": 0,
+      "stdout": "OK: /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat lca1un_v/tasks/T-20260915-policy-schema.md is a valid Task-Spec v3 (profile: standard, status: blocked \u2192 A2A: input-required)\n",
+      "stderr": ""
+    },
+    {
+      "command": "dod",
+      "exit_code": 0,
+      "stdout": "== Definition of Done \u00b7 T-20260915-policy-schema.md ==\n\nTraceability (every behavior \u2192 its verifying eval):\n  [x] B-1 \u2192 eval_1\n        GIVEN a policy satisfying proposed P-1/P-2, WHEN `validate_policy` runs, THEN it returns an \u2026\n  [x] B-2 \u2192 eval_2\n        GIVEN an invalid limit or window under P-2, WHEN `validate_policy` runs, THEN it raises \u2026\n  [x] B-3 \u2192 eval_3\n        GIVEN an unsupported version, missing/extra field, or invalid top-level shape under P-1, WHEN \u2026\n\nDoD checklist (each acceptance criterion, terminal marked *):\n  [ ] * eval_1 \u2014 Accept valid policies at lower, ordinary, and large integer values without mutation \u27f5 B-1\n  [ ] * eval_2 \u2014 Reject invalid limits and windows without coercion or mutation \u27f5 B-2\n  [ ] * eval_3 \u2014 Reject unsupported versions and malformed policy shapes without mutation \u27f5 B-3\n\nExit Check (runnable):\n  eval_1 && eval_2 && eval_3\n\nDOD=COMPLETE\n",
+      "stderr": ""
+    }
+  ]
+}

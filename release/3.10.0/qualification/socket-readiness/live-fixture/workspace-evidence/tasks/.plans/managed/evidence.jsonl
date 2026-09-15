@@ -1,0 +1,1 @@
+{"claim":"external","confidence":1.0,"id":"E-BLUEPRINT","source":{"captured_at":"2026-08-02T00:00:00Z","sha256":"f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445","uri":"tests/fixtures/toolkit/blueprint.md"},"summary":"Synthetic blueprint fixture describing the rate-limiting steel thread."}

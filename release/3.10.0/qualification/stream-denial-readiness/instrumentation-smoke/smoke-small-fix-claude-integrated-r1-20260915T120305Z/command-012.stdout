@@ -1,0 +1,33 @@
+{
+  "contract": "TaskSpecCLIResult/v1",
+  "engine_version": "3.10.0",
+  "command": "batch",
+  "ok": true,
+  "exit_code": 0,
+  "data": {
+    "contract": "TaskMaterializationReceipt/v1",
+    "engine_version": "3.10.0",
+    "input": {
+      "contract": "TaskPlan/v1",
+      "manifest": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-buyk401f/task-spec-3.9.0/tasks/.plans/pilot/task-plan.json",
+      "digest": "aa70f26da0ea8db312c86a2e86749b157c0ac450822f1c1d1640951475bab88b",
+      "approved": true
+    },
+    "output_dir": "tasks",
+    "dry_run": false,
+    "materialized": true,
+    "changed": true,
+    "state": "created",
+    "dispatch_authorized": false,
+    "tasks": [
+      {
+        "task_id": "T-20260914-pilot-small-fix",
+        "path": "tasks/T-20260914-pilot-small-fix.md",
+        "sha256": "e2b405936340bb571bc963a37cb51fb18010abd8cf50d4b92e72ffe5105dcd6e"
+      }
+    ],
+    "warnings": []
+  },
+  "stdout": "",
+  "stderr": ""
+}

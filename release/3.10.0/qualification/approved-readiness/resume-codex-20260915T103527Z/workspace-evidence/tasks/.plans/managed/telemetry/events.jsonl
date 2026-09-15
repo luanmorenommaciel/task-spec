@@ -1,0 +1,3 @@
+{"attributes":{"source":{"name":"source-recipe.yaml","sha256":"e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766"}},"authorization":false,"event":"taskspec.decompose.map","schema_version":1,"time":"2026-09-15T10:35:28.594126+00:00","token":"SEAM_MAP=READY"}
+{"attributes":{"lanes":1,"legs":1},"authorization":false,"event":"taskspec.decompose.plan","schema_version":1,"time":"2026-09-15T10:35:28.642490+00:00","token":"DELIVERY_PLAN=NEEDS_REVIEW"}
+{"attributes":{"fixture":false,"reviewer":"fixture-controller"},"authorization":false,"event":"taskspec.decompose.review","schema_version":1,"time":"2026-09-15T10:35:29.478054+00:00","token":"DELIVERY_PLAN=READY"}

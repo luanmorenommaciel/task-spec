@@ -1,0 +1,1 @@
+Make the policy-schema change in tests/fixtures/toolkit/blueprint.md one atomic TaskSpec, with executable acceptance checks. Author it for review; do not implement, authorize, or accept it.

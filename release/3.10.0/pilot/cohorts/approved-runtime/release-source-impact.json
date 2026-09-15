@@ -1,0 +1,18 @@
+{
+  "contract": "TaskToolkitPilotSourceImpact/v1",
+  "observed_at": "2026-09-15T11:27:00.773815+00:00",
+  "release_source_commit": "649884a9d1880178eec216ddcce0e9afd0e7b76a",
+  "registered_tooling_source_sha256": "e1eadf83b5359740562136e23e02a2887d8fa16281a14c8b228d9c8e45d2bc74",
+  "compared_files": 500,
+  "changed_files": [
+    "SKILL.md",
+    "docs/guides/toolkit/decomposition.md",
+    "docs/guides/toolkit/recipes.md",
+    "skills/task-spec/SKILL.md",
+    "skills/task-spec/docs/guides/toolkit/decomposition.md",
+    "skills/task-spec/docs/guides/toolkit/recipes.md"
+  ],
+  "missing_files": [],
+  "interpretation": "The frozen comparative runtime and controllers remain unchanged. Later source changes concern chat authoring guidance. Comparative cells use fixed authored contracts against the same 3.9.0 issue snapshot; this cohort does not qualify the changed chat authoring behavior.",
+  "qualified": false
+}

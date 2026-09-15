@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-09-15T11:42:54Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "674d5ce6-7900-4e0d-a920-01905c4ff45e",
+    "authorization_ref": "hmac-sha256-v3:ee4ce507:835ef2436a020cb218f55975ba216f1e7004df0ad381a0fa6e467c30f7a69f06",
+    "base_commit": "63eba5a36bb8dcdef913a9f617ce3f39e5e098bf",
+    "task_id": "T-20260914-pilot-small-fix",
+    "task_revision_digest": "sha256:d46f9dac2455541264195eeda2042f1fb7431f4a35042d98b24ba5cd568e526c"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "acceptance_verdict": "accepted",
+  "adapter_version": "2.1.272 (Claude Code)",
+  "artifacts": [
+    {
+      "digest": "sha256:56f38bca4d9261fea440b084774898a41427568c086c26a15028795b08a61bd1",
+      "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-5dvrb_id/task-spec-3.9.0/.taskspec/mesh/artifacts/812bdbd3-c589-4309-85e3-a7630e349194.json"
+    },
+    {
+      "path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-5dvrb_id/task-spec-3.9.0/.taskspec/acceptance/T-20260914-pilot-small-fix/812bdbd3-c589-4309-85e3-a7630e349194.json"
+    }
+  ],
+  "attempts": 1,
+  "contract": "EngineRunReceipt/v2",
+  "deviations": [
+    "supervised host worktree; not a security sandbox"
+  ],
+  "engine_version": "2.1.272 (Claude Code)",
+  "environment_digest": "sha256:56f38bca4d9261fea440b084774898a41427568c086c26a15028795b08a61bd1",
+  "finished_at": "2026-09-15T11:44:29.11462Z",
+  "handoff_digest": "sha256:94751849e60d2fa17d7078fdcfc904b6abcc561bdf2e45ed1552969ccc260559",
+  "model_id": "adapter-selected",
+  "observed_at": "2026-09-15T11:44:29.11462Z",
+  "provider": "claude",
+  "run_id": "9f779543-ea10-4981-813c-bfcecca4701b",
+  "started_at": "2026-09-15T11:40:32.062174Z",
+  "subject": {
+    "attempt_id": "812bdbd3-c589-4309-85e3-a7630e349194",
+    "authorization_ref": "hmac-sha256-v3:95d65bb4:2e6bb42618e6db3398a02ac2ffb68908f248e3ebcdc9d0e6ecd447d0a79719ae",
+    "base_commit": "afb8bafed08f3d2618f2be9367659b1f665ae4f3",
+    "task_id": "T-20260914-pilot-small-fix",
+    "task_revision_digest": "sha256:fbcb836eb5ed638fdb47fd12d70974ddcb6f5f38ee87f46de843189b08a1e0e8"
+  },
+  "terminal_outcome": "accepted"
+}

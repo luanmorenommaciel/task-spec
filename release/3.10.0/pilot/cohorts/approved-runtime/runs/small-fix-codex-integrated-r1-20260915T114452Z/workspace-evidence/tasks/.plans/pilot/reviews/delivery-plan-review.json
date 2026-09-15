@@ -1,0 +1,26 @@
+{
+  "artifacts_sha256": {
+    "decisions/ADR-PILOT-SCOPE.md": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75",
+    "evidence.jsonl": "08f02f7954d1eefc5eb61c74c2756b664733a1500c4e5ae7d640f8286e04f722",
+    "intent.md": "fdc5caec623c5ef6628d978246590e5a31be287886b1b18214fba1f960cdf8d4",
+    "legs/LEG-SMALL-FIX.md": "2e0514d693ad5033c60943b005571a9d43a9367f62fa440a78cff6a13f29b887",
+    "proposed-graph.json": "7b7279c6296ca5cfec2fd6958dc1dfa74eae616a1c44fdbc5e4d64d731e7658c",
+    "seam-map.yaml": "689bc3af5a54a09ccc638c652712f41b41cbefeaf9d3749ebb39c82d6eca6703",
+    "seams/SEAM-SMALL-FIX.md": "312726a407e78fec0f9e1b5c90691322129ba1601e30a4c420f28c68ffbabc55",
+    "source-recipe.yaml": "353a488ffee5e012ddc749702702427f3e6b4dc6b68b607f5d5f5306e8e69695",
+    "steel-thread.md": "4eb13fd026eb6d48b5f3daa30b89aec67fcd3e91a48400d61abb4b1483bd7fa7",
+    "swimlanes/LANE-SMALL-FIX.md": "10eb6ee51172a926d714502a28a3eacb61962d30d727a2f8e2f550c3821c92f6",
+    "system-map.md": "1c42801107b87d6ba0a9feca42cc84bde631f399cf2f8496a9704a5ec58dfca4"
+  },
+  "disposition": "accepted",
+  "draft_sha256": "6871c09f7a8c7645b662751a517be6f413f0a57216bef04729166fe8c47a3327",
+  "fixture": false,
+  "plan_sha256": "6a523dffe6c6697f4bfeff1d14174ee78a2b5f14ed448f51b614e4acf4305ab4",
+  "reason": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "recipe_sha256": "353a488ffee5e012ddc749702702427f3e6b4dc6b68b607f5d5f5306e8e69695",
+  "reviewed_at": "2026-09-15T11:44:59.106092+00:00",
+  "reviewer": "pilot-controller",
+  "schema_version": 1,
+  "signature": "hmac-taskplan-v1:94813e75:6d7b2fd1650a28fd61ebe53642788720054e38f64fe59389ec81acb05c09b225",
+  "topology_sha256": "7b7279c6296ca5cfec2fd6958dc1dfa74eae616a1c44fdbc5e4d64d731e7658c"
+}

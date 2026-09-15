@@ -1,0 +1,577 @@
+{
+  "schema_version": 1,
+  "intent": {
+    "id": "INT-RATE-LIMITING",
+    "title": "Proposed rate-limiting steel thread",
+    "summary": "Plan the four observable outcomes in the synthetic blueprint. This proposal grants no approval or execution authority; source fixture text is not proof of shipped behavior.",
+    "claim": "proposed",
+    "source": {
+      "uri": "tests/fixtures/toolkit/blueprint.md",
+      "captured_at": "2026-09-15T11:13:15.820428Z",
+      "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+    },
+    "success": [
+      "The proposed v1 contract accepts valid positive integer limits and windows, rejects zero/negative/noninteger values and unsupported versions, and returns deterministic validation errors.",
+      "A uniquely configured organization resolves to exactly one validated policy; missing or ambiguous configuration reports an explicit configuration error, and one organization never receives another organization’s policy. Missing/ambiguous behavior is proposed pending product decision.",
+      "For a 100-request limit, requests 1–100 are allowed and 101 is denied in the same window; counters are isolated by organization. Proposed fixed-window boundary behavior is proven with a fake clock; no production storage is selected.",
+      "An integration test drives the actual preceding components through 101 requests and matches the denied response to its telemetry event by organization, policy version, request correlation and stable reason. Invalid policies stop before enforcement; the flow invokes no provider metering interface."
+    ],
+    "out_of_scope": [
+      "Provider-owned usage metering; billing and provider integrations",
+      "Production storage and deployment infrastructure",
+      "Approval, task materialization, execution, commits and publication"
+    ]
+  },
+  "system_map": {
+    "claim": "proposed",
+    "components": [
+      "Versioned policy validation",
+      "Organization policy resolution",
+      "Local enforcement counters with injected clock",
+      "Denial response and decision telemetry"
+    ],
+    "external_dependencies": [
+      "Provider-owned usage metering remains external and out of scope; no call or write to it is required."
+    ],
+    "unknowns": [
+      "No responsible rate-limiting owner is named in the blueprint. Ownership must be explicitly assigned before topology approval.",
+      "Policy precedence/defaults and missing/ambiguous policy behavior are unspecified. Explicit configuration errors are proposed, not decided.",
+      "Window algorithm/boundary semantics and stable reason/telemetry fields are unspecified. Fixed windows and rate_limit_exceeded are proposals, not approved contracts.",
+      "The repository contains no rate-limiting implementation or test runner. Python standard-library tests, proposed paths and an in-memory fixture require confirmation before implementation. Production storage and deployment remain outside this initiative."
+    ]
+  },
+  "evidence": [
+    {
+      "id": "EVID-BLUEPRINT",
+      "claim": "current",
+      "source": {
+        "uri": "tests/fixtures/toolkit/blueprint.md",
+        "captured_at": "2026-09-15T11:13:15.820428Z",
+        "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+      },
+      "confidence": 1,
+      "summary": "Verified local synthetic fixture states the four target outcomes and explicitly excludes provider-owned usage metering and production infrastructure selection; it does not name a rate-limiting owner or establish shipped behavior."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-LOCAL-HARNESS",
+      "status": "proposed",
+      "owner": "UNASSIGNED — blueprint does not name a rate-limiting owner",
+      "rationale": "Propose one rate-limiting responsibility lane with four sequential capability legs and a Python in-memory harness. Paths and test commands describe future work only. No execution authorized."
+    },
+    {
+      "id": "DEC-CONTRACT-DETAILS",
+      "status": "proposed",
+      "owner": "UNASSIGNED — blueprint does not name a rate-limiting owner",
+      "rationale": "Propose positive-integer v1 limits/windows, explicit errors for missing/ambiguous policy configuration, fixed test windows and reason rate_limit_exceeded. Resolve these product details before implementation."
+    }
+  ],
+  "seams": [
+    {
+      "id": "SEAM-RATE-LIMITING",
+      "name": "Organization request rate limiting",
+      "description": "One proposed cohesive responsibility from policy validation through explainable decisions. Four steps are capability legs, not evidence of separate team ownership.",
+      "evidence": [
+        "EVID-BLUEPRINT"
+      ],
+      "responsibility": "Own request admission decisions and matching decision telemetry only; provider retains ownership of usage metering.",
+      "consumes": [
+        "Organization identity",
+        "Versioned policy configuration",
+        "Request identity and clock"
+      ],
+      "produces": [
+        "Validated policy",
+        "One effective organization policy",
+        "Allow/deny decision",
+        "Stable denial reason and matching telemetry"
+      ],
+      "owner": "UNASSIGNED — blueprint does not name a rate-limiting owner",
+      "independent_proof": "The composed 101-request scenario is independently assessable after declared upstream dependencies exist; it is not independent of those inputs.",
+      "decision_ids": [
+        "DEC-LOCAL-HARNESS",
+        "DEC-CONTRACT-DETAILS"
+      ],
+      "rejected_alternatives": [
+        {
+          "alternative": "Include provider metering in this lane",
+          "reason": "Violates explicit provider ownership and out-of-scope boundary."
+        },
+        {
+          "alternative": "Create a separate team lane for every step",
+          "reason": "The source states a sequence, not four ownership boundaries."
+        },
+        {
+          "alternative": "Select production storage or deployment infrastructure",
+          "reason": "Explicitly deferred by the source."
+        }
+      ],
+      "swimlane": {
+        "id": "LANE-RATE-LIMITING",
+        "name": "Organization request rate limiting",
+        "owner": "UNASSIGNED — blueprint does not name a rate-limiting owner",
+        "legs": [
+          {
+            "id": "LEG-POLICY",
+            "observable_state": "The proposed v1 contract accepts valid positive integer limits and windows, rejects zero/negative/noninteger values and unsupported versions, and returns deterministic validation errors.",
+            "proof": "Proposed executable assertions: Accept a valid versioned 100-request policy; Reject zero, negative, missing and noninteger limits/windows; Reject unsupported schema versions deterministically. Final composed proof is T-20260915-rate-limit-denial and requires all preceding tasks.",
+            "requires": [],
+            "produces": [
+              "validated-versioned-policy"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260915-rate-limit-policy",
+                "title": "Validate a versioned rate-limit policy",
+                "goal": "Expose a versioned policy contract that rejects invalid limits and windows before resolution.",
+                "done_condition": "The proposed v1 contract accepts valid positive integer limits and windows, rejects zero/negative/noninteger values and unsupported versions, and returns deterministic validation errors.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "python3"
+                ],
+                "depends_on": [],
+                "touches_paths": [],
+                "creates_paths": [
+                  "src/rate_limiting/policy.py",
+                  "tests/rate_limiting/test_policy.py"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "a policy with supported version and valid limit/window",
+                    "when": "the policy is validated",
+                    "then": "validation returns the versioned policy unchanged"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "an invalid limit/window or unsupported version",
+                    "when": "the policy is validated",
+                    "then": "validation fails with a deterministic error before any decision or usage mutation"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "Accept a valid versioned 100-request policy",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_policy.py -k test_valid_policy",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "Reject zero, negative, missing and noninteger limits/windows",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_policy.py -k test_invalid_limits_and_windows",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "Reject unsupported schema versions deterministically",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_policy.py -k test_unsupported_version",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider-owned usage metering",
+                    "reason": "Explicitly outside the blueprint ownership and scope boundary.",
+                    "instead": "Keep only local enforcement counters and decision telemetry; never publish billable usage."
+                  },
+                  {
+                    "action": "Choose or deploy production storage/infrastructure",
+                    "reason": "The blueprint deliberately leaves these choices unselected.",
+                    "instead": "Use proposed deterministic in-memory fixtures and defer production choices."
+                  },
+                  {
+                    "action": "Treat mocked upstream output or fixture text as integration proof",
+                    "reason": "The blueprint is synthetic intent evidence, not shipped behavior.",
+                    "instead": "Evaluate real declared dependencies in the final composed proof."
+                  }
+                ],
+                "do_not_touch": [
+                  "Provider-owned usage metering; billing and provider integrations",
+                  "Production storage and deployment infrastructure",
+                  "tests/fixtures/toolkit/blueprint.md",
+                  "Installed TaskSpec engine and harness instructions"
+                ],
+                "rollback": "Remove only the files introduced by this leaf; retain the source blueprint and planning evidence.",
+                "observability": "Record local validation/decision test evidence only; telemetry is decision evidence, not a provider usage ledger.",
+                "execution_recipe": "test-first",
+                "proves_capabilities": [
+                  "LEG-POLICY"
+                ],
+                "sdlc_stages": [
+                  "build",
+                  "test"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "LEG-RESOLUTION",
+            "observable_state": "A uniquely configured organization resolves to exactly one validated policy; missing or ambiguous configuration reports an explicit configuration error, and one organization never receives another organization’s policy. Missing/ambiguous behavior is proposed pending product decision.",
+            "proof": "Proposed executable assertions: Resolve exactly one validated effective policy; Exercise the proposed explicit-error behavior for missing and ambiguous configuration; Prevent organization policy leakage. Final composed proof is T-20260915-rate-limit-denial and requires all preceding tasks.",
+            "requires": [
+              "validated-versioned-policy"
+            ],
+            "produces": [
+              "effective-organization-policy"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260915-rate-limit-resolution",
+                "title": "Resolve exactly one policy per organization",
+                "goal": "Resolve one validated effective policy for the requested organization through an explicit resolution contract.",
+                "done_condition": "A uniquely configured organization resolves to exactly one validated policy; missing or ambiguous configuration reports an explicit configuration error, and one organization never receives another organization’s policy. Missing/ambiguous behavior is proposed pending product decision.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "python3"
+                ],
+                "depends_on": [
+                  "T-20260915-rate-limit-policy"
+                ],
+                "touches_paths": [],
+                "creates_paths": [
+                  "src/rate_limiting/resolution.py",
+                  "tests/rate_limiting/test_resolution.py"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "an organization with one validated applicable policy",
+                    "when": "resolution is requested",
+                    "then": "exactly one effective policy for that organization is returned"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "missing, ambiguous, or another organization’s configuration",
+                    "when": "resolution is requested",
+                    "then": "a deterministic configuration error is returned without arbitrary selection or cross-organization leakage"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "Resolve exactly one validated effective policy",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_resolution.py -k test_one_effective_policy",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "Exercise the proposed explicit-error behavior for missing and ambiguous configuration",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_resolution.py -k test_missing_and_ambiguous",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "Prevent organization policy leakage",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_resolution.py -k test_organization_isolation",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider-owned usage metering",
+                    "reason": "Explicitly outside the blueprint ownership and scope boundary.",
+                    "instead": "Keep only local enforcement counters and decision telemetry; never publish billable usage."
+                  },
+                  {
+                    "action": "Choose or deploy production storage/infrastructure",
+                    "reason": "The blueprint deliberately leaves these choices unselected.",
+                    "instead": "Use proposed deterministic in-memory fixtures and defer production choices."
+                  },
+                  {
+                    "action": "Treat mocked upstream output or fixture text as integration proof",
+                    "reason": "The blueprint is synthetic intent evidence, not shipped behavior.",
+                    "instead": "Evaluate real declared dependencies in the final composed proof."
+                  }
+                ],
+                "do_not_touch": [
+                  "Provider-owned usage metering; billing and provider integrations",
+                  "Production storage and deployment infrastructure",
+                  "tests/fixtures/toolkit/blueprint.md",
+                  "Installed TaskSpec engine and harness instructions"
+                ],
+                "rollback": "Remove only the files introduced by this leaf; retain the source blueprint and planning evidence.",
+                "observability": "Record local validation/decision test evidence only; telemetry is decision evidence, not a provider usage ledger.",
+                "execution_recipe": "test-first",
+                "proves_capabilities": [
+                  "LEG-RESOLUTION"
+                ],
+                "sdlc_stages": [
+                  "build",
+                  "test"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "LEG-ENFORCEMENT",
+            "observable_state": "For a 100-request limit, requests 1–100 are allowed and 101 is denied in the same window; counters are isolated by organization. Proposed fixed-window boundary behavior is proven with a fake clock; no production storage is selected.",
+            "proof": "Proposed executable assertions: Assert every decision in the 101-request sequence; Assert counters cannot leak between organizations; Assert allowance immediately before and at the proposed next-window boundary. Final composed proof is T-20260915-rate-limit-denial and requires all preceding tasks.",
+            "requires": [
+              "effective-organization-policy"
+            ],
+            "produces": [
+              "rate-limit-decision"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260915-rate-limit-enforcement",
+                "title": "Deny request 101 in the same window",
+                "goal": "Apply the effective organization policy to a deterministic local request counter with an injected clock.",
+                "done_condition": "For a 100-request limit, requests 1–100 are allowed and 101 is denied in the same window; counters are isolated by organization. Proposed fixed-window boundary behavior is proven with a fake clock; no production storage is selected.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "python3"
+                ],
+                "depends_on": [
+                  "T-20260915-rate-limit-resolution"
+                ],
+                "touches_paths": [],
+                "creates_paths": [
+                  "src/rate_limiting/enforcement.py",
+                  "tests/rate_limiting/test_enforcement.py"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "an effective limit of 100 and a fixed test clock in one window",
+                    "when": "101 sequential requests are evaluated for one organization",
+                    "then": "requests 1–100 are allowed and request 101 is denied"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "two organizations and a clock crossing the proposed fixed-window boundary",
+                    "when": "requests are evaluated",
+                    "then": "each organization has an isolated request counter and the new window starts with fresh allowance"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "Assert every decision in the 101-request sequence",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_enforcement.py -k test_request_101_denied",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "Assert counters cannot leak between organizations",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_enforcement.py -k test_organization_isolation",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "Assert allowance immediately before and at the proposed next-window boundary",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_enforcement.py -k test_window_boundary",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider-owned usage metering",
+                    "reason": "Explicitly outside the blueprint ownership and scope boundary.",
+                    "instead": "Keep only local enforcement counters and decision telemetry; never publish billable usage."
+                  },
+                  {
+                    "action": "Choose or deploy production storage/infrastructure",
+                    "reason": "The blueprint deliberately leaves these choices unselected.",
+                    "instead": "Use proposed deterministic in-memory fixtures and defer production choices."
+                  },
+                  {
+                    "action": "Treat mocked upstream output or fixture text as integration proof",
+                    "reason": "The blueprint is synthetic intent evidence, not shipped behavior.",
+                    "instead": "Evaluate real declared dependencies in the final composed proof."
+                  }
+                ],
+                "do_not_touch": [
+                  "Provider-owned usage metering; billing and provider integrations",
+                  "Production storage and deployment infrastructure",
+                  "tests/fixtures/toolkit/blueprint.md",
+                  "Installed TaskSpec engine and harness instructions"
+                ],
+                "rollback": "Remove only the files introduced by this leaf; retain the source blueprint and planning evidence.",
+                "observability": "Record local validation/decision test evidence only; telemetry is decision evidence, not a provider usage ledger.",
+                "execution_recipe": "test-first",
+                "proves_capabilities": [
+                  "LEG-ENFORCEMENT"
+                ],
+                "sdlc_stages": [
+                  "build",
+                  "test"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "LEG-DENIAL",
+            "observable_state": "An integration test drives the actual preceding components through 101 requests and matches the denied response to its telemetry event by organization, policy version, request correlation and stable reason. Invalid policies stop before enforcement; the flow invokes no provider metering interface.",
+            "proof": "Proposed executable assertions: Exercise real dependencies and assert denial plus matching telemetry; do not mock preceding capabilities; Assert invalid policy input cannot reach resolution/enforcement; Assert stable denial reason, matching event and zero provider metering interactions. Final composed proof is T-20260915-rate-limit-denial and requires all preceding tasks.",
+            "requires": [
+              "validated-versioned-policy",
+              "effective-organization-policy",
+              "rate-limit-decision"
+            ],
+            "produces": [
+              "explainable-observable-denial",
+              "steel-thread-proof"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260915-rate-limit-denial",
+                "title": "Return a stable denial reason and matching telemetry",
+                "goal": "Connect policy validation, organization resolution and enforcement to one denial response and corresponding decision event.",
+                "done_condition": "An integration test drives the actual preceding components through 101 requests and matches the denied response to its telemetry event by organization, policy version, request correlation and stable reason. Invalid policies stop before enforcement; the flow invokes no provider metering interface.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "python3"
+                ],
+                "depends_on": [
+                  "T-20260915-rate-limit-policy",
+                  "T-20260915-rate-limit-resolution",
+                  "T-20260915-rate-limit-enforcement"
+                ],
+                "touches_paths": [],
+                "creates_paths": [
+                  "src/rate_limiting/denial.py",
+                  "tests/rate_limiting/test_denial.py"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "the actual composed policy, resolver and limiter with limit 100",
+                    "when": "request 101 is evaluated within the same window",
+                    "then": "the denied response has the proposed stable reason rate_limit_exceeded and one corresponding telemetry decision with matching organization, policy version, request correlation and reason"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "invalid policy input or repeated equivalent denial scenarios",
+                    "when": "the complete flow is exercised",
+                    "then": "invalid input cannot reach enforcement; equivalent denials retain the same reason, and provider-owned usage metering is never invoked"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "Exercise real dependencies and assert denial plus matching telemetry; do not mock preceding capabilities",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_denial.py -k test_composed_101_request_flow",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "Assert invalid policy input cannot reach resolution/enforcement",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_denial.py -k test_invalid_policy_stops_flow",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "Assert stable denial reason, matching event and zero provider metering interactions",
+                    "bash": "python3 -m unittest discover -s tests/rate_limiting -p test_denial.py -k test_stable_reason_and_no_metering",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider-owned usage metering",
+                    "reason": "Explicitly outside the blueprint ownership and scope boundary.",
+                    "instead": "Keep only local enforcement counters and decision telemetry; never publish billable usage."
+                  },
+                  {
+                    "action": "Choose or deploy production storage/infrastructure",
+                    "reason": "The blueprint deliberately leaves these choices unselected.",
+                    "instead": "Use proposed deterministic in-memory fixtures and defer production choices."
+                  },
+                  {
+                    "action": "Treat mocked upstream output or fixture text as integration proof",
+                    "reason": "The blueprint is synthetic intent evidence, not shipped behavior.",
+                    "instead": "Evaluate real declared dependencies in the final composed proof."
+                  }
+                ],
+                "do_not_touch": [
+                  "Provider-owned usage metering; billing and provider integrations",
+                  "Production storage and deployment infrastructure",
+                  "tests/fixtures/toolkit/blueprint.md",
+                  "Installed TaskSpec engine and harness instructions"
+                ],
+                "rollback": "Remove only the files introduced by this leaf; retain the source blueprint and planning evidence.",
+                "observability": "Record local validation/decision test evidence only; telemetry is decision evidence, not a provider usage ledger.",
+                "execution_recipe": "test-first",
+                "proves_capabilities": [
+                  "LEG-POLICY",
+                  "LEG-RESOLUTION",
+                  "LEG-ENFORCEMENT",
+                  "LEG-DENIAL"
+                ],
+                "sdlc_stages": [
+                  "build",
+                  "test"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "steel_thread": [
+    "LEG-POLICY",
+    "LEG-RESOLUTION",
+    "LEG-ENFORCEMENT",
+    "LEG-DENIAL"
+  ],
+  "objections": [
+    {
+      "id": "OBJ-OWNERSHIP",
+      "status": "OPEN",
+      "owner": "UNASSIGNED — blueprint does not name a rate-limiting owner",
+      "summary": "The blueprint states provider ownership of usage metering but does not assign ownership of rate limiting. No owner has been invented."
+    },
+    {
+      "id": "OBJ-CONTRACT",
+      "status": "OPEN",
+      "owner": "UNASSIGNED — blueprint does not name a rate-limiting owner",
+      "summary": "Resolution edge cases, precise window semantics and denial/telemetry contract remain proposed product choices."
+    },
+    {
+      "id": "OBJ-IMPLEMENTATION",
+      "status": "OPEN",
+      "owner": "UNASSIGNED — blueprint does not name a rate-limiting owner",
+      "summary": "Language, paths and local test harness are proposed because the repository contains no implementation. Production infrastructure selection remains excluded."
+    }
+  ],
+  "contentions": []
+}

@@ -1,0 +1,102 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "plan",
+  "harness": "claude",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/chat-planning-correction/main/runs/plan-claude-20260915T111034Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [
+    {
+      "tool_name": "Read",
+      "tool_use_id": "toolu_0158rYo5hCkoCjj7egTGN7Mo",
+      "tool_input": {
+        "file_path": "/private/tmp/taskspec-planning-fix-engines/3.10.0/src/decompose/engine/planning.py",
+        "offset": 60,
+        "limit": 50
+      }
+    },
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_01A9ZpdyLCBBjcA7JiDtnKbz",
+      "tool_input": {
+        "command": "grep -n -B 20 -A 8 \"architecture_unknown_open\" /private/tmp/taskspec-planning-fix-engines/3.10.0/src/decompose/engine/planning.py",
+        "description": "Read the rule that triggers the diagnostic"
+      }
+    }
+  ],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "7aac8e5148358a14a0c25b64501e7d4b1d459769e0f738ffd5fb9d4e4fb59596"
+    },
+    {
+      "path": "before.json",
+      "sha256": "3cd1adc56c9938707e8230698ec91e40b5b84e03dc0e78717d1b6386d01dce71"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/.taskspec/scratch/build_recipe.py",
+      "sha256": "b6ee49fdb3f404a5d7a3e678ccf2189abb92dd806e1fc538a63db4afcf52df18"
+    },
+    {
+      "path": "changed-files/.taskspec/scratch/intent-example.md",
+      "sha256": "b6e6016b34ae2f985dd86bd021fdef0e8a82e487c59a9df108820134d3e46802"
+    },
+    {
+      "path": "changed-files/.taskspec/scratch/rate-limiting-intent.md",
+      "sha256": "e36fa5828839432ccc28b29490cd679eaa1146526f931c7d151b85a340107323"
+    },
+    {
+      "path": "changed-files/.taskspec/scratch/rate-limiting-recipe.yaml",
+      "sha256": "cc1fdc65492fbed050be1e83d62e890bef00a147f2c771ea61c77c54710a7348"
+    },
+    {
+      "path": "changed-files/.taskspec/scratch/recipe-example.yaml",
+      "sha256": "62f535119aa7ff2cc5715360a93eaba8e09ead73c71594a6a10d4e03b4296dbf"
+    },
+    {
+      "path": "changed-files/tasks/.plans/rate-limiting/intake.md",
+      "sha256": "e36fa5828839432ccc28b29490cd679eaa1146526f931c7d151b85a340107323"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "a3603959a4afdd950ac104ea5fb347c0f8ab681dec2e300f43805d68b3e5495f"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "3dd1d6dbb1d868f48291103da0e7669068815944471891f455134794ce284b80"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "0e4526b67507d228916c689e99e6a3283e16b7677ec64119179cf94c5768b737"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "d8339f0bd5725e4a767a69157eb3cb8fc33cfc77ce7b0ab4d26ebd033888e80b"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "8bc3be5c7a3c66758a2e24aaab985f30bae3ec63e6972d1ffa9758596a2ef808"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "688af856a0dbaa37c1c71c0f0bcdf78ec22c487f62d07b4de0d5a12968c678c2"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "3f8f0bbbbbde333db1b5e08585da1a927cf7166d30c62657fb499ed1e4d29eb0"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "0e802fc01b9052477a3ca2fd2ab6040282bac3972baacf5a81725b582de4072b"
+    }
+  ]
+}

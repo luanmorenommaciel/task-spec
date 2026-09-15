@@ -1,0 +1,66 @@
+schema_version: 1
+status: SEAM_MAP=READY
+intent_id: INT-RATE-LIMITING
+source_recipe:
+  name: source-recipe.yaml
+  sha256: 247c7cd1db882f7348d401d4d2cda1f15411cd80b4ee95aca087b8f20d87a244
+intent_sha256: be7b54c8b7f4a3e5a5e02b5571c9b9ce39e188b743bf996bc9bf7d5beef95e99
+system_map_sha256: 00fa3a44ed230f6282f97a8c55a017c8a69faec6d504a5ce1e554864f8fcd53f
+evidence_sha256: 478ca51422391f39f5d9902acce0f395008f8b9d1a15e7d9e7fea41f80ab6164
+decisions:
+- id: DEC-METERING-OUT-OF-SCOPE
+  path: tasks/.plans/rate-limiting/decisions/DEC-METERING-OUT-OF-SCOPE.md
+  status: accepted
+  sha256: d3bcd62af1010038d8426fefdae45933753e6ea9446c02c6db07210158db4fa2
+- id: DEC-NO-INFRA-SELECTION
+  path: tasks/.plans/rate-limiting/decisions/DEC-NO-INFRA-SELECTION.md
+  status: accepted
+  sha256: d4fb7020c8f06777ded46d7cb60e7b53f513678d8583f8adc8ff286c04e47355
+- id: DEC-OWNER-UNASSIGNED
+  path: tasks/.plans/rate-limiting/decisions/DEC-OWNER-UNASSIGNED.md
+  status: proposed
+  sha256: a2f669db8475d5c7b86a5ac2a63b45a98008859af8fface18ec1f6140363b2ab
+- id: DEC-STORAGE-PORT
+  path: tasks/.plans/rate-limiting/decisions/DEC-STORAGE-PORT.md
+  status: proposed
+  sha256: cc1749c85ef2bd1246b22b61115df2aba8933d093072637a68687a80386c9b4b
+- id: DEC-TOOLCHAIN
+  path: tasks/.plans/rate-limiting/decisions/DEC-TOOLCHAIN.md
+  status: proposed
+  sha256: a0345c0329007eb90aab8674d38147ae6d11ec906be91c881f37ce69204b228b
+- id: DEC-FIXED-WINDOW
+  path: tasks/.plans/rate-limiting/decisions/DEC-FIXED-WINDOW.md
+  status: proposed
+  sha256: 9f5d7ae69249096466c066bee64a0f3c4cbf6fd5aa5d9ffa8e52200b181b474b
+seams:
+- id: SEAM-POLICY
+  path: tasks/.plans/rate-limiting/seams/SEAM-POLICY.md
+  owner: UNASSIGNED placeholder (see DEC-OWNER-UNASSIGNED)
+  evidence:
+  - EV-BLUEPRINT
+  - EV-REPO-STATE
+  swimlane_id: LANE-POLICY
+  sha256: 2d790e947260e6cd71ea2576f3ec6803dad3363174dccf167435b69a83345cd0
+- id: SEAM-ENFORCEMENT
+  path: tasks/.plans/rate-limiting/seams/SEAM-ENFORCEMENT.md
+  owner: UNASSIGNED placeholder (see DEC-OWNER-UNASSIGNED)
+  evidence:
+  - EV-BLUEPRINT
+  - EV-METERING-BOUNDARY
+  swimlane_id: LANE-ENFORCEMENT
+  sha256: 5a38e7f8e7f38c997ac61e0a48f82e91cecf459334485da81eafc1f340d5a306
+- id: SEAM-DECISION-SIGNAL
+  path: tasks/.plans/rate-limiting/seams/SEAM-DECISION-SIGNAL.md
+  owner: UNASSIGNED placeholder (see DEC-OWNER-UNASSIGNED)
+  evidence:
+  - EV-BLUEPRINT
+  - EV-METERING-BOUNDARY
+  swimlane_id: LANE-SIGNAL
+  sha256: 6ec9723980d779da4c55ef15d73cb850f61bf5ba93f02a8930abedf7454577d6
+- id: SEAM-THREAD-PROOF
+  path: tasks/.plans/rate-limiting/seams/SEAM-THREAD-PROOF.md
+  owner: UNASSIGNED placeholder (see DEC-OWNER-UNASSIGNED)
+  evidence:
+  - EV-BLUEPRINT
+  swimlane_id: LANE-THREAD-PROOF
+  sha256: 88f32448321ed3332e030d82112f11abb3b425e8a300f13055a5b2a829cafa66

@@ -1,0 +1,43 @@
+{
+  "complete": true,
+  "cost_including_failures": 1.029944,
+  "cost_basis": "harness_reported",
+  "invocations": [
+    {
+      "path": "runs/small-fix-claude-separate-engine-r1-20260915T114013Z/mesh-artifacts/812bdbd3-c589-4309-85e3-a7630e349194.round-1.json",
+      "known": true,
+      "usd": 1.029944,
+      "model_usage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 2908,
+          "outputTokens": 12,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.002968,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5": {
+          "inputTokens": 46,
+          "outputTokens": 14022,
+          "cacheReadInputTokens": 602552,
+          "cacheCreationInputTokens": 37492,
+          "webSearchRequests": 0,
+          "costUSD": 1.0269759999999999,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 4554,
+          "canonicalModel": "claude-opus-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "basis": "harness_reported"
+    }
+  ]
+}

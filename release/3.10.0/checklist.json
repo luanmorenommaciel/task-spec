@@ -1,8 +1,8 @@
 {
   "contract": "TaskToolkitReleaseChecklist/v1",
   "version": "3.10.0",
-  "observed_at": "2026-09-14T23:11:20.492658+00:00",
-  "source_head": "30a0d1ce3965312b43938fdb145eb29fc66cffc2",
+  "observed_at": "2026-09-15T12:15:56.081207+00:00",
+  "source_head": "8bde0ea829ee4df6eccedf923866eb1117a71d41",
   "source_state": "committed_candidate",
   "release_qualified": false,
   "pending_areas": {
@@ -10,36 +10,49 @@
       "state": "implemented_local_and_hosted_checks_passed",
       "proof": [
         "qualification/attested-recipes.txt",
-        "qualification/committed-candidate-check.json",
-        "qualification/hosted.json"
+        "qualification/check-649884a.json",
+        "qualification/hosted-649884a.json",
+        "qualification/check-8bde0ea.json"
       ],
       "remaining": [
         "canonical acceptance"
       ]
     },
     "chat_and_comparative_pilot": {
-      "state": "observations_reviewed_permission_dependent_retries_paused",
+      "state": "pilot_paused_after_denial_two_chat_retries_held",
       "corpus_decision": "real repository issues; interventions recorded prospectively",
       "progress": [
         "six repository issues identified",
         "behavioral evaluators drafted",
         "prospective recorder tested",
         "Codex and Claude real-issue preflights retained separately from comparative cells",
-        "Retained six chat cohorts with individual action-and-claim reviews; bounded passes do not establish a final matched corpus."
+        "Retained six chat cohorts with individual action-and-claim reviews; bounded passes do not establish a final matched corpus.",
+        "Approved worktree/socket/resource corrections verified; 18 of 20 case/harness combinations have passing retained behavioral reviews. Earlier failures remain retained."
       ],
       "setup_matrix": "pilot/setup-matrix.json",
-      "registered_schedule": "pilot/schedule.json",
+      "registered_schedule": "pilot/cohorts/approved-runtime/schedule.json",
       "registered_runs": 72,
       "initial_cohort": "pilot/cohorts/initial/results.json",
       "runtime_findings": "qualification/runtime-defects.md",
-      "chat_progress": "qualification/chat-cohorts-summary.json",
-      "workspace_rerun_authorization": "pending",
+      "chat_progress": "qualification/chat-results.json",
+      "workspace_rerun_authorization": "approved",
       "retry_proposal": "qualification/retry-authorization.md",
       "reviewed_chat_observations": 28,
-      "final_chat_qualified": false
+      "final_chat_qualified": false,
+      "retry_authorization": "qualification/retry-approval.json",
+      "passing_chat_cases": 18,
+      "required_chat_cases": 20,
+      "held_chat_cases": [
+        "claude/plan",
+        "claude/atomic"
+      ],
+      "observed_pilot_runs": 4,
+      "accepted_pilot_runs": 3,
+      "pilot_summary": "pilot/cohorts/approved-runtime/partial-summary.json",
+      "new_retry_proposal": "qualification/stream-denial-retry-proposal.md"
     },
     "hosted_and_provider_qualification": {
-      "state": "hosted_platform_passed_provider_qualification_pending",
+      "state": "local_8bde0ea_passed_hosted_pending",
       "preflights": [
         {
           "harness": "claude",
@@ -65,7 +78,8 @@
         "includes": "clean install, matching runtime/helper, installed guide links, stale runtime repair, and corruption refusal"
       },
       "hosted_progress": "qualification/hosted-progress.json",
-      "hosted_proof": "qualification/hosted.json"
+      "hosted_proof": "qualification/hosted.json",
+      "latest_passed": "qualification/hosted-79ec514.json"
     },
     "acceptance_and_cutover": {
       "state": "pending"
@@ -81,7 +95,13 @@
     "release_url": null,
     "source_archive": "artifacts/task-spec-3.10.0.tar.gz",
     "source_archive_status": "unpublished_candidate",
-    "source_archive_sha256": "1d08979ddfb3057c5284727539f3917cb0e1eb87c759bd168b20d4d271278f64"
+    "source_archive_sha256": "1d08979ddfb3057c5284727539f3917cb0e1eb87c759bd168b20d4d271278f64",
+    "latest_source_candidate": {
+      "source_commit": "8bde0ea829ee4df6eccedf923866eb1117a71d41",
+      "path": "qualification/source-candidates/8bde0ea/task-spec-3.10.0.tar.gz",
+      "sha256": "ab64e23604eace256dcdb4af98ed08fb245d1cb3c05ccbaba9f54fdbe8a8aaf9",
+      "published": false
+    }
   },
   "evidence": [
     {
@@ -102,8 +122,8 @@
     "command": "make check",
     "state": "passed",
     "exit_code": 0,
-    "source_commit": "30a0d1ce3965312b43938fdb145eb29fc66cffc2",
-    "report": "qualification/committed-candidate-check.json",
+    "source_commit": "8bde0ea829ee4df6eccedf923866eb1117a71d41",
+    "report": "qualification/check-8bde0ea.json",
     "final_release_gate": false
   },
   "authorization_audit": {

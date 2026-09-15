@@ -1,0 +1,381 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "smoke-small-fix-claude-integrated-r1-20260915T120305Z",
+  "scenario": "small-fix",
+  "harness": "claude",
+  "workflow": "integrated",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-buyk401f/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca",
+  "public_evaluator_manifest": {
+    "tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py": "5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca",
+    "tests/fixtures/toolkit/public-evaluator/spec/conformance/toolkit/execution-recipe.json": "ccf680057d987028e116666849c720ec8ba5ad30216e347ff58c3db40b5fae59",
+    "tests/fixtures/toolkit/public-evaluator/docs/examples/incident.json": "f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b"
+  },
+  "write_scope": [
+    "src/recipe/recipes.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.",
+  "authorization_base": "deeafcd350f16800b82f5501d5f15883a16e703c",
+  "setup_passed": true,
+  "accepted": false,
+  "error": "managed attempt stopped: parked",
+  "measurement": {
+    "engineer_active_seconds": 0.0,
+    "elapsed_seconds": 27.961584458,
+    "accepted_capability_seconds": null,
+    "censored": true,
+    "intervention_count": 0,
+    "source_events": [
+      "c3c9abfe534579823bee9aa8c4f9cbd3452d120e96624b5e88cdf9b15ddc97f9",
+      "0bf0c799e7c1fd611a8a999176d802a181af6219373d5f473c44719701137346"
+    ]
+  },
+  "engineer_active_seconds": 0.0,
+  "elapsed_seconds": 27.961584458,
+  "accepted_capability_seconds": null,
+  "censored": true,
+  "intervention_count": 0,
+  "source_events": [
+    "c3c9abfe534579823bee9aa8c4f9cbd3452d120e96624b5e88cdf9b15ddc97f9",
+    "0bf0c799e7c1fd611a8a999176d802a181af6219373d5f473c44719701137346"
+  ],
+  "gold_passed": false,
+  "integration_failures": 0,
+  "replanning_churn": 0,
+  "false_acceptances": 0,
+  "acceptance_correctness": 1,
+  "failed_attempts_retained": true,
+  "harness_version": "2.1.270",
+  "strategy_version": "1.0.0",
+  "permissions_digest": "8bb4bf162cba832677d301d7462c8403ffd2c38e165ff106872cc4d19fb157f9",
+  "cost_including_failures": null,
+  "cost_basis": "harness_reported",
+  "cost_evidence": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/cost.json",
+  "semantic_review_ref": null,
+  "journal": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/events.jsonl",
+  "reported_permission_denials": [
+    {
+      "source": "TaskMesh stream observer",
+      "artifact": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/mesh-artifacts/b21eb476-354d-476f-bb29-637badf49393.json"
+    },
+    {
+      "source": "TaskMesh stream observer",
+      "artifact": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/mesh-artifacts/b21eb476-354d-476f-bb29-637badf49393.round-1.json"
+    },
+    {
+      "source": "failed native tool result",
+      "tool_use_id": null,
+      "output": "--restricted confines the file tools to the working directory"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/b21eb476-354d-476f-bb29-637badf49393-parked.json",
+      "sha256": "9c90f94061f1cc98cc8464e84ba8aa40b44fc5f10900a251b4c04ddd1c2caf00"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/b21eb476-354d-476f-bb29-637badf49393-preparing.json",
+      "sha256": "49c8e9537ebd370014c73b245ef66d785ae053ff3fbfa95047864551025494c6"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/b21eb476-354d-476f-bb29-637badf49393-running.json",
+      "sha256": "2d7091a23327d7c42d7a245de3947e9a2cc84d730f9563dff14d03d9f894f7f9"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/candidate-patch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/candidate-patch.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-001.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-002.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-003.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-004.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-005.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-006.stdout",
+      "sha256": "5da3a60ee3cdff1627e0a5894fc438f90a2ef2807be31d27d609bfe8e9aea694"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-007.stdout",
+      "sha256": "8f8c3bd5ba4dbabc5ccd0f24f5825d5fd8d25a29b49e29a49eff049572211047"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-008.stdout",
+      "sha256": "fed30301c1aa89e8853963a93b6449c769797ccdc990758f84a9c4bc47812a0c"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-009.stdout",
+      "sha256": "eb0ce8ec3a64f96550a065ed919db7448c6af838ed871f73c2819741294f83f2"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-010.stdout",
+      "sha256": "d67a2f52b8dc47e8840366c115c49ccb53d61474168709913fd7b72bc2520cee"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-011.stdout",
+      "sha256": "7e7aa92c2e6729debf5b1721572b4d93d29318e94efa4d4e50f963f6c88936b7"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-012.stdout",
+      "sha256": "32772d73618372136be24b20cdc2e64db93d2a7eb7180fe6ff1f16ba63198007"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-013.stdout",
+      "sha256": "f585d9afa7c7b7e3218fbc12d022646b169844ae59f06cb35ee6a7229859491f"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-014.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-015.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-016.stdout",
+      "sha256": "9df3082d20d84f0bcecd5764be237507f281458edcf4b45c0861a1e11a62cb75"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-017.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-017.stdout",
+      "sha256": "62b5bca132f879e878079d38e173e8b2c829cf5b4e3539c0c4a774fbc4a1cf39"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-018.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-018.stdout",
+      "sha256": "6893b0d30f6cc6c45b0378cbe208159b7343dae4b2a8943633ecda456bc504d1"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-020.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/command-020.stdout",
+      "sha256": "f73e40ee15b5293c06a630036a6b3920792104d362cbcaea8920b9c22acfee1f"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/cost.json",
+      "sha256": "66bbf4984ec29f18b66d39dd8394483b3a599c372c5b747ad7eb14c21f81f667"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/events.jsonl",
+      "sha256": "d74bc82e8ae477858bdd31b8492bc3bf7923e01e9e252a0659277c5f1185cf05"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/final-workspace-status.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/final-workspace-status.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/independent-failure-assessment.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/independent-failure-assessment.stdout",
+      "sha256": "32d50d9a02db66948d632726ebdcf60c367df14cef49c0163b6a36bd47139880"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/mesh-artifacts/b21eb476-354d-476f-bb29-637badf49393.json",
+      "sha256": "b98fec36de0792a5cb71cd762fce3438e69c1224dbf430f2b21e14bbfe920564"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/mesh-artifacts/b21eb476-354d-476f-bb29-637badf49393.round-1.json",
+      "sha256": "b98fec36de0792a5cb71cd762fce3438e69c1224dbf430f2b21e14bbfe920564"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/prepared.json",
+      "sha256": "1f6886bec18262f41ccbb30e6c5813834b0975c45e1b6e445afb03d193f3cc24"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/registration.json",
+      "sha256": "a6855cabc38eb1040c277224247877c87894289eb0fcc08db16aeba0557fe42a"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/bundle.json",
+      "sha256": "ab546a58505f809dea2d7d5b5967fcee1fb1797b1c497ac32823252f2c911965"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md",
+      "sha256": "41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/delivery-plan.yaml",
+      "sha256": "636088e36ff2b97ab53ff1a6e162740d2f1d313623a8b69d7cc630c151a4dd47"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/evidence.jsonl",
+      "sha256": "08f02f7954d1eefc5eb61c74c2756b664733a1500c4e5ae7d640f8286e04f722"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/intent.md",
+      "sha256": "fdc5caec623c5ef6628d978246590e5a31be287886b1b18214fba1f960cdf8d4"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/legs/LEG-SMALL-FIX.md",
+      "sha256": "814c438ae8109b4edfb8b29aa21186c5b718b74dbc97c883512a6b27fe812b1f"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/proposed-graph.json",
+      "sha256": "0fb13624be54b1999b90fab3ab7d2b4d783c98d69739078199b2b0052be95a56"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/reviews/delivery-plan-review.json",
+      "sha256": "6f9a56664ab4bb05ecba183fd32b3088f0754896d026c3dc09ea7024b77c2f1c"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/seam-map.yaml",
+      "sha256": "201df620e8cef813728e91ba31428f01cc828b2204cf2930f02af253d8c90767"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/seams/SEAM-SMALL-FIX.md",
+      "sha256": "011222ae80c9a8cb8a7c41f9b9977752b769101939466c65af12280661f10794"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/snapshots/201dbb2bcc89fcb7d92a8516cd4e0d7f7909a0c22a93e8884028e5acd289a99d.json",
+      "sha256": "21e9426c714057a770b5b72fe63976e2d5b2b99bd575e406ca2bcad303574b95"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/source-recipe.yaml",
+      "sha256": "0ad8c836025d433ccd7598db85a41481b38664986472e8126be0c9809e99f866"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/steel-thread.md",
+      "sha256": "4eb13fd026eb6d48b5f3daa30b89aec67fcd3e91a48400d61abb4b1483bd7fa7"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/swimlanes/LANE-SMALL-FIX.md",
+      "sha256": "6833ad8c5811774a9cf80a4e8c5c5cc2c93b29414887cedd4468cb6a453416cc"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/system-map.md",
+      "sha256": "1c42801107b87d6ba0a9feca42cc84bde631f399cf2f8496a9704a5ec58dfca4"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/task-plan-lineage.json",
+      "sha256": "61f3f8416cefbf7854af6135bb9110eb23e7b6e84adb5c638184a35333361b2a"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/task-plan.json",
+      "sha256": "0bd186453d2fca2b8bbff1616c6f7b0c6e0ca61d09a31cc75bae091d28565659"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot/telemetry/events.jsonl",
+      "sha256": "4c1471f9e81dffe7545698cd992039e09ee8ef194b59b845536fdc48fa317e0b"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/.plans/pilot-input.yaml",
+      "sha256": "0ad8c836025d433ccd7598db85a41481b38664986472e8126be0c9809e99f866"
+    },
+    {
+      "path": "instrumentation-smoke/smoke-small-fix-claude-integrated-r1-20260915T120305Z/workspace-evidence/tasks/T-20260914-pilot-small-fix.md",
+      "sha256": "2d33e0dee7a6a56a5bbc54564bf8fb9be9e841df929a0dd690e7ea38c3ce2012"
+    }
+  ]
+}

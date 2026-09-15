@@ -1,0 +1,4 @@
+{"state": "paused", "before_block": 1, "reason": "Review the observed permission denial.", "next": "Inspect retained runs and remove the explicit PAUSE file only when authorized to continue."}
+{"id": "1-codex", "exit_code": 0, "run_id": "denied-cell", "accepted": false, "error": "permission denied", "elapsed_seconds": 1, "cost_usd": 0, "permission_denied": true}
+{"id": "1-claude", "exit_code": 0, "run_id": "denied-cell", "accepted": false, "error": "permission denied", "elapsed_seconds": 1, "cost_usd": 0, "permission_denied": true}
+TOOLKIT_PILOT_RECORDING=PASS prospective intervals, censored failures, retained outputs, tamper detection, cohort pause

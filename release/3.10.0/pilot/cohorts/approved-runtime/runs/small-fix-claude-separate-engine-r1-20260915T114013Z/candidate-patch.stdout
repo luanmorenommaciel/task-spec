@@ -1,0 +1,49 @@
+diff --git a/src/recipe/recipes.py b/src/recipe/recipes.py
+index 6bc846a..65608aa 100644
+--- a/src/recipe/recipes.py
++++ b/src/recipe/recipes.py
+@@ -9,6 +9,7 @@ import os
+ from pathlib import Path
+ import re
+ import sys
++import tempfile
+ 
+ ROOT = Path(__file__).resolve().parents[2]
+ sys.path.insert(0, str(ROOT / "src/lib"))
+@@ -79,6 +80,18 @@ def validate(recipe: object, eval_ids: list[str], budget: int) -> list[str]:
+     return errors
+ 
+ 
++def read_recipe(source: str) -> object:
++    """Read a resolved recipe from a path, or from stdin when source is ``-``."""
++    if source != "-":
++        return load_document(source)
++    # Stage stdin so piped input keeps the file loader's exact parse rules and typed errors.
++    text = sys.stdin.read()
++    with tempfile.TemporaryDirectory(prefix="taskspec-recipe-") as temp:
++        staged = Path(temp) / "recipe.json"
++        staged.write_text(text, encoding="utf-8")
++        return load_document(staged)
++
++
+ def from_spec(text: str) -> tuple[dict | None, dict]:
+     match = re.search(r"^##\s+Validation Card\s*$.*?```ya?ml\s*\n(.*?)```", text, re.M | re.S)
+     if not match:
+@@ -92,7 +105,7 @@ def main() -> int:
+     sub = parser.add_subparsers(dest="action", required=True)
+     sub.add_parser("list")
+     show = sub.add_parser("show"); show.add_argument("strategy", choices=sorted(STRATEGIES))
+-    check = sub.add_parser("validate"); check.add_argument("file"); check.add_argument("--budget", type=int, default=15)
++    check = sub.add_parser("validate"); check.add_argument("file", help="resolved recipe path, or - to read stdin"); check.add_argument("--budget", type=int, default=15)
+     args = parser.parse_args()
+     try:
+         if args.action == "list":
+@@ -100,7 +113,7 @@ def main() -> int:
+         elif args.action == "show":
+             data = resolve(args.strategy, ["eval_1"])
+         else:
+-            data = load_document(args.file)
++            data = read_recipe(args.file)
+             errors = validate(data, data.get("eval_ids", []) if isinstance(data, dict) else [], args.budget)
+             if errors:
+                 raise DataError("; ".join(errors))

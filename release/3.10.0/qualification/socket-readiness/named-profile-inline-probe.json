@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "codex",
+    "sandbox",
+    "-P",
+    "taskspec_probe",
+    "-C",
+    "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/ts-socket-probe-21i5vqqj",
+    "-c",
+    "permissions={taskspec_probe={extends=\":workspace\",network={enabled=false,unix_sockets={\"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/ts-socket-probe-21i5vqqj/allowed.sock\"=\"allow\"}}}}",
+    "--",
+    "python3",
+    "-c",
+    "import socket,json,pathlib\nr=pathlib.Path.cwd();out={}\nfor name in [\"allowed.sock\",\"other.sock\"]:\n s=socket.socket(socket.AF_UNIX);s.settimeout(2)\n try:s.connect(str(r/name));out[name]=\"connected\"\n except OSError as e:out[name]=str(e)\n s.close()\nfor name in [\"writable.txt\",\".git/blocked.txt\"]:\n try:(r/name).write_text(\"probe\");out[name]=\"written\"\n except OSError as e:out[name]=str(e)\nprint(json.dumps(out))"
+  ],
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/ts-socket-probe-21i5vqqj",
+  "exit_code": 0,
+  "stdout": "{\"allowed.sock\": \"[Errno 1] Operation not permitted\", \"other.sock\": \"[Errno 1] Operation not permitted\", \"writable.txt\": \"written\", \".git/blocked.txt\": \"written\"}\n",
+  "stderr": "",
+  "scope": "sandbox readiness only; no model or comparative cell"
+}

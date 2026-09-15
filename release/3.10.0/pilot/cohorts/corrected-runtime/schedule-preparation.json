@@ -1,0 +1,610 @@
+{
+  "contract": "TaskPilotSchedule/v1",
+  "status": "prepared",
+  "frozen_at": null,
+  "runs": [
+    {
+      "id": "small-fix-codex-separate-engine-r1",
+      "block": 1,
+      "scenario": "small-fix",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "small-fix-claude-separate-engine-r1",
+      "block": 1,
+      "scenario": "small-fix",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "small-fix-codex-integrated-r1",
+      "block": 2,
+      "scenario": "small-fix",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "small-fix-claude-integrated-r1",
+      "block": 2,
+      "scenario": "small-fix",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "small-fix-codex-native-harness-r1",
+      "block": 3,
+      "scenario": "small-fix",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "small-fix-claude-native-harness-r1",
+      "block": 3,
+      "scenario": "small-fix",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "cross-seam-codex-integrated-r1",
+      "block": 4,
+      "scenario": "cross-seam",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "cross-seam-claude-integrated-r1",
+      "block": 4,
+      "scenario": "cross-seam",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "cross-seam-codex-native-harness-r1",
+      "block": 5,
+      "scenario": "cross-seam",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "cross-seam-claude-native-harness-r1",
+      "block": 5,
+      "scenario": "cross-seam",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "cross-seam-codex-separate-engine-r1",
+      "block": 6,
+      "scenario": "cross-seam",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "cross-seam-claude-separate-engine-r1",
+      "block": 6,
+      "scenario": "cross-seam",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "investigation-codex-native-harness-r1",
+      "block": 7,
+      "scenario": "investigation",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "investigation-claude-native-harness-r1",
+      "block": 7,
+      "scenario": "investigation",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "investigation-codex-separate-engine-r1",
+      "block": 8,
+      "scenario": "investigation",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "investigation-claude-separate-engine-r1",
+      "block": 8,
+      "scenario": "investigation",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "investigation-codex-integrated-r1",
+      "block": 9,
+      "scenario": "investigation",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "investigation-claude-integrated-r1",
+      "block": 9,
+      "scenario": "investigation",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "contention-codex-separate-engine-r1",
+      "block": 10,
+      "scenario": "contention",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "contention-claude-separate-engine-r1",
+      "block": 10,
+      "scenario": "contention",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "contention-codex-integrated-r1",
+      "block": 11,
+      "scenario": "contention",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "contention-claude-integrated-r1",
+      "block": 11,
+      "scenario": "contention",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "contention-codex-native-harness-r1",
+      "block": 12,
+      "scenario": "contention",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "contention-claude-native-harness-r1",
+      "block": 12,
+      "scenario": "contention",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "incident-codex-integrated-r1",
+      "block": 13,
+      "scenario": "incident",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "incident-claude-integrated-r1",
+      "block": 13,
+      "scenario": "incident",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "incident-codex-native-harness-r1",
+      "block": 14,
+      "scenario": "incident",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "incident-claude-native-harness-r1",
+      "block": 14,
+      "scenario": "incident",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "incident-codex-separate-engine-r1",
+      "block": 15,
+      "scenario": "incident",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "incident-claude-separate-engine-r1",
+      "block": 15,
+      "scenario": "incident",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "release-evidence-codex-native-harness-r1",
+      "block": 16,
+      "scenario": "release-evidence",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "release-evidence-claude-native-harness-r1",
+      "block": 16,
+      "scenario": "release-evidence",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 1
+    },
+    {
+      "id": "release-evidence-codex-separate-engine-r1",
+      "block": 17,
+      "scenario": "release-evidence",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "release-evidence-claude-separate-engine-r1",
+      "block": 17,
+      "scenario": "release-evidence",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 1
+    },
+    {
+      "id": "release-evidence-codex-integrated-r1",
+      "block": 18,
+      "scenario": "release-evidence",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "release-evidence-claude-integrated-r1",
+      "block": 18,
+      "scenario": "release-evidence",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 1
+    },
+    {
+      "id": "small-fix-codex-native-harness-r2",
+      "block": 19,
+      "scenario": "small-fix",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "small-fix-claude-native-harness-r2",
+      "block": 19,
+      "scenario": "small-fix",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "small-fix-codex-integrated-r2",
+      "block": 20,
+      "scenario": "small-fix",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "small-fix-claude-integrated-r2",
+      "block": 20,
+      "scenario": "small-fix",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "small-fix-codex-separate-engine-r2",
+      "block": 21,
+      "scenario": "small-fix",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "small-fix-claude-separate-engine-r2",
+      "block": 21,
+      "scenario": "small-fix",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "cross-seam-codex-separate-engine-r2",
+      "block": 22,
+      "scenario": "cross-seam",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "cross-seam-claude-separate-engine-r2",
+      "block": 22,
+      "scenario": "cross-seam",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "cross-seam-codex-native-harness-r2",
+      "block": 23,
+      "scenario": "cross-seam",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "cross-seam-claude-native-harness-r2",
+      "block": 23,
+      "scenario": "cross-seam",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "cross-seam-codex-integrated-r2",
+      "block": 24,
+      "scenario": "cross-seam",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "cross-seam-claude-integrated-r2",
+      "block": 24,
+      "scenario": "cross-seam",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "investigation-codex-integrated-r2",
+      "block": 25,
+      "scenario": "investigation",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "investigation-claude-integrated-r2",
+      "block": 25,
+      "scenario": "investigation",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "investigation-codex-separate-engine-r2",
+      "block": 26,
+      "scenario": "investigation",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "investigation-claude-separate-engine-r2",
+      "block": 26,
+      "scenario": "investigation",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "investigation-codex-native-harness-r2",
+      "block": 27,
+      "scenario": "investigation",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "investigation-claude-native-harness-r2",
+      "block": 27,
+      "scenario": "investigation",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "contention-codex-native-harness-r2",
+      "block": 28,
+      "scenario": "contention",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "contention-claude-native-harness-r2",
+      "block": 28,
+      "scenario": "contention",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "contention-codex-integrated-r2",
+      "block": 29,
+      "scenario": "contention",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "contention-claude-integrated-r2",
+      "block": 29,
+      "scenario": "contention",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "contention-codex-separate-engine-r2",
+      "block": 30,
+      "scenario": "contention",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "contention-claude-separate-engine-r2",
+      "block": 30,
+      "scenario": "contention",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "incident-codex-separate-engine-r2",
+      "block": 31,
+      "scenario": "incident",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "incident-claude-separate-engine-r2",
+      "block": 31,
+      "scenario": "incident",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "incident-codex-native-harness-r2",
+      "block": 32,
+      "scenario": "incident",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "incident-claude-native-harness-r2",
+      "block": 32,
+      "scenario": "incident",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "incident-codex-integrated-r2",
+      "block": 33,
+      "scenario": "incident",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "incident-claude-integrated-r2",
+      "block": 33,
+      "scenario": "incident",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "release-evidence-codex-integrated-r2",
+      "block": 34,
+      "scenario": "release-evidence",
+      "harness": "codex",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "release-evidence-claude-integrated-r2",
+      "block": 34,
+      "scenario": "release-evidence",
+      "harness": "claude",
+      "workflow": "integrated",
+      "repeat": 2
+    },
+    {
+      "id": "release-evidence-codex-separate-engine-r2",
+      "block": 35,
+      "scenario": "release-evidence",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "release-evidence-claude-separate-engine-r2",
+      "block": 35,
+      "scenario": "release-evidence",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "repeat": 2
+    },
+    {
+      "id": "release-evidence-codex-native-harness-r2",
+      "block": 36,
+      "scenario": "release-evidence",
+      "harness": "codex",
+      "workflow": "native-harness",
+      "repeat": 2
+    },
+    {
+      "id": "release-evidence-claude-native-harness-r2",
+      "block": 36,
+      "scenario": "release-evidence",
+      "harness": "claude",
+      "workflow": "native-harness",
+      "repeat": 2
+    }
+  ],
+  "controller_digests": {
+    "tests/evals/toolkit/compare.py": "98c000004a3d56433ff70b3d3cfa3c833912d4bc56008f0954ce62b0df4976c1",
+    "tests/evals/toolkit/corpus.py": "8ef8d8317939048b6f320971bd40fb68055f4ebafa4766f329508457e082900c",
+    "tests/evals/toolkit/providers.py": "93683edf32efd31b88815727169ef338b42f9bf8899e8eaebf44349323b13972",
+    "tests/evals/toolkit/record.py": "209c3a253ca5195ee05c5dfeb3d814894ddb2b78a9bc3e7bb9d424e483b5e98d",
+    "tests/evals/toolkit/evaluate_issue.py": "5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca",
+    "tests/evals/toolkit/pilot.py": "178ad9f3c6da73ae10bda11b376c07679fb27cc82681c7bc532ac710f3631908",
+    "tests/evals/toolkit/run_schedule.py": "e8696797363789d1e341b60d4309476814f85c154c8ddab03d9910f3788892ea",
+    "release/3.10.0/pilot/cohorts/corrected-runtime/issues.json": "0a74fbab4818250171588de828496001e690ccca27c6da222b0ada02ff2fecbc",
+    "release/3.10.0/pilot/cohorts/corrected-runtime/protocol.json": "5bf00c61403df1b544ad38cf5e3f9dc559c1d34a9882b0b4ece14da5c9d3fbb4",
+    "release/3.10.0/pilot/cohorts/corrected-runtime/rate-card.json": "0be7433407f226433e117a7797f32d0fe00d3d6377b218abe6be97dab3695ca1"
+  },
+  "input_archives": {
+    "task-spec-3.9.0.tar.gz": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+    "task-spec-3.10.0.tar.gz": "039ae30a253f7488ac39cde6925205409088dc2dbf7778b8601ece68acbf98a3"
+  },
+  "tooling_directory": ".taskspec/pilot/corrected-tooling/task-spec-3.10.0",
+  "seamwise_executable": "/Users/luanmorenomaciel/GitHub/seamwise/.venv/bin/seamwise",
+  "seamwise_commit": "a49748ee39d04a6ca5ce54c6a22df331ee89ff11",
+  "adapters": {
+    "claude-native.json": "4ef96810a343baa1143b02d4e19f83cd79c6bce36e2f6dbb74b7fd8c9fa8c135",
+    "codex-native.json": "ba37194a6dd7e720b419c0546953d0c871ef964447986330ecde8286dd4e3825"
+  },
+  "prior_cohort": "../initial",
+  "approval": "../../../qualification/retry-approval.json",
+  "helper_sha256": "88c3e7c7acd7ccb1fd73a6fe321c8967caad8ecd68cbcd2f7cd7ecbea05c8bed",
+  "tooling_resource_digests": {}
+}

@@ -1,0 +1,39 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "explain",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "reviewed_at": "2026-09-15T11:07:22.879536+00:00",
+  "review_method": "Read actual tool actions, final claims and corresponding persisted state; compared before/after inventories.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "explain_lineage"
+  ],
+  "claims_checked": [
+    "Read current CLI state, reviewed plan, lineage and seam boundaries.",
+    "Explained the four disjoint declared write surfaces and explicit serial dependency chain.",
+    "Distinguished independently assessable completion from independent inputs.",
+    "Reported compiled/unmaterialized and zero-acceptance state without executing or signing anything.",
+    "Explicitly identified the missing integration proof tasks."
+  ],
+  "failures": [],
+  "limitations": [
+    "Fresh synthetic fixture; no claim of general architecture or production reliability."
+  ],
+  "evidence_refs": [
+    {
+      "path": "harness.stdout",
+      "sha256": "a1b3307decee28132eaae76d53ef552fabfb320a92f13bb3d6d115ca7bd4bce4"
+    },
+    {
+      "path": "before.json",
+      "sha256": "d148037e29bca18c5ad4977077e863a10157344bd8920983d4675b928e6f6556"
+    },
+    {
+      "path": "after.json",
+      "sha256": "d148037e29bca18c5ad4977077e863a10157344bd8920983d4675b928e6f6556"
+    }
+  ]
+}

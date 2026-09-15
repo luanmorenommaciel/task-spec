@@ -1,0 +1,22 @@
+schema_version: 1
+status: SEAM_MAP=READY
+intent_id: DI-PILOT-SMALL-FIX
+source_recipe:
+  name: source-recipe.yaml
+  sha256: 7593021158d085107c3f2dfbd8d115c939cab68176b6aedc6af09ba0c83ecb1b
+intent_sha256: fdc5caec623c5ef6628d978246590e5a31be287886b1b18214fba1f960cdf8d4
+system_map_sha256: 1c42801107b87d6ba0a9feca42cc84bde631f399cf2f8496a9704a5ec58dfca4
+evidence_sha256: 08f02f7954d1eefc5eb61c74c2756b664733a1500c4e5ae7d640f8286e04f722
+decisions:
+- id: ADR-PILOT-SCOPE
+  path: tasks/.plans/pilot/decisions/ADR-PILOT-SCOPE.md
+  status: accepted
+  sha256: 41b17de932f912d3f0d8302bde86f2ee49e78bf7043550c9c8ed62c7226c9f75
+seams:
+- id: SEAM-SMALL-FIX
+  path: tasks/.plans/pilot/seams/SEAM-SMALL-FIX.md
+  owner: pilot-small-fix
+  evidence:
+  - E-PILOT-ISSUE
+  swimlane_id: LANE-SMALL-FIX
+  sha256: d59804b3b01430127b3d08a6aa1ce6adbcd748656fb7fe14e415fcb30c043d52

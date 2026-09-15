@@ -1,0 +1,30 @@
+{
+  "contract": "TaskToolkitComparisonRun/v1",
+  "run_id": "setup-small-fix-claude-native-harness-r1-20260915T120021Z",
+  "scenario": "small-fix",
+  "harness": "claude",
+  "workflow": "native-harness",
+  "repeat": 1,
+  "model": "claude-opus-5",
+  "provider": "anthropic",
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-pilot-tlpovsua/task-spec-3.9.0",
+  "repository_snapshot": "134925fb9416f55151cca1eb568265a75b4971328a18753d6e6cac0fd383ceae",
+  "tooling": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "evaluator_digest": "5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca",
+  "public_evaluator_manifest": {
+    "tests/fixtures/toolkit/public-evaluator/tests/evals/toolkit/evaluate_issue.py": "5580a3b17085de0837e0181fd8402ed97926d854884756b57ce40b677de2bdca",
+    "tests/fixtures/toolkit/public-evaluator/spec/conformance/toolkit/execution-recipe.json": "ccf680057d987028e116666849c720ec8ba5ad30216e347ff58c3db40b5fae59",
+    "tests/fixtures/toolkit/public-evaluator/docs/examples/incident.json": "f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b"
+  },
+  "write_scope": [
+    "src/recipe/recipes.py"
+  ],
+  "budget": {
+    "max_provider_invocations_per_leaf": 3,
+    "total_execution_seconds_per_leaf": 600,
+    "no_progress_rounds": 2
+  },
+  "intervention_recording_enabled": true,
+  "comparative": false,
+  "review_authority": "Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention."
+}

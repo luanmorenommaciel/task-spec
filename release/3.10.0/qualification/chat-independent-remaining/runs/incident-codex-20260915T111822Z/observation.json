@@ -1,0 +1,64 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "incident",
+  "harness": "codex",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/chat-independent-remaining/runs/incident-codex-20260915T111822Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "17ba602c85641a0854001bf5e40cfd0ca50902250bfcc17f28752425d58d7354"
+    },
+    {
+      "path": "before.json",
+      "sha256": "4ebff57fc9508c08730cbda4b4193d83eb7c8ec673f046c1145fc5c5a405a1cc"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/.taskspec/operations/incident-example.json",
+      "sha256": "6d08d24fc6711ecaf2913051695843f50a7515da9cbe1c7a7e02f4d4409dce71"
+    },
+    {
+      "path": "changed-files/tasks/.plans/incident-example/intake.md",
+      "sha256": "f95954e02b9e42fab5f661bc087d994acf27061d6a24a27745e0a5a29cde4e8b"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "ab8870190f399d08d09f328775a1985e03c4cc4655de16721d2bb061b1a53127"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "e52c3bc66205003c3d8885b2eba7e72eb02a2cb51e4d41598e863676589cf438"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "9cbea7f277b66b96b647cc8757e12fdb41c9821cda1e57fd00fd765a23e5da3d"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "ae15222f8fef08e78b3bf191648ac345829fbff9a2027a09ad7215486f69ab11"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "03eeac9bdde016f9c6658b1f6ed7b242004c144cf7cebc4523d01d12a54730a2"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "0018f818954165ed406565d078f5410fb2ebcabd2a76dd9782ed0af286e1fc60"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "3f8f0bbbbbde333db1b5e08585da1a927cf7166d30c62657fb499ed1e4d29eb0"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "90a864c1ab5a8a47f3e13e7841c5b1213171ff5fea333a27f4ae42f0db9bfb24"
+    }
+  ]
+}

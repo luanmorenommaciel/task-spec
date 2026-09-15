@@ -1,0 +1,65 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "plan",
+  "harness": "claude",
+  "reviewer": "root-agent",
+  "reviewed_at": "2026-09-15T11:17:01.104873+00:00",
+  "review_method": "Read actual native Skill use, command results, authored recipe, diagnostic repairs, permission-denial sequence and absent final result.",
+  "passed": false,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "collect_evidence",
+    "propose_plan",
+    "permission_denied",
+    "stop"
+  ],
+  "claims_checked": [
+    "Read local installed guides and source blueprint.",
+    "Kept six objections OPEN and retained architecture unknowns.",
+    "Removed all seam decision_ids after the compiler refused unresolved referenced decisions.",
+    "Preparation remained blocked by architecture_unknown_open.",
+    "Read of installed engine source outside the workspace was denied.",
+    "Proposed Bash grep of the same denied file; deterministic guard blocked that pending tool.",
+    "No approval, compilation, materialization or execution; no completed user-facing handoff."
+  ],
+  "failures": [
+    "Denied external engine-source read ended the journey; attempted alternate-tool fallback was blocked.",
+    "Removed applicable decision references to move past validation rather than preserving the authored dependencies on unresolved decisions.",
+    "No final proposed-plan explanation was returned."
+  ],
+  "limitations": [
+    "This is one corrective observation, retained alongside the prior semantic failure.",
+    "OPEN objections and unknowns improved, but that does not establish planning qualification."
+  ],
+  "evidence_refs": [
+    {
+      "path": "harness.stdout",
+      "sha256": "688af856a0dbaa37c1c71c0f0bcdf78ec22c487f62d07b4de0d5a12968c678c2"
+    },
+    {
+      "path": "observation.json",
+      "sha256": "c57e48ecf8e9a3c822217366ac165d6483d8ba18124dd469ed9b4ebcaf68a80e"
+    },
+    {
+      "path": "before.json",
+      "sha256": "3cd1adc56c9938707e8230698ec91e40b5b84e03dc0e78717d1b6386d01dce71"
+    },
+    {
+      "path": "after.json",
+      "sha256": "7aac8e5148358a14a0c25b64501e7d4b1d459769e0f738ffd5fb9d4e4fb59596"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "8bc3be5c7a3c66758a2e24aaab985f30bae3ec63e6972d1ffa9758596a2ef808"
+    },
+    {
+      "path": "changed-files/.taskspec/scratch/rate-limiting-recipe.yaml",
+      "sha256": "cc1fdc65492fbed050be1e83d62e890bef00a147f2c771ea61c77c54710a7348"
+    },
+    {
+      "path": "changed-files/.taskspec/scratch/build_recipe.py",
+      "sha256": "b6ee49fdb3f404a5d7a3e678ccf2189abb92dd806e1fc538a63db4afcf52df18"
+    }
+  ]
+}

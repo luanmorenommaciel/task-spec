@@ -1,0 +1,5 @@
+Merge made by the 'ort' strategy.
+ src/recipe/recipes.py                          |  7 +++++--
+ tasks/{ => done}/T-20260914-pilot-small-fix.md | 12 ++++++++----
+ 2 files changed, 13 insertions(+), 6 deletions(-)
+ rename tasks/{ => done}/T-20260914-pilot-small-fix.md (95%)

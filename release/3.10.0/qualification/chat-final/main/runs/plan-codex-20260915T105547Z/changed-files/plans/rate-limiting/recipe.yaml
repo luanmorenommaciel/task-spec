@@ -1,0 +1,539 @@
+{
+  "schema_version": 1,
+  "intent": {
+    "id": "INT-RATE-LIMITING",
+    "title": "Rate-limiting steel thread proposal",
+    "summary": "Propose the four ordered observable outcomes from the local blueprint. Provider-owned usage metering remains provider-owned and out of scope; rate-limit counters and decision telemetry do not become usage or billing records. Production storage and deployment infrastructure are not selected here. This is synthetic fixture intent, not evidence of shipped behavior. Propose only: no approval, compilation, task materialization, signing, execution, acceptance, commit, or publication.",
+    "claim": "proposed",
+    "source": {
+      "uri": "tests/fixtures/toolkit/blueprint.md",
+      "captured_at": "2026-09-15T10:58:34.598856Z",
+      "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+    },
+    "success": [
+      "Versioned policy schema rejects invalid limits and windows",
+      "Resolve exactly one effective policy for an organization",
+      "Deny request 101 after 100 allowed requests in the same window",
+      "Return a stable denial reason and matching decision telemetry"
+    ],
+    "out_of_scope": [
+      "Provider-owned usage metering remains provider-owned and out of scope; rate-limit counters and decision telemetry do not become usage or billing records.",
+      "Production storage and deployment infrastructure are not selected here.",
+      "This is synthetic fixture intent, not evidence of shipped behavior.",
+      "Propose only: no approval, compilation, task materialization, signing, execution, acceptance, commit, or publication."
+    ]
+  },
+  "system_map": {
+    "claim": "proposed",
+    "components": [
+      "Versioned policy validation",
+      "Organization policy resolution",
+      "Request-window rate-limit enforcement",
+      "Denial response and decision telemetry integration"
+    ],
+    "external_dependencies": [
+      "Provider-owned usage metering: excluded; no calls or writes proposed."
+    ],
+    "unknowns": []
+  },
+  "evidence": [
+    {
+      "id": "EVID-BLUEPRINT",
+      "claim": "current",
+      "source": {
+        "uri": "tests/fixtures/toolkit/blueprint.md",
+        "captured_at": "2026-09-15T10:58:34.598856Z",
+        "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+      },
+      "confidence": 1.0,
+      "summary": "Exact local fixture text establishes the requested sequence and exclusions only; it proves no implementation or shipped behavior."
+    }
+  ],
+  "decisions": [],
+  "seams": [
+    {
+      "id": "SEAM-RATE-LIMITING",
+      "name": "Rate-limiting decision flow",
+      "description": "One proposed in-scope responsibility with four ordered capability legs; no team ownership split is evidenced.",
+      "evidence": [
+        "EVID-BLUEPRINT"
+      ],
+      "responsibility": "Validate policy, resolve one organization policy, enforce request limits, and expose matching denial telemetry. Provider-owned usage metering remains provider-owned and out of scope; rate-limit counters and decision telemetry do not become usage or billing records.",
+      "consumes": [
+        "Versioned policy inputs",
+        "Organization identity",
+        "Request and controlled window context"
+      ],
+      "produces": [
+        "Stable rate-limit decision with matching telemetry"
+      ],
+      "owner": "Unassigned: the blueprint does not name an in-scope owner",
+      "independent_proof": "Compose the actual validation, resolution and enforcement components; verify requests 1-100 allowed, 101 denied, stable reason and matching telemetry. No provider usage metering side effects.",
+      "rejected_alternatives": [
+        {
+          "alternative": "Include usage or billing metering in the limiter",
+          "reason": "Provider-owned usage metering is explicitly excluded."
+        },
+        {
+          "alternative": "Split lanes by implementation stage or invent named team ownership",
+          "reason": "The blueprint establishes ordered behavior, not multiple accountable owners."
+        }
+      ],
+      "swimlane": {
+        "id": "LANE-RATE-LIMITING",
+        "name": "Rate-limiting steel thread",
+        "owner": "Unassigned: the blueprint does not name an in-scope owner",
+        "legs": [
+          {
+            "id": "LEG-SCHEMA",
+            "observable_state": "Versioned policy schema rejects invalid limits and windows",
+            "proof": "Behavioral assertions: valid-policy, invalid-limits-and-windows, unsupported-version. Downstream proof requires its declared predecessor implementations.",
+            "requires": [],
+            "produces": [
+              "validated-policy"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260915-rate-limiting-schema",
+                "title": "Versioned policy schema rejects invalid limits and windows",
+                "goal": "Versioned policy schema rejects invalid limits and windows. Provider-owned usage metering remains provider-owned and out of scope; rate-limit counters and decision telemetry do not become usage or billing records.",
+                "done_condition": "Versioned policy schema rejects invalid limits and windows; declared behavioral evaluations pass against the implementation. No production-readiness claim.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "bash"
+                ],
+                "depends_on": [],
+                "touches_paths": [],
+                "creates_paths": [
+                  "src/rate_limiting/schema",
+                  "tests/rate_limiting/schema.sh"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "a supported version and valid positive limit/window",
+                    "when": "the policy is validated",
+                    "then": "validation succeeds and preserves the version and values"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "an invalid limit, invalid window, or unsupported version",
+                    "when": "the policy is validated",
+                    "then": "validation fails with an actionable error"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "Behaviorally verify valid-policy; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/schema.sh valid-policy",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "Behaviorally verify invalid-limits-and-windows; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/schema.sh invalid-limits-and-windows",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "Behaviorally verify unsupported-version; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/schema.sh unsupported-version",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider usage metering",
+                    "reason": "The blueprint excludes provider-owned usage metering.",
+                    "instead": "Keep request-window counters and decision events scoped to limiting."
+                  },
+                  {
+                    "action": "Choose a production store or deploy infrastructure",
+                    "reason": "The blueprint leaves those selections out of scope.",
+                    "instead": "Use controlled local fixture adapters; make no production infrastructure choice."
+                  },
+                  {
+                    "action": "Claim success from stubbed outputs or source-file existence",
+                    "reason": "Completion requires observable behavior.",
+                    "instead": "Assert outcomes against composed real components with deterministic inputs."
+                  }
+                ],
+                "do_not_touch": [
+                  "tests/fixtures/toolkit/blueprint.md",
+                  "provider-owned usage metering",
+                  "production storage and deployment infrastructure",
+                  ".agents",
+                  ".codex",
+                  ".git"
+                ],
+                "rollback": "Revert only changes within this leaf's proposed write surface after future authorization.",
+                "observability": "Record deterministic behavioral assertion results; decision telemetry must not invoke or replace provider usage metering.",
+                "sdlc_stages": [
+                  "build",
+                  "test"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "LEG-RESOLUTION",
+            "observable_state": "Resolve exactly one effective policy for an organization",
+            "proof": "Behavioral assertions: single-effective-policy, organization-isolation, missing-and-conflicting-inputs. Downstream proof requires its declared predecessor implementations.",
+            "requires": [
+              "validated-policy"
+            ],
+            "produces": [
+              "effective-policy"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260915-rate-limiting-resolution",
+                "title": "Resolve exactly one effective policy for an organization",
+                "goal": "Resolve exactly one effective policy for an organization. Provider-owned usage metering remains provider-owned and out of scope; rate-limit counters and decision telemetry do not become usage or billing records.",
+                "done_condition": "Resolve exactly one effective policy for an organization; declared behavioral evaluations pass against the implementation. No production-readiness claim.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "bash"
+                ],
+                "depends_on": [
+                  "T-20260915-rate-limiting-schema"
+                ],
+                "touches_paths": [],
+                "creates_paths": [
+                  "src/rate_limiting/resolution",
+                  "tests/rate_limiting/resolution.sh"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "an organization and valid applicable policy inputs",
+                    "when": "resolution runs under the documented precedence rule",
+                    "then": "exactly one effective policy is returned deterministically"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "a second organization or missing/conflicting inputs",
+                    "when": "resolution runs",
+                    "then": "organization isolation holds and missing/conflict behavior follows the reviewed contract"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "Behaviorally verify single-effective-policy; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/resolution.sh single-effective-policy",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "Behaviorally verify organization-isolation; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/resolution.sh organization-isolation",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "Behaviorally verify missing-and-conflicting-inputs; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/resolution.sh missing-and-conflicting-inputs",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider usage metering",
+                    "reason": "The blueprint excludes provider-owned usage metering.",
+                    "instead": "Keep request-window counters and decision events scoped to limiting."
+                  },
+                  {
+                    "action": "Choose a production store or deploy infrastructure",
+                    "reason": "The blueprint leaves those selections out of scope.",
+                    "instead": "Use controlled local fixture adapters; make no production infrastructure choice."
+                  },
+                  {
+                    "action": "Claim success from stubbed outputs or source-file existence",
+                    "reason": "Completion requires observable behavior.",
+                    "instead": "Assert outcomes against composed real components with deterministic inputs."
+                  }
+                ],
+                "do_not_touch": [
+                  "tests/fixtures/toolkit/blueprint.md",
+                  "provider-owned usage metering",
+                  "production storage and deployment infrastructure",
+                  ".agents",
+                  ".codex",
+                  ".git"
+                ],
+                "rollback": "Revert only changes within this leaf's proposed write surface after future authorization.",
+                "observability": "Record deterministic behavioral assertion results; decision telemetry must not invoke or replace provider usage metering.",
+                "sdlc_stages": [
+                  "build",
+                  "test"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "LEG-ENFORCEMENT",
+            "observable_state": "Deny request 101 after 100 allowed requests in the same window",
+            "proof": "Behavioral assertions: hundred-then-deny, organization-isolation, window-boundary. Downstream proof requires its declared predecessor implementations.",
+            "requires": [
+              "effective-policy"
+            ],
+            "produces": [
+              "rate-limit-decision"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260915-rate-limiting-enforcement",
+                "title": "Deny request 101 after 100 allowed requests in the same window",
+                "goal": "Deny request 101 after 100 allowed requests in the same window. Provider-owned usage metering remains provider-owned and out of scope; rate-limit counters and decision telemetry do not become usage or billing records.",
+                "done_condition": "Deny request 101 after 100 allowed requests in the same window; declared behavioral evaluations pass against the implementation. No production-readiness claim.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "bash"
+                ],
+                "depends_on": [
+                  "T-20260915-rate-limiting-resolution"
+                ],
+                "touches_paths": [],
+                "creates_paths": [
+                  "src/rate_limiting/enforcement",
+                  "tests/rate_limiting/enforcement.sh"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "one organization with a limit of 100 and a controlled fixed window",
+                    "when": "101 requests are evaluated in that window",
+                    "then": "requests 1 through 100 are allowed and request 101 is denied"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "isolated organizations and controlled window advancement",
+                    "when": "requests are evaluated",
+                    "then": "counters are isolated by organization and window behavior follows the reviewed contract"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "Behaviorally verify hundred-then-deny; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/enforcement.sh hundred-then-deny",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "Behaviorally verify organization-isolation; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/enforcement.sh organization-isolation",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "Behaviorally verify window-boundary; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/enforcement.sh window-boundary",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider usage metering",
+                    "reason": "The blueprint excludes provider-owned usage metering.",
+                    "instead": "Keep request-window counters and decision events scoped to limiting."
+                  },
+                  {
+                    "action": "Choose a production store or deploy infrastructure",
+                    "reason": "The blueprint leaves those selections out of scope.",
+                    "instead": "Use controlled local fixture adapters; make no production infrastructure choice."
+                  },
+                  {
+                    "action": "Claim success from stubbed outputs or source-file existence",
+                    "reason": "Completion requires observable behavior.",
+                    "instead": "Assert outcomes against composed real components with deterministic inputs."
+                  }
+                ],
+                "do_not_touch": [
+                  "tests/fixtures/toolkit/blueprint.md",
+                  "provider-owned usage metering",
+                  "production storage and deployment infrastructure",
+                  ".agents",
+                  ".codex",
+                  ".git"
+                ],
+                "rollback": "Revert only changes within this leaf's proposed write surface after future authorization.",
+                "observability": "Record deterministic behavioral assertion results; decision telemetry must not invoke or replace provider usage metering.",
+                "sdlc_stages": [
+                  "build",
+                  "test"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "LEG-DECISION",
+            "observable_state": "Return a stable denial reason and matching decision telemetry",
+            "proof": "Behavioral assertions: denial-telemetry-match, complete-steel-thread, negative-and-isolation-cases. Downstream proof requires its declared predecessor implementations.",
+            "requires": [
+              "validated-policy",
+              "effective-policy",
+              "rate-limit-decision"
+            ],
+            "produces": [
+              "verified-steel-thread"
+            ],
+            "tasks": [
+              {
+                "id": "T-20260915-rate-limiting-decision-proof",
+                "title": "Return a stable denial reason and matching decision telemetry",
+                "goal": "Return a stable denial reason and matching decision telemetry. Provider-owned usage metering remains provider-owned and out of scope; rate-limit counters and decision telemetry do not become usage or billing records.",
+                "done_condition": "Return a stable denial reason and matching decision telemetry; declared behavioral evaluations pass against the implementation. No production-readiness claim.",
+                "effort": "M",
+                "profile": "standard",
+                "execution_backend": "codex",
+                "required_tools": [
+                  "bash"
+                ],
+                "depends_on": [
+                  "T-20260915-rate-limiting-enforcement"
+                ],
+                "touches_paths": [],
+                "creates_paths": [
+                  "src/rate_limiting/decision-proof",
+                  "tests/rate_limiting/decision-proof.sh"
+                ],
+                "behavior": [
+                  {
+                    "id": "B-1",
+                    "given": "the real schema, resolver, and limiter composed with a controlled clock",
+                    "when": "request 101 is denied after 100 allowed requests",
+                    "then": "the response contains a stable reason and telemetry matches that denial"
+                  },
+                  {
+                    "id": "B-2",
+                    "given": "invalid policies, different organizations, and allowed/denied requests",
+                    "when": "the complete fixture is exercised",
+                    "then": "schema rejection, single-policy resolution, request limits and response/telemetry consistency are independently asserted without provider metering"
+                  }
+                ],
+                "evals": [
+                  {
+                    "id": "eval_1",
+                    "description": "Behaviorally verify denial-telemetry-match; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/decision-proof.sh denial-telemetry-match",
+                    "verifies": [
+                      "B-1"
+                    ]
+                  },
+                  {
+                    "id": "eval_2",
+                    "description": "Behaviorally verify complete-steel-thread; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/decision-proof.sh complete-steel-thread",
+                    "verifies": [
+                      "B-1",
+                      "B-2"
+                    ]
+                  },
+                  {
+                    "id": "eval_3",
+                    "description": "Behaviorally verify negative-and-isolation-cases; this is a proposed future test entry point, not an existing or executed test.",
+                    "bash": "bash tests/rate_limiting/decision-proof.sh negative-and-isolation-cases",
+                    "verifies": [
+                      "B-2"
+                    ]
+                  }
+                ],
+                "anti_patterns": [
+                  {
+                    "action": "Implement provider usage metering",
+                    "reason": "The blueprint excludes provider-owned usage metering.",
+                    "instead": "Keep request-window counters and decision events scoped to limiting."
+                  },
+                  {
+                    "action": "Choose a production store or deploy infrastructure",
+                    "reason": "The blueprint leaves those selections out of scope.",
+                    "instead": "Use controlled local fixture adapters; make no production infrastructure choice."
+                  },
+                  {
+                    "action": "Claim success from stubbed outputs or source-file existence",
+                    "reason": "Completion requires observable behavior.",
+                    "instead": "Assert outcomes against composed real components with deterministic inputs."
+                  }
+                ],
+                "do_not_touch": [
+                  "tests/fixtures/toolkit/blueprint.md",
+                  "provider-owned usage metering",
+                  "production storage and deployment infrastructure",
+                  ".agents",
+                  ".codex",
+                  ".git"
+                ],
+                "rollback": "Revert only changes within this leaf's proposed write surface after future authorization.",
+                "observability": "Record deterministic behavioral assertion results; decision telemetry must not invoke or replace provider usage metering.",
+                "sdlc_stages": [
+                  "build",
+                  "test"
+                ],
+                "proves_capabilities": [
+                  "LEG-SCHEMA",
+                  "LEG-RESOLUTION",
+                  "LEG-ENFORCEMENT",
+                  "LEG-DECISION"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "steel_thread": [
+    "LEG-SCHEMA",
+    "LEG-RESOLUTION",
+    "LEG-ENFORCEMENT",
+    "LEG-DECISION"
+  ],
+  "objections": [
+    {
+      "id": "OBJ-OWNER",
+      "status": "OPEN",
+      "summary": "Before approval, identify the responsible in-scope owner. Unassigned is an explicit unresolved field, not an ownership assignment; provider usage metering ownership remains unchanged."
+    },
+    {
+      "id": "OBJ-CONTRACT",
+      "status": "OPEN",
+      "summary": "Before approval, resolve policy precedence/default and missing-policy behavior, supported schema versions, exact window semantics and stable reason/telemetry fields; the blueprint does not specify them."
+    },
+    {
+      "id": "OBJ-HARNESS",
+      "status": "OPEN",
+      "summary": "Proposed src/rate_limiting paths and bash behavioral test entry points do not exist in this fixture checkout. Confirm the target implementation language, test harness and precise write surfaces before approval. No production storage or deployment selection is requested."
+    }
+  ],
+  "contentions": []
+}

@@ -1,0 +1,54 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "resume",
+  "harness": "codex",
+  "reviewer": "root-agent",
+  "reviewed_at": "2026-09-15T10:37:43.646946+00:00",
+  "review_method": "Read actual CLI actions, final claims, canonical task state, and retained leases/budget rows.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "inspect_attempt",
+    "verify_authority",
+    "resume"
+  ],
+  "claims_checked": [
+    "Read installed skill and current CLI state before mutation.",
+    "Verified HMAC authorization and prior cancelled attempt before mesh resume --execute.",
+    "Existing daemon acquired a new fenced attempt using chat-fixture; exact scoped output passed three evals.",
+    "Retained state is awaiting_supervision with one of three rounds consumed; no supervisor acceptance or merge occurred.",
+    "Before/after tracked workspace inventories match; no authority or budget files were rewritten by the chat."
+  ],
+  "failures": [],
+  "limitations": [
+    "One synthetic readiness observation, excluded from the final matched corpus.",
+    "The cancelled starting attempt had not invoked its executor; this case does not independently prove preservation of previously consumed rounds."
+  ],
+  "evidence_refs": [
+    {
+      "path": "harness.stdout",
+      "sha256": "a9f6c6f912861f99c81129c8024cb85694b129d57562d5d680f6ba0d4cfd6b88"
+    },
+    {
+      "path": "before.json",
+      "sha256": "ab4531d780453795dfda53ce9cc7052ef01f7a368efdd31754fc98997d30da60"
+    },
+    {
+      "path": "after.json",
+      "sha256": "ab4531d780453795dfda53ce9cc7052ef01f7a368efdd31754fc98997d30da60"
+    },
+    {
+      "path": "runtime-observation.json",
+      "sha256": "88c129d5fdb97ff617a807e75a6abb62c33949e1f86274cbdcd535bc3695a299"
+    },
+    {
+      "path": "initial-mesh-state.json",
+      "sha256": "0f862df313ef336483868263d4ce81d4023fe94a1e43dc34973071735ef31d71"
+    },
+    {
+      "path": "socket-permission.json",
+      "sha256": "0e21fcb3c099aa63cf2b55fb2faaa69bab071318883807c4be34f579fdafa4f0"
+    }
+  ]
+}

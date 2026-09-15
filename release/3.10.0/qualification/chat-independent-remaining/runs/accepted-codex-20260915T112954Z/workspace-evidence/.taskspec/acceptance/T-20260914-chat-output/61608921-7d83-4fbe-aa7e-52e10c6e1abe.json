@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-09-15T11:30:15Z",
+  "accepted_by": "luanmorenomaciel",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "61608921-7d83-4fbe-aa7e-52e10c6e1abe",
+    "authorization_ref": "hmac-sha256-v3:4abc5a54:bfd5a13fea41ae313ed71e19aeba1c2111e8c6ece6c12e7cee3c3594c50f93e7",
+    "base_commit": "aa359e62337f9a9607c37c1cee338b0f59be8e17",
+    "task_id": "T-20260914-chat-output",
+    "task_revision_digest": "sha256:70121249e5e6be1db47166f4956933d840cca469df0a0ccb9ce8405d4cdbacf5"
+  }
+}

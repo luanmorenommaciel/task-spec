@@ -1,0 +1,22 @@
+schema_version: 1
+status: SEAM_MAP=READY
+intent_id: DI-RATE-LIMIT
+source_recipe:
+  name: source-recipe.yaml
+  sha256: e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766
+intent_sha256: 4254dde17e3a0ea801b3c85e1b28fd7a93b6485049ad6258b1bfb9ac915834ac
+system_map_sha256: e340642115b62e87aceb3a578dc6949d4a408b08c203f2be5c8edae82f758fb4
+evidence_sha256: 955bf48075bd4c1f7517942d7e4883b9d9d315e217d05aeac6edf9d9e83c3c12
+decisions:
+- id: ADR-RATE-LIMIT-ORDER
+  path: tasks/.plans/managed/decisions/ADR-RATE-LIMIT-ORDER.md
+  status: accepted
+  sha256: a10ce522f4e3f8d3a0a92c86cc990345f488f06ecaf20ca3b099c005ec9d00b3
+seams:
+- id: SEAM-POLICY-CONTRACT
+  path: tasks/.plans/managed/seams/SEAM-POLICY-CONTRACT.md
+  owner: platform-contracts
+  evidence:
+  - E-BLUEPRINT
+  swimlane_id: LANE-POLICY-CONTRACT
+  sha256: 0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4

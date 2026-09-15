@@ -1,0 +1,17 @@
+{
+  "contract": "TaskMeshAdapter/v1",
+  "name": "chat-fixture",
+  "harness": "custom",
+  "executable": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/chat-independent-remaining/runs/run-claude-20260915T111928Z/fixture-worker.sh",
+  "version_args": [
+    "--version"
+  ],
+  "prompt_mode": "argument",
+  "event_format": "text",
+  "assurance_modes": [
+    "supervised"
+  ],
+  "command": [
+    "run"
+  ]
+}

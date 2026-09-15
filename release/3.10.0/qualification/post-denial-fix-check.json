@@ -1,0 +1,14 @@
+{
+  "contract": "TaskToolkitGateObservation/v1",
+  "completed_at": "2026-09-15T11:09:48.262090+00:00",
+  "command": "make check",
+  "exit_code": 0,
+  "conformance": "L2",
+  "check": "READY",
+  "git_base": "803a0b952df1437401303bdbd9ecb62c04918bfe",
+  "source_archive": "release/3.10.0/pilot/cohorts/approved-runtime/inputs/task-spec-3.10.0.tar.gz",
+  "source_archive_sha256": "e1eadf83b5359740562136e23e02a2887d8fa16281a14c8b228d9c8e45d2bc74",
+  "log_sha256": "20233237ebcc7d3d708bea58d7bf8044a301e5ffc47f4b5762a8c958b24d66d0",
+  "final_release_gate": false,
+  "limitations": "Local macOS gate. Subsequent planning guidance correction is outside this source snapshot; hosted and behavioral release qualification remain pending."
+}

@@ -1,0 +1,72 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "plan",
+  "harness": "codex",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/chat-final/main/runs/plan-codex-20260915T105547Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "a23ec2868ae815bf2b4c86010e6ed8721dfd07ca88c3c0d8a2dc9389c0d1bead"
+    },
+    {
+      "path": "before.json",
+      "sha256": "337d364a88934402dd01a8aa158c346ded3918b9712f7c136f874026d1c87def"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/plans/rate-limiting/intent.md",
+      "sha256": "e6ee4ac2cf46a6c61a950e198cc5acad4d2ee9be8cdef2d6cf784bdbfbcbf669"
+    },
+    {
+      "path": "changed-files/plans/rate-limiting/proposal.md",
+      "sha256": "935e00fd131178f1fec8627dfe8c334e13033dfd6e59bec443252fdb4ac0bf99"
+    },
+    {
+      "path": "changed-files/plans/rate-limiting/recipe.yaml",
+      "sha256": "506d1e0a88b073256f14c0f34cfadc5c4a7142654386c3ae64b2cd8c3cb05e6f"
+    },
+    {
+      "path": "changed-files/tasks/.plans/rate-limiting/intake.md",
+      "sha256": "e6ee4ac2cf46a6c61a950e198cc5acad4d2ee9be8cdef2d6cf784bdbfbcbf669"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "bb9947175ec05ac39e280048cbd77a2b4bdc49242d6aa5f89c48798578ee8bcb"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "59b18f2f88b402997325c48d7d7caf22dea06a9a840715008d47792390e694ae"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "d915c69c74cbead56f2f87e03e4a8caed3ba88158f910e36d0871281b6728ffb"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "f5448ec5f7123fa380ba52aa7f3f4a22107cd39f0f2876813bb4a2020c07631b"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "6d92f5749ea03ddcd7f0c2bb5626e926bc3ebd09b6fe0b7ee2579100b11787ea"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "8c3863f6916e853e44a3412b66a32b78e3d89dbf666d28b659d3399584a9bb1b"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "07f874d9e545cffd4f7d7b1ee7a76e39cc908c9993f399c60e6c89aa4b66794f"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "0e802fc01b9052477a3ca2fd2ab6040282bac3972baacf5a81725b582de4072b"
+    }
+  ]
+}

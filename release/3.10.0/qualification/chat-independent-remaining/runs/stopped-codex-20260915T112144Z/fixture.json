@@ -1,0 +1,9 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat kfrgtsla",
+  "case": "stopped",
+  "source_commit": "f35eb52cc1a1c25b7f5152c7073b27ae3fb8ad45",
+  "installed_skill_sha256": "706926600f628808f40f3ffd5851d261b3ebcc3caf943d88d1da6ae9c9521bd9",
+  "engine_version": "3.10.0",
+  "path_cli": "/private/tmp/taskspec-planning-fix-engines/3.10.0/bin/taskspec",
+  "native_plugin": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat kfrgtsla/.agents/skills/task-spec"
+}

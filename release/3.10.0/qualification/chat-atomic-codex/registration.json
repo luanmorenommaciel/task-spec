@@ -1,0 +1,19 @@
+{
+  "contract": "TaskToolkitChatSingleRegistration/v1",
+  "registered_at": "2026-09-15T11:33:33.348255+00:00",
+  "case": "atomic",
+  "harness": "codex",
+  "request": "Make the policy-schema change in tests/fixtures/toolkit/blueprint.md one atomic TaskSpec, with executable acceptance checks. Author it for review; do not implement, authorize, or accept it.",
+  "source_commit": "649884a9d1880178eec216ddcce0e9afd0e7b76a",
+  "engine": "/tmp/taskspec-649884a-engines/3.10.0",
+  "installed_skill": "/tmp/taskspec-649884a-host/.agents/skills/task-spec",
+  "controllers": {
+    "chat_run.py": "d9e88bb0d49440d7b4f69ccd83a89a4ded93a94744227579f249e5967a6f0bc0",
+    "providers.py": "f0ed7fba5fc7e6fa23685ec47956b25c79292e3135aa8af8f16cfa687d112ad5",
+    "record.py": "209c3a253ca5195ee05c5dfeb3d814894ddb2b78a9bc3e7bb9d424e483b5e98d",
+    "codex_mesh_permissions.py": "7d3e56c93a689596c0f5635c3383e8285533811fb6e076fc84b15b5a7405fc39",
+    "claude_permission_guard.py": "75affdbe548f9d214b9261ae4482ab473349b8b3cbd10b4e4a2ea7de808db8bb"
+  },
+  "scope": "One Codex authoring observation. Denied Claude atomic and planning paths are not retried.",
+  "qualification": "Retain failures and independently review actual behavior; successful process exit is insufficient."
+}

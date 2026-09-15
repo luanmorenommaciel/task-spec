@@ -1,0 +1,1 @@
+TOOLKIT_PERMISSION_GUARD=PASS recorded denial stops continuation; ordinary eval and validation failures remain distinct

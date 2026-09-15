@@ -1,0 +1,24 @@
+{
+  "attempt_id": "61608921-7d83-4fbe-aa7e-52e10c6e1abe",
+  "contract": "TaskRecipeRound/v1",
+  "evaluation": "{\"eval\":\"eval_1\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n{\"eval\":\"eval_2\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n{\"eval\":\"eval_3\",\"status\":\"pass\",\"duration_sec\":0,\"stdout\":\"\",\"stderr\":\"\"}\n{\"eval\":\"_exit_check\",\"status\":\"pass\",\"duration_sec\":1,\"stdout\":\"\",\"stderr\":\"\"}\n",
+  "evaluation_environment": "sanitized_host",
+  "execution_identity": {
+    "model": null,
+    "provider": null,
+    "reported_models": [],
+    "source": "unreported_harness_default"
+  },
+  "finished_at": "2026-09-15T11:30:13.010887Z",
+  "harness": "chat-fixture",
+  "harness_version": "chat-fixture/1",
+  "model": null,
+  "provider": null,
+  "round": 1,
+  "sandbox_evidence": "",
+  "scope_digest": "46dd812a8eadf8395384f0c30f02773a7db2a179d30012b0c24a88d951ea0048",
+  "started_at": "2026-09-15T11:30:08.32763Z",
+  "strategy": "diagnose-repair-verify",
+  "strategy_version": "1.0.0",
+  "usage": null
+}

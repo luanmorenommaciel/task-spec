@@ -1,0 +1,19 @@
+{
+  "complete": true,
+  "cost_including_failures": 0.821488,
+  "cost_basis": "api_equivalent_estimate",
+  "invocations": [
+    {
+      "path": "runs/small-fix-codex-separate-engine-r1-20260915T114013Z/mesh-artifacts/674d5ce6-7900-4e0d-a920-01905c4ff45e.round-1.json",
+      "known": true,
+      "tokens": {
+        "input_tokens": 420320,
+        "cached_input_tokens": 387968,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2200
+      },
+      "usd": 0.821488,
+      "basis": "api_equivalent_estimate"
+    }
+  ]
+}

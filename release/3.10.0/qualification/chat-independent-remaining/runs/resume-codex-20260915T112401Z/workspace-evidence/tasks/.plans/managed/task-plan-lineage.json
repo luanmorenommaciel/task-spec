@@ -1,0 +1,31 @@
+{
+  "contract": "TaskPlanLineage/v1",
+  "delivery_plan_sha256": "bd3092d76eda8be0013f6a9f051c8bc8709d52d665c97b974e89cfefd0032c9b",
+  "engine_version": "3.10.0",
+  "intent": {
+    "id": "DI-RATE-LIMIT",
+    "sha256": "4254dde17e3a0ea801b3c85e1b28fd7a93b6485049ad6258b1bfb9ac915834ac"
+  },
+  "review": {
+    "fixture": false,
+    "plan_sha256": "bd3092d76eda8be0013f6a9f051c8bc8709d52d665c97b974e89cfefd0032c9b",
+    "reviewed_at": "2026-09-15T11:24:04.505991+00:00",
+    "reviewer": "fixture-controller",
+    "sha256": "31c5f481dc42de04d8d9f2b6e315be0ebfc0ceb6ae13c8e5da0f0218a451b55b"
+  },
+  "task_plan": {
+    "contract": "TaskPlan/v1",
+    "digest": "4857757ffd697046516a2c1fd63a5ef5dfc1e30b83ad8ea4d6a7bfc6a83b2b2b",
+    "path": "tasks/.plans/managed/task-plan.json"
+  },
+  "units": {
+    "T-20260914-chat-output": {
+      "intent": "DI-RATE-LIMIT",
+      "leg": "LEG-POLICY-SCHEMA-VALID",
+      "seam": "SEAM-POLICY-CONTRACT",
+      "source_sha256": "476e968fc815208decf9315db9be16731953b4a39239c9a71f2f8959ad037761",
+      "swimlane": "LANE-POLICY-CONTRACT",
+      "unit_id": "T-20260914-chat-output"
+    }
+  }
+}

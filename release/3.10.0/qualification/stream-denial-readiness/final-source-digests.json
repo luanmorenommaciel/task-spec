@@ -1,0 +1,16 @@
+{
+  "mesh/internal/mesh/denial.go": "1bc8e22f8c0254f5a5cf7df2c5ad876e747a6b3e6396e94c210258d9981c5616",
+  "mesh/internal/mesh/denial_test.go": "52c5e2d491b383dd25a99db3abafe6e30035cf9f3fba6e72052bf1b5ee8cd69a",
+  "mesh/internal/mesh/recipe.go": "02e57b0738be62857d6d8e81536bff3d20cd2b1eed335e811674bc2023a23ae8",
+  "mesh/internal/mesh/process.go": "322eeba3a069d03288396c6ef0ae2c6c4f523269c52384a5b6c7f850a4778aaa",
+  "tests/evals/toolkit/record.py": "f955a2408317aa0b08afdbd0c78e1736568b7fb01fa959d5990112e84fe37d49",
+  "tests/evals/toolkit/providers.py": "d487141290ea59143f2751ec620e7b8dd22b1e0b76c2ce0a104acb9848a5c195",
+  "tests/evals/toolkit/compare.py": "ae1d4841e66cca0dba1b364242beee64211c7c82ca7f3a1f73e4cf6c6b023d6e",
+  "tests/evals/toolkit/corpus.py": "e44af5a9f5ec7e2b8bf572ba27c21b121887c193974ece234babc9f898361533",
+  "tests/evals/toolkit/public_evaluator.py": "a7dac4c2cd09a13fb1b0f9716688ae569ce4c3bf727275acf45251967e3adaa6",
+  "tests/test-toolkit-public-evaluator.sh": "39aa3d7415b9224b3997cfbb2083847b15609fd004ca0273cc29d3a80bcb4702",
+  "tests/test-toolkit-pilot-recording.sh": "617c94be4cc14b4d4f1521136cb4d388cd52f8b24a2fdcc9b79c3561b35b5420",
+  "docs/guides/toolkit/execution.md": "62292bf05db7f82da3dd198a20c24f2b4704c2f10cbd3bd7bf1ac75c315a0b1e",
+  "skills/task-spec/docs/guides/toolkit/execution.md": "62292bf05db7f82da3dd198a20c24f2b4704c2f10cbd3bd7bf1ac75c315a0b1e",
+  "tests/test-toolkit-permission-guard.sh": "1e5d6d6a6147ca0cde9bc4dd5f2e2a84327e43636d0e850388b97bb019431eed"
+}

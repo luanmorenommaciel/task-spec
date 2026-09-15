@@ -1,0 +1,36 @@
+{
+  "argv": [
+    "codex",
+    "sandbox",
+    "-P",
+    "taskspec_chat",
+    "-C",
+    "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a",
+    "-c",
+    "default_permissions=\"taskspec_chat\"",
+    "-c",
+    "permissions={taskspec_chat={extends=\":workspace\",filesystem={\"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a/.git\"=\"read\",\"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a/.agents\"=\"read\",\"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a/.claude\"=\"read\"},network={enabled=true,domains={},allow_local_binding=false,allow_upstream_proxy=false,dangerously_allow_non_loopback_proxy=false,dangerously_allow_all_unix_sockets=false,unix_sockets={\"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-501/taskmesh/4acc1929d66121a4.sock\"=\"allow\"}}}}",
+    "-c",
+    "features.network_proxy=true",
+    "-c",
+    "approval_policy=\"never\"",
+    "--",
+    "bash",
+    "/tmp/taskspec-retry-engines/3.10.0/bin/taskspec",
+    "--json",
+    "mesh",
+    "doctor"
+  ],
+  "exit_code": 0,
+  "stdout": "{\n  \"contract\": \"TaskSpecCLIResult/v1\",\n  \"engine_version\": \"3.10.0\",\n  \"command\": \"mesh\",\n  \"ok\": true,\n  \"exit_code\": 0,\n  \"data\": {\n    \"contract\": \"TaskMeshCommandResult/v1\",\n    \"request_id\": \"77ba250a-b106-4dd4-96a2-93ded423cb2d\",\n    \"ok\": true,\n    \"code\": \"MESH_DOCTOR_READY\",\n    \"message\": \"TaskMesh daemon and durable state are ready\",\n    \"data\": {\n      \"daemon_pid\": 65986,\n      \"database\": \"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a/.taskspec/mesh/mesh.db\",\n      \"event_count\": 1,\n      \"journal_mode\": \"wal\",\n      \"repository\": \"/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a\",\n      \"socket\": \"/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-501/taskmesh/4acc1929d66121a4.sock\"\n    }\n  },\n  \"stdout\": \"\",\n  \"stderr\": \"\"\n}\n",
+  "stderr": "",
+  "host_daemon": {
+    "daemon_pid": 65986,
+    "database": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a/.taskspec/mesh/mesh.db",
+    "event_count": 1,
+    "journal_mode": "wal",
+    "repository": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat mxu87g9a",
+    "socket": "/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec-501/taskmesh/4acc1929d66121a4.sock"
+  },
+  "same_daemon": true
+}

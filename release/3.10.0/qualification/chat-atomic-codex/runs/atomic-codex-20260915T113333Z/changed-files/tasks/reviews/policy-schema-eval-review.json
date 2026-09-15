@@ -1,0 +1,42 @@
+{
+  "task": "T-20260915-policy-schema.md",
+  "purpose": "Authoring-only evaluation discrimination; not authorization or acceptance evidence.",
+  "bash_syntax": "pass",
+  "python_syntax": "pass",
+  "controls": {
+    "missing_implementation": {
+      "eval_exit_codes": [
+        1,
+        1,
+        1
+      ],
+      "exit_check": 1
+    },
+    "accept_everything": {
+      "eval_exit_codes": [
+        0,
+        1,
+        1
+      ],
+      "exit_check": 1
+    },
+    "reject_everything": {
+      "eval_exit_codes": [
+        1,
+        0,
+        0
+      ],
+      "exit_check": 1
+    },
+    "no_op": {
+      "eval_exit_codes": [
+        1,
+        1,
+        1
+      ],
+      "exit_check": 1
+    }
+  },
+  "scratch_removed": true,
+  "limitation": "No implementation or conforming positive control was authored; passing implementation behavior remains unproven."
+}

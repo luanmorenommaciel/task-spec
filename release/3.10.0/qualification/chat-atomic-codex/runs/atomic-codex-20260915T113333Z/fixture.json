@@ -1,0 +1,9 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat lca1un_v",
+  "case": "atomic",
+  "source_commit": "d3156d4e9945d9a8546bc7b4fbe6b12fae74e49a",
+  "installed_skill_sha256": "706926600f628808f40f3ffd5851d261b3ebcc3caf943d88d1da6ae9c9521bd9",
+  "engine_version": "3.10.0",
+  "path_cli": "/private/tmp/taskspec-649884a-engines/3.10.0/bin/taskspec",
+  "native_plugin": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat lca1un_v/.agents/skills/task-spec"
+}

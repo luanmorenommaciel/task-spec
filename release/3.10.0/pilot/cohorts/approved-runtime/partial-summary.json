@@ -1,0 +1,67 @@
+{
+  "contract": "TaskPilotPartialSummary/v1",
+  "observed_at": "2026-09-15T12:01:08.345140+00:00",
+  "state": "paused_after_permission_denial",
+  "observed_runs": 4,
+  "planned_runs": 72,
+  "unobserved_runs": 68,
+  "accepted_runs": 3,
+  "qualified": false,
+  "quality_or_productivity_conclusion": null,
+  "runs": [
+    {
+      "run_id": "small-fix-claude-integrated-r1-20260915T114452Z",
+      "harness": "claude",
+      "workflow": "integrated",
+      "accepted": false,
+      "gold_passed": false,
+      "elapsed_seconds": 228.696648833,
+      "cost_including_failures": 1.0395075,
+      "cost_basis": "harness_reported",
+      "path": "runs/small-fix-claude-integrated-r1-20260915T114452Z/result.json",
+      "sha256": "1cf121c5651ee1f377ac3e2092a463c10c647d8b5fae50c333696179199206bd"
+    },
+    {
+      "run_id": "small-fix-claude-separate-engine-r1-20260915T114013Z",
+      "harness": "claude",
+      "workflow": "separate-engine",
+      "accepted": true,
+      "gold_passed": true,
+      "elapsed_seconds": 278.897022583,
+      "cost_including_failures": 1.029944,
+      "cost_basis": "harness_reported",
+      "path": "runs/small-fix-claude-separate-engine-r1-20260915T114013Z/result.json",
+      "sha256": "4d4726fa2fd30a7a1d26950859bf2d9c6768660ff36cfddc2657394b741b4e26"
+    },
+    {
+      "run_id": "small-fix-codex-integrated-r1-20260915T114452Z",
+      "harness": "codex",
+      "workflow": "integrated",
+      "accepted": true,
+      "gold_passed": true,
+      "elapsed_seconds": 147.524918084,
+      "cost_including_failures": 0.783178,
+      "cost_basis": "api_equivalent_estimate",
+      "path": "runs/small-fix-codex-integrated-r1-20260915T114452Z/result.json",
+      "sha256": "f0b5527f81c01f80013afb52b166cdbf9b9b04b5a60f4e72eea3c0cae925328e"
+    },
+    {
+      "run_id": "small-fix-codex-separate-engine-r1-20260915T114013Z",
+      "harness": "codex",
+      "workflow": "separate-engine",
+      "accepted": true,
+      "gold_passed": true,
+      "elapsed_seconds": 166.430905917,
+      "cost_including_failures": 0.821488,
+      "cost_basis": "api_equivalent_estimate",
+      "path": "runs/small-fix-codex-separate-engine-r1-20260915T114013Z/result.json",
+      "sha256": "900387f9ae502feb7bf555d0f8982a08a61f2c6758a9f1f371a63013c16dbc3d"
+    }
+  ],
+  "boundary_review": "runs/small-fix-claude-integrated-r1-20260915T114452Z/boundary-review.json",
+  "limitations": [
+    "Only the small-fix scenario has observations; there is no native-harness cell yet.",
+    "Failed integrated Claude candidate quality was not independently assessed at the candidate workspace.",
+    "Costs use the retained per-harness bases and are not presented as actual billing."
+  ]
+}

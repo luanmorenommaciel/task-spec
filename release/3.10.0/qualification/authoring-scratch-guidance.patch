@@ -1,0 +1,54 @@
+--- a/SKILL.md
++++ b/SKILL.md
+@@ -25,6 +25,7 @@
+   the recipe; deterministic validation does not discover architecture for you.
+ - “Make this atomic”: read [atomic recipes](docs/guides/toolkit/recipes.md) and
+   [acceptance](docs/guides/toolkit/acceptance.md). Preserve direct one-task authoring.
++  Check the harness write boundary before choosing scratch paths.
+ - “Run”, “resume”, or “why did it stop?”: read
+   [execution and recovery](docs/guides/toolkit/execution.md), inspect Mesh status,
+   and use the existing attempt lifecycle. Do not invent another execution loop.
+--- a/skills/task-spec/SKILL.md
++++ b/skills/task-spec/SKILL.md
+@@ -25,6 +25,7 @@
+   the recipe; deterministic validation does not discover architecture for you.
+ - “Make this atomic”: read [atomic recipes](docs/guides/toolkit/recipes.md) and
+   [acceptance](docs/guides/toolkit/acceptance.md). Preserve direct one-task authoring.
++  Check the harness write boundary before choosing scratch paths.
+ - “Run”, “resume”, or “why did it stop?”: read
+   [execution and recovery](docs/guides/toolkit/execution.md), inspect Mesh status,
+   and use the existing attempt lifecycle. Do not invent another execution loop.
+--- a/docs/guides/toolkit/recipes.md
++++ b/docs/guides/toolkit/recipes.md
+@@ -4,6 +4,14 @@
+ a resolved example; `recipe validate <file> --budget <n>` validates a resolved
+ recipe. TaskPlan units accept either a strategy name or a resolved recipe mapping.
+ Native authored decomposition recipes accept strategy names.
++
++During authoring, choose scratch paths before running eval-discrimination checks.
++If the harness confines file tools to the workspace, create a unique scratch
++subdirectory under the initiative's planning workspace and remove only the scratch
++files created by that check. A system temporary directory is not automatically
++within the permitted write surface. Once execution is sealed, scratch writes must
++also fit the signed task scope. A denied write stops the session; this guidance
++never authorizes moving that denied action to another path.
+ 
+ For a directly authored TaskPlan with multiline shell evals, use a JSON manifest
+ and encode each command as a JSON string with `\n` escapes. The portable YAML
+--- a/skills/task-spec/docs/guides/toolkit/recipes.md
++++ b/skills/task-spec/docs/guides/toolkit/recipes.md
+@@ -4,6 +4,14 @@
+ a resolved example; `recipe validate <file> --budget <n>` validates a resolved
+ recipe. TaskPlan units accept either a strategy name or a resolved recipe mapping.
+ Native authored decomposition recipes accept strategy names.
++
++During authoring, choose scratch paths before running eval-discrimination checks.
++If the harness confines file tools to the workspace, create a unique scratch
++subdirectory under the initiative's planning workspace and remove only the scratch
++files created by that check. A system temporary directory is not automatically
++within the permitted write surface. Once execution is sealed, scratch writes must
++also fit the signed task scope. A denied write stops the session; this guidance
++never authorizes moving that denied action to another path.
+ 
+ For a directly authored TaskPlan with multiline shell evals, use a JSON manifest
+ and encode each command as a JSON string with `\n` escapes. The portable YAML

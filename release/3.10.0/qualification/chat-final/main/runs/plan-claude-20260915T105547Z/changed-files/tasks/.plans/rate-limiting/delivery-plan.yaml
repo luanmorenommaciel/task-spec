@@ -1,0 +1,110 @@
+schema_version: 1
+status: DELIVERY_PLAN=NEEDS_REVIEW
+seam_map_sha256: afccad0c1037559844f4e30e68a148f136415244dca56ad84e01fb2b794cc0db
+swimlanes:
+- id: LANE-POLICY
+  seam_id: SEAM-POLICY
+  owner: UNASSIGNED placeholder (see DEC-OWNER-UNASSIGNED)
+  path: tasks/.plans/rate-limiting/swimlanes/LANE-POLICY.md
+  sha256: 479347663958826bb49e4237904a172ce61519b9d00fec58301f240803ba2fae
+- id: LANE-ENFORCEMENT
+  seam_id: SEAM-ENFORCEMENT
+  owner: UNASSIGNED placeholder (see DEC-OWNER-UNASSIGNED)
+  path: tasks/.plans/rate-limiting/swimlanes/LANE-ENFORCEMENT.md
+  sha256: 1baf2a5b6e7b95fbf108cab97fe720fe7426ae1915417f4fb78d3e6e50e93338
+- id: LANE-SIGNAL
+  seam_id: SEAM-DECISION-SIGNAL
+  owner: UNASSIGNED placeholder (see DEC-OWNER-UNASSIGNED)
+  path: tasks/.plans/rate-limiting/swimlanes/LANE-SIGNAL.md
+  sha256: e9862d755385c154b03bf9484e3c0e593db4e2394072085fffb427e9e8ff9974
+- id: LANE-THREAD-PROOF
+  seam_id: SEAM-THREAD-PROOF
+  owner: UNASSIGNED placeholder (see DEC-OWNER-UNASSIGNED)
+  path: tasks/.plans/rate-limiting/swimlanes/LANE-THREAD-PROOF.md
+  sha256: 9b8b53cf7d259600af1c08721163f0ba474bf34f57e10dc33d3821ac6ab23a4d
+legs:
+- id: LEG-POLICY-SCHEMA
+  seam_id: SEAM-POLICY
+  swimlane_id: LANE-POLICY
+  path: tasks/.plans/rate-limiting/legs/LEG-POLICY-SCHEMA.md
+  sha256: aa9c85d962b6614b52d8a8a55facd1eb69fb20fa049441f844d650000c5e5817
+- id: LEG-POLICY-RESOLUTION
+  seam_id: SEAM-POLICY
+  swimlane_id: LANE-POLICY
+  path: tasks/.plans/rate-limiting/legs/LEG-POLICY-RESOLUTION.md
+  sha256: 09ed092bc4df7cb77f565125faf2fedb1dd4b86d988cb02254fd5d2e604bef6b
+- id: LEG-WINDOW-COUNTER
+  seam_id: SEAM-ENFORCEMENT
+  swimlane_id: LANE-ENFORCEMENT
+  path: tasks/.plans/rate-limiting/legs/LEG-WINDOW-COUNTER.md
+  sha256: 36ab47d63cc6cdddf0591aaeb62cacebca6712d34b90b18c22c2b0cf13c8dc00
+- id: LEG-ADMISSION-DECISION
+  seam_id: SEAM-ENFORCEMENT
+  swimlane_id: LANE-ENFORCEMENT
+  path: tasks/.plans/rate-limiting/legs/LEG-ADMISSION-DECISION.md
+  sha256: 9a524b1cb13893931e68437530fdd5bbc95f9f4c99464ca9c3f78d629c51a232
+- id: LEG-DENIAL-REASON
+  seam_id: SEAM-DECISION-SIGNAL
+  swimlane_id: LANE-SIGNAL
+  path: tasks/.plans/rate-limiting/legs/LEG-DENIAL-REASON.md
+  sha256: 3fff431361bfe21be7be16a02f03651d369cd6d6ea2928f155dc6d366ba257a2
+- id: LEG-DECISION-TELEMETRY
+  seam_id: SEAM-DECISION-SIGNAL
+  swimlane_id: LANE-SIGNAL
+  path: tasks/.plans/rate-limiting/legs/LEG-DECISION-TELEMETRY.md
+  sha256: 26f3dfe89c50dce451591d303131e73140e2ee4cfdfab65b3f4bf01428db2154
+- id: LEG-THREAD-PROOF
+  seam_id: SEAM-THREAD-PROOF
+  swimlane_id: LANE-THREAD-PROOF
+  path: tasks/.plans/rate-limiting/legs/LEG-THREAD-PROOF.md
+  sha256: 0cadd1039504f3dfa6bad50f3885c811122f2a6445a2a040ea0a3b4f8ccdc464
+steel_thread:
+- LEG-POLICY-SCHEMA
+- LEG-POLICY-RESOLUTION
+- LEG-WINDOW-COUNTER
+- LEG-ADMISSION-DECISION
+- LEG-DENIAL-REASON
+- LEG-DECISION-TELEMETRY
+- LEG-THREAD-PROOF
+objections:
+- id: OBJ-OWNER-MISSING
+  status: ACCEPTED
+  summary: No responsible owner is recorded in the source fixture, so every seam and swimlane owner is
+    the literal string 'UNASSIGNED placeholder'.
+  owner: pending human assignment at plan review
+  rationale: 'Accepted only for the purpose of proposing a topology. Ownership is a product decision and
+    is not invented here: the placeholder text is carried verbatim into the projected artifacts, and review
+    must replace it with a real owner before any leaf is sealed.'
+- id: OBJ-TOOLCHAIN-PROPOSED
+  status: ACCEPTED
+  summary: Python 3 and pytest under src/rate_limiting and tests/rate_limiting are proposed, not evidenced;
+    the repository has no implementation language or test runner.
+  owner: pending human assignment at plan review
+  rationale: Accepted as a recorded proposal because evals must be executable commands. DEC-TOOLCHAIN
+    remains status 'proposed'; if review chooses another toolchain, every eval command and every path
+    in the recipe changes and the plan must be replanned rather than patched.
+- id: OBJ-WINDOW-SEMANTICS
+  status: ACCEPTED
+  summary: Fixed-window semantics with an injected clock are inferred from the source phrase 'same window';
+    sliding-window behavior is neither stated nor ruled out.
+  owner: pending human assignment at plan review
+  rationale: Accepted as the minimal reading of the source and recorded in DEC-FIXED-WINDOW with status
+    'proposed'. A sliding-window requirement changes the counter leaf, its evals, and the boundary assertions
+    in the integration proof.
+- id: OBJ-METERING-BOUNDARY
+  status: ACCEPTED
+  summary: Provider-owned usage metering stays out of scope; no leaf reads, writes, or emits into metering.
+  owner: provider (metering remains provider-owned per the source fixture)
+  rationale: The boundary is stated directly by the source and is carried into every leaf as an anti-pattern
+    and a do_not_touch entry rather than left as prose.
+contentions:
+- between:
+  - T-20260915-denial-reason
+  - T-20260915-decision-telemetry
+  resolution: Both leaves edit src/rate_limiting/limiter.py, so they are serialized on that file; the
+    reason enumeration must exist before telemetry can emit a matching reason field.
+  order:
+  - T-20260915-denial-reason
+  - T-20260915-decision-telemetry
+steel_thread_path: tasks/.plans/rate-limiting/steel-thread.md
+steel_thread_sha256: 6b32a00ceea796f48a70864d58764bb38ab2a58c33df9b76fa7d3d9b6bdd7d91

@@ -1,0 +1,14 @@
+{
+  "contract": "TaskToolkitGateObservation/v1",
+  "completed_at": "2026-09-15T10:51:36.605635+00:00",
+  "command": "make check",
+  "exit_code": 0,
+  "conformance": "L2",
+  "check": "READY",
+  "git_base": "803a0b952df1437401303bdbd9ecb62c04918bfe",
+  "source_archive": "release/3.10.0/pilot/cohorts/corrected-runtime/inputs/task-spec-3.10.0.tar.gz",
+  "source_archive_sha256": "039ae30a253f7488ac39cde6925205409088dc2dbf7778b8601ece68acbf98a3",
+  "log_sha256": "7ea15916982a469d1738735145d8ad7ac673e475cc858e55e8afddc60b51344a",
+  "final_release_gate": false,
+  "limitations": "Candidate includes the session-specific socket controller. Subsequent denial-handling and authoring-guide changes are outside this gate snapshot."
+}

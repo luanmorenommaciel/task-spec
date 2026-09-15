@@ -1,0 +1,26 @@
+{
+  "artifacts_sha256": {
+    "decisions/ADR-RATE-LIMIT-ORDER.md": "a10ce522f4e3f8d3a0a92c86cc990345f488f06ecaf20ca3b099c005ec9d00b3",
+    "evidence.jsonl": "955bf48075bd4c1f7517942d7e4883b9d9d315e217d05aeac6edf9d9e83c3c12",
+    "intent.md": "4254dde17e3a0ea801b3c85e1b28fd7a93b6485049ad6258b1bfb9ac915834ac",
+    "legs/LEG-POLICY-SCHEMA-VALID.md": "476e968fc815208decf9315db9be16731953b4a39239c9a71f2f8959ad037761",
+    "proposed-graph.json": "9a2904c72576b93bd1c83874013641f5ef05a8f6023270dea48b48e15d6630c3",
+    "seam-map.yaml": "6bc2d5539dc999dcd8086b953f6283e4cfac8bddd2f6dc4a50bafba0b21b1a7f",
+    "seams/SEAM-POLICY-CONTRACT.md": "0ffe1f1eb35a855cfa1f183c49a44798e3f4b606a6437a8a7ebde8a4d9e9cee4",
+    "source-recipe.yaml": "e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766",
+    "steel-thread.md": "a8d80d134a74e0489bf1ceada14156233f448ced5a6decb861d32f9a11764aa4",
+    "swimlanes/LANE-POLICY-CONTRACT.md": "ac8cab4e6292cc4ba9a689b84bf10b0f4152cf3aee2a122b2015a7ae44c27811",
+    "system-map.md": "e340642115b62e87aceb3a578dc6949d4a408b08c203f2be5c8edae82f758fb4"
+  },
+  "disposition": "accepted",
+  "draft_sha256": "897ac803dd9db6bf4bb391b3a40d65f173725867731f26289b6ad45f1f7c2d04",
+  "fixture": false,
+  "plan_sha256": "138a3a2be8dfb2969d7b6c485b5a323cae86b50f95b4b1373e5a2b1cdbe14ddb",
+  "reason": "Explicit synthetic fixture under the authorized chat qualification scope.",
+  "recipe_sha256": "e30eee623eff282cea97a4c49c20a72274ab664cb86e3cff1e062e6fcbb48766",
+  "reviewed_at": "2026-09-15T11:21:47.544848+00:00",
+  "reviewer": "fixture-controller",
+  "schema_version": 1,
+  "signature": "hmac-taskplan-v1:f16a1ad4:1035dfdc99fe6921a2e65cd69e498ee9dd1dd1fe2b1cb03352224ef221431a45",
+  "topology_sha256": "9a2904c72576b93bd1c83874013641f5ef05a8f6023270dea48b48e15d6630c3"
+}

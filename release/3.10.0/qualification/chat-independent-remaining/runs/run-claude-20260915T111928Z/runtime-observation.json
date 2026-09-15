@@ -1,0 +1,33 @@
+{
+  "leases": [
+    {
+      "attempt_id": "f0004dba-c169-4b72-b144-56c2b29fc3ab",
+      "run_id": "969d0bab-d176-4740-a1c5-71447a03eabb",
+      "task_id": "T-20260914-chat-output",
+      "task_revision_digest": "sha256:4dab5edf4623b6c75311367d0aa305c314014e7be7545f848196c2e4aef073f0",
+      "fencing_token": 1,
+      "owner": "d3d0dbcf-7467-451b-a4b7-3e3f9b5552a6",
+      "issued_at": "2026-09-15T11:20:39.79767Z",
+      "expires_at": "2026-09-15T11:25:40.004316Z",
+      "heartbeat_at": "2026-09-15T11:20:48.162592Z",
+      "state": "awaiting_supervision",
+      "adapter": "chat-fixture",
+      "branch": "taskmesh/20260914-chat-output/f0004dba",
+      "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat p_wboiwq/.taskspec/mesh/workspaces/969d0bab-d176-4740-a1c5-71447a03eabb/attempts/f0004dba-c169-4b72-b144-56c2b29fc3ab",
+      "decision_json": "{\"contract\":\"DispatchDecision/v1\",\"task_id\":\"T-20260914-chat-output\",\"task_revision_digest\":\"sha256:4dab5edf4623b6c75311367d0aa305c314014e7be7545f848196c2e4aef073f0\",\"policy_digest\":\"sha256:9adc6ca4b4404f470e44b94037f7e095977c9ed864018dc5a6831b80651cd66a\",\"candidates\":[{\"adapter\":\"chat-fixture\",\"eligible\":true,\"rejection_reasons\":[],\"static_score\":100}],\"selected\":\"chat-fixture\",\"explanation\":\"selected by explicit choice, task backend, roster band, static policy, bounded advisor order, then stable tie-breaker\",\"decided_at\":\"2026-09-15T11:20:39.79748Z\"}",
+      "acceptance_record": null,
+      "model": "",
+      "provider": ""
+    }
+  ],
+  "recipe_budgets": [
+    {
+      "task_id": "T-20260914-chat-output",
+      "revision": "sha256:4dab5edf4623b6c75311367d0aa305c314014e7be7545f848196c2e4aef073f0",
+      "used": 1,
+      "deadline": "2026-09-15T11:50:42.054988Z",
+      "no_progress": 0,
+      "last_fingerprint": ""
+    }
+  ]
+}
