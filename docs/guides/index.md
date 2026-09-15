@@ -1,5 +1,6 @@
 # Guides
 
+- [Chat walkthrough: data engineering from intent to proof](toolkit/chat.md)
 - [Integrated toolkit: intent through acceptance and maintenance](toolkit/index.md)
 
 - [From fuzzy intent](../runbooks/from-fuzzy-intent.md)

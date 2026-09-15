@@ -14,6 +14,7 @@ Direct atomic authoring remains available for small, understood work.
 
 | Journey | Guide |
 |---|---|
+| Understand the chat experience | [Data-engineering walkthrough](guides/toolkit/chat.md) |
 | Install and get an accepted result | [Install](guides/toolkit/install.md), [first task](getting-started/first-task.md) |
 | Turn intent into reviewed atomic contracts | [Intent](guides/toolkit/intent.md), [decomposition](guides/toolkit/decomposition.md) |
 | Execute and recover authorized work | [Recipes](guides/toolkit/recipes.md), [TaskMesh](guides/toolkit/execution.md) |

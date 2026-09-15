@@ -58,10 +58,10 @@ def main() -> int:
             print(completed.stdout + completed.stderr, file=sys.stderr)
             return completed.returncode
         text = text.replace(f"```mermaid\n{source}```", f"![Rendered Mermaid diagram {index}](diagram-{index}.svg)", 1)
-    assets = out / "assets" / "readme"
+    assets = out / "assets"
     if assets.exists():
         shutil.rmtree(assets)
-    shutil.copytree(ROOT / "assets" / "readme", assets)
+    shutil.copytree(ROOT / "assets", assets)
     (out / "README.preview.md").write_text(text, encoding="utf-8")
     (out / "readme.css").write_text(CSS, encoding="utf-8")
     completed = subprocess.run([

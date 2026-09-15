@@ -17,6 +17,7 @@ flowchart LR
 
 | Area | Start here | Result |
 |---|---|---|
+| Chat | [Data-engineering walkthrough](chat.md) | Conversation, internal phases, decisions, and durable state |
 | Installation | [Install](install.md) | Matching CLI, private Python runtime, Mesh helper, and skills |
 | Intake | [Intent](intent.md) | Explicit outcome, sources, constraints, and open decisions |
 | Decomposition | [Decomposition and review](decomposition.md) | Reviewed topology, TaskPlan, lineage, and bounded leaves |

@@ -1,17 +1,19 @@
 # release/ — shipped inputs and frozen evidence
 
-Current engine: **3.9.0** (`../VERSION`). This directory name is load-bearing.
+Source engine: **3.10.0 candidate** ([VERSION](../VERSION)). Latest published release:
+**v3.9.0**. This directory name is load-bearing.
 `../install.sh` and the npm `files` allowlist ship `release/mesh`. CI reads
 `release/trust`. Frozen `release/<version>/` paths are digest-pinned. Do not
 rename this directory or rewrite a shipped version tree to match a later
 refactor.
 
-There are two proof corridors. They are not the same thing:
+Read each evidence corridor against its own source revision and completion criteria:
 
 | Corridor | Answers | Current files |
 |---|---|---|
 | Quality score (97/100) | Did the 3.8.1 trust chain ship with digest-backed proof? | `evidence.json`, `quality-rubric.json`, `3.8.1/` |
-| TaskMesh 3.9.0 | Did the optional control plane install, isolate, and recover? | `3.9.0/`, `mesh/` |
+| TaskMesh 3.9.0 | Did the published control plane install, isolate, and recover? | `3.9.0/` |
+| Integrated toolkit 3.10.0 candidate | Which implementation and qualification checks have observations, and what remains incomplete? | `3.10.0/qualification/`, `3.10.0/pilot/` |
 
 3.9.0 **reuses** the 3.8.1 scorecard as its quality baseline. It does not
 replace it. Recalculate with `make release-audit`. Check without mutating
@@ -37,7 +39,7 @@ top-level directory for either side.
 | Path | What it is | Used by |
 |---|---|---|
 | [`mesh/Dockerfile`](mesh/Dockerfile) | Non-root TaskMesh worker image (OMP 17.3.3, pinned base digest) | `install.sh --with-mesh` |
-| [`mesh/image.lock`](mesh/image.lock) | `TaskMeshWorkerImageLock/v1` for engine **3.9.0** | mesh install / isolation tests |
+| [`mesh/image.lock`](mesh/image.lock) | `TaskMeshWorkerImageLock/v1` for source engine **3.10.0** | mesh install / isolation tests |
 | [`mesh/worker-entrypoint.sh`](mesh/worker-entrypoint.sh) | Worker entrypoint copied into that image | `mesh/Dockerfile` |
 | [`docker/Dockerfile`](docker/Dockerfile) | Attestation runner image (read-only engine copy) | sandbox attestation |
 | [`docker/run-attestation.sh`](docker/run-attestation.sh) | Host-side attestation driver | `make release-audit` sandbox token |
@@ -99,9 +101,29 @@ TaskMesh + private-release corridor. It does **not** contain a new scorecard.
 | `install-matrix.json` | Checksum-backed / private install matrix |
 | `private-release-evidence.json` | DSSE provenance observation |
 
+#### `3.10.0/`
+
+Candidate evidence for native decomposition, bounded recipes, integrated chat,
+packaging, and prospective comparative qualification. Retained failures and partial
+results remain evidence; their presence does not mean the release criteria passed.
+
+| Path | Holds |
+|---|---|
+| [`qualification/check-8bde0ea.json`](3.10.0/qualification/check-8bde0ea.json) | Local gate observation for that source candidate |
+| [`qualification/stream-denial-readiness/review.json`](3.10.0/qualification/stream-denial-readiness/review.json) | Synthetic managed execution and denial-boundary readiness |
+| [`qualification/chat-results.json`](3.10.0/qualification/chat-results.json) | Per-case chat observations; inspect source and coverage before aggregating |
+| [`pilot/cohorts/approved-runtime/partial-summary.json`](3.10.0/pilot/cohorts/approved-runtime/partial-summary.json) | Partial prospective pilot results, not a complete comparative conclusion |
+| [`qualification/stream-denial-retry-proposal.md`](3.10.0/qualification/stream-denial-retry-proposal.md) | Bounded proposal for currently paused qualification retries |
+
+The [hosted run for `928df53`](https://github.com/luanmorenommaciel/task-spec/actions/runs/34967966417)
+passed macOS and Ubuntu `make check` plus Linux autonomous isolation. This is a
+revision-specific observation, not a replacement for the incomplete provider/chat
+qualification, pilot, or publication criteria. Follow the
+[release process](../docs/maintainers/release-process.md).
+
 ## How to read a claim
 
-1. Engine version → `../VERSION` (3.9.0).
+1. Source engine version → `../VERSION` (3.10.0 candidate); published version → the remote release and tag.
 2. Quality score → `evidence.json` + `3.8.1/scorecard.json` (97, 3.8.1 corridor).
 3. TaskMesh readiness → `3.9.0/mesh-release-evidence.json`.
 4. Protocol pins → `3.8.1/protocol-conformance.json` + `../interop/UPSTREAM.lock`.

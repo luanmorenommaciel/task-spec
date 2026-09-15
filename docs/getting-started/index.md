@@ -3,6 +3,10 @@
 Task-Spec separates three decisions: what should exist, what one executor may
 change, and what independent evidence will count as done.
 
+For the native 3.10.0 candidate, start with the [toolkit installation](../guides/toolkit/install.md)
+and [chat walkthrough](../guides/toolkit/chat.md). Published v3.9.0 retains the direct
+atomic workflow below.
+
 1. [Install for your harness](installation.md).
 2. [Create and accept the first atomic task](first-task.md).
 3. [Review the complete release evidence in five minutes](reviewer-route.md).
