@@ -19,8 +19,9 @@ import subprocess
 import tempfile
 import time
 
-from providers import argv as provider_argv, usage
+from providers import argv as provider_argv, usage, permission_denials
 from record import append_event, run_command
+from codex_mesh_permissions import apply as mesh_permissions
 
 ROOT = Path(__file__).resolve().parents[3]
 CASES = {
@@ -44,26 +45,6 @@ def digest(path):
 def write(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, indent=2) + '\n')
-
-
-def permission_denials(text):
-    found = []
-    for line in text.splitlines():
-        try:
-            row = json.loads(line)
-        except ValueError:
-            continue
-        if not isinstance(row, dict):
-            continue
-        if row.get('type') == 'result' and row.get('permission_denials'):
-            found.extend(row['permission_denials'])
-        item = row.get('item', {})
-        if item.get('type') == 'command_execution' and item.get('exit_code') not in (0, None):
-            output = item.get('aggregated_output', '')
-            if any(term in output.lower() for term in ('permission denied', 'operation not permitted')):
-                found.append({'command':item.get('command'), 'exit_code':item['exit_code'],
-                              'output':output, 'source':'failed command output'})
-    return found
 
 
 def snapshot(work):
@@ -276,6 +257,17 @@ def main():
         print(json.dumps({'prepared': True, 'retained': str(retained), 'workspace': str(work)}))
         return 0
     argv, stdin = provider_argv(args.harness, work, prompt)
+    if args.harness == 'codex' and args.case in ('run', 'stopped', 'resume', 'accepted'):
+        doctor = subprocess.run(['bash', str(args.engine / 'bin/taskspec'), '--json',
+                                 'mesh', 'doctor'], cwd=work, env=env, text=True,
+                                capture_output=True, timeout=30, check=True)
+        control = json.loads(doctor.stdout)['data']['data']
+        argv = mesh_permissions(argv, work, control['socket'])
+        write(retained / 'socket-permission.json', {
+            'authorization': 'release/3.10.0/qualification/retry-approval.json',
+            'socket': str(Path(control['socket']).resolve()),
+            'daemon_pid': control['daemon_pid'], 'domain_allowlist': [],
+            'global_configuration_changed': False, 'argv': argv})
     if args.harness == 'claude':
         # Chat must be able to load its installed skill through the native tool.
         # The execution-worker profile deliberately exposes only work tools.

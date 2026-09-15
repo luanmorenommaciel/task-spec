@@ -23,7 +23,7 @@ Release candidate: publication remains gated on the retained qualification evide
   execution from custom required environment contracts and hard token limits.
 - Place newly created TaskMesh source worktrees outside protected Git metadata,
   renew daemon-owned fenced leases without resetting recipe budgets, and stop on
-  reported executor permission denials. Automatic acceptance shares the managed
+  reported Claude and Codex executor permission denials. Automatic acceptance shares the managed
   deadline and cancels evaluator subprocesses with its execution context.
 - Repair private-runtime reuse when its dependency lock matches but its recorded
   TaskSpec version does not. Accept recipe validation input from stdin with the

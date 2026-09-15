@@ -1,0 +1,14 @@
+{
+  "contract": "TaskToolkitRetryAuthorization/v1",
+  "recorded_at": "2026-09-15T10:32:31.524870+00:00",
+  "decision": "approved",
+  "user_message": "let's go ahead and do it",
+  "applies_to": "retry-authorization.md",
+  "scope": [
+    "source worktrees outside Git metadata",
+    "atomic authoring with deny-and-stop guard",
+    "workspace-local installed skills and guides",
+    "exact existing per-fixture Mesh Unix socket; no broader grant"
+  ],
+  "qualification_result": "pending"
+}

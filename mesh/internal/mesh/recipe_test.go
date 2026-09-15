@@ -466,6 +466,8 @@ func TestManagedWorkspacesStayOutsideGitMetadata(t *testing.T) {
 
 func TestReportedPermissionDenialIsNotRepairable(t *testing.T) {
 	for _, output := range []string{
+		`{"type":"item.completed","item":{"type":"command_execution","exit_code":1,"aggregated_output":"write: Operation not permitted"}}`,
+		`{"type":"item.completed","item":{"type":"command_execution","exit_code":2,"aggregated_output":"Permission denied"}}`,
 		`{"type":"result","is_error":false,"permission_denials":[{"tool_name":"Edit"}]}`,
 		"unstructured progress\n" + `{"type":"result","permission_denials":[{"tool_name":"Bash"}]}`,
 	} {
@@ -473,7 +475,11 @@ func TestReportedPermissionDenialIsNotRepairable(t *testing.T) {
 			t.Fatal("harness permission denial was treated as ordinary repair feedback")
 		}
 	}
-	for _, output := range []string{`{"type":"result","permission_denials":[]}`, `{"type":"assistant","content":"permission_denials"}`, "ordinary output"} {
+	for _, output := range []string{
+		`{"type":"item.completed","item":{"type":"command_execution","exit_code":0,"aggregated_output":"Documentation: permission denied"}}`,
+		`{"type":"item.started","item":{"type":"command_execution","exit_code":null,"aggregated_output":"Operation not permitted"}}`,
+		`{"type":"item.completed","item":{"type":"command_execution","exit_code":1,"aggregated_output":"AssertionError: behavior differs"}}`,
+		`{"type":"result","permission_denials":[]}`, `{"type":"assistant","content":"permission_denials"}`, "ordinary output"} {
 		if reportedExecutionDenial(output) {
 			t.Fatal("ordinary output was classified as a permission denial")
 		}

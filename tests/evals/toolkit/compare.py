@@ -23,7 +23,7 @@ import tempfile
 import time
 import yaml
 from corpus import recipe,leaves,direct_plan
-from providers import argv as provider_argv, usage
+from providers import argv as provider_argv, usage, permission_denials
 from record import append_event,measurement,read_events,run_command
 
 ROOT=Path(__file__).resolve().parents[3]
@@ -131,6 +131,8 @@ def setup(args):
                             argv,prompt_stdin=provider_argv(args.harness,work,prompt)
                             command(argv,phase=f'{slug}-provider-{round_number}',timeout=max(1,deadline-time.monotonic()),prompt=prompt_stdin,required=False)
                         path=retained/f'{slug}-provider-{round_number}.stdout';provider_outputs.append((str(path.relative_to(PILOT)),path.read_text()))
+                        if permission_denials(path.read_text()):
+                            raise RuntimeError('harness permission denial; no repair retry is authorized')
                         verdict=ts('run',spec,phase=f'{slug}-eval-{round_number}',required=False,timeout=max(1,deadline-time.monotonic()))
                         if verdict.get('ok'):leaf_pass=True;break
                         diff=subprocess.check_output(['git','diff','HEAD'],cwd=work)
@@ -216,6 +218,7 @@ def setup(args):
     result={**registration,'setup_passed':(retained/'prepared.json').is_file(),'accepted':accepted,'error':error,'measurement':measurement(read_events(journal),run_id)}
     observed=result['measurement'];cost=usage(args.harness,provider_outputs);write(retained/'cost.json',cost)
     result.update(observed);result.update(accepted=accepted,gold_passed=gold_passed,integration_failures=integration_failures,replanning_churn=0,false_acceptances=int(accepted and gold_passed is False),acceptance_correctness=int(accepted==gold_passed) if type(gold_passed) is bool else None,failed_attempts_retained=True,harness_version='0.154.0' if args.harness=='codex' else '2.1.270',strategy_version='1.0.0',permissions_digest=hashlib.sha256(json.dumps(issue['write_scope'],sort_keys=True).encode()).hexdigest(),cost_including_failures=cost['cost_including_failures'],cost_basis=cost['cost_basis'],cost_evidence=str((retained/'cost.json').relative_to(PILOT)),semantic_review_ref=semantic_ref,journal=str(journal.relative_to(PILOT)))
+    result['reported_permission_denials']=[denial for _,output in provider_outputs for denial in permission_denials(output)]
     result['evidence_refs']=[{'path':str(p.relative_to(PILOT)),'sha256':digest(p)} for p in sorted(retained.rglob('*')) if p.is_file() and p.name!='result.json']
     write(retained/'result.json',result);print(json.dumps(result,indent=2))
     return 0 if error is None else 1

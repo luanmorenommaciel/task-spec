@@ -6,6 +6,17 @@ Each accepted seam owns one swimlane; each capability leg names an observable
 state and proof; executable leaves own coherent done-conditions and bounded writes.
 SDLC stages are concerns on the work, not mandatory lanes.
 
+A blocked proposal is a valid planning outcome. Preserve `OPEN` objections and
+`system_map.unknowns` when ownership, evidence, or product decisions are missing.
+Keep the authored proposal and report the smallest unresolved decision; do not
+clear unknowns or mark objections `ACCEPTED` or `FIXED` merely to make preparation
+pass. Preserve references to applicable unresolved decisions as well; deleting
+`decision_ids` does not resolve the decisions they name. Record resolution or
+accepted risk only from an explicit applicable decision.
+The reviewer's identity authenticates review; it does not assign seam or swimlane
+ownership. Record actual owners in the recipe and prepare the corrected topology
+before requesting review.
+
 Read `tasks/.plans/<id>/delivery-plan.yaml`, proposed leg artifacts, and graph
 before recording explicit human review:
 

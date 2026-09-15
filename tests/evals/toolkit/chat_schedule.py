@@ -36,6 +36,7 @@ def main():
         raise SystemExit('No registered chat schedule exists to resume.')
     sources = [Path(__file__).resolve(), ROOT / 'tests/evals/toolkit/chat_run.py',
                ROOT / 'tests/evals/toolkit/providers.py', ROOT / 'tests/evals/toolkit/record.py',
+               ROOT / 'tests/evals/toolkit/codex_mesh_permissions.py',
                ROOT / 'tests/evals/toolkit/claude_permission_guard.py']
     cases = {key: CASES[key] for key in (args.cases or CASES)}
     installation = json.loads(subprocess.check_output([sys.executable,

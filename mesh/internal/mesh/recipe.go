@@ -164,9 +164,23 @@ func reportedExecutionDenial(output string) bool {
 		var event struct {
 			Type    string            `json:"type"`
 			Denials []json.RawMessage `json:"permission_denials"`
+			Item    struct {
+				Type     string `json:"type"`
+				ExitCode *int   `json:"exit_code"`
+				Output   string `json:"aggregated_output"`
+			} `json:"item"`
 		}
-		if json.Unmarshal([]byte(line), &event) == nil && event.Type == "result" && len(event.Denials) > 0 {
+		if json.Unmarshal([]byte(line), &event) != nil {
+			continue
+		}
+		if event.Type == "result" && len(event.Denials) > 0 {
 			return true
+		}
+		if event.Type == "item.completed" && event.Item.Type == "command_execution" && event.Item.ExitCode != nil && *event.Item.ExitCode != 0 {
+			output := strings.ToLower(event.Item.Output)
+			if strings.Contains(output, "permission denied") || strings.Contains(output, "operation not permitted") {
+				return true
+			}
 		}
 	}
 	return false

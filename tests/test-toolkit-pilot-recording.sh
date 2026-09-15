@@ -3,7 +3,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 python3 - "$ROOT" <<'PY'
 from pathlib import Path
-import json,sys,tempfile
+import json,sys,tempfile,types
 sys.path.insert(0,str(Path(sys.argv[1])/'tests/evals/toolkit'))
 from record import append_event,read_events,measurement,run_command
 from unittest.mock import patch
@@ -41,5 +41,21 @@ with tempfile.TemporaryDirectory(prefix='pilot journal ') as temp:
   dispatch.assert_not_called()
  assert (previous/'result.json').read_text()=='{"accepted":false}'
  assert not (cohort/'results.json').exists(), 'paused work was presented as a completed cohort'
+ # A completed block reporting a denial must pause before any following block.
+ (cohort/'PAUSE').unlink()
+ schedule['runs']=[{'id':f'{block}-{harness}','block':block,'scenario':'small-fix',
+                    'harness':harness,'workflow':'integrated','repeat':block}
+                   for block in (1,2) for harness in ('codex','claude')]
+ (cohort/'schedule.json').write_text(json.dumps(schedule))
+ def denied_cell(command,stdout,**kwargs):
+  json.dump({'run_id':'denied-cell','accepted':False,'error':'permission denied',
+             'elapsed_seconds':1,'cost_including_failures':0,
+             'reported_permission_denials':[{'tool_name':'Write'}]},stdout)
+  return types.SimpleNamespace(returncode=0)
+ with patch.object(sys,'argv',['run_schedule.py','--pilot-dir',str(cohort)]), patch.object(run_schedule.subprocess,'run',side_effect=denied_cell) as dispatch:
+  assert run_schedule.main()==2
+  assert dispatch.call_count==2, 'a later block ran after the reported denial'
+ assert (cohort/'PAUSE').exists()
+ assert not (cohort/'results.json').exists()
 print('TOOLKIT_PILOT_RECORDING=PASS prospective intervals, censored failures, retained outputs, tamper detection, cohort pause')
 PY

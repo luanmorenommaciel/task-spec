@@ -5,6 +5,18 @@ a resolved example; `recipe validate <file> --budget <n>` validates a resolved
 recipe. TaskPlan units accept either a strategy name or a resolved recipe mapping.
 Native authored decomposition recipes accept strategy names.
 
+Bind acceptance checks to the source requirements and recorded decisions. If a
+limit, threshold, or edge-case behavior is unspecified, label a proposed choice
+and keep it open for review; do not encode it as an already agreed requirement.
+
+During authoring, choose scratch paths before running eval-discrimination checks.
+If the harness confines file tools to the workspace, create a unique scratch
+subdirectory under the initiative's planning workspace and remove only the scratch
+files created by that check. A system temporary directory is not automatically
+within the permitted write surface. Once execution is sealed, scratch writes must
+also fit the signed task scope. A denied write stops the session; this guidance
+never authorizes moving that denied action to another path.
+
 For a directly authored TaskPlan with multiline shell evals, use a JSON manifest
 and encode each command as a JSON string with `\n` escapes. The portable YAML
 manifest reader supports a restricted subset and does not accept `|` or `>` block

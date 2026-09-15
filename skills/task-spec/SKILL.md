@@ -23,8 +23,10 @@ read the command's mutation contract before using them in a read-only request.
   [intent guide](docs/guides/toolkit/intent.md) and
   [decomposition guide](docs/guides/toolkit/decomposition.md). Research and author
   the recipe; deterministic validation does not discover architecture for you.
+  Preserve unresolved decisions as blockers, even when they prevent preparation.
 - “Make this atomic”: read [atomic recipes](docs/guides/toolkit/recipes.md) and
   [acceptance](docs/guides/toolkit/acceptance.md). Preserve direct one-task authoring.
+  Check the harness write boundary before choosing scratch paths.
 - “Run”, “resume”, or “why did it stop?”: read
   [execution and recovery](docs/guides/toolkit/execution.md), inspect Mesh status,
   and use the existing attempt lifecycle. Do not invent another execution loop.

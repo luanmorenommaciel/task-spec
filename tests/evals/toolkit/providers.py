@@ -40,3 +40,25 @@ def usage(harness,outputs):
             invocations.append({'path':path,'known':True,'usd':reports[0]['total_cost_usd'],'model_usage':reports[0].get('modelUsage'),'basis':'harness_reported'})
     complete=bool(invocations) and all(r['known'] for r in invocations)
     return {'complete':complete,'cost_including_failures':sum(r['usd'] for r in invocations) if complete else None,'cost_basis':'api_equivalent_estimate' if harness=='codex' else 'harness_reported','invocations':invocations}
+
+
+def permission_denials(text):
+    found = []
+    for line in text.splitlines():
+        try:
+            row = json.loads(line)
+        except ValueError:
+            continue
+        if not isinstance(row, dict):
+            continue
+        if row.get('type') == 'result' and row.get('permission_denials'):
+            found.extend(row['permission_denials'])
+        item = row.get('item', {})
+        if not isinstance(item, dict):
+            continue
+        if item.get('type') == 'command_execution' and item.get('exit_code') not in (0, None):
+            output = item.get('aggregated_output', '')
+            if any(term in output.lower() for term in ('permission denied', 'operation not permitted')):
+                found.append({'command':item.get('command'), 'exit_code':item['exit_code'],
+                              'output':output, 'source':'failed command output'})
+    return found
