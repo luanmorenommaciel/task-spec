@@ -129,4 +129,49 @@ git -C "$R" worktree add -q -b workspace-key-test "$WT"
 must "worktree gate resolves the common-directory key" bash -c \
   "cd '$WT' && '$TS' gate --stamp tasks/T-20260815-common-key.md | grep -q 'TIER=1'"
 
+# A spec outside the resolved backlog is a containment failure, not a stale
+# handoff. The block names its own code and the resolved backlog path.
+R="$WORK/containment"; repo "$R"; spec "$R" cvg/tasks T-20260902-containment
+mkdir -p "$R/tasks"; : > "$R/tasks/.gitkeep"
+TASKSPEC_SIGNING_KEY=workspace-key TASKSPEC_BACKLOG_DIR="$R/cvg/tasks" \
+  "$TS" gate --stamp "$R/cvg/tasks/T-20260902-containment.md" >/dev/null
+git -C "$R" add cvg tasks; git -C "$R" commit -qm authorized
+must_fail "containment reports its own code" "SPEC_OUTSIDE_BACKLOG" env \
+  TASKSPEC_SIGNING_KEY=workspace-key TASKSPEC_BACKLOG_DIR="$R/tasks" \
+  python3 "$ROOT/src/accept/preflight.py" "$R/cvg/tasks/T-20260902-containment.md"
+must_fail "containment names the resolved backlog dir" "backlog dir 'tasks'" env \
+  TASKSPEC_SIGNING_KEY=workspace-key TASKSPEC_BACKLOG_DIR="$R/tasks" \
+  python3 "$ROOT/src/accept/preflight.py" "$R/cvg/tasks/T-20260902-containment.md"
+set +e
+env TASKSPEC_SIGNING_KEY=workspace-key TASKSPEC_BACKLOG_DIR="$R/tasks" \
+  "$TS" accept "$R/cvg/tasks/T-20260902-containment.md" >"$WORK/containment.out" 2>&1
+set -e
+must "accept blocks containment under its own code" grep -q 'BLOCK.*\[SPEC_OUTSIDE_BACKLOG\]' "$WORK/containment.out"
+must "accept never calls containment a stale handoff" bash -c "! grep -q HANDOFF_STALE '$WORK/containment.out'"
+
+# Every workspace-authority failure keeps its own code instead of borrowing one.
+must "workspace resolution codes stay distinct" env TASKSPEC_ROOT="$ROOT" python3 - "$R" <<'PYCODES'
+import os, pathlib, sys
+sys.path.insert(0, str(pathlib.Path(os.environ["TASKSPEC_ROOT"]) / "src" / "lib"))
+from workspace import WorkspaceError, resolve_backlog, resolve_workspace
+
+root = pathlib.Path(sys.argv[1]).resolve()
+spec = root / "cvg" / "tasks" / "T-20260902-containment.md"
+
+
+def code(call):
+    try:
+        call()
+    except WorkspaceError as exc:
+        return exc.code
+    raise AssertionError("expected WorkspaceError")
+
+
+assert code(lambda: resolve_backlog(spec, root, {"TASKSPEC_BACKLOG_DIR": str(root / "tasks")})) == "SPEC_OUTSIDE_BACKLOG"
+assert code(lambda: resolve_backlog(spec, root, {"TASKSPEC_BACKLOG_DIR": str(root / "missing")})) == "BACKLOG_UNRESOLVED"
+assert code(lambda: resolve_backlog(spec, root, {"TASKSPEC_BACKLOG_DIR": str(root / "README.md")})) == "BACKLOG_UNRESOLVED"
+assert code(lambda: resolve_workspace(spec, {"TASKSPEC_WORKSPACE_ROOT": str(root / "cvg")})) == "WORKSPACE_UNRESOLVED"
+assert WorkspaceError("plain").code == "WORKSPACE_UNRESOLVED"
+PYCODES
+
 echo "PASS: Task-Spec 3.8.1 nested workspace suite ($PASS checks)"
