@@ -17,6 +17,14 @@ For status-only requests or denied execution, use task/initiative `status` and
 not status queries. Some Mesh inspection commands can initialize runtime state;
 read the command's mutation contract before using them in a read-only request.
 
+Before choosing example or scratch paths on any route, inspect the harness's
+declared file and shell boundaries. Keep these artifacts inside the current
+workspace, such as `tasks/.plans/<id>/` or `.taskspec/authoring-scratch/<id>/`.
+Use that same workspace-contained path when writing and reading an example;
+do not choose `/tmp`, a home directory, or the installed engine directory.
+A successful shell write does not establish that a native file tool may read it.
+If no permitted location is available, report the boundary before attempting it.
+
 ## Route the request
 
 - “Turn this problem into a plan” or “why are these separate?”: read the
@@ -26,7 +34,6 @@ read the command's mutation contract before using them in a read-only request.
   Preserve unresolved decisions as blockers, even when they prevent preparation.
 - “Make this atomic”: read [atomic recipes](docs/guides/toolkit/recipes.md) and
   [acceptance](docs/guides/toolkit/acceptance.md). Preserve direct one-task authoring.
-  Check the harness write boundary before choosing scratch paths.
 - “Run”, “resume”, or “why did it stop?”: read
   [execution and recovery](docs/guides/toolkit/execution.md), inspect Mesh status,
   and use the existing attempt lifecycle. Do not invent another execution loop.

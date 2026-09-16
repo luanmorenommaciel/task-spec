@@ -1,0 +1,14 @@
+accept-task: tasks/T-20260916-chat-workspace-paths.md
+────────────────────────────────────────────────────────
+A. Independent evaluation ...
+   PASS — Exit Check returned 0
+B. Handoff, graph, base commit, and blast radius ...
+   PASS — revision, closure, Git base, and write scope agree
+C. Authorization integrity ...
+   PASS — TaskAuthorization/v3 verifies
+E. Sealed evidence policy ...
+   PASS — required evidence matches this attempt
+────────────────────────────────────────────────────────
+   stamped — {"acceptance_record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260916-chat-workspace-paths/1a22d9c3-41f8-4b3c-b005-799478ae11e5.json", "acceptance_record_digest": "sha256:f09edd37d1dd014fbceb9fe5ef548ede954c7643b0accadef99e04575cb24610", "accepted": true, "attempt_id": "1a22d9c3-41f8-4b3c-b005-799478ae11e5", "contract": "AcceptanceFinalized/v1", "task_id": "T-20260916-chat-workspace-paths", "tier": 1}
+VERDICT: ACCEPT — Tier 1 evidence is bound to the authorized task attempt
+ACCEPTED=1

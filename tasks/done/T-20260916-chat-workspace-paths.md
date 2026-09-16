@@ -1,7 +1,7 @@
 ---
 id: T-20260916-chat-workspace-paths
 title: "Keep planning and authoring scratch inside the harness workspace"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: S
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: codex-supervisor-under-user-authority
 signed_off_at: 2026-09-16T02:46:46Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:47:06Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:74f8bded6892ac93ff97a6ddf12c4f33e3382cee0a9cf52c937d12ccadbe9170
+accepted_tier: 1
+accepted_attempt_id: 1a22d9c3-41f8-4b3c-b005-799478ae11e5
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:74f8bded6892ac93ff97a6ddf12c4f33e3382cee0a9cf52c937d12ccadbe9170
+acceptance_record_digest: sha256:f09edd37d1dd014fbceb9fe5ef548ede954c7643b0accadef99e04575cb24610
 ---
 
 # Keep planning and authoring scratch inside the harness workspace
