@@ -1,7 +1,7 @@
 ---
 id: T-20260914-toolkit-authoring
 title: "Bind native lineage and resolved execution recipes to atomic tasks"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T16:51:59Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:38:05Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:dc67ad8fe07311e7eb5cc7d1ab8dd70b84d67fbb568e4272ab856f910bff8ae9
+accepted_tier: 1
+accepted_attempt_id: 746014cb-67e8-4db5-a549-15cdad1e599d
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:dc67ad8fe07311e7eb5cc7d1ab8dd70b84d67fbb568e4272ab856f910bff8ae9
+acceptance_record_digest: sha256:2001d8cf1aedd34072e21c275986ebc0d54f0b2c859abdb568fa4238dfd7342b
 ---
 
 # Bind native lineage and resolved execution recipes to atomic tasks

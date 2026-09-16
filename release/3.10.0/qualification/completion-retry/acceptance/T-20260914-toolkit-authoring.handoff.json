@@ -1,0 +1,115 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260914-toolkit-authoring",
+  "format_version": 3,
+  "spec": "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-authoring.md",
+  "spec_digest": "sha256:1795335496beee5091d666b8dae82ef95478656c693c46a0917ef6b7904945b4",
+  "task_revision_digest": "sha256:558f0f250d81c2b922069975151f111a748cb6469f5eaa5ab71e12fcee37579f",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:dc67ad8fe07311e7eb5cc7d1ab8dd70b84d67fbb568e4272ab856f910bff8ae9",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-09-14T16:51:59Z"
+  },
+  "attempt": {
+    "id": "746014cb-67e8-4db5-a549-15cdad1e599d",
+    "issued_at": "2026-09-16T02:38:03Z"
+  },
+  "source": {
+    "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+    "base_commit": "9a1b5210011fde83cf55dee2bfec1bc6f2f312e8"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260914-toolkit-authoring",
+    "digest": "sha256:8a9b7325bae143b4965bcca5a624077b83ccca3e53572240b05a197c455eef92",
+    "members": [
+      {
+        "task_id": "T-20260914-toolkit-authoring",
+        "task_revision_digest": "sha256:558f0f250d81c2b922069975151f111a748cb6469f5eaa5ab71e12fcee37579f"
+      },
+      {
+        "task_id": "T-20260914-toolkit-contracts",
+        "task_revision_digest": "sha256:54a70ef13def7b4df03efb6b2a2b6ef729a9164c427b996f2b208507a94123f9"
+      },
+      {
+        "task_id": "T-20260914-toolkit-decomposition",
+        "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "src/author",
+      "src/security",
+      "src/dispatch/handoff.py"
+    ],
+    "creates_paths": [
+      "src/recipe",
+      "tests/test-toolkit-authoring.sh"
+    ],
+    "do_not_touch": [
+      "WATCHDOG.yml",
+      "release/3.9.0",
+      "tasks/done",
+      ".taskspec/acceptance"
+    ]
+  },
+  "budgets": {
+    "iterations": 15,
+    "tokens": null,
+    "effort": "L"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code",
+      "tests"
+    ],
+    "required_tools": [
+      "git",
+      "bash"
+    ],
+    "timeout_minutes": 30,
+    "sandbox_type": "host",
+    "output_artifacts": [],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-authoring.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-authoring.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}
