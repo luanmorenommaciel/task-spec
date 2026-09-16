@@ -8,6 +8,7 @@ __pycache__/
 .DS_Store
 output/
 .playwright-cli/
+.sc/
 .taskspec/mesh/
 .taskspec/pilot/
 
