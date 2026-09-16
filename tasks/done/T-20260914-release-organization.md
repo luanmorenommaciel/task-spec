@@ -1,7 +1,7 @@
 ---
 id: T-20260914-release-organization
 title: "Consolidate toolkit documentation and ground the README in verified examples"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T20:10:32Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:44:57Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:b503f35384b1eca21dad1ef733e5836da68820c00157890be3cd30b51d0c9c61
+accepted_tier: 1
+accepted_attempt_id: c8effffd-d901-4ea6-986d-c3f0b4c34167
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:b503f35384b1eca21dad1ef733e5836da68820c00157890be3cd30b51d0c9c61
+acceptance_record_digest: sha256:450651742b859567691bbf172d47a489e04c1f1b3da5c31a0ca394b1641155cd
 ---
 
 # Consolidate toolkit documentation and ground the README in verified examples
