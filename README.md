@@ -78,7 +78,7 @@ account with access and an authenticated `gh` or `git` client. Distribution toda
 | GitHub release | Latest is `v3.9.0`, with source archive, checksums, SPDX SBOM, signed provenance, and `taskspec-meshd` helpers for macOS and Linux on amd64 and arm64 |
 | GitHub pre-release | `v3.10.0-rc.1` carries this candidate's archive and helpers for review. It is not a qualified release |
 | Source install | `install.sh` from a clone, the only way to get the 3.10.0 candidate toolkit |
-| Package registries | Not published to npm or GitHub Packages yet. `package.json` targets `@luanmorenommaciel/task-spec`; installs go through `git+https://` today |
+| GitHub Packages | Private npm package `@luanmorenommaciel/task-spec`: `3.9.0` on `latest`, `3.10.0-rc.1` on `next`. Install with a `read:packages` token and the `@luanmorenommaciel:registry=https://npm.pkg.github.com` scope. Not on the public npm registry |
 | Claude plugin marketplace | Manifests are version-matched in [`.claude-plugin/`](.claude-plugin/plugin.json); listing follows publication |
 
 ## How it works
