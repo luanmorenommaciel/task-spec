@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import pathlib
 import sys
 from collections import defaultdict, deque
@@ -327,7 +328,7 @@ def mermaid(view: dict[str, Any]) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--backlog", default="tasks")
+    parser.add_argument("--backlog", default=os.environ.get("TASKSPEC_BACKLOG_DIR", "tasks"))
     parser.add_argument("--task")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--mermaid", action="store_true")

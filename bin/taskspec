@@ -60,6 +60,25 @@ _ts_has_arg() {
   return 1
 }
 
+# Repository configuration. `.taskspec/config` is parsed as key=value text and
+# is never sourced, so it cannot execute code. The backlog location resolves as
+# TASKSPEC_BACKLOG_DIR > .taskspec/config backlog_dir > the tasks/ default that
+# src/lib/_lib.sh applies downstream. The key is exported verbatim, so it means
+# exactly what the same value in TASKSPEC_BACKLOG_DIR would mean: a relative
+# backlog stays relative, which is what keeps a TaskMesh attempt workspace
+# resolving against its own checkout rather than the repository that spawned it.
+_ts_apply_repo_config() {
+  local root="" config="" configured=""
+  if [[ -n "${TASKSPEC_BACKLOG_DIR:-}" ]]; then return 0; fi
+  root="$(git rev-parse --show-toplevel 2>/dev/null)" || return 0
+  config="$root/.taskspec/config"
+  [[ -r "$config" ]] || return 0
+  configured="$(sed -n 's/^backlog_dir=[[:space:]]*//p' "$config" | tail -n 1 \
+    | sed -e 's/[[:space:]]*$//' -e 's/^\(["'"'"']\)\(.*\)\1$/\2/')"
+  [[ -n "$configured" ]] || return 0
+  export TASKSPEC_BACKLOG_DIR="$configured"
+}
+
 _ts_dispatch() {
   local cmd="${1:-}" script=""
   [[ -n "$cmd" ]] || { _ts_usage; return 2; }
@@ -191,6 +210,7 @@ for arg in "$@"; do
 done
 export TASKSPEC_DRY_RUN="$DRY_RUN"
 export TASKSPEC_JSON_MODE="$JSON_MODE"
+_ts_apply_repo_config
 
 if [[ "$JSON_MODE" == "0" ]]; then
   _ts_dispatch ${ARGS[@]+"${ARGS[@]}"}

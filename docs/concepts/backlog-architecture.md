@@ -120,6 +120,15 @@ atomic transition protocol.
 `ls tasks/` shows you exactly what's actionable. No filtering. No querying. The
 filesystem IS the query.
 
+### Where the backlog lives
+
+`tasks/` is the default, not a hard-coded path. Set `backlog_dir` in
+`.taskspec/config` to put the backlog somewhere else, or export
+`TASKSPEC_BACKLOG_DIR` to override the file for one invocation. A relative value
+is read from the directory the command runs in; use an absolute value to make it
+independent of that. See
+[the CLI reference](../reference/cli.md#repository-configuration).
+
 ---
 
 ## Layer 3 — frontmatter status (per-file truth)
