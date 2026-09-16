@@ -1,7 +1,7 @@
 ---
 id: T-20260914-toolkit-cli
 title: "Expose coherent discoverable toolkit CLI commands and metadata"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T22:54:22Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:39:59Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:52aff4765bb837bfd7022d895c1225fc6da445d9e7ec76598434ceb14dad8459
+accepted_tier: 1
+accepted_attempt_id: 3d79f126-a4f4-4a11-839b-9394cbd6566d
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:52aff4765bb837bfd7022d895c1225fc6da445d9e7ec76598434ceb14dad8459
+acceptance_record_digest: sha256:2e07a2229519552664de60479c4e87046bb3a1ea568f67ae825de971fe255d9a
 ---
 
 # Expose coherent discoverable toolkit CLI commands and metadata
