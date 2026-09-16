@@ -125,11 +125,8 @@ def evaluate(spec: pathlib.Path, handoff_path: pathlib.Path | None, check_blast:
     text = spec.read_text(encoding="utf-8")
     fm = frontmatter(text)
     task_rev = revision(spec)
-    try:
-        workspace = resolve_workspace(spec)
-        backlog = resolve_backlog(spec, workspace)
-    except WorkspaceError as exc:
-        raise DataError(str(exc)) from exc
+    workspace = resolve_workspace(spec)
+    backlog = resolve_backlog(spec, workspace)
 
     handoff: dict[str, Any] | None = None
     if handoff_path:
@@ -324,11 +321,12 @@ def main() -> int:
             not args.no_blast_radius, [pathlib.Path(item) for item in args.bookkeeping],
         )
     except (OSError, DataError, ValueError) as exc:
+        code = exc.code if isinstance(exc, WorkspaceError) else "HANDOFF_STALE"
         result = {
             "contract": "AcceptancePreflight/v1", "ok": False,
             "tier2_reasons": [], "warnings": [],
-            "errors": [{"code": "HANDOFF_STALE", "message": str(exc)}],
-            "failure_codes": ["HANDOFF_STALE"],
+            "errors": [{"code": code, "message": str(exc)}],
+            "failure_codes": [code],
         }
     if args.json:
         print(json.dumps(result, indent=2, ensure_ascii=False, sort_keys=True))

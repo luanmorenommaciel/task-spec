@@ -12,6 +12,10 @@ from typing import Mapping
 class WorkspaceError(ValueError):
     """Raised when repository authority is ambiguous or escapes its workspace."""
 
+    def __init__(self, message: str, code: str = "WORKSPACE_UNRESOLVED") -> None:
+        super().__init__(message)
+        self.code = code
+
 
 def _inside(path: pathlib.Path, root: pathlib.Path) -> bool:
     try:
@@ -19,6 +23,13 @@ def _inside(path: pathlib.Path, root: pathlib.Path) -> bool:
         return True
     except ValueError:
         return False
+
+
+def _display(path: pathlib.Path, root: pathlib.Path) -> str:
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return str(path)
 
 
 def _git_toplevel(path: pathlib.Path) -> pathlib.Path:
@@ -52,11 +63,19 @@ def resolve_workspace(path: pathlib.Path, environ: Mapping[str, str] | None = No
         if not explicit.is_dir():
             raise WorkspaceError("TASKSPEC_WORKSPACE_ROOT must be a directory")
         if not _inside(candidate, explicit):
-            raise WorkspaceError("Task-Spec is outside TASKSPEC_WORKSPACE_ROOT")
+            raise WorkspaceError(
+                f"Task-Spec at {candidate} is outside TASKSPEC_WORKSPACE_ROOT '{explicit}'",
+                "SPEC_OUTSIDE_WORKSPACE",
+            )
         if explicit != git_root:
-            raise WorkspaceError("TASKSPEC_WORKSPACE_ROOT must equal the Git repository root")
+            raise WorkspaceError(
+                f"TASKSPEC_WORKSPACE_ROOT '{explicit}' must equal the Git repository root '{git_root}'"
+            )
     if not _inside(candidate, git_root):
-        raise WorkspaceError("Task-Spec resolves outside the Git repository root")
+        raise WorkspaceError(
+            f"Task-Spec at {candidate} resolves outside the Git repository root '{git_root}'",
+            "SPEC_OUTSIDE_WORKSPACE",
+        )
     return git_root
 
 
@@ -77,13 +96,24 @@ def resolve_backlog(
         try:
             backlog = backlog.resolve(strict=True)
         except OSError as exc:
-            raise WorkspaceError(f"TASKSPEC_BACKLOG_DIR is unavailable: {configured}") from exc
+            raise WorkspaceError(
+                f"TASKSPEC_BACKLOG_DIR is unavailable: {configured}", "BACKLOG_UNRESOLVED"
+            ) from exc
         if not backlog.is_dir():
-            raise WorkspaceError("TASKSPEC_BACKLOG_DIR must be a directory")
+            raise WorkspaceError(
+                f"TASKSPEC_BACKLOG_DIR '{backlog}' must be a directory", "BACKLOG_UNRESOLVED"
+            )
         if not _inside(backlog, workspace):
-            raise WorkspaceError("TASKSPEC_BACKLOG_DIR escapes the Git workspace")
+            raise WorkspaceError(
+                f"TASKSPEC_BACKLOG_DIR '{backlog}' escapes the Git workspace '{workspace}'",
+                "BACKLOG_UNRESOLVED",
+            )
         if not _inside(spec, backlog):
-            raise WorkspaceError("Task-Spec is outside TASKSPEC_BACKLOG_DIR")
+            raise WorkspaceError(
+                f"spec at {_display(spec, workspace)} is outside the resolved backlog dir "
+                f"'{_display(backlog, workspace)}' (set TASKSPEC_BACKLOG_DIR)",
+                "SPEC_OUTSIDE_BACKLOG",
+            )
         return backlog
     for parent in spec.parents:
         if parent == workspace.parent:
@@ -92,7 +122,11 @@ def resolve_backlog(
             if not _inside(parent, workspace):
                 break
             return parent
-    raise WorkspaceError("spec is not inside a tasks backlog")
+    raise WorkspaceError(
+        f"spec at {_display(spec, workspace)} is not inside a tasks backlog under "
+        f"'{workspace}' (set TASKSPEC_BACKLOG_DIR)",
+        "SPEC_OUTSIDE_BACKLOG",
+    )
 
 
 def resolve_acceptance_root(

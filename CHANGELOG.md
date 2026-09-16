@@ -66,6 +66,15 @@ Release candidate: publication remains gated on the retained qualification evide
 
 ### Changed
 
+- `taskspec accept` no longer reports workspace and backlog resolution failures
+  as `HANDOFF_STALE`. A spec outside the resolved backlog now blocks under
+  `SPEC_OUTSIDE_BACKLOG`, a spec outside the repository under
+  `SPEC_OUTSIDE_WORKSPACE`, and an unusable `TASKSPEC_BACKLOG_DIR` or
+  `TASKSPEC_WORKSPACE_ROOT` under `BACKLOG_UNRESOLVED` or `WORKSPACE_UNRESOLVED`.
+  Callers matching `ACCEPTANCE_FAILURE=HANDOFF_STALE` for these conditions must
+  match the new codes instead. Reported in #27.
+- Workspace and backlog resolution errors now name the resolved paths, so a
+  containment mismatch is readable without re-deriving the configuration.
 - Renamed `src/mesh/` to `src/meshctl/` so the Python cockpit is not confused
   with the Go daemon (`mesh/`) or `release/mesh`.
 - Flattened `assets/readme/` into `assets/`. The extra directory only held
