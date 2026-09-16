@@ -7,6 +7,17 @@
     "name": "Luan Moreno",
     "email": "luan.moreno@owshq.com"
   },
+  "contributors": [
+    {
+      "name": "Claude Code"
+    },
+    {
+      "name": "Codex"
+    },
+    {
+      "name": "Kimi"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/luanmorenommaciel/task-spec.git"

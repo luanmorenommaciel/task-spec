@@ -3,7 +3,9 @@
 The canonical installer writes equivalent skill content to all supported local
 harness destinations. It never stores model/provider credentials.
 
-The repository is public. Clone the source to install the CLI and matching skills:
+The repository is currently private, so every command below needs a GitHub account
+with access and an authenticated `gh` or `git` client. Clone the source to install
+the CLI and matching skills:
 
 ```bash
 git clone --depth 1 https://github.com/luanmorenommaciel/task-spec.git \

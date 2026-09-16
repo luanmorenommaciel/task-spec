@@ -55,13 +55,13 @@ Measured on the 3.10.0 candidate source on `main`.
 |---|---|---|
 | CLI commands | 43 top-level, 76 including subcommands | `src/cli/commands.json`, [CLI reference](docs/reference/cli.md) |
 | Machine contracts | 58 JSON Schemas | [`spec/schemas/`](spec/README.md) |
-| Conformance fixtures | 26 | [`spec/conformance/`](spec/conformance/README.md) |
-| Test scripts | 52 shell, 2 Python | [`tests/`](tests/README.md) |
+| Conformance fixtures | 8 task fixtures and 2 toolkit fixtures | [`spec/conformance/`](spec/conformance/README.md) |
+| Test scripts | 53 shell, 2 Python | [`tests/`](tests/README.md) |
 | Execution strategies | 5 pinned recipes | `taskspec recipe list` |
 | TaskMesh adapters | 4: Codex, Claude Code, Grok Build, OMP | [`harness/mesh-adapters/`](harness/README.md) |
 | Chat harnesses | 5, through 4 skill directories | [Skills pack](skills/README.md) |
 | Task formats | v1 to v4 readable; v3 is the authoring default | [Format v3](spec/task-spec-v3.md), [opt-in v4](spec/task-spec-v4.md) |
-| Documentation pages | 110 | [`docs/`](docs/index.md) |
+| Documentation pages | 73 | [`docs/`](docs/index.md) |
 | Retained quality score | 97/100 for the 3.8.1 corridor | [Release evidence](release/README.md) |
 
 **Current status.** `main` holds the **3.10.0 integrated-toolkit candidate**. The
@@ -69,6 +69,17 @@ latest published release is **v3.9.0**. Native decomposition and recipes are opt
 while harness qualification and the comparative pilot are incomplete. A passing CI
 run is evidence for its source revision, not a release or a production claim. See
 the [release process](docs/maintainers/release-process.md).
+
+**Availability.** This repository is private. Every install command below needs an
+account with access and an authenticated `gh` or `git` client. Distribution today:
+
+| Channel | State |
+|---|---|
+| GitHub release | Latest is `v3.9.0`, with source archive, checksums, SPDX SBOM, signed provenance, and `taskspec-meshd` helpers for macOS and Linux on amd64 and arm64 |
+| GitHub pre-release | `v3.10.0-rc.1` carries this candidate's archive and helpers for review. It is not a qualified release |
+| Source install | `install.sh` from a clone, the only way to get the 3.10.0 candidate toolkit |
+| Package registries | Not published to npm or GitHub Packages yet. `package.json` targets `@luanmorenommaciel/task-spec`; installs go through `git+https://` today |
+| Claude plugin marketplace | Manifests are version-matched in [`.claude-plugin/`](.claude-plugin/plugin.json); listing follows publication |
 
 ## How it works
 
@@ -487,8 +498,26 @@ Skill changes preserve root and mirror parity and installed resources. README
 changes must keep every command indexed to an executing test. Publication follows
 the [release process](docs/maintainers/release-process.md).
 
-Maintained by Luan Moreno Medeiros Maciel. [MIT licensed](LICENSE).
-Report vulnerabilities through [SECURITY.md](SECURITY.md).
+### Contributors
+
+Maintained by Luan Moreno Medeiros Maciel.
+
+TaskSpec is built and dogfooded with coding agents working under its own contract.
+The backlog in [`tasks/`](tasks/README.md) records which agent executed each accepted
+leaf, and [`release/`](release/README.md) retains the evidence, including the runs
+that failed review.
+
+| Agent | Role in this repository |
+|---|---|
+| Claude Code | Authoring, execution through the `claude-native` adapter, and chat-behavior qualification |
+| Codex | Authoring, execution through the `codex-native` adapter, and release supervision |
+| Kimi | Dispatch harness target; see [`harness/engines/kimi.md`](harness/engines/kimi.md) |
+
+Agent work meets the same boundary as human work. No worker seals its own task, no
+worker accepts its own result, and no agent merges the user branch. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for the full rule set.
+
+[MIT licensed](LICENSE). Report vulnerabilities through [SECURITY.md](SECURITY.md).
 
 ## Retained release evidence
 
