@@ -26,7 +26,10 @@ The [current chat result](qualification/chat-results.json) also references later
 observations; these are source-bound cases, not one uniform final-source cohort.
 
 The [source archive](artifacts/task-spec-3.10.0.tar.gz) and its
-[checksum](artifacts/task-spec-3.10.0.tar.gz.sha256) are unpublished candidate
-artifacts. The latest unpublished source archive is linked from the readiness
+[checksum](artifacts/task-spec-3.10.0.tar.gz.sha256) are the candidate artifacts
+for the `v3.10.0-rc.1` pre-release. They were regenerated from the rc.1 source;
+the earlier candidate archive (sha256 `1d08979d…278f64`, source `30a0d1c`) stays in
+Git history and in the qualification records that cite it. A pre-release is not a
+qualified release. The latest unpublished source archive is linked from the readiness
 review above. A release tag, published assets, a qualified pilot, and final gates
 for the release source are still required before release completion can be claimed.
