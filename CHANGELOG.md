@@ -108,6 +108,15 @@ Release candidate: publication remains gated on the retained qualification evide
 - `AGENTS.md` claimed hosted CI runs the gate on ubuntu and macOS. The macOS leg
   was dropped, so the gate path with a bash-3.2 floor now has no hosted macOS
   coverage; the file says so and points at running it locally.
+- `taskspec init` wrote `backlog_dir` into `.taskspec/config`, but nothing read
+  the key back; the backlog resolved only from `TASKSPEC_BACKLOG_DIR`, so a
+  repository that pointed the file at another backlog was ignored in silence.
+  The CLI now reads `backlog_dir` as `key=value` text, never sourcing the file,
+  and resolves `TASKSPEC_BACKLOG_DIR` > `backlog_dir` > `tasks/`. The key is
+  exported verbatim, so it means what the same value in `TASKSPEC_BACKLOG_DIR`
+  means and a TaskMesh attempt workspace keeps resolving against its own
+  checkout. `graph` and `doctor --backlog` also honor `TASKSPEC_BACKLOG_DIR`,
+  which they had never read. Reported in #26.
 
 ---
 

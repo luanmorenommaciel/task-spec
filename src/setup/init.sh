@@ -4,7 +4,8 @@ set -euo pipefail
 
 DRY_RUN="${TASKSPEC_DRY_RUN:-0}"
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-TASKS="$ROOT/tasks"
+TASKS="${TASKSPEC_BACKLOG_DIR:-tasks}"
+case "$TASKS" in /*) ;; *) TASKS="$ROOT/$TASKS" ;; esac
 CONFIG_DIR="$ROOT/.taskspec"
 CONFIG="$CONFIG_DIR/config"
 

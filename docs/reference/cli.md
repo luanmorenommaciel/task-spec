@@ -120,6 +120,22 @@ if the machine contract and reference diverge.
 | `taskspec example release-evidence` | writes one installed canonical example non-clobberingly; --force replaces and --dry-run writes nothing | `EXAMPLE=WRITTEN`, `EXAMPLE=DRY_RUN`, `EXAMPLE=REFUSED` |
 <!-- agent-context:end -->
 
+## Repository configuration
+
+`taskspec init` writes `.taskspec/config`. The CLI reads that file as
+`key=value` text and never sources it, so a value cannot execute commands.
+
+`backlog_dir` selects the backlog directory. The value means exactly what the
+same value in `TASKSPEC_BACKLOG_DIR` means: a relative path is read from the
+directory the command runs in, and an absolute path is read as written. The
+location resolves in this order: `TASKSPEC_BACKLOG_DIR`, then `backlog_dir`,
+then the `tasks/` default.
+
+```bash
+printf 'backlog_dir=custom/tasks\n' > .taskspec/config
+taskspec status T-20260902-example   # resolves against custom/tasks
+```
+
 ## Installation proof
 
 | Command | Purpose |

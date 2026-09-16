@@ -3,7 +3,8 @@
 set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-TASKS="$ROOT/${TASKSPEC_BACKLOG_DIR:-tasks}"
+TASKS="${TASKSPEC_BACKLOG_DIR:-tasks}"
+case "$TASKS" in /*) ;; *) TASKS="$ROOT/$TASKS" ;; esac
 COMMON="$(git -C "$ROOT" rev-parse --git-common-dir 2>/dev/null || true)"
 if [[ -n "$COMMON" && "$COMMON" != /* ]]; then COMMON="$(cd "$ROOT/$COMMON" && pwd)"; fi
 KEY="${COMMON:+$COMMON/info/taskspec-signing-key}"

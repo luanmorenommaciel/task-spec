@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import pathlib
 import sys
 
@@ -19,7 +20,7 @@ from record import acceptance_root as configured_acceptance_root, verify as veri
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--backlog", default="tasks")
+    parser.add_argument("--backlog", default=os.environ.get("TASKSPEC_BACKLOG_DIR", "tasks"))
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
     try:
