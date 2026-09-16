@@ -1,0 +1,53 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "atomic",
+  "harness": "claude",
+  "reviewer": "codex-release-supervisor",
+  "reviewed_at": "2026-09-16T02:35:41.347039+00:00",
+  "review_method": "Read native tool calls and outputs, the authored task, original blueprint, before/after manifests, and final user-facing claims.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "load_installed_skill",
+    "author_leaf",
+    "preserve_open_decisions",
+    "validate_draft"
+  ],
+  "claims_checked": [
+    "Authored one blocked v3 task for the policy-schema step, excluding downstream policy resolution, counting, telemetry, provider metering, and deployment.",
+    "The only retained changes are the unsigned task and derived backlog state. No application source implementation, HMAC authorization, acceptance, or commit was created.",
+    "Proposed policy shape and upper bounds are explicitly labeled as unsourced proposals and remain open review decisions; the task stays blocked.",
+    "Executable evals reject accept-all, reject-all, malformed-input-raising, and mutation stubs in retained tool output. Current application evals remain red.",
+    "CLI validation, traceability and lint succeeded after ordinary authoring corrections. No permission denial was reported."
+  ],
+  "failures": [],
+  "limitations": [
+    "One observation of draft authoring, not implementation or acceptance quality.",
+    "The purity eval uses source-string checks and one mutation case; it does not comprehensively establish absence of I/O. That proof obligation needs review before sealing.",
+    "The draft still requires six product-contract decisions and includes template prose that could be simplified.",
+    "Completion took about seven minutes; this does not establish a seamless or faster workflow."
+  ],
+  "evidence_refs": [
+    {
+      "path": "observation.json",
+      "sha256": "5081b15a4aa6fcebd1142074caa590c15e7acbe5a9c010034863ee6561a1bfa5"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "e9415f18214c177a0020c1a8de76f0a4fe1190e7da729e4a517d16812ccaf169"
+    },
+    {
+      "path": "before.json",
+      "sha256": "e2975c898d6774687692ceb5b61d57ccc79ef55d1a227217898993acbe1ed1c5"
+    },
+    {
+      "path": "after.json",
+      "sha256": "b93da8cd5e2ba2ddf83b906ff1d0d1140dda924d45529a4a6754354f3961c5ef"
+    },
+    {
+      "path": "changed-files/tasks/T-20260915-rate-limit-policy-schema.md",
+      "sha256": "033824f3dabc16e5ba21ddb08a5ad0984e317fee6542e8adeb3925722f194e66"
+    }
+  ]
+}

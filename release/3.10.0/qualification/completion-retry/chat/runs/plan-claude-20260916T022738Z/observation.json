@@ -1,0 +1,80 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "plan",
+  "harness": "claude",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/completion-retry/chat/runs/plan-claude-20260916T022738Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [
+    {
+      "source": "failed native tool result",
+      "tool_use_id": "toolu_01BkLpfAwQXSZcYaCki6rR8q",
+      "output": "/tmp/intent-example.md is outside /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat pywtccg8; --restricted confines the file tools to the working directory."
+    },
+    {
+      "tool_name": "Read",
+      "tool_use_id": "toolu_01BkLpfAwQXSZcYaCki6rR8q",
+      "tool_input": {
+        "file_path": "/tmp/intent-example.md"
+      }
+    },
+    {
+      "tool_name": "Read",
+      "tool_use_id": "toolu_015v9urm9tzw9yS2TreUszcD",
+      "tool_input": {
+        "file_path": "/tmp/recipe-example.yaml"
+      }
+    }
+  ],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "e2975c898d6774687692ceb5b61d57ccc79ef55d1a227217898993acbe1ed1c5"
+    },
+    {
+      "path": "before.json",
+      "sha256": "e2975c898d6774687692ceb5b61d57ccc79ef55d1a227217898993acbe1ed1c5"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "03648d702b1bda907ef781b5721203c13a2074b674d7b950691d1ec696ed60b1"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "8492e231335ac7f765af00a3b15f974fb2fc18bec428253baba37d254bd8f003"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "464b9a2b5592536e2f363ccbd4622428ab08fdf4b80efcb2c6901d11e082a532"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "8749d32870bfd8cd2c1e182baaf2c60035051e20896c9c1245bc132710813586"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "b62c2ceb9201e9c4d5252276c089600ec0b114c16697ce44a2c256c24623751d"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "c05862221f44aa04c34d5d9c71b1101cc38891831d73af43cb6fc01e16c03278"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "3d8a4954c17f7ec1f7b77606c44bce7314412631bbcfd5147529d63953eafa3c"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "0e802fc01b9052477a3ca2fd2ab6040282bac3972baacf5a81725b582de4072b"
+    }
+  ]
+}

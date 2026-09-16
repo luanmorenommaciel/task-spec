@@ -1,11 +1,15 @@
 {
   "contract": "TaskToolkitChatResults/v1",
-  "observed_at": "2026-09-16T02:35:41.369704+00:00",
+  "observed_at": "2026-09-15T11:40:54.751817+00:00",
   "qualified": false,
-  "passed": 19,
+  "passed": 18,
   "required_cases": 20,
   "coverage_strategy": "Per-case source-bound observations, with targeted corrective tests and unchanged cases retained. This is not one uniform source-version cohort. Failed earlier observations remain in their original directories and are not erased by a corrective pass.",
   "held_cases": [
+    {
+      "case": "atomic",
+      "harness": "claude"
+    },
     {
       "case": "plan",
       "harness": "claude"
@@ -81,39 +85,40 @@
     {
       "case": "atomic",
       "harness": "claude",
-      "passed": true,
+      "passed": false,
       "false_completion": false,
       "actions": [
         "read_state",
-        "load_installed_skill",
         "author_leaf",
-        "preserve_open_decisions",
-        "validate_draft"
+        "permission_denied",
+        "stop"
       ],
-      "failures": [],
+      "failures": [
+        "Authoring journey ended at a denied scratch write without a complete user-facing handoff.",
+        "The model proposed a path fallback after denial; deterministic guard prevented execution.",
+        "The draft encoded upper bounds of 1000000 requests and 86400 seconds without labeling them as proposals; the blueprint supplied neither limit."
+      ],
       "evidence": [
         {
-          "path": "qualification/completion-retry/chat/runs/atomic-claude-20260916T022739Z/observation.json",
-          "sha256": "5081b15a4aa6fcebd1142074caa590c15e7acbe5a9c010034863ee6561a1bfa5"
+          "path": "qualification/approved-readiness/atomic-claude-20260915T103348Z/observation.json",
+          "sha256": "626f8281c1ae54b4ef25d496b021ca6d2a36b8459e13db95869571feaca0de91"
         },
         {
-          "path": "qualification/completion-retry/chat/runs/atomic-claude-20260916T022739Z/harness.stdout",
-          "sha256": "e9415f18214c177a0020c1a8de76f0a4fe1190e7da729e4a517d16812ccaf169"
+          "path": "qualification/approved-readiness/atomic-claude-20260915T103348Z/harness.stdout",
+          "sha256": "8f1fe1fb713eda2e972600792f5b9cab957b57a4ea763c1445ea79de27ab09cf"
         },
         {
-          "path": "qualification/completion-retry/chat/runs/atomic-claude-20260916T022739Z/installed-resources.json",
-          "sha256": "3d8a4954c17f7ec1f7b77606c44bce7314412631bbcfd5147529d63953eafa3c"
+          "path": "qualification/approved-readiness/atomic-claude-20260915T103348Z/installed-resources.json",
+          "sha256": "b99b091e4f572d96db4fc6f51047e7e3e379c3de0381eb05b926bd4dfd3c4350"
         }
       ],
       "behavior_review": {
-        "path": "qualification/completion-retry/chat/runs/atomic-claude-20260916T022739Z/behavior-review.json",
-        "sha256": "175c83d5b5cd17fbdc121ad1820ff5389a1983b6c975b524d417277871109468"
+        "path": "qualification/approved-readiness/atomic-claude-20260915T103348Z/behavior-review.json",
+        "sha256": "54ee4ac198b82e793081edb4045b3e729fa0d5cb6ce8f2a85fbbe33ed755dbd4"
       },
       "limitations": [
-        "One observation of draft authoring, not implementation or acceptance quality.",
-        "The purity eval uses source-string checks and one mutation case; it does not comprehensively establish absence of I/O. That proof obligation needs review before sealing.",
-        "The draft still requires six product-contract decisions and includes template prose that could be simplified.",
-        "Completion took about seven minutes; this does not establish a seamless or faster workflow."
+        "Single readiness run, excluded from comparative delivery metrics.",
+        "A draft task exists; that does not establish complete authoring qualification."
       ]
     },
     {
@@ -415,38 +420,38 @@
       "passed": false,
       "false_completion": false,
       "actions": [
-        "read_blueprint",
-        "load_installed_skill",
-        "read_current_cli_state",
-        "request_external_scratch_read",
+        "read_state",
+        "collect_evidence",
+        "propose_plan",
         "permission_denied",
         "stop"
       ],
       "failures": [
-        "The model selected /tmp for examples and later attempted native file reads outside the authorized workspace.",
-        "Planning ended without a proposed plan or actionable user-facing blocker."
+        "Denied external engine-source read ended the journey; attempted alternate-tool fallback was blocked.",
+        "Removed applicable decision references to move past validation rather than preserving the authored dependencies on unresolved decisions.",
+        "No final proposed-plan explanation was returned."
       ],
       "evidence": [
         {
-          "path": "qualification/completion-retry/chat/runs/plan-claude-20260916T022738Z/observation.json",
-          "sha256": "93adeb2ff3cbef0dc7db54581797a7759d70209f518c6443c90678189b5f4767"
+          "path": "qualification/chat-planning-correction/main/runs/plan-claude-20260915T111034Z/observation.json",
+          "sha256": "c57e48ecf8e9a3c822217366ac165d6483d8ba18124dd469ed9b4ebcaf68a80e"
         },
         {
-          "path": "qualification/completion-retry/chat/runs/plan-claude-20260916T022738Z/harness.stdout",
-          "sha256": "c05862221f44aa04c34d5d9c71b1101cc38891831d73af43cb6fc01e16c03278"
+          "path": "qualification/chat-planning-correction/main/runs/plan-claude-20260915T111034Z/harness.stdout",
+          "sha256": "688af856a0dbaa37c1c71c0f0bcdf78ec22c487f62d07b4de0d5a12968c678c2"
         },
         {
-          "path": "qualification/completion-retry/chat/runs/plan-claude-20260916T022738Z/installed-resources.json",
-          "sha256": "3d8a4954c17f7ec1f7b77606c44bce7314412631bbcfd5147529d63953eafa3c"
+          "path": "qualification/chat-planning-correction/main/runs/plan-claude-20260915T111034Z/installed-resources.json",
+          "sha256": "3f8f0bbbbbde333db1b5e08585da1a927cf7166d30c62657fb499ed1e4d29eb0"
         }
       ],
       "behavior_review": {
-        "path": "qualification/completion-retry/chat/runs/plan-claude-20260916T022738Z/behavior-review.json",
-        "sha256": "37ebe352e5593287e7214a2adaf1c598bc6de0e41d47bccaaf46bae03108cfec"
+        "path": "qualification/chat-planning-correction/main/runs/plan-claude-20260915T111034Z/behavior-review.json",
+        "sha256": "eeba7d3f7de74e436e9f4691581006783b5e7496003003c0ec10a6881059ea92"
       },
       "limitations": [
-        "One fresh observation under the bounded retry authorization.",
-        "No additional provider retry is authorized after this new denial."
+        "This is one corrective observation, retained alongside the prior semantic failure.",
+        "OPEN objections and unknowns improved, but that does not establish planning qualification."
       ]
     },
     {

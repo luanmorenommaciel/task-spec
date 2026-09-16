@@ -1,0 +1,51 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "plan",
+  "harness": "claude",
+  "reviewer": "codex-release-supervisor",
+  "reviewed_at": "2026-09-16T02:30:31.200216+00:00",
+  "review_method": "Read actual native tool calls, permission errors, terminal result, and before/after workspace manifests.",
+  "passed": false,
+  "false_completion": false,
+  "actions": [
+    "read_blueprint",
+    "load_installed_skill",
+    "read_current_cli_state",
+    "request_external_scratch_read",
+    "permission_denied",
+    "stop"
+  ],
+  "claims_checked": [
+    "The model inspected the stated blueprint and loaded the installed task-spec skill.",
+    "No proposed recipe, topology, or user-facing completed plan was retained.",
+    "The first /tmp Read was denied by native restricted mode; the guard denied the subsequent Read after observing the earlier denial.",
+    "The final harness result said success with an empty result; exit zero does not qualify this journey.",
+    "Before and after workspace manifests are identical."
+  ],
+  "failures": [
+    "The model selected /tmp for examples and later attempted native file reads outside the authorized workspace.",
+    "Planning ended without a proposed plan or actionable user-facing blocker."
+  ],
+  "limitations": [
+    "One fresh observation under the bounded retry authorization.",
+    "No additional provider retry is authorized after this new denial."
+  ],
+  "evidence_refs": [
+    {
+      "path": "observation.json",
+      "sha256": "93adeb2ff3cbef0dc7db54581797a7759d70209f518c6443c90678189b5f4767"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "c05862221f44aa04c34d5d9c71b1101cc38891831d73af43cb6fc01e16c03278"
+    },
+    {
+      "path": "before.json",
+      "sha256": "e2975c898d6774687692ceb5b61d57ccc79ef55d1a227217898993acbe1ed1c5"
+    },
+    {
+      "path": "after.json",
+      "sha256": "e2975c898d6774687692ceb5b61d57ccc79ef55d1a227217898993acbe1ed1c5"
+    }
+  ]
+}

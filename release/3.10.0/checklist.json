@@ -19,7 +19,7 @@
       ]
     },
     "chat_and_comparative_pilot": {
-      "state": "fresh_retries_authorized_registered_awaiting_readiness_gate",
+      "state": "planning_retry_denied_atomic_passed_pilot_not_dispatched",
       "corpus_decision": "real repository issues; interventions recorded prospectively",
       "progress": [
         "six repository issues identified",
@@ -51,10 +51,14 @@
       "pilot_summary": "pilot/cohorts/approved-runtime/partial-summary.json",
       "new_retry_proposal": "qualification/stream-denial-retry-proposal.md",
       "previous_cohort_summary": "pilot/cohorts/approved-runtime/partial-summary.json",
-      "fresh_cohort_observed_runs": 0
+      "fresh_cohort_observed_runs": 0,
+      "chat_passed": 19,
+      "chat_required": 20,
+      "new_denial": "qualification/completion-retry/chat/runs/plan-claude-20260916T022738Z/behavior-review.json",
+      "hold_reason": "New planning permission denial; retain failure and prepare correction before requesting another bounded retry. Comparative recorder version correction also required."
     },
     "hosted_and_provider_qualification": {
-      "state": "fresh_install_passed_source_gates_running",
+      "state": "fresh_install_local_and_hosted_readiness_passed_provider_qualification_incomplete",
       "preflights": [
         {
           "harness": "claude",
@@ -81,8 +85,9 @@
       },
       "hosted_progress": "qualification/hosted-progress.json",
       "hosted_proof": "qualification/hosted.json",
-      "latest_passed": "qualification/hosted-79ec514.json",
-      "latest_installation": "qualification/completion-retry/installed-resources.json"
+      "latest_passed": "qualification/completion-retry/hosted-640d061.json",
+      "latest_installation": "qualification/completion-retry/installed-resources.json",
+      "current_local_gate": "qualification/completion-retry/check-640d061.json"
     },
     "acceptance_and_cutover": {
       "state": "pending"
@@ -132,5 +137,6 @@
     "current_valid_seals": 15,
     "prior_cli_renewal_gap": "qualification/authorization-history/renewal-summary.json",
     "accepted_tasks": 0
-  }
+  },
+  "updated_at": "2026-09-16T02:35:58.471213+00:00"
 }
