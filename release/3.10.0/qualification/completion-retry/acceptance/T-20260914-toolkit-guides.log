@@ -1,0 +1,20 @@
+$ bash bin/taskspec handoff tasks/T-20260914-toolkit-guides.md --backend codex --out release/3.10.0/qualification/completion-retry/acceptance/T-20260914-toolkit-guides.handoff.json
+HANDOFF=WRITTEN contract=TaskHandoff/v3 path=release/3.10.0/qualification/completion-retry/acceptance/T-20260914-toolkit-guides.handoff.json attempt_id=7fc4cf03-3922-4453-8f35-c1310dadcac6
+$ bash bin/taskspec accept --stamp --handoff release/3.10.0/qualification/completion-retry/acceptance/T-20260914-toolkit-guides.handoff.json --accepted-by codex-release-supervisor tasks/T-20260914-toolkit-guides.md
+accept-task: tasks/T-20260914-toolkit-guides.md
+────────────────────────────────────────────────────────
+A. Independent evaluation ...
+   PASS — Exit Check returned 0
+B. Handoff, graph, base commit, and blast radius ...
+   PASS — revision, closure, Git base, and write scope agree
+C. Authorization integrity ...
+   PASS — TaskAuthorization/v3 verifies
+E. Sealed evidence policy ...
+   PASS — required evidence matches this attempt
+────────────────────────────────────────────────────────
+   stamped — {"acceptance_record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-guides/7fc4cf03-3922-4453-8f35-c1310dadcac6.json", "acceptance_record_digest": "sha256:d4df2fd56e13e423382449b837e448f9e1e24b8b4fadf10082c3599262fd931b", "accepted": true, "attempt_id": "7fc4cf03-3922-4453-8f35-c1310dadcac6", "contract": "AcceptanceFinalized/v1", "task_id": "T-20260914-toolkit-guides", "tier": 1}
+VERDICT: ACCEPT — Tier 1 evidence is bound to the authorized task attempt
+ACCEPTED=1
+$ bash bin/taskspec transition T-20260914-toolkit-guides done
+>>> T-20260914-toolkit-guides: ready -> done
+    file: tasks/done/T-20260914-toolkit-guides.md
