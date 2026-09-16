@@ -1,7 +1,7 @@
 ---
 id: T-20260914-toolkit-contracts
 title: "Define native toolkit contracts and preserve existing task formats"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T16:52:35Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:36:27Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:5556ee2cf95926a81557f38c6b0485eea00a0083897a0cc31edcd5e040f84454
+accepted_tier: 1
+accepted_attempt_id: 213d5dd4-30c4-4763-83bc-5af7f9f1019f
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:5556ee2cf95926a81557f38c6b0485eea00a0083897a0cc31edcd5e040f84454
+acceptance_record_digest: sha256:f0446a8d6e199b80dd64813a4ea20aa5d635a04f9f12bb3cc62d07576fd033d2
 ---
 
 # Define native toolkit contracts and preserve existing task formats
