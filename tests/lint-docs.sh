@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # lint-docs.sh — markdown hygiene lint for the repo's documentation surface.
 #
-# Checks, over the curated doc set (README, AGENTS, CONTRIBUTING, SECURITY,
-#   tasks/README, release/README, docs/, harness/, spec/ — NOT tests/fixtures,
-#   src/templates, tasks/done, or frozen release/<version>/ markdown):
+# Checks, over the live doc surface (root entry points, docs/, harness/, spec/,
+#   skills/, tests/ and tasks/README — NOT tests/fixtures, src/templates,
+#   tasks/done, tasks/parked, or frozen release/<version>/ markdown):
 #   1. Local relative links/images resolve to existing files (anchors stripped).
 #   2. Code fences are balanced (every ``` opens and closes).
+#
+# skills/ ships to users through install.sh, so a broken link there reaches a
+# reader who never sees this repository. Frozen evidence is excluded on purpose:
+# a retained snapshot records the paths that were correct when it was written.
 #
 # bash-3.2 safe. Exit 0 clean, exit 1 with a report otherwise.
 set -euo pipefail
@@ -22,8 +26,10 @@ report() {
 
 # Collect the doc set (portable; no mapfile).
 doc_files() {
-  printf '%s\n' README.md AGENTS.md CONTRIBUTING.md SECURITY.md tasks/README.md release/README.md
-  find docs harness spec -name '*.md' -type f ! -path '*/node_modules/*' 2>/dev/null
+  printf '%s\n' README.md AGENTS.md CHANGELOG.md CLAUDE.md CONTRIBUTING.md OPERATING.md \
+    SECURITY.md SKILL.md src/decompose/PROVENANCE.md tasks/README.md release/README.md
+  find docs harness spec skills -name '*.md' -type f ! -path '*/node_modules/*' 2>/dev/null
+  find tests -name '*.md' -type f ! -path 'tests/fixtures/*' 2>/dev/null
 }
 
 check_links() {
