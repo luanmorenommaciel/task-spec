@@ -30,9 +30,17 @@ def digest(data: object) -> str:
     return hashlib.sha256(json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
 
 
+class DecompositionFailure(ValueError):
+    """Keep diagnostic identity available when choosing recovery guidance."""
+
+    def __init__(self, result):
+        self.codes = {d.code for d in result.diagnostics}
+        super().__init__("; ".join(f"{d.code}: {d.message}" for d in result.diagnostics) or result.token)
+
+
 def require_result(result, allow_review: bool = False) -> dict:
     if not result.ok and not (allow_review and result.token == "DELIVERY_PLAN=NEEDS_REVIEW"):
-        raise ValueError("; ".join(f"{d.code}: {d.message}" for d in result.diagnostics) or result.token)
+        raise DecompositionFailure(result)
     return result.as_dict()
 
 
@@ -214,7 +222,7 @@ def main() -> int:
     os.environ["TASKSPEC_INITIATIVE"] = args.initiative
     lock = contextlib.ExitStack()
     try:
-        import yaml  # noqa: F401
+        import yaml
         from decompose.paths import PLAN_DIR
         from decompose.io import load_json, load_yaml, workspace_lock
         from decompose.engine import accept_plan, verify_plan
@@ -325,7 +333,7 @@ def main() -> int:
         return 0
     except ImportError as exc:
         print(f"DECOMPOSE=UNAVAILABLE {exc}; run taskspec setup decompose", file=sys.stderr); return 3
-    except (OSError, ValueError, KeyError, TypeError) as exc:
+    except (OSError, ValueError, KeyError, TypeError, yaml.YAMLError) as exc:
         recovery = {
             "init": f"Inspect taskspec decompose status {args.initiative}; use a new identifier for a new intent.",
             "prepare": "Correct the reported recipe or source inputs, then retry prepare; use --replace only for an intentional revision.",
@@ -334,6 +342,15 @@ def main() -> int:
             "import": "Keep the original workspace; supply its original recipe and resolvable evidence, then retry with an unused initiative identifier.",
             "impact": "Use a retained authenticated bundle or snapshot as --against and a valid current compiled bundle.",
         }.get(args.action, "Restore the reported missing or modified input; prepare and review intentional changes before continuing.")
+        if args.action == "prepare" and isinstance(exc, DecompositionFailure) and exc.codes & {
+            "unaccepted_decision", "missing_owner", "architecture_unknown_open", "accepted_objection_incomplete"
+        }:
+            recovery = (
+                "Preserve the unresolved decisions, ownership, and architecture inputs. "
+                "Ask the responsible human for the missing decision or obtain sourced evidence before preparing again. "
+                "Do not mark decisions accepted or remove unknowns merely to probe later checks. "
+                "Validation stopped at the reported blockers; checks not reached remain unproven."
+            )
         if os.environ.get("TASKSPEC_JSON_MODE") == "1": print(json.dumps({"contract": "TaskDecompositionResult/v1", "code": "DECOMPOSE_INVALID", "message": str(exc), "initiative": args.initiative, "next": [recovery]}))
         else: print(f"DECOMPOSE=INVALID {exc}\nNEXT: {recovery}", file=sys.stderr)
         return 1

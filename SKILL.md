@@ -32,6 +32,10 @@ If no permitted location is available, report the boundary before attempting it.
   [decomposition guide](docs/guides/toolkit/decomposition.md). Research and author
   the recipe; deterministic validation does not discover architecture for you.
   Preserve unresolved decisions as blockers, even when they prevent preparation.
+  Once validation reaches a missing product decision, report that decision and
+  stop preparation. Do not mark it accepted or remove unknowns in a throwaway
+  probe. A blocked result proves only the reported checks; later checks remain
+  unproven. Keep all probe and backup files inside the workspace too.
 - “Make this atomic”: read [atomic recipes](docs/guides/toolkit/recipes.md) and
   [acceptance](docs/guides/toolkit/acceptance.md). Preserve direct one-task authoring.
 - “Run”, “resume”, or “why did it stop?”: read

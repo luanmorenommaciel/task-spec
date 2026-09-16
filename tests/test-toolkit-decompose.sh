@@ -22,6 +22,26 @@ with tempfile.TemporaryDirectory(prefix='task toolkit ') as temp:
   return data['data']
  def digest_tree():return {str(p.relative_to(work)):hashlib.sha256(p.read_bytes()).hexdigest() for p in work.rglob('*') if p.is_file() and '.git' not in p.parts}
  before=digest_tree();run('--dry-run','decompose','prepare','sample','--recipe',str(authored));assert before==digest_tree()
+ # Human-input blockers preserve authored state and do not suggest fabricating
+ # decisions to get past an earlier validation stage. Check both public outputs.
+ blockers={}
+ bad=copy.deepcopy(recipe);bad['decisions'][0]['status']='proposed';blockers['unaccepted_decision']=bad
+ bad=copy.deepcopy(recipe);bad['seams'][0]['owner']=' ';blockers['missing_owner']=bad
+ bad=copy.deepcopy(recipe);bad['system_map']['unknowns']=['Window semantics require the product owner.'];blockers['architecture_unknown_open']=bad
+ for code,bad in blockers.items():
+  authored.write_text(yaml.safe_dump(bad,sort_keys=False));before=digest_tree()
+  data=run('--dry-run','decompose','prepare','blocked-proposal','--recipe',str(authored),ok=False)
+  assert data['code']=='DECOMPOSE_INVALID' and code in data['message'],data
+  assert 'responsible human' in data['next'][0] and 'remain unproven' in data['next'][0],data
+  assert before==digest_tree()
+  human=subprocess.run(['bash',str(cli),'--dry-run','decompose','prepare','blocked-proposal','--recipe',str(authored)],env=env,cwd=work,text=True,capture_output=True,timeout=40)
+  assert human.returncode==1 and 'NEXT: Preserve the unresolved' in human.stderr,(human.stdout,human.stderr)
+  assert before==digest_tree()
+ # Syntax errors still have repair guidance; neither route persists a proposal.
+ authored.write_text('schema_version: [');before=digest_tree()
+ invalid=run('--dry-run','decompose','prepare','malformed','--recipe',str(authored),ok=False)
+ assert 'Correct the reported recipe' in invalid['next'][0] and before==digest_tree()
+ authored.write_text(yaml.safe_dump(recipe,sort_keys=False))
  intake=work/'intake.md';intake.write_text('Keep all authentication checks and existing public APIs.')
  run('decompose','init','sample','--intent-file',str(intake))
  assert run('decompose','status','sample')['state']=='intent'

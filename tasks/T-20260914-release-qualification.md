@@ -20,7 +20,7 @@ priority: P2
 severity: feature
 due_date: (none)
 precondition: (none)
-blocked_reason: "--reason"
+blocked_reason: Planning observation failed scratch containment and validation-claim review; conditional comparison not authorized to start.
 security_class: (none)
 source_action_item: (none)
 tracker_ref: (none)

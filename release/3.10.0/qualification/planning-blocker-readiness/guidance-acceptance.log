@@ -1,0 +1,14 @@
+accept-task: tasks/T-20260916-planning-blocker-guidance.md
+────────────────────────────────────────────────────────
+A. Independent evaluation ...
+   PASS — Exit Check returned 0
+B. Handoff, graph, base commit, and blast radius ...
+   PASS — revision, closure, Git base, and write scope agree
+C. Authorization integrity ...
+   PASS — TaskAuthorization/v3 verifies
+E. Sealed evidence policy ...
+   PASS — required evidence matches this attempt
+────────────────────────────────────────────────────────
+   stamped — {"acceptance_record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260916-planning-blocker-guidance/e0427cf9-1b76-4444-906a-8e75e92bbef5.json", "acceptance_record_digest": "sha256:9afbe74797a9c417f77064c687135fbb8abc0d442283cd4ece13353ba7cf441e", "accepted": true, "attempt_id": "e0427cf9-1b76-4444-906a-8e75e92bbef5", "contract": "AcceptanceFinalized/v1", "task_id": "T-20260916-planning-blocker-guidance", "tier": 1}
+VERDICT: ACCEPT — Tier 1 evidence is bound to the authorized task attempt
+ACCEPTED=1

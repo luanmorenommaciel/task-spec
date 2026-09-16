@@ -1,7 +1,7 @@
 ---
 id: T-20260916-planning-blocker-guidance
 title: "Explain planning blockers without implying completed validation"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: S
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: codex-supervisor-under-user-authority
 signed_off_at: 2026-09-16T13:47:22Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T13:50:45Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:c65688c197ab22f5971a63e57a6a146335235cfb3b1e1cf80d02b5248ba055f2
+accepted_tier: 1
+accepted_attempt_id: e0427cf9-1b76-4444-906a-8e75e92bbef5
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:c65688c197ab22f5971a63e57a6a146335235cfb3b1e1cf80d02b5248ba055f2
+acceptance_record_digest: sha256:9afbe74797a9c417f77064c687135fbb8abc0d442283cd4ece13353ba7cf441e
 ---
 
 # Explain planning blockers without implying completed validation
