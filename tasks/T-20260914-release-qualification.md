@@ -1,7 +1,7 @@
 ---
 id: T-20260914-release-qualification
 title: "Qualify chat behavior and compare three real-work execution workflows"
-status: ready
+status: blocked
 format_version: 3
 profile: standard
 effort: L
@@ -20,7 +20,7 @@ priority: P2
 severity: feature
 due_date: (none)
 precondition: (none)
-blocked_reason: (none)
+blocked_reason: New Claude planning permission denial; bounded retry authorization required. Other implementation tasks accepted; live comparison remains paused.
 security_class: (none)
 source_action_item: (none)
 tracker_ref: (none)

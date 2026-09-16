@@ -1,0 +1,114 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260914-release-qualification",
+  "format_version": 3,
+  "spec": "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-release-qualification.md",
+  "spec_digest": "sha256:7d9fe2435415d8831dbcf4d23cdedf17b010a76730e30d649a429b75b5d139ca",
+  "task_revision_digest": "sha256:608e015c8224ade2587e73f27e31add12c5867142264c6f757e11a1f90cec87b",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:88baf2a50ca935cc477c69d27b9d67aa2743e821d584f353237cb316831232ad",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-09-14T20:13:03Z"
+  },
+  "attempt": {
+    "id": "f975db9f-f0b2-4b90-8ebd-7ceffaaa4c29",
+    "issued_at": "2026-09-16T02:47:48Z"
+  },
+  "source": {
+    "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+    "base_commit": "d50fc8ac39f67239249cbdbfe6aaa8a846232340"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260914-release-qualification",
+    "digest": "sha256:46bdb978d7694579070e8fe53ff105e3a341d1d71df55b9380304d7082552b87",
+    "members": [
+      {
+        "task_id": "T-20260914-release-autonomy",
+        "task_revision_digest": "sha256:f69446e1e506c959b1aaf05fee5b5b301c71fc76cfb3dc7d85616dc551a09d9e"
+      },
+      {
+        "task_id": "T-20260914-release-organization",
+        "task_revision_digest": "sha256:0314a8d5a41c75d4d52301fde4386db4fbab94aa54df8eba4ba2ce5797ba3970"
+      },
+      {
+        "task_id": "T-20260914-release-qualification",
+        "task_revision_digest": "sha256:608e015c8224ade2587e73f27e31add12c5867142264c6f757e11a1f90cec87b"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "tests/evals/toolkit",
+      "tests",
+      "docs"
+    ],
+    "creates_paths": [
+      "release/3.10.0"
+    ],
+    "do_not_touch": [
+      "WATCHDOG.yml",
+      "release/3.9.0",
+      "release/3.8.1",
+      "release/3.7"
+    ]
+  },
+  "budgets": {
+    "iterations": 15,
+    "tokens": null,
+    "effort": "L"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code",
+      "tests"
+    ],
+    "required_tools": [
+      "git",
+      "bash"
+    ],
+    "timeout_minutes": 30,
+    "sandbox_type": "host",
+    "output_artifacts": [],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-release-qualification.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-release-qualification.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}

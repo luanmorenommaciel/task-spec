@@ -8,6 +8,22 @@ sys.path.insert(0,str(Path(sys.argv[1])/'tests/evals/toolkit'))
 from record import append_event,read_events,measurement,run_command
 from unittest.mock import patch
 import run_schedule
+from providers import observed_version
+with patch('providers.subprocess.check_output',return_value='2.1.272 (Claude Code)\n') as probe:
+ assert observed_version('claude','2.1.272')=='2.1.272 (Claude Code)'
+ probe.assert_called_once_with(['claude','--version'],text=True,stderr=-2,timeout=10)
+with patch('providers.subprocess.check_output',return_value='codex-cli 0.154.0\n'):
+ assert observed_version('codex','0.154.0')=='codex-cli 0.154.0'
+for actual in ('2.1.273 (Claude Code)','unrecognized output'):
+ with patch('providers.subprocess.check_output',return_value=actual):
+  try:observed_version('claude','2.1.272')
+  except ValueError:pass
+  else:raise AssertionError('unregistered harness version accepted')
+with patch('providers.subprocess.check_output') as probe:
+ try:observed_version('claude',None)
+ except ValueError:pass
+ else:raise AssertionError('missing version registration accepted')
+ probe.assert_not_called()
 with tempfile.TemporaryDirectory(prefix='pilot journal ') as temp:
  root=Path(temp);journal=root/'events.jsonl'
  append_event(journal,'run','run_started',{'intervention_recording_enabled':True})

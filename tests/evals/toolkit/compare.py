@@ -23,7 +23,7 @@ import tempfile
 import time
 import yaml
 from corpus import recipe,leaves,direct_plan
-from providers import argv as provider_argv, usage, permission_denials
+from providers import argv as provider_argv, usage, permission_denials, observed_version
 from record import append_event,measurement,read_events,run_command
 from public_evaluator import install as install_evaluator, verify as verify_evaluator
 
@@ -37,6 +37,11 @@ def write(path,value):
 
 
 def setup(args):
+    if args.setup_only or args.smoke:
+        harness_version = 'not-invoked: setup-only' if args.setup_only else 'synthetic-adapter'
+    else:
+        protocol = json.loads((PILOT/'protocol.json').read_text())
+        harness_version = observed_version(args.harness, protocol['harnesses'][args.harness]['version'])
     identity=f'{args.scenario}-{args.harness}-{args.workflow}-r{args.repeat}'
     run_id=('setup-' if args.setup_only else 'smoke-' if args.smoke else '')+identity+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     retained=PILOT/('setup-checks' if args.setup_only else 'instrumentation-smoke' if args.smoke else 'runs')/run_id
@@ -52,6 +57,7 @@ def setup(args):
     evaluator_manifest=install_evaluator(tooling,work)
     model='gpt-6-astra' if args.harness=='codex' else 'claude-opus-5'
     registration={'contract':'TaskToolkitComparisonRun/v1','run_id':run_id,'scenario':args.scenario,'harness':args.harness,'workflow':args.workflow,'repeat':args.repeat,'model':model,'provider':'openai' if args.harness=='codex' else 'anthropic','workspace':str(work),'repository_snapshot':digest(bundle),'tooling':str(tooling),'evaluator_digest':digest(evaluator),'public_evaluator_manifest':evaluator_manifest,'write_scope':issue['write_scope'],'budget':{'max_provider_invocations_per_leaf':3,'total_execution_seconds_per_leaf':600,'no_progress_rounds':2},'intervention_recording_enabled':True,'comparative':not (args.setup_only or args.smoke),'review_authority':'Standing user pilot authorization for the registered fixed scope; controller review is automated and is not a newly observed human intervention.'}
+    registration['harness_version'] = harness_version
     write(retained/'registration.json',registration);append_event(journal,run_id,'run_started',registration)
     seq=0;denial_evidence=[]
     env=['env','-u','TASKSPEC_WORKSPACE_ROOT','-u','TASKSPEC_BACKLOG_DIR','-u','TASKSPEC_SIGNING_KEY','TASKSPEC_HOME='+str(tooling),'TASKSPEC_DECOMPOSE_PYTHON='+str(args.python.absolute()),'TASKSPEC_MESH_HELPER='+str(args.helper.resolve()),'TASKSPEC_MESH_ADAPTER_DIR='+str(args.adapters.resolve())]
@@ -224,7 +230,7 @@ def setup(args):
     append_event(journal,run_id,'run_finished',{'accepted':accepted,'gold_passed':gold_passed,'error':error,'setup_only':args.setup_only})
     result={**registration,'setup_passed':(retained/'prepared.json').is_file(),'accepted':accepted,'error':error,'measurement':measurement(read_events(journal),run_id)}
     observed=result['measurement'];cost=usage(args.harness,provider_outputs);write(retained/'cost.json',cost)
-    result.update(observed);result.update(accepted=accepted,gold_passed=gold_passed,integration_failures=integration_failures,replanning_churn=0,false_acceptances=int(accepted and gold_passed is False),acceptance_correctness=int(accepted==gold_passed) if type(gold_passed) is bool else None,failed_attempts_retained=True,harness_version='0.154.0' if args.harness=='codex' else '2.1.270',strategy_version='1.0.0',permissions_digest=hashlib.sha256(json.dumps(issue['write_scope'],sort_keys=True).encode()).hexdigest(),cost_including_failures=cost['cost_including_failures'],cost_basis=cost['cost_basis'],cost_evidence=str((retained/'cost.json').relative_to(PILOT)),semantic_review_ref=semantic_ref,journal=str(journal.relative_to(PILOT)))
+    result.update(observed);result.update(accepted=accepted,gold_passed=gold_passed,integration_failures=integration_failures,replanning_churn=0,false_acceptances=int(accepted and gold_passed is False),acceptance_correctness=int(accepted==gold_passed) if type(gold_passed) is bool else None,failed_attempts_retained=True,strategy_version='1.0.0',permissions_digest=hashlib.sha256(json.dumps(issue['write_scope'],sort_keys=True).encode()).hexdigest(),cost_including_failures=cost['cost_including_failures'],cost_basis=cost['cost_basis'],cost_evidence=str((retained/'cost.json').relative_to(PILOT)),semantic_review_ref=semantic_ref,journal=str(journal.relative_to(PILOT)))
     result['reported_permission_denials']=denial_evidence+[denial for _,output in provider_outputs for denial in permission_denials(output)]
     result['evidence_refs']=[{'path':str(p.relative_to(PILOT)),'sha256':digest(p)} for p in sorted(retained.rglob('*')) if p.is_file() and p.name!='result.json']
     write(retained/'result.json',result);print(json.dumps(result,indent=2))

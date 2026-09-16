@@ -2,6 +2,24 @@
 from __future__ import annotations
 import json
 from pathlib import Path
+import re
+import subprocess
+
+
+def observed_version(harness, expected):
+    """Read the actual CLI identity and refuse drift from the registered version."""
+    if harness not in ('codex', 'claude'):
+        raise ValueError('Unknown pilot harness: ' + harness)
+    if not isinstance(expected, str) or not expected.strip():
+        raise ValueError('Comparative runs require a registered harness version')
+    output = subprocess.check_output([harness, '--version'], text=True,
+                                     stderr=subprocess.STDOUT, timeout=10).strip()
+    pattern = r'(?<!\d)\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?'
+    actual = re.search(pattern, output)
+    pinned = re.search(pattern, expected)
+    if not actual or not pinned or actual.group() != pinned.group():
+        raise ValueError(f'{harness}: observed version {output!r} differs from registered {expected!r}; re-register before dispatch')
+    return output
 
 
 def argv(harness,workspace,prompt):
