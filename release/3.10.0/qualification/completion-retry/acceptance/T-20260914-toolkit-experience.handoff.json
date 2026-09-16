@@ -1,0 +1,131 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260914-toolkit-experience",
+  "format_version": 3,
+  "spec": "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-experience.md",
+  "spec_digest": "sha256:26e0e9f0d458b7e9b4c8fdf059e76cde394f39956e1338d5f134ad3d45bb390e",
+  "task_revision_digest": "sha256:ad2c142ea8c070481c9a8c758d893c9274eacf72a897479ee43883c76e53de88",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:c2f0107b097fe0be101a0e48f97e625483df026b77ad1a64d4acf1d72e5ba911",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-09-14T16:52:39Z"
+  },
+  "attempt": {
+    "id": "46ee8cf7-8dc4-45d9-a910-de3177113ab5",
+    "issued_at": "2026-09-16T02:40:03Z"
+  },
+  "source": {
+    "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+    "base_commit": "836d40cd3ca351d510e5d7e6837a0d2f59c28e97"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260914-toolkit-experience",
+    "digest": "sha256:64b3964d2dc149a24d99754eb25f4e421e1f57149c6d12a81daf96ad9e03db05",
+    "members": [
+      {
+        "task_id": "T-20260914-toolkit-authoring",
+        "task_revision_digest": "sha256:558f0f250d81c2b922069975151f111a748cb6469f5eaa5ab71e12fcee37579f"
+      },
+      {
+        "task_id": "T-20260914-toolkit-cli",
+        "task_revision_digest": "sha256:f6e1f417e2876d1927de76c992748f83c0c34e56646d3ad6037fef81a4a4a3a4"
+      },
+      {
+        "task_id": "T-20260914-toolkit-contracts",
+        "task_revision_digest": "sha256:54a70ef13def7b4df03efb6b2a2b6ef729a9164c427b996f2b208507a94123f9"
+      },
+      {
+        "task_id": "T-20260914-toolkit-decomposition",
+        "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939"
+      },
+      {
+        "task_id": "T-20260914-toolkit-experience",
+        "task_revision_digest": "sha256:ad2c142ea8c070481c9a8c758d893c9274eacf72a897479ee43883c76e53de88"
+      },
+      {
+        "task_id": "T-20260914-toolkit-mesh",
+        "task_revision_digest": "sha256:2c3a9f481c1a7dc0dda35549127f628c8bb6aa4b83dd485cae5fde1657568bba"
+      },
+      {
+        "task_id": "T-20260914-toolkit-sdlc",
+        "task_revision_digest": "sha256:3fdae44623346de595c559876e4a2d9e35c358793af4dda0284e6865433a6ce5"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "SKILL.md",
+      "skills",
+      "harness",
+      "README.md"
+    ],
+    "creates_paths": [
+      "tests/test-toolkit-experience.sh"
+    ],
+    "do_not_touch": [
+      "WATCHDOG.yml",
+      "release/3.9.0",
+      "tasks/done",
+      ".taskspec/acceptance"
+    ]
+  },
+  "budgets": {
+    "iterations": 15,
+    "tokens": null,
+    "effort": "L"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code",
+      "tests"
+    ],
+    "required_tools": [
+      "git",
+      "bash"
+    ],
+    "timeout_minutes": 30,
+    "sandbox_type": "host",
+    "output_artifacts": [],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-experience.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-experience.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}
