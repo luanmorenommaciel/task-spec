@@ -1,0 +1,15 @@
+{
+  "contract": "TaskToolkitCheckEvidence/v1",
+  "observed_at": "2026-09-16T02:27:37.498079+00:00",
+  "source_commit": "640d0617b945081fe619ff4836348f7c98d52ec6",
+  "command": "make check",
+  "exit_code": 0,
+  "result": "CHECK=READY",
+  "conformance": "L2",
+  "evidence": {
+    "path": "qualification/completion-retry/check-640d061.log",
+    "sha256": "74e4cfa73087be447e1e95c5e3ae636331638cfd6071bd5f5266d44cd10cb8ad"
+  },
+  "boundary": "Local macOS full gate before provider qualification; subsequent commits changed only release evidence.",
+  "final_release_gate": false
+}
