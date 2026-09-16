@@ -1,7 +1,7 @@
 ---
 id: T-20260914-toolkit-ci
 title: "Provision the private toolkit runtime in CI"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T17:15:24Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:42:15Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:7d23053c8c301a937ee0af167189a48780c1ce6edad528a07066cc02d650d86d
+accepted_tier: 1
+accepted_attempt_id: cdd75704-62e6-444e-9f70-0214b9bcd709
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:7d23053c8c301a937ee0af167189a48780c1ce6edad528a07066cc02d650d86d
+acceptance_record_digest: sha256:acfe31d242f9e023da72730067acc0f21974839d23533a8921db99ca856008a4
 ---
 
 # Provision the private toolkit runtime in CI
