@@ -1,7 +1,7 @@
 # release/ — shipped inputs and frozen evidence
 
-Source engine: **3.10.0 candidate** ([VERSION](../VERSION)). Latest published release:
-**v3.9.0**. This directory name is load-bearing.
+Source engine: **3.10.0 candidate** ([VERSION](../VERSION)). Latest qualified release:
+**v3.9.0**. GitHub marks the unqualified `v3.10.0-rc.1` as Latest for visibility. This directory name is load-bearing.
 `../install.sh` and the npm `files` allowlist ship `release/mesh`. CI reads
 `release/trust`. Frozen `release/<version>/` paths are digest-pinned. Do not
 rename this directory or rewrite a shipped version tree to match a later

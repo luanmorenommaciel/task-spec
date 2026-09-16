@@ -10,7 +10,8 @@ Native decomposition, HMAC-sealed atomic contracts, bounded execution recipes,<b
 and verifiable acceptance across Codex, Claude Code, Grok Build, Kimi, Cursor, and OMP.
 
 [![candidate](https://img.shields.io/badge/source-3.10.0%20candidate-ffb454)](CHANGELOG.md)
-[![release](https://img.shields.io/badge/published-v3.9.0-68c7ff)](https://github.com/luanmorenommaciel/task-spec/releases/latest)
+[![latest](https://img.shields.io/badge/latest-v3.10.0--rc.1-ffb454)](https://github.com/luanmorenommaciel/task-spec/releases/latest)
+[![qualified](https://img.shields.io/badge/qualified-v3.9.0-68c7ff)](https://github.com/luanmorenommaciel/task-spec/releases/tag/v3.9.0)
 [![CI](https://github.com/luanmorenommaciel/task-spec/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/luanmorenommaciel/task-spec/actions/workflows/ci.yml)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -64,8 +65,9 @@ Measured on the 3.10.0 candidate source on `main`.
 | Documentation pages | 73 | [`docs/`](docs/index.md) |
 | Retained quality score | 97/100 for the 3.8.1 corridor | [Release evidence](release/README.md) |
 
-**Current status.** `main` holds the **3.10.0 integrated-toolkit candidate**. The
-latest published release is **v3.9.0**. Native decomposition and recipes are opt-in
+**Current status.** `main` holds the **3.10.0 integrated-toolkit candidate**. GitHub
+marks **v3.10.0-rc.1** as Latest; it has not passed release qualification. The most
+recent qualified release is **v3.9.0**. Native decomposition and recipes are opt-in
 while harness qualification and the comparative pilot are incomplete. A passing CI
 run is evidence for its source revision, not a release or a production claim. See
 the [release process](docs/maintainers/release-process.md).
@@ -75,8 +77,8 @@ account with access and an authenticated `gh` or `git` client. Distribution toda
 
 | Channel | State |
 |---|---|
-| GitHub release | Latest is `v3.9.0`, with source archive, checksums, SPDX SBOM, signed provenance, and `taskspec-meshd` helpers for macOS and Linux on amd64 and arm64 |
-| GitHub pre-release | `v3.10.0-rc.1` carries this candidate's archive and helpers for review. It is not a qualified release |
+| GitHub release, Latest | `v3.10.0-rc.1`, this candidate's archive, checksums, SPDX SBOM, signed provenance, and Mesh helpers. Marked Latest for visibility; not qualified |
+| GitHub release, qualified | `v3.9.0`, with the same asset set and the retained 97/100 evidence baseline |
 | Source install | `install.sh` from a clone, the only way to get the 3.10.0 candidate toolkit |
 | GitHub Packages | Private npm package `@luanmorenommaciel/task-spec`: `3.9.0` on `latest`, `3.10.0-rc.1` on `next`. Install with a `read:packages` token and the `@luanmorenommaciel:registry=https://npm.pkg.github.com` scope. Not on the public npm registry |
 | Claude plugin marketplace | Manifests are version-matched in [`.claude-plugin/`](.claude-plugin/plugin.json); listing follows publication |
