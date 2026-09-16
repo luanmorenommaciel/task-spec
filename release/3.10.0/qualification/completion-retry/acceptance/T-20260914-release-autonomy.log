@@ -1,0 +1,20 @@
+$ bash bin/taskspec handoff tasks/T-20260914-release-autonomy.md --backend codex --out release/3.10.0/qualification/completion-retry/acceptance/T-20260914-release-autonomy.handoff.json
+HANDOFF=WRITTEN contract=TaskHandoff/v3 path=release/3.10.0/qualification/completion-retry/acceptance/T-20260914-release-autonomy.handoff.json attempt_id=a02c08ce-0abc-4233-8441-a2ec32baadd1
+$ bash bin/taskspec accept --stamp --handoff release/3.10.0/qualification/completion-retry/acceptance/T-20260914-release-autonomy.handoff.json --accepted-by codex-release-supervisor tasks/T-20260914-release-autonomy.md
+accept-task: tasks/T-20260914-release-autonomy.md
+────────────────────────────────────────────────────────
+A. Independent evaluation ...
+   PASS — Exit Check returned 0
+B. Handoff, graph, base commit, and blast radius ...
+   PASS — revision, closure, Git base, and write scope agree
+C. Authorization integrity ...
+   PASS — TaskAuthorization/v3 verifies
+E. Sealed evidence policy ...
+   PASS — required evidence matches this attempt
+────────────────────────────────────────────────────────
+   stamped — {"acceptance_record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-release-autonomy/a02c08ce-0abc-4233-8441-a2ec32baadd1.json", "acceptance_record_digest": "sha256:9bc2154f62a8b8525031065f5aa9f8abdf3f22f0ce062c2742f7662a39c06add", "accepted": true, "attempt_id": "a02c08ce-0abc-4233-8441-a2ec32baadd1", "contract": "AcceptanceFinalized/v1", "task_id": "T-20260914-release-autonomy", "tier": 1}
+VERDICT: ACCEPT — Tier 1 evidence is bound to the authorized task attempt
+ACCEPTED=1
+$ bash bin/taskspec transition T-20260914-release-autonomy done
+>>> T-20260914-release-autonomy: ready -> done
+    file: tasks/done/T-20260914-release-autonomy.md

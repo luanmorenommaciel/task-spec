@@ -1,7 +1,7 @@
 ---
 id: T-20260914-release-autonomy
 title: "Execute bounded recipes through the attested TaskMesh sandbox"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T20:08:20Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:46:09Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:71a459926a2760b71fc2af3964543d00a6adfe7c1a368b6f639a90d4997acebd
+accepted_tier: 1
+accepted_attempt_id: a02c08ce-0abc-4233-8441-a2ec32baadd1
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:71a459926a2760b71fc2af3964543d00a6adfe7c1a368b6f639a90d4997acebd
+acceptance_record_digest: sha256:9bc2154f62a8b8525031065f5aa9f8abdf3f22f0ce062c2742f7662a39c06add
 ---
 
 # Execute bounded recipes through the attested TaskMesh sandbox

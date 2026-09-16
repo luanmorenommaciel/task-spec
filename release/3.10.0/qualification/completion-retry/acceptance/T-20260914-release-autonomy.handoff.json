@@ -1,0 +1,111 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260914-release-autonomy",
+  "format_version": 3,
+  "spec": "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-release-autonomy.md",
+  "spec_digest": "sha256:feb36c5d54b5a604946f44d262d325add39e0b473fc87541db3196a45f684bc8",
+  "task_revision_digest": "sha256:f69446e1e506c959b1aaf05fee5b5b301c71fc76cfb3dc7d85616dc551a09d9e",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:71a459926a2760b71fc2af3964543d00a6adfe7c1a368b6f639a90d4997acebd",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-09-14T20:08:20Z"
+  },
+  "attempt": {
+    "id": "a02c08ce-0abc-4233-8441-a2ec32baadd1",
+    "issued_at": "2026-09-16T02:45:01Z"
+  },
+  "source": {
+    "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+    "base_commit": "384ec0d8a3f38037db788656704c4b34b6b5b8f1"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260914-release-autonomy",
+    "digest": "sha256:ab95eb43c9d757e6f73d1b40aad23987c9cc3c1404a0a3e25b20d52baa60ecbb",
+    "members": [
+      {
+        "task_id": "T-20260914-release-autonomy",
+        "task_revision_digest": "sha256:f69446e1e506c959b1aaf05fee5b5b301c71fc76cfb3dc7d85616dc551a09d9e"
+      },
+      {
+        "task_id": "T-20260914-release-organization",
+        "task_revision_digest": "sha256:0314a8d5a41c75d4d52301fde4386db4fbab94aa54df8eba4ba2ce5797ba3970"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "mesh",
+      "release/mesh",
+      "spec/schemas",
+      "tests",
+      "docs",
+      "skills"
+    ],
+    "creates_paths": [],
+    "do_not_touch": [
+      "WATCHDOG.yml",
+      "release/3.9.0",
+      "release/3.8.1",
+      "release/3.7"
+    ]
+  },
+  "budgets": {
+    "iterations": 15,
+    "tokens": null,
+    "effort": "L"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code",
+      "tests"
+    ],
+    "required_tools": [
+      "git",
+      "bash"
+    ],
+    "timeout_minutes": 30,
+    "sandbox_type": "host",
+    "output_artifacts": [],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-release-autonomy.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-release-autonomy.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}
