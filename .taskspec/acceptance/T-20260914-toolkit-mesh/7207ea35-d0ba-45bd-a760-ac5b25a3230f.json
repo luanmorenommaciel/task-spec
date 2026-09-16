@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-09-16T02:39:14Z",
+  "accepted_by": "codex-release-supervisor",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "7207ea35-d0ba-45bd-a760-ac5b25a3230f",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:d12b144f4673c831dd1bf4bdce4a840b3f03b58605be99a2eea96b2dc1ebc4aa",
+    "base_commit": "82318cdc43a6b12e936cb62be1559a96a5fba872",
+    "task_id": "T-20260914-toolkit-mesh",
+    "task_revision_digest": "sha256:2c3a9f481c1a7dc0dda35549127f628c8bb6aa4b83dd485cae5fde1657568bba"
+  }
+}

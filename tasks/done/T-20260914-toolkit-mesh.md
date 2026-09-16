@@ -1,7 +1,7 @@
 ---
 id: T-20260914-toolkit-mesh
 title: "Enforce bounded recipe rounds and persistent graph execution budgets"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T17:02:54Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:39:14Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:d12b144f4673c831dd1bf4bdce4a840b3f03b58605be99a2eea96b2dc1ebc4aa
+accepted_tier: 1
+accepted_attempt_id: 7207ea35-d0ba-45bd-a760-ac5b25a3230f
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:d12b144f4673c831dd1bf4bdce4a840b3f03b58605be99a2eea96b2dc1ebc4aa
+acceptance_record_digest: sha256:9899bff0165d96b806775d664fcee93a5e8876bb51a04f92bc0bc1dfd625a40a
 ---
 
 # Enforce bounded recipe rounds and persistent graph execution budgets

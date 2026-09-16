@@ -1,0 +1,118 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260914-toolkit-mesh",
+  "format_version": 3,
+  "spec": "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-mesh.md",
+  "spec_digest": "sha256:901d8fc1076591e07e71f925b35661314ee9da6b07b19984d9bccc39ee55d649",
+  "task_revision_digest": "sha256:2c3a9f481c1a7dc0dda35549127f628c8bb6aa4b83dd485cae5fde1657568bba",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:d12b144f4673c831dd1bf4bdce4a840b3f03b58605be99a2eea96b2dc1ebc4aa",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-09-14T17:02:54Z"
+  },
+  "attempt": {
+    "id": "7207ea35-d0ba-45bd-a760-ac5b25a3230f",
+    "issued_at": "2026-09-16T02:38:09Z"
+  },
+  "source": {
+    "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+    "base_commit": "82318cdc43a6b12e936cb62be1559a96a5fba872"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260914-toolkit-mesh",
+    "digest": "sha256:b3f41b5f27b8b48a0b1b852ee843b522bf46c279f665ed3df6083c5f750ee1cd",
+    "members": [
+      {
+        "task_id": "T-20260914-toolkit-authoring",
+        "task_revision_digest": "sha256:558f0f250d81c2b922069975151f111a748cb6469f5eaa5ab71e12fcee37579f"
+      },
+      {
+        "task_id": "T-20260914-toolkit-contracts",
+        "task_revision_digest": "sha256:54a70ef13def7b4df03efb6b2a2b6ef729a9164c427b996f2b208507a94123f9"
+      },
+      {
+        "task_id": "T-20260914-toolkit-decomposition",
+        "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939"
+      },
+      {
+        "task_id": "T-20260914-toolkit-mesh",
+        "task_revision_digest": "sha256:2c3a9f481c1a7dc0dda35549127f628c8bb6aa4b83dd485cae5fde1657568bba"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "mesh/internal/mesh",
+      "src/meshctl",
+      "src/graph"
+    ],
+    "creates_paths": [
+      "tests/test-toolkit-mesh.sh"
+    ],
+    "do_not_touch": [
+      "WATCHDOG.yml",
+      "release/3.9.0",
+      "tasks/done",
+      ".taskspec/acceptance"
+    ]
+  },
+  "budgets": {
+    "iterations": 15,
+    "tokens": null,
+    "effort": "L"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code",
+      "tests"
+    ],
+    "required_tools": [
+      "git",
+      "bash"
+    ],
+    "timeout_minutes": 30,
+    "sandbox_type": "host",
+    "output_artifacts": [],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-mesh.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-mesh.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}
