@@ -366,6 +366,17 @@ follows the [release process](docs/maintainers/release-process.md).
 Maintained by Luan Moreno Medeiros Maciel. [MIT licensed](LICENSE).
 Report vulnerabilities through [SECURITY.md](SECURITY.md).
 
+## README design references
+
+The [MCP grounding record](docs/maintainers/readme-grounding.json) retains the
+primary sources and observed patterns behind this entry point:
+
+- [GitHub CLI](https://github.com/cli/cli/blob/trunk/README.md): direct navigation to installation, usage, and contributing.
+- [uv](https://github.com/astral-sh/uv/blob/main/README.md): a concise introduction followed by an executable first result.
+- [ripgrep](https://github.com/BurntSushi/ripgrep/blob/master/README.md): concrete examples, documentation discovery, and explicit suitability limits.
+
+These are curated developer-tool examples, not a universal README ranking.
+
 ## Retained release evidence
 
 This generated scorecard describes the **historical 3.8.1 release corridor**.
