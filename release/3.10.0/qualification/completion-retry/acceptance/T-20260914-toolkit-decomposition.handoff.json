@@ -1,0 +1,110 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260914-toolkit-decomposition",
+  "format_version": 3,
+  "spec": "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-decomposition.md",
+  "spec_digest": "sha256:b62e3ca9ffbd831bd363c304cb7ef595dd3d8354c54f58e8c400a8125f7bb160",
+  "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:6e1ee375420bb480047e9aa4a2fcc9d24b7b4fd494566fde4140c92e830a1ae8",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-09-14T16:52:37Z"
+  },
+  "attempt": {
+    "id": "28c911a1-29f1-4f1e-9552-2dbd557e3c6f",
+    "issued_at": "2026-09-16T02:37:04Z"
+  },
+  "source": {
+    "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+    "base_commit": "fcf81ae4338da6079e56d16101438b3fd1169b95"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260914-toolkit-decomposition",
+    "digest": "sha256:af8ed27e3733a13c7ce38a71750d18a2fdb6775517cb0be21a29bf953e13c1e1",
+    "members": [
+      {
+        "task_id": "T-20260914-toolkit-contracts",
+        "task_revision_digest": "sha256:54a70ef13def7b4df03efb6b2a2b6ef729a9164c427b996f2b208507a94123f9"
+      },
+      {
+        "task_id": "T-20260914-toolkit-decomposition",
+        "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "bin/taskspec"
+    ],
+    "creates_paths": [
+      "src/decompose",
+      "tests/test-toolkit-decompose.sh",
+      "tests/fixtures/toolkit"
+    ],
+    "do_not_touch": [
+      "WATCHDOG.yml",
+      "release/3.9.0",
+      "tasks/done",
+      ".taskspec/acceptance"
+    ]
+  },
+  "budgets": {
+    "iterations": 15,
+    "tokens": null,
+    "effort": "L"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code",
+      "tests"
+    ],
+    "required_tools": [
+      "git",
+      "bash"
+    ],
+    "timeout_minutes": 30,
+    "sandbox_type": "host",
+    "output_artifacts": [],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-decomposition.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-decomposition.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}

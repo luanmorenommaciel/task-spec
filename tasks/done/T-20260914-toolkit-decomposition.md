@@ -1,7 +1,7 @@
 ---
 id: T-20260914-toolkit-decomposition
 title: "Compile reviewed native decomposition and import legacy workspaces"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T16:52:37Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:37:58Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:6e1ee375420bb480047e9aa4a2fcc9d24b7b4fd494566fde4140c92e830a1ae8
+accepted_tier: 1
+accepted_attempt_id: 28c911a1-29f1-4f1e-9552-2dbd557e3c6f
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:6e1ee375420bb480047e9aa4a2fcc9d24b7b4fd494566fde4140c92e830a1ae8
+acceptance_record_digest: sha256:25f028d9fa181e952405d190afa5ccc47171f4ba2fa951397f2ffdc59e514abc
 ---
 
 # Compile reviewed native decomposition and import legacy workspaces
