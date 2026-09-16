@@ -1,0 +1,37 @@
+{
+  "contract": "TaskMeshAdapter/v1",
+  "name": "codex-native",
+  "harness": "codex",
+  "executable": "codex",
+  "version_args": [
+    "--version"
+  ],
+  "command": [
+    "exec",
+    "--ignore-user-config",
+    "--ephemeral",
+    "--sandbox",
+    "workspace-write",
+    "--cd",
+    "{workspace}",
+    "--json",
+    "--color",
+    "never",
+    "--model",
+    "gpt-6-astra",
+    "-c",
+    "model_reasoning_effort=\"high\"",
+    "-c",
+    "model_context_window=262144",
+    "-c",
+    "model_auto_compact_token_limit=196608",
+    "-c",
+    "service_tier=\"default\"",
+    "-"
+  ],
+  "prompt_mode": "stdin",
+  "event_format": "jsonl",
+  "assurance_modes": [
+    "supervised"
+  ]
+}

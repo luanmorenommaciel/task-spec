@@ -1,0 +1,34 @@
+engine: /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/engines/3.10.0
+mesh:   /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/bin/taskspec-meshd
+Collecting attrs==26.1.0 (from -r /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/engines/3.10.0/src/decompose/requirements.lock (line 2))
+  Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+Collecting jsonschema==4.26.0 (from -r /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/engines/3.10.0/src/decompose/requirements.lock (line 5))
+  Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+Collecting jsonschema-specifications==2025.9.1 (from -r /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/engines/3.10.0/src/decompose/requirements.lock (line 8))
+  Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+Collecting PyYAML==6.0.3 (from -r /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/engines/3.10.0/src/decompose/requirements.lock (line 11))
+  Using cached pyyaml-6.0.3-cp314-cp314-macosx_11_0_arm64.whl (173 kB)
+Collecting referencing==0.37.0 (from -r /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/engines/3.10.0/src/decompose/requirements.lock (line 85))
+  Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+Collecting rpds-py==2026.6.3 (from -r /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/engines/3.10.0/src/decompose/requirements.lock (line 88))
+  Using cached rpds_py-2026.6.3-cp314-cp314-macosx_11_0_arm64.whl (339 kB)
+Collecting typing_extensions==4.15.0 (from -r /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/engines/3.10.0/src/decompose/requirements.lock (line 205))
+  Using cached typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+Installing collected packages: typing_extensions, rpds-py, PyYAML, attrs, referencing, jsonschema-specifications, jsonschema
+
+Successfully installed PyYAML-6.0.3 attrs-26.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 referencing-0.37.0 rpds-py-2026.6.3 typing_extensions-4.15.0
+{"contract": "TaskRuntimeSetup/v1", "ready": true, "path": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/engines/3.10.0/.taskspec/runtime/decompose", "lock_digest": "eb1adcfe1266108d7587d9a561bb57d482a2104efa871db46c6287095649ba33"}
+skill:  /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/host/.agents/skills/task-spec
+skill:  /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/host/.claude/skills/task-spec
+skill:  /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/host/.grok/skills/task-spec
+skill:  /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/host/.cursor/skills/task-spec
+agent:  /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/host/.claude/agents/task-architect.md
+cli:    /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/bin/taskspec
+note: add /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/bin to PATH
+Credentials: unchanged (Task-Spec never installs provider or model secrets).
+PATH: add /Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/bin, then enable completion with: taskspec completion bash|zsh|fish
+Verify: taskspec doctor
+Prove:  taskspec demo
+Mesh:   taskspec mesh doctor
+TOOLKIT=READY version=3.10.0 resources=238 runtime_checked=true
+INSTALL=OK
