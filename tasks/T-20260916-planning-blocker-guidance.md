@@ -25,12 +25,13 @@ security_class: (none)
 source_action_item: (none)
 tracker_ref: (none)
 execution_backend: codex
-signed_off: false
-signed_off_by: (none)
-signed_off_at: (none)
+signed_off: true
+signed_off_by: codex-supervisor-under-user-authority
+signed_off_at: 2026-09-16T13:47:22Z
 accepted: false
 accepted_by: (none)
 accepted_at: (none)
+signed_off_sig: hmac-sha256-v3:e2e418a3:c65688c197ab22f5971a63e57a6a146335235cfb3b1e1cf80d02b5248ba055f2
 ---
 
 # Explain planning blockers without implying completed validation
