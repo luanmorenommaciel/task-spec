@@ -1,0 +1,107 @@
+{
+  "contract": "TaskToolkitRetryReadiness/v1",
+  "observed_at": "2026-09-16T14:06:25.033707+00:00",
+  "source_commit": "97c9274f2027cd34bdd5b17e55995084292f59d7",
+  "deterministic_readiness_passed": true,
+  "provider_qualified": false,
+  "permission_grants_changed": false,
+  "source_archive": {
+    "path": "qualification/planning-blocker-readiness/source/task-spec-3.10.0.tar.gz",
+    "sha256": "ac7677d0b02843da7a0d08e2826c2b719460c2f3e71ec7db50b532ae904325ed"
+  },
+  "corrections": [
+    "Typed internal diagnostic identity selects missing-human-input guidance without altering public codes or exit behavior.",
+    "Malformed YAML returns actionable CLI diagnostics instead of an unhandled traceback.",
+    "Root and packaged skill forbid manufactured decisions in throwaway probes, leave unreached checks unproven, and keep backups/probes inside the workspace."
+  ],
+  "checks": {
+    "local_gate": "CHECK=READY; CONFORMANCE=L2",
+    "hosted_jobs": {
+      "TaskMesh autonomous isolation (ubuntu)": "success",
+      "make check (macos-latest)": "success",
+      "make check (ubuntu-latest)": "success"
+    },
+    "hosted_run": "https://github.com/luanmorenommaciel/task-spec/actions/runs/35104611397",
+    "installed_resources": 238,
+    "installed_decomposition_regression": "TOOLKIT_DECOMPOSE=PASS",
+    "canonical_acceptance": "T-20260916-planning-blocker-guidance; Tier 1; attempt e0427cf9-1b76-4444-906a-8e75e92bbef5"
+  },
+  "evidence": [
+    {
+      "path": "qualification/planning-blocker-readiness/authorization.log",
+      "sha256": "32cdc7d559e69ea2e41e9b9f2ed0e68c93f89a7b50d0f2f65958740596b59251"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/check-97c9274.json",
+      "sha256": "925eaca6db7c75792bdedad1db154d0eed2ac170b8797414d28a4db6acae4cd7"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/check-97c9274.log",
+      "sha256": "c28d29bde39e950498e07b54fd856600a836e09795329ec5c19e329cce45422e"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/decompose-tests.log",
+      "sha256": "6421d0974abf986a048fa8c78a4a29399626b3629071e3fcde30b70454011836"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/guidance-acceptance.log",
+      "sha256": "f8e65b58d050fcc6582e1993bac6d6a13a8fe3dfb57a15f8780ff87fcd525c71"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/guidance.handoff.json",
+      "sha256": "2665a40ff2c507ab473f717b533b4bbf91fd9c463d9f64f15bf33e0239f4df63"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/hosted-97c9274.json",
+      "sha256": "112c953c259f6c755b324ade9a29cdc2775292d0eaa95a19f7c67d4b0b0ad739"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/hosted-97c9274.log",
+      "sha256": "6bc3273e050bf9174c4f91b33e3ec861b3bb1395dfb7587e49912284c545d80a"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/install-target-check.log",
+      "sha256": "c87297b4db7b422b7efd23f470d1d7faebef87c0663a8c575bbbc68894d9761c"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/install.log",
+      "sha256": "987a543d37355edbdd4e0a0edcf081e413d0501f401351cf365d61435e62d38c"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/installed-decompose-tests.log",
+      "sha256": "6421d0974abf986a048fa8c78a4a29399626b3629071e3fcde30b70454011836"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/installed-resources.json",
+      "sha256": "3e21b6c0bfd771a63400c0092ad9f228085863d15922576694603e5501cf8eff"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/observed-versions.json",
+      "sha256": "d5f73569bfc4a865f50a62f4a211d9357c9eda54ac863f66692ccd93a53f0573"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/source/task-spec-3.10.0.tar.gz",
+      "sha256": "ac7677d0b02843da7a0d08e2826c2b719460c2f3e71ec7db50b532ae904325ed"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/source/task-spec-3.10.0.tar.gz.sha256",
+      "sha256": "6eab9abc7aa220c5e85b4664d49ce44442f4ef04c532ca496c29f8a06ebd68fa"
+    },
+    {
+      "path": "qualification/planning-blocker-readiness/authorization-inventory.json",
+      "sha256": "e716499319ab28cbcb2bfda12baa7ac0fa835547bf25dad2092795ecd1376d39"
+    }
+  ],
+  "remaining": [
+    "New bounded authorization for one fresh Claude planning observation.",
+    "Only after that planning observation passes, freeze and execute the full independent 72-cell comparison.",
+    "Original final qualification and publication gates."
+  ],
+  "limitations": [
+    "The new guidance has deterministic and installation proof, not a live provider pass.",
+    "Latest planning observation produced a useful proposal but failed scratch containment and validation-claim review; chat coverage remains 19/20.",
+    "No reported permission denial occurred in the latest observation. The stop follows the approved one-observation cap and failed conditional comparison prerequisite.",
+    "Historical chat observations span source revisions. Fresh implementation verification does not reconstruct original implementation handoffs.",
+    "Initial install precondition failure from a missing target directory is retained separately; the subsequent fresh installation passed."
+  ]
+}

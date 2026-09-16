@@ -1,8 +1,8 @@
 {
   "contract": "TaskToolkitReleaseChecklist/v1",
   "version": "3.10.0",
-  "observed_at": "2026-09-16T14:07:15.109570+00:00",
-  "source_head": "97c9274f2027cd34bdd5b17e55995084292f59d7",
+  "observed_at": "2026-09-16T03:04:05.100942+00:00",
+  "source_head": "459f0cd415a2cd22db6021fd3f8a7fb0faf25f25",
   "source_state": "committed_candidate",
   "release_qualified": false,
   "pending_areas": {
@@ -11,12 +11,12 @@
       "remaining": [],
       "proof": [
         "qualification/completion-retry/acceptance-summary.json",
-        "qualification/planning-blocker-readiness/hosted-97c9274.json"
+        "qualification/planning-path-readiness/hosted-459f0cd.json"
       ],
       "limit": "Bounded local and hosted proof on the corrected candidate; provider comparison is separate."
     },
     "chat_and_comparative_pilot": {
-      "state": "planning_behavior_failed_requires_new_bounded_retry",
+      "state": "planning_denial_requires_new_bounded_retry",
       "corpus_decision": "real repository issues; interventions recorded prospectively",
       "passing_chat_cases": 19,
       "required_chat_cases": 20,
@@ -26,27 +26,25 @@
       "final_chat_qualified": false,
       "chat_progress": "qualification/chat-results.json",
       "coverage_limit": "Per-case source-bound observations, not one uniform source-version cohort.",
+      "registered_schedule": "pilot/cohorts/completion-retry/schedule.json",
+      "registered_runs": 72,
       "fresh_cohort_observed_runs": 0,
-      "pilot_state": "conditional_new_cohort_not_registered_or_dispatched",
+      "pilot_state": "paused_before_first_cell; corrected recorder requires new registration",
       "previous_cohorts": [
         "pilot/cohorts/initial/results.json",
         "pilot/cohorts/approved-runtime/partial-summary.json"
       ],
-      "prior_retry_authorization": "qualification/workspace-path-retry-approval.json",
-      "new_retry_proposal": "qualification/planning-blocker-retry-proposal.md",
-      "prepared_corrections": "qualification/planning-blocker-readiness/",
-      "latest_observation_review": "qualification/workspace-path-retry/chat/runs/plan-claude-20260916T133941Z/behavior-review.json",
-      "latest_observation_permission_denials": 0,
-      "prior_denial": "qualification/completion-retry/chat/runs/plan-claude-20260916T022738Z/behavior-review.json",
-      "prior_registered_schedule": "pilot/cohorts/completion-retry/schedule.json",
-      "prior_registered_runs": 72
+      "prior_retry_authorization": "qualification/completion-retry-approval.json",
+      "new_denial": "qualification/completion-retry/chat/runs/plan-claude-20260916T022738Z/behavior-review.json",
+      "new_retry_proposal": "qualification/workspace-path-retry-proposal.md",
+      "prepared_corrections": "qualification/planning-path-readiness/"
     },
     "hosted_and_provider_qualification": {
       "state": "corrected_source_local_hosted_and_installation_passed_provider_qualification_incomplete",
-      "latest_completed_hosted": "qualification/planning-blocker-readiness/hosted-97c9274.json",
-      "latest_completed_local": "qualification/planning-blocker-readiness/check-97c9274.json",
-      "current_hosted_run": 35104611397,
-      "latest_installation": "qualification/planning-blocker-readiness/installed-resources.json",
+      "latest_completed_hosted": "qualification/planning-path-readiness/hosted-459f0cd.json",
+      "latest_completed_local": "qualification/planning-path-readiness/check-459f0cd.json",
+      "current_hosted_run": 35049398273,
+      "latest_installation": "qualification/planning-path-readiness/installed-resources.json",
       "preflights": [
         {
           "harness": "claude",
@@ -67,61 +65,56 @@
         "one Claude planning case",
         "full comparative pilot"
       ],
-      "readiness_review": "qualification/planning-blocker-readiness/review.json"
+      "readiness_review": "qualification/planning-path-readiness/review.json"
     },
     "acceptance_and_cutover": {
       "state": "implementation_accepted_qualification_and_publication_pending",
       "original_implementation_tasks_accepted": 13,
-      "additional_guidance_task_accepted": 2,
+      "additional_guidance_task_accepted": 1,
       "acceptance_proof": "qualification/completion-retry/acceptance-summary.json",
       "remaining_original_tasks": [
         "T-20260914-release-qualification",
         "T-20260914-release-publication"
       ],
-      "limitation": "The thirteen original tasks were accepted using fresh current-verification handoffs; original implementation attempt history is not reconstructed.",
-      "additional_acceptance_proof": [
-        "qualification/planning-path-readiness/guidance-acceptance.log",
-        "qualification/planning-blocker-readiness/guidance-acceptance.log"
-      ]
+      "limitation": "The thirteen original tasks were accepted using fresh current-verification handoffs; original implementation attempt history is not reconstructed."
     }
   },
   "publication": {
     "main_push": {
       "command": "git push origin main",
-      "source_commit": "97c9274f2027cd34bdd5b17e55995084292f59d7",
+      "source_commit": "459f0cd415a2cd22db6021fd3f8a7fb0faf25f25",
       "result": "pushed"
     },
     "tag": null,
     "release_url": null,
     "latest_source_candidate": {
-      "path": "qualification/planning-blocker-readiness/source/task-spec-3.10.0.tar.gz",
-      "sha256": "ac7677d0b02843da7a0d08e2826c2b719460c2f3e71ec7db50b532ae904325ed",
-      "source_commit": "97c9274f2027cd34bdd5b17e55995084292f59d7",
+      "source_commit": "459f0cd415a2cd22db6021fd3f8a7fb0faf25f25",
+      "path": "qualification/planning-path-readiness/source/task-spec-3.10.0.tar.gz",
+      "sha256": "a735d6e06c80ab8664a001a60d62a2378c9895413a96f08c12242b5912baee7c",
       "published": false
     }
   },
   "current_gate": {
-    "command": "make check",
-    "source_commit": "97c9274f2027cd34bdd5b17e55995084292f59d7",
-    "started_at": "2026-09-16T13:51:16.440897+00:00",
-    "finished_at": "2026-09-16T14:05:22.253834+00:00",
-    "exit_code": 0,
-    "evidence": {
-      "path": "qualification/planning-blocker-readiness/check-97c9274.log",
-      "sha256": "c28d29bde39e950498e07b54fd856600a836e09795329ec5c19e329cce45422e"
-    },
     "contract": "TaskToolkitCheckEvidence/v1",
+    "observed_at": "2026-09-16T03:04:05.069677+00:00",
+    "source_commit": "459f0cd415a2cd22db6021fd3f8a7fb0faf25f25",
+    "command": "make check",
+    "exit_code": 0,
     "result": "CHECK=READY",
     "conformance": "L2",
+    "evidence": {
+      "path": "qualification/planning-path-readiness/check-459f0cd.log",
+      "sha256": "d7e03a9ec8d4ad1625e5e9b00c05aea7edcad1a86434e2feb6129dbe7711f5e3"
+    },
+    "boundary": "Corrected candidate readiness; live planning retry and the comparative pilot remain unqualified.",
     "final_release_gate": false,
-    "state": "passed",
-    "path": "qualification/planning-blocker-readiness/check-97c9274.json",
-    "boundary": "Corrected candidate readiness; live planning and comparative qualification remain open."
+    "path": "qualification/planning-path-readiness/check-459f0cd.json",
+    "state": "passed"
   },
   "authorization_audit": {
-    "current": "qualification/planning-blocker-readiness/authorization-inventory.json",
-    "current_valid_seals": 17,
-    "accepted_tasks": 15,
+    "current": "qualification/planning-path-readiness/authorization-inventory.json",
+    "current_valid_seals": 16,
+    "accepted_tasks": 14,
     "prior_cli_renewal_gap": "qualification/authorization-history/renewal-summary.json"
   }
 }

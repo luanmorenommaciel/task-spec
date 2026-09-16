@@ -1,0 +1,11 @@
+{
+  "command": "make check",
+  "source_commit": "97c9274f2027cd34bdd5b17e55995084292f59d7",
+  "started_at": "2026-09-16T13:51:16.440897+00:00",
+  "finished_at": "2026-09-16T14:05:22.253834+00:00",
+  "exit_code": 0,
+  "evidence": {
+    "path": "qualification/planning-blocker-readiness/check-97c9274.log",
+    "sha256": "c28d29bde39e950498e07b54fd856600a836e09795329ec5c19e329cce45422e"
+  }
+}
