@@ -1,0 +1,26 @@
+{
+  "contract": "TaskToolkitBoundedRetryApproval/v1",
+  "recorded_at": "2026-09-16T19:44:42.818596+00:00",
+  "user_message": "go ahead and do",
+  "decision_context": "User asked for the best strategy, received the recommendation to approve one bounded Claude planning observation with the 72-cell cohort conditional on its pass, and approved.",
+  "proposal": {
+    "path": "planning-blocker-retry-proposal.md",
+    "sha256": "88afbfc925fcfb4980f87936690751af860af3f39e88d766236b17073f998650"
+  },
+  "source_commit": "f21ecea5bf7e99f96de9b77d410196e534a586eb",
+  "tested_source_commit": "97c9274f2027cd34bdd5b17e55995084292f59d7",
+  "source_drift": "main advanced from 97c9274 by README restructuring, the issue-27 containment-code fix in src/accept/preflight.py and src/lib/workspace.py, and retained evidence. SKILL.md, the decomposition path, and the chat controllers are byte-identical between 97c9274 and HEAD.",
+  "installed_candidate": {
+    "engine": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/planning-blocker/engines/3.10.0",
+    "installed_skill": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/planning-blocker/host/.agents/skills/task-spec",
+    "readiness_review": "planning-blocker-readiness/review.json"
+  },
+  "scope": [
+    "One fresh Claude planning observation using the corrected installed candidate, with unchanged restricted permissions.",
+    "Only if that observation passes behavior review, register and run a new complete 72-cell comparative cohort on the original six issues; preserve all older cohorts separately.",
+    "A new permission denial stops the affected work and pauses before another block.",
+    "A failed planning review does not authorize an additional planning observation.",
+    "Publish only if the original qualification and final release criteria pass."
+  ],
+  "permission_grants_changed": false
+}

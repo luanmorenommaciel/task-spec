@@ -1,0 +1,91 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "plan",
+  "harness": "claude",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/planning-blocker-retry/chat/prepared/plan-claude-20260916T194444Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [
+    {
+      "source": "failed native tool result",
+      "tool_use_id": "toolu_01BNqYYfzDjC16sChNmnUDFu",
+      "output": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/planning-blocker/engines/3.10.0/src/decompose/engine/recipe.py is outside /private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat fxgd522y; --restricted confines the file tools to the working directory."
+    },
+    {
+      "tool_name": "Read",
+      "tool_use_id": "toolu_01BNqYYfzDjC16sChNmnUDFu",
+      "tool_input": {
+        "file_path": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/planning-blocker/engines/3.10.0/src/decompose/engine/recipe.py",
+        "offset": 150,
+        "limit": 250
+      }
+    },
+    {
+      "tool_name": "Write",
+      "tool_use_id": "toolu_019kxWTztDK4ZaVjZafzSqMW",
+      "tool_input": {
+        "file_path": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat fxgd522y/.taskspec/authoring-scratch/rate-limiting/intent.md",
+        "content": "# Candidate intent: rate-limiting steel thread\n\nOutcome: an organization's requests are limited by an explicit versioned policy,\nand the 101st request in a window under a limit of 100 is denied with a stable\nreason and matching decision telemetry.\n\nEvidence: tests/fixtures/toolkit/blueprint.md at\nsha256 f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445,\ncaptured 2026-09-16. The file states it is fixture input and explicitly not\ndocumentation of shipped behavior, so it evidences the intended steel thread\norder and the scope boundaries, not any current implementation.\n\nConstraints:\n- Provider-owned usage metering stays out of scope. This initiative does not\n  read, write, reconcile, or re-implement provider metering, and enforcement\n  counters must not be sourced from it.\n- Production storage and deployment infrastructure are not selected here.\n\nOwner: not recorded in the evidence source. Unresolved.\n\nUnknowns:\n- Responsible owner for each seam and swimlane.\n- Counter storage substrate for window accounting.\n- Fixed versus sliding window semantics.\n- Policy resolution precedence when several policies match one organization.\n- Implementation language and test runner; this repository contains no source\n  tree or harness, so proposed eval commands are unproven.\n"
+      }
+    }
+  ],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "62b56784e5d7b4e696e6da8d3994fbccf9725fea00f98a1acc450ce7a6100322"
+    },
+    {
+      "path": "before.json",
+      "sha256": "f5564749633fbcb0f9558ad84e1652571d0822cc4863d74b30630f670d9847af"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/.taskspec/authoring-scratch/rate-limiting/intent.md",
+      "sha256": "b6e6016b34ae2f985dd86bd021fdef0e8a82e487c59a9df108820134d3e46802"
+    },
+    {
+      "path": "changed-files/.taskspec/authoring-scratch/rate-limiting/recipe.yaml",
+      "sha256": "62f535119aa7ff2cc5715360a93eaba8e09ead73c71594a6a10d4e03b4296dbf"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "19d11f93b1a3e20fc9448136ae0b46d5ff5d4e961f577ef5a546e8b59c9ac7e2"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "ddedeaf87f40db6ce9488c5fb3b19ddfab12605da98df84879c09fae29366cea"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "8c64fc6a9ff307603d8d876e6adf941d9e3ac229dce21139cf1821a401633a41"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "9cabd1545152196f95ac7db2a6f40bfb7905895c166db5db96e5e8f94576f8f6"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "85e3952828c7c0dc3391fcd44dd470a504d442c5b0ab5f9f1380d104dc3030cc"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "8c3701d01876e27db288b23063eb93f90e0f76a379b19dd5fb7ef59778e9f65b"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "e1ba525605900b6db9e07b1a6326c2b0e3aa47245cc29695f857be843c78cfc0"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "0e802fc01b9052477a3ca2fd2ab6040282bac3972baacf5a81725b582de4072b"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat fxgd522y",
+  "case": "plan",
+  "source_commit": "12dd2941f6ccc4ce9ba0f0344c3308fac0c9d757",
+  "installed_skill_sha256": "31d08fc5b9d1238f7743d4e407285c21a19c2f0d29e590aff4a07763ed39b3aa",
+  "engine_version": "3.10.0",
+  "path_cli": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/planning-blocker/engines/3.10.0/bin/taskspec",
+  "native_plugin": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat fxgd522y/.agents/skills/task-spec"
+}
