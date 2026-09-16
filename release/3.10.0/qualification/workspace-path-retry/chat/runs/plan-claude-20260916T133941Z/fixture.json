@@ -1,0 +1,9 @@
+{
+  "workspace": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat c_8veas4",
+  "case": "plan",
+  "source_commit": "944831e52239cc5661353b1e394f717259428062",
+  "installed_skill_sha256": "9896b6457c8041544a22c47ccb0288ce1ea2f96edf3631a940a9cb689d958959",
+  "engine_version": "3.10.0",
+  "path_cli": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/completion-retry/planning-path/engines/3.10.0/bin/taskspec",
+  "native_plugin": "/private/var/folders/zf/r0gsd5px2v9_q24j3tfnyb5c0000gn/T/taskspec chat c_8veas4/.agents/skills/task-spec"
+}

@@ -1,0 +1,43 @@
+{
+  "complete": true,
+  "cost_including_failures": 1.3233194999999995,
+  "cost_basis": "harness_reported",
+  "invocations": [
+    {
+      "path": "harness.stdout",
+      "known": true,
+      "usd": 1.3233194999999995,
+      "model_usage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 927,
+          "outputTokens": 12,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.000987,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-opus-5": {
+          "inputTokens": 46,
+          "outputTokens": 20797,
+          "cacheReadInputTokens": 641255,
+          "cacheCreationInputTokens": 48155,
+          "webSearchRequests": 0,
+          "costUSD": 1.3223324999999997,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 4232,
+          "canonicalModel": "claude-opus-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "basis": "harness_reported"
+    }
+  ]
+}

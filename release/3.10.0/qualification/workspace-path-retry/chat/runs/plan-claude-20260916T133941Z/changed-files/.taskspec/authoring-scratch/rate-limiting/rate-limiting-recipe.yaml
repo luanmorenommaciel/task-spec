@@ -1,0 +1,558 @@
+schema_version: 1
+
+intent:
+  id: INT-RATELIMIT
+  title: Organization-scoped request rate limiting steel thread
+  summary: >-
+    Deliver a versioned rate-limit policy that validates its own limits and
+    windows, resolves to exactly one effective policy per organization, denies
+    request 101 after 100 allowed requests in the same window, and returns a
+    stable denial reason with matching decision telemetry. Provider-owned usage
+    metering stays outside this initiative.
+  claim: proposed
+  source:
+    uri: tests/fixtures/toolkit/blueprint.md
+    captured_at: '2026-09-16T13:40:45Z'
+    sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445
+  success:
+    - A versioned policy schema rejects invalid limits and invalid windows.
+    - Policy resolution produces exactly one effective policy for an organization.
+    - Request 101 is denied after 100 allowed requests in the same window.
+    - A denial returns a stable reason code and emits matching decision telemetry.
+  out_of_scope:
+    - Provider-owned usage metering, which this initiative neither implements nor wraps.
+    - Selection of production storage for policies or counters.
+    - Selection of deployment infrastructure.
+
+system_map:
+  claim: proposed
+  components:
+    - Versioned rate-limit policy schema and its validator.
+    - Organization policy resolver producing one effective policy.
+    - Window-scoped request admission decision point.
+    - Denial reason contract and decision telemetry emitter.
+  external_dependencies:
+    - Provider-owned usage metering, which remains the provider's responsibility
+      and is read-only context to this initiative at most.
+  unknowns:
+    - The responsible owner for each seam is not named in the source blueprint.
+    - Window accounting semantics are unstated; fixed versus sliding window is undecided.
+    - The policy and counter storage substrate is deliberately unselected by the blueprint.
+    - The destination sink for decision telemetry is unstated.
+    - Precedence rules when several policies match one organization are unstated.
+
+evidence:
+  - id: EV-BLUEPRINT
+    claim: proposed
+    source:
+      uri: tests/fixtures/toolkit/blueprint.md
+      captured_at: '2026-09-16T13:40:45Z'
+      sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445
+    confidence: 0.6
+    summary: >-
+      Declares the four-step steel thread order and the two scope boundaries.
+      The file states it is fixture input and not documentation of shipped
+      behavior, so it evidences intent, not current system state.
+decisions:
+  - id: DEC-METERING-BOUNDARY
+    status: accepted
+    owner: source blueprint tests/fixtures/toolkit/blueprint.md
+    rationale: >-
+      Provider-owned usage metering is out of scope. Decision telemetry emitted
+      by this initiative describes admission decisions only and is not a usage
+      meter, not a billing record, and not a substitute for provider metering.
+  - id: DEC-NO-INFRA-SELECTION
+    status: accepted
+    owner: source blueprint tests/fixtures/toolkit/blueprint.md
+    rationale: >-
+      Production storage and deployment infrastructure are not selected here, so
+      every leaf must stay behind an in-process interface with a test substrate.
+  - id: DEC-WINDOW-SEMANTICS
+    status: proposed
+    owner: UNASSIGNED pending named product owner
+    rationale: >-
+      Fixed versus sliding window changes the meaning of "the same window" in
+      steel thread step 3. Unresolved; recorded rather than chosen.
+
+seams:
+  - id: SEAM-POLICY
+    name: Policy definition and validation
+    description: >-
+      Owns the versioned rate-limit policy schema and the validation that
+      rejects invalid limits and invalid windows before any policy is stored.
+    evidence:
+      - EV-BLUEPRINT
+    responsibility: >-
+      Define the versioned policy shape and reject invalid limits and windows.
+      Does not resolve policies and does not count requests.
+    consumes:
+      - candidate policy documents
+    produces:
+      - versioned policy schema
+      - policy validation verdict
+    owner: UNASSIGNED pending named owner
+    independent_proof: >-
+      Validation tests accept a valid policy and reject invalid limits and
+      invalid windows, with no resolver or counter present.
+    decision_ids:
+      - DEC-NO-INFRA-SELECTION
+    rejected_alternatives:
+      - alternative: Validate limits inline at the admission decision point.
+        reason: >-
+          Defers detection of invalid policy to request time and couples the
+          schema to enforcement, removing independent proof of step 1.
+    swimlane:
+      id: LANE-POLICY
+      name: Policy schema lane
+      owner: UNASSIGNED pending named owner
+      legs:
+        - id: LEG-POLICY-VALID
+          observable_state: >-
+            A versioned policy document is accepted only when its limit and
+            window are valid.
+          proof: Schema validation test suite passes over valid and invalid fixtures.
+          requires: []
+          produces:
+            - versioned policy schema
+            - policy validation verdict
+          tasks:
+            - id: T-20260916-policy-schema
+              title: Versioned policy schema with limit and window validation
+              goal: >-
+                Introduce a versioned rate-limit policy schema whose validator
+                rejects invalid limits and invalid windows.
+              done_condition: >-
+                A valid policy validates, a non-positive or non-integer limit is
+                rejected, and a non-positive or unparsable window is rejected,
+                each with a distinct validation error, and the schema carries an
+                explicit version field.
+              effort: S
+              profile: standard
+              execution_backend: any
+              required_tools:
+                - bash
+              depends_on: []
+              touches_paths: []
+              creates_paths:
+                - src/ratelimit/policy_schema.py
+                - tests/ratelimit/test_policy_schema.py
+              behavior:
+                - id: B-1
+                  given: A policy document with limit 100 and a well-formed window.
+                  when: The policy validator runs.
+                  then: Validation succeeds and reports the schema version.
+                - id: B-2
+                  given: A policy document with limit 0 or an unparsable window.
+                  when: The policy validator runs.
+                  then: >-
+                    Validation fails with a distinct error naming the offending
+                    field, and no policy is produced.
+              evals:
+                - id: eval_1
+                  description: A valid versioned policy is accepted.
+                  bash: python3 -m pytest tests/ratelimit/test_policy_schema.py -k valid_policy -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Invalid limits and windows are rejected with distinct errors.
+                  bash: python3 -m pytest tests/ratelimit/test_policy_schema.py -k invalid -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: The whole policy schema suite passes.
+                  bash: python3 -m pytest tests/ratelimit/test_policy_schema.py -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Reading or writing provider usage metering data.
+                  reason: Provider-owned usage metering is out of scope.
+                  instead: Validate only the policy document supplied to this leaf.
+                - action: Selecting a database or migration tool for policy storage.
+                  reason: Production storage is not selected by this initiative.
+                  instead: Keep the schema storage-agnostic and validate in memory.
+                - action: Choosing fixed or sliding window semantics to unblock validation.
+                  reason: DEC-WINDOW-SEMANTICS is unresolved and is not this leaf's to decide.
+                  instead: Validate window well-formedness only and leave accounting undecided.
+              do_not_touch:
+                - Any provider usage metering client, schema, or record.
+                - tests/fixtures/toolkit/blueprint.md
+              rollback: Remove the created schema and test files; no other module imports them.
+              observability: Validation errors name the offending field and the schema version.
+              execution_recipe: test-first
+              sdlc_stages:
+                - design
+                - build
+                - test
+
+  - id: SEAM-RESOLUTION
+    name: Effective policy resolution
+    description: >-
+      Owns resolution from an organization identifier to exactly one effective
+      policy, including the ambiguity and absence outcomes.
+    evidence:
+      - EV-BLUEPRINT
+    responsibility: >-
+      Produce exactly one effective policy for an organization, or a definite
+      no-policy outcome. Does not define the schema and does not count requests.
+    consumes:
+      - versioned policy schema
+      - organization identifier
+    produces:
+      - effective policy for an organization
+    owner: UNASSIGNED pending named owner
+    independent_proof: >-
+      Resolution tests show exactly one effective policy for an organization and
+      a deterministic outcome when zero or several candidates match, with no
+      request counting involved.
+    decision_ids:
+      - DEC-NO-INFRA-SELECTION
+    rejected_alternatives:
+      - alternative: Let the admission point pick among matching policies at request time.
+        reason: >-
+          Makes "exactly one effective policy" unobservable on its own and hides
+          ambiguity inside enforcement.
+    swimlane:
+      id: LANE-RESOLUTION
+      name: Resolution lane
+      owner: UNASSIGNED pending named owner
+      legs:
+        - id: LEG-RESOLVE-ONE
+          observable_state: >-
+            Resolving an organization yields exactly one effective policy or a
+            definite no-policy outcome.
+          proof: Resolver test suite passes over zero, one, and several candidates.
+          requires:
+            - versioned policy schema
+          produces:
+            - effective policy for an organization
+          tasks:
+            - id: T-20260916-policy-resolver
+              title: Resolve exactly one effective policy per organization
+              goal: >-
+                Given validated policies, resolve an organization to exactly one
+                effective policy with a deterministic outcome in every case.
+              done_condition: >-
+                Resolution returns one effective policy when candidates exist,
+                returns an explicit no-policy outcome when none match, and is
+                deterministic and non-silent when several candidates match.
+              effort: S
+              profile: standard
+              execution_backend: any
+              required_tools:
+                - bash
+              depends_on:
+                - T-20260916-policy-schema
+              touches_paths: []
+              creates_paths:
+                - src/ratelimit/resolver.py
+                - tests/ratelimit/test_resolver.py
+              behavior:
+                - id: B-1
+                  given: One validated policy matches an organization.
+                  when: Resolution runs for that organization.
+                  then: Exactly that policy is returned as the effective policy.
+                - id: B-2
+                  given: Zero or several validated policies match an organization.
+                  when: Resolution runs for that organization.
+                  then: >-
+                    A deterministic, explicit outcome is returned; the resolver
+                    never silently returns several policies.
+              evals:
+                - id: eval_1
+                  description: A single matching policy resolves to itself.
+                  bash: python3 -m pytest tests/ratelimit/test_resolver.py -k single_match -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Zero and multiple candidate cases are deterministic and explicit.
+                  bash: python3 -m pytest tests/ratelimit/test_resolver.py -k "no_match or ambiguous" -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: The whole resolver suite passes.
+                  bash: python3 -m pytest tests/ratelimit/test_resolver.py -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Deriving the effective policy from provider usage metering.
+                  reason: Provider-owned usage metering is out of scope.
+                  instead: Resolve only from validated policy documents and the organization id.
+                - action: Introducing a persistence layer or cache to hold policies.
+                  reason: Production storage is not selected by this initiative.
+                  instead: Resolve over an in-memory collection behind a narrow interface.
+                - action: Inventing a precedence rule when several policies match.
+                  reason: Precedence is an unresolved product decision recorded in system_map.unknowns.
+                  instead: Surface ambiguity explicitly and leave the precedence rule to the owner.
+              do_not_touch:
+                - Any provider usage metering client, schema, or record.
+                - src/ratelimit/policy_schema.py
+              rollback: Remove the created resolver and test files.
+              observability: The resolution outcome names the organization and the chosen policy version.
+              execution_recipe: test-first
+              sdlc_stages:
+                - build
+                - test
+
+  - id: SEAM-ENFORCEMENT
+    name: Window-scoped admission decision
+    description: >-
+      Owns the counting of requests inside a window against the effective policy
+      and the allow or deny verdict for each request.
+    evidence:
+      - EV-BLUEPRINT
+    responsibility: >-
+      Decide allow or deny for a request against the effective policy within the
+      window. Does not define policies and does not emit telemetry.
+    consumes:
+      - effective policy for an organization
+      - request arrival
+    produces:
+      - admission decision
+    owner: UNASSIGNED pending named owner
+    independent_proof: >-
+      Given a fixed effective policy of 100 per window, the first 100 requests
+      are allowed and request 101 in the same window is denied, with no telemetry
+      sink attached.
+    decision_ids:
+      - DEC-NO-INFRA-SELECTION
+      - DEC-WINDOW-SEMANTICS
+    rejected_alternatives:
+      - alternative: Derive the request count from provider usage metering counters.
+        reason: >-
+          Provider-owned usage metering is out of scope, and borrowing its
+          counters would place the denial decision on the far side of the boundary.
+    swimlane:
+      id: LANE-ENFORCEMENT
+      name: Enforcement lane
+      owner: UNASSIGNED pending named owner
+      legs:
+        - id: LEG-DENY-101
+          observable_state: >-
+            After 100 allowed requests in one window, request 101 is denied.
+          proof: Admission test suite drives 101 requests against a 100-per-window policy.
+          requires:
+            - effective policy for an organization
+          produces:
+            - admission decision
+          tasks:
+            - id: T-20260916-admission-decision
+              title: Deny request 101 after 100 allowed in the same window
+              goal: >-
+                Count requests within a window against the effective policy and
+                deny once the limit is exceeded.
+              done_condition: >-
+                With an effective policy of 100 per window, requests 1 through
+                100 are allowed and request 101 in the same window is denied;
+                the counter is scoped per organization and per window.
+              effort: M
+              profile: standard
+              execution_backend: any
+              required_tools:
+                - bash
+              depends_on:
+                - T-20260916-policy-resolver
+              touches_paths: []
+              creates_paths:
+                - src/ratelimit/admission.py
+                - tests/ratelimit/test_admission.py
+              behavior:
+                - id: B-1
+                  given: An effective policy of 100 requests per window for an organization.
+                  when: Requests 1 through 100 arrive in the same window.
+                  then: Every one of those requests is allowed.
+                - id: B-2
+                  given: 100 requests already allowed in the current window.
+                  when: Request 101 arrives in the same window.
+                  then: The request is denied and the counter is not incremented past the limit.
+              evals:
+                - id: eval_1
+                  description: The first 100 requests in a window are allowed.
+                  bash: python3 -m pytest tests/ratelimit/test_admission.py -k allows_first_100 -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Request 101 in the same window is denied.
+                  bash: python3 -m pytest tests/ratelimit/test_admission.py -k denies_101 -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: The whole admission suite passes.
+                  bash: python3 -m pytest tests/ratelimit/test_admission.py -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Reading provider usage metering counters to decide admission.
+                  reason: >-
+                    Provider-owned usage metering is out of scope; the denial
+                    decision must not depend on it.
+                  instead: Count against this initiative's own window counter behind its interface.
+                - action: Selecting Redis or another counter store.
+                  reason: Production storage is not selected by this initiative.
+                  instead: Keep the counter behind an interface with an in-memory test substrate.
+                - action: Emitting telemetry from inside the decision function.
+                  reason: Telemetry is SEAM-TELEMETRY's responsibility and would blur the seam.
+                  instead: Return a structured decision and let the telemetry seam observe it.
+              do_not_touch:
+                - Any provider usage metering client, schema, or record.
+                - src/ratelimit/policy_schema.py
+                - src/ratelimit/resolver.py
+              rollback: Remove the created admission and test files.
+              observability: The decision carries organization, window, count, and limit.
+              execution_recipe: test-first
+              sdlc_stages:
+                - build
+                - test
+
+  - id: SEAM-TELEMETRY
+    name: Denial reason and decision telemetry
+    description: >-
+      Owns the stable denial reason contract and the emission of decision
+      telemetry that matches the decision actually made.
+    evidence:
+      - EV-BLUEPRINT
+    responsibility: >-
+      Expose a stable denial reason and emit decision telemetry that matches it.
+      This telemetry describes admission decisions and is explicitly not a usage
+      meter and not a replacement for provider-owned metering.
+    consumes:
+      - admission decision
+    produces:
+      - stable denial reason
+      - decision telemetry event
+    owner: UNASSIGNED pending named owner
+    independent_proof: >-
+      A denial yields a reason code that is stable across runs, and the emitted
+      telemetry event matches that same decision field for field.
+    decision_ids:
+      - DEC-METERING-BOUNDARY
+    rejected_alternatives:
+      - alternative: Emit the decision onto the provider usage metering stream.
+        reason: >-
+          That crosses the stated boundary and would make this initiative a
+          partial usage meter, which the blueprint places out of scope.
+    swimlane:
+      id: LANE-TELEMETRY
+      name: Telemetry lane
+      owner: UNASSIGNED pending named owner
+      legs:
+        - id: LEG-REASON-TELEMETRY
+          observable_state: >-
+            A denial returns a stable reason and emits one matching decision
+            telemetry event.
+          proof: Telemetry test suite asserts reason stability and event-to-decision agreement.
+          requires:
+            - admission decision
+          produces:
+            - stable denial reason
+            - decision telemetry event
+          tasks:
+            - id: T-20260916-denial-telemetry
+              title: Stable denial reason with matching decision telemetry
+              goal: >-
+                Give every denial a stable reason code and emit one decision
+                telemetry event that agrees with the decision.
+              done_condition: >-
+                A denial returns the same reason code on repeated runs, exactly
+                one telemetry event is emitted per decision, the event fields
+                agree with the decision, and no event is written to any provider
+                usage metering sink.
+              effort: S
+              profile: standard
+              execution_backend: any
+              required_tools:
+                - bash
+              depends_on:
+                - T-20260916-admission-decision
+              touches_paths: []
+              creates_paths:
+                - src/ratelimit/telemetry.py
+                - tests/ratelimit/test_telemetry.py
+              behavior:
+                - id: B-1
+                  given: A request denied for exceeding the window limit.
+                  when: The denial is returned twice for the same condition.
+                  then: The same stable reason code is returned both times.
+                - id: B-2
+                  given: An admission decision is made.
+                  when: Telemetry is emitted for that decision.
+                  then: >-
+                    Exactly one event is emitted to the decision telemetry sink
+                    and its fields match the decision.
+              evals:
+                - id: eval_1
+                  description: The denial reason code is stable across repeated denials.
+                  bash: python3 -m pytest tests/ratelimit/test_telemetry.py -k stable_reason -q
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: One emitted event per decision, matching its fields.
+                  bash: python3 -m pytest tests/ratelimit/test_telemetry.py -k matching_event -q
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: The whole telemetry suite passes.
+                  bash: python3 -m pytest tests/ratelimit/test_telemetry.py -q
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Writing decision events to a provider usage metering sink.
+                  reason: >-
+                    Provider-owned usage metering is out of scope; decision
+                    telemetry must not be presented or routed as usage data.
+                  instead: Emit to this initiative's own decision telemetry interface.
+                - action: Adding billable-usage fields such as metered units or cost.
+                  reason: Those fields belong to provider-owned metering, not to this seam.
+                  instead: >-
+                    Carry only decision fields, namely organization, policy
+                    version, reason, and outcome.
+                - action: Selecting a hosted observability vendor or exporter.
+                  reason: Deployment infrastructure is not selected by this initiative.
+                  instead: Emit behind a sink interface with a recording test double.
+              do_not_touch:
+                - Any provider usage metering client, schema, sink, or record.
+                - src/ratelimit/admission.py
+              rollback: Remove the created telemetry and test files.
+              observability: >-
+                The decision telemetry event is the observability surface; it is
+                scoped to admission decisions only.
+              execution_recipe: test-first
+              sdlc_stages:
+                - build
+                - test
+                - maintain
+
+steel_thread:
+  - LEG-POLICY-VALID
+  - LEG-RESOLVE-ONE
+  - LEG-DENY-101
+  - LEG-REASON-TELEMETRY
+
+objections:
+  - id: OBJ-NO-OWNER
+    status: OPEN
+    summary: >-
+      No seam, swimlane, or decision owner is named anywhere in the source
+      blueprint. Every owner field carries an explicit unassigned marker rather
+      than an invented identity. Named owners are required before review.
+  - id: OBJ-WINDOW-SEMANTICS
+    status: OPEN
+    summary: >-
+      Fixed versus sliding window is undecided (DEC-WINDOW-SEMANTICS), and it
+      changes what "the same window" means in steel thread step 3, so the
+      enforcement done-condition is not yet fully determined.
+  - id: OBJ-PRECEDENCE
+    status: OPEN
+    summary: >-
+      The blueprint requires exactly one effective policy but states no
+      precedence rule for several matching policies. The resolver leaf surfaces
+      ambiguity explicitly instead of inventing precedence.
+  - id: OBJ-FIXTURE-EVIDENCE
+    status: OPEN
+    summary: >-
+      The only evidence source declares itself fixture input and not
+      documentation of shipped behavior, so the system map is proposed rather
+      than verified against a running system.

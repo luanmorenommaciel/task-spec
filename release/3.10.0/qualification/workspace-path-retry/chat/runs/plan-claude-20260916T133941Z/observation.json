@@ -1,0 +1,72 @@
+{
+  "contract": "TaskToolkitChatObservation/v1",
+  "case": "plan",
+  "harness": "claude",
+  "retained": "/Users/luanmorenomaciel/GitHub/task-spec/release/3.10.0/qualification/workspace-path-retry/chat/runs/plan-claude-20260916T133941Z",
+  "exit_code": 0,
+  "review_status": "pending",
+  "reported_permission_denials": [],
+  "qualified": false,
+  "evidence": [
+    {
+      "path": "after.json",
+      "sha256": "e6d35f9e805fb61de19e14ca3d7e0836ae00d2772bec894c28ecdbb94f5e19bb"
+    },
+    {
+      "path": "before.json",
+      "sha256": "ee79ec2920067bbd4a4b286a25af9b20e8f5c551add91472f77b4f26986609e9"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/.taskspec/authoring-scratch/rate-limiting/intent.md",
+      "sha256": "681ea6063817648b4e08a02d886b17f4281a7f61bf500f1475789d1c3fdb9607"
+    },
+    {
+      "path": "changed-files/.taskspec/authoring-scratch/rate-limiting/rate-limiting-recipe.yaml",
+      "sha256": "07d423e6f48be2361ff9e047a41378c3eeaef5cb087f86ece8b196d0438a6733"
+    },
+    {
+      "path": "changed-files/tasks/.plans/rate-limiting/intake.md",
+      "sha256": "681ea6063817648b4e08a02d886b17f4281a7f61bf500f1475789d1c3fdb9607"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "c8445e188bf6de35b28376b26efa9d2134d334793c4dfdca87b1005e0079d8cf"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "854c182f46f66f8677ad5ece44435341a780ab340160389aee32f6707ab8b266"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "1ba2ddd7ba2d2d3d1c217770a2c08704578b8ad5e9502750d7be6d4e984d529a"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "6546c19552f9a634762b5d53efa18f53d902413d73c6486cd3f7e0e000233e36"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "99fefbec071336a2528d2715497505743e8b0f9fb9bfb25b1efbc25d0927ec5b"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "b493dbebba52a0709b738b3159cb0855d6573aa45b95e816f4814c4c5171de1d"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "88e3e65e6f1a3c4e21f1e76d12ec22b3b88a938cff066034786c1120d685d13c"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "0e802fc01b9052477a3ca2fd2ab6040282bac3972baacf5a81725b582de4072b"
+    }
+  ]
+}
