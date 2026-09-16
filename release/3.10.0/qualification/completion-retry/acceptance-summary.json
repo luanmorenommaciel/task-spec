@@ -1,0 +1,256 @@
+{
+  "contract": "TaskToolkitAcceptanceSummary/v1",
+  "observed_at": "2026-09-16T02:49:55.728201+00:00",
+  "source_commit": "459f0cd415a2cd22db6021fd3f8a7fb0faf25f25",
+  "original_implementation_tasks_accepted": 13,
+  "additional_guidance_correction_accepted": 1,
+  "tasks": [
+    {
+      "task_id": "T-20260914-toolkit-contracts",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:54a70ef13def7b4df03efb6b2a2b6ef729a9164c427b996f2b208507a94123f9",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-contracts/213d5dd4-30c4-4763-83bc-5af7f9f1019f.json",
+        "sha256": "f0446a8d6e199b80dd64813a4ea20aa5d635a04f9f12bb3cc62d07576fd033d2"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-decomposition",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-decomposition/28c911a1-29f1-4f1e-9552-2dbd557e3c6f.json",
+        "sha256": "25f028d9fa181e952405d190afa5ccc47171f4ba2fa951397f2ffdc59e514abc"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-authoring",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:558f0f250d81c2b922069975151f111a748cb6469f5eaa5ab71e12fcee37579f",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-authoring/746014cb-67e8-4db5-a549-15cdad1e599d.json",
+        "sha256": "2001d8cf1aedd34072e21c275986ebc0d54f0b2c859abdb568fa4238dfd7342b"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-mesh",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:2c3a9f481c1a7dc0dda35549127f628c8bb6aa4b83dd485cae5fde1657568bba",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-mesh/7207ea35-d0ba-45bd-a760-ac5b25a3230f.json",
+        "sha256": "9899bff0165d96b806775d664fcee93a5e8876bb51a04f92bc0bc1dfd625a40a"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-sdlc",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:3fdae44623346de595c559876e4a2d9e35c358793af4dda0284e6865433a6ce5",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-sdlc/be848bba-c137-4951-88f6-db16cce0d720.json",
+        "sha256": "9872387720ad0e6e6ee79db516d37bb919fa8f5921b380322a2789afaf3a4c5a"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-cli",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:f6e1f417e2876d1927de76c992748f83c0c34e56646d3ad6037fef81a4a4a3a4",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-cli/3d79f126-a4f4-4a11-839b-9394cbd6566d.json",
+        "sha256": "2e07a2229519552664de60479c4e87046bb3a1ea568f67ae825de971fe255d9a"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-experience",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:ad2c142ea8c070481c9a8c758d893c9274eacf72a897479ee43883c76e53de88",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-experience/46ee8cf7-8dc4-45d9-a910-de3177113ab5.json",
+        "sha256": "851e1d2e812801c8fd0d3e0f7c59c508d08cae1026046104f90ad2004d47be0c"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-packaging",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:b4a1ad54bd100f7e10b5cee099d6a23f647076a573fabefa68cd5073efd66cfc",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-packaging/041010ad-ba64-47e5-a65e-a300ddefec6b.json",
+        "sha256": "e0e5573dc2a40b11909b99b818a92faac96e3f5c4aec40214b60f74bab11a7d3"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-ci",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:9559c60e2684df1e8f6179f8ee1b07f65fc10c763428351d6d42a155cd1ce789",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-ci/cdd75704-62e6-444e-9f70-0214b9bcd709.json",
+        "sha256": "acfe31d242f9e023da72730067acc0f21974839d23533a8921db99ca856008a4"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-runtime",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:6629e0bda6349598df5b02f0705381816da451222bdb5dd7dd0fe0b90c70881d",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-runtime/c0c86667-e335-437a-8158-f6d3b3c18e1f.json",
+        "sha256": "13ef537e73cedb342cb8474cd3e910e570cb15ba68b0e786de4938bfd137626c"
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-guides",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:12e86ffaaedf5775ad7c807383a36996093ac1fa8834012d7bd1511b91a6d8bc",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-toolkit-guides/7fc4cf03-3922-4453-8f35-c1310dadcac6.json",
+        "sha256": "d4df2fd56e13e423382449b837e448f9e1e24b8b4fadf10082c3599262fd931b"
+      }
+    },
+    {
+      "task_id": "T-20260914-release-organization",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:0314a8d5a41c75d4d52301fde4386db4fbab94aa54df8eba4ba2ce5797ba3970",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-release-organization/c8effffd-d901-4ea6-986d-c3f0b4c34167.json",
+        "sha256": "450651742b859567691bbf172d47a489e04c1f1b3da5c31a0ca394b1641155cd"
+      }
+    },
+    {
+      "task_id": "T-20260914-release-autonomy",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:f69446e1e506c959b1aaf05fee5b5b301c71fc76cfb3dc7d85616dc551a09d9e",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260914-release-autonomy/a02c08ce-0abc-4233-8441-a2ec32baadd1.json",
+        "sha256": "9bc2154f62a8b8525031065f5aa9f8abdf3f22f0ce062c2742f7662a39c06add"
+      }
+    },
+    {
+      "task_id": "T-20260916-chat-workspace-paths",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:ec24d3bb0cff3090aabdd77092735347def053cacaf8687ac991114d0e57e91d",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record_matches": true,
+        "path": ".taskspec/acceptance/T-20260916-chat-workspace-paths/1a22d9c3-41f8-4b3c-b005-799478ae11e5.json",
+        "sha256": "f09edd37d1dd014fbceb9fe5ef548ede954c7643b0accadef99e04575cb24610"
+      }
+    }
+  ],
+  "remaining_original_tasks": [
+    "T-20260914-release-qualification",
+    "T-20260914-release-publication"
+  ],
+  "limits": [
+    "The thirteen original tasks were accepted using fresh current-verification handoffs; original implementation attempt history is not reconstructed.",
+    "The guidance correction has a handoff issued before its source edits and its own canonical acceptance.",
+    "Live chat qualification and comparative delivery evidence remain incomplete."
+  ]
+}

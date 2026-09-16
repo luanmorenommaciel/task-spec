@@ -1,0 +1,142 @@
+{
+  "contract": "TaskToolkitReleaseChecklist/v1",
+  "version": "3.10.0",
+  "observed_at": "2026-09-16T02:16:08.129832+00:00",
+  "source_head": "640d0617b945081fe619ff4836348f7c98d52ec6",
+  "source_state": "committed_candidate",
+  "release_qualified": false,
+  "pending_areas": {
+    "managed_autonomy": {
+      "state": "implemented_local_and_hosted_checks_passed",
+      "proof": [
+        "qualification/attested-recipes.txt",
+        "qualification/check-649884a.json",
+        "qualification/hosted-649884a.json",
+        "qualification/check-8bde0ea.json"
+      ],
+      "remaining": [
+        "canonical acceptance"
+      ]
+    },
+    "chat_and_comparative_pilot": {
+      "state": "planning_retry_denied_atomic_passed_pilot_not_dispatched",
+      "corpus_decision": "real repository issues; interventions recorded prospectively",
+      "progress": [
+        "six repository issues identified",
+        "behavioral evaluators drafted",
+        "prospective recorder tested",
+        "Codex and Claude real-issue preflights retained separately from comparative cells",
+        "Retained six chat cohorts with individual action-and-claim reviews; bounded passes do not establish a final matched corpus.",
+        "Approved worktree/socket/resource corrections verified; 18 of 20 case/harness combinations have passing retained behavioral reviews. Earlier failures remain retained."
+      ],
+      "setup_matrix": "pilot/setup-matrix.json",
+      "registered_schedule": "pilot/cohorts/completion-retry/schedule.json",
+      "registered_runs": 72,
+      "initial_cohort": "pilot/cohorts/initial/results.json",
+      "runtime_findings": "qualification/runtime-defects.md",
+      "chat_progress": "qualification/chat-results.json",
+      "workspace_rerun_authorization": "approved",
+      "retry_proposal": "qualification/retry-authorization.md",
+      "reviewed_chat_observations": 28,
+      "final_chat_qualified": false,
+      "retry_authorization": "qualification/completion-retry-approval.json",
+      "passing_chat_cases": 18,
+      "required_chat_cases": 20,
+      "held_chat_cases": [
+        "claude/plan",
+        "claude/atomic"
+      ],
+      "observed_pilot_runs": 4,
+      "accepted_pilot_runs": 3,
+      "pilot_summary": "pilot/cohorts/approved-runtime/partial-summary.json",
+      "new_retry_proposal": "qualification/stream-denial-retry-proposal.md",
+      "previous_cohort_summary": "pilot/cohorts/approved-runtime/partial-summary.json",
+      "fresh_cohort_observed_runs": 0,
+      "chat_passed": 19,
+      "chat_required": 20,
+      "new_denial": "qualification/completion-retry/chat/runs/plan-claude-20260916T022738Z/behavior-review.json",
+      "hold_reason": "New planning permission denial; retain failure and prepare correction before requesting another bounded retry. Comparative recorder version correction also required."
+    },
+    "hosted_and_provider_qualification": {
+      "state": "fresh_install_local_and_hosted_readiness_passed_provider_qualification_incomplete",
+      "preflights": [
+        {
+          "harness": "claude",
+          "result": "pilot/preflight/preflight-claude-20260914T203044Z/result.json",
+          "accepted_in_original_attempt": true,
+          "comparative_qualified": false
+        },
+        {
+          "harness": "codex",
+          "result": "pilot/preflight/preflight-codex-20260914T202747Z/result.json",
+          "accepted_in_original_attempt": false,
+          "comparative_qualified": false,
+          "verification_only_recovery": "pilot/preflight/preflight-codex-20260914T202747Z/verification-recovery-2/result.json",
+          "accepted_after_setup_repair": true
+        }
+      ],
+      "remaining": [
+        "full provider comparison and chat corpus"
+      ],
+      "installation_check": {
+        "command": "bash tests/test-toolkit-install.sh",
+        "result": "passed",
+        "includes": "clean install, matching runtime/helper, installed guide links, stale runtime repair, and corruption refusal"
+      },
+      "hosted_progress": "qualification/hosted-progress.json",
+      "hosted_proof": "qualification/hosted.json",
+      "latest_passed": "qualification/completion-retry/hosted-640d061.json",
+      "latest_installation": "qualification/completion-retry/installed-resources.json",
+      "current_local_gate": "qualification/completion-retry/check-640d061.json"
+    },
+    "acceptance_and_cutover": {
+      "state": "pending"
+    }
+  },
+  "publication": {
+    "main_push": {
+      "command": "git push origin main",
+      "source_commit": "640d0617b945081fe619ff4836348f7c98d52ec6",
+      "result": "pushed"
+    },
+    "tag": null,
+    "release_url": null,
+    "source_archive": "artifacts/task-spec-3.10.0.tar.gz",
+    "source_archive_status": "unpublished_candidate",
+    "source_archive_sha256": "1d08979ddfb3057c5284727539f3917cb0e1eb87c759bd168b20d4d271278f64",
+    "latest_source_candidate": {
+      "source_commit": "8bde0ea829ee4df6eccedf923866eb1117a71d41",
+      "path": "qualification/source-candidates/8bde0ea/task-spec-3.10.0.tar.gz",
+      "sha256": "ab64e23604eace256dcdb4af98ed08fb245d1cb3c05ccbaba9f54fdbe8a8aaf9",
+      "published": false
+    }
+  },
+  "evidence": [
+    {
+      "path": "qualification/attested-recipes.txt",
+      "sha256": "665815852cd0f7e25f8365091ac074ddcaa52e30ca05a2508904a76f86c4e1e7",
+      "claim": "synthetic Docker two-round repair with separate signed execution evidence, revoked credentials, canonical acceptance, and unchanged target branch"
+    }
+  ],
+  "candidate_gate": {
+    "command": "make check",
+    "exit_code": 0,
+    "log": "qualification/candidate-check.txt",
+    "sha256": "d8397154575dfaf602db6120fc023292add8de05954b34049a06e32f45c58d5c",
+    "boundary": "Unreleased working-tree candidate at VERSION 3.9.0. Final gate must run after version and pilot-derived changes settle."
+  },
+  "candidate_version": "3.10.0",
+  "current_gate": {
+    "command": "make check",
+    "state": "running",
+    "source_commit": "640d0617b945081fe619ff4836348f7c98d52ec6",
+    "final_release_gate": false
+  },
+  "authorization_audit": {
+    "current": "qualification/current-authorizations.json",
+    "current_valid_seals": 15,
+    "prior_cli_renewal_gap": "qualification/authorization-history/renewal-summary.json",
+    "accepted_tasks": 0
+  },
+  "updated_at": "2026-09-16T02:35:58.471213+00:00"
+}

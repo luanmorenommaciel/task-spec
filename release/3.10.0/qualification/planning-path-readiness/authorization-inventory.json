@@ -1,0 +1,279 @@
+{
+  "contract": "TaskToolkitAuthorizationInventory/v1",
+  "observed_at": "2026-09-16T02:51:41.422087+00:00",
+  "all_verified": true,
+  "tasks": [
+    {
+      "task_id": "T-20260914-toolkit-contracts",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:54a70ef13def7b4df03efb6b2a2b6ef729a9164c427b996f2b208507a94123f9",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-contracts/213d5dd4-30c4-4763-83bc-5af7f9f1019f.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-decomposition",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-decomposition/28c911a1-29f1-4f1e-9552-2dbd557e3c6f.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-authoring",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:558f0f250d81c2b922069975151f111a748cb6469f5eaa5ab71e12fcee37579f",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-authoring/746014cb-67e8-4db5-a549-15cdad1e599d.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-mesh",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:2c3a9f481c1a7dc0dda35549127f628c8bb6aa4b83dd485cae5fde1657568bba",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-mesh/7207ea35-d0ba-45bd-a760-ac5b25a3230f.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-sdlc",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:3fdae44623346de595c559876e4a2d9e35c358793af4dda0284e6865433a6ce5",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-sdlc/be848bba-c137-4951-88f6-db16cce0d720.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-cli",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:f6e1f417e2876d1927de76c992748f83c0c34e56646d3ad6037fef81a4a4a3a4",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-cli/3d79f126-a4f4-4a11-839b-9394cbd6566d.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-experience",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:ad2c142ea8c070481c9a8c758d893c9274eacf72a897479ee43883c76e53de88",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-experience/46ee8cf7-8dc4-45d9-a910-de3177113ab5.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-packaging",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:b4a1ad54bd100f7e10b5cee099d6a23f647076a573fabefa68cd5073efd66cfc",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-packaging/041010ad-ba64-47e5-a65e-a300ddefec6b.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-ci",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:9559c60e2684df1e8f6179f8ee1b07f65fc10c763428351d6d42a155cd1ce789",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-ci/cdd75704-62e6-444e-9f70-0214b9bcd709.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-runtime",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:6629e0bda6349598df5b02f0705381816da451222bdb5dd7dd0fe0b90c70881d",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-runtime/c0c86667-e335-437a-8158-f6d3b3c18e1f.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-toolkit-guides",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:12e86ffaaedf5775ad7c807383a36996093ac1fa8834012d7bd1511b91a6d8bc",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-toolkit-guides/7fc4cf03-3922-4453-8f35-c1310dadcac6.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-release-organization",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:0314a8d5a41c75d4d52301fde4386db4fbab94aa54df8eba4ba2ce5797ba3970",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-release-organization/c8effffd-d901-4ea6-986d-c3f0b4c34167.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-release-autonomy",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:f69446e1e506c959b1aaf05fee5b5b301c71fc76cfb3dc7d85616dc551a09d9e",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260914-release-autonomy/a02c08ce-0abc-4233-8441-a2ec32baadd1.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260916-chat-workspace-paths",
+      "lifecycle": "done",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:ec24d3bb0cff3090aabdd77092735347def053cacaf8687ac991114d0e57e91d",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": true,
+        "record": "/Users/luanmorenomaciel/GitHub/task-spec/.taskspec/acceptance/T-20260916-chat-workspace-paths/1a22d9c3-41f8-4b3c-b005-799478ae11e5.json",
+        "record_error": null,
+        "record_matches": true
+      }
+    },
+    {
+      "task_id": "T-20260914-release-qualification",
+      "lifecycle": "blocked",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:608e015c8224ade2587e73f27e31add12c5867142264c6f757e11a1f90cec87b",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": false,
+        "record": null,
+        "record_error": null,
+        "record_matches": false
+      }
+    },
+    {
+      "task_id": "T-20260914-release-publication",
+      "lifecycle": "ready",
+      "authorization": {
+        "scheme": "hmac-sha256-v3",
+        "stale": false,
+        "task_revision_digest": "sha256:e191b34bc09caa89aba5f8b0153eb1c06390d081dfb7a7ecfd3ca8c3898eecc7",
+        "tier": 1,
+        "verification": "verified"
+      },
+      "acceptance": {
+        "accepted": false,
+        "record": null,
+        "record_error": null,
+        "record_matches": false
+      }
+    }
+  ]
+}

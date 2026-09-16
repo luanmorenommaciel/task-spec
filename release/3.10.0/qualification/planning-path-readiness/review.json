@@ -1,0 +1,73 @@
+{
+  "contract": "TaskToolkitRetryReadiness/v1",
+  "observed_at": "2026-09-16T03:04:05.080028+00:00",
+  "source_commit": "459f0cd415a2cd22db6021fd3f8a7fb0faf25f25",
+  "deterministic_readiness_passed": true,
+  "provider_qualified": false,
+  "permission_grants_changed": false,
+  "source_archive": {
+    "path": "qualification/planning-path-readiness/source/task-spec-3.10.0.tar.gz",
+    "sha256": "a735d6e06c80ab8664a001a60d62a2378c9895413a96f08c12242b5912baee7c"
+  },
+  "corrections": [
+    "Shared workspace-contained scratch guidance on every skill route, root/mirror parity and canonical acceptance.",
+    "Observed native CLI versions retained and compared with registered versions before comparative dispatch."
+  ],
+  "checks": {
+    "local_gate": "CHECK=READY; CONFORMANCE=L2",
+    "hosted_jobs": [
+      "TaskMesh autonomous isolation (ubuntu)",
+      "make check (ubuntu-latest)",
+      "make check (macos-latest)"
+    ],
+    "installed_resources": 238,
+    "native_versions": {
+      "codex": "codex-cli 0.154.0",
+      "claude": "2.1.272 (Claude Code)"
+    }
+  },
+  "evidence": [
+    {
+      "path": "qualification/planning-path-readiness/check-459f0cd.json",
+      "sha256": "8d7e41f4dc463dc4686fe01bcc7fee66fb6affbe385705fa381991df476878be"
+    },
+    {
+      "path": "qualification/planning-path-readiness/check-459f0cd.log",
+      "sha256": "d7e03a9ec8d4ad1625e5e9b00c05aea7edcad1a86434e2feb6129dbe7711f5e3"
+    },
+    {
+      "path": "qualification/planning-path-readiness/hosted-459f0cd.json",
+      "sha256": "28737e1ae2beae81e5a1bf93c3dbc08c62b3698b630622b5da06ba95f1b79869"
+    },
+    {
+      "path": "qualification/planning-path-readiness/hosted-459f0cd.log",
+      "sha256": "8de714ddb1f29889ac5b33421509ee73e0c43f821b8a954a43b13955dfa567b6"
+    },
+    {
+      "path": "qualification/planning-path-readiness/installed-resources.json",
+      "sha256": "47f26a90f1948b984736c72bc8c51ff55168ddf6ea8e83a21c9945fc90546b7a"
+    },
+    {
+      "path": "qualification/planning-path-readiness/provider-version-tests.log",
+      "sha256": "44a90315077f5525255d3a83740b024944fd2199961b77bf96e394f835d4d7e6"
+    },
+    {
+      "path": "qualification/planning-path-readiness/guidance-acceptance.log",
+      "sha256": "218c80efd833f4819105426f61f50ef1f1397a15ecf6aad0fe1cff671f347c89"
+    },
+    {
+      "path": "qualification/planning-path-readiness/authorization-inventory.json",
+      "sha256": "9e0bb20c8ec9eff987740d4ecf61f4690939146dbfe153bc1bbe510d4e1f7601"
+    }
+  ],
+  "remaining": [
+    "One Claude planning observation under new bounded authorization.",
+    "New registered 72-cell comparison only after planning passes.",
+    "Final qualification and publication under original release criteria."
+  ],
+  "limitations": [
+    "No fresh provider observation has validated the corrected planning guidance.",
+    "Historical chat cases remain source-bound and do not constitute a uniform candidate-revision cohort.",
+    "Thirteen original implementation tasks have current-verification acceptance, not reconstructed historical handoffs."
+  ]
+}

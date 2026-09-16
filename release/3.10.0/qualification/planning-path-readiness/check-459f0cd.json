@@ -1,0 +1,15 @@
+{
+  "contract": "TaskToolkitCheckEvidence/v1",
+  "observed_at": "2026-09-16T03:04:05.069677+00:00",
+  "source_commit": "459f0cd415a2cd22db6021fd3f8a7fb0faf25f25",
+  "command": "make check",
+  "exit_code": 0,
+  "result": "CHECK=READY",
+  "conformance": "L2",
+  "evidence": {
+    "path": "qualification/planning-path-readiness/check-459f0cd.log",
+    "sha256": "d7e03a9ec8d4ad1625e5e9b00c05aea7edcad1a86434e2feb6129dbe7711f5e3"
+  },
+  "boundary": "Corrected candidate readiness; live planning retry and the comparative pilot remain unqualified.",
+  "final_release_gate": false
+}
