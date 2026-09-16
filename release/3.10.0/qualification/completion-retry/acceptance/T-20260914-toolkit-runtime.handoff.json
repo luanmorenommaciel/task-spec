@@ -1,0 +1,136 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260914-toolkit-runtime",
+  "format_version": 3,
+  "spec": "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-runtime.md",
+  "spec_digest": "sha256:a96deabe265fd38f09a33da41b6e75a693d2db6702801b394b57ff9630fc291f",
+  "task_revision_digest": "sha256:6629e0bda6349598df5b02f0705381816da451222bdb5dd7dd0fe0b90c70881d",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:58e6fef8e3b31a0607ab5084f80df8a838bd6186c497e26b1d0a83f09dc899b0",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-09-14T16:52:48Z"
+  },
+  "attempt": {
+    "id": "c0c86667-e335-437a-8158-f6d3b3c18e1f",
+    "issued_at": "2026-09-16T02:42:19Z"
+  },
+  "source": {
+    "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+    "base_commit": "ad0799529c7f6e072679a6dba2da5e110c579949"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260914-toolkit-runtime",
+    "digest": "sha256:8a9e8af6fcfe2456db82e2d396cf332630dd7e4795623320d726d7c89b097c90",
+    "members": [
+      {
+        "task_id": "T-20260914-toolkit-authoring",
+        "task_revision_digest": "sha256:558f0f250d81c2b922069975151f111a748cb6469f5eaa5ab71e12fcee37579f"
+      },
+      {
+        "task_id": "T-20260914-toolkit-cli",
+        "task_revision_digest": "sha256:f6e1f417e2876d1927de76c992748f83c0c34e56646d3ad6037fef81a4a4a3a4"
+      },
+      {
+        "task_id": "T-20260914-toolkit-contracts",
+        "task_revision_digest": "sha256:54a70ef13def7b4df03efb6b2a2b6ef729a9164c427b996f2b208507a94123f9"
+      },
+      {
+        "task_id": "T-20260914-toolkit-decomposition",
+        "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939"
+      },
+      {
+        "task_id": "T-20260914-toolkit-experience",
+        "task_revision_digest": "sha256:ad2c142ea8c070481c9a8c758d893c9274eacf72a897479ee43883c76e53de88"
+      },
+      {
+        "task_id": "T-20260914-toolkit-mesh",
+        "task_revision_digest": "sha256:2c3a9f481c1a7dc0dda35549127f628c8bb6aa4b83dd485cae5fde1657568bba"
+      },
+      {
+        "task_id": "T-20260914-toolkit-packaging",
+        "task_revision_digest": "sha256:b4a1ad54bd100f7e10b5cee099d6a23f647076a573fabefa68cd5073efd66cfc"
+      },
+      {
+        "task_id": "T-20260914-toolkit-runtime",
+        "task_revision_digest": "sha256:6629e0bda6349598df5b02f0705381816da451222bdb5dd7dd0fe0b90c70881d"
+      },
+      {
+        "task_id": "T-20260914-toolkit-sdlc",
+        "task_revision_digest": "sha256:3fdae44623346de595c559876e4a2d9e35c358793af4dda0284e6865433a6ce5"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "src/gate/validate-runtime.py"
+    ],
+    "creates_paths": [
+      "tests/test-toolkit-runtime.sh"
+    ],
+    "do_not_touch": [
+      "WATCHDOG.yml",
+      "release/3.9.0",
+      "tasks/done",
+      ".taskspec/acceptance"
+    ]
+  },
+  "budgets": {
+    "iterations": 15,
+    "tokens": null,
+    "effort": "L"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code",
+      "tests"
+    ],
+    "required_tools": [
+      "git",
+      "bash"
+    ],
+    "timeout_minutes": 30,
+    "sandbox_type": "host",
+    "output_artifacts": [],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-runtime.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-runtime.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}

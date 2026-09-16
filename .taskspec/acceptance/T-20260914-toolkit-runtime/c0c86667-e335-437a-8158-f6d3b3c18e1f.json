@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-09-16T02:42:21Z",
+  "accepted_by": "codex-release-supervisor",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "c0c86667-e335-437a-8158-f6d3b3c18e1f",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:58e6fef8e3b31a0607ab5084f80df8a838bd6186c497e26b1d0a83f09dc899b0",
+    "base_commit": "ad0799529c7f6e072679a6dba2da5e110c579949",
+    "task_id": "T-20260914-toolkit-runtime",
+    "task_revision_digest": "sha256:6629e0bda6349598df5b02f0705381816da451222bdb5dd7dd0fe0b90c70881d"
+  }
+}

@@ -1,7 +1,7 @@
 ---
 id: T-20260914-toolkit-runtime
 title: "Validate signed managed recipe limits and forbid unsafe execution modes"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T16:52:48Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:42:21Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:58e6fef8e3b31a0607ab5084f80df8a838bd6186c497e26b1d0a83f09dc899b0
+accepted_tier: 1
+accepted_attempt_id: c0c86667-e335-437a-8158-f6d3b3c18e1f
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:58e6fef8e3b31a0607ab5084f80df8a838bd6186c497e26b1d0a83f09dc899b0
+acceptance_record_digest: sha256:13ef537e73cedb342cb8474cd3e910e570cb15ba68b0e786de4938bfd137626c
 ---
 
 # Validate signed managed recipe limits and forbid unsafe execution modes
