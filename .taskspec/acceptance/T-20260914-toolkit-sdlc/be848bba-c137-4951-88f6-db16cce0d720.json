@@ -1,0 +1,40 @@
+{
+  "acceptance_tier": 1,
+  "accepted_at": "2026-09-16T02:39:22Z",
+  "accepted_by": "codex-release-supervisor",
+  "contract": "AcceptanceRecord/v1",
+  "gate_outcomes": {
+    "authorization": {
+      "code": "AUTHORIZATION_VALID",
+      "status": "pass"
+    },
+    "evaluation": {
+      "code": "EVAL_PASSED",
+      "status": "pass"
+    },
+    "evidence": {
+      "code": "EVIDENCE_SATISFIED",
+      "proof": [
+        "format v3 or earlier: v4 policy receipts are not required"
+      ],
+      "status": "pass"
+    },
+    "preflight": {
+      "code": "PREFLIGHT_PASSED",
+      "status": "pass",
+      "warnings": []
+    }
+  },
+  "outcome": {
+    "code": "ACCEPTED_TIER_1",
+    "status": "accepted"
+  },
+  "receipts": [],
+  "subject": {
+    "attempt_id": "be848bba-c137-4951-88f6-db16cce0d720",
+    "authorization_ref": "hmac-sha256-v3:e2e418a3:cd2de4ce89b0f2f0ac4cc94fac594621bc294da61c4067d749ea546a36b2689d",
+    "base_commit": "6fe726ae421ad287e06c390202a0a791c1a4074c",
+    "task_id": "T-20260914-toolkit-sdlc",
+    "task_revision_digest": "sha256:3fdae44623346de595c559876e4a2d9e35c358793af4dda0284e6865433a6ce5"
+  }
+}

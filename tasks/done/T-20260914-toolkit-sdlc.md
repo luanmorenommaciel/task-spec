@@ -1,7 +1,7 @@
 ---
 id: T-20260914-toolkit-sdlc
 title: "Validate operational evidence and expose read-only initiative inspection"
-status: ready
+status: done
 format_version: 3
 profile: standard
 effort: L
@@ -28,10 +28,14 @@ execution_backend: codex
 signed_off: true
 signed_off_by: luanmorenomaciel
 signed_off_at: 2026-09-14T16:52:51Z
-accepted: false
-accepted_by: (none)
-accepted_at: (none)
+accepted: true
+accepted_by: codex-release-supervisor
+accepted_at: 2026-09-16T02:39:22Z
 signed_off_sig: hmac-sha256-v3:e2e418a3:cd2de4ce89b0f2f0ac4cc94fac594621bc294da61c4067d749ea546a36b2689d
+accepted_tier: 1
+accepted_attempt_id: be848bba-c137-4951-88f6-db16cce0d720
+accepted_authorization_ref: hmac-sha256-v3:e2e418a3:cd2de4ce89b0f2f0ac4cc94fac594621bc294da61c4067d749ea546a36b2689d
+acceptance_record_digest: sha256:9872387720ad0e6e6ee79db516d37bb919fa8f5921b380322a2789afaf3a4c5a
 ---
 
 # Validate operational evidence and expose read-only initiative inspection
