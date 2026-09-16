@@ -1,0 +1,136 @@
+{
+  "contract": "TaskHandoff/v3",
+  "task_id": "T-20260914-toolkit-packaging",
+  "format_version": 3,
+  "spec": "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-packaging.md",
+  "spec_digest": "sha256:caf72928bc10269b132e9fb010360db841e778ad44310771b2171661068e2c8a",
+  "task_revision_digest": "sha256:b4a1ad54bd100f7e10b5cee099d6a23f647076a573fabefa68cd5073efd66cfc",
+  "signoff_tier": 1,
+  "backend": "codex",
+  "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+  "authorization": {
+    "scheme": "hmac-sha256-v3",
+    "ref": "hmac-sha256-v3:e2e418a3:3f5b7b63e2b58f098f420751cdea27a10c00d07d1855ced63aa15d2622f93d62",
+    "tier": 1,
+    "signed_by": "luanmorenomaciel",
+    "signed_at": "2026-09-14T17:41:26Z"
+  },
+  "attempt": {
+    "id": "041010ad-ba64-47e5-a65e-a300ddefec6b",
+    "issued_at": "2026-09-16T02:40:09Z"
+  },
+  "source": {
+    "workspace": "/Users/luanmorenomaciel/GitHub/task-spec",
+    "base_commit": "ca97bac151ce6e7a379101898163c4b7b35dd1d4"
+  },
+  "dependency_closure": {
+    "contract": "DependencyClosure/v1",
+    "task_id": "T-20260914-toolkit-packaging",
+    "digest": "sha256:79560fb282f9054ea7db11ac85359e1c981390ea2db1fcec6335a93116abc253",
+    "members": [
+      {
+        "task_id": "T-20260914-toolkit-authoring",
+        "task_revision_digest": "sha256:558f0f250d81c2b922069975151f111a748cb6469f5eaa5ab71e12fcee37579f"
+      },
+      {
+        "task_id": "T-20260914-toolkit-cli",
+        "task_revision_digest": "sha256:f6e1f417e2876d1927de76c992748f83c0c34e56646d3ad6037fef81a4a4a3a4"
+      },
+      {
+        "task_id": "T-20260914-toolkit-contracts",
+        "task_revision_digest": "sha256:54a70ef13def7b4df03efb6b2a2b6ef729a9164c427b996f2b208507a94123f9"
+      },
+      {
+        "task_id": "T-20260914-toolkit-decomposition",
+        "task_revision_digest": "sha256:3734540f6af0f26997407b02c7d1998e3502d52f31329fd19df1fdc5669bf939"
+      },
+      {
+        "task_id": "T-20260914-toolkit-experience",
+        "task_revision_digest": "sha256:ad2c142ea8c070481c9a8c758d893c9274eacf72a897479ee43883c76e53de88"
+      },
+      {
+        "task_id": "T-20260914-toolkit-mesh",
+        "task_revision_digest": "sha256:2c3a9f481c1a7dc0dda35549127f628c8bb6aa4b83dd485cae5fde1657568bba"
+      },
+      {
+        "task_id": "T-20260914-toolkit-packaging",
+        "task_revision_digest": "sha256:b4a1ad54bd100f7e10b5cee099d6a23f647076a573fabefa68cd5073efd66cfc"
+      },
+      {
+        "task_id": "T-20260914-toolkit-sdlc",
+        "task_revision_digest": "sha256:3fdae44623346de595c559876e4a2d9e35c358793af4dda0284e6865433a6ce5"
+      }
+    ]
+  },
+  "write_scope": {
+    "touches_paths": [
+      "install.sh",
+      "src/setup",
+      "tools",
+      "tests/test-portability-e2e.sh"
+    ],
+    "creates_paths": [
+      "tests/test-toolkit-install.sh",
+      "tests/evals/toolkit"
+    ],
+    "do_not_touch": [
+      "WATCHDOG.yml",
+      "release/3.9.0",
+      "tasks/done",
+      ".taskspec/acceptance"
+    ]
+  },
+  "budgets": {
+    "iterations": 15,
+    "tokens": null,
+    "effort": "L"
+  },
+  "agent_contract": {
+    "version": 2,
+    "read": [
+      "intent",
+      "behavior",
+      "contract",
+      "guardrails"
+    ],
+    "produce": [
+      "code",
+      "tests"
+    ],
+    "required_tools": [
+      "git",
+      "bash"
+    ],
+    "timeout_minutes": 30,
+    "sandbox_type": "host",
+    "output_artifacts": [],
+    "mcp_dependencies": [],
+    "emit": [
+      "pass",
+      "fail",
+      "retry_with_reason",
+      "parked_with_context"
+    ],
+    "backend_metadata": {}
+  },
+  "eval_command": [
+    "taskspec",
+    "run",
+    "--ci",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-packaging.md"
+  ],
+  "acceptance_command": [
+    "taskspec",
+    "accept",
+    "--stamp",
+    "--handoff",
+    "<handoff.json>",
+    "/Users/luanmorenomaciel/GitHub/task-spec/tasks/T-20260914-toolkit-packaging.md"
+  ],
+  "evaluation_policy": {},
+  "environment_contract": {},
+  "identity_policy": {},
+  "receipt_requirements": [
+    "deterministic"
+  ]
+}
