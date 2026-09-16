@@ -1,0 +1,14 @@
+safe-to-delegate: tasks/T-20260916-chat-workspace-paths.md
+────────────────────────────────────────────────────────
+1. Structural validation + shellcheck-evals ...
+   PASS (with warnings)
+2. Eval execution (broken-logic guard) ...
+   PASS — evals execute cleanly (2 pass / 0 fail; fails are expected for unbuilt work)
+────────────────────────────────────────────────────────
+   note: validator warnings present — review but not blocking
+   note: ALL evals already pass — task may already be DONE; verify before delegating
+VERDICT: DELEGATE — safe to hand off blind.
+   stamped signed_off: true by codex-supervisor-under-user-authority at 2026-09-16T02:46:46Z
+   sealed signed_off_sig: hmac-sha256-v3 — Tier 1 crypto trust
+   sign-off: Tier 1 — HMAC v3 verified over TaskRevision/v1 (unsupervised dispatch OK)
+TIER=1
