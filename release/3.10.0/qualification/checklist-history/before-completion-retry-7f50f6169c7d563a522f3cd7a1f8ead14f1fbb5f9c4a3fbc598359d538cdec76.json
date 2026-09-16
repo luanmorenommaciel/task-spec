@@ -1,8 +1,8 @@
 {
   "contract": "TaskToolkitReleaseChecklist/v1",
   "version": "3.10.0",
-  "observed_at": "2026-09-16T02:16:08.129832+00:00",
-  "source_head": "640d0617b945081fe619ff4836348f7c98d52ec6",
+  "observed_at": "2026-09-15T12:15:56.081207+00:00",
+  "source_head": "8bde0ea829ee4df6eccedf923866eb1117a71d41",
   "source_state": "committed_candidate",
   "release_qualified": false,
   "pending_areas": {
@@ -19,7 +19,7 @@
       ]
     },
     "chat_and_comparative_pilot": {
-      "state": "fresh_retries_authorized_registered_awaiting_readiness_gate",
+      "state": "pilot_paused_after_denial_two_chat_retries_held",
       "corpus_decision": "real repository issues; interventions recorded prospectively",
       "progress": [
         "six repository issues identified",
@@ -30,7 +30,7 @@
         "Approved worktree/socket/resource corrections verified; 18 of 20 case/harness combinations have passing retained behavioral reviews. Earlier failures remain retained."
       ],
       "setup_matrix": "pilot/setup-matrix.json",
-      "registered_schedule": "pilot/cohorts/completion-retry/schedule.json",
+      "registered_schedule": "pilot/cohorts/approved-runtime/schedule.json",
       "registered_runs": 72,
       "initial_cohort": "pilot/cohorts/initial/results.json",
       "runtime_findings": "qualification/runtime-defects.md",
@@ -39,7 +39,7 @@
       "retry_proposal": "qualification/retry-authorization.md",
       "reviewed_chat_observations": 28,
       "final_chat_qualified": false,
-      "retry_authorization": "qualification/completion-retry-approval.json",
+      "retry_authorization": "qualification/retry-approval.json",
       "passing_chat_cases": 18,
       "required_chat_cases": 20,
       "held_chat_cases": [
@@ -49,12 +49,10 @@
       "observed_pilot_runs": 4,
       "accepted_pilot_runs": 3,
       "pilot_summary": "pilot/cohorts/approved-runtime/partial-summary.json",
-      "new_retry_proposal": "qualification/stream-denial-retry-proposal.md",
-      "previous_cohort_summary": "pilot/cohorts/approved-runtime/partial-summary.json",
-      "fresh_cohort_observed_runs": 0
+      "new_retry_proposal": "qualification/stream-denial-retry-proposal.md"
     },
     "hosted_and_provider_qualification": {
-      "state": "fresh_install_passed_source_gates_running",
+      "state": "local_8bde0ea_passed_hosted_pending",
       "preflights": [
         {
           "harness": "claude",
@@ -81,8 +79,7 @@
       },
       "hosted_progress": "qualification/hosted-progress.json",
       "hosted_proof": "qualification/hosted.json",
-      "latest_passed": "qualification/hosted-79ec514.json",
-      "latest_installation": "qualification/completion-retry/installed-resources.json"
+      "latest_passed": "qualification/hosted-79ec514.json"
     },
     "acceptance_and_cutover": {
       "state": "pending"
@@ -91,8 +88,8 @@
   "publication": {
     "main_push": {
       "command": "git push origin main",
-      "source_commit": "640d0617b945081fe619ff4836348f7c98d52ec6",
-      "result": "pushed"
+      "source_commit": "30a0d1ce3965312b43938fdb145eb29fc66cffc2",
+      "result": "pushed and remote main verified"
     },
     "tag": null,
     "release_url": null,
@@ -123,8 +120,10 @@
   "candidate_version": "3.10.0",
   "current_gate": {
     "command": "make check",
-    "state": "running",
-    "source_commit": "640d0617b945081fe619ff4836348f7c98d52ec6",
+    "state": "passed",
+    "exit_code": 0,
+    "source_commit": "8bde0ea829ee4df6eccedf923866eb1117a71d41",
+    "report": "qualification/check-8bde0ea.json",
     "final_release_gate": false
   },
   "authorization_audit": {

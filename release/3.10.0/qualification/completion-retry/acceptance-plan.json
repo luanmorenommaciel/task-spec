@@ -1,0 +1,84 @@
+{
+  "contract": "TaskToolkitVerificationAcceptancePlan/v1",
+  "recorded_at": "2026-09-16T02:19:52.266533+00:00",
+  "source_commit": "dbe59aa34d1e1b8065bd9279d02b237322a44c12",
+  "purpose": "Current implementation verification under existing signed tasks, followed by canonical acceptance. These new handoffs do not reconstruct the historical implementation attempts.",
+  "tasks": [
+    {
+      "id": "T-20260914-toolkit-contracts",
+      "path": "tasks/T-20260914-toolkit-contracts.md",
+      "sealed_file_sha256": "d46d5a37a43209aefb45ac68416599cf95cc71efb08241b8ec063a3606e3b0bb"
+    },
+    {
+      "id": "T-20260914-toolkit-decomposition",
+      "path": "tasks/T-20260914-toolkit-decomposition.md",
+      "sealed_file_sha256": "b62e3ca9ffbd831bd363c304cb7ef595dd3d8354c54f58e8c400a8125f7bb160"
+    },
+    {
+      "id": "T-20260914-toolkit-authoring",
+      "path": "tasks/T-20260914-toolkit-authoring.md",
+      "sealed_file_sha256": "1795335496beee5091d666b8dae82ef95478656c693c46a0917ef6b7904945b4"
+    },
+    {
+      "id": "T-20260914-toolkit-mesh",
+      "path": "tasks/T-20260914-toolkit-mesh.md",
+      "sealed_file_sha256": "901d8fc1076591e07e71f925b35661314ee9da6b07b19984d9bccc39ee55d649"
+    },
+    {
+      "id": "T-20260914-toolkit-sdlc",
+      "path": "tasks/T-20260914-toolkit-sdlc.md",
+      "sealed_file_sha256": "4b15b980401cd0265162ca5bf6611c3e865559c488299a4ee6e21297157b9dac"
+    },
+    {
+      "id": "T-20260914-toolkit-cli",
+      "path": "tasks/T-20260914-toolkit-cli.md",
+      "sealed_file_sha256": "2ef47120cf8601ce60c127207dc0ef34afea2e3263b90bdf899bd28eab9e4cd6"
+    },
+    {
+      "id": "T-20260914-toolkit-experience",
+      "path": "tasks/T-20260914-toolkit-experience.md",
+      "sealed_file_sha256": "26e0e9f0d458b7e9b4c8fdf059e76cde394f39956e1338d5f134ad3d45bb390e"
+    },
+    {
+      "id": "T-20260914-toolkit-packaging",
+      "path": "tasks/T-20260914-toolkit-packaging.md",
+      "sealed_file_sha256": "caf72928bc10269b132e9fb010360db841e778ad44310771b2171661068e2c8a"
+    },
+    {
+      "id": "T-20260914-toolkit-ci",
+      "path": "tasks/T-20260914-toolkit-ci.md",
+      "sealed_file_sha256": "79cdd4acf41f0054421ccb2800fd169d88f51369662a6340f14d656457eafddf"
+    },
+    {
+      "id": "T-20260914-toolkit-runtime",
+      "path": "tasks/T-20260914-toolkit-runtime.md",
+      "sealed_file_sha256": "a96deabe265fd38f09a33da41b6e75a693d2db6702801b394b57ff9630fc291f"
+    },
+    {
+      "id": "T-20260914-toolkit-guides",
+      "path": "tasks/T-20260914-toolkit-guides.md",
+      "sealed_file_sha256": "792de4a8f2d85c3663bdabb0a4c1e88ed27a543c35b4f2793ef0986c2636175d"
+    },
+    {
+      "id": "T-20260914-release-organization",
+      "path": "tasks/T-20260914-release-organization.md",
+      "sealed_file_sha256": "e319d937e79f3a1cd44c517b4dc92dfa8af414bb4aec516970ac9b5d6c33c1c0"
+    },
+    {
+      "id": "T-20260914-release-autonomy",
+      "path": "tasks/T-20260914-release-autonomy.md",
+      "sealed_file_sha256": "feb36c5d54b5a604946f44d262d325add39e0b473fc87541db3196a45f684bc8"
+    }
+  ],
+  "procedure": [
+    "Start from a clean tracked checkout and verify the existing HMAC authorization.",
+    "Create a fresh TaskHandoff/v3 for verification of the current implementation; do not backdate or alter scope.",
+    "Run canonical acceptance with its existing executable eval and fresh handoff. Do not use Tier-2 downgrade or disable blast radius.",
+    "Transition only accepted tasks to done and commit exact lifecycle evidence before processing dependents."
+  ],
+  "limitations": [
+    "Original v3 handoffs for these implementation tasks are not retained; current acceptance proves current checks and authorization, not the historical execution path.",
+    "Static experience tests alone do not qualify real chat behavior; independent live chat qualification remains required.",
+    "Qualification and publication tasks remain pending until their external release criteria pass."
+  ]
+}
