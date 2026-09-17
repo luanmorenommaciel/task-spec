@@ -32,6 +32,15 @@ __lib_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TASKSPEC_SKILL_DIR="$(cd "$__lib_dir/../.." && pwd)"
 export TASKSPEC_VERSION TASKSPEC_SKILL_DIR
 
+# ----- Child Python must emit UTF-8 -----
+# Task-Spec output contains arrows and dashes (for example the DoD traceability
+# matrix, "B-1 → eval_1"). A Windows console reports cp1252, so an embedded
+# python3 heredoc dies with UnicodeEncodeError before printing anything and the
+# command exits non-zero. Respect an explicit caller setting; otherwise ask for
+# UTF-8, which is already the effective encoding on Linux and macOS.
+: "${PYTHONIOENCODING:=utf-8}"
+export PYTHONIOENCODING
+
 # ----- Configurable backlog dir (allow downstream users to override) -----
 # The standalone default is always tasks/. Integrations with a different
 # workspace layout select it explicitly through TASKSPEC_BACKLOG_DIR.
