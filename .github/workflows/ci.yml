@@ -1,6 +1,11 @@
 # CI runs the same boundary a contributor runs locally: `make check`.
 # Credential-free by design — no secrets or real-engine executors. The
 # separately dispatched engine-evidence workflow owns retained provider runs.
+#
+# Lean default: pull_request and push to main run `make check` on ubuntu only.
+# The macOS leg (bash 3.2 / BSD portability) runs on workflow_dispatch and the
+# weekly schedule, so release qualification still gets both
+# `make check (ubuntu-latest)` and `make check (macos-latest)` from a dispatch.
 name: check
 
 on:
@@ -16,6 +21,8 @@ on:
       - '**/*.md'
       - 'docs/**'
       - 'assets/**'
+  schedule:
+    - cron: '0 6 * * 1' # weekly ubuntu + macOS portability run
 
 permissions:
   contents: read
@@ -28,11 +35,14 @@ jobs:
   check:
     name: make check (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 40
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
+        # macOS only on dispatch/schedule; PRs and pushes stay ubuntu-only.
+        exclude:
+          - os: ${{ (github.event_name == 'pull_request' || github.event_name == 'push') && 'macos-latest' || 'none' }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
