@@ -1,0 +1,9 @@
+{
+  "workspace": "/tmp/taskspec chat 7lxq8syy",
+  "case": "plan",
+  "source_commit": "5f5bb2fe87f120c33b0d29a6949440b726533df9",
+  "installed_skill_sha256": "31d08fc5b9d1238f7743d4e407285c21a19c2f0d29e590aff4a07763ed39b3aa",
+  "engine_version": "3.10.0",
+  "path_cli": "/workspace/lua36-cand/engines/3.10.0/bin/taskspec",
+  "native_plugin": "/tmp/taskspec chat 7lxq8syy/.agents/skills/task-spec"
+}

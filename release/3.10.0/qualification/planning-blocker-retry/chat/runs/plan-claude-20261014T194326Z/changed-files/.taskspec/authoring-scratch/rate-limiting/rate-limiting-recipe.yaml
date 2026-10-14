@@ -1,0 +1,600 @@
+schema_version: 1
+
+intent:
+  id: INT-RATE-LIMITING
+  title: Rate-limiting steel thread
+  summary: >-
+    Deliver the four-step rate-limiting steel thread stated in the blueprint:
+    a versioned policy schema that rejects invalid limits and windows, resolution
+    to exactly one effective policy per organization, denial of request 101 after
+    100 allowed requests in the same window, and a stable denial reason with
+    matching decision telemetry. Provider-owned usage metering stays outside this
+    boundary; production storage and deployment infrastructure are not selected
+    by this plan.
+  claim: proposed
+  source:
+    uri: tests/fixtures/toolkit/blueprint.md
+    captured_at: "2026-10-14T19:44:37Z"
+    sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445
+  success:
+    - A versioned policy schema rejects invalid limits and windows.
+    - Resolution produces exactly one effective policy for an organization.
+    - Request 101 is denied after 100 allowed requests in the same window.
+    - The denial returns a stable reason and emits matching decision telemetry.
+  out_of_scope:
+    - Provider-owned usage metering, including any read, write, or reconciliation
+      of provider metering counters.
+    - Selection of production storage for window accounting.
+    - Selection of deployment infrastructure or rollout mechanism.
+
+system_map:
+  claim: derived
+  components:
+    - Policy schema and validation of limits and windows.
+    - Policy resolution producing one effective policy per organization.
+    - Window accounting and allow/deny decision for a request.
+    - Denial reason contract and decision telemetry emission.
+  external_dependencies:
+    - Provider-owned usage metering (out of scope; this plan neither reads nor
+      writes it and must not become a second metering source of truth).
+  unknowns:
+    - No responsible owner is named for any in-scope seam. The blueprint states
+      only that usage metering is provider-owned; it assigns no owner for policy,
+      resolution, enforcement, or telemetry.
+    - The counter substrate for window accounting is unselected. The blueprint
+      declares production storage out of scope, yet step 3 requires counting 100
+      requests within a shared window.
+    - No implementation surface exists in this repository. There is no source
+      tree, language, or runtime established for the steel thread, so leaf
+      touches_paths and evals are proposed targets, not observed ones.
+    - The telemetry sink and the stability contract for the denial reason
+      (enumerated code versus free text) are unspecified.
+
+evidence:
+  - id: EV-BLUEPRINT
+    claim: proposed
+    source:
+      uri: tests/fixtures/toolkit/blueprint.md
+      captured_at: "2026-10-14T19:44:37Z"
+      sha256: f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445
+    confidence: 1
+    summary: >-
+      Blueprint stating the four-step steel thread order and the two boundaries:
+      provider-owned usage metering is out of scope, and production storage and
+      deployment infrastructure are not selected here. Digest verified locally.
+  - id: EV-EMPTY-WORKSPACE
+    claim: current
+    source:
+      uri: tasks/.gitkeep
+      captured_at: "2026-10-14T19:44:37Z"
+      sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    confidence: 1
+    summary: >-
+      The workspace holds no tasks, no plans, and no implementation source tree.
+      Every leaf below creates new surface rather than modifying observed code.
+
+decisions:
+  - id: D-METERING-BOUNDARY
+    status: accepted
+    owner: blueprint
+    rationale: >-
+      Usage metering is provider-owned and out of scope. Rate-limit window
+      accounting is a separate concern from provider metering and must not read,
+      write, or reconcile provider metering counters.
+  - id: D-COUNTER-STORE
+    status: proposed
+    owner: UNASSIGNED
+    rationale: >-
+      Window accounting needs a counter substrate, but the blueprint declares
+      production storage unselected. Unresolved: whether the steel thread proves
+      denial against an in-process reference counter behind a port, or whether a
+      shared store is selected first. This decision is not taken by this plan.
+  - id: D-SEAM-OWNERSHIP
+    status: proposed
+    owner: UNASSIGNED
+    rationale: >-
+      No owner is named for the in-scope seams. Seam and swimlane owners below
+      are recorded as UNASSIGNED to preserve the gap rather than invent an owner.
+
+seams:
+  - id: SEAM-POLICY-SCHEMA
+    name: Policy schema and validation
+    description: >-
+      Versioned schema for rate-limit policies that rejects invalid limits and
+      windows at the boundary, before any policy is stored or resolved.
+    evidence:
+      - EV-BLUEPRINT
+    responsibility: >-
+      Own the policy document shape and its validity rules, including version
+      identity and rejection of invalid limits and windows.
+    consumes:
+      - candidate policy document
+    produces:
+      - validated versioned policy
+      - schema validation errors
+    owner: UNASSIGNED
+    independent_proof: >-
+      Valid and invalid policy fixtures are validated directly against the
+      schema, with no resolution, enforcement, or telemetry involved.
+    decision_ids:
+      - D-SEAM-OWNERSHIP
+    rejected_alternatives:
+      - alternative: Validate limits and windows inside the enforcement path.
+        reason: >-
+          Defers rejection of invalid policy to request time and leaves step 1 of
+          the steel thread without independent proof.
+      - alternative: Unversioned policy shape.
+        reason: >-
+          The blueprint requires a versioned schema; without version identity,
+          resolution cannot state which policy revision was effective.
+    swimlane:
+      id: LANE-POLICY-SCHEMA
+      name: Policy schema
+      owner: UNASSIGNED
+      legs:
+        - id: LEG-SCHEMA-REJECTS-INVALID
+          observable_state: >-
+            A versioned policy schema accepts valid policies and rejects invalid
+            limits and windows with a named validation error.
+          proof: >-
+            Fixture-driven validation suite over valid and invalid policy
+            documents, asserting accept and reject outcomes and error identity.
+          requires: []
+          produces:
+            - validated versioned policy
+          tasks:
+            - id: T-20261014-policy-schema
+              title: Versioned rate-limit policy schema with validation
+              goal: >-
+                Define the versioned rate-limit policy schema and a validator
+                that rejects invalid limits and windows with named errors.
+              done_condition: >-
+                Valid policy fixtures validate successfully; policies with
+                non-positive, non-integer, or missing limits and with missing or
+                non-positive windows are rejected with a named validation error;
+                the schema carries an explicit version field.
+              effort: S
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - bash
+              depends_on: []
+              touches_paths: []
+              creates_paths:
+                - src/ratelimit/policy_schema
+                - tests/ratelimit/policy_schema
+              behavior:
+                - id: B-1
+                  given: A policy document with a positive integer limit and a positive window.
+                  when: The document is validated against the versioned schema.
+                  then: Validation succeeds and reports the schema version.
+                - id: B-2
+                  given: A policy document with a non-positive or missing limit or window.
+                  when: The document is validated against the versioned schema.
+                  then: Validation fails with a named error identifying the invalid field.
+              evals:
+                - id: eval_1
+                  description: Valid policy fixtures are accepted and report a schema version.
+                  bash: tests/ratelimit/policy_schema/run.sh valid
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Invalid limit and window fixtures are rejected with named errors.
+                  bash: tests/ratelimit/policy_schema/run.sh invalid
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: Schema version field is present and explicitly asserted.
+                  bash: tests/ratelimit/policy_schema/run.sh version
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Reading or writing provider usage metering counters.
+                  reason: >-
+                    Usage metering is provider-owned and out of scope for this
+                    initiative.
+                  instead: >-
+                    Keep this leaf confined to policy document shape and validity.
+                - action: Selecting a production storage engine for policies.
+                  reason: >-
+                    Production storage is explicitly not selected by this plan.
+                  instead: >-
+                    Validate documents in memory from fixtures and leave
+                    persistence to the unresolved D-COUNTER-STORE decision.
+                - action: Implementing resolution or enforcement in this leaf.
+                  reason: >-
+                    Those are separate seams with their own independent proof.
+                  instead: >-
+                    Produce only the validated versioned policy contract.
+              do_not_touch:
+                - provider usage metering surfaces
+                - tests/fixtures/toolkit/blueprint.md
+              rollback: Remove the created schema and test paths.
+              observability: Validation errors are named and enumerable.
+              execution_recipe: test-first
+              sdlc_stages:
+                - design
+                - build
+                - test
+
+  - id: SEAM-POLICY-RESOLUTION
+    name: Effective policy resolution
+    description: >-
+      Deterministic reduction of applicable policies to exactly one effective
+      policy for an organization at a point in time.
+    evidence:
+      - EV-BLUEPRINT
+    responsibility: >-
+      Own precedence and tie-breaking so that resolution is total and
+      single-valued for an organization.
+    consumes:
+      - validated versioned policy
+      - organization identifier
+    produces:
+      - exactly one effective policy per organization
+    owner: UNASSIGNED
+    independent_proof: >-
+      Resolution is exercised over overlapping and conflicting policy sets and
+      asserted to yield exactly one effective policy, without invoking
+      enforcement or telemetry.
+    decision_ids:
+      - D-SEAM-OWNERSHIP
+    rejected_alternatives:
+      - alternative: Let the enforcement path pick the first matching policy.
+        reason: >-
+          Makes the effective policy an implicit side effect of iteration order
+          and leaves step 2 of the steel thread unprovable on its own.
+      - alternative: Allow resolution to return multiple candidate policies.
+        reason: >-
+          The blueprint requires exactly one effective policy per organization.
+    swimlane:
+      id: LANE-POLICY-RESOLUTION
+      name: Policy resolution
+      owner: UNASSIGNED
+      legs:
+        - id: LEG-ONE-EFFECTIVE-POLICY
+          observable_state: >-
+            For any organization and any set of validated policies, resolution
+            returns exactly one effective policy or an explicit no-policy result.
+          proof: >-
+            Resolution tests over overlapping, conflicting, and empty policy sets
+            assert single-valued, deterministic outcomes.
+          requires:
+            - validated versioned policy
+          produces:
+            - exactly one effective policy per organization
+          tasks:
+            - id: T-20261014-policy-resolution
+              title: Deterministic effective-policy resolution per organization
+              goal: >-
+                Resolve a validated policy set to exactly one effective policy
+                for an organization using declared precedence and tie-breaking.
+              done_condition: >-
+                Resolution over overlapping and conflicting policy sets returns
+                exactly one effective policy; an empty set returns an explicit
+                no-policy result; repeated resolution of the same input is
+                identical.
+              effort: S
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - bash
+              depends_on:
+                - T-20261014-policy-schema
+              touches_paths:
+                - src/ratelimit/policy_schema
+              creates_paths:
+                - src/ratelimit/resolution
+                - tests/ratelimit/resolution
+              behavior:
+                - id: B-1
+                  given: An organization with several overlapping validated policies.
+                  when: Effective policy resolution runs.
+                  then: Exactly one effective policy is returned, chosen by declared precedence.
+                - id: B-2
+                  given: An organization with no applicable policy.
+                  when: Effective policy resolution runs.
+                  then: An explicit no-policy result is returned rather than a default or an error.
+              evals:
+                - id: eval_1
+                  description: Overlapping policy sets resolve to exactly one effective policy.
+                  bash: tests/ratelimit/resolution/run.sh overlapping
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Empty and non-matching sets return an explicit no-policy result.
+                  bash: tests/ratelimit/resolution/run.sh empty
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: Resolution is deterministic across repeated and reordered input.
+                  bash: tests/ratelimit/resolution/run.sh deterministic
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Deriving precedence from provider metering or plan usage data.
+                  reason: >-
+                    Usage metering is provider-owned and out of scope.
+                  instead: >-
+                    Derive precedence only from declared policy fields.
+                - action: Persisting resolved policies to a chosen production store.
+                  reason: >-
+                    Production storage is not selected by this plan.
+                  instead: >-
+                    Resolve in memory over supplied validated policies.
+                - action: Returning a silent default policy when none applies.
+                  reason: >-
+                    Hides the no-policy case and makes the single-valued claim
+                    untestable.
+                  instead: >-
+                    Return an explicit no-policy result.
+              do_not_touch:
+                - provider usage metering surfaces
+                - tests/fixtures/toolkit/blueprint.md
+              rollback: Remove the created resolution and test paths.
+              observability: Resolution records the chosen policy version and precedence reason.
+              execution_recipe: test-first
+              sdlc_stages:
+                - design
+                - build
+                - test
+
+  - id: SEAM-DECISION
+    name: Window accounting and denial decision
+    description: >-
+      Counting of requests within a window against the effective policy, the
+      allow or deny decision, the stable denial reason, and the matching
+      decision telemetry.
+    evidence:
+      - EV-BLUEPRINT
+    responsibility: >-
+      Own the per-window request count, the allow/deny outcome, the denial
+      reason contract, and emission of decision telemetry that matches the
+      returned decision.
+    consumes:
+      - exactly one effective policy per organization
+      - request event
+    produces:
+      - allow or deny decision
+      - stable denial reason
+      - decision telemetry event
+    owner: UNASSIGNED
+    independent_proof: >-
+      A 101-request sequence against a limit of 100 in one window asserts the
+      first 100 allowed and the 101st denied, and the emitted telemetry is
+      asserted to match the returned decision and reason.
+    decision_ids:
+      - D-SEAM-OWNERSHIP
+      - D-COUNTER-STORE
+      - D-METERING-BOUNDARY
+    rejected_alternatives:
+      - alternative: Derive the request count from provider usage metering.
+        reason: >-
+          Usage metering is provider-owned and out of scope; reusing it would
+          make this seam a second consumer of a boundary the blueprint excludes.
+      - alternative: Emit telemetry from a separate asynchronous reconciliation job.
+        reason: >-
+          The blueprint requires the denial to emit matching telemetry, which a
+          decoupled job cannot prove within this thread.
+    swimlane:
+      id: LANE-DECISION
+      name: Decision and telemetry
+      owner: UNASSIGNED
+      legs:
+        - id: LEG-WINDOW-DENIAL
+          observable_state: >-
+            With an effective limit of 100 in a window, requests 1 through 100
+            are allowed and request 101 in the same window is denied.
+          proof: >-
+            Sequence test issuing 101 requests in one window asserting the
+            allow/deny boundary exactly at 101, and a window-rollover case.
+          requires:
+            - exactly one effective policy per organization
+          produces:
+            - allow or deny decision
+          tasks:
+            - id: T-20261014-window-decision
+              title: Window accounting and allow/deny decision at the policy limit
+              goal: >-
+                Count requests per organization within the policy window and deny
+                the first request that exceeds the effective limit.
+              done_condition: >-
+                Requests 1 through 100 are allowed and request 101 in the same
+                window is denied for a limit of 100; a request in the next window
+                is allowed again; counting goes through a port with no provider
+                metering dependency.
+              effort: M
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - bash
+              depends_on:
+                - T-20261014-policy-resolution
+              touches_paths:
+                - src/ratelimit/resolution
+              creates_paths:
+                - src/ratelimit/decision
+                - tests/ratelimit/decision
+              behavior:
+                - id: B-1
+                  given: An organization with an effective limit of 100 in the current window.
+                  when: 101 requests are issued within that window.
+                  then: The first 100 are allowed and the 101st is denied.
+                - id: B-2
+                  given: An organization that was denied in the previous window.
+                  when: A request arrives in the next window.
+                  then: The request is allowed because the window count has reset.
+              evals:
+                - id: eval_1
+                  description: Request 101 is denied after 100 allowed in the same window.
+                  bash: tests/ratelimit/decision/run.sh boundary
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Window rollover resets the count and allows the next request.
+                  bash: tests/ratelimit/decision/run.sh rollover
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: Counting depends only on the counter port, not provider metering.
+                  bash: tests/ratelimit/decision/run.sh counter-port-isolation
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Reading provider usage metering counters to decide allow or deny.
+                  reason: >-
+                    Usage metering is provider-owned and out of scope; the
+                    decision must not depend on it.
+                  instead: >-
+                    Count through the rate-limit counter port owned by this seam.
+                - action: Committing to a production counter store in this leaf.
+                  reason: >-
+                    D-COUNTER-STORE is unresolved and production storage is not
+                    selected by this plan.
+                  instead: >-
+                    Depend on a counter port and stop for the decision if a
+                    durable store is required to finish.
+                - action: Widening the denial to other quota or billing concerns.
+                  reason: >-
+                    Only the rate-limit decision is in scope for this thread.
+                  instead: >-
+                    Return a rate-limit decision and leave other quotas alone.
+              do_not_touch:
+                - provider usage metering surfaces
+                - tests/fixtures/toolkit/blueprint.md
+              rollback: Remove the created decision and test paths.
+              observability: Each decision records organization, window, count, and outcome.
+              execution_recipe: test-first
+              shared_resources:
+                - ratelimit-counter-port
+              sdlc_stages:
+                - build
+                - test
+
+        - id: LEG-DENIAL-TELEMETRY
+          observable_state: >-
+            A denial returns a stable reason identifier and emits exactly one
+            decision telemetry event whose fields match the returned decision.
+          proof: >-
+            Denial test asserting the reason identifier is stable across runs
+            and that the captured telemetry event matches the returned decision.
+          requires:
+            - allow or deny decision
+          produces:
+            - stable denial reason
+            - decision telemetry event
+          tasks:
+            - id: T-20261014-denial-telemetry
+              title: Stable denial reason and matching decision telemetry
+              goal: >-
+                Return a stable denial reason identifier and emit one decision
+                telemetry event that matches the returned decision.
+              done_condition: >-
+                A denial returns an enumerated, stable reason identifier;
+                exactly one telemetry event is emitted per decision; the event
+                fields match the returned decision and reason; telemetry carries
+                no provider metering fields.
+              effort: S
+              profile: standard
+              execution_backend: local
+              required_tools:
+                - bash
+              depends_on:
+                - T-20261014-window-decision
+              touches_paths:
+                - src/ratelimit/decision
+              creates_paths:
+                - src/ratelimit/telemetry
+                - tests/ratelimit/telemetry
+              behavior:
+                - id: B-1
+                  given: A request denied for exceeding the effective limit.
+                  when: The decision is returned.
+                  then: The response carries an enumerated denial reason that is stable across runs.
+                - id: B-2
+                  given: Any allow or deny decision.
+                  when: The decision is returned.
+                  then: Exactly one telemetry event is emitted whose fields match the decision.
+              evals:
+                - id: eval_1
+                  description: Denial reason is enumerated and stable across repeated runs.
+                  bash: tests/ratelimit/telemetry/run.sh stable-reason
+                  verifies:
+                    - B-1
+                - id: eval_2
+                  description: Exactly one telemetry event per decision, matching the outcome.
+                  bash: tests/ratelimit/telemetry/run.sh event-match
+                  verifies:
+                    - B-2
+                - id: eval_3
+                  description: Telemetry carries no provider metering fields.
+                  bash: tests/ratelimit/telemetry/run.sh no-metering-fields
+                  verifies:
+                    - B-1
+                    - B-2
+              anti_patterns:
+                - action: Emitting telemetry into the provider usage metering pipeline.
+                  reason: >-
+                    Usage metering is provider-owned; decision telemetry must not
+                    become a metering feed.
+                  instead: >-
+                    Emit to the decision telemetry sink owned by this seam.
+                - action: Returning free-text denial messages.
+                  reason: >-
+                    Free text is not a stable reason and cannot be asserted.
+                  instead: >-
+                    Return an enumerated reason identifier.
+                - action: Selecting a production telemetry backend.
+                  reason: >-
+                    Deployment infrastructure is not selected by this plan.
+                  instead: >-
+                    Emit through a sink port captured in tests.
+              do_not_touch:
+                - provider usage metering surfaces
+                - tests/fixtures/toolkit/blueprint.md
+              rollback: Remove the created telemetry and test paths.
+              observability: Decision telemetry is the observability surface for this thread.
+              execution_recipe: test-first
+              sdlc_stages:
+                - build
+                - test
+
+steel_thread:
+  - LEG-SCHEMA-REJECTS-INVALID
+  - LEG-ONE-EFFECTIVE-POLICY
+  - LEG-WINDOW-DENIAL
+  - LEG-DENIAL-TELEMETRY
+
+objections:
+  - id: OBJ-NO-SEAM-OWNER
+    status: OPEN
+    summary: >-
+      No responsible owner is named for any in-scope seam or swimlane. Owners are
+      recorded as UNASSIGNED. The blueprint states only that usage metering is
+      provider-owned, which assigns nothing for policy, resolution, enforcement,
+      or telemetry. Ownership must be supplied by an explicit decision.
+  - id: OBJ-COUNTER-STORE-UNSELECTED
+    status: OPEN
+    summary: >-
+      Steel thread step 3 requires counting 100 requests within a shared window,
+      but the blueprint declares production storage out of scope and unselected.
+      T-20261014-window-decision cannot reach a durable done condition until
+      D-COUNTER-STORE states whether the thread is proved against an in-process
+      reference counter behind a port or against a selected shared store.
+  - id: OBJ-NO-IMPLEMENTATION-SURFACE
+    status: OPEN
+    summary: >-
+      The repository contains no source tree, language, or runtime for the steel
+      thread. All touches_paths, creates_paths, and eval commands above are
+      proposed targets derived from the blueprint, not observed code. They
+      require confirmation against the real implementation repository before any
+      leaf is sealed.
+  - id: OBJ-REASON-CONTRACT-UNSPECIFIED
+    status: OPEN
+    summary: >-
+      The blueprint requires a stable denial reason but does not define the
+      stability contract or the telemetry sink. This plan proposes an enumerated
+      reason identifier and a sink port; both need confirmation.

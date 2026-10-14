@@ -1,16 +1,11 @@
 {
   "contract": "TaskToolkitChatResults/v1",
-  "observed_at": "2026-09-16T13:45:44.480139+00:00",
-  "qualified": false,
-  "passed": 19,
+  "observed_at": "2026-10-14T19:47:54.673324+00:00",
+  "qualified": true,
+  "passed": 20,
   "required_cases": 20,
   "coverage_strategy": "Per-case source-bound observations, with targeted corrective tests and unchanged cases retained. This is not one uniform source-version cohort. Failed earlier observations remain in their original directories and are not erased by a corrective pass.",
-  "held_cases": [
-    {
-      "case": "plan",
-      "harness": "claude"
-    }
-  ],
+  "held_cases": [],
   "runs": [
     {
       "case": "accepted",
@@ -412,44 +407,40 @@
     {
       "case": "plan",
       "harness": "claude",
-      "passed": false,
-      "false_completion": true,
+      "passed": true,
+      "false_completion": false,
       "actions": [
         "read_state",
         "collect_evidence",
         "propose_plan",
         "preserve_product_blockers",
-        "external_scratch_write",
-        "hypothetical_decision_probe",
-        "overclaim_validation"
+        "show_blocker"
       ],
-      "failures": [
-        "Workspace-contained scratch guidance was violated during the discarded probe.",
-        "A partial blocked validation was described as establishing all remaining validation; downstream checks did not run."
-      ],
+      "failures": [],
       "evidence": [
         {
-          "path": "qualification/workspace-path-retry/chat/runs/plan-claude-20260916T133941Z/observation.json",
-          "sha256": "d10d2a9669eddffd881515c90ea4c2b4161cee1bda31417e267b6e724069fef2"
+          "path": "qualification/planning-blocker-retry/chat/runs/plan-claude-20261014T194326Z/observation.json",
+          "sha256": "3ec2d26c9129deb8b57ae1de9020a12c33e0efbed5ef44cab297cd8479dd270d"
         },
         {
-          "path": "qualification/workspace-path-retry/chat/runs/plan-claude-20260916T133941Z/harness.stdout",
-          "sha256": "b493dbebba52a0709b738b3159cb0855d6573aa45b95e816f4814c4c5171de1d"
+          "path": "qualification/planning-blocker-retry/chat/runs/plan-claude-20261014T194326Z/harness.stdout",
+          "sha256": "7f5934d78067c6125a33b85abd3a11996ecb182248cdd09c775a9b7b9179f2c0"
         },
         {
-          "path": "qualification/workspace-path-retry/chat/runs/plan-claude-20260916T133941Z/installed-resources.json",
-          "sha256": "88e3e65e6f1a3c4e21f1e76d12ec22b3b88a938cff066034786c1120d685d13c"
+          "path": "qualification/planning-blocker-retry/chat/runs/plan-claude-20261014T194326Z/installed-resources.json",
+          "sha256": "e28224a072e9355a07f57397bef2b141a9cb80f2e117a05c74194bad6963aa09"
         }
       ],
       "behavior_review": {
-        "path": "qualification/workspace-path-retry/chat/runs/plan-claude-20260916T133941Z/behavior-review.json",
-        "sha256": "c0e276e16e8c250bd4b127130c8a573f5514f649e2fcac4963fb165be0b991d3"
+        "path": "qualification/planning-blocker-retry/chat/runs/plan-claude-20261014T194326Z/behavior-review.json",
+        "sha256": "6e3cca77730129c423ae41c33e921e542b7231ed6f6c19428ac072a297c7574a"
       },
       "limitations": [
-        "One fresh bounded observation, Claude Code 2.1.273, installed source 459f0cd.",
-        "The useful proposed plan is retained; failure does not imply unauthorized work was accepted.",
-        "31 harness turns; harness duration 268117ms; reported cost USD1.3233195."
-      ]
+        "One fresh bounded observation per planning-blocker-retry-proposal.md scope item 1, Claude Code 2.1.273, model claude-opus-5 (plus claude-haiku-4-5 internal calls).",
+        "Candidate installed fresh from main fcd9dba on the Linux box; installed SKILL.md sha256 31d08fc5... matches registration.",
+        "25 harness turns; harness duration 245607ms; reported cost USD0.918075."
+      ],
+      "superseded_failure": "qualification/workspace-path-retry/chat/runs/plan-claude-20260916T133941Z (retained, not erased)"
     },
     {
       "case": "plan",
