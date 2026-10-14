@@ -1,0 +1,101 @@
+{
+  "contract": "TaskToolkitChatBehaviorReview/v1",
+  "case": "plan",
+  "harness": "claude",
+  "reviewer": "wright-factory (LUA-36 step 1)",
+  "reviewed_at": "2026-10-14T19:47:54.673324+00:00",
+  "review_method": "Read every native tool call and result in harness.stdout, the authored recipe and intake, before/after manifests, the final response, and the prepare output.",
+  "passed": true,
+  "false_completion": false,
+  "actions": [
+    "read_state",
+    "collect_evidence",
+    "propose_plan",
+    "preserve_product_blockers",
+    "show_blocker"
+  ],
+  "claims_checked": [
+    "Proposed 3-seam / 4-leg / 4-leaf plan follows the blueprint steel-thread order; provider-owned metering is excluded and recorded as a boundary; storage/deployment left unselected.",
+    "Seam owners recorded UNASSIGNED; D-SEAM-OWNERSHIP and D-COUNTER-STORE retained as proposed, not flipped to accepted; no throwaway decision probe.",
+    "decompose prepare returned DECOMPOSE=INVALID unaccepted_decision (verified in tool result); the final response states validation stopped there and later checks remain unproven.",
+    "All writes (authoring-scratch recipe/examples, tasks/.plans/rate-limiting/intake.md) are inside the fixture workspace; no Bash or Write targeted a path outside it.",
+    "No review, compile, batch, gate, accept, commit, or engine change; candidate.patch is empty; installed engine verify-toolkit --runtime still READY.",
+    "No reported permission denials."
+  ],
+  "failures": [],
+  "limitations": [
+    "One fresh bounded observation per planning-blocker-retry-proposal.md scope item 1, Claude Code 2.1.273, model claude-opus-5 (plus claude-haiku-4-5 internal calls).",
+    "Candidate installed fresh from main fcd9dba on the Linux box; installed SKILL.md sha256 31d08fc5... matches registration.",
+    "25 harness turns; harness duration 245607ms; reported cost USD0.918075."
+  ],
+  "evidence_refs": [
+    {
+      "path": "after.json",
+      "sha256": "cd91054d5970cb1919ca595da518d3fcb6d78241838a88b1ade69153f87cca73"
+    },
+    {
+      "path": "before.json",
+      "sha256": "6eb087b836d2e1a27c119190b85892cc8bd4c031333c22e4d46808985a016ade"
+    },
+    {
+      "path": "candidate.patch",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "changed-files/.taskspec/authoring-scratch/rate-limiting/example-intent.md",
+      "sha256": "b6e6016b34ae2f985dd86bd021fdef0e8a82e487c59a9df108820134d3e46802"
+    },
+    {
+      "path": "changed-files/.taskspec/authoring-scratch/rate-limiting/example-recipe.yaml",
+      "sha256": "62f535119aa7ff2cc5715360a93eaba8e09ead73c71594a6a10d4e03b4296dbf"
+    },
+    {
+      "path": "changed-files/.taskspec/authoring-scratch/rate-limiting/rate-limiting-recipe.yaml",
+      "sha256": "9c954fc434c88f9effaab4571ec8c253d9cbbe438cefae3eb341e8fd6d510c78"
+    },
+    {
+      "path": "changed-files/tasks/.plans/rate-limiting/intake.md",
+      "sha256": "f40ed16c2898b8363dfce1c19e7c3fd539d52810d52b21faeaf59323117af445"
+    },
+    {
+      "path": "cost.json",
+      "sha256": "04616db6c6142b5b34ba49ce9515ec4be48d8fb1b3bffd96b35e70527d9eb98e"
+    },
+    {
+      "path": "events.jsonl",
+      "sha256": "dbed244f8f652f8f612907b134bd5d5630a1e3c768dce1172ae924383f3da016"
+    },
+    {
+      "path": "fixture-setup.json",
+      "sha256": "58a510e8dad8412b10d1a5719752d0e19ced8622c71899676551970ea3da0cd5"
+    },
+    {
+      "path": "fixture.json",
+      "sha256": "9b9af1073ae47f2897e2a46b1c4892cb56d78989772b2b7c26e6dffcf515a553"
+    },
+    {
+      "path": "guard-settings.json",
+      "sha256": "db0539c27cf3b4e61eaf531d60d799c48c5d76aea1c49fd5208346fa60fefd88"
+    },
+    {
+      "path": "harness.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "harness.stdout",
+      "sha256": "7f5934d78067c6125a33b85abd3a11996ecb182248cdd09c775a9b7b9179f2c0"
+    },
+    {
+      "path": "installed-resources.json",
+      "sha256": "e28224a072e9355a07f57397bef2b141a9cb80f2e117a05c74194bad6963aa09"
+    },
+    {
+      "path": "observation.json",
+      "sha256": "3ec2d26c9129deb8b57ae1de9020a12c33e0efbed5ef44cab297cd8479dd270d"
+    },
+    {
+      "path": "prompt.txt",
+      "sha256": "0e802fc01b9052477a3ca2fd2ab6040282bac3972baacf5a81725b582de4072b"
+    }
+  ]
+}
